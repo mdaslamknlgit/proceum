@@ -7,11 +7,10 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  	title = 'white-board';
-	whtbrdsts = 'none';
-  	@Input() color: string = "#fff";
+  	whtbrdsts = 'none';
+  	@Input() color: string = "#000";
 	@Input() backgroundColor: string = 'transparent';
-	@Input() size: string = "30px";
+	@Input() size: string = "10px";
 	@Input() linejoin: 'miter' | 'round' | 'bevel' | 'miter-clip' | 'arcs';
 	@Input() linecap: 'butt' | 'square' | 'round';
 	public main_div_height = 0;
@@ -25,6 +24,9 @@ export class AppComponent {
 	tglwbrd(){
 		if(this.whtbrdsts == 'none')
 		{
+			var elmnt = document.getElementById("main_div");
+			this.main_div_height = elmnt.scrollHeight;
+			this.main_div_width = elmnt.scrollWidth;
 			this.whtbrdsts = 'block'
 		}
 		else{
