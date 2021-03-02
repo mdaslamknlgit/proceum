@@ -10,7 +10,7 @@ export class AppComponent {
   	whtbrdsts = 'none';
   	@Input() color: string = "#000";
 	@Input() backgroundColor: string = 'transparent';
-	@Input() size: string = "10px";
+	@Input() size: string = "2px";
 	//@Input() linejoin: 'miter' | 'round' | 'bevel' | 'miter-clip' | 'arcs';
 	//@Input() linecap: 'butt' | 'square' | 'round';
 	public main_div_height = 0;
