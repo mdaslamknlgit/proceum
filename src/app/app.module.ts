@@ -8,7 +8,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { MaterialModule } from './material/material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
-import { SpinnerComponent } from './laypouts/spinner/spinner.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 import { Loader } from './classes/loader';
 @NgModule({
   declarations: [
