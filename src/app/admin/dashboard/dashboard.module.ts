@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../material/material.module';
+import { MaterialModule } from '../../material/material.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
-import {LayoutsModule } from '../layouts/layouts.module';
+import {LayoutsModule } from '../../layouts/layouts.module';
 const routes: Routes = [
   {
     path: '',
