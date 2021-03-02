@@ -7,7 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MaterialModule } from './material/material.module';
 import { AppRoutingModule } from './app-routing.module';
-import {MatSelectModule} from '@angular/material/select';
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent
@@ -15,7 +15,7 @@ import {MatSelectModule} from '@angular/material/select';
   imports: [
     BrowserModule, NgWhiteboardModule, ToastrModule.forRoot({
       positionClass :'toast-bottom-right'
-    }), BrowserAnimationsModule, ColorPickerModule, MaterialModule, AppRoutingModule, MatSelectModule
+    }), BrowserAnimationsModule, ColorPickerModule, MaterialModule, AppRoutingModule, HttpClientModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

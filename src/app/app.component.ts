@@ -11,8 +11,8 @@ export class AppComponent {
   	@Input() color: string = "#000";
 	@Input() backgroundColor: string = 'transparent';
 	@Input() size: string = "10px";
-	@Input() linejoin: 'miter' | 'round' | 'bevel' | 'miter-clip' | 'arcs';
-	@Input() linecap: 'butt' | 'square' | 'round';
+	//@Input() linejoin: 'miter' | 'round' | 'bevel' | 'miter-clip' | 'arcs';
+	//@Input() linecap: 'butt' | 'square' | 'round';
 	public main_div_height = 0;
 	public main_div_width = 0;
 	constructor(private toastr: ToastrService, private whiteboardService: NgWhiteboardService) {}
@@ -36,17 +36,17 @@ export class AppComponent {
 	erase() {
 		this.whiteboardService.erase();
 		this.toastr.success('Clear!');
-	  }
-	  setSize(size) {
+	}
+	setSize(size) {
 		this.size = size;
-	  }
-	  save() {
+	}
+	save() {
 		this.whiteboardService.save();
-	  }
-	  undo() {
-		this.whiteboardService.undo();
-	  }
-	  redo() {
+	}
+		undo() {
+	this.whiteboardService.undo();
+	}
+	redo() {
 		this.whiteboardService.redo();
-	  }
+	}
 }
