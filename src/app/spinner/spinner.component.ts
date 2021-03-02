@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { from } from 'rxjs';
-import { CommonService } from '../../services/common.service';
+import { CommonService } from '../services/common.service';
 @Component({
   selector: 'app-spinner',
   templateUrl: './spinner.component.html',
