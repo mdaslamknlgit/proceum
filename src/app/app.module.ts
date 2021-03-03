@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { Loader } from './classes/loader';
+import {MatIconModule} from '@angular/material/icon';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,7 @@ import { Loader } from './classes/loader';
   imports: [
     BrowserModule, NgWhiteboardModule, ToastrModule.forRoot({
       positionClass :'toast-bottom-right'
-    }), BrowserAnimationsModule, ColorPickerModule, MaterialModule, AppRoutingModule, HttpClientModule 
+    }), BrowserAnimationsModule, ColorPickerModule, MaterialModule, AppRoutingModule, HttpClientModule, MatIconModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true }],
   bootstrap: [AppComponent]
