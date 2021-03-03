@@ -18,7 +18,7 @@ export class AppComponent {
 	constructor(private toastr: ToastrService, private whiteboardService: NgWhiteboardService) {}
 	ngOnInit() {
 		var elmnt = document.getElementById("main_div");
-		this.main_div_height = (elmnt.scrollHeight - 5);
+		this.main_div_height = elmnt.scrollHeight;
 		this.main_div_width = elmnt.scrollWidth;
 	}
 	tglwbrd(){
