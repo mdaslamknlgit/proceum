@@ -11,10 +11,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { Loader } from './classes/loader';
 import {MatIconModule} from '@angular/material/icon';
+import { WhiteBoardComponent } from './shared/white-board/white-board.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    WhiteBoardComponent
   ],
   imports: [
     BrowserModule, NgWhiteboardModule, ToastrModule.forRoot({
