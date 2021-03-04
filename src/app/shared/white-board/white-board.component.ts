@@ -3,7 +3,7 @@ import { NgWhiteboardService  } from 'ng-whiteboard';
 @Component({
   selector: 'app-white-board',
   templateUrl: './white-board.component.html',
-  styleUrls: ['./white-board.component.css']
+  styleUrls: ['./white-board.component.scss']
 })
 export class WhiteBoardComponent implements OnInit {
 	whtbrdsts = 'none';
