@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { MaterialModule } from '../material/material.module';
 import { RouterModule, Routes } from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
 const routes: Routes = [
   {
     path: '',
@@ -12,7 +13,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [LoginComponent],
   imports: [
-    CommonModule, RouterModule.forChild(routes), MaterialModule
+    CommonModule, RouterModule.forChild(routes), MaterialModule, MatIconModule
   ],
   exports:[RouterModule]
 })
