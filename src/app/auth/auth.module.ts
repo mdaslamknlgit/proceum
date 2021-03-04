@@ -2,8 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { MaterialModule } from '../material/material.module';
-import { RouterModule, Routes } from '@angular/router';
-import {MatIconModule} from '@angular/material/icon';
+import { RouterModule, Routes } from '@angular/router'; 
 const routes: Routes = [
   {
     path: '',
@@ -13,7 +12,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [LoginComponent],
   imports: [
-    CommonModule, RouterModule.forChild(routes), MaterialModule, MatIconModule
+    CommonModule, RouterModule.forChild(routes), MaterialModule
   ],
   exports:[RouterModule]
 })
