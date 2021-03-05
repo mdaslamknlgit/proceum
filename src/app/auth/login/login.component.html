@@ -6,23 +6,33 @@
       <h2 class="clr_grn fnt_nrml wlcm_hd">Welcome to Proceum</h2>
       <div class="sgn_sec">
         <p class="sgn_hd">Sign In</p>
-        <p class="sgn_hint">Log-in to continue to application</p>
+        <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
        
-      
-        <div class="mail err_tltp_par">
-          <input type="text" placeholder="Enter Email">
+      <form #login_id="ngForm" name="login_form" (ngSubmit)="login_id.valid  && doLogin()" novalidate>
+        <div class="mail {{(login_id.submitted && user_email.invalid)?'err_tltp_par':''}}">
+          <input type="text" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email #user_email="ngModel" ngModel required>
           <span class="material-icons mail_icon">mail_outline</span>
+<<<<<<< HEAD
           <span class="prc_tltp">Invalid Email</span>
         </div>
         <span class="prc_hnt">Invalid Email</span>
         <div class="psswrd err_tltp_par">
           <input type="password" placeholder="Enter Password" />
+=======
+          
+        </div>
+        <div class="psswrd ">
+          <input type="password" required [(ngModel)]="login.password" name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel/>
+>>>>>>> 0fee1dfe111ede4770e75646958b484bfe379699
           <span class="material-icons mail_icon">password</span>
-          <span class="prc_tltp">Invalid Password</span>
+          <div *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted" class="prc_tltp">
+            <div>{{message}}</div>
+        </div>
         </div>
         <span class="prc_hnt">Invalid Password</span>
 
-        <button type="button" (click)="doLogin()" class="teal_btn lgn_btn">Login</button>
+        <button type="submit" class="teal_btn lgn_btn">Login</button>
+        </form>
         <div class="scl_lgns">
           <div class="sgn_fb"><img src="assets/images/facebook-logo.svg" /> Login with Facebook</div>
           <div class="sgn_gg"><img src="assets/images/google_logo.svg" /> Login with Google</div>
@@ -33,6 +43,6 @@
     </div>
    
   </div>
-  <div class="footer"> Copyright © Proceum 2021.All right reserved.Created by <a href="#">Proceum</a> <span><a
+  <div class="footer"> Copyright © Proceum {{currentYear}}.All right reserved.Created by <a href="#">Proceum</a> <span><a
         href="#">Privacy Policy</a>, <a href="#">Terms &amp; Conditions</a></span> </div>
 </div>
