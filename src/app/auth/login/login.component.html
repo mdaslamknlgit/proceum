@@ -8,24 +8,21 @@
         <p class="sgn_hd">Sign In</p>
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
        
-      <form #f="ngForm">
-        <div class="mail err_tltp_par">
-          <input type="text" [(ngModel)]="email" name="login.email" placeholder="Enter Email">
+      <form #login_id="ngForm" name="login_form" (ngSubmit)="login_id.valid  && doLogin()" novalidate>
+        <div class="mail {{(login_id.submitted && user_email.invalid)?'err_tltp_par':''}}">
+          <input type="text" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email #user_email="ngModel" ngModel required>
           <span class="material-icons mail_icon">mail_outline</span>
-          <div *ngIf="email.invalid" class="prc_tltp">
-            <div *ngIf="login.email.errors.required">Email is required</div><br>
-            <div *ngIf="login.email.errors.email">Email must be a valid email address</div>
+          
         </div>
-        </div>
-        <div class="psswrd err_tltp_par">
-          <input type="password" [(ngModel)]="login.password" name="password" placeholder="Enter Password" />
+        <div class="psswrd ">
+          <input type="password" required [(ngModel)]="login.password" name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel/>
           <span class="material-icons mail_icon">password</span>
-          <div *ngIf="login.password.invalid" class="prc_tltp">
-            <div *ngIf="login.password.errors.required">Password is required</div>
+          <div *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted" class="prc_tltp">
+            <div>{{message}}</div>
         </div>
         </div>
 
-        <button type="button" (click)="doLogin()" class="teal_btn lgn_btn">Login</button>
+        <button type="submit" class="teal_btn lgn_btn">Login</button>
         </form>
         <div class="scl_lgns">
           <div class="sgn_fb"><img src="assets/images/facebook-logo.svg" /> Login with Facebook</div>
