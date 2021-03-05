@@ -5,13 +5,12 @@ import { FooterComponent } from './frontend/footer/footer.component';
 import { SidebarComponent } from './admin/sidebar/sidebar.component';
 import { AdminFooterComponent } from './admin/admin-footer/admin-footer.component';
 import { AdminTopbarComponent } from './admin/admin-topbar/admin-topbar.component';
-
-
+import { MaterialModule } from '../material/material.module'
 
 @NgModule({
   declarations: [TopbarComponent, FooterComponent, SidebarComponent, AdminFooterComponent, AdminTopbarComponent],
   imports: [
-    CommonModule
+    CommonModule, MaterialModule
   ],
   exports: [TopbarComponent, FooterComponent, SidebarComponent, AdminFooterComponent, AdminTopbarComponent]
 })

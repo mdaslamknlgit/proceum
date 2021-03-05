@@ -12,25 +12,14 @@
         <div class="mail {{(login_id.submitted && user_email.invalid)?'err_tltp_par':''}}">
           <input type="text" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email #user_email="ngModel" ngModel required>
           <span class="material-icons mail_icon">mail_outline</span>
-<<<<<<< HEAD
-          <span class="prc_tltp">Invalid Email</span>
-        </div>
-        <span class="prc_hnt">Invalid Email</span>
-        <div class="psswrd err_tltp_par">
-          <input type="password" placeholder="Enter Password" />
-=======
-          
         </div>
         <div class="psswrd ">
           <input type="password" required [(ngModel)]="login.password" name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel/>
->>>>>>> 0fee1dfe111ede4770e75646958b484bfe379699
           <span class="material-icons mail_icon">password</span>
           <div *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted" class="prc_tltp">
-            <div>{{message}}</div>
         </div>
         </div>
-        <span class="prc_hnt">Invalid Password</span>
-
+         <div class="prc_hnt">{{message}}</div>
         <button type="submit" class="teal_btn lgn_btn">Login</button>
         </form>
         <div class="scl_lgns">
