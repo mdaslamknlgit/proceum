@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 	logout(){
 		let params = {url: 'logout'};
     	this.http.postGetData(params).subscribe((res) =>{
-			this.user = '';
+			sessionStorage.removeItem("_token");
 			this.route.navigate(['/login']);
     	});
 	}
