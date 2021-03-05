@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   	styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+	currentYear: number = new Date().getFullYear();
+	login = {email:'', password: ''};
 	constructor(private http: AuthService, private route: Router) { }
 	ngOnInit(): void {}
   	doLogin(){
