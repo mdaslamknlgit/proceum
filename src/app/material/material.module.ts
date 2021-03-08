@@ -9,14 +9,21 @@ import { NumbersonlyDirective } from '../shared/directives/numbersonly.directive
 import { AlphabetOnlyDirective } from '../shared/directives/alphabet-only.directive';
 import { FormsModule } from '@angular/forms';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatGridListModule} from '@angular/material/grid-list';
+
+
 
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
   imports: [
-    CommonModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatTooltipModule, MatToolbarModule
+    CommonModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatTooltipModule, MatToolbarModule, MatSidenavModule,MatMenuModule,
+    MatGridListModule
   ],
   exports: [
-    MatInputModule , MatButtonModule, MatFormFieldModule, MatTooltipModule, MatIconModule, NumbersonlyDirective, AlphabetOnlyDirective, FormsModule, MatToolbarModule
+    MatInputModule , MatButtonModule, MatFormFieldModule, MatTooltipModule, MatIconModule, NumbersonlyDirective, AlphabetOnlyDirective, FormsModule, MatToolbarModule, MatSidenavModule,
+    MatMenuModule, MatGridListModule
   ]
 })
 export class MaterialModule { }

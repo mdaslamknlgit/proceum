@@ -9,17 +9,17 @@
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
        
       <form #login_id="ngForm" name="login_form" (ngSubmit)="login_id.valid  && doLogin()" novalidate>
-        <div class="mail {{(login_id.submitted && user_email.invalid)?'err_tltp_par':''}}">
+         <div class="mail {{(login_id.submitted && user_email.invalid)?'err_tltp_par':''}}">
           <input type="text" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email #user_email="ngModel" ngModel required>
           <span class="material-icons mail_icon">mail_outline</span>
+           <span class="prc_tltp" *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted">{{message}}</span>
         </div>
         <div class="psswrd ">
           <input type="password" required [(ngModel)]="login.password" name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel/>
           <span class="material-icons mail_icon">password</span>
-          <div *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted" class="prc_tltp">
+          
         </div>
-        </div>
-         <div class="prc_hnt">{{message}}</div>
+         <div class="prc_hnt" *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted">{{message}}</div>
         <button type="submit" class="teal_btn lgn_btn">Login</button>
         </form>
         <div class="scl_lgns">

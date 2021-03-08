@@ -6,18 +6,21 @@ import { Router } from '@angular/router';
   	templateUrl: './login.component.html',
   	styleUrls: ['./login.component.scss']
 })
+
 export class LoginComponent implements OnInit {
 	currentYear: number = new Date().getFullYear();
-	login = {email:'', password: ''};
+	login: Login = {email:'', password:''};
 	public message:String = 'Invalid email or password';
 	constructor(private http: AuthService, private route: Router) { }
-	ngOnInit(): void {}
-  	doLogin(){
+	ngOnInit(): void {
+        sessionStorage.removeItem("_token");
+    }
+	doLogin(){
     	let params = {url: 'login', email: this.login.email, password: this.login.password};
-    	this.http.login(params).subscribe((res) =>{console.log(res);
-			if(res['error']){
+    	this.http.login(params).subscribe((res:Response) =>{
+			if(res.error){
 				this.login.password = '';
-				this.message = res['message'];
+				this.message = res.message;
 			}
 			else{
 				sessionStorage.setItem("_token", res["token"]);
@@ -26,10 +29,19 @@ export class LoginComponent implements OnInit {
       	});
   	}
 	logout(){
-		let params = {url: 'logout', email:'hareesh@sparshcom.net', password: '12345678'};
-    	this.http.login(params).subscribe((res) =>{
-      		sessionStorage.setItem("_token", res["token"]);
+		let params = {url: 'logout'};
+    	this.http.login(params).subscribe((res: Response) =>{
+      		sessionStorage.removeItem("_token");
 			this.route.navigate(['/login']);
     	});
 	}
+}
+export interface Login{
+    email: String,
+    password: any
+}
+export interface Response{
+    error: boolean,
+    message: String,
+    errors?:any
 }
