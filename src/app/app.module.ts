@@ -7,23 +7,27 @@ import { ToastrModule } from 'ngx-toastr';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MaterialModule } from './material/material.module';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { Loader } from './classes/loader';
-//import { AdminFooterComponent} from './layouts/admin/admin-footer/admin-footer.component'
-import {LayoutsModule} from './layouts/layouts.module'
+import { LayoutsModule } from './layouts/layouts.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    SpinnerComponent
-  ],
+  declarations: [AppComponent, SpinnerComponent],
   imports: [
-    BrowserModule, NgWhiteboardModule, ToastrModule.forRoot({
-      positionClass :'toast-bottom-right'
-    }), BrowserAnimationsModule, ColorPickerModule, MaterialModule, AppRoutingModule, HttpClientModule, LayoutsModule
+    BrowserModule,
+    NgWhiteboardModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+    }),
+    BrowserAnimationsModule,
+    ColorPickerModule,
+    MaterialModule,
+    AppRoutingModule,
+    HttpClientModule,
+    LayoutsModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
