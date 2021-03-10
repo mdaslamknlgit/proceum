@@ -1,30 +1,70 @@
 <div class="wht_brd_tls">
-    <table border="0">
-      <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td><button type="button" class="pen_btn" (click)='tglwbrd()'><img *ngIf="whtbrdsts=='block'?false:true" src="assets/images/create.svg" /><img *ngIf="whtbrdsts=='block'?true:false" src="assets/images/cursor.svg" /></button></td>
-      </tr>
-      <tr *ngIf="whtbrdsts=='none'?false:true">
-        <td><button class="undo_btn" (click)="undo()" type="button"><img src="assets/images/undo.svg" /></button></td>
-        <td><button class="redo_btn" (click)="redo()" type="button"><img src="assets/images/redo.svg" /></button></td>
-        <td><button class="clr_btn" (click)="erase()" type="button"><img src="assets/images/delete.svg" /></button></td>
-      </tr>
-      <tr *ngIf="whtbrdsts=='none'?false:true">
-        <td>&nbsp;</td>
-        <td>
-          <select class="pn_sz" (change)="setSize($event.target.value)">
-            <option value="2" selected>1</option>
-            <option value="5">2</option>
-            <option value="10">3</option>
-            <option value="20">4</option>
-          </select>
-        </td>
-        <td><input [(colorPicker)]="color" [cpOKButton]="true" [style.background]="color" class="colr_pkr"/></td>
-      </tr>
-    </table>
-  </div>
-  <div class="wht_brd" [ngStyle]="{'height.px':main_div_height, 'width.px': main_div_width, 'display': whtbrdsts}" >
-    <ng-whiteboard [backgroundColor]="backgroundColor" [size]="size" [color]="color">
-    </ng-whiteboard>
-  </div>
+  <table border="0">
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>
+        <button type="button" class="pen_btn" (click)="tglwbrd()">
+          <img
+            *ngIf="whtbrdsts == 'block' ? false : true"
+            src="assets/images/create.svg"
+          /><img
+            *ngIf="whtbrdsts == 'block' ? true : false"
+            src="assets/images/cursor.svg"
+          />
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="whtbrdsts == 'none' ? false : true">
+      <td>
+        <button class="undo_btn" (click)="undo()" type="button">
+          <img src="assets/images/undo.svg" />
+        </button>
+      </td>
+      <td>
+        <button class="redo_btn" (click)="redo()" type="button">
+          <img src="assets/images/redo.svg" />
+        </button>
+      </td>
+      <td>
+        <button class="clr_btn" (click)="erase()" type="button">
+          <img src="assets/images/delete.svg" />
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="whtbrdsts == 'none' ? false : true">
+      <td>&nbsp;</td>
+      <td>
+        <select class="pn_sz" (change)="setSize($event.target.value)">
+          <option value="2" selected>1</option>
+          <option value="5">2</option>
+          <option value="10">3</option>
+          <option value="20">4</option>
+        </select>
+      </td>
+      <td>
+        <input
+          [(colorPicker)]="color"
+          [cpOKButton]="true"
+          [style.background]="color"
+          class="colr_pkr"
+        />
+      </td>
+    </tr>
+  </table>
+</div>
+<div
+  class="wht_brd"
+  [ngStyle]="{
+    'height.px': main_div_height,
+    'width.px': main_div_width,
+    display: whtbrdsts
+  }"
+>
+  <ng-whiteboard
+    [backgroundColor]="backgroundColor"
+    [size]="size"
+    [color]="color"
+  >
+  </ng-whiteboard>
+</div>

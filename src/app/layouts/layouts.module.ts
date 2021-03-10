@@ -8,7 +8,8 @@ import { AdminTopbarComponent } from './admin/admin-topbar/admin-topbar.componen
 import { MaterialModule } from '../material/material.module';
 import { WhiteBoardComponent } from '../shared/white-board/white-board.component';
 import { NgWhiteboardModule } from 'ng-whiteboard';
-
+import { ColorPickerModule } from 'ngx-color-picker';
+import { SidemenuComponent } from './frontend/sidemenu/sidemenu.component';
 @NgModule({
   declarations: [
     TopbarComponent,
@@ -17,14 +18,21 @@ import { NgWhiteboardModule } from 'ng-whiteboard';
     AdminFooterComponent,
     AdminTopbarComponent,
     WhiteBoardComponent,
+    SidemenuComponent,
   ],
-  imports: [CommonModule, MaterialModule, NgWhiteboardModule],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    NgWhiteboardModule,
+    ColorPickerModule,
+  ],
   exports: [
     TopbarComponent,
     FooterComponent,
     SidebarComponent,
     AdminFooterComponent,
     AdminTopbarComponent,
+    SidemenuComponent,
   ],
 })
 export class LayoutsModule {}

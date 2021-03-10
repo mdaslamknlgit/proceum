@@ -1,33 +1,88 @@
 <div class="login_main">
-   <div class="log_mdl_cont">
-    <div class="logo_img"> <img src="assets/images/ProceumLogo.png" /> </div>
+  <div class="log_mdl_cont">
+    <div class="logo_img">
+      <a routerLink="/"> <img src="assets/images/ProceumLogo.png" /></a>
+    </div>
     <div class="log_div text_center">
       <h2 class="clr_grn fnt_nrml wlcm_hd">Welcome to Proceum</h2>
       <div class="sgn_sec">
         <p class="sgn_hd">Sign In</p>
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
-       
-      <form #login_id="ngForm" name="login_form" (ngSubmit)="login_id.valid  && doLogin()" novalidate>
-         <div class="mail {{(login_id.submitted && user_email.invalid)?'err_tltp_par':''}}">
-          <input type="text" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email #user_email="ngModel" ngModel required>
-          <span class="material-icons mail_icon">mail_outline</span>
-           <span class="prc_tltp" *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted">{{message}}</span>
-        </div>
-        <div class="psswrd ">
-          <input type="password" required [(ngModel)]="login.password" name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel/>
-          <span class="material-icons mail_icon">password</span>
-          
-        </div>
-         <div class="prc_hnt" *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted">{{message}}</div>
-        <button type="submit" class="teal_btn lgn_btn">Login</button>
+
+        <form
+          #login_id="ngForm"
+          name="login_form"
+          (ngSubmit)="login_id.valid && doLogin()"
+          novalidate
+        >
+          <div
+            class="mail {{
+              login_id.submitted && user_email.invalid ? 'err_tltp_par' : ''
+            }}"
+          >
+            <input
+              type="text"
+              [(ngModel)]="login.email"
+              focus
+              name="user_email"
+              placeholder="Enter Email"
+              email
+              #user_email="ngModel"
+              ngModel
+              required
+            />
+            <span class="material-icons mail_icon">mail_outline</span>
+            <span
+              class="prc_tltp"
+              *ngIf="
+                (login.password == '' ||
+                  login.email == '' ||
+                  user_email.invalid) &&
+                login_id.submitted
+              "
+              >{{ message }}</span
+            >
+          </div>
+          <div class="psswrd">
+            <input
+              type="password"
+              required
+              [(ngModel)]="login.password"
+              name="user_password"
+              #user_password="ngModel"
+              placeholder="Enter Password"
+              ngModel
+            />
+            <span class="material-icons mail_icon">password</span>
+          </div>
+          <div
+            class="prc_hnt"
+            *ngIf="
+              (login.password == '' ||
+                login.email == '' ||
+                user_email.invalid) &&
+              login_id.submitted
+            "
+          >
+            {{ message }}
+          </div>
+          <button type="submit" class="teal_btn lgn_btn">Login</button>
         </form>
         <div class="scl_lgns">
-          <div class="sgn_fb"><img src="assets/images/facebook-logo.svg" /> Login with Facebook</div>
-          <div class="sgn_gg"><img src="assets/images/google_logo.svg" /> Login with Google</div>
-          <div class="sgn_ap"><img src="assets/images/apple_logo.svg" /> Login with Apple</div>
+          <div class="sgn_fb">
+            <img src="assets/images/facebook-logo.svg" /> Login with Facebook
+          </div>
+          <div class="sgn_gg">
+            <img src="assets/images/google_logo.svg" /> Login with Google
+          </div>
+          <div class="sgn_ap">
+            <img src="assets/images/apple_logo.svg" /> Login with Apple
+          </div>
         </div>
       </div>
-      <div class="frgt_sec"> <a href="#">Forgot Password ?</a> <a href="#">Create New Account</a> </div>
+      <div class="frgt_sec">
+        <a href="#">Forgot Password ?</a> <a href="#">Create New Account</a>
+      </div>
     </div>
   </div>
 </div>
