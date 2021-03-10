@@ -241,22 +241,21 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 
 .material-icons {
   font-size: 24px;
-  font-family: 'Material Icons Two Tone', 'Material Icons';  
+  // font-family: 'Material Icons Two Tone', 'Material Icons';  
   .mat-badge-content {
     font-family: 'Roboto';
   }
 }
-
-
-
-
 /* CSS Document */
-
-body{padding: 0; margin: 0;}
+body{padding: 0; margin: 0; display: flex; flex-direction: column;}
 html, body { height: 100%; }
-body { margin: 0; font-family:latofont; user-select: none;}
 
-app-dashboard{height: 100%;}
+body { margin: 0; font-family:latofont; user-select: none;}
+app-dashboard{background-color: #e6e6e6;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 45px);
+}
 
 @font-face {
 	font-family: latofont;
@@ -272,7 +271,6 @@ app-dashboard{height: 100%;}
 .text_center {
 	text-align: center;
 }
-
 .teal_btn {
 	padding: 12px 40px;
 	border: 0;
@@ -283,16 +281,19 @@ app-dashboard{height: 100%;}
 	color: #fff;
 	font-size: 16px;
 }
-
 .footer {
-	text-align: center;
-	position: absolute;
-	bottom: 30px;
-	width: 100%;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  background-color: #e6e6e6;
+  padding: 15px 0;
+  color: #000;
+  font-size: 12px;
+  flex-shrink: 0;
 }
 .footer span {
-	position: absolute;
-	right: 10px;
+position: absolute;
+right: 10px;
 }
 a {
 	text-decoration: none;
@@ -339,3 +340,8 @@ a {
   .err_tltp_par:hover .prc_tltp {
 	display: block;
   } 
+  app-root {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}

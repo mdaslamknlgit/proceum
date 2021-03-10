@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+
 @Component({
 	selector: 'app-login',
   	templateUrl: './login.component.html',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 
 export class LoginComponent implements OnInit {
-	currentYear: number = new Date().getFullYear();
+	
 	login: Login = {email:'', password:''};
 	public message:String = 'Invalid email or password';
 	constructor(private http: AuthService, private route: Router) { }
