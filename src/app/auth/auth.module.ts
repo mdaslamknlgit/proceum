@@ -6,14 +6,12 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    component : LoginComponent,
+    component: LoginComponent,
   },
 ];
 @NgModule({
   declarations: [LoginComponent],
-  imports: [
-    CommonModule, RouterModule.forChild(routes), MaterialModule
-  ],
-  exports:[RouterModule]
+  imports: [CommonModule, RouterModule.forChild(routes), MaterialModule],
+  exports: [RouterModule],
 })
-export class AuthModule { }
+export class AuthModule {}
