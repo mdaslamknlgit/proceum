@@ -15,6 +15,9 @@ import { NgWhiteboardModule } from 'ng-whiteboard';
   imports: [
     CommonModule, MaterialModule, NgWhiteboardModule
   ],
-  exports: [TopbarComponent, FooterComponent, SidebarComponent, AdminFooterComponent, AdminTopbarComponent]
+  exports: [TopbarComponent, FooterComponent, SidebarComponent, AdminFooterComponent, AdminTopbarComponent],
+  providers: [
+    SidebarComponent 
+  ]
 })
 export class LayoutsModule { }

@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { IndexComponent } from './index/index.component';
 import { LayoutsModule } from '../layouts/layouts.module';
-
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -18,7 +17,12 @@ const routes: Routes = [
 ];
 @NgModule({
   declarations: [DashboardComponent, IndexComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), MaterialModule, LayoutsModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    MaterialModule,
+    LayoutsModule,
+  ],
   exports: [RouterModule],
 })
 export class FrontendModule {}
