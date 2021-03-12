@@ -20,7 +20,7 @@ export class TopbarComponent implements OnInit {
   }
   logout() {
     let params = { url: 'logout' };
-    this.http.postGetData(params).subscribe((res) => {
+    this.http.post(params).subscribe((res) => {
       sessionStorage.removeItem('_token');
       this.route.navigate(['/login']);
     });

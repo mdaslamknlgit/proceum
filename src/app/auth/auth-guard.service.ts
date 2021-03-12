@@ -26,12 +26,12 @@ export class AuthGuardService implements CanActivate {
     if (sessionStorage.getItem('_token')) {
       const userRole = sessionStorage.getItem('role');
       if (route.data.role && route.data.role.indexOf(userRole) === -1) {
-        this.router.navigate(['/login']);
+        //this.router.navigate(['/login']);
+        alert('You Don`t have permissions to access this url');
         return false;
       }
       return true;
     }
-
     this.router.navigate(['/login']);
     return false;
   }

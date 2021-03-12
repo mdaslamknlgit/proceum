@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgWhiteboardModule } from 'ng-whiteboard';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -11,12 +10,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { Loader } from './classes/loader';
 import { LayoutsModule } from './layouts/layouts.module';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, SpinnerComponent],
+  declarations: [AppComponent, SpinnerComponent, NotFoundComponent],
   imports: [
     BrowserModule,
-    NgWhiteboardModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),

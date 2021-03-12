@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit {
         this.login.password = '';
         this.message = res.message;
       } else {
-        sessionStorage.setItem('_token', res.token);
-        sessionStorage.setItem('role', res.role);
-        if (res.role == 1) this.route.navigate(['/admin/dashboard']);
+        sessionStorage.setItem('_token', res['data'].token);
+        sessionStorage.setItem('role', res['data'].role);
+        if (res['data'].role == 1) this.route.navigate(['/admin/dashboard']);
         else this.route.navigate(['/student/dashboard']);
       }
     });
