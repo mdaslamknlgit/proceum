@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { IndexComponent } from './frontend/index/index.component';
 const routes: Routes = [
+  { path: '', component: IndexComponent },
   { path: '', pathMatch: 'full', redirectTo: 'main' },
   {
     path: 'main',
@@ -15,9 +18,7 @@ const routes: Routes = [
   {
     path: 'admin/dashboard',
     loadChildren: () =>
-      import('./admin/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule
-      ),
+      import('./admin/admin.module').then((m) => m.AdminModule),
     canActivate: [AuthGuard],
     data: {
       role: '1',
@@ -32,12 +33,13 @@ const routes: Routes = [
       role: '2',
     },
   },
-  { path: '**', redirectTo: 'login' },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      useHash: true,
+      useHash: false,
       preloadingStrategy: PreloadAllModules,
     }),
   ],

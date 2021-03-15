@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,8 +9,12 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   login: Login = { email: '', password: '' };
-  public message: String = 'Invalid email or password';
-  constructor(private http: AuthService, private route: Router) {}
+  public message: string = 'Invalid email or password';
+  constructor(
+    private http: AuthService,
+    private route: Router,
+    private toastr: ToastrService
+  ) {}
   ngOnInit(): void {
     sessionStorage.removeItem('_token');
   }
@@ -24,10 +28,11 @@ export class LoginComponent implements OnInit {
       if (res.error) {
         this.login.password = '';
         this.message = res.message;
+        this.toastr.error(this.message, 'Error', { closeButton: true });
       } else {
-        sessionStorage.setItem('_token', res.token);
-        sessionStorage.setItem('role', res.role);
-        if (res.role == 1) this.route.navigate(['/admin/dashboard']);
+        sessionStorage.setItem('_token', res['data'].token);
+        sessionStorage.setItem('role', res['data'].role);
+        if (res['data'].role == 1) this.route.navigate(['/admin/dashboard']);
         else this.route.navigate(['/student/dashboard']);
       }
     });
@@ -47,7 +52,7 @@ export interface Login {
 export interface Response {
   error: boolean;
   token: any;
-  message: String;
+  message: string;
   role?: any;
   errors?: any;
 }

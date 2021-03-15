@@ -6,11 +6,16 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { AuthService } from './auth.service';
+import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuardService implements CanActivate {
-  constructor(public auth: AuthService, public router: Router) {}
+  constructor(
+    public auth: AuthService,
+    public router: Router,
+    private toastr: ToastrService
+  ) {}
   /*canActivate(): boolean {
     if (!sessionStorage.getItem('_token')) {
       this.router.navigate(['login']);
@@ -26,12 +31,16 @@ export class AuthGuardService implements CanActivate {
     if (sessionStorage.getItem('_token')) {
       const userRole = sessionStorage.getItem('role');
       if (route.data.role && route.data.role.indexOf(userRole) === -1) {
-        this.router.navigate(['/login']);
+        this.toastr.error(
+          'You Don`t have permissions to access this url',
+          'Permission Deneid',
+          { closeButton: true }
+        );
+        this.router.navigate(['/not-found']);
         return false;
       }
       return true;
     }
-
     this.router.navigate(['/login']);
     return false;
   }

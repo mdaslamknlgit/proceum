@@ -17,7 +17,17 @@ export class CommonService {
     let token = sessionStorage.getItem('_token');
     return token;
   }
-  public postGetData(param) {
+  public get(param) {
+    let headers = new HttpHeaders();
+    headers = headers
+      .set('Authorization', 'Bearer ' + this.getToken())
+      .set('Content-Type', 'application/json');
+    return this.http.get(this.apiURL + param.url, { headers: headers }).pipe(
+      map((res) => res),
+      catchError(this.errorHandler)
+    );
+  }
+  public post(param) {
     let headers = new HttpHeaders();
     headers = headers
       .set('Authorization', 'Bearer ' + this.getToken())
@@ -28,6 +38,28 @@ export class CommonService {
         map((res) => res),
         catchError(this.errorHandler)
       );
+  }
+  public put(param) {
+    let headers = new HttpHeaders();
+    headers = headers
+      .set('Authorization', 'Bearer ' + this.getToken())
+      .set('Content-Type', 'application/json');
+    return this.http
+      .put(this.apiURL + param.url, param, { headers: headers })
+      .pipe(
+        map((res) => res),
+        catchError(this.errorHandler)
+      );
+  }
+  public delete(param) {
+    let headers = new HttpHeaders();
+    headers = headers
+      .set('Authorization', 'Bearer ' + this.getToken())
+      .set('Content-Type', 'application/json');
+    return this.http.delete(this.apiURL + param.url, { headers: headers }).pipe(
+      map((res) => res),
+      catchError(this.errorHandler)
+    );
   }
   errorHandler(error: Response) {
     return throwError(error);
