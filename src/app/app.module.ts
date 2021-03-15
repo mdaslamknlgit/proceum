@@ -17,7 +17,7 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
   imports: [
     BrowserModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-top-right',
     }),
     BrowserAnimationsModule,
     ColorPickerModule,

@@ -18,9 +18,7 @@ const routes: Routes = [
   {
     path: 'admin/dashboard',
     loadChildren: () =>
-      import('./admin/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule
-      ),
+      import('./admin/admin.module').then((m) => m.AdminModule),
     canActivate: [AuthGuard],
     data: {
       role: '1',
@@ -35,6 +33,7 @@ const routes: Routes = [
       role: '2',
     },
   },
+  { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
