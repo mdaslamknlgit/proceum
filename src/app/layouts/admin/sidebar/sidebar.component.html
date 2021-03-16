@@ -2,9 +2,14 @@
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
     <li routerLink="/admin/dashboard">
-      <div class="sd_mnuhd"><mat-icon>dashboard</mat-icon> Dashboard</div>
+      <div class="sd_mnuhd">
+        <mat-icon>dashboard</mat-icon> Dashboard{{ menu_active }}
+      </div>
     </li>
-    <li class="hs_sbmnu">
+    <li
+      class="hs_sbmnu {{ menu_active == 1 ? 'active' : '' }}"
+      (click)="activeMenu(1)"
+    >
       <!-- hs_sbmnu -->
       <div class="sd_mnuhd">
         <mat-icon>manage_accounts</mat-icon> Master Content Management
@@ -29,7 +34,10 @@
         <li><mat-icon>manage_accounts</mat-icon> Countries</li>
       </ul>
     </li>
-    <li class="hs_sbmnu">
+    <li
+      class="hs_sbmnu {{ menu_active == 2 ? 'active' : '' }}"
+      (click)="activeMenu(2)"
+    >
       <div class="sd_mnuhd">
         <mat-icon>account_circle</mat-icon> Client Management
       </div>
@@ -44,12 +52,15 @@
         </li>
       </ul>
     </li>
-    <li routerLink="/admin/users">
+    <li routerLink="/admin/users" (click)="menu_active = 0">
       <div class="sd_mnuhd">
         <mat-icon>library_books</mat-icon> Proceum User Management
       </div>
     </li>
-    <li class="hs_sbmnu">
+    <li
+      class="hs_sbmnu {{ menu_active == 3 ? 'active' : '' }}"
+      (click)="activeMenu(3)"
+    >
       <div class="sd_mnuhd">
         <mat-icon>supervised_user_circle</mat-icon> Subscripiton plans managment
       </div>
@@ -65,7 +76,10 @@
         <li><mat-icon>manage_accounts</mat-icon>Discount Management</li>
       </ul>
     </li>
-    <li class="hs_sbmnu">
+    <li
+      class="hs_sbmnu {{ menu_active == 4 ? 'active' : '' }}"
+      (click)="activeMenu(4)"
+    >
       <div class="sd_mnuhd">
         <mat-icon>live_help</mat-icon> Finance Management
       </div>
@@ -75,7 +89,10 @@
         <li><mat-icon>manage_accounts</mat-icon>Payment Management</li>
       </ul>
     </li>
-    <li class="hs_sbmnu">
+    <li
+      class="hs_sbmnu {{ menu_active == 5 ? 'active' : '' }}"
+      (click)="activeMenu(5)"
+    >
       <div class="sd_mnuhd"><mat-icon>assessment</mat-icon> Reporting</div>
       <ul class="sdmn_sub">
         <li><mat-icon>manage_accounts</mat-icon>Tabular Reports</li>

@@ -1,4 +1,6 @@
 import { Component, HostListener } from '@angular/core';
+import { CommonService } from './services/common.service';
+import { Router, NavigationEnd } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,7 +11,24 @@ export class AppComponent {
   onRightClick(event) {
     // event.preventDefault();
   }
-  constructor() {}
+  public is_admin: boolean = false;
+  public is_student: boolean = false;
+  constructor(private http: CommonService, private router: Router) {
+    this.router.events.subscribe((ev) => {
+      if (ev instanceof NavigationEnd) {
+        if (this.http.getToken() && this.http.getRole() === '1') {
+          this.is_admin = true;
+        } else {
+          this.is_admin = false;
+        }
+        if (this.http.getToken() && this.http.getRole() === '2') {
+          this.is_student = true;
+        } else {
+          this.is_student = false;
+        }
+      }
+    });
+  }
   ngOnInit() {
     window.addEventListener('keyup', (e) => {
       var keyCode = e.keyCode ? e.keyCode : e.which;
@@ -20,7 +39,6 @@ export class AppComponent {
       }
     });
   }
-
   stopPrntScr() {
     var inpFld = window.document.createElement('input');
     inpFld.setAttribute('value', '.');
