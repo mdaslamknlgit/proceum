@@ -12,6 +12,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list';
+import {MatListModule} from '@angular/material/list';
+import {MatCardModule} from '@angular/material/card';
 
 
 
@@ -20,11 +22,11 @@ import { MatGridListModule } from '@angular/material/grid-list';
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
   imports: [
     CommonModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatTooltipModule, MatToolbarModule, MatSidenavModule,MatMenuModule,
-    MatGridListModule
+    MatGridListModule, MatListModule, MatCardModule
   ],
   exports: [
     MatInputModule , MatButtonModule, MatFormFieldModule, MatTooltipModule, MatIconModule, NumbersonlyDirective, AlphabetOnlyDirective, FormsModule, MatToolbarModule, MatSidenavModule,
-    MatMenuModule, MatGridListModule
+    MatMenuModule, MatGridListModule, MatListModule, MatCardModule
   ]
 })
 export class MaterialModule { }
