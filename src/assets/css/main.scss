@@ -161,7 +161,7 @@ $mat-primary: (
   main: #214123,
   lighter: #bcc6bd,
   darker: #142a15,
-  200: #214123, // For slide toggle,
+  200: #41ab3c, // For slide toggle,
   contrast : (
     main: $light-primary-text,
     lighter: $dark-primary-text,
@@ -191,6 +191,7 @@ $mat-accent: (
   )
 );
 $theme-accent: mat-palette($mat-accent, main, lighter, darker);
+
 
 body {
   --warn-color: #ff0000;
@@ -248,6 +249,27 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 }
 /* CSS Document */
 body{padding: 0; margin: 0; display: flex; flex-direction: column;}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background:transparent;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color:rgba(0, 0, 0, 0.4); 
+  opacity: 0.1;
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+.sd_br:hover::-webkit-scrollbar-thumb, ::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+  opacity: 0.8;
+}
 html, body { height: 100%; }
 
 body { margin: 0; font-family: 'NunitoSans'; user-select: none;}
@@ -256,6 +278,7 @@ app-dashboard, app-index{
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 45px);
+  background-color: #f5f6f7;
 }
 
 @font-face {
@@ -405,6 +428,7 @@ a {
     height: 100vh;
 }
 img{max-width: 100%;}
-
-
+.mr_1{margin-right: 1em !important;}
+.text_left{text-align: left;}
+.faint_txt{opacity: 0.6;}
 .footer{display: none;}

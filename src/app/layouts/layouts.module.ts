@@ -10,6 +10,8 @@ import { WhiteBoardComponent } from '../shared/white-board/white-board.component
 import { NgWhiteboardModule } from 'ng-whiteboard';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { SidemenuComponent } from './frontend/sidemenu/sidemenu.component';
+import { RouterModule } from '@angular/router';
+
 @NgModule({
   declarations: [
     TopbarComponent,
@@ -25,6 +27,7 @@ import { SidemenuComponent } from './frontend/sidemenu/sidemenu.component';
     MaterialModule,
     NgWhiteboardModule,
     ColorPickerModule,
+    RouterModule
   ],
   exports: [
     TopbarComponent,

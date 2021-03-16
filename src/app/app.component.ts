@@ -7,7 +7,7 @@ import { Component, HostListener } from '@angular/core';
 export class AppComponent {
   @HostListener('contextmenu', ['$event'])
   onRightClick(event) {
-    event.preventDefault();
+    // event.preventDefault();
   }
   constructor() {}
   ngOnInit() {
