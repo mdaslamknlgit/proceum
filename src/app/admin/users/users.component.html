@@ -1,1 +1,22 @@
-<p>users works!</p>
+<form
+  #user_form="ngForm"
+  name="user_form"
+  (ngSubmit)="user_form.valid && getUser()"
+  novalidate
+>
+  <input type="text" name="name" [(ngModel)]="user.name" placeholder="name" />
+  <input
+    type="email"
+    name="email"
+    [(ngModel)]="user.email"
+    placeholder="email"
+  />
+  <input
+    type="password"
+    name="password"
+    [(ngModel)]="user.password"
+    placeholder="password"
+  />
+  <input type="text" name="role" [(ngModel)]="user.role" placeholder="role" />
+  <button type="submit">Submit</button>
+</form>
