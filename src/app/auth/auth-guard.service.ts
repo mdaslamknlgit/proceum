@@ -16,13 +16,6 @@ export class AuthGuardService implements CanActivate {
     public router: Router,
     private toastr: ToastrService
   ) {}
-  /*canActivate(): boolean {
-    if (!sessionStorage.getItem('_token')) {
-      this.router.navigate(['login']);
-      return false;
-    }
-    return true;
-  }*/
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let url: string = state.url;
     return this.checkUserLogin(next, url);
