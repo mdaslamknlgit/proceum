@@ -1,10 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  @HostListener('contextmenu', ['$event'])
+  onRightClick(event) {
+    // event.preventDefault();
+  }
   constructor() {}
   ngOnInit() {
     window.addEventListener('keyup', (e) => {
