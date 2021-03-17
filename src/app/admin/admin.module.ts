@@ -7,8 +7,12 @@ import { LayoutsModule } from '../layouts/layouts.module';
 import { UsersComponent } from './users/users.component';
 const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     component: DashboardComponent,
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
   },
 ];
 @NgModule({

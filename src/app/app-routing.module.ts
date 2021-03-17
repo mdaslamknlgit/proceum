@@ -3,6 +3,12 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AuthGuardService as AuthGuard } from './auth/auth-guard.service';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { IndexComponent } from './frontend/index/index.component';
+import { AboutUsComponent } from './frontend/about-us/about-us.component';
+import { ContactUsComponent } from './frontend/contact-us/contact-us.component';
+import { DrawingBoardComponent } from './shared/drawing-board/drawing-board.component';
+import { FaqsComponent } from './frontend/faqs/faqs.component';
+import { OurTeamComponent } from './frontend/our-team/our-team.component';
+import { PrivacyPolicyComponent } from './frontend/privacy-policy/privacy-policy.component';
 const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: '', pathMatch: 'full', redirectTo: 'main' },
@@ -11,12 +17,18 @@ const routes: Routes = [
     loadChildren: () =>
       import('./frontend/frontend.module').then((m) => m.FrontendModule),
   },
+  { path: 'about-us', component: AboutUsComponent },
+  { path: 'contact-us', component: ContactUsComponent },
+  { path: 'faqs', component: FaqsComponent },
+  { path: 'our-team', component: OurTeamComponent },
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
   {
     path: 'login',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
+  { path: 'white-board', component: DrawingBoardComponent },
   {
-    path: 'admin/dashboard',
+    path: 'admin',
     loadChildren: () =>
       import('./admin/admin.module').then((m) => m.AdminModule),
     canActivate: [AuthGuard],

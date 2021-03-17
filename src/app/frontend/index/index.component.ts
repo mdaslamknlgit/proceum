@@ -9,4 +9,7 @@ export class IndexComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+  scrollToTop() {
+    window.scroll(0, 0);
+  }
 }

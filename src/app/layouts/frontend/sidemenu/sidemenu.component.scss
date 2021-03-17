@@ -1,35 +1,88 @@
-.sd_br{position:fixed;width:0; top: 64px;height:calc(100vh - 64px);z-index:98;background:#0f98a6;overflow:hidden;color:#fff}
-.sd_cls{animation-name:sd_cls;animation-duration:.1s}
+
+.sd_br{position:fixed;width:58px; top: 64px;height:calc(100vh - 64px);z-index:98;background:#fff; overflow-x:hidden;color:#0f98a6}
+.sd_cls{animation-name:sd_cls;animation-duration:0.05s}
 @keyframes sd_cls {
 from{width:16%}
-to{width:0}
+to{width:58px}
 }
-.sd_opn{animation-name:sd_opn;animation-duration:.1s}
+.sd_opn, .sd_br:hover{animation-name:sd_opn;animation-duration:0.05s}
 @keyframes sd_opn {
-from{width:0}
+from{width:58px}
 to{width:16%}
 }
-.sd_br.sd_opn{width:16%;display:block}
+.sd_br.sd_opn, .sd_br:hover{width:16%;display:block}
 .sdmn_cntul{margin:0;padding:0}
-.sdmn_cntul li{list-style:none;float:left;width:100%;padding:15px 5px 15px 20px;font-size:14px;box-sizing:border-box;cursor:pointer; border-bottom: 1px solid #2faab7; display: flex; align-items: center;}
-.sdmn_cntul mat-icon{margin-right: 10px;}
+.sdmn_cntul li{list-style:none; width:100%;padding:10px 0px 10px 20px;font-size:0px;box-sizing:border-box;cursor:pointer; display: flex; flex-direction: column; position: relative;}
+.sd_br:hover .sdmn_cntul li, .sd_opn .sdmn_cntul li{font-size:14px;}
+.sdmn_cntul mat-icon{margin-right: 10px; align-self: baseline;}
 .sdmn_cntul li:hover{background-color:#e6e6e6;color:#0f98a6}
+.sd_mnuhd{display: flex; align-items: center; padding-right: 28px;}
+.sdmn_sub{margin-left: -20px; padding: 0; display: none; margin-top: 10px; background: #fff; color: #0f98a6;}
+// .sd_cls .hs_sbmnu .sdmn_sub{display: none;}
+// .sdmn_cntul .sdmn_sub li:first-child{border-top: 1px solid #2faab7;}
+.sdmn_cntul .sdmn_sub li:last-child{border: 0;}
+.sdmn_cntul li.hs_sbmnu.active, .sdmn_cntul li.hs_sbmnu:hover{padding-bottom: 0;}
+// .sd_cls .sdmn_cntul li.hs_sbmnu{padding-bottom: 10px;}
+.sd_opn .sdmn_cntul li.hs_sbmnu.active, .sd_cls:hover .sdmn_cntul li.hs_sbmnu.active{padding-bottom: 0px;}
+.sd_cls .sdmn_sub li{padding-left: 20px;}
+.hs_sbmnu.active .sdmn_sub, .hs_sbmnu:hover .sdmn_sub{display: block; animation-name: sbmn_hgt; animation-duration: 0.1s;}
 
-
+.sdmn_sub li{flex-direction: row; align-items: center; padding-left: 35px;}
+.sd_cls:hover .sdmn_sub li{padding-left: 35px;}
+.sd_cls li.hs_sbmnu:before{display: none;}
+.sd_cls:hover li.hs_sbmnu:before{display: block;}
+.sdmn_cntul li:hover.hs_sbmnu:before{border-left: 4px solid #0f98a6;}
+li.hs_sbmnu:before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    right: 15px;
+    width: 0; 
+    height: 0; 
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 4px solid #0f98a6;
+  
+}
+li.hs_sbmnu.active:before{
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: 14px;
+    width: 0; 
+    height: 0; 
+    border-bottom: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #0f98a6;
+}
+.sdmn_cntul li.hs_sbmnu:hover::before{
+    content: "";
+    border-bottom: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #0f98a6;
+    top: 20px;
+    right: 14px;
+}
+@keyframes sbmn_hgt {
+    from{opacity: 0;}
+    to{opacity: 1;}
+    }
 /*RESPONSIVE CSS*/
 @media(max-width:1499px) {
-    .sd_br.sd_opn{width: 20%;}
+    .sd_br.sd_opn, .sd_br:hover{width: 20%;}
     @keyframes sd_opn {
-        from{width:0}
+        from{width:58px}
         to{width:20%}
         }
         @keyframes sd_cls {
             from{width:20%}
-            to{width:0}
+            to{width: 58px;}
             }
 }
 @media(max-width:990px) {
-    .sd_br.sd_opn{width: 30%;}
+    .sd_br.sd_opn, .sd_br:hover{width: 30%;}
     @keyframes sd_opn {
         from{width:0}
         to{width:30%}
@@ -40,7 +93,7 @@ to{width:16%}
             }
 }
 @media(max-width:767px) {
-    .sd_br.sd_opn{width: 100%;}
+    .sd_br.sd_opn, .sd_br:hover{width: 100%;}
     @keyframes sd_opn {
         from{width:0}
         to{width:100%}

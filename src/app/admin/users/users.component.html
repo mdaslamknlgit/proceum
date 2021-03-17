@@ -1,1 +1,28 @@
-<p>users works!</p>
+<app-admin-topbar></app-admin-topbar>
+<app-sidebar></app-sidebar>
+<div class="mn_dshbrd">
+  <div class="brd_crm">Proceum &raquo; <strong>User Management</strong></div>
+  <form
+    #user_form="ngForm"
+    name="user_form"
+    (ngSubmit)="user_form.valid && createUser()"
+    novalidate
+  >
+    <input type="text" name="name" [(ngModel)]="user.name" placeholder="name" />
+    <input
+      type="email"
+      name="email"
+      [(ngModel)]="user.email"
+      placeholder="email"
+    />
+    <input
+      type="password"
+      name="password"
+      [(ngModel)]="user.password"
+      placeholder="password"
+    />
+    <input type="text" name="role" [(ngModel)]="user.role" placeholder="role" />
+    <button type="submit">Submit</button>
+  </form>
+</div>
+<app-admin-footer></app-admin-footer>

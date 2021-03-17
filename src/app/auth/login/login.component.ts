@@ -33,7 +33,8 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('_token', res['data'].token);
         sessionStorage.setItem('role', res['data'].role);
         if (res['data'].role == 1) this.route.navigate(['/admin/dashboard']);
-        else this.route.navigate(['/student/dashboard']);
+        else if (res['data'].role == 2)
+          this.route.navigate(['/student/dashboard']);
       }
     });
   }
