@@ -9,6 +9,7 @@ import { DrawingBoardComponent } from './shared/drawing-board/drawing-board.comp
 import { FaqsComponent } from './frontend/faqs/faqs.component';
 import { OurTeamComponent } from './frontend/our-team/our-team.component';
 import { PrivacyPolicyComponent } from './frontend/privacy-policy/privacy-policy.component';
+import { RegisterComponent } from './auth/register/register.component';
 const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: '', pathMatch: 'full', redirectTo: 'main' },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'faqs', component: FaqsComponent },
   { path: 'our-team', component: OurTeamComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: 'register', component: RegisterComponent },
   {
     path: 'login',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),

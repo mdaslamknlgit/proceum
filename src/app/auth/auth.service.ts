@@ -16,6 +16,13 @@ export class AuthService {
 		headers = headers.set('Content-Type', 'application/json');
 		return this.http.post(this.apiURL + param.url, param, { headers: headers }).pipe(map(res => res), catchError(this.errorHandler));
 	}
+
+	public register(param) {
+		let headers = new HttpHeaders();
+		headers = headers.set('Content-Type', 'application/json');
+		return this.http.post(this.apiURL + param.url, param, { headers: headers }).pipe(map(res => res), catchError(this.errorHandler));
+
+	}
 	errorHandler(error: Response) {
 		return throwError(error);
 	}
