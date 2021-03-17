@@ -9,25 +9,25 @@ import { Router, NavigationEnd } from '@angular/router';
 export class AppComponent {
   @HostListener('contextmenu', ['$event'])
   onRightClick(event) {
-    // event.preventDefault();
+    // event.preventDefault(); //uncomment to desable right click
   }
   public is_admin: boolean = false;
   public is_student: boolean = false;
   constructor(private http: CommonService, private router: Router) {
-    this.router.events.subscribe((ev) => {
-      if (ev instanceof NavigationEnd) {
-        if (this.http.getToken() && this.http.getRole() === '1') {
-          this.is_admin = true;
-        } else {
-          this.is_admin = false;
-        }
-        if (this.http.getToken() && this.http.getRole() === '2') {
-          this.is_student = true;
-        } else {
-          this.is_student = false;
-        }
-      }
-    });
+    // this.router.events.subscribe((ev) => {
+    //   if (ev instanceof NavigationEnd) {
+    //     if (this.http.getToken() && this.http.getRole() === '1') {
+    //       this.is_admin = true;
+    //     } else {
+    //       this.is_admin = false;
+    //     }
+    //     if (this.http.getToken() && this.http.getRole() === '2') {
+    //       this.is_student = true;
+    //     } else {
+    //       this.is_student = false;
+    //     }
+    //   }
+    // });
   }
   ngOnInit() {
     window.addEventListener('keyup', (e) => {
