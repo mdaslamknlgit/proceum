@@ -22,13 +22,13 @@ export class AuthGuardService implements CanActivate {
   }
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
     if (sessionStorage.getItem('_token')) {
-      const userRole = sessionStorage.getItem('role');
-      if (route.data.role && route.data.role.indexOf(userRole) === -1) {
-        this.toastr.error(
-          'You Don`t have permissions to access this url',
-          'Permission Deneid',
-          { closeButton: true }
-        );
+      const user = JSON.parse(atob(sessionStorage.getItem('user')));
+      if (route.data.role && route.data.role.indexOf(user['role']) === -1) {
+        // this.toastr.error(
+        //   'You Don`t have permissions to access this url',
+        //   'Permission Deneid',
+        //   { closeButton: true }
+        // );
         this.router.navigate(['/not-found']);
         return false;
       }

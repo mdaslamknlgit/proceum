@@ -31,9 +31,11 @@ export class LoginComponent implements OnInit {
         this.toastr.error(this.message, 'Error', { closeButton: true });
       } else {
         sessionStorage.setItem('_token', res['data'].token);
-        sessionStorage.setItem('role', res['data'].role);
-        if (res['data'].role == 1) this.route.navigate(['/admin/dashboard']);
-        else if (res['data'].role == 2)
+        let json_user = btoa(JSON.stringify(res['data'].user));
+        sessionStorage.setItem('user', json_user);
+        if (res['data']['user']['role'] == 1)
+          this.route.navigate(['/admin/dashboard']);
+        else if (res['data']['user']['role'] == 2)
           this.route.navigate(['/student/dashboard']);
       }
     });

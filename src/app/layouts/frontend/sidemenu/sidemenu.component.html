@@ -1,49 +1,97 @@
-<div class="sd_br" [ngClass]="sidemenuStatus">
+<div class="sd_br" [ngClass]="sidemenuStatus"> 
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
-    <li><div class="sd_mnuhd"><mat-icon>dashboard</mat-icon> Dashboard</div></li>
-    <li><div class="sd_mnuhd"><mat-icon>person</mat-icon> Profile</div></li>
-    <li><div class="sd_mnuhd"><mat-icon>account_balance</mat-icon> University / College / Campus Management</div></li>
-    <li><div class="sd_mnuhd"><mat-icon>group_add</mat-icon> Faculty management</div></li>
-    <li><div class="sd_mnuhd"><mat-icon>school</mat-icon> Student Management</div></li>
-    <li><div class="sd_mnuhd"><mat-icon>group_add</mat-icon> User Management</div></li>
-    <li class="hs_sbmnu">
-      <div class="sd_mnuhd"><mat-icon>source</mat-icon> Custom Content Management</div>
+
+    <li routerLink="/student/dashboard" class="active">
+      <div class="sd_mnuhd">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </div>
+    </li>
+    <li class="hs_sbmnu {{ menu_active == 1 ? 'active' : '' }}" (click)="activeMenu(1)">
+      <div class="sd_mnuhd">
+        <mat-icon>auto_stories</mat-icon> Learning Notes
+      </div>
       <ul class="sdmn_sub">
-        <li><mat-icon>manage_accounts</mat-icon> Curriculum Management</li>
-        <li><mat-icon>import_contacts</mat-icon> Asset Library</li>
-        <li><mat-icon>description</mat-icon> Learning Notes Management</li>
-        <li><mat-icon>quiz</mat-icon> Question Bank Management</li>
-        <li><mat-icon>description</mat-icon> Study material management</li>
+        <li>
+          <mat-icon>play_circle_outline</mat-icon> Videos
+        </li>
+        <li>
+          <mat-icon>sticky_note_2</mat-icon> Teacher Materials
+        </li>
       </ul>
     </li>
-    <li class="hs_sbmnu">
-      <div class="sd_mnuhd"><mat-icon>supervisor_account</mat-icon> Access to Master Content </div>
+    <li>
+      <div class="sd_mnuhd">
+        <mat-icon>today</mat-icon> Study Planner
+      </div>
+    </li>
+    <li  class="hs_sbmnu {{ menu_active == 2 ? 'active' : '' }}" (click)="activeMenu(2)">
+      <div class="sd_mnuhd">
+        <mat-icon>school</mat-icon> Classes
+      </div>
       <ul class="sdmn_sub">
-        <li><mat-icon>account_tree</mat-icon>Proceum Database</li>
-        <li><mat-icon>create</mat-icon>Suggest a Content Edit</li>
+        <li>
+          <mat-icon>today</mat-icon> Today Classes
+        </li>
+        <li>
+          <mat-icon>event</mat-icon> Upcoming Classes
+        </li>
+        <li>
+          <mat-icon>rotate_left</mat-icon> Past Classes
+        </li>
       </ul>
     </li>
-    <li class="hs_sbmnu">
-      <div class="sd_mnuhd"><mat-icon>supervisor_account</mat-icon> Access to Custom Content</div>
+    <li  class="hs_sbmnu {{ menu_active == 3 ? 'active' : '' }}" (click)="activeMenu(3)">
+      <div class="sd_mnuhd">
+        <mat-icon>cast_for_education</mat-icon> Webinars
+      </div>
       <ul class="sdmn_sub">
-        <li><mat-icon>account_tree</mat-icon>Proceum Database</li>
+        <li>
+          <mat-icon>live_tv</mat-icon> Live Events
+        </li>
+        <li>
+          <mat-icon>event</mat-icon> Upcoming Events
+        </li>
+        <li>
+          <mat-icon>auto_awesome_motion</mat-icon> Past Events
+        </li>
       </ul>
     </li>
-    <li><div class="sd_mnuhd"><mat-icon>live_help</mat-icon> Assetssments</div></li>
-    <li><div class="sd_mnuhd"><mat-icon>live_help</mat-icon> Study Plans</div>
-      <ul class="sdmn_sub">
-        <li><mat-icon>manage_accounts</mat-icon>Standard Study Plans</li>
-        <li><mat-icon>manage_accounts</mat-icon>Custom Study Plans</li>
-      </ul>
+    <li routerLink="/student/my-account">
+      <div class="sd_mnuhd">
+        <mat-icon>manage_accounts</mat-icon> My Account
+      </div>
+      <!-- <ul class="sdmn_sub">
+        <li>
+          <mat-icon>contacts</mat-icon> Profile
+        </li>
+        <li>
+          <mat-icon>account_balance</mat-icon> Analytics
+        </li>
+        <li>
+          <mat-icon>recent_actors</mat-icon> Assessments
+        </li>
+        <li>
+          <mat-icon>recent_actors</mat-icon> Favorites
+        </li>
+        <li>
+          <mat-icon>recent_actors</mat-icon> Bookmarks
+        </li>
+        <li>
+          <mat-icon>recent_actors</mat-icon> Notes
+        </li>
+       
+      </ul> -->
     </li>
-    <li><div class="sd_mnuhd"><mat-icon>live_help</mat-icon> Finance Management</div>
-      <ul class="sdmn_sub">
-        <li><mat-icon>manage_accounts</mat-icon>Invoicing</li>
-        <li><mat-icon>manage_accounts</mat-icon>Subscription Renewals</li>
-        <li><mat-icon>manage_accounts</mat-icon>Payment Management</li>
-      </ul>
+    <li>
+      <div class="sd_mnuhd">
+        <mat-icon>quiz</mat-icon> Question Bank
+      </div>
     </li>
-   
+    <li>
+      <div class="sd_mnuhd">
+        <mat-icon>style</mat-icon> Flash Cards
+      </div>
+    </li>
   </ul>
 </div>
