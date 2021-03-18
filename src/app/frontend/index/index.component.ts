@@ -10,14 +10,13 @@ export class IndexComponent implements OnInit {
 
   ngOnInit(): void {}
   scrollToTop() {
-    window.scroll(0, 0);
+    // window.scroll(0, 0);
+    window.scrollTo({top: 0, behavior: 'smooth'});
   }
 
   isSticky: boolean = false;
   @HostListener('window:scroll', ['$event'])
   checkScroll() {
-    this.isSticky = window.pageYOffset >= 250;
+    this.isSticky = window.pageYOffset >= 150;
   }
-  
-
 }
