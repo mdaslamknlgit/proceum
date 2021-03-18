@@ -13,22 +13,7 @@ export class AppComponent {
   }
   public is_admin: boolean = false;
   public is_student: boolean = false;
-  constructor(private http: CommonService, private router: Router) {
-    // this.router.events.subscribe((ev) => {
-    //   if (ev instanceof NavigationEnd) {
-    //     if (this.http.getToken() && this.http.getRole() === '1') {
-    //       this.is_admin = true;
-    //     } else {
-    //       this.is_admin = false;
-    //     }
-    //     if (this.http.getToken() && this.http.getRole() === '2') {
-    //       this.is_student = true;
-    //     } else {
-    //       this.is_student = false;
-    //     }
-    //   }
-    // });
-  }
+  constructor(private http: CommonService, private router: Router) {}
   ngOnInit() {
     window.addEventListener('keyup', (e) => {
       var keyCode = e.keyCode ? e.keyCode : e.which;
