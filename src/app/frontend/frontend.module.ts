@@ -10,6 +10,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { FaqsComponent } from './faqs/faqs.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { OurTeamComponent } from './our-team/our-team.component';
+import { MyAccountComponent } from './student/my-account/my-account.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -19,9 +20,13 @@ const routes: Routes = [
     path: '',
     component: IndexComponent,
   },
+  {
+    path: 'my-account',
+    component: MyAccountComponent,
+  },
 ];
 @NgModule({
-  declarations: [DashboardComponent, IndexComponent, ContactUsComponent, PrivacyPolicyComponent, FaqsComponent, AboutUsComponent, OurTeamComponent],
+  declarations: [DashboardComponent, IndexComponent, ContactUsComponent, PrivacyPolicyComponent, FaqsComponent, AboutUsComponent, OurTeamComponent, MyAccountComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
