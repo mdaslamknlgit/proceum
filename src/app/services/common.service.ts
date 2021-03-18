@@ -10,8 +10,6 @@ export class CommonService {
   public isLoading = new BehaviorSubject(false);
   private apiURL: string;
   public menu_status: String;
-  public is_admin: any;
-  public is_student: any;
   constructor(private http: HttpClient) {
     this.apiURL = environment.apiUrl;
   }
@@ -19,9 +17,8 @@ export class CommonService {
     let token = sessionStorage.getItem('_token');
     return token;
   }
-  getRole() {
-    let role = sessionStorage.getItem('role');
-    return role;
+  getUser() {
+    return JSON.parse(atob(sessionStorage.getItem('user')));
   }
   public get(param) {
     let headers = new HttpHeaders();

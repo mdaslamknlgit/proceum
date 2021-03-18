@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-index',
@@ -12,5 +12,11 @@ export class IndexComponent implements OnInit {
   scrollToTop() {
     // window.scroll(0, 0);
     window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  isSticky: boolean = false;
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 150;
   }
 }
