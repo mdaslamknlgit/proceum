@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
 export class TopbarComponent implements OnInit {
   public sidemenu_status: String = 'sd_cls';
   constructor(private http: CommonService, private route: Router) {}
-
+  public user;
   ngOnInit(): void {
     this.http.menu_status = 'sd_cls';
+    this.user = this.http.getUser();
   }
   toggleSidemenu(param) {
     this.sidemenu_status =
@@ -22,6 +23,7 @@ export class TopbarComponent implements OnInit {
     let params = { url: 'logout' };
     this.http.post(params).subscribe((res) => {
       sessionStorage.removeItem('_token');
+      sessionStorage.removeItem('user');
       this.route.navigate(['/login']);
     });
   }

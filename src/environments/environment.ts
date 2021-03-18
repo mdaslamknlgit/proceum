@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://192.10.250.150:8000/api/',
-  //apiUrl: 'http://apidev.proceum.com/public/api/',
+  //apiUrl: 'http://apidev.proceum.com/api/',
 };
 
 /*
