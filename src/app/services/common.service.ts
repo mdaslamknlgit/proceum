@@ -17,9 +17,8 @@ export class CommonService {
     let token = sessionStorage.getItem('_token');
     return token;
   }
-  getRole() {
-    let role = sessionStorage.getItem('role');
-    return role;
+  getUser() {
+    return JSON.parse(atob(sessionStorage.getItem('user')));
   }
   public get(param) {
     let headers = new HttpHeaders();

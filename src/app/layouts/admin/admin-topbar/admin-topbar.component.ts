@@ -8,10 +8,13 @@ import { Router } from '@angular/router';
 })
 export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: String = 'sd_cls';
+  public user;
   constructor(private http: CommonService, private route: Router) {}
   ngOnInit(): void {
     this.http.menu_status = 'sd_cls';
+    this.user = this.http.getUser();
   }
+
   toggleSidemenu(param) {
     this.sidemenu_status =
       this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
