@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://apidev.proceum.com/public/api/',
+  apiUrl: 'http://apidev.proceum.com/api/',
 };
