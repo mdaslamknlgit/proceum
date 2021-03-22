@@ -7,11 +7,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./topbar.component.scss'],
 })
 export class TopbarComponent implements OnInit {
-  public sidemenu_status: String = 'sd_cls';
+  public sidemenu_status: String = '';
   constructor(private http: CommonService, private route: Router) {}
   public user;
   ngOnInit(): void {
-    this.http.menu_status = 'sd_cls';
+    this.http.menu_status = '';
     this.user = this.http.getUser();
   }
   toggleSidemenu(param) {

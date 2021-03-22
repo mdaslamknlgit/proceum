@@ -48,7 +48,7 @@ const routes: Routes = [
     },
   },
   { path: 'not-found', component: NotFoundComponent },
-  { path: '**', component: NotFoundComponent },
+  { path: '**', component: IndexComponent },
 ];
 @NgModule({
   imports: [
