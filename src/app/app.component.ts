@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonService } from './services/common.service';
 import { Router, NavigationEnd } from '@angular/router';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
