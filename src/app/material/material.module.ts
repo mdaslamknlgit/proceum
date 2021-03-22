@@ -13,10 +13,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatListModule} from '@angular/material/list';
 import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatRadioModule} from '@angular/material/radio';
+
 
 
 
@@ -26,11 +28,11 @@ import {MatTabsModule} from '@angular/material/tabs';
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
   imports: [
     CommonModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatTooltipModule, MatToolbarModule, MatSidenavModule,MatMenuModule,
-    MatGridListModule, MatProgressBarModule, MatTabsModule
+    MatGridListModule, MatProgressBarModule, MatTabsModule, MatCheckboxModule, MatRadioModule
   ],
   exports: [
     MatInputModule , MatButtonModule, MatFormFieldModule, MatTooltipModule, MatIconModule, NumbersonlyDirective, AlphabetOnlyDirective, FormsModule, MatToolbarModule, MatSidenavModule,
-    MatMenuModule, MatGridListModule, MatProgressBarModule,MatListModule, MatCardModule, MatTabsModule
+    MatMenuModule, MatGridListModule, MatProgressBarModule,MatListModule, MatCardModule, MatTabsModule, MatCheckboxModule, MatRadioModule
     ]
 })
 export class MaterialModule { }
