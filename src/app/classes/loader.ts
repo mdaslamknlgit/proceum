@@ -9,12 +9,18 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CommonService } from '../services/common.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class Loader {
   private requests: HttpRequest<any>[] = [];
 
-  constructor(private loaderService: CommonService) {}
+  constructor(
+    private loaderService: CommonService,
+    private toster: ToastrService,
+    private route: Router
+  ) {}
 
   removeRequest(req: HttpRequest<any>) {
     const i = this.requests.indexOf(req);
@@ -42,10 +48,13 @@ export class Loader {
           this.removeRequest(req);
           observer.error(err);
           if (err.status == 401) {
-            alert(err.statusText);
+            this.toster.error(err.statusText, 'Session Error', {
+              closeButton: true,
+            });
+            this.route.navigateByUrl('/login');
           }
           if (err.status == 400) {
-            alert(err.error);
+            this.toster.error(err.error, 'Error', { closeButton: true });
           }
         },
         () => {

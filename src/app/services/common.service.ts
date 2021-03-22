@@ -20,6 +20,10 @@ export class CommonService {
   getUser() {
     return JSON.parse(atob(sessionStorage.getItem('user')));
   }
+  public removeSession() {
+    sessionStorage.removeItem('_token');
+    sessionStorage.removeItem('user');
+  }
   public get(param) {
     let headers = new HttpHeaders();
     headers = headers
