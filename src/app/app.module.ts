@@ -13,12 +13,14 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { DrawingBoardComponent } from './shared/drawing-board/drawing-board.component';
 import { NgWhiteboardModule } from 'ng-whiteboard';
+import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
 @NgModule({
   declarations: [
     AppComponent,
     SpinnerComponent,
     NotFoundComponent,
     DrawingBoardComponent,
+    ProceumLibraryComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +33,7 @@ import { NgWhiteboardModule } from 'ng-whiteboard';
     AppRoutingModule,
     HttpClientModule,
     LayoutsModule,
-    NgWhiteboardModule,
+    NgWhiteboardModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true }],
   bootstrap: [AppComponent],

@@ -10,6 +10,7 @@ import { FaqsComponent } from './frontend/faqs/faqs.component';
 import { OurTeamComponent } from './frontend/our-team/our-team.component';
 import { PrivacyPolicyComponent } from './frontend/privacy-policy/privacy-policy.component';
 import { RegisterComponent } from './auth/register/register.component';
+import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
 const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: '', pathMatch: 'full', redirectTo: 'main' },
@@ -47,8 +48,10 @@ const routes: Routes = [
       role: '2',
     },
   },
+  {path:'library', component:ProceumLibraryComponent},
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: IndexComponent },
+  
 ];
 @NgModule({
   imports: [
