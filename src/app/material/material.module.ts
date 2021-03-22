@@ -14,23 +14,54 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-import {MatListModule} from '@angular/material/list';
-import {MatCardModule} from '@angular/material/card';
-import {MatTabsModule} from '@angular/material/tabs';
-
-
-
-
-
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
   imports: [
-    CommonModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatTooltipModule, MatToolbarModule, MatSidenavModule,MatMenuModule,
-    MatGridListModule, MatProgressBarModule, MatTabsModule
+    CommonModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatGridListModule,
+    MatProgressBarModule,
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
   ],
   exports: [
-    MatInputModule , MatButtonModule, MatFormFieldModule, MatTooltipModule, MatIconModule, NumbersonlyDirective, AlphabetOnlyDirective, FormsModule, MatToolbarModule, MatSidenavModule,
-    MatMenuModule, MatGridListModule, MatProgressBarModule,MatListModule, MatCardModule, MatTabsModule
-    ]
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatTooltipModule,
+    MatIconModule,
+    NumbersonlyDirective,
+    AlphabetOnlyDirective,
+    FormsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatGridListModule,
+    MatProgressBarModule,
+    MatListModule,
+    MatCardModule,
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}
