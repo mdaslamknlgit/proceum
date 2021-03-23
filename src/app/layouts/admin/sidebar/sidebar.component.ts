@@ -9,12 +9,13 @@ import { Router, NavigationEnd } from '@angular/router';
 export class SidebarComponent implements OnInit {
   public menu_active = 0;
   public is_open: boolean = false;
+  public active_route = '';
   constructor(private http: CommonService, private router: Router) {}
   ngOnInit(): void {
-    console.log(this.router.url);
+    this.active_route = this.router.url;
     this.router.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
-        console.log(this.router.url);
+        this.active_route = this.router.url;
       }
     });
   }
@@ -25,6 +26,7 @@ export class SidebarComponent implements OnInit {
     if (!this.is_open && this.menu_active != num) this.menu_active = num;
     else {
       this.menu_active = 0;
+      this.active_route = '';
     }
   }
 }
