@@ -1,63 +1,27 @@
 <h2>{{ title }}</h2>
-<form
-  #template_form="ngForm"
-  name="template_form"
-  novalidate
-  (ngSubmit)="template_form.valid && submitTemplate()"
->
-  <mat-form-field appearance="outline">
-    <mat-label>Title</mat-label>
-    <input
-      matInput
-      #template_title="ngModel"
-      name="template_title"
-      [(ngModel)]="template.template_title"
-      placeholder="Template Title"
-      pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
-      required
-    />
-    <mat-error *ngIf="template_form.submitted && template.template_title == ''">
-      Template Title is <strong>required</strong>
-    </mat-error>
-    <mat-error *ngIf="template_form.submitted && template_title.invalid">
-      Please enter only alphabets
-    </mat-error>
-  </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Template Name</mat-label>
-    <input
-      matInput
-      pattern="[a-zA-Z][a-zA-Z_]+"
-      name="template_name"
-      [(ngModel)]="template.template_name"
-      placeholder="Template Name"
-      disabled="{{ template.id != '0' ? true : false }}"
-      required
-    /><mat-error
-      *ngIf="template_form.submitted && template.template_name == ''"
-    >
-      Template Name is <strong>required</strong>
-    </mat-error></mat-form-field
-  >
-
-  <ckeditor
-    [config]="{ extraPlugins: 'InsertDropDown' }"
-    [(ngModel)]="template.template"
-    name="template"
-    [editor]="Editor"
-  ></ckeditor>
-  <button
-    mat-raised-button
-    color="red"
-    class="float_right"
-    (click)="close()"
-    type="button"
-  >
-    Close
-  </button>
-  <button mat-raised-button color="accent" class="float_right" type="submit">
-    Submit
-  </button>
+<div class="hgt_20"></div>
+<form #template_form="ngForm" name="template_form" novalidate (ngSubmit)="template_form.valid && submitTemplate()">
+  
+  <div class="inp_par_dv" [ngClass]="{'err_tltp_par':(template_form.submitted && template.template_title == '' || template_form.submitted && template_title.invalid) }">
+    <input matInput #template_title="ngModel" type="text" name="template_title" [(ngModel)]="template.template_title"
+      placeholder="Template Title" pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+" required />
+    <span class="prc_tltp" *ngIf="(template_form.submitted && template_title.invalid) && template.template_title != ''">
+      Alphabets Only</span>
+    <span class="prc_tltp" *ngIf="template_form.submitted && template.template_title == ''"> Template Title
+      <strong>Required</strong></span>
+  </div>
+  <div class="inp_par_dv" [ngClass]="{'err_tltp_par':(template_form.submitted && template.template_name == '' || template_form.submitted && template_name.invalid )}">
+    <input type="text" matInput #template_name="ngModel" pattern="[a-zA-Z][a-zA-Z_]+" name="template_name"
+      [(ngModel)]="template.template_name" placeholder="Template Name"
+      disabled="{{ template.id != '0' ? true : false }}" required />
+    <span class="prc_tltp">Template Name is <strong>required</strong></span>
+  </div>
+<div class="clear_fix"></div>
+  <textarea matInput placeholder="Placeholders" rows="5" ></textarea>
+  <ckeditor [config]="{ placeholder: 'Type the email content here!' }" [(ngModel)]="template.template" name="template"
+    [editor]="Editor"></ckeditor>
+  <button mat-raised-button color="accent" class="float_right" (click)="close()" type="button">Close</button>
+  <button mat-raised-button color="accent" class="float_right" type="submit">Submit</button>
   <div class="clear_fix"></div>
 </form>
