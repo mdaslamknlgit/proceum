@@ -18,9 +18,7 @@ export class DrawingBoardComponent implements OnInit {
     private whiteboardService: NgWhiteboardService
   ) {}
   ngOnInit(): void {}
-  onInit() {
-    this.toastr.success('Init!');
-  }
+  onInit() {}
   onClear() {
     this.toastr.success('Clear!');
   }

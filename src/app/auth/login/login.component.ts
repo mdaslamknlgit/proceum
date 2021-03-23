@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService
   ) {}
   ngOnInit(): void {
-    sessionStorage.removeItem('_token');
+    this.http.removeSession();
   }
   doLogin() {
     let params = {
@@ -33,10 +33,13 @@ export class LoginComponent implements OnInit {
         sessionStorage.setItem('_token', res['data'].token);
         let json_user = btoa(JSON.stringify(res['data'].user));
         sessionStorage.setItem('user', json_user);
-        if (res['data']['user']['role'] == 1)
+        if (res['data']['user']['role'] == 1) {
+          //admin
           this.route.navigate(['/admin/dashboard']);
-        else if (res['data']['user']['role'] == 2)
+        } else if (res['data']['user']['role'] == 2) {
+          //student
           this.route.navigate(['/student/dashboard']);
+        }
       }
     });
   }

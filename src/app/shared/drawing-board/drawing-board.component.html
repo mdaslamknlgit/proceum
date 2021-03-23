@@ -94,12 +94,20 @@
   <button (click)="undo()">Undo</button>
   <button (click)="redo()">Redo</button>
 
-  <input
+  <!-- <input
     id="colorInput"
     class="color-input"
     type="color"
     [value]="color"
     (change)="color = $event.target.value"
+  /> -->
+  <input
+    title="Pen Color"
+    id="colorInput"
+    [(colorPicker)]="color"
+    [cpOKButton]="true"
+    [style.background]="color"
+    class="colr_pkr color-input"
   />
   <label
     for="colorInput"
@@ -107,12 +115,20 @@
     [ngStyle]="{ 'background-color': color }"
   ></label>
 
-  <input
+  <!-- <input
     id="backgroundInput"
     class="color-input"
     type="color"
     [value]="backgroundColor"
     (change)="backgroundColor = $event.target.value"
+  /> -->
+  <input
+    title="Background Color"
+    id="backgroundInput"
+    [(colorPicker)]="backgroundColor"
+    [cpOKButton]="true"
+    [style.background]="backgroundColor"
+    class="colr_pkr color-input"
   />
   <label
     for="backgroundInput"

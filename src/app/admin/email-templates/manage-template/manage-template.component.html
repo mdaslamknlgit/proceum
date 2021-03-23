@@ -1,0 +1,28 @@
+<h2>{{ title }}</h2>
+<form
+  #template_form="ngForm"
+  name="template_form"
+  (ngSubmit)="submitTemplate()"
+  novalidate
+>
+  <input
+    type="text"
+    name="template_title"
+    [(ngModel)]="template.template_title"
+    placeholder="Template Title"
+    appAlphabetOnly
+  />
+  <input
+    type="text"
+    name="template_name"
+    [(ngModel)]="template.template_name"
+    placeholder="Template Name"
+    disabled="{{ template.id != '0' ? true : false }}"
+  />
+  <ckeditor
+    [(ngModel)]="template.template"
+    name="template"
+    [editor]="Editor"
+  ></ckeditor>
+  <button type="submit">Submit</button>
+</form>

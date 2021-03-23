@@ -13,26 +13,61 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatListModule} from '@angular/material/list';
-import {MatCardModule} from '@angular/material/card';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
-
-
-
-
-
+import { MatListModule } from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
   imports: [
-    CommonModule, MatInputModule, MatButtonModule, MatFormFieldModule, MatIconModule, MatTooltipModule, MatToolbarModule, MatSidenavModule,MatMenuModule,
-    MatGridListModule, MatProgressBarModule, MatTabsModule, MatCheckboxModule, MatRadioModule
+    CommonModule,
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatGridListModule,
+    MatProgressBarModule,
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+    MatRadioModule,
+    MatCheckboxModule,
   ],
   exports: [
-    MatInputModule , MatButtonModule, MatFormFieldModule, MatTooltipModule, MatIconModule, NumbersonlyDirective, AlphabetOnlyDirective, FormsModule, MatToolbarModule, MatSidenavModule,
-    MatMenuModule, MatGridListModule, MatProgressBarModule,MatListModule, MatCardModule, MatTabsModule, MatCheckboxModule, MatRadioModule
-    ]
+    MatInputModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatTooltipModule,
+    MatIconModule,
+    NumbersonlyDirective,
+    AlphabetOnlyDirective,
+    FormsModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatMenuModule,
+    MatGridListModule,
+    MatProgressBarModule,
+    MatListModule,
+    MatCardModule,
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatDialogModule,
+    MatRadioModule,
+    MatCheckboxModule,
+  ],
 })
-export class MaterialModule { }
+export class MaterialModule {}
