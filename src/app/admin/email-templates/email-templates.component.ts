@@ -43,8 +43,7 @@ export class EmailTemplatesComponent implements OnInit {
   }
   manageTemplate(id) {
     const dialogRef = this.dialog.open(ManageTemplateComponent, {
-      width: 'auto',
-      data: { id: id },
+      data: { id: id }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
