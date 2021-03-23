@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ManageTemplateComponent } from './manage-template/manage-template.component';
@@ -29,6 +30,7 @@ export class EmailTemplatesComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  public page = 0;
   constructor(private http: CommonService, public dialog: MatDialog) {}
   ngOnInit(): void {
     this.getTemplates();
@@ -41,6 +43,10 @@ export class EmailTemplatesComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
   }
+  public getServerData(event?: PageEvent) {}
+  public doFilter = (value: string) => {
+    this.dataSource.filter = value.trim().toLocaleLowerCase();
+  };
   manageTemplate(id) {
     const dialogRef = this.dialog.open(ManageTemplateComponent, {
       data: { id: id }
