@@ -1,49 +1,26 @@
 <h2>{{ title }}</h2>
+
 <div class="hgt_20"></div>
-<form #template_form="ngForm" name="template_form" (ngSubmit)="submitTemplate()" novalidate>
-
-  <div class="inp_par_dv err_tltp_par" *ngIf="template_form.submitted && template.template_title == ''">
-    <input matInput type="text" name="template_title" [(ngModel)]="template.template_title" placeholder="Template Title" appAlphabetOnly required  />
-    <span class="prc_tltp">test</span>
+<form #template_form="ngForm" name="template_form" novalidate (ngSubmit)="template_form.valid && submitTemplate()">
+  <div class="inp_par_dv" [ngClass]="{'err_tltp_par':(template_form.submitted && template.template_title == '' || template_form.submitted && template_title.invalid) }">
+    <input matInput #template_title="ngModel" type="text" name="template_title" [(ngModel)]="template.template_title"
+      placeholder="Template Title" pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+" required />
+    <span class="prc_tltp" *ngIf="(template_form.submitted && template_title.invalid) && template.template_title != ''">
+      Alphabets Only</span>
+    <span class="prc_tltp" *ngIf="template_form.submitted && template.template_title == ''"> Template Title
+      <strong>Required</strong></span>
   </div>
-  <div class="inp_par_dv err_tltp_par">
-    <input matInput type="text" name="template_name" [(ngModel)]="template.template_name" placeholder="Template Name" disabled="{{ template.id != '0' ? true : false }}" required />
-    <span class="prc_tltp">test</span>
-    <mat-error *ngIf="template_form.submitted && template.template_title == ''">
-      Template Title is <strong>required</strong>
-    </mat-error>  
+  <div class="inp_par_dv" [ngClass]="{'err_tltp_par':(template_form.submitted && template.template_name == '' || template_form.submitted && template_name.invalid )}">
+    <input type="text" matInput #template_name="ngModel" pattern="[a-zA-Z][a-zA-Z_]+" name="template_name"
+      [(ngModel)]="template.template_name" placeholder="Template Name"
+      disabled="{{ template.id != '0' ? true : false }}" required />
+    <span class="prc_tltp">Template Name is <strong>required</strong></span>
   </div>
 
-  <!-- <mat-form-field appearance="outline" color="accent">
-    <mat-label>Title</mat-label>
-    <input />
-    
-    <mat-error *ngIf="template_form.submitted && template.template_title == ''">
-      Template Title is <strong>required</strong>
-    </mat-error>  
-  </mat-form-field> -->
 
-  <!-- <mat-form-field appearance="outline">
-    <mat-label>Template Name</mat-label>
-    <input
-     
-    /><mat-error
-      *ngIf="template_form.submitted && template.template_name == ''"
-    >
-      Template Name is <strong>required</strong>
-    </mat-error>
-    </mat-form-field
-  > -->
-
-  <ckeditor
-    [config]="{ placeholder: 'Type the email content here!' }"
-    [(ngModel)]="template.template"
-    name="template"
-    [editor]="Editor"
-  ></ckeditor>
-
-  <button mat-raised-button color="accent" class="float_right" type="submit">
-    Submit
-  </button>
+  <ckeditor [config]="{ placeholder: 'Type the email content here!' }" [(ngModel)]="template.template" name="template"
+    [editor]="Editor"></ckeditor>
+  <button mat-raised-button color="red" class="float_right" (click)="close()" type="button">Close</button>
+  <button mat-raised-button color="accent" class="float_right" type="submit">Submit</button>
   <div class="clear_fix"></div>
 </form>

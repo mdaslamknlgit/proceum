@@ -18,7 +18,7 @@ const routes: Routes = [
     component: UsersComponent,
   },
   {
-    path: 'email-templates',
+    path: 'settings/email-templates',
     component: EmailTemplatesComponent,
   },
 ];
