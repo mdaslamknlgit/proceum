@@ -14,6 +14,8 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { DrawingBoardComponent } from './shared/drawing-board/drawing-board.component';
 import { NgWhiteboardModule } from 'ng-whiteboard';
 import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
+import { MatIconModule } from '@angular/material/icon';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,6 +23,7 @@ import { ProceumLibraryComponent } from './shared/proceum-library/proceum-librar
     NotFoundComponent,
     DrawingBoardComponent,
     ProceumLibraryComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -33,7 +36,8 @@ import { ProceumLibraryComponent } from './shared/proceum-library/proceum-librar
     AppRoutingModule,
     HttpClientModule,
     LayoutsModule,
-    NgWhiteboardModule
+    NgWhiteboardModule,
+    MatIconModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true }],
   bootstrap: [AppComponent],

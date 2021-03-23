@@ -15,7 +15,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -23,6 +22,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select';
+
+
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
   imports: [
@@ -44,6 +46,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatSelectModule
   ],
   exports: [
     MatInputModule,
@@ -68,6 +71,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDialogModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatSelectModule
   ],
 })
 export class MaterialModule {}

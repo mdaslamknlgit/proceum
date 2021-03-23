@@ -1,6 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonService } from './services/common.service';
 import { Router, NavigationEnd } from '@angular/router';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,7 +9,6 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 export class AppComponent {
   @HostListener('contextmenu', ['$event'])
-
   onRightClick(event) {
     // event.preventDefault(); //uncomment to desable right click
   }
@@ -24,6 +24,10 @@ export class AppComponent {
         this.stopPrntScr();
       }
     });
+  }
+  get sidemenuStatus() {
+    console.log(this.http.menu_status);
+    return this.http.menu_status;
   }
   stopPrntScr() {
     var inpFld = window.document.createElement('input');
