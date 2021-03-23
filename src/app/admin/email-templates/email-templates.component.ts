@@ -3,12 +3,8 @@ import { CommonService } from 'src/app/services/common.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import {
-  MatDialog,
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-} from '@angular/material/dialog';
-import { CreateComponent } from './create/create.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ManageTemplateComponent } from './manage-template/manage-template.component';
 
 @Component({
   selector: 'app-email-templates',
@@ -17,7 +13,7 @@ import { CreateComponent } from './create/create.component';
 })
 export class EmailTemplatesComponent implements OnInit {
   public template = {
-    id: '2',
+    id: '',
     template: '',
     template_title: '',
     template_name: '',
@@ -28,6 +24,7 @@ export class EmailTemplatesComponent implements OnInit {
     'status',
     'created_at',
     'updated_at',
+    'actions',
   ];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -44,10 +41,10 @@ export class EmailTemplatesComponent implements OnInit {
       this.dataSource.sort = this.sort;
     });
   }
-  openModal(): void {
-    const dialogRef = this.dialog.open(CreateComponent, {
+  manageTemplate(id) {
+    const dialogRef = this.dialog.open(ManageTemplateComponent, {
       width: '650px',
-      data: { id: 500 },
+      data: { id: id },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

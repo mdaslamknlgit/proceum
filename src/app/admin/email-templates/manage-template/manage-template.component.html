@@ -1,0 +1,29 @@
+<h2>{{ title }}</h2>
+<form
+  #template_form="ngForm"
+  name="template_form"
+  (ngSubmit)="submitTemplate()"
+  novalidate
+>
+
+<mat-form-field appearance="outline">
+  <mat-label>Title</mat-label>
+  <input matInput name="template_title"
+    [(ngModel)]="template.template_title" placeholder="Template Title" appAlphabetOnly>
+</mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <input matInput name="template_name"
+      [(ngModel)]="template.template_name"
+      placeholder="Template Name"
+      disabled="{{ template.id != '' ? 'disabled' : '' }}"></mat-form-field>
+
+  <ckeditor
+    [(ngModel)]="template.template"
+    name="template"
+    [editor]="Editor"
+  ></ckeditor>
+  
+  <button mat-raised-button color="accent" class="float_right" type="submit">Submit</button>
+  <div class="clear_fix"></div>
+</form>
