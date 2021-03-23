@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
@@ -26,5 +27,10 @@ export class TopbarComponent implements OnInit {
       sessionStorage.removeItem('user');
       this.route.navigate(['/login']);
     });
+  }
+  isSticky: boolean = false;
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 150;
   }
 }

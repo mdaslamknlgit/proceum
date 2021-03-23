@@ -5,7 +5,10 @@
 >
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
-    <li routerLink="/admin/dashboard" class="active">
+    <li
+      routerLink="/admin/dashboard"
+      [ngClass]="{ active: active_route == '/admin/dashboard' }"
+    >
       <div class="sd_mnuhd"><mat-icon>dashboard</mat-icon> Dashboard</div>
     </li>
     <li
@@ -107,12 +110,24 @@
     </li>
 
     <li
-      class="hs_sbmnu {{ menu_active == 6 ? 'active' : '' }}"
+      class="hs_sbmnu {{
+        menu_active == 6 || active_route == '/admin/settings/email-templates'
+          ? 'active'
+          : ''
+      }}"
       (click)="activeMenu(6)"
     >
       <div class="sd_mnuhd"><mat-icon>settings</mat-icon> Settings</div>
       <ul class="sdmn_sub">
         <li><mat-icon>assistant_photo</mat-icon>Countries-States-Cities</li>
+        <li
+          routerLink="/admin/settings/email-templates"
+          [ngClass]="{
+            active: active_route == '/admin/settings/email-templates'
+          }"
+        >
+          <mat-icon>email</mat-icon>Email Templates
+        </li>
         <li><mat-icon>phonelink_setup</mat-icon>System Settings</li>
         <li><mat-icon>cloud_off</mat-icon>Offline</li>
         <li><mat-icon>attach_money</mat-icon>Currencies</li>

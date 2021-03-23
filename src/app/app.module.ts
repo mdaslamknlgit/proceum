@@ -16,6 +16,7 @@ import { NgWhiteboardModule } from 'ng-whiteboard';
 import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
 import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
     HttpClientModule,
     LayoutsModule,
     NgWhiteboardModule,
-    SocialLoginModule
+    SocialLoginModule,
+    MatIconModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true },
     {

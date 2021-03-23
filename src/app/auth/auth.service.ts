@@ -36,16 +36,6 @@ export class AuthService {
       );
   }
 
-  public get(param) {
-    let headers = new HttpHeaders();
-    headers = headers
-      .set('Content-Type', 'application/json');
-    return this.http.get(this.apiURL + param.url, { headers: headers }).pipe(
-      map((res) => res),
-      catchError(this.errorHandler)
-    );
-  }
-
   errorHandler(error: Response) {
     return throwError(error);
   }

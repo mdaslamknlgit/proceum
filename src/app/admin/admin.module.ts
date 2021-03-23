@@ -7,7 +7,7 @@ import { LayoutsModule } from '../layouts/layouts.module';
 import { UsersComponent } from './users/users.component';
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { CreateComponent } from './email-templates/create/create.component';
+import { ManageTemplateComponent } from './email-templates/manage-template/manage-template.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -18,12 +18,17 @@ const routes: Routes = [
     component: UsersComponent,
   },
   {
-    path: 'email-templates',
+    path: 'settings/email-templates',
     component: EmailTemplatesComponent,
   },
 ];
 @NgModule({
-  declarations: [DashboardComponent, UsersComponent, EmailTemplatesComponent, CreateComponent],
+  declarations: [
+    DashboardComponent,
+    UsersComponent,
+    EmailTemplatesComponent,
+    ManageTemplateComponent,
+  ],
   imports: [
     MaterialModule,
     LayoutsModule,
