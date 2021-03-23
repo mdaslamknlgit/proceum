@@ -2,6 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CommonService } from 'src/app/services/common.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-create',
   templateUrl: './manage-template.component.html',
@@ -14,16 +16,18 @@ export class ManageTemplateComponent implements OnInit {
     template_title: '',
     template_name: '',
   };
+  public isupdated = false;
   public Editor = ClassicEditor;
   public title = '';
   constructor(
     private http: CommonService,
+    private toaster: ToastrService,
     public dialogRef: MatDialogRef<ManageTemplateComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {}
 
   close(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(this.isupdated);
   }
   ngOnInit(): void {
     let param = { id: this.data.id };
@@ -51,14 +55,30 @@ export class ManageTemplateComponent implements OnInit {
   submitTemplate() {
     let param = this.template;
     param['url'] = 'email-template';
-    if (this.template.id == '') {
+    if (this.template.id == '0') {
       this.http.post(param).subscribe((res) => {
-        console.log(res);
+        if (res['error'] == false) {
+          this.isupdated = true;
+          this.toaster.success(res['message'], 'Success', {
+            progressBar: true,
+          });
+          this.close();
+        } else {
+          this.toaster.error(res['message'], 'Error', { progressBar: true });
+        }
       });
     } else {
       param['url'] = param['url'] + '/' + this.template.id;
       this.http.put(param).subscribe((res) => {
-        console.log(res);
+        if (res['error'] == false) {
+          this.isupdated = true;
+          this.toaster.success(res['message'], 'Success', {
+            progressBar: true,
+          });
+          this.close();
+        } else {
+          this.toaster.error(res['message'], 'Error', { progressBar: true });
+        }
       });
     }
   }

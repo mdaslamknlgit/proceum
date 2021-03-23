@@ -26,8 +26,8 @@ export class EmailTemplatesComponent implements OnInit {
     'updated_at',
     'actions',
   ];
-  dataSource = new MatTableDataSource<TemplateResponce>();
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private http: CommonService, public dialog: MatDialog) {}
   ngOnInit(): void {
@@ -36,19 +36,21 @@ export class EmailTemplatesComponent implements OnInit {
   getTemplates() {
     let param = { url: 'email-template' };
     this.http.get(param).subscribe((res) => {
-      this.dataSource = res['data']['templates'];
+      this.dataSource = new MatTableDataSource(res['data']['templates']);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
   manageTemplate(id) {
     const dialogRef = this.dialog.open(ManageTemplateComponent, {
-      width: '650px',
+      width: 'auto',
       data: { id: id },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      if (result) {
+        this.getTemplates();
+      }
     });
   }
 }

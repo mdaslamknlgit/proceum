@@ -23,7 +23,6 @@ import { MatIconModule } from '@angular/material/icon';
     NotFoundComponent,
     DrawingBoardComponent,
     ProceumLibraryComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -37,7 +36,7 @@ import { MatIconModule } from '@angular/material/icon';
     HttpClientModule,
     LayoutsModule,
     NgWhiteboardModule,
-    MatIconModule
+    MatIconModule,
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true }],
   bootstrap: [AppComponent],
