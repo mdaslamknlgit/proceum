@@ -5,7 +5,7 @@
   (ngSubmit)="submitTemplate()"
   novalidate
 >
-<<<<<<< HEAD
+ 
 
 <mat-form-field appearance="outline">
   <mat-label>Title</mat-label>
@@ -17,30 +17,13 @@
       <input matInput name="template_name"
       [(ngModel)]="template.template_name"
       placeholder="Template Name"
-      disabled="{{ template.id != '' ? 'disabled' : '' }}"></mat-form-field>
+      disabled="{{ template.id != '0' ? true : false }}"></mat-form-field>
 
-=======
-  <input
-    type="text"
-    name="template_title"
-    [(ngModel)]="template.template_title"
-    placeholder="Template Title"
-    appAlphabetOnly
-  />
-  <input
-    type="text"
-    name="template_name"
-    [(ngModel)]="template.template_name"
-    placeholder="Template Name"
-    disabled="{{ template.id != '0' ? true : false }}"
-  />
->>>>>>> c2198b638e93a2d15a7aa478edc10cbbcd53b619
-  <ckeditor
-    [(ngModel)]="template.template"
+  <ckeditor [(ngModel)]="template.template"
     name="template"
     [editor]="Editor"
   ></ckeditor>
-  
+
   <button mat-raised-button color="accent" class="float_right" type="submit">Submit</button>
   <div class="clear_fix"></div>
 </form>
