@@ -1,32 +1,42 @@
 <h2>{{ title }}</h2>
-<form
-  #template_form="ngForm"
-  name="template_form"
-  (ngSubmit)="submitTemplate()"
-  novalidate
->
-  <mat-form-field appearance="outline" color="accent">
-    <mat-label>Title</mat-label>
-    <input
-      matInput
-      name="template_title"
-      [(ngModel)]="template.template_title"
-      placeholder="Template Title"
-      appAlphabetOnly
-    />
-  </mat-form-field>
+<div class="hgt_20"></div>
+<form #template_form="ngForm" name="template_form" (ngSubmit)="submitTemplate()" novalidate>
 
-  <mat-form-field appearance="outline">
+  <div class="inp_par_dv err_tltp_par" *ngIf="template_form.submitted && template.template_title == ''">
+    <input matInput type="text" name="template_title" [(ngModel)]="template.template_title" placeholder="Template Title" appAlphabetOnly required  />
+    <span class="prc_tltp">test</span>
+  </div>
+  <div class="inp_par_dv err_tltp_par">
+    <input matInput type="text" name="template_name" [(ngModel)]="template.template_name" placeholder="Template Name" disabled="{{ template.id != '0' ? true : false }}" required />
+    <span class="prc_tltp">test</span>
+    <mat-error *ngIf="template_form.submitted && template.template_title == ''">
+      Template Title is <strong>required</strong>
+    </mat-error>  
+  </div>
+
+  <!-- <mat-form-field appearance="outline" color="accent">
+    <mat-label>Title</mat-label>
+    <input />
+    
+    <mat-error *ngIf="template_form.submitted && template.template_title == ''">
+      Template Title is <strong>required</strong>
+    </mat-error>  
+  </mat-form-field> -->
+
+  <!-- <mat-form-field appearance="outline">
     <mat-label>Template Name</mat-label>
     <input
-      matInput
-      name="template_name"
-      [(ngModel)]="template.template_name"
-      placeholder="Template Name"
-      disabled="{{ template.id != '0' ? true : false }}"
-  /></mat-form-field>
+     
+    /><mat-error
+      *ngIf="template_form.submitted && template.template_name == ''"
+    >
+      Template Name is <strong>required</strong>
+    </mat-error>
+    </mat-form-field
+  > -->
 
   <ckeditor
+    [config]="{ placeholder: 'Type the email content here!' }"
     [(ngModel)]="template.template"
     name="template"
     [editor]="Editor"
