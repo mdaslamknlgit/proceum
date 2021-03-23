@@ -26,7 +26,6 @@ export class AppComponent {
     });
   }
   get sidemenuStatus() {
-    console.log(this.http.menu_status);
     return this.http.menu_status;
   }
   stopPrntScr() {

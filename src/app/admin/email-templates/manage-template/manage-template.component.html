@@ -13,7 +13,11 @@
       [(ngModel)]="template.template_title"
       placeholder="Template Title"
       appAlphabetOnly
+      required
     />
+    <mat-error *ngIf="template_form.submitted && template.template_title == ''">
+      Template Title is <strong>required</strong>
+    </mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
@@ -24,9 +28,16 @@
       [(ngModel)]="template.template_name"
       placeholder="Template Name"
       disabled="{{ template.id != '0' ? true : false }}"
-  /></mat-form-field>
+      required
+    /><mat-error
+      *ngIf="template_form.submitted && template.template_name == ''"
+    >
+      Template Name is <strong>required</strong>
+    </mat-error></mat-form-field
+  >
 
   <ckeditor
+    [config]="{ placeholder: 'Type the email content here!' }"
     [(ngModel)]="template.template"
     name="template"
     [editor]="Editor"
