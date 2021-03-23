@@ -26,7 +26,7 @@ export class EmailTemplatesComponent implements OnInit {
     'updated_at',
     'actions',
   ];
-  dataSource = new MatTableDataSource();
+  dataSource = new MatTableDataSource<TemplateResponce>();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   constructor(private http: CommonService, public dialog: MatDialog) {}
@@ -52,7 +52,8 @@ export class EmailTemplatesComponent implements OnInit {
     });
   }
 }
-export interface PeriodicElement {
+export interface TemplateResponce {
+  s_no: number;
   id: number;
   title: string;
   status: number;

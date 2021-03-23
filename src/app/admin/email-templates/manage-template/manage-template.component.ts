@@ -9,7 +9,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ManageTemplateComponent implements OnInit {
   public template = {
-    id: '',
+    id: '0',
     template: '',
     template_title: '',
     template_name: '',
