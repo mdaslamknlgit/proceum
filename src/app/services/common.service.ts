@@ -18,7 +18,11 @@ export class CommonService {
     return token;
   }
   getUser() {
-    return JSON.parse(atob(sessionStorage.getItem('user')));
+    if (sessionStorage.getItem('user'))
+      return JSON.parse(atob(sessionStorage.getItem('user')));
+    else {
+      return '';
+    }
   }
   public removeSession() {
     sessionStorage.removeItem('_token');
