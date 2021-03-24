@@ -106,10 +106,22 @@ export class RegisterComponent implements OnInit {
     }else if(social_type == "FB"){
       this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
     }else if(social_type == "AP"){
-
+     
+      this.getL();
     }
     
   }
+
+  getL(): void{
+    this.http.get().subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  } 
 
 }
 

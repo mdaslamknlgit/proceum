@@ -8,10 +8,15 @@ import { UsersComponent } from './users/users.component';
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ManageTemplateComponent } from './email-templates/manage-template/manage-template.component';
+import { StudentsComponent } from './students/students.component';
 const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+  },
+  {
+    path: 'students',
+    component: StudentsComponent,
   },
   {
     path: 'users',
@@ -28,6 +33,7 @@ const routes: Routes = [
     UsersComponent,
     EmailTemplatesComponent,
     ManageTemplateComponent,
+    StudentsComponent,
   ],
   imports: [
     MaterialModule,

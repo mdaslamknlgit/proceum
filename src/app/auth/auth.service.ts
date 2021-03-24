@@ -3,10 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import {Observable} from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private Lurl = "https://appleid.apple.com/auth/keys";
   private apiURL: string;
   constructor(private http: HttpClient) {
     this.apiURL = environment.apiUrl;
@@ -35,6 +37,11 @@ export class AuthService {
         catchError(this.errorHandler)
       );
   }
+
+  get():Observable<any>{
+
+    return this.http.get(this.Lurl);
+  };
 
   errorHandler(error: Response) {
     return throwError(error);
