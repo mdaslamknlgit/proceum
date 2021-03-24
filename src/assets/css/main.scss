@@ -599,9 +599,10 @@ button.mat-raised-button {
   opacity: 0.9;
 }
 app-topbar.inner-header mat-toolbar {
-  background-color: #f3f3f4;
+  background-color: #f3f3f4 !important;
   height: 90px;
   top: 45px;
+  position: fixed;
 }
 .title-header {
   text-align: center;
@@ -679,4 +680,65 @@ app-topbar.inner-header mat-toolbar {
 }
 .text-center {
   text-align: center;
+}
+//---------- Responsive css
+@media(max-width:769px){
+  div.nav {
+    display:none !important;
+    position: fixed;
+    left: 0;
+    top: 50px;
+    width: 100%;
+    background-color: #FFF;
+    flex-wrap: wrap;
+    z-index: 90;
+    border-top:5px solid #0F98A6;
+  }
+  .nav > span.tp_rt_mn{
+    display: flex;
+    flex-direction: row;
+    flex-basis: 100%;
+    padding: 5px 20px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 42px;
+    border-bottom: 1px solid #c3c3c450;
+    margin-right: 0;
+    
+    &:hover{
+      background-color: #0F98A650;
+      color: #000;
+    }
+    &.active{
+      background-color: #0F98A650;
+      color: #000;
+    }
+  }
+  mat-toolbar.mat-tollbar{
+    position: fixed !important;
+    background-color: red;
+  }
+  .lg_inbtn {
+    position: fixed;
+    right: 75px;
+    top: 10px;
+    /* color: #FFF !important; */
+}
+  div.nav.menu_open{
+    display: flex !important;
+  }
+  .top-top-bar{ display:none;}
+  app-topbar.inner-header mat-toolbar{ top:0;height: 60px; z-index: 90;}
+    .inner-container {
+      margin: 80px auto 0;
+  }
+  .indx_bnnr mat-toolbar {
+      background: #FFF;
+      position: fixed;
+      z-index: 90;
+      top:0;
+  }
+  .indx_bnnr {
+      padding-top: 60px;
+  }
 }
