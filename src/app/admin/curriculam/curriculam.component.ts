@@ -25,6 +25,7 @@ export class CurriculamComponent implements OnInit {
     'updated_at',
     'actions',
   ];
+  public steps = [1];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
