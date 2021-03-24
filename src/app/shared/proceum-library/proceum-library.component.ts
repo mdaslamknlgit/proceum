@@ -9,7 +9,15 @@ export class ProceumLibraryComponent implements OnInit {
 
   constructor() { }
 
+  public model_status = false;
+
   ngOnInit(): void {
   }
 
+  openModel (){
+    this.model_status = true;
+  }
+  closeModel (){
+    this.model_status = false;
+  }
 }
