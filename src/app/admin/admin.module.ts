@@ -23,7 +23,7 @@ const routes: Routes = [
     component: EmailTemplatesComponent,
   },
   {
-    path: 'curriculam',
+    path: 'curriculum',
     component: CurriculamComponent,
   },
 ];

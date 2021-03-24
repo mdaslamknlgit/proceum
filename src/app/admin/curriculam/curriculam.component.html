@@ -3,76 +3,42 @@
 <div class="mn_dshbrd">
   <div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
-      <button mat-raised-button (click)="toggleModel()" color="accent" class="float_right">Close</button>
+      <button
+        mat-raised-button
+        (click)="toggleModel()"
+        color="accent"
+        class="float_right"
+      >
+        Close
+      </button>
       <div class="clear_fix">
-        <mat-tab-group>
-          <mat-tab label="Curriculums">
-            <div class="tbbd_bdy">
-              <div class="pg_ttl">Create Curiculum</div>
-              <div class="tbbd_bdy_cnt">
-                New Curriculum Name
-                <input matInput type="text" (keyup)="doFilter($event.target.value)"
-                  placeholder="Provide Curiculum Name" />
-                <button mat-raised-button color="accent">Save</button>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Volumes/Steps/Grades">
-            <div class="tbbd_bdy">
-              <div class="pg_ttl">Create Curiculum</div>
-              <div class="tbbd_bdy_cnt">
-                New Curriculum Name
-                <input matInput type="text" (keyup)="doFilter($event.target.value)"
-                  placeholder="Provide Curiculum Name" />
-                <button mat-raised-button color="accent">Save</button>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Study Years">
-            <div class="tbbd_bdy">
-              <div class="pg_ttl">Create Curiculum</div>
-              <div class="tbbd_bdy_cnt">
-                New Curriculum Name
-                <input matInput type="text" (keyup)="doFilter($event.target.value)"
-                  placeholder="Provide Curiculum Name" />
-                <button mat-raised-button color="accent">Save</button>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Subjects">
-            <div class="tbbd_bdy">
-              <div class="pg_ttl">Create Curiculum</div>
-              <div class="tbbd_bdy_cnt">
-                New Curriculum Name
-                <input matInput type="text" (keyup)="doFilter($event.target.value)"
-                  placeholder="Provide Curiculum Name" />
-                <button mat-raised-button color="accent">Save</button>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Topics">
-            <div class="tbbd_bdy">
-              <div class="pg_ttl">Create Curiculum</div>
-              <div class="tbbd_bdy_cnt">
-                New Curriculum Name
-                <input matInput type="text" (keyup)="doFilter($event.target.value)"
-                  placeholder="Provide Curiculum Name" />
-                <button mat-raised-button color="accent">Save</button>
-              </div>
-            </div>
-          </mat-tab>
-          <mat-tab label="Subtopics">
-            <div class="tbbd_bdy">
-              <div class="pg_ttl">Create Curiculum</div>
-              <div class="tbbd_bdy_cnt">
-                New Curriculum Name
-                <input matInput type="text" (keyup)="doFilter($event.target.value)"
-                  placeholder="Provide Curiculum Name" />
-                <button mat-raised-button color="accent">Save</button>
-              </div>
-            </div>
-          </mat-tab>
-        </mat-tab-group>
+        <div class="tbbd_bdy">
+          <div class="pg_ttl">Create Curiculum</div>
+          <div class="tbbd_bdy_cnt">
+            Curriculum Name
+            <input matInput type="text" placeholder="Provide Curiculum Name" />
+            Number of steps
+            <input
+              matInput
+              type="text"
+              NumbersOnly
+              placeholder="Number of steps"
+            />
+            <button type="button" mat-raised-button color="accent">
+              Add Steps
+            </button>
+          </div>
+          <div class="tbbd_bdy_cnt">
+            step Names
+            <input
+              matInput
+              type="text"
+              NumbersOnly
+              placeholder="Number of steps"
+            />
+          </div>
+          <button type="button" mat-raised-button color="accent">Submit</button>
+        </div>
       </div>
     </div>
   </div>
@@ -81,11 +47,22 @@
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="none">
-      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search" />
+      <input
+        matInput
+        type="text"
+        (keyup)="doFilter($event.target.value)"
+        placeholder="Search"
+      />
     </mat-form-field>
 
-    <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">
-      New Curriculam
+    <button
+      mat-raised-button
+      color="accent"
+      class="float_right"
+      (click)="toggleModel()"
+      type="button"
+    >
+      New Curriculum
     </button>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <!-- Position Column -->
@@ -131,7 +108,11 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      (page)="getServerData($event)"
+    ></mat-paginator>
   </div>
 </div>
 <app-admin-footer></app-admin-footer>
