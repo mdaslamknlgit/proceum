@@ -5,14 +5,12 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { ManageTemplateComponent } from './manage-template/manage-template.component';
-
 @Component({
-  selector: 'app-email-templates',
-  templateUrl: './email-templates.component.html',
-  styleUrls: ['./email-templates.component.scss'],
+  selector: 'app-curriculam',
+  templateUrl: './curriculam.component.html',
+  styleUrls: ['./curriculam.component.scss'],
 })
-export class EmailTemplatesComponent implements OnInit {
+export class CurriculamComponent implements OnInit {
   public template = {
     id: '',
     template: '',
@@ -31,9 +29,13 @@ export class EmailTemplatesComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public page = 0;
+  public model_status = false;
   constructor(private http: CommonService, public dialog: MatDialog) {}
   ngOnInit(): void {
     this.getTemplates();
+  }
+  toggleModel() {
+    this.model_status = !this.model_status;
   }
   getTemplates() {
     let param = { url: 'email-template' };
@@ -47,17 +49,7 @@ export class EmailTemplatesComponent implements OnInit {
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   };
-  manageTemplate(id) {
-    const dialogRef = this.dialog.open(ManageTemplateComponent, {
-      data: { id: id },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getTemplates();
-      }
-    });
-  }
+  manageTemplate(id) {}
 }
 export interface TemplateResponce {
   s_no: number;
