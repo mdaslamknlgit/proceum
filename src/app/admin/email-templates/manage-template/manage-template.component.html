@@ -1,27 +1,94 @@
 <h2>{{ title }}</h2>
 
 <div class="hgt_20"></div>
-<form #template_form="ngForm" name="template_form" novalidate (ngSubmit)="template_form.valid && submitTemplate()">
-  
-  <div class="inp_par_dv" [ngClass]="{'err_tltp_par':(template_form.submitted && template.template_title == '' || template_form.submitted && template_title.invalid) }">
-    <input matInput #template_title="ngModel" type="text" name="template_title" [(ngModel)]="template.template_title"
-      placeholder="Template Title" pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+" required />
-    <span class="prc_tltp" *ngIf="(template_form.submitted && template_title.invalid) && template.template_title != ''">
-      Alphabets Only</span>
-    <span class="prc_tltp" *ngIf="template_form.submitted && template.template_title == ''"> Template Title
-      <strong>Required</strong></span>
+<form
+  #template_form="ngForm"
+  name="template_form"
+  novalidate
+  (ngSubmit)="template_form.valid && submitTemplate()"
+>
+  <div
+    class="inp_par_dv"
+    [ngClass]="{
+      err_tltp_par:
+        (template_form.submitted && template.template_subject == '') ||
+        (template_form.submitted && template_subject.invalid)
+    }"
+  >
+    <input
+      matInput
+      #template_subject="ngModel"
+      type="text"
+      name="template_subject"
+      [(ngModel)]="template.template_subject"
+      placeholder="Template Subject"
+      pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
+      required
+    />
+    <span
+      class="prc_tltp"
+      *ngIf="
+        template_form.submitted &&
+        template_subject.invalid &&
+        template.template_subject != ''
+      "
+    >
+      Alphabets Only</span
+    >
+    <span
+      class="prc_tltp"
+      *ngIf="template_form.submitted && template.template_subject == ''"
+    >
+      Template Subject <strong>Required</strong></span
+    >
   </div>
-  <div class="inp_par_dv" [ngClass]="{'err_tltp_par':(template_form.submitted && template.template_name == '' || template_form.submitted && template_name.invalid )}">
-    <input type="text" matInput #template_name="ngModel" pattern="[a-zA-Z][a-zA-Z_]+" name="template_name"
-      [(ngModel)]="template.template_name" placeholder="Template Name"
-      disabled="{{ template.id != '0' ? true : false }}" required />
+  <div
+    class="inp_par_dv"
+    [ngClass]="{
+      err_tltp_par:
+        (template_form.submitted && template.template_name == '') ||
+        (template_form.submitted && template_name.invalid)
+    }"
+  >
+    <input
+      type="text"
+      matInput
+      #template_name="ngModel"
+      pattern="[a-zA-Z][a-zA-Z_]+"
+      name="template_name"
+      [(ngModel)]="template.template_name"
+      placeholder="Template Name"
+      disabled="{{ template.id != '0' ? true : false }}"
+      required
+    />
     <span class="prc_tltp">Template Name is <strong>required</strong></span>
   </div>
-<div class="clear_fix"></div>
-  <textarea matInput placeholder="Placeholders" rows="5" ></textarea>
-  <ckeditor [config]="{ placeholder: 'Type the email content here!' }" [(ngModel)]="template.template" name="template"
-    [editor]="Editor"></ckeditor>
-  <button mat-raised-button color="accent" class="float_right" (click)="close()" type="button">Close</button>
-  <button mat-raised-button color="accent" class="float_right" type="submit">Submit</button>
+  <div class="clear_fix"></div>
+  <textarea
+    disabled="{{ template.id != '0' ? true : false }}"
+    matInput
+    placeholder="Available Placeholders"
+    rows="5"
+    name="template_placeholders"
+    [(ngModel)]="template.template_placeholders"
+  ></textarea>
+  <ckeditor
+    [config]="{ placeholder: 'Type the email content here!' }"
+    [(ngModel)]="template.template"
+    name="template"
+    [editor]="Editor"
+  ></ckeditor>
+  <button
+    mat-raised-button
+    color="accent"
+    class="float_right"
+    (click)="close()"
+    type="button"
+  >
+    Close
+  </button>
+  <button mat-raised-button color="accent" class="float_right" type="submit">
+    Submit
+  </button>
   <div class="clear_fix"></div>
 </form>

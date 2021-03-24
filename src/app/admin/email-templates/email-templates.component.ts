@@ -16,12 +16,12 @@ export class EmailTemplatesComponent implements OnInit {
   public template = {
     id: '',
     template: '',
-    template_title: '',
+    template_subject: '',
     template_name: '',
   };
   displayedColumns: string[] = [
     'id',
-    'title',
+    'subject',
     'status',
     'created_at',
     'updated_at',
@@ -49,7 +49,7 @@ export class EmailTemplatesComponent implements OnInit {
   };
   manageTemplate(id) {
     const dialogRef = this.dialog.open(ManageTemplateComponent, {
-      data: { id: id }
+      data: { id: id },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -62,7 +62,7 @@ export class EmailTemplatesComponent implements OnInit {
 export interface TemplateResponce {
   s_no: number;
   id: number;
-  title: string;
+  subject: string;
   status: number;
   created_at: number;
   updated_at: string;
