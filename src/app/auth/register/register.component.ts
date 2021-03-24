@@ -10,9 +10,7 @@ import { SocialAuthService, GoogleLoginProvider, SocialUser,FacebookLoginProvide
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-
   socialUser: SocialUser;
-
   register: Register = { first_name:'', last_name:'', email: '', password: '', confirm_pwd: '',register_type:'' };
   public message: string = 'Required data is missing';
   public email_check: boolean = false;
@@ -74,8 +72,15 @@ export class RegisterComponent implements OnInit {
                 this.toastr.error(this.message, 'Error', { closeButton: true });
               } else {
                 sessionStorage.setItem('_token', res['data'].token);
-                sessionStorage.setItem('role', res['data'].role);
+                let json_user = btoa(JSON.stringify(res['data'].user));
+                sessionStorage.setItem('user', json_user);
+                if (res['data']['user']['role'] == 1) {
+                  //admin
+                  this.route.navigate(['/admin/dashboard']);
+                } else if (res['data']['user']['role'] == 2) {
+                  //student
                   this.route.navigate(['/student/dashboard']);
+                }
               }
             });
 
@@ -104,11 +109,6 @@ export class RegisterComponent implements OnInit {
 
     }
     
-  }
-
-  signInWithFB(): void {
-    
-   
   }
 
 }
