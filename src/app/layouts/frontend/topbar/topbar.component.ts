@@ -9,11 +9,14 @@ import { Router } from '@angular/router';
 })
 export class TopbarComponent implements OnInit {
   public sidemenu_status: String = '';
+  public innerWidth: any;
+  public isOpen = false;
   constructor(private http: CommonService, private route: Router) {}
   public user;
   ngOnInit(): void {
     this.http.menu_status = '';
     this.user = this.http.getUser();
+    this.innerWidth = window.innerWidth;
   }
   toggleSidemenu(param) {
     this.sidemenu_status =
@@ -27,10 +30,21 @@ export class TopbarComponent implements OnInit {
       sessionStorage.removeItem('user');
       this.route.navigate(['/login']);
     });
+ }
+  menuToggle(){
+      this.isOpen = !this.isOpen;
   }
   isSticky: boolean = false;
-  @HostListener('window:scroll', ['$event'])
+
+  // @HostListener('window:resize', ['$event'])
+  //   onResize(event) {
+  //   this.innerWidth = window.innerWidth;
+  // }
+
+  @HostListener('window:scroll',  ['$event'])
   checkScroll() {
-    this.isSticky = window.pageYOffset >= 150;
+    // var AinnerWidth = window.innerWidth;
+    // if(AinnerWidth <)
+    this.isSticky = window.pageYOffset >= 100;
   }
 }
