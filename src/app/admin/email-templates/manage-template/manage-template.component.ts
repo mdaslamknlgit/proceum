@@ -13,8 +13,9 @@ export class ManageTemplateComponent implements OnInit {
   public template = {
     id: '0',
     template: '',
-    template_title: '',
+    template_subject: '',
     template_name: '',
+    template_placeholders: '',
   };
   public isupdated = false;
   public Editor = ClassicEditor;
@@ -43,8 +44,9 @@ export class ManageTemplateComponent implements OnInit {
           this.template = {
             id: template['id'],
             template: template['template'],
-            template_title: template['title'],
+            template_subject: template['subject'],
             template_name: template['name'],
+            template_placeholders: template['placeholders'],
           };
         }
       });

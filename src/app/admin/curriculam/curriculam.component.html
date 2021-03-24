@@ -1,26 +1,47 @@
 <app-admin-topbar></app-admin-topbar>
 <app-sidebar></app-sidebar>
 <div class="mn_dshbrd">
-
-
-
-
-  <div class="brd_crm">
-    Proceum &raquo; Settings &raquo; <strong>Email Templates</strong>
+  <div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: model_status }">
+    <div class="cust_mdl_chl">
+      <button
+        mat-icon-button
+        (click)="toggleModel()"
+        color="accent"
+        class="float_right"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+      <div class="tbbd_bdy">
+        <div class="pg_ttl">Create Curiculum</div>
+        <div class="tbbd_bdy_cnt">
+          Curriculum Name
+          <input matInput type="text" placeholder="Provide Curiculum Name" />
+          <button mat-raised-button color="accent">Save</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="pg_ttl">Email Templates</div>
+  <div class="brd_crm">Proceum &raquo; <strong>Curriculum</strong></div>
+  <div class="pg_ttl">Curriculums</div>
   <hr />
   <div class="dsh_brd_crds">
-
-
     <mat-form-field appearance="none">
-      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search" />
-      <mat-icon matSuffix>search</mat-icon>
+      <input
+        matInput
+        type="text"
+        (keyup)="doFilter($event.target.value)"
+        placeholder="Search"
+      />
     </mat-form-field>
 
-
-    <button mat-raised-button color="accent" class="float_right" (click)="manageTemplate(0)" type="button">
-      New Template
+    <button
+      mat-raised-button
+      color="accent"
+      class="float_right"
+      (click)="toggleModel()"
+      type="button"
+    >
+      New Curriculum
     </button>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <!-- Position Column -->
@@ -66,7 +87,11 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+      (page)="getServerData($event)"
+    ></mat-paginator>
   </div>
 </div>
 <app-admin-footer></app-admin-footer>

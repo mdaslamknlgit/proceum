@@ -9,6 +9,7 @@ import { EmailTemplatesComponent } from './email-templates/email-templates.compo
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ManageTemplateComponent } from './email-templates/manage-template/manage-template.component';
 import { StudentsComponent } from './students/students.component';
+import { CurriculamComponent } from './curriculam/curriculam.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -26,6 +27,10 @@ const routes: Routes = [
     path: 'settings/email-templates',
     component: EmailTemplatesComponent,
   },
+  {
+    path: 'curriculum',
+    component: CurriculamComponent,
+  },
 ];
 @NgModule({
   declarations: [
@@ -34,6 +39,7 @@ const routes: Routes = [
     EmailTemplatesComponent,
     ManageTemplateComponent,
     StudentsComponent,
+    CurriculamComponent,
   ],
   imports: [
     MaterialModule,
