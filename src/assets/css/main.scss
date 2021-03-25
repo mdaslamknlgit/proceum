@@ -530,22 +530,49 @@ img {
 }
 .mn_dshbrd {
   margin: 64px auto 64px auto;
-  width: 80%;
+  width: 79%;
   min-height: calc(100vh - 174px);
   display: flex;
   flex-direction: column;
   background-color: #f7f7f7;
   left:0;
-  right: 0;
-  transition: all 0.2s ease;
+  right: 0; 
   position: relative;
 }
-.mn_sdopn div.mn_dshbrd{width: 80%;
-  right: 0;
-  left: 20%;
+ 
+.mn_sdopn div.mn_dshbrd{ 
+  position: relative;  
+  animation-name: dsh_sld_ani;
+  animation-duration: 0.2s;
+  margin-right: 0; 
+  width: 79%;
+  animation-timing-function: linear;
+} 
+
+.mn_sdcls div.mn_dshbrd{ 
+  position: relative;  
+  animation-name: dsh_sldcls_ani;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+  width: 79%;
+} 
+
+
+@keyframes dsh_sld_ani{
+from{margin-left: 11%;}
+to{margin-left: 21%;}
+}
+
+
+@keyframes dsh_sldcls_ani{
+  from{margin-left: 21%;  }
+  to{margin-left: 11%;}
+  }
+
+.mn_sdcls div.mn_dshbrd{ 
+  left:0;
   position: relative;
-  transition: all 0.2s linear;
-  margin: 64px auto 64px 0;} 
+} 
 
 .brd_crm {
   width: 100%;
@@ -553,9 +580,8 @@ img {
   font-size: 14px;
   margin: 15px 1% 0 0%;
 }
-.pg_ttl {
-  margin: 0 0%;
-  font-size: 30px;
+.pg_ttl {font-size: 24px; font-weight: 400;
+  margin: 0 0%; 
   color: #616774;
   font-weight: 700;
 }
@@ -783,4 +809,55 @@ app-topbar.inner-header mat-toolbar {
   .indx_bnnr {
       padding-top: 60px;
   }
+}
+
+.header2_main{
+  background-image: url(../../assets/images/indx_bg.jpg);
+    background-size: cover;
+    width: 100%;
+    height: calc(100vh);
+    position: relative;
+}
+
+// Individual single message screen ex: success screen
+
+.indvidual_main {
+  background-image: url(../images/indx_bg.jpg);
+  background-size: cover;
+  width: 100%;
+  height: calc(100vh);
+  position: relative;
+}
+.ind_mdl_cont {
+position: absolute;
+margin: auto;
+top: 10%;
+min-height: 350px;
+width: 800px;
+left: 20%;
+align-items: center;
+justify-content: space-around;
+}
+.ind_logo_img {
+align-items: center;
+justify-content: center;
+max-width: 200px;
+margin: 0px auto 20px;
+}
+
+.message-box-div {
+  text-align: center;
+  background: #FFF;
+  padding: 50px;
+  border-radius: 6px;
+}
+.message-box-div mat-icon {
+  width: auto;
+  height: auto;
+  font-size: 70px;
+  color: #41AB3C;
+}
+.message-box-div div:nth-child(2) {
+  font-size: 20px;
+  margin: 10px;
 }
