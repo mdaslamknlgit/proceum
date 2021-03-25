@@ -11,6 +11,10 @@ import { OurTeamComponent } from './frontend/our-team/our-team.component';
 import { PrivacyPolicyComponent } from './frontend/privacy-policy/privacy-policy.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
+import { ForgotPasswordComponent } from './frontend/forgot-password/forgot-password.component';
+import { EmailVerifiedComponent } from './frontend/email-verified/email-verified.component';
+import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscribe-email.component';
+
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -27,6 +31,9 @@ const routes: Routes = [
   { path: 'privacy-policy', component: PrivacyPolicyComponent},
   { path: 'register', component: RegisterComponent },
   { path: 'library', component:ProceumLibraryComponent},
+  { path: 'forgot-password', component:ForgotPasswordComponent},
+  { path: 'email-verification', component:EmailVerifiedComponent},
+  { path: 'unsubscription', component:UnsubscribeEmailComponent},
   {
     path: 'login',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
