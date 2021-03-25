@@ -5,43 +5,40 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+
 @Component({
-  selector: 'app-curriculam',
-  templateUrl: './curriculam.component.html',
-  styleUrls: ['./curriculam.component.scss'],
+  selector: 'app-students',
+  templateUrl: './students.component.html',
+  styleUrls: ['./students.component.scss']
 })
-export class CurriculamComponent implements OnInit {
-  public template = {
-    id: '',
-    template: '',
-    template_subject: '',
-    template_name: '',
-  };
+export class StudentsComponent implements OnInit {
+
+  // public template = {
+  //   id: '',
+  //   template: '',
+  //   template_title: '',
+  //   template_name: '',
+  // };
   displayedColumns: string[] = [
     'id',
-    'subject',
-    'status',
-    'created_at',
-    'updated_at',
+    'student_name',
+    'student_email',
+    'student_phone',
+    'student_status',
     'actions',
   ];
-  public steps = [1];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public page = 0;
-  public model_status = false;
   constructor(private http: CommonService, public dialog: MatDialog) {}
   ngOnInit(): void {
-    this.getTemplates();
+    this.getStudents();
   }
-  toggleModel() {
-    this.model_status = !this.model_status;
-  }
-  getTemplates() {
-    let param = { url: 'email-template' };
+  getStudents() {
+    let param = { url: 'get-users/2' };
     this.http.get(param).subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res['data']['templates']);
+      this.dataSource = new MatTableDataSource(res['users']);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -50,13 +47,23 @@ export class CurriculamComponent implements OnInit {
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   };
-  manageTemplate(id) {}
+  // manageTemplate(id) {
+  //   const dialogRef = this.dialog.open(ManageTemplateComponent, {
+  //     data: { id: id }
+  //   });
+
+  //   dialogRef.afterClosed().subscribe((result) => {
+  //     if (result) {
+  //       this.getTemplates();
+  //     }
+  //   });
+  // }
 }
-export interface TemplateResponce {
-  s_no: number;
-  id: number;
-  subject: string;
-  status: number;
-  created_at: number;
-  updated_at: string;
-}
+// export interface TemplateResponce {
+//   s_no: number;
+//   id: number;
+//   title: string;
+//   status: number;
+//   created_at: number;
+//   updated_at: string;
+// }
