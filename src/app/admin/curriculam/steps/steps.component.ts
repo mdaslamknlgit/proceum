@@ -4,14 +4,17 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-curriculam',
-  templateUrl: './curriculam.component.html',
-  styleUrls: ['./curriculam.component.scss'],
+  selector: 'app-steps',
+  templateUrl: './steps.component.html',
+  styleUrls: ['./steps.component.scss'],
 })
-export class CurriculamComponent implements OnInit {
+export class StepsComponent implements OnInit {
+  public step = 'Step';
+  public curriculum_id = '';
+
   displayedColumns: string[] = [
     'id',
     'Curriculum Name',
@@ -22,7 +25,7 @@ export class CurriculamComponent implements OnInit {
   ];
   public curriculum_name = '';
   public steps = ['step_' + 0];
-  public curriculum_id = '';
+
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -32,9 +35,11 @@ export class CurriculamComponent implements OnInit {
   constructor(
     private http: CommonService,
     public toster: ToastrService,
-    private route: Router
+    private activatedRoute: ActivatedRoute
   ) {}
   ngOnInit(): void {
+    this.step = this.activatedRoute.snapshot.params.step;
+    this.curriculum_id = this.activatedRoute.snapshot.params.curriculum_id;
     this.getCurriculums();
   }
   getCurriculums() {
@@ -108,20 +113,7 @@ export class CurriculamComponent implements OnInit {
     });
   }
   public getServerData(event?: PageEvent) {}
-  public doFilter(value: string) {
+  public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
-  }
-  public navigateTo(curriculum_id) {
-    let param = { url: 'curriculum/' + curriculum_id };
-    this.http.get(param).subscribe((res) => {
-      if (res['error'] == false) {
-        this.route.navigateByUrl(
-          '/admin/curriculum/' +
-            curriculum_id +
-            '/' +
-            res['data']['result']['level_number']
-        );
-      }
-    });
-  }
+  };
 }
