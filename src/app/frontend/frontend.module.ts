@@ -14,6 +14,7 @@ import { MyAccountComponent } from './student/my-account/my-account.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { EmailVerifiedComponent } from './email-verified/email-verified.component';
 import { UnsubscribeEmailComponent } from './unsubscribe-email/unsubscribe-email.component';
+
 const routes: Routes = [
   {
     path: 'dashboard',
