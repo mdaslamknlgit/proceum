@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-students',
@@ -12,13 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./students.component.scss']
 })
 export class StudentsComponent implements OnInit {
-
-  // public template = {
-  //   id: '',
-  //   template: '',
-  //   template_title: '',
-  //   template_name: '',
-  // };
+  public api_url: string;
   displayedColumns: string[] = [
     'id',
     'student_name',
@@ -30,40 +25,71 @@ export class StudentsComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  public num_students: number = 0;
   public page = 0;
+  public pageSize = 10;
+  public sort_by: any;
   constructor(private http: CommonService, public dialog: MatDialog) {}
   ngOnInit(): void {
+    this.api_url = environment.apiUrl;
     this.getStudents();
   }
   getStudents() {
-    let param = { url: 'get-users/2' };
-    this.http.get(param).subscribe((res) => {
+    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['users']);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.num_students = res['users_count'];
+      
     });
   }
-  public getServerData(event?: PageEvent) {}
+  public getServerData(event?: PageEvent) {
+    this.pageSize = event.pageSize;
+		this.page = (event.pageSize * event.pageIndex);
+    this.applyFilters( );
+  }
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   };
-  // manageTemplate(id) {
-  //   const dialogRef = this.dialog.open(ManageTemplateComponent, {
-  //     data: { id: id }
-  //   });
 
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result) {
-  //       this.getTemplates();
-  //     }
-  //   });
+  applyFilters(){
+    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    this.http.post(param).subscribe((res) => {
+      this.dataSource = new MatTableDataSource(res['users']);
+      this.dataSource.sort = this.sort;
+    });
+  }
+
+  sortData(event) {
+		this.sort_by = event;
+		if (this.sort_by.direction != '')
+			this.applyFilters( );
+	}
+
+  createStucent(){
+    
+  }
+
+  // exportStudents(type:string){
+
+  //   if(type == 'EXL'){
+  //     let param = { url: 'export-students/EXL'};
+  //     this.http.get(param).subscribe((res) => {
+  //     });
+
+  //   }else if(type == 'PDF'){
+  
+  //   }
+
   // }
+
+  deleteStudent(student_id:any){
+    let param = { url: 'user/'+student_id};
+    this.http.delete(param).subscribe((res) => {
+      this.applyFilters();
+    });
+  }
+
 }
-// export interface TemplateResponce {
-//   s_no: number;
-//   id: number;
-//   title: string;
-//   status: number;
-//   created_at: number;
-//   updated_at: string;
-// }
+
