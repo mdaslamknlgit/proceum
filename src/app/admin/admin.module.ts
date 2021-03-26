@@ -14,6 +14,7 @@ import { DiscountSettingsComponent } from './discount-settings/discount-settings
 import { PromotionalSettingsComponent } from './promotional-settings/promotional-settings.component';
 import { StepsComponent } from './curriculam/steps/steps.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
+import { AccessMatrixComponent } from './access-matrix/access-matrix.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -55,6 +56,10 @@ const routes: Routes = [
     path: 'roles-list',
     component: RolesListComponent,
   },
+  {
+    path: 'access-matrix',
+    component: AccessMatrixComponent,
+  },
 ];
 @NgModule({
   declarations: [
@@ -68,6 +73,7 @@ const routes: Routes = [
     PromotionalSettingsComponent,
     StepsComponent,
     RolesListComponent,
+    AccessMatrixComponent,
   ],
   imports: [
     MaterialModule,
