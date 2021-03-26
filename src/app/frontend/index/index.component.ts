@@ -7,12 +7,16 @@ import { Component, OnInit, HostListener } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
   constructor() {}
-
+  public isOpen = false;
   ngOnInit(): void {}
   scrollToTop() {
     // window.scroll(0, 0);
     window.scrollTo({top: 0, behavior: 'smooth'});
   }
+
+  menuToggle(){
+    this.isOpen = !this.isOpen;
+}
 
   isSticky: boolean = false;
   @HostListener('window:scroll', ['$event'])

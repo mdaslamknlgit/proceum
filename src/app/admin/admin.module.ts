@@ -42,7 +42,7 @@ const routes: Routes = [
     path: 'promotional-settings',
     component: PromotionalSettingsComponent,
   },
-
+  {
     path: 'curriculum/:curriculum_id',
     component: StepsComponent,
   },
