@@ -44,7 +44,6 @@ export class TopbarComponent implements OnInit {
   @HostListener('window:scroll',  ['$event'])
   checkScroll() {
     // var AinnerWidth = window.innerWidth;
-    // if(AinnerWidth <)
     this.isSticky = window.pageYOffset >= 100;
   }
 }
