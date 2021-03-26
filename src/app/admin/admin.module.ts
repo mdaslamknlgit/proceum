@@ -13,6 +13,7 @@ import { CurriculamComponent } from './curriculam/curriculam.component';
 import { DiscountSettingsComponent } from './discount-settings/discount-settings.component';
 import { PromotionalSettingsComponent } from './promotional-settings/promotional-settings.component';
 import { StepsComponent } from './curriculam/steps/steps.component';
+import { RolesListComponent } from './roles-list/roles-list.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -49,6 +50,10 @@ const routes: Routes = [
   {
     path: 'curriculum/:curriculum_id/:step',
     component: StepsComponent,
+  }, 
+  {
+    path: 'roles-list',
+    component: RolesListComponent,
   },
 ];
 @NgModule({
@@ -62,6 +67,7 @@ const routes: Routes = [
     DiscountSettingsComponent,
     PromotionalSettingsComponent,
     StepsComponent,
+    RolesListComponent,
   ],
   imports: [
     MaterialModule,
