@@ -10,7 +10,11 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ManageTemplateComponent } from './email-templates/manage-template/manage-template.component';
 import { StudentsComponent } from './students/students.component';
 import { CurriculamComponent } from './curriculam/curriculam.component';
+import { DiscountSettingsComponent } from './discount-settings/discount-settings.component';
+import { PromotionalSettingsComponent } from './promotional-settings/promotional-settings.component';
 import { StepsComponent } from './curriculam/steps/steps.component';
+import { RolesListComponent } from './roles-list/roles-list.component';
+import { AccessMatrixComponent } from './access-matrix/access-matrix.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -33,12 +37,28 @@ const routes: Routes = [
     component: CurriculamComponent,
   },
   {
+    path: 'discount-settings',
+    component: DiscountSettingsComponent,
+  },
+  {
+    path: 'promotional-settings',
+    component: PromotionalSettingsComponent,
+  },
+  {
     path: 'curriculum/:curriculum_id',
     component: StepsComponent,
   },
   {
     path: 'curriculum/:curriculum_id/:step',
     component: StepsComponent,
+  }, 
+  {
+    path: 'roles-list',
+    component: RolesListComponent,
+  },
+  {
+    path: 'access-matrix',
+    component: AccessMatrixComponent,
   },
 ];
 @NgModule({
@@ -49,7 +69,11 @@ const routes: Routes = [
     ManageTemplateComponent,
     StudentsComponent,
     CurriculamComponent,
+    DiscountSettingsComponent,
+    PromotionalSettingsComponent,
     StepsComponent,
+    RolesListComponent,
+    AccessMatrixComponent,
   ],
   imports: [
     MaterialModule,

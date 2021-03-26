@@ -1,0 +1,69 @@
+<app-admin-topbar></app-admin-topbar>
+<app-sidebar></app-sidebar>
+<div class="mn_dshbrd">
+    <div class="brd_crm">Proceum &raquo; <strong>Roles List</strong></div>
+    <div class="pg_ttl">Roles List</div>
+    <div class="hgt_20"></div>
+    <div class="grd_2c">
+        <span>Role Name</span>
+        <span>
+            <mat-form-field appearance="outline">
+                <mat-label>Role Name</mat-label>
+                <input matInput placeholder="Role Name">
+            </mat-form-field>
+        </span>
+
+
+        <span class="algn_s_fs">Role Description</span>
+        <span>
+            <mat-form-field appearance="outline">
+                <mat-label>Role Description</mat-label>
+                <textarea matInput rows="8"></textarea>
+            </mat-form-field>
+        </span>
+        <span class="hgt_20"></span>
+        <span class="hgt_20"></span>
+
+        <mat-form-field appearance="outline" class="ml_at mr_0">
+            <input matInput placeholder="Search" />
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+      
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+           
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef class="wd_50px"> S. No</th>
+                <td mat-cell *matCellDef="let element">
+                    <mat-checkbox></mat-checkbox>
+                </td>
+            </ng-container>
+
+            
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Role </th>
+                <td mat-cell *matCellDef="let element">Content </td>
+            </ng-container>
+           
+            <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef> Description </th>
+                <td mat-cell *matCellDef="let element"> </td>
+            </ng-container>
+            <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element"> <button mat-icon-button>
+                        <mat-icon>edit</mat-icon>
+                    </button> <button mat-icon-button color="warn">
+                        <mat-icon>delete</mat-icon>
+                    </button></td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+
+
+
+</div>
+<app-footer></app-footer>
