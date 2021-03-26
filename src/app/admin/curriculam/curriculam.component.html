@@ -12,12 +12,90 @@
         <mat-icon>close</mat-icon>
       </button>
       <div class="tbbd_bdy">
-        <div class="pg_ttl">Create Curiculum</div>
-        <div class="tbbd_bdy_cnt">
-          Curriculum Name
-          <input matInput type="text" placeholder="Provide Curiculum Name" />
-          <button mat-raised-button color="accent">Save</button>
-        </div>
+        <form
+          id="curriculum_form"
+          #curriculum_form="ngForm"
+          name="curriculum_form"
+          (ngSubmit)="curriculum_form.valid && createCurriculum()"
+          novalidate
+        >
+          <div class="pg_ttl">Create Curriculum</div>
+          <div
+            class="tbbd_bdy_cnt inp_par_dv"
+            [ngClass]="{
+              err_tltp_par: curriculum_form.submitted && curriculum_name == ''
+            }"
+          >
+            Curriculum Name
+            <input
+              matInput
+              [(ngModel)]="curriculum_name"
+              #curriculum_name_name="ngModel"
+              name="curriculum_name_name"
+              type="text"
+              placeholder="Provide Curiculum Name"
+              required
+            />
+            <span
+              class="prc_tltp"
+              *ngIf="curriculum_form.submitted && curriculum_name_name.invalid"
+            >
+              Curriculum Name is required</span
+            >
+          </div>
+          <div
+            class="tbbd_bdy_cnt"
+            *ngFor="
+              let step of steps;
+              let indexOfelement = index;
+              let last = last
+            "
+          >
+            <div
+              class="inp_par_dv"
+              [ngClass]="{
+                err_tltp_par:
+                  curriculum_form.submitted &&
+                  (steps[step] == '' || steps[step] == undefined)
+              }"
+            >
+              Step {{ indexOfelement + 1 }}
+              <input
+                matInput
+                type="text"
+                name="{{ step }}"
+                [(ngModel)]="steps[step]"
+                #ref_{{step}}="ngModel"
+                required
+                placeholder="Provide Step {{ indexOfelement + 1 }} Label"
+              />
+              <span
+                class="prc_tltp"
+                *ngIf="curriculum_form.submitted && 'ref_' + step.invalid"
+              >
+                Step {{ indexOfelement + 1 }} is required</span
+              >
+            </div>
+            <button
+              type="button"
+              *ngIf="last"
+              (click)="addStep()"
+              mat-raised-button
+              color="accent"
+            >
+              +
+            </button>
+            <button
+              type="button"
+              (click)="removeStep(indexOfelement)"
+              mat-raised-button
+              color="warn"
+            >
+              -
+            </button>
+          </div>
+          <button mat-raised-button color="accent">Submit</button>
+        </form>
       </div>
     </div>
   </div>
@@ -52,9 +130,13 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="subject">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subject</th>
-        <td mat-cell *matCellDef="let element">{{ element.subject }}</td>
+      <ng-container matColumnDef="Curriculum Name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Curriculum Name
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <span (click)="navigateTo(element.id)">{{ element.name }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="status">
@@ -78,7 +160,7 @@
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="manageTemplate(element.id)">
+          <button mat-icon-button (click)="editCurriculum(element)">
             <mat-icon>edit</mat-icon>
           </button>
         </td>
@@ -94,4 +176,55 @@
     ></mat-paginator>
   </div>
 </div>
+<div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: edit_model_status }">
+  <div class="cust_mdl_chl">
+    <button
+      mat-icon-button
+      (click)="edit_model_status = !edit_model_status"
+      color="accent"
+      class="float_right"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+    <div class="tbbd_bdy">
+      <form
+        id="edit_curriculum_form"
+        #edit_curriculum_form="ngForm"
+        name="edit_curriculum_form"
+        (ngSubmit)="edit_curriculum_form.valid && updateCurriculum()"
+        novalidate
+      >
+        <div class="pg_ttl">Edit Curriculum</div>
+        <div
+          class="tbbd_bdy_cnt inp_par_dv"
+          [ngClass]="{
+            err_tltp_par:
+              edit_curriculum_form.submitted && curriculum_name == ''
+          }"
+        >
+          Curriculum Name
+          <input
+            matInput
+            [(ngModel)]="curriculum_name"
+            #curriculum_name_name="ngModel"
+            name="curriculum_name_name"
+            type="text"
+            placeholder="Provide Curiculum Name"
+            required
+          />
+          <span
+            class="prc_tltp"
+            *ngIf="
+              edit_curriculum_form.submitted && curriculum_name_name.invalid
+            "
+          >
+            Curriculum Name is required</span
+          >
+        </div>
+        <button mat-raised-button color="accent">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
 <app-admin-footer></app-admin-footer>
