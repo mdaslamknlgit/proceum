@@ -10,6 +10,8 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ManageTemplateComponent } from './email-templates/manage-template/manage-template.component';
 import { StudentsComponent } from './students/students.component';
 import { CurriculamComponent } from './curriculam/curriculam.component';
+import { DiscountSettingsComponent } from './discount-settings/discount-settings.component';
+import { PromotionalSettingsComponent } from './promotional-settings/promotional-settings.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -31,6 +33,15 @@ const routes: Routes = [
     path: 'curriculum',
     component: CurriculamComponent,
   },
+  {
+    path: 'discount-settings',
+    component: DiscountSettingsComponent,
+  },
+  {
+    path: 'promotional-settings',
+    component: PromotionalSettingsComponent,
+  },
+
 ];
 @NgModule({
   declarations: [
@@ -40,6 +51,8 @@ const routes: Routes = [
     ManageTemplateComponent,
     StudentsComponent,
     CurriculamComponent,
+    DiscountSettingsComponent,
+    PromotionalSettingsComponent,
   ],
   imports: [
     MaterialModule,
