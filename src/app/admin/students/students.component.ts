@@ -14,14 +14,7 @@ import { environment } from '../../../environments/environment';
 })
 export class StudentsComponent implements OnInit {
   public api_url: string;
-  displayedColumns: string[] = [
-    'id',
-    'student_name',
-    'student_email',
-    'student_phone',
-    'student_status',
-    'actions',
-  ];
+  displayedColumns: string[] = ['id','student_name','student_email','student_phone','student_status','actions',];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -58,6 +51,7 @@ export class StudentsComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['users']);
       this.dataSource.sort = this.sort;
+      this.num_students = res['users_count'];
     });
   }
 

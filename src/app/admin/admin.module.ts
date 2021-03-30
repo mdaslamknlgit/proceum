@@ -15,18 +15,23 @@ import { PromotionalSettingsComponent } from './promotional-settings/promotional
 import { StepsComponent } from './curriculam/steps/steps.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
 import { AccessMatrixComponent } from './access-matrix/access-matrix.component';
+import { LoginHistoryComponent } from './login-history/login-history.component';
 const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
   },
   {
+    path: 'users',
+    component: UsersComponent,
+  },
+  {
     path: 'students',
     component: StudentsComponent,
   },
   {
-    path: 'users',
-    component: UsersComponent,
+    path: 'login-history',
+    component: LoginHistoryComponent,
   },
   {
     path: 'settings/email-templates',
@@ -74,6 +79,7 @@ const routes: Routes = [
     StepsComponent,
     RolesListComponent,
     AccessMatrixComponent,
+    LoginHistoryComponent,
   ],
   imports: [
     MaterialModule,
