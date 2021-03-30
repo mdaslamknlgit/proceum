@@ -29,6 +29,10 @@ export class CurriculamComponent implements OnInit {
   public page = 0;
   public model_status = false;
   public edit_model_status = false;
+  popoverTitle = '';
+  popoverMessage = '';
+  confirmClicked = false;
+  cancelClicked = false;
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -76,6 +80,7 @@ export class CurriculamComponent implements OnInit {
         this.toster.success(res['message'], 'Success');
         this.steps = ['step_' + 0];
         this.toggleModel();
+        this.getCurriculums();
       } else {
         let message = res['errors']['curriculum_name']
           ? res['errors']['curriculum_name']
@@ -104,6 +109,20 @@ export class CurriculamComponent implements OnInit {
         this.getCurriculums();
       } else {
         this.toster.error(res['errors']['curriculum_name'], res['message']);
+      }
+    });
+  }
+  deleteCurriculum(curriculum_id, status) {
+    status = status == 1 ? '0' : '1';
+    let param = {
+      url: 'curriculum-status/' + curriculum_id + '/' + status,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success');
+        this.getCurriculums();
+      } else {
+        this.toster.error(res['message'], res['message']);
       }
     });
   }

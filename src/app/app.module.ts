@@ -14,10 +14,16 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { DrawingBoardComponent } from './shared/drawing-board/drawing-board.component';
 import { NgWhiteboardModule } from 'ng-whiteboard';
 import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
-import { SocialLoginModule, SocialAuthServiceConfig } from 'angularx-social-login';
-import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+} from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+} from 'angularx-social-login';
 import { MatIconModule } from '@angular/material/icon';
-
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +37,9 @@ import { MatIconModule } from '@angular/material/icon';
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
     }),
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger', // set defaults here
+    }),
     BrowserAnimationsModule,
     ColorPickerModule,
     MaterialModule,
@@ -41,25 +50,27 @@ import { MatIconModule } from '@angular/material/icon';
     SocialLoginModule,
     MatIconModule,
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true },
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true },
     {
-    provide: 'SocialAuthServiceConfig',
-    useValue: {
-      autoLogin: false,
-      providers: [
-        {
-          id: GoogleLoginProvider.PROVIDER_ID,
-          provider: new GoogleLoginProvider(
-            '495801232918-cb2avq8af4fd8slu1a4n7cc8htakc22g.apps.googleusercontent.com'
-          )
-        },
-        {
-          id: FacebookLoginProvider.PROVIDER_ID,
-          provider: new FacebookLoginProvider("851700872077265")
-        }
-      ]
-    } as SocialAuthServiceConfig,
-  }],
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '495801232918-cb2avq8af4fd8slu1a4n7cc8htakc22g.apps.googleusercontent.com'
+            ),
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('851700872077265'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

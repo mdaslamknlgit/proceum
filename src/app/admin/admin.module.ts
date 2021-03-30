@@ -16,6 +16,7 @@ import { StepsComponent } from './curriculam/steps/steps.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
 import { AccessMatrixComponent } from './access-matrix/access-matrix.component';
 import { LoginHistoryComponent } from './login-history/login-history.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -56,7 +57,11 @@ const routes: Routes = [
   {
     path: 'curriculum/:curriculum_id/:step',
     component: StepsComponent,
-  }, 
+  },
+  {
+    path: 'curriculum/:curriculum_id/:step/:level_parent_id',
+    component: StepsComponent,
+  },
   {
     path: 'roles-list',
     component: RolesListComponent,
@@ -85,6 +90,9 @@ const routes: Routes = [
     MaterialModule,
     LayoutsModule,
     RouterModule.forChild(routes),
+    ConfirmationPopoverModule.forRoot({
+      confirmButtonType: 'danger', // set defaults here
+    }),
     CommonModule,
     CKEditorModule,
   ],
