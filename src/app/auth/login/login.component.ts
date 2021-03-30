@@ -22,44 +22,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.http.removeSession();
 
-    this.socialAuthService.authState.subscribe((user) => {
-      this.socialUser = user;
-      this.register.first_name = this.socialUser.firstName;
-      this.register.last_name =  this.socialUser.lastName;
-      this.register.email =  this.socialUser.email;
-      this.register.password = 'Proceum@123' ;
-      this.register.confirm_pwd = 'Proceum@123';
-      this.register.register_type = 'SL';
-      let params = {
-        url: 'register',
-        first_name:this.register.first_name,
-        last_name:this.register.last_name,
-        email: this.register.email,
-        password: this.register.password,
-        role:2,
-        register_type:this.register.register_type
-      };
-      this.http.register(params).subscribe((res: Response) => {
-        if (res.error) {
-          this.register.password = '';
-          this.message = res.message;
-          this.toastr.error(this.message, 'Error', { closeButton: true });
-        } else {
-          sessionStorage.setItem('_token', res['data'].token);
-          let json_user = btoa(JSON.stringify(res['data'].user));
-          sessionStorage.setItem('user', json_user);
-          if (res['data']['user']['role'] == 1) {
-            //admin
-            this.route.navigate(['/admin/dashboard']);
-          } else if (res['data']['user']['role'] == 2) {
-            //student
-            this.route.navigate(['/student/dashboard']);
-          }
-        }
-      });
-
-    });
-
   }
   doLogin() {
     let params = {
@@ -87,11 +49,55 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  socialiteLogin(){
+    this.socialAuthService.authState.subscribe((user) => {
+      if(user){
+        this.socialUser = user;
+        this.register.first_name = this.socialUser.firstName;
+        this.register.last_name =  this.socialUser.lastName;
+        this.register.email =  this.socialUser.email;
+        this.register.password = 'Proceum@123' ;
+        this.register.confirm_pwd = 'Proceum@123';
+        this.register.register_type = 'SL';
+        let params = {
+          url: 'register',
+          first_name:this.register.first_name,
+          last_name:this.register.last_name,
+          email: this.register.email,
+          password: this.register.password,
+          role:2,
+          register_type:this.register.register_type
+        };
+        this.http.register(params).subscribe((res: Response) => {
+          if (res.error) {
+            this.register.password = '';
+            this.message = res.message;
+            this.toastr.error(this.message, 'Error', { closeButton: true });
+          } else {
+            sessionStorage.setItem('_token', res['data'].token);
+            let json_user = btoa(JSON.stringify(res['data'].user));
+            sessionStorage.setItem('user', json_user);
+            if (res['data']['user']['role'] == 1) {
+              //admin
+              this.route.navigate(['/admin/dashboard']);
+            } else if (res['data']['user']['role'] == 2) {
+              //student
+              this.route.navigate(['/student/dashboard']);
+            }
+          }
+        });
+
+      }
+    });
+  }
+
   sociallogin(social_type:string): void {
     if(social_type == "GG"){
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
+      this.socialiteLogin();
     }else if(social_type == "FB"){
       this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+      this.socialiteLogin();
     }else if(social_type == "AP"){
 
     }
