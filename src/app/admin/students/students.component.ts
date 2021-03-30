@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-students',
@@ -22,7 +23,7 @@ export class StudentsComponent implements OnInit {
   public page = 0;
   public pageSize = 10;
   public sort_by: any;
-  constructor(private http: CommonService, public dialog: MatDialog) {}
+  constructor(private http: CommonService, public dialog: MatDialog,private toastr: ToastrService) {}
   ngOnInit(): void {
     this.api_url = environment.apiUrl;
     this.getStudents();
@@ -58,32 +59,35 @@ export class StudentsComponent implements OnInit {
   sortData(event) {
 		this.sort_by = event;
 		if (this.sort_by.direction != '')
-			this.applyFilters( );
+			this.applyFilters();
 	}
 
   createStucent(){
     
   }
 
-  // exportStudents(type:string){
-
-  //   if(type == 'EXL'){
-  //     let param = { url: 'export-students/EXL'};
-  //     this.http.get(param).subscribe((res) => {
-  //     });
-
-  //   }else if(type == 'PDF'){
-  
-  //   }
-
-  // }
-
-  deleteStudent(student_id:any){
+  changeStatus(student_id:any){
+    // alert(student_id);
     let param = { url: 'user/'+student_id};
-    this.http.delete(param).subscribe((res) => {
-      this.applyFilters();
+    this.http.delete(param).subscribe((res: Response) => {
+      if (res.error) {
+        this.toastr.error(res.message, 'Error', { closeButton: true });
+      }else{
+        this.toastr.success(res.message, 'Success', { closeButton: true });
+        this.applyFilters();
+      }
     });
+
+
   }
 
+}
+
+export interface Response {
+  error: boolean;
+  token: any;
+  message: string;
+  role?: any;
+  errors?: any;
 }
 

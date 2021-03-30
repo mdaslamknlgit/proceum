@@ -22,7 +22,8 @@ export class AdminTopbarComponent implements OnInit {
   }
 
   logout() {
-    let params = { url: 'logout' };
+    let login_id = JSON.parse(atob(sessionStorage.getItem('user'))).login_id;
+    let params = { url: 'logout',login_id:login_id };
     this.http.post(params).subscribe((res) => {
       this.http.removeSession();
       this.route.navigate(['/login']);
