@@ -16,6 +16,7 @@ import { StepsComponent } from './curriculam/steps/steps.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
 import { AccessMatrixComponent } from './access-matrix/access-matrix.component';
 import { LoginHistoryComponent } from './login-history/login-history.component';
+import { SettingsComponent } from './settings/settings.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -80,6 +81,7 @@ const routes: Routes = [
     RolesListComponent,
     AccessMatrixComponent,
     LoginHistoryComponent,
+    SettingsComponent,
   ],
   imports: [
     MaterialModule,
