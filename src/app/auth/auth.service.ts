@@ -43,6 +43,37 @@ export class AuthService {
     return this.http.get(this.Lurl);
   };
 
+  public newsletterSubscribe(param) {
+		let headers = new HttpHeaders();
+		headers = headers.set('Content-Type', 'application/json');
+		return this.http.post(this.apiURL + param.url, param, { headers: headers }).pipe(map(res => res), catchError(this.errorHandler));
+
+	}
+	public unSubscribeNewsletter(param) {
+		let headers = new HttpHeaders();
+		headers = headers.set('Content-Type', 'application/json');
+		return this.http.post(this.apiURL + param.url, param, { headers: headers }).pipe(map(res => res), catchError(this.errorHandler));
+
+	}
+	public post(param) {
+		let headers = new HttpHeaders();
+		headers = headers.set('Content-Type', 'application/json');
+		return this.http.post(this.apiURL + param.url, param, { headers: headers }).pipe(map(res => res), catchError(this.errorHandler));
+
+	}
+
+  public formData(param,myFormData) {
+    let headers = new HttpHeaders();
+          headers.append('Content-Type', 'multipart/form-data');
+          headers.append('Accept', 'application/json');
+    return this.http
+      .post(this.apiURL + param.url, myFormData, { headers: headers })
+      .pipe(
+        map((res) => res),
+        catchError(this.errorHandler)
+      );
+  }
+
   errorHandler(error: Response) {
     return throwError(error);
   }

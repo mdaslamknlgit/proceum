@@ -16,6 +16,7 @@ import { EmailVerifiedComponent } from './frontend/email-verified/email-verified
 import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscribe-email.component';
 
 
+
 const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: '', pathMatch: 'full', redirectTo: 'main' },
@@ -33,7 +34,7 @@ const routes: Routes = [
   { path: 'library', component:ProceumLibraryComponent},
   { path: 'forgot-password', component:ForgotPasswordComponent},
   { path: 'email-verification', component:EmailVerifiedComponent},
-  { path: 'unsubscription', component:UnsubscribeEmailComponent},
+  { path: 'unsubscribe', component:UnsubscribeEmailComponent},
   {
     path: 'login',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
