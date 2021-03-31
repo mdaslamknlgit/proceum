@@ -3,7 +3,7 @@
       <div class="ind_logo_img">
         <a routerLink="/"> <img src="assets/images/ProceumLogo_w.png" /></a>
       </div>
-      <div class="message-box-div">
+      <div class="message-box-div" *ngIf="is_show">
             <mat-icon>mark_email_read</mat-icon>
             <div class="message-area">
                 Congratulations, <br> Your e-mail has been verified successfully!
@@ -12,6 +12,11 @@
                 <a routerLink="/login">Click here to login</a>
             </div>
       </div>
+      <div class="message-box-div" *ngIf="!is_show && is_verrified==1">
+        <div class="message-area">
+            Your e-mail not verified !
+        </div>
+  </div>
     </div>
   </div>
   

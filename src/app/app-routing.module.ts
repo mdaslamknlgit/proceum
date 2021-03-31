@@ -34,7 +34,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'library', component:ProceumLibraryComponent},
   { path: 'forgot-password', component:ForgotPasswordComponent},
-  { path: 'email-verification', component:EmailVerifiedComponent},
+  { path: 'email-verification/:hash', component:EmailVerifiedComponent},
   { path: 'unsubscription', component:UnsubscribeEmailComponent},
   {
     path: 'login',
