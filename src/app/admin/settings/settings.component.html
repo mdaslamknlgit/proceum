@@ -12,6 +12,9 @@
         <span>
             <!-- <button mat-raised-button color="accent">Generate</button> -->
             <input type="file" mat-raised-button color="accent" accept="image/*" (change)="fileEvent($event)"/>
+            <!-- <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
+                <input type="file" #fileInput mat-raised-button color="accent" required accept="image/*" (change)="fileEvent($event)" style="display:none;" />
+              </button> -->
             <span style="color:maroon">{{imgMessage}}</span>
         </span>
     </div>
@@ -25,6 +28,15 @@
             <mat-form-field appearance="outline">
                 <mat-label>Organization Name</mat-label>
                 <input matInput placeholder="Organization Name" required name="organization_name" [(ngModel)]="settings.organization_name" #organization_name="ngModel"  ngModel>
+            </mat-form-field>
+        </span>
+        </div>
+        <div class="frm_dvs">
+        <span>Contact Name</span>
+        <span>
+            <mat-form-field appearance="outline">
+                <mat-label>Contact Name</mat-label>
+                <input matInput placeholder="Contact Name" required name="contact_name" [(ngModel)]="settings.contact_name" #contact_name="ngModel"  ngModel onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))' >
             </mat-form-field>
         </span>
         </div>
@@ -43,7 +55,7 @@
         <span>
             <mat-form-field appearance="outline">
                 <mat-label>Contact Phone 1</mat-label>
-                <input matInput placeholder="Contact Phone 1"  name="contact_number_1" minlength="10" maxlength="10" [(ngModel)]="settings.contact_number_1" #contact_number_1="ngModel"  ngModel onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
+                <input matInput placeholder="Contact Phone 1" required name="contact_number_1" minlength="10" maxlength="10" [(ngModel)]="settings.contact_number_1" #contact_number_1="ngModel"  ngModel onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))' pattern="^[6-9]{1}[0-9]{9}$">
             </mat-form-field>
         </span>
         </div>
@@ -95,11 +107,45 @@
         </span> 
         </div>
         <div class="frm_dvs">
-        <!-- <span>System Mode</span>
-        <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="live">Live Mode</mat-radio-button>
-            <mat-radio-button value="maintanence">Maintanence Mode</mat-radio-button>
-        </mat-radio-group> -->
+            <span>Theme/Color</span>
+            <span>
+                <mat-form-field appearance="outline">
+                    <mat-label>Theme/Color</mat-label>
+                    <input matInput type="color" placeholder="Theme Color " required name="theme_color" [(ngModel)]="settings.theme_color" #contact_name="ngModel"  ngModel >
+                </mat-form-field>
+            </span>
+            </div>
+        <div class="frm_dvs">
+            <span>List View Page Limit</span>
+            <span>
+                <mat-form-field appearance="outline">
+                    <mat-label>List View Page Limit</mat-label>
+                    <input matInput placeholder="List View Page Limit eg:10" minlength="1" maxlength="2" required name="list_view_limit" [(ngModel)]="settings.list_view_limit" #list_view_limit="ngModel"  ngModel onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
+                </mat-form-field>
+            </span>
+            </div>
+        <div class="frm_dvs">
+            <span>Date Format</span>
+                <span>
+            <mat-form-field appearance="outline" color="accent" >
+                <mat-select matInput name="date_format" [(ngModel)]="settings.date_format" #date_format="ngModel" ngModel required>
+                    <mat-option value="dd/mm/yyyy">dd/mm/yyyy</mat-option>
+                    <mat-option value="d-M-YYY">d-M-YYY</mat-option>
+                    <mat-option value="DD/MM/YY">DD/MM/YY</mat-option>
+                  </mat-select>
+              </mat-form-field>
+              </span>
+        </div>
+        <div class="frm_dvs">
+            <span>Time Format</span>
+                <span>
+            <mat-form-field appearance="outline" color="accent" >
+                <mat-select required name="time_format" [(ngModel)]="settings.time_format" #time_format="ngModel"  ngModel>
+                    <mat-option value="dd/mm/yyyy">12Hr</mat-option>
+                    <mat-option value="d-M-YYY">24Hr</mat-option>
+                  </mat-select>
+              </mat-form-field>
+              </span>
         </div>
         <div class="text-center" style="margin-top: 10px;">
             <button type="submit" mat-raised-button color="accent" >Save</button>
@@ -107,7 +153,9 @@
     </div>
     </div>
     </form>
-    <form #settings_form1="ngForm" id="settings_form1" name="settings_form1" (ngSubmit)="systemMode(settings_form1)" novalidate>
+
+
+    <!-- <form #settings_form1="ngForm" id="settings_form1" name="settings_form1" (ngSubmit)="systemMode(settings_form1)" novalidate>
         <div class="grd_2c">
         <div class="frm_dvs">
         <span>System Mode</span>
@@ -121,6 +169,6 @@
             <button type="submit" mat-raised-button color="accent" >Save</button>
         </div>
     </div>
-    </form>
+    </form> -->
 </div>
 <app-footer></app-footer>
