@@ -1,11 +1,26 @@
 <div class="sd_br" [ngClass]="sidemenuStatus"> 
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
-
     <li routerLink="/student/dashboard" class="active">
       <div class="sd_mnuhd">
         <mat-icon>dashboard</mat-icon> Dashboard
       </div>
+    </li>
+    <li class="hs_sbmnu {{ menu_active == 4 ? 'active' : '' }}" (click)="activeMenu(4)">
+      <div class="sd_mnuhd">
+        <mat-icon>auto_stories</mat-icon> Curriculum
+      </div>
+      <ul class="sdmn_sub">
+        <li routerLink="/student-curriculum">
+          <mat-icon>play_circle_outline</mat-icon> MCI Curriculum
+        </li>
+        <li>
+          <mat-icon>play_circle_outline</mat-icon> USMLE Curriculum
+        </li>
+        <li>
+          <mat-icon>play_circle_outline</mat-icon> BIU Curriculum
+        </li>
+      </ul>
     </li>
     <li class="hs_sbmnu {{ menu_active == 1 ? 'active' : '' }}" (click)="activeMenu(1)">
       <div class="sd_mnuhd">
@@ -61,27 +76,6 @@
       <div class="sd_mnuhd">
         <mat-icon>manage_accounts</mat-icon> My Account
       </div>
-      <!-- <ul class="sdmn_sub">
-        <li>
-          <mat-icon>contacts</mat-icon> Profile
-        </li>
-        <li>
-          <mat-icon>account_balance</mat-icon> Analytics
-        </li>
-        <li>
-          <mat-icon>recent_actors</mat-icon> Assessments
-        </li>
-        <li>
-          <mat-icon>recent_actors</mat-icon> Favorites
-        </li>
-        <li>
-          <mat-icon>recent_actors</mat-icon> Bookmarks
-        </li>
-        <li>
-          <mat-icon>recent_actors</mat-icon> Notes
-        </li>
-       
-      </ul> -->
     </li>
     <li>
       <div class="sd_mnuhd">

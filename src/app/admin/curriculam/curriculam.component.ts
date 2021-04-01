@@ -5,7 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 @Component({
   selector: 'app-curriculam',
   templateUrl: './curriculam.component.html',
@@ -40,6 +40,14 @@ export class CurriculamComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getCurriculums();
+  }
+  drop(event: CdkDragDrop<string[]>) {
+    alert();
+    moveItemInArray(
+      this.displayedColumns,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
   getCurriculums() {
     let param = { url: 'curriculum' };

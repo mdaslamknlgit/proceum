@@ -155,13 +155,22 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td
+          style="text-align: center; margin: 20px"
+          class="mat-cell"
+          colspan="6"
+        >
+          No Records Found
+        </td>
+      </tr>
     </table>
-    <div
+    <!-- <div
       style="text-align: center; margin: 20px"
       *ngIf="dataSource.data.length == 0"
     >
       No Records Found
-    </div>
+    </div> -->
     <mat-paginator
       *ngIf="dataSource.data.length > 0"
       [pageSizeOptions]="page_size_options"

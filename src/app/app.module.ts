@@ -23,7 +23,7 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { MatIconModule } from '@angular/material/icon';
-import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,9 +36,6 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
     BrowserModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
-    }),
-    ConfirmationPopoverModule.forRoot({
-      confirmButtonType: 'danger', // set defaults here
     }),
     BrowserAnimationsModule,
     ColorPickerModule,

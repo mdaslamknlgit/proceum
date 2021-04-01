@@ -14,6 +14,8 @@ import { ProceumLibraryComponent } from './shared/proceum-library/proceum-librar
 import { ForgotPasswordComponent } from './frontend/forgot-password/forgot-password.component';
 import { EmailVerifiedComponent } from './frontend/email-verified/email-verified.component';
 import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscribe-email.component';
+import { CurriculumComponent } from './frontend/student/curriculum/curriculum.component';
+import { SettingsComponent } from './admin/settings/settings.component';
 
 
 const routes: Routes = [
@@ -57,9 +59,11 @@ const routes: Routes = [
       role: '2',
     },
   },
-  
+  { path: 'student-curriculum', component: CurriculumComponent },
+  {path : 'settings', component: SettingsComponent},
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: IndexComponent },
+
   
 ];
 @NgModule({
