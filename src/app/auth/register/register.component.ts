@@ -71,9 +71,9 @@ export class RegisterComponent implements OnInit {
             };
             this.http.register(params).subscribe((res: Response) => {
               if (res.error) {
-                this.register.password = '';
+                // this.register.password = '';
                 this.message = res.message;
-                this.toastr.error(this.message, 'Error', { closeButton: true });
+                // this.toastr.error(this.message, 'Error', { closeButton: true });
               } else {
                 if(res.register_type == 'SL'){
                   sessionStorage.setItem('_token', res['data'].token);
