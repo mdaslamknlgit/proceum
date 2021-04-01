@@ -19,6 +19,7 @@ import { LoginHistoryComponent } from './login-history/login-history.component';
 import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
 import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.component';
 import { SettingsComponent } from './settings/settings.component';
+import { CountriesStatesCitiesComponent } from './countries-states-cities/countries-states-cities.component';
 
 const routes: Routes = [
   {
@@ -69,6 +70,10 @@ const routes: Routes = [
     path: 'access-matrix',
     component: AccessMatrixComponent,
   },
+  {
+    path: 'countries-states-cities',
+    component: CountriesStatesCitiesComponent,
+  },
   { path: 'newsletter-list', component: NewsletterListComponent },
   { path: 'settings', component: SettingsComponent },
 ];
@@ -89,6 +94,7 @@ const routes: Routes = [
     NewsletterListComponent,
     ModalPopupComponent,
     SettingsComponent,
+    CountriesStatesCitiesComponent,
   ],
   imports: [
     MaterialModule,
