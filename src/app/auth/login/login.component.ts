@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit {
   };
   login: Login = { email: '', password: '' };
   public message: string = 'Invalid email or password';
+  public respone_status:boolean=true;
   constructor(
     private http: AuthService,
     private route: Router,
@@ -46,9 +47,10 @@ export class LoginComponent implements OnInit {
     };
     this.http.login(params).subscribe((res: Response) => {
       if (res.error) {
-        this.login.password = '';
+        this.respone_status=false;
+        // this.login.password = '';
         this.message = res.message;
-        this.toastr.error(this.message, 'Error', { closeButton: true });
+        // this.toastr.error(this.message, 'Error', { closeButton: true });
       } else {
         sessionStorage.setItem('_token', res['data'].token);
         let json_user = btoa(JSON.stringify(res['data'].user));

@@ -23,6 +23,7 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { MatIconModule } from '@angular/material/icon';
+import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,8 @@ import { MatIconModule } from '@angular/material/icon';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
     }),

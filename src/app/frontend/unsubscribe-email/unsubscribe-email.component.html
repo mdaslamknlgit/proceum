@@ -1,9 +1,9 @@
-<div class="indvidual_main">
+<div class="indvidual_main" >
     <div class="ind_mdl_cont">
       <div class="ind_logo_img">
         <a routerLink="/"> <img src="assets/images/ProceumLogo_w.png" /></a>
       </div>
-      <div class="message-box-div" style="display: none;">
+      <div class="message-box-div" *ngIf="isUnsubscribe">
             <mat-icon>unsubscribe</mat-icon>
             <div class="message-area">
                 Congratulations, <br> You have been unsubscribed successfully!
@@ -13,24 +13,35 @@
             </div>
       </div>
 
-      <div class="message-box-div message-warning-div">
+      <div class="message-box-div message-warning-div" *ngIf="!isUnsubscribe">
         <mat-icon>unsubscribe</mat-icon>
         <div class="message-area">
             <span class="message-warning">You will be missed !! </span> 
             <!-- <br> -->
             <!-- You have been unsubscribed Proceum email list. -->
         </div>
-        
+        <form  #unsubscribeForm="ngForm" (ngSubmit)="onSubmit(unsubscribeForm.value)" novalidate >
         <div class="feedback_block">
           <p>Please take a moment to tell us why you no longer wish to hear from us</p>
           <div class="form-fields">
+              
             <mat-form-field appearance="outline">
-                <mat-label>Description</mat-label>
+<<<<<<< HEAD
+               
                 <textarea matInput placeholder="Please share your feedback"></textarea>
+=======
+                <mat-label>Description</mat-label>
+                <textarea matInput pattern = "^(?!\s*$).+" rows="10" cols="60" minlength="1" maxlength="600" placeholder="Please share your feedback" name="reason" ngModel #reason="ngModel" required>{{textMessage}}</textarea><br />
+>>>>>>> c4d504b9ddcc3bbfc2c6c669477387b544adc0df
             </mat-form-field>
+            <div *ngIf="reason.touched && !reason.valid">
+                <div *ngIf="reason.errors.required" >Reason is required.</div>
+              </div>
+              <span>{{excption_message}}</span>
           </div>
-          <button type="submit" class="teal_btn lgn_btn">Submit</button>
+          <button type="submit"  [disabled]="unsubscribeForm.invalid && !reason.valid" class="teal_btn lgn_btn">Submit</button>
         </div>
+        </form>
         <br>
         <div>
             <a routerLink="/">Click here to go to Homepage</a>
