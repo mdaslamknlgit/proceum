@@ -55,6 +55,7 @@ export class ManageTemplateComponent implements OnInit {
     }
   }
   submitTemplate() {
+    console.log("hi");
     let param = this.template;
     param['url'] = 'email-template';
     if (this.template.id == '0') {

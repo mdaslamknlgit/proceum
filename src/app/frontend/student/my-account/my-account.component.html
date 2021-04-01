@@ -16,28 +16,24 @@
                 <button mat-icon-button><mat-icon>insert_chart</mat-icon></button>
               <a>Analytics</a>
             </div>
-            
           </li>
           <li>
             <div class="crd_dv">
                 <button mat-icon-button><mat-icon>assignment</mat-icon></button>
               <a>Assessments</a>
             </div>
-            
           </li>
           <li>
             <div class="crd_dv">
                 <button mat-icon-button><mat-icon>favorite_border</mat-icon></button>
               <a>Favorites</a>
             </div>
-            
           </li>
           <li>
             <div class="crd_dv">
                 <button mat-icon-button><mat-icon>book</mat-icon></button>
               <a>Bookmarks</a>
             </div>
-           
           </li>
           <li>
             <div class="crd_dv">
@@ -50,53 +46,58 @@
     <br>
         <!-- Profile fields -->
         <h2 class="section-title">My Profile</h2>
+        <form #profile_form="ngForm" name="profile_form" (ngSubmit)="onSubmit(profile_form)" novalidate>
     <div class="two-blocks">
-
-      <div class="profile_pic">
-        <img src="../../../../assets/images/Demo-placeholder.jpeg" alt="">
-      </div>
+        
+        <div class="profile_pic">
+          <img src="{{src}}" alt="">
+        </div>
       <div class="text-center">
-        <button mat-raised-button color="accent" type="file">Browse</button>
+        <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
+          <input type="file" #fileInput mat-raised-button color="accent" accept="image/*" (change)="fileEvent($event)" style="display:none;" />
+        </button>
+        <br/>
+        <span style="color:maroon">{{imgMessage}}</span>
       </div>
         <div class="grd_2c">
           <div class="tc_w50p">
           <div class="frm_dvs">
               <span>First name</span>
               <span>
-                  <mat-form-field appearance="outline">
-                      <input matInput placeholder="First name">
-                  </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="First name" name="first_name" [(ngModel)]="profile.first_name" required onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+              </mat-form-field>
               </span>
             </div>
             <div class="frm_dvs">
               <span>Last name</span>
               <span>
-                  <mat-form-field appearance="outline">
-                      <input matInput placeholder="Last name">
-                  </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Last name" name="last_name" [(ngModel)]="profile.last_name" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+              </mat-form-field>
               </span>
             </div>
             <div class="frm_dvs">
               <span>Mobile</span>
               <span>
-                  <mat-form-field appearance="outline">
-                      <input matInput placeholder="Mobile">
-                  </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Mobile" disabled="disabled" >
+              </mat-form-field>
               </span>
             </div>
             <div class="frm_dvs">
               <span>Email</span>
               <span>
-                  <mat-form-field appearance="outline">
-                      <input matInput placeholder="Email Address" [disabled]="'disabled'">
-                  </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Email Address"  name="email"  [disabled]="'disabled'" [(ngModel)]="profile.email">
+              </mat-form-field>
               </span>
             </div>
             <div class="frm_dvs">
               <span>Country</span>
               <span>
                   <mat-form-field appearance="outline" color="accent" disableOptionCentering readonly>
-                      <mat-select readonly>
+                    <mat-select disabled="disabled">
                         <mat-option>None</mat-option>
                         <mat-option value="option1">Option 1</mat-option>
                         <mat-option value="option2">Option 2</mat-option>
@@ -109,7 +110,7 @@
               <span>State</span>
               <span>
                   <mat-form-field appearance="outline">
-                      <mat-select>
+                    <mat-select disabled="disabled">
                           <mat-option>None</mat-option>
                           <mat-option value="option1">Option 1</mat-option>
                           <mat-option value="option2">Option 2</mat-option>
@@ -122,7 +123,7 @@
               <span>City</span>
               <span>
                   <mat-form-field appearance="outline">
-                      <mat-select>
+                    <mat-select disabled="disabled">
                           <mat-option>None</mat-option>
                           <mat-option value="option1">Option 1</mat-option>
                           <mat-option value="option2">Option 2</mat-option>
@@ -135,15 +136,16 @@
               <span>Address line 1</span>
               <span>
                   <mat-form-field appearance="outline">
-                      <input matInput placeholder="First name">
+                      <input matInput placeholder="Address line 1" readonly>
                   </mat-form-field>
               </span>
             </div>
             <div class="frm_dvs">
-              <span>Address line 1</span>
+
+              <span>Address line 2</span>
               <span>
                   <mat-form-field appearance="outline">
-                      <input matInput placeholder="First name">
+                      <input matInput placeholder="Address line 2" readonly>
                   </mat-form-field>
               </span>
             </div>
@@ -153,7 +155,8 @@
               <span>University</span>
               <span>
                 <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                  <mat-select>
+                  <mat-select disabled="disabled">
+
                     <mat-option>None</mat-option>
                     <mat-option value="option1">Option 1</mat-option>
                     <mat-option value="option2">Option 2</mat-option>
@@ -166,7 +169,7 @@
               <span>College/Institue</span>
               <span>
                 <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                  <mat-select>
+                  <mat-select disabled="disabled">
                     <mat-option>None</mat-option>
                     <mat-option value="option1">Option 1</mat-option>
                     <mat-option value="option2">Option 2</mat-option>
@@ -179,7 +182,7 @@
               <span>Campus</span>
               <span>
                 <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                  <mat-select>
+                  <mat-select disabled="disabled">
                     <mat-option>None</mat-option>
                     <mat-option value="option1">Option 1</mat-option>
                     <mat-option value="option2">Option 2</mat-option>
@@ -192,7 +195,7 @@
               <span>Student Group</span>
               <span>
                 <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                  <mat-select>
+                  <mat-select disabled="disabled">
                     <mat-option>None</mat-option>
                     <mat-option value="option1">Option 1</mat-option>
                     <mat-option value="option2">Option 2</mat-option>
@@ -205,16 +208,14 @@
               <span>Registration Number/UUID</span>
               <span>
                 <mat-form-field appearance="outline">
-                  <input matInput placeholder="Registration Number">
+                  <input matInput placeholder="Registration Number" disabled="disabled">
                 </mat-form-field>
               </span>
             </div>
             <div class="frm_dvs">     
-             
               <span class="accent">
-                  <mat-checkbox>Update login password</mat-checkbox>
+                <mat-checkbox (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update login password</mat-checkbox>
               </span>
-              
             </div>
             <div class="frm_dvs">
               <span class="hgt_20"></span>
@@ -223,32 +224,39 @@
             <div class="frm_dvs">
               <span>Current password</span>
               <span>
-                  <mat-form-field appearance="outline">
-                      <input matInput placeholder="Current password">
-                  </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Current password" type="password" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="8" maxlength="16" name="current_password" onkeypress='return (event.charCode != 32)' #current_password="ngModel"  ngModel pattern='[A-Za-z\d!@#$%^&*()_+]{7,19}' >
+              </mat-form-field>
               </span>
             </div>
             <div class="frm_dvs">
               <span>New password</span>
               <span>
-                  <mat-form-field appearance="outline">
-                      <input matInput placeholder="New password">
-                  </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="New password" type="password" [required]="isrequired" [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password" onkeypress='return (event.charCode != 32)' #new_password="ngModel"  ngModel >
+                </mat-form-field>
+                <span style="color:maroon" class="{{ profile_form.submitted && newpwd_check == false ? 'err_tltp_par' : 'prc_tltp'}}">    
+                  Password should have minimum 8 characters, at least 1 uppercase letter, 1 lowercase    
+                  letter and 1 number    
+              </span>
               </span>
             </div>
             <div class="frm_dvs">
               <span>Confirm password</span>
               <span>
-                  <mat-form-field appearance="outline">
-                      <input matInput placeholder="Confirm password">
-                  </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Confirm password" type="password" [required]="isrequired" [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd" onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel"  ngModel >
+                </mat-form-field>
+              <span style="color:maroon" class="{{ profile_form.submitted && confirm_check == false ? 'err_tltp_par' : 'prc_tltp'}}"> New Password and Confirm password are not matched </span>
               </span>
             </div>
           </div>
-      
-     <div class="hgt_20"></div>
-    <div class="text-center oc_w100p">
-      <button mat-raised-button color="accent">Save</button>
-    </div>
-    </div>
+        <div class="hgt_20"></div>
+        <div class="text-center oc_w100p">
+          <button mat-raised-button color="accent">Save</button>
+        </div>
+    </div>  
 </div>
+</form>

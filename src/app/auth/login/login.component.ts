@@ -31,9 +31,9 @@ export class LoginComponent implements OnInit {
     };
     this.http.login(params).subscribe((res: Response) => {
       if (res.error) {
-        this.login.password = '';
+        // this.login.password = '';
         this.message = res.message;
-        this.toastr.error(this.message, 'Error', { closeButton: true });
+        // this.toastr.error(this.message, 'Error', { closeButton: true });
       } else {
         sessionStorage.setItem('_token', res['data'].token);
         let json_user = btoa(JSON.stringify(res['data'].user));

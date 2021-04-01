@@ -16,7 +16,10 @@ import { StepsComponent } from './curriculam/steps/steps.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
 import { AccessMatrixComponent } from './access-matrix/access-matrix.component';
 import { LoginHistoryComponent } from './login-history/login-history.component';
+import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
+import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.component';
 import { SettingsComponent } from './settings/settings.component';
+
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -66,6 +69,8 @@ const routes: Routes = [
     path: 'access-matrix',
     component: AccessMatrixComponent,
   },
+  { path: 'newsletter-list', component: NewsletterListComponent },
+  { path: 'settings', component: SettingsComponent },
 ];
 @NgModule({
   declarations: [
@@ -81,6 +86,8 @@ const routes: Routes = [
     RolesListComponent,
     AccessMatrixComponent,
     LoginHistoryComponent,
+    NewsletterListComponent,
+    ModalPopupComponent,
     SettingsComponent,
   ],
   imports: [
