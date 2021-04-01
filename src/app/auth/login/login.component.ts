@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   register: Register = { first_name:'', last_name:'', email: '', password: '', confirm_pwd: '',register_type:'' };
   login: Login = { email: '', password: '' };
   public message: string = 'Invalid email or password';
+  public respone_status:boolean=true;
   constructor(
     private http: AuthService,
     private route: Router,
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
     };
     this.http.login(params).subscribe((res: Response) => {
       if (res.error) {
+        this.respone_status=false;
         // this.login.password = '';
         this.message = res.message;
         // this.toastr.error(this.message, 'Error', { closeButton: true });
