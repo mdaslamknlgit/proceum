@@ -22,14 +22,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatSelectModule} from '@angular/material/select';
-import {MatDatepickerModule} from '@angular/material/datepicker'; 
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatBadgeModule} from '@angular/material/badge';
-
-
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatBadgeModule } from '@angular/material/badge';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
@@ -56,8 +54,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatDatepickerModule,
     MatNativeDateModule,
     MatExpansionModule,
-    MatBadgeModule
-
+    MatBadgeModule,
+    NgMultiSelectDropDownModule,
   ],
   exports: [
     MatInputModule,
@@ -86,7 +84,8 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatDatepickerModule,
     MatNativeDateModule,
     MatExpansionModule,
-    MatBadgeModule
+    MatBadgeModule,
+    NgMultiSelectDropDownModule,
   ],
 })
 export class MaterialModule {}

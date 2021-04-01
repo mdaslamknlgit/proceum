@@ -2,7 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { SocialAuthService, GoogleLoginProvider, SocialUser,FacebookLoginProvider } from 'angularx-social-login';
+import {
+  SocialAuthService,
+  GoogleLoginProvider,
+  SocialUser,
+  FacebookLoginProvider,
+} from 'angularx-social-login';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -10,7 +15,14 @@ import { SocialAuthService, GoogleLoginProvider, SocialUser,FacebookLoginProvide
 })
 export class LoginComponent implements OnInit {
   socialUser: SocialUser;
-  register: Register = { first_name:'', last_name:'', email: '', password: '', confirm_pwd: '',register_type:'' };
+  register: Register = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    confirm_pwd: '',
+    register_type: '',
+  };
   login: Login = { email: '', password: '' };
   public message: string = 'Invalid email or password';
   public respone_status:boolean=true;
@@ -56,24 +68,24 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  socialiteLogin(){
+  socialiteLogin() {
     this.socialAuthService.authState.subscribe((user) => {
-      if(user){
+      if (user) {
         this.socialUser = user;
         this.register.first_name = this.socialUser.firstName;
-        this.register.last_name =  this.socialUser.lastName;
-        this.register.email =  this.socialUser.email;
-        this.register.password = 'Proceum@123' ;
+        this.register.last_name = this.socialUser.lastName;
+        this.register.email = this.socialUser.email;
+        this.register.password = 'Proceum@123';
         this.register.confirm_pwd = 'Proceum@123';
         this.register.register_type = 'SL';
         let params = {
           url: 'register',
-          first_name:this.register.first_name,
-          last_name:this.register.last_name,
+          first_name: this.register.first_name,
+          last_name: this.register.last_name,
           email: this.register.email,
           password: this.register.password,
-          role:2,
-          register_type:this.register.register_type
+          role: 2,
+          register_type: this.register.register_type,
         };
         this.http.register(params).subscribe((res: Response) => {
           if (res.error) {
@@ -93,22 +105,19 @@ export class LoginComponent implements OnInit {
             }
           }
         });
-
       }
     });
   }
 
-  sociallogin(social_type:string): void {
-    if(social_type == "GG"){
+  sociallogin(social_type: string): void {
+    if (social_type == 'GG') {
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
       this.socialiteLogin();
-    }else if(social_type == "FB"){
+    } else if (social_type == 'FB') {
       this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
       this.socialiteLogin();
-    }else if(social_type == "AP"){
-
+    } else if (social_type == 'AP') {
     }
-    
   }
 
   logout() {
@@ -121,12 +130,12 @@ export class LoginComponent implements OnInit {
 }
 
 export interface Register {
-  first_name:string;
-  last_name:string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: any;
-  confirm_pwd:any;
-  register_type:any;
+  confirm_pwd: any;
+  register_type: any;
 }
 
 export interface Login {

@@ -55,7 +55,12 @@ export class ManageTemplateComponent implements OnInit {
     }
   }
   submitTemplate() {
-    console.log("hi");
+    if (this.template.template == '') {
+      this.toaster.error('Template content is required', 'Error', {
+        progressBar: true,
+      });
+      return false;
+    }
     let param = this.template;
     param['url'] = 'email-template';
     if (this.template.id == '0') {
