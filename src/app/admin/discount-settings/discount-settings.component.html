@@ -4,39 +4,27 @@
   <div class="brd_crm">Proceum &raquo; <strong>Discount Settings</strong></div>
   <div class="pg_ttl">Discount Settings</div>
   <div class="hgt_20"></div>
-  <div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: model_status }">
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
-      <div class="pg_ttl">Discount Create</div>
-      <form
-        id="discount_form"
-        #discount_form="ngForm"
-        name="discount_form"
-        (ngSubmit)="discount_form.valid && createDiscount()"
-        novalidate
-      >
-        <button
-          type="button"
-          mat-icon-button
-          (click)="toggleModel()"
-          color="accent"
-          class="float_right"
-        >
-          <mat-icon>close</mat-icon>
-        </button>
+      <div class="pg_ttl">Discount Create
+        <span class="spacer"></span>
+        <button type="button" mat-icon-button (click)="toggleModel()">&#x2715;</button>
+
+      </div>
+      <form id="discount_form" #discount_form="ngForm" name="discount_form"
+        (ngSubmit)="discount_form.valid && createDiscount()" novalidate>
+
         <div class="tbbd_bdy">
-          <div class="grd_2c">
-            <span>Title</span>
-            <span>
-              <mat-form-field appearance="outline">
-                <mat-label>Discount Percent</mat-label>
-                <input
-                  required
-                  name="title"
-                  [(ngModel)]="title"
-                  matInput
-                  placeholder="Title"
-                /> </mat-form-field
-            ></span>
+          <div class="grd_2c no_bxsdw">
+            <div class="frm_dvs">
+              <span>Title</span>
+              <span>
+                <mat-form-field appearance="outline">
+               
+                  <input required name="title" [(ngModel)]="title" matInput placeholder="Title" />
+                </mat-form-field>
+              </span>
+            </div>
             <!-- <span>Discount Applicable for</span>
             <span>
               <ng-multiselect-dropdown
@@ -70,19 +58,16 @@
                 </mat-select>
               </mat-form-field></span
             >-->
-            <span>Discount Percent</span>
-            <span>
-              <mat-form-field appearance="outline">
-                <mat-label>Discount Percent</mat-label>
-                <input
-                  required
-                  name="discount_percente"
-                  [(ngModel)]="discount_percente"
-                  matInput
-                  placeholder="Discount Percent"
-                />
-              </mat-form-field>
-            </span>
+            <div class="frm_dvs">
+              <span>Discount Percent</span>
+              <span>
+                <mat-form-field appearance="outline">
+                
+                  <input required name="discount_percente" [(ngModel)]="discount_percente" matInput
+                    placeholder="Discount Percent" />
+                </mat-form-field>
+              </span>
+            </div>
             <!-- <span>Discount Amount (BBD &#36;)</span>
             <span>
               <mat-form-field appearance="outline">
@@ -159,77 +144,43 @@
                 />
               </mat-form-field>
             </span> -->
-            <span>Valid From Date</span>
-            <span>
-              <mat-form-field
-                appearance="outline"
-                class="cal_wdth"
-                color="accent"
-              >
-                <mat-label>Choose a date</mat-label>
-                <input
-                  required
-                  name="valid_from"
-                  [(ngModel)]="valid_from"
-                  matInput
-                  [matDatepicker]="picker"
-                  autocomplete="off"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-              </mat-form-field>
-            </span>
+            <div class="frm_dvs">
+              <span>Valid From Date</span>
+              <span>
+                <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+                  <input required name="valid_from" [(ngModel)]="valid_from" matInput [matDatepicker]="picker"
+                    autocomplete="off" />
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </span>
+            </div>
+            <div class="frm_dvs">
             <span>Valid To Date</span>
             <span>
-              <mat-form-field
-                appearance="outline"
-                class="cal_wdth"
-                color="accent"
-              >
-                <mat-label>Choose a date</mat-label>
-                <input
-                  required
-                  name="valid_to"
-                  [(ngModel)]="valid_to"
-                  matInput
-                  [matDatepicker]="picker2"
-                  autocomplete="off"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="picker2"
-                ></mat-datepicker-toggle>
+              <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+                <input required name="valid_to" [(ngModel)]="valid_to" matInput [matDatepicker]="picker2"
+                  autocomplete="off" />
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                 <mat-datepicker #picker2></mat-datepicker>
               </mat-form-field>
             </span>
+            </div>
           </div>
         </div>
-
-        <button mat-raised-button color="accent">Submit</button>
+        <hr>
+        <button mat-raised-button color="accent" class="float_right mr_1">Submit</button>
       </form>
+      <div class="clear_fix"></div>
     </div>
   </div>
 
   <div class="dsh_brd_crds">
     <mat-form-field appearance="none">
-      <input
-        matInput
-        type="text"
-        (keyup)="doFilter($event.target.value)"
-        placeholder="Search"
-      />
+      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search" />
     </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="accent"
-      class="float_right"
-      (click)="toggleModel()"
-      type="button"
-    >
+    <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">
       New Discount
     </button>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -272,23 +223,14 @@
           <button mat-icon-button (click)="editDiscount(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <button
-            title="{{
+          <button title="{{
               element.status == 1 ? 'Click to deactivate' : 'Click to activate'
-            }}"
-            mat-icon-button
-            mwlConfirmationPopover
-            [popoverTitle]="'Are you sure?'"
-            [popoverMessage]="
+            }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
               'are you sure to change status of <b>' +
               element.title +
               '</b> Discount'
-            "
-            placement="top"
-            (confirm)="deleteDiscount(element.id, element.status)"
-            confirmButtonType="danger"
-            cancelButtonType="outline-secondary"
-          >
+            " placement="top" (confirm)="deleteDiscount(element.id, element.status)" confirmButtonType="danger"
+            cancelButtonType="outline-secondary">
             <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
             <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
           </button>
@@ -298,63 +240,31 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       <tr class="mat-row" *matNoDataRow>
-        <td
-          style="text-align: center; margin: 20px"
-          class="mat-cell"
-          colspan="6"
-        >
+        <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">
           No Records Found
         </td>
       </tr>
     </table>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons
-      (page)="getServerData($event)"
-    ></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>
 <div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: edit_model_status }">
   <div class="cust_mdl_chl">
-    <button
-      mat-icon-button
-      (click)="edit_model_status = !edit_model_status"
-      color="accent"
-      class="float_right"
-    >
+    <button mat-icon-button (click)="edit_model_status = !edit_model_status" color="accent" class="float_right">
       <mat-icon>close</mat-icon>
     </button>
     <div class="tbbd_bdy">
-      <form
-        id="edit_discount_form"
-        #edit_discount_form="ngForm"
-        name="edit_discount_form"
-        (ngSubmit)="edit_discount_form.valid && updateDiscount()"
-        novalidate
-      >
+      <form id="edit_discount_form" #edit_discount_form="ngForm" name="edit_discount_form"
+        (ngSubmit)="edit_discount_form.valid && updateDiscount()" novalidate>
         <div class="pg_ttl">Edit Discount</div>
-        <div
-          class="tbbd_bdy_cnt inp_par_dv"
-          [ngClass]="{
+        <div class="tbbd_bdy_cnt inp_par_dv" [ngClass]="{
             err_tltp_par: edit_discount_form.submitted && title == ''
-          }"
-        >
+          }">
           Title
-          <input
-            matInput
-            [(ngModel)]="title"
-            #title_name="ngModel"
-            name="title_name"
-            type="text"
-            placeholder="Provide Curiculum Name"
-            required
-          />
-          <span
-            class="prc_tltp"
-            *ngIf="edit_discount_form.submitted && title_name.invalid"
-          >
-            Discount Title is required</span
-          >
+          <input matInput [(ngModel)]="title" #title_name="ngModel" name="title_name" type="text"
+            placeholder="Provide Curiculum Name" required />
+          <span class="prc_tltp" *ngIf="edit_discount_form.submitted && title_name.invalid">
+            Discount Title is required</span>
         </div>
         <button mat-raised-button color="accent">Submit</button>
       </form>
