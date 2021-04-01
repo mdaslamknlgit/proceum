@@ -3,13 +3,13 @@ import { CommonService } from '../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import {NgForm} from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
-
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
+
   filedata:any;
   imgMsg:any;
   imgMessage:any;
@@ -123,4 +123,5 @@ export class SettingsComponent implements OnInit {
 
     //  });
   }
+
 }

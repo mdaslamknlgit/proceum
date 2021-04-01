@@ -14,8 +14,8 @@ import { ProceumLibraryComponent } from './shared/proceum-library/proceum-librar
 import { ForgotPasswordComponent } from './frontend/forgot-password/forgot-password.component';
 import { EmailVerifiedComponent } from './frontend/email-verified/email-verified.component';
 import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscribe-email.component';
-
-
+import { CurriculumComponent } from './frontend/student/curriculum/curriculum.component';
+import { SettingsComponent } from './admin/settings/settings.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -33,8 +33,9 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'library', component:ProceumLibraryComponent},
   { path: 'forgot-password', component:ForgotPasswordComponent},
-  { path: 'email-verification', component:EmailVerifiedComponent},
-  { path: 'unsubscribe', component:UnsubscribeEmailComponent},
+  { path: 'email-verification/:hash', component:EmailVerifiedComponent},
+  { path: 'unsubscription', component:UnsubscribeEmailComponent},
+
   {
     path: 'login',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
@@ -58,10 +59,10 @@ const routes: Routes = [
       role: '2',
     },
   },
-  
+  { path: 'student-curriculum', component: CurriculumComponent },
+  {path : 'settings', component: SettingsComponent},
   { path: 'not-found', component: NotFoundComponent },
-  { path: '**', component: IndexComponent },
-  
+  { path: '**', component: IndexComponent }, 
 ];
 @NgModule({
   imports: [

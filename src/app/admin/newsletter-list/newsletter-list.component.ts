@@ -68,9 +68,9 @@ export class NewsletterListComponent implements OnInit  {
   };
 
   applyFilters(){
-    let param = { url: 'get-users',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let param = { url: 'newsletter-list',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
     this.http.post(param).subscribe((res) => {
-      this.dataSource = new MatTableDataSource(res['users']);
+      this.dataSource = new MatTableDataSource(res['newsletters']);
       this.dataSource.sort = this.sort;
     });
   }

@@ -22,10 +22,9 @@
     <span mat-list-item class="tp_rt_mn">Register Trail</span>
     <span mat-list-item class="tp_rt_mn" routerLink="/contact-us"routerLinkActive="active">Contact Us</span>
   </div>
-  <div routerLink="/login" class="lg_inbtn">
-    <span *ngIf="!user['name']"><mat-icon>login</mat-icon>Login</span>
-    <span *ngIf="user['name']"><mat-icon>logout</mat-icon>Logout</span>
-    
+  <div class="lg_inbtn">
+    <span *ngIf="!user['name']" routerLink="/login"><mat-icon>login</mat-icon>Login</span>
+    <span *ngIf="user['name']" (click)="logout()"><mat-icon>logout</mat-icon>Logout</span>
   </div>
   <div class="spacer"></div>
     <div class="top-right-icon">

@@ -38,6 +38,16 @@ export class AuthService {
       );
   }
 
+  public verify(param) {
+    let headers = new HttpHeaders();
+    headers = headers
+      .set('Content-Type', 'application/json');
+    return this.http.get(this.apiURL + param.url, { headers: headers }).pipe(
+      map((res) => res),
+      catchError(this.errorHandler)
+    );
+  }
+
   get():Observable<any>{
 
     return this.http.get(this.Lurl);
