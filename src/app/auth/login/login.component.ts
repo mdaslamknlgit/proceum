@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   login: Login = { email: '', password: '' };
   public message: string = 'Invalid email or password';
   public respone_status:boolean=true;
+  password_hide: boolean = true;
   constructor(
     private http: AuthService,
     private route: Router,
@@ -22,8 +23,12 @@ export class LoginComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.http.removeSession();
-
   }
+
+  passwordFun(){
+    this.password_hide = !this.password_hide;
+  }
+
   doLogin() {
     let params = {
       url: 'login',

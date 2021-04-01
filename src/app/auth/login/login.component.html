@@ -16,16 +16,8 @@
             <span class="prc_tltp" *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted">{{ message }}</span>
           </div>
           <div class="psswrd">
-            <input
-              type="password"
-              required
-              [(ngModel)]="login.password"
-              name="user_password"
-              #user_password="ngModel"
-              placeholder="Enter Password"
-              ngModel
-            />
-            <span class="material-icons mail_icon">password</span>
+            <input [type]="password_hide ? 'password' : 'text'" required [(ngModel)]="login.password" name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel/>
+            <span class="material-icons mail_icon" (click)="passwordFun()">{{password_hide ? 'visibility_off' : 'visibility'}}</span>
           </div>
           <div
             class="prc_hnt"
