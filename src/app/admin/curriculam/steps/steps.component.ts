@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-steps',
@@ -18,7 +19,7 @@ export class StepsComponent implements OnInit {
 
   displayedColumns: string[] = [
     'id',
-    'Name',
+    'level_name',
     'status',
     'created_at',
     'updated_at',
@@ -29,12 +30,19 @@ export class StepsComponent implements OnInit {
   public curriculum_label_id = '';
   public prev_steps = [];
   public step_number = '';
+  public step_pk_id = '';
+  public parent_id = '';
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public page = 0;
   public model_status = false;
   public edit_model_status = false;
+  public pageSize = environment.page_size;
+  public page_size_options = environment.page_size_options;
+  public totalSize = 0;
+  public sort_by: any;
+  public search_box = '';
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -45,6 +53,9 @@ export class StepsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.step_id = this.activatedRoute.snapshot.params.step;
+    this.parent_id = this.activatedRoute.snapshot.params.level_parent_id
+      ? this.activatedRoute.snapshot.params.level_parent_id
+      : 0;
     this.curriculum_id = this.activatedRoute.snapshot.params.curriculum_id;
     this.reLoad();
   }
@@ -58,26 +69,65 @@ export class StepsComponent implements OnInit {
         this.step = res['data']['result']['display_label'];
         this.curriculum_label_id = res['data']['result']['pk_id'];
         this.step_number = res['data']['result']['level_number'];
-        this.getSteps();
+        this.getSteps(true);
       }
     });
   }
-  getSteps() {
+  getSteps(is_ini = false) {
     let param = {
       url: 'get-steps',
       curriculum_id: this.curriculum_id,
       step_id: this.step_id,
+      parent_id: this.parent_id,
+      offset: this.page,
+      limit: this.pageSize,
+      order_by: this.sort_by,
+      search: this.search_box,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['steps']);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        if (is_ini) {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+        this.totalSize = res['total_records'];
       } else {
-        this.toster.error(res['message'], 'Error');
+        this.toster.info(res['message'], 'Error');
+        this.dataSource = new MatTableDataSource([]);
       }
     });
   }
+  public getServerData(event?: PageEvent) {
+    this.page = event.pageSize * event.pageIndex;
+    let param = {
+      url: 'get-steps',
+      curriculum_id: this.curriculum_id,
+      step_id: this.step_id,
+      parent_id: this.parent_id,
+      offset: this.page,
+      limit: event.pageSize,
+      order_by: this.sort_by,
+      search: this.search_box,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.dataSource = new MatTableDataSource(res['data']['steps']);
+        this.totalSize = res['total_records'];
+      } else {
+        this.toster.info(res['message'], 'Error');
+        this.dataSource = new MatTableDataSource([]);
+      }
+    });
+  }
+  sortData(event) {
+    this.sort_by = event;
+    console.log(this.sort_by);
+    if (this.sort_by.direction != '') this.getSteps();
+  }
+  public doFilter = (value: string) => {
+    this.getSteps();
+  };
   toggleModel() {
     this.model_status = !this.model_status;
     (<HTMLFormElement>document.getElementById('step_form')).reset();
@@ -91,11 +141,13 @@ export class StepsComponent implements OnInit {
       curriculum_label_id: this.curriculum_label_id,
       curriculum_id: this.curriculum_id,
       step_number: this.step_number,
+      parent_id: this.parent_id,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success');
         this.toggleModel();
+        this.getSteps();
       } else {
         let message = res['errors']['step_name']
           ? res['errors']['step_name']
@@ -107,11 +159,12 @@ export class StepsComponent implements OnInit {
   editStep(param) {
     this.edit_model_status = !this.edit_model_status;
     this.step_name = param['name'];
-    this.curriculum_id = param['id'];
+    //this.curriculum_id = param['id'];
+    this.step_pk_id = param['id'];
   }
   updateStep() {
     let param = {
-      url: 'curriculum/' + this.curriculum_id,
+      url: 'step/' + this.step_pk_id,
       step_name: this.step_name,
     };
     this.http.put(param).subscribe((res) => {
@@ -125,21 +178,20 @@ export class StepsComponent implements OnInit {
       }
     });
   }
-  public getServerData(event?: PageEvent) {}
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
-  };
-  public navigateTo(step_id) {
-    let param = {
+
+  public navigateTo(param) {
+    let param2 = {
       url: 'get-next-step/' + this.curriculum_id + '/' + this.step_id,
     };
-    this.http.get(param).subscribe((res) => {
+    this.http.get(param2).subscribe((res) => {
       if (res['error'] == false) {
         this.route.navigateByUrl(
           '/admin/curriculum/' +
             this.curriculum_id +
             '/' +
-            res['data']['result']['level_number']
+            res['data']['result']['level_number'] +
+            '/' +
+            param['id']
         );
       }
     });
