@@ -69,6 +69,7 @@ export class CurriculamComponent implements OnInit {
   addStep() {
     let length = this.steps.length;
     this.steps.push('step_' + length);
+    this.steps['step_' + length] = '';
   }
   removeStep(i) {
     this.steps.splice(i, 1);
