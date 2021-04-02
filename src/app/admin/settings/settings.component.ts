@@ -21,12 +21,17 @@ export class SettingsComponent implements OnInit {
   mode_check:boolean=true;
   settings:any={
     "organization_name":"",
+    "contact_name":"",
     "gstin_number":"",
     "contact_number_1":"",
     "contact_number_2":"",
     "contact_email_1":"",
     "contact_email_2":"",
     "full_address":"",
+    "date_format":"",
+    "time_format":"",
+    "list_view_limit":"",
+    "theme_color":"",
   }
   constructor(
     private http: CommonService,private toaster: ToastrService,
@@ -57,7 +62,7 @@ export class SettingsComponent implements OnInit {
   }
 
   onSubmit() {
-
+    console.log(this.settings);
     var myFormData = new FormData();
     if(this.settings.organization_name.trim() !==""){
       myFormData.append('organization_name', this.settings.organization_name.trim());
@@ -90,7 +95,12 @@ export class SettingsComponent implements OnInit {
     myFormData.append('contact_number_2', this.settings.contact_number_2.trim());
     myFormData.append('full_address', this.settings.full_address.trim());
     myFormData.append('gstin_number', this.settings.gstin_number.trim());
-    myFormData.append('contact_name', 'prashanth');    
+    myFormData.append('contact_name', this.settings.contact_name.trim());    
+    myFormData.append('date_format', this.settings.date_format.trim());    
+    myFormData.append('time_format', this.settings.time_format.trim());    
+    myFormData.append('list_view_limit', this.settings.list_view_limit.trim());    
+    myFormData.append('theme_color', this.settings.theme_color.trim());    
+    myFormData.append('copyright_text', this.settings.copy_right.trim());    
 
     let param={
       'url':'settings'      

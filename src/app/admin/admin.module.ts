@@ -20,6 +20,7 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
 import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.component';
 import { SettingsComponent } from './settings/settings.component';
+import { CustomPagesComponent } from './custom-pages/custom-pages.component';
 import { CountriesStatesCitiesComponent } from './countries-states-cities/countries-states-cities.component';
 
 const routes: Routes = [
@@ -81,6 +82,7 @@ const routes: Routes = [
   },
   { path: 'newsletter-list', component: NewsletterListComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'custom-page', component: CustomPagesComponent },
 ];
 @NgModule({
   declarations: [
@@ -99,6 +101,7 @@ const routes: Routes = [
     NewsletterListComponent,
     ModalPopupComponent,
     SettingsComponent,
+    CustomPagesComponent,
     CountriesStatesCitiesComponent,
   ],
   imports: [
