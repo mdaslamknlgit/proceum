@@ -3,113 +3,70 @@
 <div class="mn_dshbrd">
   <div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
-      <button
-        mat-icon-button
-        (click)="toggleModel()"
-        color="accent"
-        class="float_right"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
+      <div class="pg_ttl">Create {{ step }}
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="toggleModel()">&#x2715;</button>
+      </div>
       <div class="tbbd_bdy">
-        <form
-          id="step_form"
-          #step_form="ngForm"
-          name="step_form"
-          (ngSubmit)="step_form.valid && createStep()"
-          novalidate
-        >
-          <div class="pg_ttl">Create {{ step }}</div>
-          <div
-            class="tbbd_bdy_cnt inp_par_dv"
-            [ngClass]="{
-              err_tltp_par: step_form.submitted && step_name_name.invalid
-            }"
-          >
-            {{ step }} Name
-            <input
-              matInput
-              [(ngModel)]="step_name"
-              #step_name_name="ngModel"
-              name="step_name_name"
-              type="text"
-              placeholder="Provide {{ step }} Name"
-              required
-            />
-            <span
-              class="prc_tltp"
-              *ngIf="step_form.submitted && step_name_name.invalid"
-            >
-              {{ step }} Name is required</span
-            >
+        <form id="step_form" #step_form="ngForm" name="step_form" (ngSubmit)="step_form.valid && createStep()"
+          novalidate>
+
+          <div class="grd_2c no_bxsdw tc_w50p">
+            <div class="hgt_20"></div>
+            <div class="frm_dvs">
+              <span>
+                {{ step }} Name
+              </span>
+              <span>
+                <span class="err_tltp_par">
+                  <mat-form-field appearance="outline">
+                    <input matInput [(ngModel)]="step_name" #step_name_name="ngModel" name="step_name_name"
+                      placeholder="Provide {{ step }} Name" required />
+                  </mat-form-field>
+                  <span class="prc_tltp" *ngIf="step_form.submitted && step_name_name.invalid">{{ step }} Name is
+                    required</span>
+                </span>
+              </span>
+            </div>
+            <div class="frm_dvs">
+              <span>
+                {{ step }} Code
+              </span>
+              <span>
+                <mat-form-field appearance="outline">
+                  <input matInput [(ngModel)]="step_code" #step_name_code="ngModel" name="step_name_code"
+                    placeholder="Provide {{ step }} Code" />
+                </mat-form-field>
+              </span>
+            </div>
           </div>
-          <div>
-            {{ step }} Code
-            <input
-              matInput
-              [(ngModel)]="step_code"
-              #step_name_code="ngModel"
-              name="step_name_code"
-              type="text"
-              placeholder="Provide {{ step }} Code"
-            />
-            <!-- <span
-              class="prc_tltp"
-              *ngIf="step_form.submitted && step_name_code.invalid"
-            >
-              {{ step }} Name is required</span
-            > -->
-          </div>
-          <button mat-raised-button color="accent">Submit</button>
+          <hr>
+          <button mat-raised-button color="accent" class="float_right">Submit</button>
+          <div class="hgt_20"></div>
         </form>
+        <div class="clear_fix"></div>
       </div>
     </div>
   </div>
   <div class="brd_crm">
-    Proceum&raquo;
-    <span routerLink="/admin/curriculum"> Curriculum &raquo;</span
-    ><span
-      *ngFor="let prev of prev_steps"
-      routerLink="/admin/curriculum/{{ curriculum_id }}/{{
+    Proceum&nbsp;&raquo;&nbsp;<span routerLink="/admin/curriculum">Curriculum&nbsp;&raquo;</span><span
+      *ngFor="let prev of prev_steps" routerLink="/admin/curriculum/{{ curriculum_id }}/{{
         prev['level_number']
-      }}"
-      >{{ prev["display_label"] }} &raquo;</span
-    >
-    <strong>{{ step }}</strong>
+      }}">&nbsp;{{ prev["display_label"] }}&nbsp;&raquo;</span>
+    <strong>&nbsp;{{ step }}</strong>
   </div>
   <div class="pg_ttl">{{ step }}</div>
   <hr />
   <div class="dsh_brd_crds">
-    <mat-form-field appearance="none">
-      <input
-        matInput
-        type="text"
-        [(ngModel)]="search_box"
-        placeholder="Search"
-      /><mat-icon
-        class="curserToPointer"
-        (click)="doFilter($event.target.value)"
-        matSuffix
-        >search</mat-icon
-      >
+    <mat-form-field appearance="outline">
+      <input matInput [(ngModel)]="search_box" placeholder="Search" />
+      <mat-icon class="curserToPointer" (click)="doFilter($event.target.value)" matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="accent"
-      class="float_right"
-      (click)="toggleModel()"
-      type="button"
-    >
+    <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">
       New {{ step }}
     </button>
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      class="mat-elevation-z8"
-      (matSortChange)="sortData($event)"
-    >
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
         <td mat-cell *matCellDef="let element">
@@ -122,7 +79,7 @@
           {{ step }} Name
         </th>
         <td mat-cell *matCellDef="let element">
-          <span (click)="navigateTo(element)">{{ element.name }}</span>
+          <span (click)="navigateTo(element)" class="lnk_nav">{{ element.name }}</span>
         </td>
       </ng-container>
 
@@ -156,11 +113,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       <tr class="mat-row" *matNoDataRow>
-        <td
-          style="text-align: center; margin: 20px"
-          class="mat-cell"
-          colspan="6"
-        >
+        <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">
           No Records Found
         </td>
       </tr>
@@ -171,57 +124,28 @@
     >
       No Records Found
     </div> -->
-    <mat-paginator
-      *ngIf="dataSource.data.length > 0"
-      [pageSizeOptions]="page_size_options"
-      [length]="totalSize"
-      [pageSize]="pageSize"
-      showFirstLastButtons
-      (page)="getServerData($event)"
-    ></mat-paginator>
+    <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="page_size_options" [length]="totalSize"
+      [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>
 <div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: edit_model_status }">
   <div class="cust_mdl_chl">
-    <button
-      mat-icon-button
-      (click)="edit_model_status = !edit_model_status"
-      color="accent"
-      class="float_right"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
+    <div class="pg_ttl">Edit {{ step }}
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="edit_model_status = !edit_model_status">&#x2715;</button>
+    </div>
     <div class="tbbd_bdy">
-      <form
-        id="edit_step_form"
-        #edit_step_form="ngForm"
-        name="edit_step_form"
-        (ngSubmit)="edit_step_form.valid && updateStep()"
-        novalidate
-      >
-        <div class="pg_ttl">Edit {{ step }}</div>
-        <div
-          class="tbbd_bdy_cnt inp_par_dv"
-          [ngClass]="{
+      <form id="edit_step_form" #edit_step_form="ngForm" name="edit_step_form"
+        (ngSubmit)="edit_step_form.valid && updateStep()" novalidate>
+
+        <div class="tbbd_bdy_cnt inp_par_dv" [ngClass]="{
             err_tltp_par: edit_step_form.submitted && step_name == ''
-          }"
-        >
+          }">
           {{ step }} Name
-          <input
-            matInput
-            [(ngModel)]="step_name"
-            #step_name_name="ngModel"
-            name="step_name_name"
-            type="text"
-            placeholder="Provide Curiculum Name"
-            required
-          />
-          <span
-            class="prc_tltp"
-            *ngIf="edit_step_form.submitted && step_name_name.invalid"
-          >
-            {{ step }} Name is required</span
-          >
+          <input matInput [(ngModel)]="step_name" #step_name_name="ngModel" name="step_name_name" type="text"
+            placeholder="Provide Curiculum Name" required />
+          <span class="prc_tltp" *ngIf="edit_step_form.submitted && step_name_name.invalid">
+            {{ step }} Name is required</span>
         </div>
         <button mat-raised-button color="accent">Submit</button>
       </form>
