@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./login-history.component.scss']
 })
 export class LoginHistoryComponent implements OnInit {
-  displayedColumns: string[] = ['id','user_name','login_time','logout_time','platform_name','device_type','ip_address','country_name'];
+  displayedColumns: string[] = ['id','user_name','latitude','longitude','country_name','city_name','platform_name','device_type','browser_type','ip_address','login_time','logout_time'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

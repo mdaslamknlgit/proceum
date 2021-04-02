@@ -15,24 +15,21 @@ export class DiscountSettingsComponent implements OnInit {
     'id',
     'title',
     'status',
+    'university',
+    'college',
+    'course',
     'created_at',
     'updated_at',
     'actions',
   ];
-  countrys = [
-    { pk_id: 1, country_name: 'india' },
-    { pk_id: 2, country_name: 'Barbado' },
-  ];
+
   //form fields
-  selected_countrys = [];
-  discount_type = '';
+  country_id = 0;
+  state = '';
+  university = '';
+  college = '';
+  course = '';
   discount_percente = '';
-  discount_amount_bbd = '';
-  discount_amount_inr = '';
-  description = '';
-  min_order_amount = '';
-  max_amount = '';
-  max_descount_amount = '';
   valid_from = '';
   valid_to = '';
 
@@ -47,7 +44,7 @@ export class DiscountSettingsComponent implements OnInit {
   public edit_model_status = false;
   popoverTitle = '';
   popoverMessage = '';
-
+  countrys = [];
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -75,9 +72,10 @@ export class DiscountSettingsComponent implements OnInit {
     let param = { url: 'get-discounts' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['discounts']);
+        this.dataSource = new MatTableDataSource(res['data']['descounts']);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.countrys = res['data']['countrys'];
       } else {
         this.toster.error(res['message'], 'Error');
       }
@@ -92,15 +90,12 @@ export class DiscountSettingsComponent implements OnInit {
     let param = {
       url: 'discount',
       title: this.title,
-      selected_countrys: this.selected_countrys,
-      discount_type: this.discount_type,
+      country: this.country_id,
+      state: this.state,
+      university: this.university,
+      college: this.college,
+      course: this.course,
       discount_percente: this.discount_percente,
-      discount_amount_bbd: this.discount_amount_bbd,
-      discount_amount_inr: this.discount_amount_inr,
-      description: this.description,
-      min_order_amount: this.min_order_amount,
-      max_amount: this.max_amount,
-      max_discount: this.max_descount_amount,
       valid_from: this.valid_from,
       valid_to: this.valid_to,
     };
@@ -118,9 +113,18 @@ export class DiscountSettingsComponent implements OnInit {
     });
   }
   editDiscount(param) {
+    console.log(param);
     this.edit_model_status = !this.edit_model_status;
-    this.title = param['name'];
+    this.title = param['title'];
     this.discount_id = param['id'];
+    this.country_id = param['country_id'];
+    this.state = param['state_id'];
+    this.university = param['university_id'];
+    this.college = param['college_id'];
+    this.course = param['course_id'];
+    this.discount_percente = param['discount_percent'];
+    this.valid_from = param['valid_from'];
+    this.valid_to = param['valid_to'];
   }
   updateDiscount() {
     let param = {
@@ -141,9 +145,10 @@ export class DiscountSettingsComponent implements OnInit {
     });
   }
   deleteDiscount(discount_id, status) {
-    status = status == 1 ? '0' : '1';
     let param = {
-      url: 'discount-status/' + discount_id + '/' + status,
+      url: 'discount-status',
+      id: discount_id,
+      status: status,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

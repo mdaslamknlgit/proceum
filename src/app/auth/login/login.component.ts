@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   };
   login: Login = { email: '', password: '' };
   public message: string = 'Invalid email or password';
-  public respone_status:boolean=true;
   password_hide: boolean = true;
   constructor(
     private http: AuthService,
@@ -37,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.http.removeSession();
   }
 
-  passwordFun(){
+  passwordFun() {
     this.password_hide = !this.password_hide;
   }
 
@@ -49,20 +48,26 @@ export class LoginComponent implements OnInit {
     };
     this.http.login(params).subscribe((res: Response) => {
       if (res.error) {
-        this.respone_status=false;
-        // this.login.password = '';
-        this.message = res.message;
-        // this.toastr.error(this.message, 'Error', { closeButton: true });
+        this.toastr.error(res.message, 'Error', { closeButton: true , timeOut: 5000});
+
       } else {
         sessionStorage.setItem('_token', res['data'].token);
         let json_user = btoa(JSON.stringify(res['data'].user));
         sessionStorage.setItem('user', json_user);
         if (res['data']['user']['role'] == 1) {
           //admin
-          this.route.navigate(['/admin/dashboard']);
+          let redirect_url = sessionStorage.getItem('_redirect_url')
+            ? sessionStorage.getItem('_redirect_url')
+            : '/admin/dashboard';
+          sessionStorage.removeItem('_redirect_url');
+          this.route.navigate([redirect_url]);
         } else if (res['data']['user']['role'] == 2) {
           //student
-          this.route.navigate(['/student/dashboard']);
+          let redirect_url = sessionStorage.getItem('_redirect_url')
+            ? sessionStorage.getItem('_redirect_url')
+            : '/student/dashboard';
+          sessionStorage.removeItem('_redirect_url');
+          this.route.navigate([redirect_url]);
         }
       }
     });
@@ -89,9 +94,7 @@ export class LoginComponent implements OnInit {
         };
         this.http.register(params).subscribe((res: Response) => {
           if (res.error) {
-            this.register.password = '';
-            this.message = res.message;
-            this.toastr.error(this.message, 'Error', { closeButton: true });
+            this.toastr.error(res.message, 'Error', { closeButton: true , timeOut: 5000});
           } else {
             sessionStorage.setItem('_token', res['data'].token);
             let json_user = btoa(JSON.stringify(res['data'].user));
