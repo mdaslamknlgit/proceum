@@ -19,7 +19,6 @@ import { LoginHistoryComponent } from './login-history/login-history.component';
 import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
 import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ConfirmationBoxComponent } from './settings/confirmation-box/confirmation-box.component';
 import { CustomPagesComponent } from './custom-pages/custom-pages.component';
 
 const routes: Routes = [
@@ -92,7 +91,6 @@ const routes: Routes = [
     NewsletterListComponent,
     ModalPopupComponent,
     SettingsComponent,
-    ConfirmationBoxComponent,
     CustomPagesComponent,
   ],
   imports: [
