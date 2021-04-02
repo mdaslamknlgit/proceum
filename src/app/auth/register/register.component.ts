@@ -16,7 +16,10 @@ export class RegisterComponent implements OnInit {
   public email_check: boolean = false;
   public password_check: boolean = false;
   public confirm_check: boolean = false;
+  public respone_status:boolean=true;
   domain:string;
+  confirm_hide: boolean = true;
+  password_hide: boolean = true;
   constructor( private http: AuthService,private route: Router,private toastr: ToastrService,private socialAuthService: SocialAuthService) { }
 
   ngOnInit(): void {
@@ -34,6 +37,14 @@ export class RegisterComponent implements OnInit {
       }
     });
 
+  }
+
+  confirmFun(){
+    this.confirm_hide = !this.confirm_hide;
+  }
+
+  passwordFun(){
+    this.password_hide = !this.password_hide;
   }
 
   doRegistration() {
@@ -72,6 +83,7 @@ export class RegisterComponent implements OnInit {
             this.http.register(params).subscribe((res: Response) => {
               if (res.error) {
                 // this.register.password = '';
+                this.respone_status=false;
                 this.message = res.message;
                 // this.toastr.error(this.message, 'Error', { closeButton: true });
               } else {
@@ -101,7 +113,7 @@ export class RegisterComponent implements OnInit {
             return;
           }
         }else{
-          this.message = "Invalid Password";
+          this.message = "A minimum 8 characters password contains a combination of uppercase and lowercase letter and number are required.";
           return;
         }
 

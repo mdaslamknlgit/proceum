@@ -29,6 +29,7 @@ export class ForgotPasswordComponent implements OnInit {
           email:this.register_email}
         this.http.register(params).subscribe((res: Response) => {
           if (res.error) {
+            this.email_check = false;
             this.message = res.message;
           }else{
             this.toastr.success(res.message, 'Success', { closeButton: true });

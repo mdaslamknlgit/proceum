@@ -9,29 +9,50 @@
         <p class="sgn_hd">Sign In</p>
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
 
-        <form #login_id="ngForm" name="login_form" (ngSubmit)="login_id.valid && doLogin()" novalidate>
-          <div class="mail {{login_id.submitted && user_email.invalid ? 'err_tltp_par' : ''}}">
-            <input type="text" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email #user_email="ngModel" ngModel required />
+        <form
+          #login_id="ngForm"
+          name="login_form"
+          (ngSubmit)="login_id.valid && doLogin()"
+          novalidate
+        >
+          <div
+            class="mail {{
+              login_id.submitted && user_email.invalid ? 'err_tltp_par' : ''
+            }}"
+          >
+            <input
+              type="text"
+              [(ngModel)]="login.email"
+              focus
+              name="user_email"
+              placeholder="Enter Email"
+              email
+              #user_email="ngModel"
+              ngModel
+              required
+            />
             <span class="material-icons mail_icon">mail_outline</span>
-            <span class="prc_tltp" *ngIf="(login.password == '' || login.email == '' || user_email.invalid) && login_id.submitted">{{ message }}</span>
+            <span
+              class="prc_tltp"
+              *ngIf="
+                (login.password == '' ||
+                  login.email == '' ||
+                  user_email.invalid) &&
+                login_id.submitted
+              "
+              >{{ message }}</span
+            >
           </div>
           <div class="psswrd">
-            <input
-              type="password"
-              required
-              [(ngModel)]="login.password"
-              name="user_password"
-              #user_password="ngModel"
-              placeholder="Enter Password"
-              ngModel
-            />
-            <span class="material-icons mail_icon">password</span>
+            <input [type]="password_hide ? 'password' : 'text'" required [(ngModel)]="login.password" name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel/>
+            <span class="material-icons mail_icon" (click)="passwordFun()">{{password_hide ? 'visibility_off' : 'visibility'}}</span>
           </div>
           <div
             class="prc_hnt"
             *ngIf="
               (login.password == '' ||
                 login.email == '' ||
+                respone_status == false ||
                 user_email.invalid) &&
               login_id.submitted
             "
@@ -41,13 +62,20 @@
           <button type="submit" class="teal_btn lgn_btn">Login</button>
         </form>
         <div class="scl_lgns">
-          <div class="sgn_fb" (click)="sociallogin('FB')"><img src="assets/images/facebook-logo.svg" /> Login with Facebook</div>
-          <div class="sgn_gg" (click)="sociallogin('GG')"><img src="assets/images/google_logo.svg" /> Login with Google</div>
-          <div class="sgn_ap" (click)="sociallogin('AP')"><img src="assets/images/apple_logo.svg" /> Login with Apple ID</div>
+          <div class="sgn_fb" (click)="sociallogin('FB')">
+            <img src="assets/images/facebook-logo.svg" /> Login with Facebook
+          </div>
+          <div class="sgn_gg" (click)="sociallogin('GG')">
+            <img src="assets/images/google_logo.svg" /> Login with Google
+          </div>
+          <div class="sgn_ap" (click)="sociallogin('AP')">
+            <img src="assets/images/apple_logo.svg" /> Login with Apple ID
+          </div>
         </div>
       </div>
       <div class="frgt_sec">
-        <a routerLink="/forgot-password">Forgot Password ?</a> <a routerLink="/register">Create New Account</a>
+        <a routerLink="/forgot-password">Forgot Password ?</a>
+        <a routerLink="/register">Create New Account</a>
       </div>
     </div>
   </div>
