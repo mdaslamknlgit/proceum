@@ -34,6 +34,7 @@ export class AuthGuardService implements CanActivate {
       }
       return true;
     }
+    sessionStorage.setItem('_redirect_url', window.location.pathname);
     this.router.navigate(['/login']);
     return false;
   }
