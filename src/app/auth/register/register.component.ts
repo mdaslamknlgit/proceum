@@ -16,7 +16,6 @@ export class RegisterComponent implements OnInit {
   public email_check: boolean = false;
   public password_check: boolean = false;
   public confirm_check: boolean = false;
-  public respone_status:boolean=true;
   domain:string;
   confirm_hide: boolean = true;
   password_hide: boolean = true;
@@ -51,6 +50,7 @@ export class RegisterComponent implements OnInit {
     this.message = "";
     if(this.register.first_name == '' || this.register.last_name == '' || this.register.email == '' || this.register.password == '' || this.register.confirm_pwd == ''){
       this.message = "Required data is missing";
+      this.toastr.error(this.message, 'Error', { closeButton: true , timeOut: 5000});
       return;
     }else{
 
@@ -58,6 +58,7 @@ export class RegisterComponent implements OnInit {
         this.email_check = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.register.email);
         if (this.email_check == false) {
           this.message = "Invalid email";
+          this.toastr.error(this.message, 'Error', { closeButton: true , timeOut: 5000});
           return;
         }
       }
@@ -82,10 +83,7 @@ export class RegisterComponent implements OnInit {
             };
             this.http.register(params).subscribe((res: Response) => {
               if (res.error) {
-                // this.register.password = '';
-                this.respone_status=false;
-                this.message = res.message;
-                // this.toastr.error(this.message, 'Error', { closeButton: true });
+                this.toastr.error(res.message, 'Error', { closeButton: true , timeOut: 5000});
               } else {
                 if(res.register_type == 'SL'){
                   sessionStorage.setItem('_token', res['data'].token);
@@ -110,10 +108,13 @@ export class RegisterComponent implements OnInit {
           }else{
             this.confirm_check = false;
             this.message = "Password and Confirm password are not matched";
+            this.toastr.error(this.message , 'Error', { closeButton: true , timeOut: 5000});
+            
             return;
           }
         }else{
-          this.message = "A minimum 8 characters password contains a combination of uppercase and lowercase letter and number are required.";
+          this.message = "A minimum 8 characters password contains a combination of uppercase and lowercase letter,special character and number are required.";
+          this.toastr.error(this.message, 'Error', { closeButton: true , timeOut: 5000});
           return;
         }
 
