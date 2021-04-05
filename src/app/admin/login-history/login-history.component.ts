@@ -2,9 +2,9 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login-history',
@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./login-history.component.scss']
 })
 export class LoginHistoryComponent implements OnInit {
+  public api_url:string;
   displayedColumns: string[] = ['id','user_name','latitude','longitude','country_name','city_name','platform_name','device_type','browser_type','ip_address','login_time','logout_time'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -22,6 +23,7 @@ export class LoginHistoryComponent implements OnInit {
   public sort_by: any;
   constructor(private http: CommonService, public dialog: MatDialog) {}
   ngOnInit(): void {
+    this.api_url = environment.apiUrl;
     this.getLoginHistory();
   }
 
