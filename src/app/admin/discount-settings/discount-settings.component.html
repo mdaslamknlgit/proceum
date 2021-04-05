@@ -33,13 +33,21 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
-                      name="title"
+                      name="title_name"
                       [(ngModel)]="title"
                       matInput
                       placeholder="Title"
+                      #title_name="ngModel"
                     />
                   </mat-form-field>
-                  <span class="prc_tltp">Title is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (discount_form.submitted || title_name.touched) &&
+                      title_name.invalid
+                    "
+                    >Title is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -51,6 +59,7 @@
                     <mat-select
                       placeholder="Select Country"
                       name="country"
+                      #country="ngModel"
                       [(ngModel)]="country_id"
                       required
                     >
@@ -61,7 +70,14 @@
                       >
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">Country is required</span>
+                  <span
+                    *ngIf="
+                      (discount_form.submitted || country.touched) &&
+                      country.invalid
+                    "
+                    class="prc_tltp"
+                    >Country is required</span
+                  >
                 </span></span
               >
             </div>
@@ -72,7 +88,8 @@
                   <mat-form-field appearance="outline">
                     <mat-select
                       placeholder="Select State"
-                      name="state"
+                      #state_name="ngModel"
+                      name="state_name"
                       [(ngModel)]="state"
                       required
                     >
@@ -80,7 +97,14 @@
                       <mat-option value="2">Khjakistan</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">State is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (discount_form.submitted || state_name.touched) &&
+                      state_name.invalid
+                    "
+                    >State is required</span
+                  >
                 </span></span
               >
             </div>
@@ -91,7 +115,8 @@
                   <mat-form-field appearance="outline">
                     <mat-select
                       placeholder="Select University"
-                      name="university"
+                      name="university_name"
+                      #university_name="ngModel"
                       [(ngModel)]="university"
                       required
                     >
@@ -99,7 +124,14 @@
                       <mat-option value="2">Khjakistan</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">University is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (discount_form.submitted || university_name.touched) &&
+                      university_name.invalid
+                    "
+                    >University is required</span
+                  >
                 </span></span
               >
             </div>
@@ -110,7 +142,8 @@
                   <mat-form-field appearance="outline">
                     <mat-select
                       placeholder="Select College"
-                      name="college"
+                      name="college_name"
+                      #college_name="ngModel"
                       [(ngModel)]="college"
                       required
                     >
@@ -118,7 +151,14 @@
                       <mat-option value="2">Khjakistan</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">College is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (discount_form.submitted || college_name.touched) &&
+                      college_name.invalid
+                    "
+                    >College is required</span
+                  >
                 </span></span
               >
             </div>
@@ -129,13 +169,22 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
-                      name="discount_percente"
+                      name="discount_percente_name"
+                      #discount_percente_name="ngModel"
                       [(ngModel)]="discount_percente"
                       matInput
                       placeholder="Discount Percente"
                     />
                   </mat-form-field>
-                  <span class="prc_tltp">Discount Percent is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (discount_form.submitted ||
+                        discount_percente_name.touched) &&
+                      discount_percente_name.invalid
+                    "
+                    >Discount Percent is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -146,7 +195,8 @@
                   <mat-form-field appearance="outline">
                     <mat-select
                       placeholder="Select Course"
-                      name="course"
+                      name="course_name"
+                      #course_name="ngModel"
                       [(ngModel)]="course"
                       required
                     >
@@ -154,7 +204,14 @@
                       <mat-option value="2">Khjakistan</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">Course is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (discount_form.submitted || course_name.touched) &&
+                      course_name.invalid
+                    "
+                    >Course is required</span
+                  >
                 </span></span
               >
             </div>
@@ -170,7 +227,8 @@
                     <input
                       placeholder="Select From Date"
                       required
-                      name="valid_from"
+                      name="valid_from_name"
+                      #valid_from_name="ngModel"
                       [(ngModel)]="valid_from"
                       matInput
                       [matDatepicker]="picker"
@@ -182,7 +240,14 @@
                     ></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
-                  <span class="prc_tltp">From Date is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (discount_form.submitted || valid_from_name.touched) &&
+                      valid_from_name.invalid
+                    "
+                    >From Date is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -198,7 +263,8 @@
                     <input
                       placeholder="Select To Date"
                       required
-                      name="valid_to"
+                      name="valid_to_name"
+                      #valid_to_name="ngModel"
                       [(ngModel)]="valid_to"
                       matInput
                       [matDatepicker]="picker2"
@@ -210,7 +276,14 @@
                     ></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                   </mat-form-field>
-                  <span class="prc_tltp">To Date is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (discount_form.submitted || valid_to_name.touched) &&
+                      valid_to_name.invalid
+                    "
+                    >To Date is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -358,14 +431,17 @@
   [ngClass]="{ cust_mdl_opn: edit_model_status }"
 >
   <div class="cust_mdl_chl">
-    <button
-      mat-icon-button
-      (click)="edit_model_status = !edit_model_status"
-      color="accent"
-      class="float_right"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
+    <div class="pg_ttl">
+      Discount Edit
+      <span class="spacer"></span>
+      <button
+        type="button"
+        mat-icon-button
+        (click)="edit_model_status = !edit_model_status"
+      >
+        &#x2715;
+      </button>
+    </div>
     <div class="tbbd_bdy">
       <form
         id="edit_discount_form"
@@ -384,13 +460,22 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
-                      name="title"
+                      name="title_name_edit"
                       [(ngModel)]="title"
                       matInput
                       placeholder="Title"
+                      #title_name_edit="ngModel"
                     />
                   </mat-form-field>
-                  <span class="prc_tltp">Title is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (edit_discount_form.submitted ||
+                        title_name_edit.touched) &&
+                      title_name_edit.invalid
+                    "
+                    >Title is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -400,11 +485,12 @@
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
                     <mat-select
-                      name="country_id"
+                      placeholder="Select Country"
+                      name="country_edit"
+                      #country_edit="ngModel"
                       [(ngModel)]="country_id"
                       required
                     >
-                      <mat-option selected value="0">Select Country</mat-option>
                       <mat-option
                         *ngFor="let country of countrys"
                         [value]="country['pk_id']"
@@ -412,7 +498,14 @@
                       >
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">Country is required</span>
+                  <span
+                    *ngIf="
+                      (edit_discount_form.submitted || country_edit.touched) &&
+                      country_edit.invalid
+                    "
+                    class="prc_tltp"
+                    >Country is required</span
+                  >
                 </span></span
               >
             </div>
@@ -421,12 +514,26 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select name="state" [(ngModel)]="state" required>
+                    <mat-select
+                      placeholder="Select State"
+                      #state_name_edit="ngModel"
+                      name="state_name_edit"
+                      [(ngModel)]="state"
+                      required
+                    >
                       <mat-option value="1">India</mat-option>
                       <mat-option value="2">Khjakistan</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">State is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (edit_discount_form.submitted ||
+                        state_name_edit.touched) &&
+                      state_name_edit.invalid
+                    "
+                    >State is required</span
+                  >
                 </span></span
               >
             </div>
@@ -436,7 +543,9 @@
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
                     <mat-select
-                      name="university"
+                      placeholder="Select University"
+                      name="university_name_edit"
+                      #university_name_edit="ngModel"
                       [(ngModel)]="university"
                       required
                     >
@@ -444,7 +553,15 @@
                       <mat-option value="2">Khjakistan</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">Country is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (edit_discount_form.submitted ||
+                        university_name_edit.touched) &&
+                      university_name_edit.invalid
+                    "
+                    >University is required</span
+                  >
                 </span></span
               >
             </div>
@@ -453,12 +570,26 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select name="college" [(ngModel)]="college" required>
+                    <mat-select
+                      placeholder="Select College"
+                      name="college_name_edit"
+                      #college_name_edit="ngModel"
+                      [(ngModel)]="college"
+                      required
+                    >
                       <mat-option value="1">India</mat-option>
                       <mat-option value="2">Khjakistan</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">College is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (edit_discount_form.submitted ||
+                        college_name_edit.touched) &&
+                      college_name_edit.invalid
+                    "
+                    >College is required</span
+                  >
                 </span></span
               >
             </div>
@@ -469,13 +600,22 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
-                      name="discount_percente"
+                      name="discount_percente_name_edit"
+                      #discount_percente_name_edit="ngModel"
                       [(ngModel)]="discount_percente"
                       matInput
                       placeholder="Discount Percente"
                     />
                   </mat-form-field>
-                  <span class="prc_tltp">Discount Percent is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (edit_discount_form.submitted ||
+                        discount_percente_name_edit.touched) &&
+                      discount_percente_name_edit.invalid
+                    "
+                    >Discount Percent is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -484,12 +624,26 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select name="course" [(ngModel)]="course" required>
+                    <mat-select
+                      placeholder="Select Course"
+                      name="course_name_edit"
+                      #course_name_edit="ngModel"
+                      [(ngModel)]="course"
+                      required
+                    >
                       <mat-option value="1">India</mat-option>
                       <mat-option value="2">Khjakistan</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp">Course is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (edit_discount_form.submitted ||
+                        course_name_edit.touched) &&
+                      course_name_edit.invalid
+                    "
+                    >Course is required</span
+                  >
                 </span></span
               >
             </div>
@@ -503,8 +657,10 @@
                     color="accent"
                   >
                     <input
+                      placeholder="Select From Date"
                       required
-                      name="valid_from"
+                      name="valid_from_name_edit"
+                      #valid_from_name_edit="ngModel"
                       [(ngModel)]="valid_from"
                       matInput
                       [matDatepicker]="picker3"
@@ -516,7 +672,15 @@
                     ></mat-datepicker-toggle>
                     <mat-datepicker #picker3></mat-datepicker>
                   </mat-form-field>
-                  <span class="prc_tltp">From Date is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (edit_discount_form.submitted ||
+                        valid_from_name_edit.touched) &&
+                      valid_from_name_edit.invalid
+                    "
+                    >From Date is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -530,8 +694,10 @@
                     color="accent"
                   >
                     <input
+                      placeholder="Select To Date"
                       required
-                      name="valid_to"
+                      name="valid_to_name_edit"
+                      #valid_to_name_edit="ngModel"
                       [(ngModel)]="valid_to"
                       matInput
                       [matDatepicker]="picker4"
@@ -543,7 +709,15 @@
                     ></mat-datepicker-toggle>
                     <mat-datepicker #picker4></mat-datepicker>
                   </mat-form-field>
-                  <span class="prc_tltp">To Date is required</span>
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      (edit_discount_form.submitted ||
+                        valid_to_name_edit.touched) &&
+                      valid_to_name_edit.invalid
+                    "
+                    >To Date is required</span
+                  >
                 </span>
               </span>
             </div>

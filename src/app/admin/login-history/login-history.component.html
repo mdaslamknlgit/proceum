@@ -8,6 +8,24 @@
     <div class="pg_ttl">Login History</div>
     <hr />
     <div class="dsh_brd_crds">
+      <!-- <mat-form-field appearance="none">
+        <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search"/>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="from_picker">
+        <mat-datepicker-toggle matSuffix [for]="from_picker"></mat-datepicker-toggle>
+        <mat-datepicker #from_picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="to_picker">
+        <mat-datepicker-toggle matSuffix [for]="to_picker"></mat-datepicker-toggle>
+        <mat-datepicker #to_picker></mat-datepicker>
+      </mat-form-field> -->
+      <a href="{{api_url}}export-login-history/EXL" mat-raised-button color="accent" class="float_right" type="button">Excel</a>
+      <a href="{{api_url}}export-login-history/PDF" mat-raised-button color="accent" class="float_right" type="button">PDF</a>
+
       <table mat-table (matSortChange)="sortData($event)" [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
