@@ -63,6 +63,7 @@ export class CurriculamComponent implements OnInit {
   }
   toggleModel() {
     this.model_status = !this.model_status;
+    this.steps = ['step_' + 0];
     (<HTMLFormElement>document.getElementById('curriculum_form')).reset();
     (<HTMLFormElement>document.getElementById('edit_curriculum_form')).reset();
   }
@@ -102,11 +103,27 @@ export class CurriculamComponent implements OnInit {
     this.edit_model_status = !this.edit_model_status;
     this.curriculum_name = param['name'];
     this.curriculum_id = param['id'];
+    param['url'] = 'curriculum/get-steps/' + this.curriculum_id;
+    this.http.get(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.steps = [];
+        res['data']['curriculum_steps'].forEach((row) => {
+          let length = this.steps.length;
+          this.steps.push('step_' + length);
+          this.steps['step_' + length] = row['display_label'];
+        });
+      }
+    });
   }
   updateCurriculum() {
+    let steps = [];
+    this.steps.forEach((step) => {
+      steps.push(this.steps[step]);
+    });
     let param = {
       url: 'curriculum/' + this.curriculum_id,
       curriculum_name: this.curriculum_name,
+      curriculum_steps: steps,
     };
     this.http.put(param).subscribe((res) => {
       if (res['error'] == false) {

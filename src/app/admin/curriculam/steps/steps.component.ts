@@ -178,7 +178,20 @@ export class StepsComponent implements OnInit {
       }
     });
   }
-
+  deleteStep(id, status) {
+    status = status == 1 ? '0' : '1';
+    let param = {
+      url: 'step-status/' + id + '/' + status,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success');
+        this.getSteps();
+      } else {
+        this.toster.error(res['message'], res['message']);
+      }
+    });
+  }
   public navigateTo(param) {
     let param2 = {
       url: 'get-next-step/' + this.curriculum_id + '/' + this.step_id,
