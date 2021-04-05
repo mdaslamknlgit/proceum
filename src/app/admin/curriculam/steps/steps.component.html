@@ -154,6 +154,27 @@
           <button mat-icon-button (click)="editStep(element)">
             <mat-icon>edit</mat-icon>
           </button>
+          <button
+            title="{{
+              element.status == 1 ? 'Click to deactivate' : 'Click to activate'
+            }}"
+            mat-icon-button
+            mwlConfirmationPopover
+            [popoverTitle]="'Are you sure?'"
+            [popoverMessage]="
+              'are you sure to change status of <b>' +
+              element.name +
+              '</b> ' +
+              step
+            "
+            placement="top"
+            (confirm)="deleteStep(element.id, element.status)"
+            confirmButtonType="danger"
+            cancelButtonType="outline-secondary"
+          >
+            <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
+            <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
+          </button>
         </td>
       </ng-container>
 
