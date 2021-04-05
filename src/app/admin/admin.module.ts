@@ -22,7 +22,8 @@ import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.c
 import { SettingsComponent } from './settings/settings.component';
 import { CustomPagesComponent } from './custom-pages/custom-pages.component';
 import { CountriesStatesCitiesComponent } from './countries-states-cities/countries-states-cities.component';
-
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -115,5 +116,6 @@ const routes: Routes = [
     CKEditorModule,
   ],
   exports: [RouterModule],
+  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class AdminModule {}

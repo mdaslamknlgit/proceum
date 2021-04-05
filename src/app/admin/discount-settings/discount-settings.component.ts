@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-discount-settings',
   templateUrl: './discount-settings.component.html',
@@ -30,8 +31,8 @@ export class DiscountSettingsComponent implements OnInit {
   college = '';
   course = '';
   discount_percente = '';
-  valid_from = '';
-  valid_to = '';
+  valid_from = new Date();
+  valid_to = new Date();
 
   dropdown_settings = {};
   public title = '';
@@ -116,27 +117,45 @@ export class DiscountSettingsComponent implements OnInit {
     console.log(param);
     this.edit_model_status = !this.edit_model_status;
     this.title = param['title'];
-    this.discount_id = param['id'];
+    this.discount_id = param['pk_id'];
     this.country_id = param['country_id'];
-    this.state = param['state_id'];
-    this.university = param['university_id'];
-    this.college = param['college_id'];
-    this.course = param['course_id'];
+    this.state = '' + param['state_id'];
+    this.university = '' + param['university_id'];
+    this.college = '' + param['college_id'];
+    this.course = '' + param['course_id'];
     this.discount_percente = param['discount_percent'];
-    this.valid_from = param['valid_from'];
-    this.valid_to = param['valid_to'];
+    let valid_from = param['valid_from'].split('-');
+    this.valid_from = new Date(
+      Number(valid_from[2]),
+      Number(valid_from[1]) - 1,
+      Number(valid_from[0])
+    ); // param['valid_from'];
+    let valid_to = param['valid_to'].split('-');
+    this.valid_to = new Date(
+      Number(valid_to[2]),
+      Number(valid_to[1]) - 1,
+      Number(valid_to[0])
+    ); //param['valid_to'];
   }
   updateDiscount() {
     let param = {
       url: 'discount/' + this.discount_id,
       title: this.title,
+      country: this.country_id,
+      state: this.state,
+      university: this.university,
+      college: this.college,
+      course: this.course,
+      discount_percente: this.discount_percente,
+      valid_from: this.valid_from,
+      valid_to: this.valid_to,
     };
     this.http.put(param).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success');
-        (<HTMLFormElement>(
-          document.getElementById('edit_discount_form')
-        )).reset();
+        //(<HTMLFormElement>(
+        //document.getElementById('edit_discount_form')
+        //)).reset();
         this.edit_model_status = !this.edit_model_status;
         this.getDiscounts();
       } else {
