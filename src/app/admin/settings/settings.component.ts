@@ -19,6 +19,11 @@ export class SettingsComponent implements OnInit {
   imagePath:any;
   systemMode1:any;
   mode_check:boolean=true;
+  color:string;
+  touchUi;
+  url:any="./assets/images/ProceumLogo.png";
+  src:any;
+  systemMode:any;
   settings:any={
     "organization_name":"",
     "contact_name":"",
@@ -39,30 +44,33 @@ export class SettingsComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
+    this.src=this.url;
+    this.getSystemMode();
   }
   fileEvent(e){
-    this.filedata = e.target.files;
-    
-    
+    this.filedata = e.target.files;   
     const mimeType = this.filedata[0].type;
     if (mimeType.match(/image\/*/) == null) {
         this.imgMessage = "Only images are supported like jpg,png,jpeg.";
         return;
     }else{
       this.imgMessage = "";
-     // this.src = this.url; 
+      this.src = this.url; 
     }
-    // const reader = new FileReader();
-    // this.imagePath = this.filedata;
-    // reader.readAsDataURL(this.filedata[0]); 
-    // reader.onload = (_event) => { 
-    //     this.src = reader.result; 
-    // }
+    const reader = new FileReader();
+    this.imagePath = this.filedata;
+    reader.readAsDataURL(this.filedata[0]); 
+    reader.onload = (_event) => { 
+        this.src = reader.result; 
+    }
+  }
+
+  getSystemMode(){
     
+
   }
 
   onSubmit() {
-    console.log(this.settings);
     var myFormData = new FormData();
     if(this.settings.organization_name.trim() !==""){
       myFormData.append('organization_name', this.settings.organization_name.trim());
@@ -98,14 +106,14 @@ export class SettingsComponent implements OnInit {
     myFormData.append('contact_name', this.settings.contact_name.trim());    
     myFormData.append('date_format', this.settings.date_format.trim());    
     myFormData.append('time_format', this.settings.time_format.trim());    
-    myFormData.append('list_view_limit', this.settings.list_view_limit.trim());    
-    myFormData.append('theme_color', this.settings.theme_color.trim());    
-    myFormData.append('copyright_text', this.settings.copy_right.trim());    
+    myFormData.append('list_view_limit', this.settings.list_view_limit);    
+    myFormData.append('theme_color', this.settings.theme_color);    
+    myFormData.append('copyright_text', this.settings.copy_right);  
 
     let param={
       'url':'settings'      
     };
-    this.http1.formData(param,myFormData).subscribe((res) => {
+    this.http.formData(param,myFormData).subscribe((res) => {
       if(res['error'] == false){
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,
@@ -117,8 +125,8 @@ export class SettingsComponent implements OnInit {
     }); 
   }
 
-  systemMode(data:NgForm){
-    console.log(data.value);
+  systemModeSubmit(data:NgForm){
+    const user = JSON.parse(atob(sessionStorage.getItem('user')));
     if(data.value.mode ===""){
       this.mode_check=false;
       return;
@@ -127,11 +135,12 @@ export class SettingsComponent implements OnInit {
     }
     let param={
       'url':'settings-mode',
-      "mode":data.value.mode
+      "mode":data.value.mode,
+      "user_id":user.id
     };
-    //  this.http.post(param).subscribe((res) => {
-
-    //  });
+     this.http.post(param).subscribe((res) => {
+        console.log(res);
+     });
   }
 
 }

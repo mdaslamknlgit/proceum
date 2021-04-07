@@ -22,6 +22,7 @@ import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.c
 import { SettingsComponent } from './settings/settings.component';
 import { CustomPagesComponent } from './custom-pages/custom-pages.component';
 import { CountriesStatesCitiesComponent } from './countries-states-cities/countries-states-cities.component';
+import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
 
 const routes: Routes = [
   {
@@ -107,6 +108,7 @@ const routes: Routes = [
   imports: [
     MaterialModule,
     LayoutsModule,
+    NgxMatColorPickerModule,
     RouterModule.forChild(routes),
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger', // set defaults here
@@ -114,6 +116,9 @@ const routes: Routes = [
     CommonModule,
     CKEditorModule,
   ],
+  providers: [
+    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }
+   ],
   exports: [RouterModule],
 })
 export class AdminModule {}

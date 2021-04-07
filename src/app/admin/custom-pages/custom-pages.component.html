@@ -1,70 +1,88 @@
 <app-admin-topbar></app-admin-topbar>
 <app-sidebar></app-sidebar>
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <strong>Settings</strong></div>
-    <div class="pg_ttl">Settings Menu</div>
+    <div class="brd_crm">Proceum &raquo; <strong>Custom Page</strong></div>
+    <div class="pg_ttl">Custom Page</div>
     <div class="hgt_20"></div>
     <form #custom_page_form="ngForm" id="custom_page_form" name="custom_page_form" (ngSubmit)="onSubmit()" novalidate>
         <div class="grd_2c">
-            <div class="tc_w50p">
-                <div class="frm_dvs">
-                    <span class="hgt_20"></span>
-                    <span class="hgt_20"></span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Page Name</span>
-                        <span>
-                    <mat-form-field appearance="outline" color="accent" >
-                        <mat-select [required]="isRequired" name="old_Page_name" placeholder="Select Page" [(ngModel)]="customPage.old_Page_name" #old_Page_name="ngModel"  ngModel>
-                            <mat-option value="old page1">old page1</mat-option>
-                            <mat-option value="old page2">old page2</mat-option>
-                          </mat-select>
-                      </mat-form-field>
-                      </span>
-                </div>
-                <div class="frm_dvs">
-                    <span><mat-checkbox (change)="checked($event)" [(ngModel)]="customPage.isNewPageChecked" name="isNewPageChecked" #isNewPageChecked="ngModel" ngModel>Create New Page</mat-checkbox></span>
-                    <span>
-                        <mat-form-field appearance="outline">
-                            <mat-label>New Page Name</mat-label>
-                            <input matInput placeholder="Provide New Page Name" [required]="!isRequired" name="new_Page_name" [(ngModel)]="customPage.new_Page_name" #new_Page_name="ngModel" ngModel>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Page Content</span>
-                    <span style="margin-left:140px;">
-                        <ckeditor [config]="{ placeholder: 'Type the Page content here!' }" required [(ngModel)]="customPage.Page_content" name="Page_content"
-                            [editor]="Editor"></ckeditor>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span><mat-checkbox name="isShowChecked" [(ngModel)]="customPage.isShowChecked" #isShowChecked="ngModel" ngModel>Show in Frontend Menu</mat-checkbox></span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Menu Name</span>
-                        <span>
-                    <mat-form-field appearance="outline" color="accent" >
-                        <mat-select [required]="isMenuRequired" placeholder="Select Menu" name="old_menu_name" [(ngModel)]="customPage.old_menu_name" #old_menu_name="ngModel"  ngModel>
-                            <mat-option value="old menu1">old menu1</mat-option>
-                            <mat-option value="old menu2">old menu2</mat-option>
-                          </mat-select>
-                      </mat-form-field>
-                      </span>
-                </div>
-                <div class="frm_dvs">
-                    <span><mat-checkbox (change)="newMenuChecked($event)" [(ngModel)]="customPage.isNewMenuChecked" name="isNewMenuChecked" #isNewMenuChecked="ngModel" ngModel>Create New Menu</mat-checkbox></span>
-                    <span>
-                        <mat-form-field appearance="outline">
-                            <mat-label>New Menu Name</mat-label>
-                            <input matInput placeholder="Provide New Menu Name" [required]="!isMenuRequired" name="new_menu_name" [(ngModel)]="customPage.new_menu_name" #new_menu_name="ngModel" ngModel>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="text-center" style="margin-top: 10px;">
-                    <button type="submit" mat-raised-button color="accent">Save</button>
-                </div>
+            <div class="frm_dvs">
+                <span class="hgt_20"></span>
+                <span class="hgt_20"></span>
             </div>
+            <div class="frm_dvs">
+                <span>Menu Name</span>
+                <span>
+                    <span>
+                        <mat-form-field appearance="outline" color="accent">
+                            <mat-select [required]="!isMenuRequired" (selectionChange)="selectMenu()"
+                                placeholder="Select Menu" name="old_menu_name" [(ngModel)]="customPage.old_menu_name"
+                                #old_menu_name="ngModel" ngModel>
+                                <mat-option value="">select menu</mat-option>
+                                <mat-option *ngFor="let menu of menuList" [value]="menu.pk_id">{{menu.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </span>
+                    <span class="mx_1"  *ngIf="isMenuDisplay">(OR)</span>
+                    <span *ngIf="isMenuDisplay">
+                        <mat-form-field appearance="outline">
+                            <input matInput placeholder="Provide New Menu Name" [required]="isMenuRequired"
+                                name="new_menu_name" [(ngModel)]="customPage.new_menu_name" #new_menu_name="ngModel"
+                                ngModel>
+                        </mat-form-field>
+                    </span>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Page Name</span>
+                <span>
+                    <span>
+                        <mat-form-field appearance="outline" color="accent">
+                            <mat-select [required]="!isRequired" name="old_page_name" (selectionChange)="selectPage()"
+                                placeholder="Select Page" [(ngModel)]="customPage.old_page_name"
+                                #old_page_name="ngModel" ngModel>
+                                <mat-option *ngFor="let page of pagesList" [value]="page.name">{{page.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </span>
+                    <span class="mx_1" *ngIf="isPageDisplay">(OR)</span>
+
+                    <span *ngIf="isPageDisplay">
+
+                        <mat-form-field appearance="outline">
+                            <input matInput placeholder="Provide New Page Name" [required]="isRequired"
+                                name="new_page_name" [(ngModel)]="customPage.new_page_name" #new_Page_name="ngModel"
+                                ngModel>
+                        </mat-form-field>
+                    </span>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Page Content</span>
+                <span>
+                    <ckeditor (ready)="onReady($event)" [config]="{ placeholder: 'Type the Page content here!' }"
+                        required [(ngModel)]="customPage.Page_content" name="Page_content" [editor]="Editor">
+                    </ckeditor>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span class="hgt_20"></span>
+                <span class="hgt_20"></span>
+            </div>
+            <div class="frm_dvs">
+                <span>&nbsp;</span>
+                <span>
+                    <mat-checkbox name="isShowChecked" [(ngModel)]="customPage.isShowChecked" #isShowChecked="ngModel"
+                        ngModel>Show in Frontend Menu</mat-checkbox>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>&nbsp;</span>
+                <span><button type="submit" mat-raised-button color="accent">Save</button></span>
+            </div>
+           
         </div>
     </form>
 </div>

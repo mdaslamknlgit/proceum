@@ -5,11 +5,18 @@
     <!-- <span class="spacer"></span> -->
     <div class="nav" [ngClass]="{'menu_open' : isOpen}">
       <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active">Home</span>
-      <span mat-list-item class="tp_rt_mn" routerLink="/about-us"routerLinkActive="active">About Us</span>
+      <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
       <span mat-list-item class="tp_rt_mn">Pricing</span>
       <span mat-list-item class="tp_rt_mn">Subscribe</span>
       <span mat-list-item class="tp_rt_mn">Register Trail</span>
-      <span mat-list-item class="tp_rt_mn" routerLink="/contact-us"routerLinkActive="active">Contact Us</span>
+      <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
+      <span mat-list-item [matMenuTriggerFor]="appMenu" class="tp_rt_mn" *ngFor="let menu of menus" (click)="changeSubmenu(menu.pk_id)">{{menu.name}}</span>
+      <mat-menu #appMenu="matMenu">
+        <button mat-menu-item *ngFor="let page of newPages" routerLink="/mcicirriculam/{{page.pk_id}}" routerLinkActive="active" >{{page.name}}</button>
+      </mat-menu>
+        
+
+
     </div>
     <div routerLink="/login" class="lg_inbtn">
       <mat-icon>login</mat-icon>Login
@@ -798,7 +805,7 @@
 <footer>
   <div class="section-title">
     <h3>Lets Stay In Touch</h3>
-    <h5>Lorem Ipsum</h5>
+    <h5>Subscribe to NewsLetter</h5>
   </div>
   <br />
   <div class="subscribe">
