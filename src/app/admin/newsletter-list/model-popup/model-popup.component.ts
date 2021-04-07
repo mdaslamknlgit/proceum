@@ -21,6 +21,7 @@ title:any;
 created_at: string;
 updated_at: string;
 reason: string;
+status: boolean;
 public isupdated = false;
 
 close(): void {
@@ -32,16 +33,18 @@ close(): void {
   }
 
   getTemplate(data) {
-    
+      this.created_at="";
+      this.updated_at="";
+      this.reason="";
       let param = { url: 'newsletter/' + data.id };
       this.http.get(param).subscribe((res:Response) => {
-        
         this.created_at=res.created_at;
         this.updated_at=res.updated_at;
         this.reason=res.status_reason;
+        this.status=(res.status == 0)? true: false;
       });
     this.id=data.id;
-    this.title="Reason For leaving";
+    this.title="View Details";
   }
 
 }

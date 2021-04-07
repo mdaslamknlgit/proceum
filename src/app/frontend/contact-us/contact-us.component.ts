@@ -10,12 +10,14 @@ import { ToastrService } from 'ngx-toastr';
 export class ContactUsComponent implements OnInit {
   contact: ContactUs = { name:'', email: '', query: '', mobile_number: ''};
   public emailMessage: string = '';
-  public desMessage: string = '';
+  address_check: boolean=false;
+  public desMessage: string = "Address is required";
   public nameMessage: string = '';
   public email_check: boolean = false;
   public query_check: boolean = false;
   public name_check: boolean = false;
   public mobile_check: boolean = false;
+
   constructor(
     private http: AuthService,
     private toastr: ToastrService
@@ -24,17 +26,22 @@ export class ContactUsComponent implements OnInit {
   ngOnInit(): void {
   }
   submitContactUs(){
-
+    this.contact.query=this.contact.query.trim();
+    if(this.contact.query ==''){
+      this.desMessage="Address is required";
+      this.address_check=true;
+      return;
+    }
     let params={
       'url':'contact-us',
-      'name':this.contact.name,
-      'email_address':this.contact.email,
-      'mobile_number':this.contact.mobile_number,
-      'query':this.contact.query,
+      'name':this.contact.name.trim(),
+      'email_address':this.contact.email.trim(),
+      'mobile_number':this.contact.mobile_number.trim(),
+      'query':this.contact.query.trim(),
     }
-console.log(params);
+// console.log(params);
     this.http.post(params).subscribe((res: Response) => {
-      console.log(res);
+      //console.log(res);
       if (res.error) {
         this.toastr.error(res.message, 'Error', { closeButton: true });
       } else {

@@ -7,6 +7,11 @@
     </div>
     <div class="pg_ttl">Login History</div>
     <hr />
+    <div>
+    <a href="{{api_url}}export-login-history/EXL" mat-icon-button color="accent" class="float_right" type="button"><mat-icon matTooltip="Download Excel" matTooltipPosition="above">description</mat-icon></a>
+    <a href="{{api_url}}export-login-history/PDF" mat-icon-button color="accent" class="float_right mr_1" type="button" matTooltip="Download PDF" matTooltipPosition="above"><mat-icon>picture_as_pdf</mat-icon></a>
+    <div class="hgt_20"></div>
+  </div>
     <div class="dsh_brd_crds">
       <!-- <mat-form-field appearance="none">
         <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search"/>
@@ -23,10 +28,9 @@
         <mat-datepicker-toggle matSuffix [for]="to_picker"></mat-datepicker-toggle>
         <mat-datepicker #to_picker></mat-datepicker>
       </mat-form-field> -->
-      <a href="{{api_url}}export-login-history/EXL" mat-raised-button color="accent" class="float_right" type="button">Excel</a>
-      <a href="{{api_url}}export-login-history/PDF" mat-raised-button color="accent" class="float_right" type="button">PDF</a>
-
-      <table mat-table (matSortChange)="sortData($event)" [dataSource]="dataSource" matSort class="mat-elevation-z8">
+     
+      <div class="rsp_tbl">
+      <table mat-table (matSortChange)="sortData($event)" [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
           <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
@@ -77,9 +81,14 @@
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">No Records Found</td>
+        </tr>
       </table>
+      </div>
       <mat-paginator #paginator [pageSize]="pageSize" [length]="num_rows"
          [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
+      
     </div>
   </div>
 
