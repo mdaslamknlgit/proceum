@@ -40,7 +40,7 @@ export class StudentsComponent implements OnInit {
   public getServerData(event?: PageEvent) {
     this.pageSize = event.pageSize;
 		this.page = (event.pageSize * event.pageIndex);
-    this.applyFilters( );
+    this.applyFilters();
   }
   public doFilter = (value: string) => {
     this.dataSource.filter = value.trim().toLocaleLowerCase();
