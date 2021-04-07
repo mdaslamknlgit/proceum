@@ -39,9 +39,7 @@
                 let first = first
               ">
               <!-- [ngClass]="{err_tltp_par: curriculum_form.submitted && (steps[step] == '' || steps[step] == undefined) }" -->
-              <span>
-                Step {{ indexOfelement + 1 }} {{ "ref_" + step.touched }}
-              </span>
+              <span> Level {{ indexOfelement + 1 }} </span>
               <span>
                 <!-- [ngClass]="{err_tltp_par: curriculum_form.submitted && curriculum_name == ''}" -->
                 <span class="err_tltp_par">
@@ -49,8 +47,17 @@
                     <input matInput name="ref_{{ step }}" [(ngModel)]="steps[step]" #ref_{{step}}="ngModel" required
                       placeholder="Provide Step {{ indexOfelement + 1 }} Label" />
                   </mat-form-field>
+<<<<<<< HEAD
                   <span class="prc_tltp" *ngIf="curriculum_form.submitted && 'ref_' + step.invalid">
                     Step {{ indexOfelement + 1 }} is required</span>
+=======
+                  <span
+                    class="prc_tltp"
+                    *ngIf="curriculum_form.submitted && 'ref_' + step.invalid"
+                  >
+                    Level {{ indexOfelement + 1 }} is required</span
+                  >
+>>>>>>> c6bb1189f0d0c3d739f635169a77790c7b430192
                 </span>
                 <button mat-raised-button *ngIf="last" (click)="addStep()" color="accent" class="mr_1">
                   +
@@ -188,6 +195,59 @@
                     curriculum_name_name.invalid
                   ">Curriculum Name is required</span>
               </span>
+            </span>
+          </div>
+          <div
+            class="frm_dvs"
+            *ngFor="
+              let step of steps;
+              let indexOfelement = index;
+              let last = last;
+              let first = first
+            "
+          >
+            <!-- [ngClass]="{err_tltp_par: curriculum_form.submitted && (steps[step] == '' || steps[step] == undefined) }" -->
+            <span> Level {{ indexOfelement + 1 }} </span>
+            <span>
+              <!-- [ngClass]="{err_tltp_par: curriculum_form.submitted && curriculum_name == ''}" -->
+              <span class="err_tltp_par">
+                <mat-form-field appearance="outline">
+                  <input
+                    matInput
+                    name="ref_{{ step }}"
+                    [(ngModel)]="steps[step]"
+                    #ref_{{step}}="ngModel"
+                    required
+                    placeholder="Provide Step {{ indexOfelement + 1 }} Label"
+                  />
+                </mat-form-field>
+                <span
+                  class="prc_tltp"
+                  *ngIf="
+                    edit_curriculum_form.submitted && 'ref_' + step.invalid
+                  "
+                >
+                  Level {{ indexOfelement + 1 }} is required</span
+                >
+              </span>
+              <button
+                *ngIf="last && false"
+                mat-raised-button
+                (click)="addStep()"
+                color="accent"
+                class="mr_1"
+              >
+                +
+              </button>
+              <button
+                *ngIf="!first && false"
+                type="button"
+                (click)="removeStep(indexOfelement)"
+                mat-raised-button
+                color="warn"
+              >
+                -
+              </button>
             </span>
           </div>
         </div>

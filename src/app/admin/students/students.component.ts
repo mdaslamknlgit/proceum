@@ -70,9 +70,9 @@ export class StudentsComponent implements OnInit {
     let param = { url: 'user/'+student_id};
     this.http.delete(param).subscribe((res: Response) => {
       if (res.error) {
-        this.toastr.error(res.message, 'Error', { closeButton: true });
+        this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
       }else{
-        this.toastr.success(res.message, 'Success', { closeButton: true });
+        this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
         this.applyFilters();
       }
     });

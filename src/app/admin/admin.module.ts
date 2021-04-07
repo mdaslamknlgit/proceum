@@ -24,6 +24,8 @@ import { CustomPagesComponent } from './custom-pages/custom-pages.component';
 import { CountriesStatesCitiesComponent } from './countries-states-cities/countries-states-cities.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
+import { StatesComponent } from './states/states.component';
+import { CitiesComponent } from './cities/cities.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -78,8 +80,16 @@ const routes: Routes = [
     component: AccessMatrixComponent,
   },
   {
-    path: 'countries-states-cities',
+    path: 'countries',
     component: CountriesStatesCitiesComponent,
+  },
+  {
+    path: 'countries/:country_id',
+    component: StatesComponent,
+  },
+  {
+    path: 'countries/:country_id/:state_id',
+    component: CitiesComponent,
   },
   { path: 'newsletter-list', component: NewsletterListComponent },
   { path: 'settings', component: SettingsComponent },
@@ -104,6 +114,8 @@ const routes: Routes = [
     SettingsComponent,
     CustomPagesComponent,
     CountriesStatesCitiesComponent,
+    StatesComponent,
+    CitiesComponent
   ],
   imports: [
     MaterialModule,
