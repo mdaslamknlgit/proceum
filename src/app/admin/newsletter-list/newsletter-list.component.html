@@ -9,55 +9,83 @@
   <hr />
   <div class="dsh_brd_crds">
     <div>
-    
-          <mat-form-field appearance="fit">
-            <!-- <mat-label>Search</mat-label> -->
-            <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Search"/>
-            <!-- <mat-icon matSuffix>search</mat-icon> -->
-          </mat-form-field>
-    
+      <mat-form-field appearance="outline">
+        <input matInput  (keyup)="doFilter($event.target.value)" placeholder="Search" />
+        <mat-icon matSuffix>close</mat-icon>
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <!-- <mat-form-field appearance="outline">
+      <input matInput  [(ngModel)]="value">
       
-    <a href="{{apiURL}}export-newsletter/PDF" mat-raised-button color="accent" class="float_right" >
-      Export Pdf
+      <mat-icon matSuffix>search</mat-icon>
+      <button mat-button *ngIf="value" matSuffix mat-icon-button (click)="value=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      
+    </mat-form-field> -->
+    <a [href]="hrefPDF" mat-raised-button color="accent" class="float_right" >
+      <mat-icon matTooltip="Download PDF">picture_as_pdf</mat-icon>
+      
     </a>
-    <a href="{{apiURL}}export-newsletter/EXL" mat-raised-button color="accent" class="float_right"  style="margin-right:10px">
-      Export Excel
+    <a [href]="hrefEXL" mat-raised-button color="accent" class="float_right"  style="margin-right:10px">
+      <mat-icon matTooltip="Download EXCEL" >description</mat-icon>
     </a>
   </div>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <!-- Position Column -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.id }}
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No.</th>
+        <td mat-cell *matCellDef="let index=index">
+          {{ page + index+1 }}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>  
         <td mat-cell *matCellDef="let element">{{ element.email }}</td>
       </ng-container>
 
       <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.status == 1 ? "Active" : "In Activated" }}
+          <span *ngIf="element.status == 1"><mat-icon color="primary" matTooltip="Current Status is ACTIVE">
+            check_circle
+            </mat-icon></span>
+          <span *ngIf="element.status == 0" ><mat-icon color="warn" matTooltip="Current Status is IN-ACTIVE">cancel</mat-icon></span>
+          
         </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subscription Date</th>  
+        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
       </ng-container>
 
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button *ngIf="element.status == 0" (click)="manageTemplate(element.id)">
-            <mat-icon>visibility</mat-icon>
+          <button mat-icon-button (click)="manageTemplate(element.id)">
+            <mat-icon matTooltip="View Details" class="accent">visibility</mat-icon>
           </button>
         </td>
       </ng-container>
+      <ng-container matColumnDef="noRecord">
+        <td mat-footer-cell *matFooterCellDef>No records found.</td>
+  </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row" *matNoDataRow>
+        <td
+          style="text-align: center; margin: 20px"
+          class="mat-cell"
+          colspan="6"
+        >
+          No Records Found
+        </td>
+      </tr>
     </table>
-    <mat-paginator #paginator [pageSize]="pageSize" [length]="num_newsletters"
+    <mat-paginator #paginator [pageSize]="pageSize" [length]="num_newsletters" 
     [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>

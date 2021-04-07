@@ -15,6 +15,7 @@ export class MyAccountComponent implements OnInit {
   url:any="../../../../assets/images/Demo-placeholder.jpeg";
   src:any;
   isrequired:boolean=false;
+  isdisplay:boolean=false;
   user_id:string;
   imagePath:any;
   imgMessage:any;
@@ -68,8 +69,10 @@ export class MyAccountComponent implements OnInit {
     console.log(e.checked);
     if(e.checked == true){
       this.isrequired=true;
+      this.isdisplay=true;
     }else{
       this.isrequired=false;
+      this.isdisplay=false;
     }
   }
   getStudentProfile(){
@@ -84,8 +87,8 @@ export class MyAccountComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
         console.log(res['data'].name);    
         this.profile = {
-          "first_name":res['data'].name,
-          "last_name":'',
+          "first_name":res['data'].first_name,
+          "last_name":res['data'].last_name,
           "email":res['data'].email,
           "profile_pic":'',
           "current_password": '',
@@ -103,16 +106,17 @@ export class MyAccountComponent implements OnInit {
       let current_password = pwdregex.test(this.profile.current_password);
       let new_password = pwdregex.test(this.profile.new_password);
 
-      if(current_password ==false){
+      if(current_password == false){
         this.curpwd_check = false;
         return;
       }
-      if(new_password ==false ){
+      console.log(new_password);
+      if(new_password == false ){
         this.newpwd_check = false;
         return;
       }
-      if(data.value.confirm_pwd !== data.value.new_password){
-        this.confirm_check = false;
+      if( this.profile.confirm_pwd !==  this.profile.new_password){
+        this.confirm_check = true;
         return;
       }       
       myFormData.append('current_password', this.profile.current_password.trim());
@@ -138,8 +142,7 @@ export class MyAccountComponent implements OnInit {
     let param={
       'url':'update-profile'
     };
-    this.http1.formData(param,myFormData).subscribe((res) => {
-      console.log(res['error']);
+    this.http.formData(param,myFormData).subscribe((res) => {
       if(res['error'] ==false){
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,

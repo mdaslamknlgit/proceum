@@ -4,205 +4,215 @@
     <div class="brd_crm">Proceum &raquo; <strong>Settings</strong></div>
     <div class="pg_ttl">Settings Menu</div>
     <div class="hgt_20"></div>
-    <form #settings_form="ngForm" id="settings_form" name="settings_form" (ngSubmit)="onSubmit()" novalidate>
-        <div class="grd_2c">
-            <div class="tc_w50p">
-                <div class="frm_dvs">
-                    <span>System Logo</span>
-                    <span class="fw_w frm_img">
-                        <img src="./assets/images/ProceumLogo.png" />
-                        <span class="hgt_20"></span>
-                        <!-- <button mat-raised-button color="accent">Generate</button> -->
-                        <input type="file" mat-raised-button color="accent" accept="image/*"
-                            (change)="fileEvent($event)" />
-                        <!-- <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
-                <input type="file" #fileInput mat-raised-button color="accent" required accept="image/*" (change)="fileEvent($event)" style="display:none;" />
-              </button> -->
-                        <span style="color:maroon">{{imgMessage}}</span>
-                        <span class="hgt_20"></span>
-                    </span>
-                </div>
-
-                <div class="frm_dvs">
-                    <span>Organization Name</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-
-                            <input matInput placeholder="Organization Name" required name="organization_name"
-                                [(ngModel)]="settings.organization_name" #organization_name="ngModel" ngModel>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Contact Name</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-
-                            <input matInput placeholder="Contact Name" required name="contact_name"
-                                [(ngModel)]="settings.contact_name" #contact_name="ngModel" ngModel
-                                onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))'>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>GST Number</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-
-                            <input matInput placeholder="GST Number" minlength="15" maxlength="15" required
-                                name="gstin_number" [(ngModel)]="settings.gstin_number" #gstin_number="ngModel" ngModel
-                                onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))'
-                                pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$">
-                        </mat-form-field>
-                        <span style="color:maroon"
-                            class="{{ settings_form.submitted && gstin_check == false ? 'err_tltp_par' : 'prc_tltp'}}">
-                            Please enter valid GST Number </span>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Contact Phone 1</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-
-                            <input matInput placeholder="Contact Phone 1" required name="contact_number_1"
-                                minlength="10" maxlength="10" [(ngModel)]="settings.contact_number_1"
-                                #contact_number_1="ngModel" ngModel
-                                onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'
-                                pattern="^[6-9]{1}[0-9]{9}$">
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Contact Phone 2</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-
-                            <input matInput placeholder="Contact Phone 2" name="contact_number_2"
-                                [(ngModel)]="settings.contact_number_2" #contact_number_2="ngModel" ngModel
-                                onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Contact Email 1</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-                            <input matInput placeholder="Contact Email 1" required name="contact_email_1"
-                                [(ngModel)]="settings.contact_email_1" #contact_email_1="ngModel" ngModel
-                                pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-                        </mat-form-field>
-                        <span style="color:maroon"
-                            class="{{ settings_form.submitted && email_check == false ? 'err_tltp_par' : 'prc_tltp'}}">
-                            Please enter valid Email </span>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Contact Email 2</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-                            <input matInput placeholder="Contact Email 2" name="contact_email_2"
-                                [(ngModel)]="settings.contact_email_2" #contact_email_2="ngModel" ngModel
-                                pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Copyright Text</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-                            <textarea matInput rows="8" name="copy_right" [(ngModel)]="settings.copy_right"
-                                #copy_right="ngModel" ngModel></textarea>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Full Address</span>
-                    <span>
-                        <span class="err_tltp_par">
-                            <mat-form-field appearance="outline">
-
-                                <textarea matInput rows="8" name="full_address" required
-                                    [(ngModel)]="settings.full_address" #full_address="ngModel" ngModel></textarea>
-                            </mat-form-field>
-                            <span class="prc_tltp"> Please enter valid address </span>
-                        </span>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Theme/Color</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-
-                            <input matInput type="color" placeholder="Theme Color " required name="theme_color"
-                                [(ngModel)]="settings.theme_color" #contact_name="ngModel" ngModel>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>List View Page Limit</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-
-                            <input matInput placeholder="List View Page Limit eg:10" minlength="1" maxlength="2"
-                                required name="list_view_limit" [(ngModel)]="settings.list_view_limit"
-                                #list_view_limit="ngModel" ngModel
-                                onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Date Format</span>
-                    <span>
-                        <mat-form-field appearance="outline" color="accent">
-                            <mat-select matInput name="date_format" [(ngModel)]="settings.date_format"
-                                #date_format="ngModel" ngModel required>
-                                <mat-option value="dd/mm/yyyy">dd/mm/yyyy</mat-option>
-                                <mat-option value="d-M-YYY">d-M-YYY</mat-option>
-                                <mat-option value="DD/MM/YY">DD/MM/YY</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>Time Format</span>
-                    <span>
-                        <mat-form-field appearance="outline">
-                            <mat-select required name="time_format" [(ngModel)]="settings.time_format"
-                                #time_format="ngModel" ngModel>
-                                <mat-option value="dd/mm/yyyy">12Hr</mat-option>
-                                <mat-option value="d-M-YYY">24Hr</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </span>
-                </div>
-                <div class="frm_dvs">
-                    <span>&nbsp;</span>
-                    <span> <button type="submit" mat-raised-button color="accent">Save</button></span>
-                </div>
+    <div class="grd_2c">
+        <div class="tc_w50p">
+            <form #settings_form="ngForm" id="settings_form" name="settings_form" (ngSubmit)="onSubmit()" novalidate>
+            <div class="frm_dvs">
+                <span>System Logo <span style="color:red">*</span></span>
+                <span class="fw_w frm_img">
+                    <img src="{{src}}" />
+                    <span class="hgt_20"></span>
+                    <!-- <button mat-raised-button color="accent">Generate</button> -->
+                    <input type="file" mat-raised-button color="accent" accept="image/*" (change)="fileEvent($event)" />
+                    <!-- <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
+                            <input type="file" #fileInput mat-raised-button color="accent" required accept="image/*" (change)="fileEvent($event)" style="display:none;" />
+                        </button> -->
+                    <span style="color:maroon">{{imgMessage}}</span>
+                    <span class="hgt_20"></span>
+                </span>
             </div>
-            <div class="tc_w50p">
-                <form #settings_form1="ngForm" id="settings_form1" name="settings_form1"
-                    (ngSubmit)="systemMode(settings_form1)" novalidate>
-
-                    <div class="frm_dvs">
-                        <span>System Mode</span>
-                        <span>
-                            <mat-radio-group name="mode" ngModel required>
-                                <mat-radio-button value="live">Live Mode</mat-radio-button>
-                                <mat-radio-button value="maintanence">Maintanence Mode</mat-radio-button>
-                            </mat-radio-group>
-                        </span>
-                    </div>
-                    <div class="text-center" style="margin-top: 10px;">
-                        <button type="submit" mat-raised-button color="accent">Save</button>
-                    </div>
-
-                </form>
+            <div class="frm_dvs">
+                <span>Organization Name <span style="color:red">*</span></span>
+                <span>
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="Organization Name" autocomplete="off" required
+                            name="organization_name" [(ngModel)]="settings.organization_name"
+                            #organization_name="ngModel" ngModel>
+                    </mat-form-field>
+                </span>
             </div>
+            <div class="frm_dvs">
+                <span>Contact Name <span style="color:red">*</span></span>
+                <span>
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="Contact Name" autocomplete="off" required name="contact_name"
+                            [(ngModel)]="settings.contact_name" #contact_name="ngModel" ngModel
+                            onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))'>
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>GST Number <span style="color:red">*</span></span>
+                <span>
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="GST Number Ex:11AAAAA0000A1Z5" autocomplete="off" minlength="15" maxlength="15"
+                            required name="gstin_number" [(ngModel)]="settings.gstin_number" #gstin_number="ngModel"
+                            ngModel
+                            onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))'
+                            pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$">
+                    </mat-form-field>
+                    <span style="color:maroon"
+                        class="{{ settings_form.submitted && gstin_check == false ? 'err_tltp_par' : 'prc_tltp'}}">
+                        Please enter valid GST Number </span>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Contact Phone 1 <span style="color:red">*</span></span>
+                <span>
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="Contact Phone 1 Ex:9020345765" autocomplete="off" required
+                            name="contact_number_1" minlength="10" maxlength="10"
+                            [(ngModel)]="settings.contact_number_1"  #contact_number_1="ngModel" ngModel
+                            onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'
+                            pattern="^[6-9]{1}[0-9]{9}$">
+                    </mat-form-field>
+                    <!-- <span 
+                        class="{{ settings_form.submitted && contact_check == false ? 'prc_tltp' : 'prc_tltp'}}">
+                        Please Enter Valid Mobile Number </span> -->
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Contact Phone 2</span>
+                <span>
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="Contact Phone 2" autocomplete="off" name="contact_number_2"
+                            [(ngModel)]="settings.contact_number_2" #contact_number_2="ngModel" ngModel
+                            onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Contact Email 1 <span style="color:red">*</span></span>
+                <span>
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="Email Ex:samplw123@gmail.com" autocomplete="off" required name="contact_email_1"
+                            [(ngModel)]="settings.contact_email_1" #contact_email_1="ngModel" ngModel
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                    </mat-form-field>
+                    <span style="color:maroon"
+                        class="{{ settings_form.submitted && email_check == false ? 'prc_tltp' : 'prc_tltp'}}">
+                        Please enter valid Email </span>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Contact Email 2</span>
+                <span>
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="Contact Email 2" autocomplete="off" name="contact_email_2"
+                            [(ngModel)]="settings.contact_email_2" #contact_email_2="ngModel" ngModel
+                            pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Copyright Text</span>
+                <span>
+                    <mat-form-field appearance="outline">
+                        <textarea matInput rows="8" name="copy_right" placeholder="Please enter copy right script"
+                            autocomplete="off" [(ngModel)]="settings.copy_right" #copy_right="ngModel"
+                            ngModel></textarea>
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Full Address <span style="color:red">*</span></span>
+                <span>
+                    <span class="err_tltp_par">
+                        <mat-form-field appearance="outline">
+                            <textarea matInput rows="8" name="full_address" required
+                                placeholder="Please enter Your Address" [(ngModel)]="settings.full_address"
+                                #full_address="ngModel" ngModel></textarea>
+                        </mat-form-field>
+                        <span class="{{ settings_form.submitted && address_check == false ? 'prc_tltp' : 'prc_tltp'}}">
+                            Please enter valid address </span>
+                    </span>
+                </span>
+            </div>
+            <!-- <div class="frm_dvs">
+        <span>Full Address</span>
+        <span>
+            <mat-form-field appearance="outline">
+                <mat-label>Full Address</mat-label>
+                <textarea matInput rows="8" name="full_address" autocomplete="off" required [(ngModel)]="settings.full_address" #full_address="ngModel"  ngModel></textarea>
+            </mat-form-field>
+            <span style="color:maroon" class="{{ settings_form.submitted && address_check == false ? 'err_tltp_par' : 'prc_tltp'}}"> Please enter valid address </span>
+        </span> 
+        </div> -->
+
+            <div class="frm_dvs">
+                <span>Theme/Color <span style="color:red">*</span></span>
+                <span>
+                    <mat-form-field>
+                        <input matInput [ngxMatColorPicker]="picker" readonly required name="theme_color" [(ngModel)]="settings.theme_color" #theme_color="ngModel" ngModel>
+                        <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
+                        <ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>List View Page Limit <span style="color:red">*</span></span>
+                <span>
+                    <mat-form-field appearance="outline">
+                        <input matInput type="number" autocomplete="off" placeholder="List View Page Limit eg:10"
+                            min="1" minlength="1" maxlength="2" required name="list_view_limit"
+                            [(ngModel)]="settings.list_view_limit" #list_view_limit="ngModel" ngModel
+                            onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Date Format <span style="color:red">*</span></span>
+                <span>
+                    <mat-form-field appearance="outline" color="accent">
+                        <mat-select matInput name="date_format" [(ngModel)]="settings.date_format"
+                            #date_format="ngModel" ngModel required placeholder="select dateformat">
+                            <mat-option value="dd/mm/yyyy">dd/mm/yyyy (Ex:"02/04/2021")</mat-option>
+                            <mat-option value="d-M-yy">d-M-YY (Ex:"02/04/2021")</mat-option>
+                            <mat-option value="DD/MM/YY">DD/MM/YY (Ex:"30/06/08")</mat-option>
+                            <mat-option value="F jS, Y">F jS, Y (Ex:April 9th, 2012)</mat-option>
+                            <mat-option value="F j, Y">F j, Y (Ex:January 1, 2018)</mat-option>
+                            <mat-option value="Y-m-d">Y-m-d (Ex:2016-03-28)</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="frm_dvs">
+                <span>Time Format <span style="color:red">*</span></span>
+                <span>
+                    <mat-form-field appearance="outline" color="accent">
+                        <mat-select required name="time_format" [(ngModel)]="settings.time_format"
+                            placeholder="select time format" #time_format="ngModel" ngModel>
+                            <mat-option value="12 Hr">12 Hr (Ex: 02:20:02 PM )</mat-option>
+                            <mat-option value="24 Hr ">24 Hr (Ex: 14:20:02 PM )</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </span>
+            </div>
+            <div class="text-center" style="margin-top: 10px;">
+                <button type="submit" mat-raised-button color="accent">Save</button>
+            </div>
+            </form>
         </div>
-    </form>
+    
+    <div class="tc_w50p">
+        <form #settings_form1="ngForm" id="settings_form1" name="settings_form1" (ngSubmit)="systemModeSubmit(settings_form1)"
+            novalidate>
 
+            <div class="frm_dvs">
+                <span>System Mode</span>
+                <span>
+                    <mat-radio-group name="mode" [(ngModel)]="systemMode" ngModel required>
+                        <mat-radio-button value="live">Live Mode</mat-radio-button>
+                        <mat-radio-button value="maintanence">Maintanence Mode</mat-radio-button>
+                    </mat-radio-group>
+                </span>
+            </div>
+            <div class="text-center" style="margin-top: 10px;">
+                <button type="submit" mat-raised-button color="accent">Save</button>
+            </div>
 
-
+        </form>
+    </div>
+    </div>
 </div>
 <app-footer></app-footer>

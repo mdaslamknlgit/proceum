@@ -22,6 +22,8 @@ import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.c
 import { SettingsComponent } from './settings/settings.component';
 import { CustomPagesComponent } from './custom-pages/custom-pages.component';
 import { CountriesStatesCitiesComponent } from './countries-states-cities/countries-states-cities.component';
+import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
+
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
 import { StatesComponent } from './states/states.component';
@@ -120,6 +122,7 @@ const routes: Routes = [
   imports: [
     MaterialModule,
     LayoutsModule,
+    NgxMatColorPickerModule,
     RouterModule.forChild(routes),
     ConfirmationPopoverModule.forRoot({
       confirmButtonType: 'danger', // set defaults here
@@ -127,7 +130,10 @@ const routes: Routes = [
     CommonModule,
     CKEditorModule,
   ],
+  providers: [
+    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+   ],
   exports: [RouterModule],
-  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class AdminModule {}

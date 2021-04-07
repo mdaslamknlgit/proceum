@@ -75,4 +75,17 @@ export class CommonService {
   errorHandler(error: Response) {
     return throwError(error);
   }
+
+  public formData(param,myFormData) {
+    let headers = new HttpHeaders();
+    headers = headers
+    .append('Authorization', 'Bearer ' + this.getToken())
+          
+    return this.http
+      .post(this.apiURL + param.url, myFormData, { headers: headers })
+      .pipe(
+        map((res) => res),
+        catchError(this.errorHandler)
+      );
+  }
 }

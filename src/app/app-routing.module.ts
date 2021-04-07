@@ -16,6 +16,7 @@ import { EmailVerifiedComponent } from './frontend/email-verified/email-verified
 import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscribe-email.component';
 import { CurriculumComponent } from './frontend/student/curriculum/curriculum.component';
 import { SettingsComponent } from './admin/settings/settings.component';
+import { StaticPagesComponent } from './frontend/static-pages/static-pages.component';
 import { ResetPasswordComponent } from './frontend/reset-password/reset-password.component';
 
 const routes: Routes = [
@@ -37,12 +38,16 @@ const routes: Routes = [
   { path: 'reset-password/:token', component:ResetPasswordComponent},
   { path: 'email-verification/:hash', component:EmailVerifiedComponent},
   { path: 'unsubscription', component:UnsubscribeEmailComponent},
-
+  {
+    path: 'mcicirriculam/:id',
+    component: StaticPagesComponent,
+  },
   {
     path: 'login',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   { path: 'white-board', component: DrawingBoardComponent },
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
   {
     path: 'admin',
     loadChildren: () =>
