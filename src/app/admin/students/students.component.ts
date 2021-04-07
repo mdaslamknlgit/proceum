@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../environments/environment';
@@ -71,9 +70,9 @@ export class StudentsComponent implements OnInit {
     let param = { url: 'user/'+student_id};
     this.http.delete(param).subscribe((res: Response) => {
       if (res.error) {
-        this.toastr.error(res.message, 'Error', { closeButton: true });
+        this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
       }else{
-        this.toastr.success(res.message, 'Success', { closeButton: true });
+        this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
         this.applyFilters();
       }
     });

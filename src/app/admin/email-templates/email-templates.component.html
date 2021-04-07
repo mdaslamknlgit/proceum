@@ -8,23 +8,14 @@
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input
-        matInput
-        (keyup)="doFilter($event.target.value)"
-        placeholder="Search"
-      />
+      <input matInput (keyup)="doFilter($event.target.value)" placeholder="Search" />
       <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="accent"
-      class="float_right mt_0"
-      (click)="manageTemplate(0)"
-      type="button"
-    >
+    <button mat-raised-button color="accent" class="float_right mt_0" (click)="manageTemplate(0)" type="button">
       New Template
     </button>
+    <div class="rsp_tbl">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <!-- Position Column -->
       <ng-container matColumnDef="id">
@@ -69,20 +60,13 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       <tr class="mat-row" *matNoDataRow>
-        <td
-          style="text-align: center; margin: 20px"
-          class="mat-cell"
-          colspan="6"
-        >
+        <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">
           No Records Found
         </td>
       </tr>
     </table>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons
-      (page)="getServerData($event)"
-    ></mat-paginator>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>
 <app-admin-footer></app-admin-footer>

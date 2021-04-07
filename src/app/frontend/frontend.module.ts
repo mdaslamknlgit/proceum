@@ -16,6 +16,7 @@ import { EmailVerifiedComponent } from './email-verified/email-verified.componen
 import { UnsubscribeEmailComponent } from './unsubscribe-email/unsubscribe-email.component';
 import { CurriculumComponent } from './student/curriculum/curriculum.component';
 import { StaticPagesComponent } from './static-pages/static-pages.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
  
 ];
 @NgModule({
-  declarations: [DashboardComponent, IndexComponent, ContactUsComponent, PrivacyPolicyComponent, FaqsComponent, AboutUsComponent, OurTeamComponent, MyAccountComponent, ForgotPasswordComponent, EmailVerifiedComponent, UnsubscribeEmailComponent, CurriculumComponent, StaticPagesComponent],
+  declarations: [DashboardComponent, IndexComponent, ContactUsComponent, PrivacyPolicyComponent, FaqsComponent, AboutUsComponent, OurTeamComponent, MyAccountComponent, ForgotPasswordComponent, EmailVerifiedComponent, UnsubscribeEmailComponent, CurriculumComponent, ResetPasswordComponent, StaticPagesComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

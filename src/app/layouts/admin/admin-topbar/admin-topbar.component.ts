@@ -9,9 +9,10 @@ import { Router } from '@angular/router';
 export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: String = '';
   public user;
-  constructor(private http: CommonService, private route: Router) {}
-  ngOnInit(): void {
+  constructor(private http: CommonService, private route: Router) {
     this.http.menu_status = '';
+  }
+  ngOnInit(): void {
     this.user = this.http.getUser();
   }
 
@@ -23,7 +24,7 @@ export class AdminTopbarComponent implements OnInit {
 
   logout() {
     let login_id = JSON.parse(atob(sessionStorage.getItem('user'))).login_id;
-    let params = { url: 'logout',login_id:login_id };
+    let params = { url: 'logout', login_id: login_id };
     this.http.post(params).subscribe((res) => {
       this.http.removeSession();
       this.route.navigate(['/login']);

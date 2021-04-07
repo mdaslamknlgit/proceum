@@ -17,6 +17,7 @@ import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscr
 import { CurriculumComponent } from './frontend/student/curriculum/curriculum.component';
 import { SettingsComponent } from './admin/settings/settings.component';
 import { StaticPagesComponent } from './frontend/static-pages/static-pages.component';
+import { ResetPasswordComponent } from './frontend/reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'library', component:ProceumLibraryComponent},
   { path: 'forgot-password', component:ForgotPasswordComponent},
+  { path: 'reset-password/:token', component:ResetPasswordComponent},
   { path: 'email-verification/:hash', component:EmailVerifiedComponent},
   { path: 'unsubscription', component:UnsubscribeEmailComponent},
   {
