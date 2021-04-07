@@ -131,9 +131,9 @@ const routes: Routes = [
     CKEditorModule,
   ],
   providers: [
-    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS }
+    { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
    ],
   exports: [RouterModule],
-  providers: [{ provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }],
 })
 export class AdminModule {}
