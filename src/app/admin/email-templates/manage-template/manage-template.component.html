@@ -18,7 +18,8 @@
     <span class="prc_tltp" *ngIf="template_form.submitted && template.template_subject == ''">
       Template Subject <strong>Required</strong></span>
   </div>
-  <div class="inp_par_dv" [ngClass]="{err_tltp_par: (template_form.submitted && template.template_name == '') || (template_form.submitted && template_name.invalid) }">
+  <div class="inp_par_dv"
+    [ngClass]="{err_tltp_par: (template_form.submitted && template.template_name == '') || (template_form.submitted && template_name.invalid) }">
     <input type="text" matInput #template_name="ngModel" pattern="[a-zA-Z][a-zA-Z_]+" name="template_name"
       [(ngModel)]="template.template_name" placeholder="Template Name"
       disabled="{{ template.id != '0' ? true : false }}" required />

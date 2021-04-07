@@ -6,15 +6,9 @@ export const environment = {
   production: false,
   page_size: 10,
   page_size_options: [10, 20, 50, 100],
-<<<<<<< HEAD
-   apiUrl: 'http://192.10.250.110:8000/api/',
-      // apiUrl: 'http://192.10.250.150:8000/api/',
-  //  apiUrl  : 'https://apidev.proceum.com/api/'
-=======
   apiUrl: 'http://192.10.250.110:8000/api/',
   // apiUrl: 'http://192.10.250.150:8000/api/',
   // apiUrl  : 'https://apidev.proceum.com/api/'
->>>>>>> c6bb1189f0d0c3d739f635169a77790c7b430192
 };
 
 /*
