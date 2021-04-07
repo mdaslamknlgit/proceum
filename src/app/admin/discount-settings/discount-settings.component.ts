@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-discount-settings',
@@ -33,7 +34,11 @@ export class DiscountSettingsComponent implements OnInit {
   discount_percente = '';
   valid_from = new Date();
   valid_to = new Date();
-
+  public pageSize = environment.page_size;
+  public page_size_options = environment.page_size_options;
+  public totalSize = 0;
+  public sort_by: any;
+  public search_box = '';
   dropdown_settings = {};
   public title = '';
   public discount_id = '';
@@ -179,25 +184,32 @@ export class DiscountSettingsComponent implements OnInit {
     });
   }
   public getServerData(event?: PageEvent) {
-    // this.page = event.pageSize * event.pageIndex;
-    // let param = {
-    //   url: 'get-discounts',
-    //   offset: this.page,
-    //   limit: event.pageSize,
-    //   order_by: this.sort_by,
-    //   search: this.search_box,
-    // };
-    // this.http.post(param).subscribe((res) => {
-    //   if (res['error'] == false) {
-    //     this.dataSource = new MatTableDataSource(res['data']['steps']);
-    //     this.totalSize = res['total_records'];
-    //   } else {
-    //     this.toster.info(res['message'], 'Error');
-    //     this.dataSource = new MatTableDataSource([]);
-    //   }
-    // });
+    this.page = event.pageSize * event.pageIndex;
+    let param = {
+      url: 'get-discounts',
+      offset: this.page,
+      limit: event.pageSize,
+      order_by: this.sort_by,
+      search: this.search_box,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.dataSource = new MatTableDataSource(res['data']['steps']);
+        this.totalSize = res['total_records'];
+      } else {
+        this.toster.info(res['message'], 'Error');
+        this.dataSource = new MatTableDataSource([]);
+      }
+    });
   }
   public doFilter(value: string) {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
+    let param = { url: 'get-discounts', search: this.search_box };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.dataSource = new MatTableDataSource(res['data']['descounts']);
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
   }
 }
