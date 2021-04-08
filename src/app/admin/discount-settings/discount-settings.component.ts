@@ -28,6 +28,7 @@ export class DiscountSettingsComponent implements OnInit {
   //form fields
   country_id = 0;
   state = '';
+  states = '';
   university = '';
   college = '';
   course = '';
@@ -92,6 +93,24 @@ export class DiscountSettingsComponent implements OnInit {
     (<HTMLFormElement>document.getElementById('discount_form')).reset();
     (<HTMLFormElement>document.getElementById('edit_discount_form')).reset();
   }
+  getStates() {
+    if (this.country_id > 0) {
+      let param = {
+        url: 'get-states',
+        country_id: this.country_id,
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.states = res['data']['states'];
+        } else {
+          let message = res['errors']['title']
+            ? res['errors']['title']
+            : res['message'];
+          this.toster.error(message, 'Error');
+        }
+      });
+    }
+  }
   createDiscount() {
     let param = {
       url: 'discount',
@@ -119,11 +138,11 @@ export class DiscountSettingsComponent implements OnInit {
     });
   }
   editDiscount(param) {
-    console.log(param);
     this.edit_model_status = !this.edit_model_status;
     this.title = param['title'];
     this.discount_id = param['pk_id'];
     this.country_id = param['country_id'];
+    this.getStates();
     this.state = '' + param['state_id'];
     this.university = '' + param['university_id'];
     this.college = '' + param['college_id'];
