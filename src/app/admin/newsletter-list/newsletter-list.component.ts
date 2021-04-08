@@ -71,16 +71,22 @@ export class NewsletterListComponent implements OnInit  {
     this.applyFilters( );
   }
   public doFilter = (value: string) => {
-    let key=value;
+    const key=value;
     console.log(key);
     
 
     this.dataSource.filter = value.trim().toLocaleLowerCase();
-    this.hrefEXL=environment.apiUrl+'export-newsletter/EXL'+key;
-    this.hrefPDF=environment.apiUrl+'export-newsletter/PDF'+key;
+    var val='';
+    if(key){
+      var val='/'+key;
+    }
+    this.hrefEXL=environment.apiUrl+'export-newsletter/EXL'+val;
+    this.hrefPDF=environment.apiUrl+'export-newsletter/PDF'+val;
     //console.log(this.dataSource);
   };
-
+export(){
+  this.hrefPDF=environment.apiUrl+'export-newsletter/PDF';
+}
   applyFilters(){
     let param = { url: 'newsletter-list',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
     this.http.post(param).subscribe((res) => {

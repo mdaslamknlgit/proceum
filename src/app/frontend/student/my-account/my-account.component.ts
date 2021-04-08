@@ -85,7 +85,7 @@ export class MyAccountComponent implements OnInit {
       'role':this.user['role']      
     }
     this.http.post(params).subscribe((res) => {
-        console.log(res['data'].name);    
+        console.log(res);    
         this.profile = {
           "first_name":res['data'].first_name,
           "last_name":res['data'].last_name,
@@ -99,7 +99,7 @@ export class MyAccountComponent implements OnInit {
     });
   }
 
-  onSubmit(data: NgForm) {
+  profileUpdate() {
     const pwdregex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&#^()><?/:;,.])[A-Za-z\d$@$!%*?&#^()><?/:;,.].{7,15}');
     var myFormData = new FormData();
     if(this.isrequired){
@@ -110,7 +110,6 @@ export class MyAccountComponent implements OnInit {
         this.curpwd_check = false;
         return;
       }
-      console.log(new_password);
       if(new_password == false ){
         this.newpwd_check = false;
         return;
@@ -138,7 +137,8 @@ export class MyAccountComponent implements OnInit {
           myFormData.append('profile_pic', this.filedata[0]);            
     }
     myFormData.append('id',   this.user_id);
-    myFormData.append('name',   this.profile.first_name);
+    myFormData.append('first_name',   this.profile.first_name);
+    myFormData.append('last_name',   this.profile.last_name);
     let param={
       'url':'update-profile'
     };
