@@ -4,14 +4,18 @@
     <div class="brd_crm">Proceum &raquo; <strong>Custom Page</strong></div>
     <div class="pg_ttl">Custom Page</div>
     <div class="hgt_20"></div>
-    <form #custom_page_form="ngForm" id="custom_page_form" name="custom_page_form" (ngSubmit)="onSubmit()" novalidate>
+    <form #custom_page_form="ngForm" id="custom_page_form" name="custom_page_form" (ngSubmit)="custom_page_form.valid && createCustomPage()" novalidate>
         <div class="grd_2c">
             <div class="frm_dvs">
                 <span class="hgt_20"></span>
                 <span class="hgt_20"></span>
             </div>
+            <div>
+                All <span class="required">(*) </span>marked fields are mandatory
+            </div>
+            
             <div class="frm_dvs">
-                <span>Menu Name</span>
+                <span>Menu Name <span class="required">*</span></span>
                 <span>
                     <span>
                         <mat-form-field appearance="outline" color="accent">
@@ -35,13 +39,14 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>Page Name</span>
+                <span>Page Name <span class="required">*</span></span>
                 <span>
                     <span>
                         <mat-form-field appearance="outline" color="accent">
                             <mat-select [required]="!isRequired" name="old_page_name" (selectionChange)="selectPage()"
                                 placeholder="Select Page" [(ngModel)]="customPage.old_page_name"
                                 #old_page_name="ngModel" ngModel>
+                                <mat-option value="">select page</mat-option>
                                 <mat-option *ngFor="let page of pagesList" [value]="page.name">{{page.name}}
                                 </mat-option>
                             </mat-select>
@@ -60,7 +65,7 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>Page Content</span>
+                <span>Page Content <span class="required">*</span></span>
                 <span>
                     <ckeditor (ready)="onReady($event)" [config]="{ placeholder: 'Type the Page content here!' }"
                         required [(ngModel)]="customPage.Page_content" name="Page_content" [editor]="Editor">
