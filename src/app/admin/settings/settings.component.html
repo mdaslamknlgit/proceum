@@ -6,14 +6,15 @@
     <div class="hgt_20"></div>
     <div class="grd_2c">
         <div class="tc_w50p">
-            <form #settings_form="ngForm" id="settings_form" name="settings_form" (ngSubmit)="onSubmit()" novalidate>
+            <span>All <span class="required">(*) </span>marked fields are mandatory</span>
+            <form #settings_form="ngForm" id="settings_form" name="settings_form" (ngSubmit)="createSettings()" novalidate>
             <div class="frm_dvs">
-                <span>System Logo <span style="color:red">*</span></span>
+                <span>System Logo <span class="required">*</span></span>
                 <span class="fw_w frm_img">
                     <img src="{{src}}" />
                     <span class="hgt_20"></span>
                     <!-- <button mat-raised-button color="accent">Generate</button> -->
-                    <input type="file" mat-raised-button color="accent" accept="image/*" (change)="fileEvent($event)" />
+                    <input type="file" required mat-raised-button color="accent" accept="image/*" (change)="fileEvent($event)" />
                     <!-- <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
                             <input type="file" #fileInput mat-raised-button color="accent" required accept="image/*" (change)="fileEvent($event)" style="display:none;" />
                         </button> -->
@@ -22,7 +23,7 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>Organization Name <span style="color:red">*</span></span>
+                <span>Organization Name <span class="required">*</span></span>
                 <span>
                     <mat-form-field appearance="outline">
                         <input matInput placeholder="Organization Name" autocomplete="off" required
@@ -32,7 +33,7 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>Contact Name <span style="color:red">*</span></span>
+                <span>Contact Name <span class="required">*</span></span>
                 <span>
                     <mat-form-field appearance="outline">
                         <input matInput placeholder="Contact Name" autocomplete="off" required name="contact_name"
@@ -42,7 +43,7 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>GST Number <span style="color:red">*</span></span>
+                <span>GST Number <span class="required">*</span></span>
                 <span>
                     <mat-form-field appearance="outline">
                         <input matInput placeholder="GST Number Ex:11AAAAA0000A1Z5" autocomplete="off" minlength="15" maxlength="15"
@@ -51,13 +52,10 @@
                             onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))'
                             pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$">
                     </mat-form-field>
-                    <span style="color:maroon"
-                        class="{{ settings_form.submitted && gstin_check == false ? 'err_tltp_par' : 'prc_tltp'}}">
-                        Please enter valid GST Number </span>
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>Contact Phone 1 <span style="color:red">*</span></span>
+                <span>Contact Phone 1 <span class="required">*</span></span>
                 <span>
                     <mat-form-field appearance="outline">
                         <input matInput placeholder="Contact Phone 1 Ex:9020345765" autocomplete="off" required
@@ -82,7 +80,7 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>Contact Email 1 <span style="color:red">*</span></span>
+                <span>Contact Email 1 <span class="required">*</span></span>
                 <span>
                     <mat-form-field appearance="outline">
                         <input matInput placeholder="Email Ex:samplw123@gmail.com" autocomplete="off" required name="contact_email_1"
@@ -115,7 +113,7 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>Full Address <span style="color:red">*</span></span>
+                <span>Full Address <span class="required">*</span></span>
                 <span>
                     <span class="err_tltp_par">
                         <mat-form-field appearance="outline">
@@ -123,8 +121,6 @@
                                 placeholder="Please enter Your Address" [(ngModel)]="settings.full_address"
                                 #full_address="ngModel" ngModel></textarea>
                         </mat-form-field>
-                        <span class="{{ settings_form.submitted && address_check == false ? 'prc_tltp' : 'prc_tltp'}}">
-                            Please enter valid address </span>
                     </span>
                 </span>
             </div>
@@ -140,7 +136,7 @@
         </div> -->
 
             <div class="frm_dvs">
-                <span>Theme/Color <span style="color:red">*</span></span>
+                <span>Theme/Color <span class="required">*</span></span>
                 <span>
                     <mat-form-field>
                         <input matInput [ngxMatColorPicker]="picker" readonly required name="theme_color" [(ngModel)]="settings.theme_color" #theme_color="ngModel" ngModel>
@@ -150,7 +146,7 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>List View Page Limit <span style="color:red">*</span></span>
+                <span>List View Page Limit <span class="required">*</span></span>
                 <span>
                     <mat-form-field appearance="outline">
                         <input matInput type="number" autocomplete="off" placeholder="List View Page Limit eg:10"
@@ -161,7 +157,7 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>Date Format <span style="color:red">*</span></span>
+                <span>Date Format <span class="required">*</span></span>
                 <span>
                     <mat-form-field appearance="outline" color="accent">
                         <mat-select matInput name="date_format" [(ngModel)]="settings.date_format"
@@ -177,7 +173,7 @@
                 </span>
             </div>
             <div class="frm_dvs">
-                <span>Time Format <span style="color:red">*</span></span>
+                <span>Time Format <span class="required">*</span></span>
                 <span>
                     <mat-form-field appearance="outline" color="accent">
                         <mat-select required name="time_format" [(ngModel)]="settings.time_format"
@@ -195,11 +191,10 @@
         </div>
     
     <div class="tc_w50p">
-        <form #settings_form1="ngForm" id="settings_form1" name="settings_form1" (ngSubmit)="systemModeSubmit(settings_form1)"
-            novalidate>
+        <form #system_mode_form="ngForm" id="system_mode_form" name="system_mode_form"  (ngSubmit)="system_mode_form.valid && updateSysMode()" novalidate>
 
             <div class="frm_dvs">
-                <span>System Mode</span>
+                <span>System Mode <span class="required">*</span></span>
                 <span>
                     <mat-radio-group name="mode" [(ngModel)]="systemMode" ngModel required>
                         <mat-radio-button value="live">Live Mode</mat-radio-button>

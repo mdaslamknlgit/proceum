@@ -73,8 +73,11 @@ pagesList:any;
     };
   }
 
-  onSubmit(){
-    console.log(this.customPage);
+  createCustomPage(){
+    if(this.customPage.Page_content ==""){
+      
+      return;
+    }
     let params={
       'url':'create-page',      
       'page_name':(this.customPage.old_page_name)?this.customPage.old_page_name:this.customPage.new_page_name,      
@@ -85,7 +88,6 @@ pagesList:any;
       'show_menu': this.customPage.isShowChecked,     
     };
     this.http.post(params).subscribe((res) => {
-      console.log(res);
       if(res['error'] == false){
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,
