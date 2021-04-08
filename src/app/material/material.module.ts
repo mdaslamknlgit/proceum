@@ -29,6 +29,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MomentDateModule } from '@angular/material-moment-adapter';
+import {MatTreeModule} from '@angular/material/tree';
+
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
   imports: [
@@ -57,6 +59,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     MatBadgeModule,
     NgMultiSelectDropDownModule,
     MomentDateModule,
+    MatTreeModule
   ],
   exports: [
     MatInputModule,
@@ -88,6 +91,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     MatBadgeModule,
     NgMultiSelectDropDownModule,
     MomentDateModule,
+    MatTreeModule
   ],
 })
 export class MaterialModule {}
