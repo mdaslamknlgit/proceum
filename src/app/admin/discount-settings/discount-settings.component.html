@@ -32,6 +32,8 @@
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
                     <input
+                      maxlength="50"
+                      appAlphabetOnly
                       required
                       name="title_name"
                       [(ngModel)]="title"
@@ -173,11 +175,14 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
+                      maxlength="4"
+                      appNumbersonly
                       name="discount_percente_name"
                       #discount_percente_name="ngModel"
                       [(ngModel)]="discount_percente"
                       matInput
                       placeholder="Discount Percente"
+                      (blur)="formatValue(discount_percente)"
                     />
                   </mat-form-field>
                   <span
@@ -187,7 +192,8 @@
                         discount_percente_name.touched) &&
                       discount_percente_name.invalid
                     "
-                    >Discount Percent is required</span
+                    >Discount Percent is required and max 2 digits
+                    allowed.</span
                   >
                 </span>
               </span>
@@ -237,6 +243,7 @@
                       matInput
                       [matDatepicker]="picker"
                       autocomplete="off"
+                      [min]="today_date"
                     />
                     <mat-datepicker-toggle
                       matSuffix
@@ -273,6 +280,7 @@
                       matInput
                       [matDatepicker]="picker2"
                       autocomplete="off"
+                      [min]="valid_from"
                     />
                     <mat-datepicker-toggle
                       matSuffix
@@ -286,7 +294,8 @@
                       (discount_form.submitted || valid_to_name.touched) &&
                       valid_to_name.invalid
                     "
-                    >To Date is required</span
+                    >To Date is required and it should be greater than from
+                    date</span
                   >
                 </span>
               </span>
@@ -470,6 +479,8 @@
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
                     <input
+                      maxlength="50"
+                      appAlphabetOnly
                       required
                       name="title_name_edit"
                       [(ngModel)]="title"
@@ -615,11 +626,14 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
+                      maxlength="4"
+                      appNumbersonly
                       name="discount_percente_name_edit"
                       #discount_percente_name_edit="ngModel"
                       [(ngModel)]="discount_percente"
                       matInput
                       placeholder="Discount Percente"
+                      (blur)="formatValue(discount_percente)"
                     />
                   </mat-form-field>
                   <span
@@ -629,7 +643,8 @@
                         discount_percente_name_edit.touched) &&
                       discount_percente_name_edit.invalid
                     "
-                    >Discount Percent is required</span
+                    >Discount Percent is required and max 2 digits
+                    allowed.</span
                   >
                 </span>
               </span>
@@ -680,6 +695,7 @@
                       matInput
                       [matDatepicker]="picker3"
                       autocomplete="off"
+                      [min]="today_date"
                     />
                     <mat-datepicker-toggle
                       matSuffix
@@ -717,6 +733,7 @@
                       matInput
                       [matDatepicker]="picker4"
                       autocomplete="off"
+                      [min]="valid_from"
                     />
                     <mat-datepicker-toggle
                       matSuffix
@@ -731,7 +748,8 @@
                         valid_to_name_edit.touched) &&
                       valid_to_name_edit.invalid
                     "
-                    >To Date is required</span
+                    >To Date is required and it should be greater than from
+                    date</span
                   >
                 </span>
               </span>

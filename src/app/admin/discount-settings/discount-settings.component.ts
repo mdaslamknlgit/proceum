@@ -24,7 +24,7 @@ export class DiscountSettingsComponent implements OnInit {
     'updated_at',
     'actions',
   ];
-
+  today_date = new Date();
   //form fields
   country_id = 0;
   state = '';
@@ -136,6 +136,9 @@ export class DiscountSettingsComponent implements OnInit {
         this.toster.error(message, 'Error');
       }
     });
+  }
+  formatValue(discount_percente) {
+    this.discount_percente = this.http.setToDecimal(discount_percente);
   }
   editDiscount(param) {
     this.edit_model_status = !this.edit_model_status;
