@@ -16,13 +16,8 @@
                         <div class="frm_dvs">
                             <span class="bold">Add Country
                             </span>
-                            <!-- <span>
-                               <a href="#">Import Countries CSV</a>
-                            </span> -->
-
-                            <a (click)="fileInput.click()">
-                                <mat-icon>attach_file</mat-icon>
-                                Import Countries CSV
+                            <a (click)="fileInput.click()" class="dsflx">
+                                <mat-icon>upload_file</mat-icon> Import Countries CSV 
                             </a>
                               <input hidden type="file" #fileInput (change)="countryFileChange($event)" (click)="fileInput.value = null">
 
@@ -50,6 +45,7 @@
                             <span>
                                 <mat-form-field appearance="outline">
                                     <input matInput placeholder="Flag Icon" [(ngModel)]="country.country_flag" name="country_flag" #country_flag="ngModel" />
+                                    <!-- <mat-select-country></mat-select-country> -->
                                 </mat-form-field>
                             </span>
                         </div>
@@ -195,9 +191,9 @@
             </ng-container>
 
             <ng-container matColumnDef="country_name">
-                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <th mat-header-cell *matHeaderCellDef>Country Name</th>
                 <td mat-cell *matCellDef="let element"> 
-                    <span (click)="navigateTo(element.id)" class="lnk_nav">{{element.country_name}} {{element.country_code}}</span>
+                    <span (click)="navigateTo(element.id)" class="lnk_nav">{{element.country_name}} ({{element.country_code}})</span>
                 </td>
             </ng-container>
 
@@ -208,14 +204,20 @@
             </ng-container>
 
             <ng-container matColumnDef="currency">
-                <th mat-header-cell *matHeaderCellDef> Currency </th>
-                <td mat-cell *matCellDef="let element"> {{element.currency_text}} {{element.currency_symbol}} </td>
+                <th mat-header-cell *matHeaderCellDef> Currency Text </th>
+                <td mat-cell *matCellDef="let element"> {{element.currency_text}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="currency_symbal">
+                <th mat-header-cell *matHeaderCellDef> Currency Symbol </th>
+                <td mat-cell *matCellDef="let element">{{element.currency_symbol}} </td>
             </ng-container>
 
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef> Status </th>
                 <td mat-cell *matCellDef="let element">
-                    <mat-icon matTooltip='Current Status is {{ element.status == 1 ? "ACTIVE" : "IN-ACTIVE"}}' class='{{ element.status == 1 ? "sts_grn" : "sts_rd" }}' >{{ element.status == 1 ? "check_circle" : "cancel" }}</mat-icon></td>
+                    <span matTooltip='Current Status is {{ element.status == 1 ? "ACTIVE" : "IN-ACTIVE"}}' class='{{ element.status == 1 ? "sts_grn" : "sts_rd" }}' >{{ element.status == 1 ? "Active" : "Inactive" }}</span>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="action">
