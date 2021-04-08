@@ -45,7 +45,7 @@ export class ContactUsComponent implements OnInit {
       if (res.error) {
         this.toastr.error(res.message, 'Error', { closeButton: true });
       } else {
-        this.toastr.success(res.message, 'Error', { closeButton: true });
+        this.toastr.success(res.message, 'Success', { closeButton: true });
        (<HTMLFormElement>document.getElementById('contact_form')).reset();
        
       }
