@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import ImageInsert from '@ckeditor/ckeditor5-image/src/imageinsert';
+import FileRepository from '@ckeditor/ckeditor5-upload/src/filerepository';
 import { CommonService } from '../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -12,9 +13,11 @@ import { ToastrService } from 'ngx-toastr';
 export class CustomPagesComponent implements OnInit {
   isRequired:boolean=true;
   isMenuRequired:boolean=true;
+  isMenuDisplay:boolean=true;
+  isPageDisplay:boolean=true;
 customPage={
-"old_Page_name":"",
-"new_Page_name":"",
+"old_page_name":"",
+"new_page_name":"",
 "new_menu_name":"",
 "old_menu_name":"",
 "isNewPageChecked":"",
@@ -23,51 +26,93 @@ customPage={
 "Page_content":"",
 };
 public Editor = ClassicEditor;
+menuList:any;
+pagesList:any;
   constructor(
     private http: CommonService,private toaster: ToastrService
     ) { }
 
   ngOnInit(): void {
+    this.getMenusAndPages();
   }
-
-  checked(e){
-    console.log(e);
-    if(e.checked){
+  getMenusAndPages(){
+    let params={
+      "url":"menu-pages"
+    };
+    this.http.post(params).subscribe((res) => {
+      this.menuList=res['menu'];
+      this.pagesList=res['pages'];
+      console.log(res['menu']);
+    });
+  }
+  selectPage(){
+    if(this.customPage.old_page_name !=""){
+      this.isPageDisplay=false;
       this.isRequired=false;
     }else{
       this.isRequired=true;
+      this.isPageDisplay=true;
     }
+    console.log(this.isPageDisplay);
+  }
+  selectMenu(){
+    if(this.customPage.old_menu_name !=""){
+      this.isMenuDisplay=false;
+      this.isRequired=false;
+    }else{
+      this.isRequired=true;
+      this.isMenuDisplay=true;
+    }
+   
   }
   
-  newMenuChecked(e){
-    if(e.checked){
-      this.isMenuRequired=false;
-    }else{
-      this.isMenuRequired=true;
-    }
+  onReady(eventData) {
+    eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
+      console.log(btoa(loader.file));
+      return new UploadAdapter(loader);
+    };
   }
+
   onSubmit(){
     console.log(this.customPage);
-
     let params={
-      'url':'custom-page',      
-      'page_name':(this.customPage.isNewPageChecked)?this.customPage.new_Page_name:this.customPage.old_Page_name,      
-      'menu_name':(this.customPage.isNewMenuChecked)?this.customPage.new_menu_name:this.customPage.old_menu_name,      
+      'url':'create-page',      
+      'page_name':(this.customPage.old_page_name)?this.customPage.old_page_name:this.customPage.new_page_name,      
+      'page_checked':this.customPage.isNewPageChecked,      
+      'menu_name':(this.customPage.old_menu_name)?this.customPage.old_menu_name:this.customPage.new_menu_name,      
+      'menu_check':(this.customPage.old_menu_name)?true:false,      
       'page_content': this.customPage.Page_content,      
-      'status': this.customPage.isShowChecked,      
+      'show_menu': this.customPage.isShowChecked,     
     };
-    
     this.http.post(params).subscribe((res) => {
       console.log(res);
       if(res['error'] == false){
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,
         });
-        // (<HTMLFormElement>document.getElementById('settings_form')).reset();
+        (<HTMLFormElement>document.getElementById('custom_page_form')).reset();
       }else{
         this.toaster.error(res['message'], 'Error', { progressBar: true });
       }
     }); 
   }
 
+}
+
+class UploadAdapter {
+  private loader;
+  constructor( loader ) {
+     this.loader = loader;
+  }
+
+  upload() {
+     return this.loader.file
+           .then( file => new Promise( ( resolve, reject ) => {
+                 var myReader= new FileReader();
+                 myReader.onloadend = (e) => {
+                    resolve({ default: myReader.result });
+                 }
+                 myReader.readAsDataURL(file);
+           } ) );
+  };
 }

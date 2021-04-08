@@ -181,103 +181,107 @@
 
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input matInput (keyup)="doFilter($event.target.value)" placeholder="Search" />
-     <mat-icon matSuffix>search</mat-icon>
+      <input matInput [(ngModel)]="search_box" (keyup)="doFilter($event.target.value)" placeholder="Search" />
+      <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
 
     <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">
       New Discount
     </button>
     <div class="rsp_tbl">
-    <table mat-table [dataSource]="dataSource" matSort>
-      <!-- Position Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>No.</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.s_no }}
-        </td>
-      </ng-container>
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>No.</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.s_no }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Title</th>
-        <td mat-cell *matCellDef="let element">
-          <span>{{ element.title }}</span>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+            Title
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ element.title }}</span>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="university">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-          University
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <span>{{ element.university_name }}</span>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="university">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+            University
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ element.university_name }}</span>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="college">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-          Collage
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <span>{{ element.college_name }}</span>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="college">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+            Collage
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ element.college_name }}</span>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="course">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-          Course
-        </th>
-        <td mat-cell *matCellDef="let element">
-          <span>{{ element.course }}</span>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="course">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+            Course
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <span>{{ element.course }}</span>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.status == 1 ? "Active" : "In Activated" }}
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.status == 1 ? "Active" : "In Activated" }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="created_at">
-        <th mat-header-cell *matHeaderCellDef cdkDrag>Created Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
-      </ng-container>
+        <ng-container matColumnDef="created_at">
+          <th mat-header-cell *matHeaderCellDef cdkDrag>Created Date</th>
+          <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+        </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="updated_at">
-        <th mat-header-cell *matHeaderCellDef cdkDrag>Updated Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
-      </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="updated_at">
+          <th mat-header-cell *matHeaderCellDef cdkDrag>Updated Date</th>
+          <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="editDiscount(element)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button title="{{
-              element.status == 1 ? 'Click to deactivate' : 'Click to activate'
-            }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-              'are you sure to change status of <b>' +
-              element.title +
-              '</b> Discount'
-            " placement="top" (confirm)="deleteDiscount(element.pk_id, element.status)" confirmButtonType="danger"
-            cancelButtonType="outline-secondary">
-            <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
-            <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="editDiscount(element)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button title="{{
+                element.status == 1
+                  ? 'Click to deactivate'
+                  : 'Click to activate'
+              }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                'are you sure to change status of <b>' +
+                element.title +
+                '</b> Discount'
+              " placement="top" (confirm)="deleteDiscount(element.pk_id, element.status)" confirmButtonType="danger"
+              cancelButtonType="outline-secondary">
+              <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
+              <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      <tr class="mat-row" *matNoDataRow>
-        <td style="text-align: center; margin: 20px" class="mat-cell" colspan="9">
-          No Records Found
-        </td>
-      </tr>
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="9">
+            No Records Found
+          </td>
+        </tr>
+      </table>
     </div>
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
   </div>

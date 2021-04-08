@@ -13,8 +13,13 @@ export class IndexComponent implements OnInit {
   email_address:string;
   errEmailMsg:string="";
   emailRegexp = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
+  menus:any;
+  pages:any;
+  newPages:any=[];
   public isOpen = false;
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getMenus();
+  }
   scrollToTop() {
     // window.scroll(0, 0);
     window.scrollTo({top: 0, behavior: 'smooth'});
@@ -42,22 +47,34 @@ export class IndexComponent implements OnInit {
         "url": 'subscribe-newsletter',
         "email_address": this.email_address
       };
-      this.http.newsletterSubscribe(params).subscribe((res: Response) => {
-        console.log(res);
+      this.http.post(params).subscribe((res: Response) => {
         if (res.error) {
           this.toastr.error(res.message, 'Error', { closeButton: true });
           this.errEmailMsg=res.message;
         } else {
-          this.toastr.success(res.message, 'Error', { closeButton: true });
+          this.toastr.success(res.message, 'Success', { closeButton: true });
           this.email_address="";
-          //this.errEmailMsg=res.message;
-          //setTimeout(() => { this.errEmailMsg="";  }, 5000);
         }
       });
     }else{
       this.errEmailMsg="Please enter valid email";
     }
   }
+    getMenus(){
+      let params = { url: 'menu-submenu' };
+      this.http.post(params).subscribe((res) => {
+        this.menus=res['menus'];
+        this.pages=res['pages'];
+      });
+    }
+
+    changeSubmenu($key){    
+      console.log($key)
+      this.newPages =  this.pages.filter(function(page) {      
+        return page.parent_id== $key;    
+      });  
+     }
+
 }
 
 export interface Response {

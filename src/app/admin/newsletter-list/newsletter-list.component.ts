@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalPopupComponent } from './model-popup/model-popup.component';
 import { environment } from '../../../environments/environment';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-newsletter-list',
@@ -13,19 +14,26 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./newsletter-list.component.css']
 })
 export class NewsletterListComponent implements OnInit  {
-  displayedColumns: string[] = ['id', 'email',  'status','action'];
+  displayedColumns: string[] = ['id', 'email', 'status', 'created_at','action'];
   dataSource:any=[];
   apiURL:string;
   public num_newsletters: number = 0;
   public page = 0;
   public pageSize = 10;
   public sort_by: any;
+  hrefPDF:string;
+  hrefEXL:string
+  value="";
   constructor( 
     private http: CommonService,
     public dialog: MatDialog
     ) {
       this.apiURL = environment.apiUrl;
+      this.hrefPDF=environment.apiUrl+'export-newsletter/PDF';
+     this.hrefEXL=environment.apiUrl+'export-newsletter/EXL';
+     console.log();
      }
+     
 
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -46,7 +54,6 @@ export class NewsletterListComponent implements OnInit  {
   
   manageTemplate(id) {
     const dialogRef = this.dialog.open(ModalPopupComponent, {
-      height: '400px',
       width: '400px',
       data: { id: id }
     });
@@ -64,7 +71,14 @@ export class NewsletterListComponent implements OnInit  {
     this.applyFilters( );
   }
   public doFilter = (value: string) => {
+    let key=value;
+    console.log(key);
+    
+
     this.dataSource.filter = value.trim().toLocaleLowerCase();
+    this.hrefEXL=environment.apiUrl+'export-newsletter/EXL'+key;
+    this.hrefPDF=environment.apiUrl+'export-newsletter/PDF'+key;
+    //console.log(this.dataSource);
   };
 
   applyFilters(){
