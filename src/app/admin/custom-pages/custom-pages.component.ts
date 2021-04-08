@@ -53,14 +53,13 @@ pagesList:any;
       this.isRequired=true;
       this.isPageDisplay=true;
     }
-    console.log(this.isPageDisplay);
   }
   selectMenu(){
     if(this.customPage.old_menu_name !=""){
       this.isMenuDisplay=false;
-      this.isRequired=false;
+      this.isMenuRequired=false;
     }else{
-      this.isRequired=true;
+      this.isMenuRequired=true;
       this.isMenuDisplay=true;
     }
    
@@ -75,7 +74,7 @@ pagesList:any;
 
   createCustomPage(){
     if(this.customPage.Page_content ==""){
-      
+      this.toaster.error("page content is required", 'Error', { progressBar: true });
       return;
     }
     let params={
@@ -85,8 +84,9 @@ pagesList:any;
       'menu_name':(this.customPage.old_menu_name)?this.customPage.old_menu_name:this.customPage.new_menu_name,      
       'menu_check':(this.customPage.old_menu_name)?true:false,      
       'page_content': this.customPage.Page_content,      
-      'show_menu': this.customPage.isShowChecked,     
+      'show_menu': (this.customPage.isShowChecked)?this.customPage.isShowChecked:false,     
     };
+console.log(this.customPage);
     this.http.post(params).subscribe((res) => {
       if(res['error'] == false){
         this.toaster.success(res['message'], 'Success', {
