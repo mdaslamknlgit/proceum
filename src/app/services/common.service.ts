@@ -76,16 +76,22 @@ export class CommonService {
     return throwError(error);
   }
 
-  public formData(param,myFormData) {
+  public formData(param, myFormData) {
     let headers = new HttpHeaders();
-    headers = headers
-    .append('Authorization', 'Bearer ' + this.getToken())
-          
+    headers = headers.append('Authorization', 'Bearer ' + this.getToken());
+
     return this.http
       .post(this.apiURL + param.url, myFormData, { headers: headers })
       .pipe(
         map((res) => res),
         catchError(this.errorHandler)
       );
+  }
+  setToDecimal(num) {
+    if (parseInt(num) > 0) {
+      return (Math.round(num * 100) / 100).toFixed(2);
+    } else {
+      return '0.00';
+    }
   }
 }
