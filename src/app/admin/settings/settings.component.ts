@@ -17,7 +17,6 @@ export class SettingsComponent implements OnInit {
   email_check:boolean=true;
   address_check:boolean=true;
   imagePath:any;
-  systemMode1:any;
   mode_check:boolean=true;
   color:string;
   touchUi;
@@ -66,21 +65,28 @@ export class SettingsComponent implements OnInit {
   }
 
   getSystemMode(){
-    
+    let params={
+      "url":'get-mode'
+    }
+    this.http.post(params).subscribe((res) => {
+      console.log(res['sys_mode'].value);
+      this.systemMode=res['sys_mode'].value;
+    }); 
 
   }
 
-  onSubmit() {
+  createSettings() {
     var myFormData = new FormData();
     if(this.settings.organization_name.trim() !==""){
       myFormData.append('organization_name', this.settings.organization_name.trim());
     }
-
+console.log(1);
 //address validation
     if(this.settings.full_address.trim() ===""){
         this.address_check=false;
         return;
     }
+    console.log(1);
 //logo
     if(this.filedata){
       let mimeType = this.filedata[0].type;
@@ -89,6 +95,7 @@ export class SettingsComponent implements OnInit {
           this.imgMessage = "Only images are supported like jpg,png,jpeg.";
           return;
       }
+      console.log(1);
       
       if(size >= 204800){
         this.imgMessage = "logo must be less than 200kb";
@@ -125,21 +132,28 @@ export class SettingsComponent implements OnInit {
     }); 
   }
 
-  systemModeSubmit(data:NgForm){
+  updateSysMode(){
     const user = JSON.parse(atob(sessionStorage.getItem('user')));
-    if(data.value.mode ===""){
+    if(this.systemMode ===""){
       this.mode_check=false;
       return;
     }else{
       this.mode_check=true;
     }
     let param={
-      'url':'settings-mode',
-      "mode":data.value.mode,
+      'url':'update-settings-mode',
+      "mode":this.systemMode,
       "user_id":user.id
     };
      this.http.post(param).subscribe((res) => {
-        console.log(res);
+      if(res['error'] == false){
+        this.toaster.success(res['message'], 'Success', {
+          progressBar: true,
+        });
+        (<HTMLFormElement>document.getElementById('settings_form')).reset();
+      }else{
+        this.toaster.error(res['message'], 'Error', { progressBar: true });
+      }
      });
   }
 

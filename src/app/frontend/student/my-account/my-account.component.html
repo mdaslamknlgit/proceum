@@ -10,7 +10,7 @@
           <button mat-icon-button>
             <mat-icon>badge</mat-icon>
           </button>
-          <a href="">Profile</a>
+          <a href="/student/my-account">Profile</a>
         </div>
       </li>
       <li>
@@ -57,16 +57,16 @@
   </div>
   <br>
   <!-- Profile fields -->
+  
   <h2 class="section-title">My Profile</h2>
 
   <div class="two-blocks">
-    <form #profile_form="ngForm" name="profile_form" (ngSubmit)="profile_form.valid && onSubmit(profile_form)"
-      novalidate>
-
+    <form #profile_form="ngForm" name="profile_form" (ngSubmit)="profile_form.valid && profileUpdate()" novalidate>
       <div class="grd_2c">
         <div class="tc_w50p">
+          <span>All <span class="required">(*) </span>marked fields are mandatory</span>
           <div class="frm_dvs">
-            <span>Profile Picture<span class="required margin-left">*</span> </span>
+            <span>Profile Picture</span>
             <span>
               <span class="profile_pic">
                 <img src="{{src}}" alt="">
@@ -93,7 +93,7 @@
             <span><span class="required">{{imgMessage}}</span></span>
           </div>
           <div class="frm_dvs">
-            <span>First name</span>
+            <span>First name <span class="required">*</span></span>
             <span>
               <mat-form-field appearance="outline">
                 <input matInput placeholder="First name" autocomplete="off" name="first_name" [(ngModel)]="profile.first_name" required
@@ -102,7 +102,7 @@
             </span>
           </div>
           <div class="frm_dvs">
-            <span>Last name</span>
+            <span>Last name <span class="required">*</span></span>
             <span>
               <mat-form-field appearance="outline">
                 <input matInput placeholder="Last name" autocomplete="off" required name="last_name" [(ngModel)]="profile.last_name"

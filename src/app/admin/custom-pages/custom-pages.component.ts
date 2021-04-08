@@ -53,14 +53,13 @@ pagesList:any;
       this.isRequired=true;
       this.isPageDisplay=true;
     }
-    console.log(this.isPageDisplay);
   }
   selectMenu(){
     if(this.customPage.old_menu_name !=""){
       this.isMenuDisplay=false;
-      this.isRequired=false;
+      this.isMenuRequired=false;
     }else{
-      this.isRequired=true;
+      this.isMenuRequired=true;
       this.isMenuDisplay=true;
     }
    
@@ -73,8 +72,11 @@ pagesList:any;
     };
   }
 
-  onSubmit(){
-    console.log(this.customPage);
+  createCustomPage(){
+    if(this.customPage.Page_content ==""){
+      this.toaster.error("page content is required", 'Error', { progressBar: true });
+      return;
+    }
     let params={
       'url':'create-page',      
       'page_name':(this.customPage.old_page_name)?this.customPage.old_page_name:this.customPage.new_page_name,      
@@ -82,10 +84,10 @@ pagesList:any;
       'menu_name':(this.customPage.old_menu_name)?this.customPage.old_menu_name:this.customPage.new_menu_name,      
       'menu_check':(this.customPage.old_menu_name)?true:false,      
       'page_content': this.customPage.Page_content,      
-      'show_menu': this.customPage.isShowChecked,     
+      'show_menu': (this.customPage.isShowChecked)?this.customPage.isShowChecked:false,     
     };
+console.log(this.customPage);
     this.http.post(params).subscribe((res) => {
-      console.log(res);
       if(res['error'] == false){
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,

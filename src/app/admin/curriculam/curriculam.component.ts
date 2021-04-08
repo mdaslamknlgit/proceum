@@ -20,6 +20,7 @@ export class CurriculamComponent implements OnInit {
     'updated_at',
     'actions',
   ];
+  view_model_status = false;
   public curriculum_name = '';
   public steps = ['step_' + 0];
   public curriculum_id = '';
@@ -98,6 +99,9 @@ export class CurriculamComponent implements OnInit {
         this.toster.error(message, 'Error');
       }
     });
+  }
+  viewCurriculum(param) {
+    this.view_model_status = !this.view_model_status;
   }
   editCurriculum(param) {
     this.edit_model_status = !this.edit_model_status;
