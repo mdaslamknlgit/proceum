@@ -1,62 +1,6 @@
 <app-admin-topbar></app-admin-topbar>
 <app-sidebar></app-sidebar>
 <div class="mn_dshbrd">
-  <div class="cust_mdl_par">
-    <div class="cust_mdl_chl">
-      <div class="pg_ttl">
-        MCI Curriculum
-        <span class="spacer"></span>
-        <button mat-icon-button class="float_right">
-          &#x2715;
-        </button>
-      </div>
-      <div class="grd_2c">
-        <ul class="mlty_fl_mnu">
-          <li class="mlty_par">
-            <div>File Name 1</div>
-            <ul class="mlty_fl_mnu mlty_fl_chld">
-              <li class="mlty_par">
-                <div>File Child Name 1</div>
-                <ul class="mlty_fl_mnu mlty_fl_chld">
-                  <li class="mlty_par">
-                      <div>File Child Name 1.1</div>
-                  </li>
-                  <li class="mlty_par">
-                      <div>File Child Name 1.2</div>
-                  </li>
-                  <li class="mlty_par">
-                      <div>File Child Name 1.3</div>
-                  </li>                   
-                </ul>
-              </li>
-              <li class="mlty_par">
-                <div>File Name 2</div>
-                <ul class="mlty_fl_mnu mlty_fl_chld">
-                  <li class="mlty_par">
-                    <div>File Child Name 2</div>
-                    <ul class="mlty_fl_mnu mlty_fl_chld">
-                      <li class="mlty_par">
-                          <div>File Child Name 2.1</div>
-                      </li>
-                      <li class="mlty_par">
-                          <div>File Child Name 2.2</div>
-                      </li>
-                      <li class="mlty_par">
-                          <div>File Child Name 2.3</div>
-                      </li>                   
-                    </ul>
-                  </li>
-                  <li><div>File Name 2</div></li>
-                  <li><div>File Name 3</div></li>
-                </ul>
-              </li>
-              <li><div>File Name 3</div></li>
-            </ul>
-          </li>
-        </ul> 
-      </div>
-    </div>
-  </div>
   <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
@@ -101,7 +45,8 @@
                     placeholder="Provide Level {{ indexOfelement + 1 }} Label" />
                 </mat-form-field>
                 <button mat-raised-button *ngIf="last" (click)="addStep()" color="accent" class="ml_1">+</button>
-                <button *ngIf="!first" (click)="removeStep(indexOfelement)" mat-raised-button color="warn" class="ml_1">-</button>
+                <button *ngIf="!first" (click)="removeStep(indexOfelement)" mat-raised-button color="warn"
+                  class="ml_1">-</button>
               </span>
             </div>
           </div>
@@ -113,6 +58,106 @@
           <div class="hgt_20"></div>
         </form>
         <div class="clear_fix"></div>
+      </div>
+    </div>
+  </div>
+  <div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: view_model_status }">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        Curriculum Sitemap
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="view_model_status = !view_model_status" class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="grd_2c">
+        <ul class="mlty_fl_mnu">
+          <li class="mlty_par">
+            <div class="mlty_fl_hd">
+              <mat-icon>folder</mat-icon>File Name 1
+            </div>
+            <ul class="mlty_fl_mnu mlty_fl_chld">
+              <li class="mlty_par">
+                <div class="mlty_fl_hd">
+                  <mat-icon>folder_open</mat-icon>File Child Name 1
+                </div>
+                <ul class="mlty_fl_mnu mlty_fl_chld">
+                  <li class="mlty_par">
+                    <div class="mlty_fl_hd">
+                      <mat-icon>folder</mat-icon>File Child Name 1.1
+                    </div>
+                  </li>
+                  <li class="mlty_par">
+                    <div class="mlty_fl_hd">
+                      <mat-icon>folder</mat-icon>File Child Name 1.2
+                    </div>
+                  </li>
+                  <li class="mlty_par">
+                    <div class="mlty_fl_hd">
+                      <mat-icon>folder</mat-icon>File Child Name 1.3
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="mlty_par">
+            <div class="mlty_fl_hd">
+              <mat-icon>folder_open</mat-icon>File Name 2
+            </div>
+            <ul class="mlty_fl_mnu mlty_fl_chld mlty_actv">
+              <li class="mlty_par">
+                <div class="mlty_fl_hd">
+                  <mat-icon>folder_open</mat-icon>File Child Name 2
+                </div>
+                <ul class="mlty_fl_mnu mlty_fl_chld mlty_actv">
+                  <li class="mlty_par">
+                    <div class="mlty_fl_hd">
+                      <mat-icon>folder_open</mat-icon>File Child Name 2.1
+                    </div>
+                    <ul class="mlty_fl_mnu mlty_fl_chld mlty_actv">
+                      <li class="mlty_par">
+                        <div class="mlty_fl_hd">
+                          <mat-icon>folder</mat-icon>File Child Name 2.1.1
+                        </div>
+                      </li>
+                      <li class="mlty_par">
+                        <div class="mlty_fl_hd">
+                          <mat-icon>folder</mat-icon>File Child Name 2.1.2
+                        </div>
+                      </li>
+                      <li class="mlty_par">
+                        <div class="mlty_fl_hd">
+                          <mat-icon>folder</mat-icon>File Child Name 2.1.3
+                        </div>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="mlty_par">
+                    <div class="mlty_fl_hd">
+                      <mat-icon>folder</mat-icon>File Child Name 2.2
+                    </div>
+                  </li>
+                  <li class="mlty_par">
+                    <div class="mlty_fl_hd">
+                      <mat-icon>folder</mat-icon>File Child Name 2.3
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li class="mlty_par">
+            <div class="mlty_fl_hd">
+              <mat-icon>folder_open</mat-icon>File Name 3
+            </div>
+          </li>
+          <li class="mlty_par">
+            <div class="mlty_fl_hd">
+              <mat-icon>folder_open</mat-icon>File Name 4
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -171,6 +216,9 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="viewCurriculum(element)">
+              <mat-icon>list</mat-icon>
+            </button>
             <button mat-icon-button (click)="editCurriculum(element)">
               <mat-icon>edit</mat-icon>
             </button>
