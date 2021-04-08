@@ -10,8 +10,50 @@
           &#x2715;
         </button>
       </div>
-      <div class="grd_2c"> 
-          <!-- tree view comes here -->
+      <div class="grd_2c">
+        <ul class="mlty_fl_mnu">
+          <li class="mlty_par">
+            <div>File Name 1</div>
+            <ul class="mlty_fl_mnu mlty_fl_chld">
+              <li class="mlty_par">
+                <div>File Child Name 1</div>
+                <ul class="mlty_fl_mnu mlty_fl_chld">
+                  <li class="mlty_par">
+                      <div>File Child Name 1.1</div>
+                  </li>
+                  <li class="mlty_par">
+                      <div>File Child Name 1.2</div>
+                  </li>
+                  <li class="mlty_par">
+                      <div>File Child Name 1.3</div>
+                  </li>                   
+                </ul>
+              </li>
+              <li class="mlty_par">
+                <div>File Name 2</div>
+                <ul class="mlty_fl_mnu mlty_fl_chld">
+                  <li class="mlty_par">
+                    <div>File Child Name 2</div>
+                    <ul class="mlty_fl_mnu mlty_fl_chld">
+                      <li class="mlty_par">
+                          <div>File Child Name 2.1</div>
+                      </li>
+                      <li class="mlty_par">
+                          <div>File Child Name 2.2</div>
+                      </li>
+                      <li class="mlty_par">
+                          <div>File Child Name 2.3</div>
+                      </li>                   
+                    </ul>
+                  </li>
+                  <li><div>File Name 2</div></li>
+                  <li><div>File Name 3</div></li>
+                </ul>
+              </li>
+              <li><div>File Name 3</div></li>
+            </ul>
+          </li>
+        </ul> 
       </div>
     </div>
   </div>
@@ -52,25 +94,14 @@
                 let last = last;
                 let first = first
               ">
-              <!-- [ngClass]="{err_tltp_par: curriculum_form.submitted && (steps[step] == '' || steps[step] == undefined) }" -->
               <span> Level {{ indexOfelement + 1 }} </span>
               <span>
-                <!-- [ngClass]="{err_tltp_par: curriculum_form.submitted && curriculum_name == ''}" -->
-                <span class="err_tltp_par">
-                  <mat-form-field appearance="outline">
-                    <input matInput name="ref_{{ step }}" [(ngModel)]="steps[step]" #ref_{{step}}="ngModel" required
-                      placeholder="Provide Level {{ indexOfelement + 1 }} Label" />
-                  </mat-form-field>
-                  <span class="prc_tltp" *ngIf="curriculum_form.submitted && 'ref_' + step.invalid">
-                    Level {{ indexOfelement + 1 }} is required</span>
-                </span>
-                <button mat-raised-button *ngIf="last" (click)="addStep()" color="accent" class="mr_1">
-                  +
-                </button>
-                <button type="button" *ngIf="!first" (click)="removeStep(indexOfelement)" mat-raised-button
-                  color="warn">
-                  -
-                </button>
+                <mat-form-field appearance="outline">
+                  <input matInput name="ref_{{ step }}" [(ngModel)]="steps[step]" #ref_{{step}}="ngModel" required
+                    placeholder="Provide Level {{ indexOfelement + 1 }} Label" />
+                </mat-form-field>
+                <button mat-raised-button *ngIf="last" (click)="addStep()" color="accent" class="ml_1">+</button>
+                <button *ngIf="!first" (click)="removeStep(indexOfelement)" mat-raised-button color="warn" class="ml_1">-</button>
               </span>
             </div>
           </div>
