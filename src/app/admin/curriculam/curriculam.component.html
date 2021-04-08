@@ -113,6 +113,28 @@
       </div>
     </div>
   </div>
+  <div
+    class="cust_mdl_par cust_mdl_50p"
+    [ngClass]="{ cust_mdl_opn: view_model_status }"
+  >
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        Curriculum Sitemap
+        <span class="spacer"></span>
+        <button
+          mat-icon-button
+          (click)="view_model_status = !view_model_status"
+          class="float_right"
+        >
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy">
+        somthing
+        <div class="clear_fix"></div>
+      </div>
+    </div>
+  </div>
   <div class="brd_crm">Proceum&nbsp;&raquo; <strong>Curriculum</strong></div>
   <div class="pg_ttl">Curriculums</div>
   <hr />
@@ -184,6 +206,9 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
+            <button mat-icon-button (click)="viewCurriculum(element)">
+              <mat-icon>list</mat-icon>
+            </button>
             <button mat-icon-button (click)="editCurriculum(element)">
               <mat-icon>edit</mat-icon>
             </button>
