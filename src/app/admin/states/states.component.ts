@@ -17,49 +17,94 @@ export class StatesComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  public num_rows: number = 0;
+  public num_states: number = 0;
   public page = 0;
   public pageSize = 10;
   public sort_by: any;
   public model_status = false;
+  public model_state_status = false;
   public country_id:any;
+  public state_name = '';
+  public state_id:any;
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
     this.country_id = this.activatedRoute.snapshot.params.country_id;
    }
 
   ngOnInit(): void {
-    let params={
-      url: 'get-all-states/'+this.country_id
-    };
-    this.http.get(params).subscribe((res: Response) => {
+    let params={url:'get-all-states',country_id:this.country_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    this.http.post(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['states']);
+      this.num_states = res['data']['states_count'];
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
 
+  public getServerData(event?: PageEvent) {
+    this.pageSize = event.pageSize;
+		this.page = (event.pageSize * event.pageIndex);
+    this.applyFilters();
+  }
+
   applyFilters(){
-    let params={
-      url: 'get-all-states/'+this.country_id
-    };
-    this.http.get(params).subscribe((res: Response) => {
+    let params={url:'get-all-states',country_id:this.country_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    this.http.post(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['states']);
+      this.num_states = res['data']['states_count'];
     });
   }
   toggleModel() {
     this.model_status = !this.model_status;
   }
+  toggleStateModel() {
+    this.model_state_status = !this.model_state_status
+  }
 
   public navigateTo(country_id:any,state_id:any) {
-    let param = { url: 'curriculum/' + country_id + "/" + state_id };
-    this.http.get(param).subscribe((res) => {
-      if (res['error'] == false) {
-        this.route.navigateByUrl(
-          '/admin/countries/' +
-          country_id + "/" + state_id
-        );
-      }
-    });
+        this.route.navigateByUrl('/admin/countries/' +country_id + "/" + state_id);
+  }
+
+  saveState(){
+    if(this.state_name !=''){
+      let params={url: 'save-state',state_name:this.state_name,country_id: this.country_id};
+      this.http.post(params).subscribe((res: Response) => {
+        if (res.error) {
+          this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
+        }else{
+          this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
+          this.toggleModel();
+          this.applyFilters();
+        }
+      });
+    }else{
+      this.toastr.error("State Name is required" , 'Error', { closeButton: true , timeOut: 3000});
+    }
+
+  }
+
+  openEditModel(param:any){
+    console.log(param);
+    this.model_state_status = !this.model_state_status;
+    this.state_name = param.state_name;
+    this.state_id = param.state_id;
+  }
+
+  updateState(){
+    if(this.state_name !=''){
+      let params={url: 'update-state',state_name:this.state_name,state_id: this.state_id};
+      this.http.post(params).subscribe((res: Response) => {
+        if (res.error) {
+          this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
+        }else{
+          this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
+          this.toggleStateModel();
+          this.applyFilters();
+        }
+      });
+    }else{
+      this.toastr.error("State Name is required" , 'Error', { closeButton: true , timeOut: 3000});
+    }
+
   }
 
   changeStatus(id:any,type:any){

@@ -54,18 +54,21 @@
           <!-- <button mat-icon-button (click)="manageTemplate(element.id)">
               <mat-icon>edit</mat-icon>
             </button> -->
-          <button mat-icon-button (click)="changeStatus(element.id)">
-            <mat-icon>{{ element.status == 1 ? "visibility" : "visibility_off"}}</mat-icon>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-      </div>
-    <mat-paginator #paginator [pageSize]="pageSize" [length]="num_students" [pageSizeOptions]="[5, 10, 20]"
-      [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
+            <button mat-icon-button (click)="changeStatus(element.id)">
+              <mat-icon>{{ element.status == 1 ? "visibility" : "visibility_off"}}</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">No Records Found</td>
+        </tr>
+      </table>
+      <mat-paginator #paginator [pageSize]="pageSize" [length]="num_students"
+         [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
+    </div>
   </div>
 </div>
 
