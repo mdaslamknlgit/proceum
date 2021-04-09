@@ -27,16 +27,22 @@ export class CitiesComponent implements OnInit {
   public state_id:any;
   public city_name='';
   public city_id:any;
+  public state_name="";
+  public country_name="";
+  public maxSize: number = 5; // 5MB
+  public fileExt: string = "xlsx";
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
     this.country_id = this.activatedRoute.snapshot.params.country_id;
     this.state_id = this.activatedRoute.snapshot.params.state_id;
    }
 
   ngOnInit(): void {
-    let params={url: 'get-all-cities',state_id:this.state_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let params={url: 'get-all-cities',country_id:this.country_id,state_id:this.state_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
     this.http.post(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['cities']);
       this.num_cities = res['data']['cities_count'];
+      this.country_name = res['data']['country_name'];
+      this.state_name = res['data']['state_name'];
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
@@ -49,7 +55,7 @@ export class CitiesComponent implements OnInit {
   }
 
   applyFilters(){
-    let params={url: 'get-all-cities',state_id:this.state_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let params={url: 'get-all-cities',country_id:this.country_id,state_id:this.state_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
     this.http.post(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['cities']);
       this.num_cities = res['data']['cities_count'];
@@ -115,6 +121,59 @@ export class CitiesComponent implements OnInit {
         this.applyFilters();
       }
     });
+  }
+
+  cityFileChange(event:any) {
+    let files = event.target.files;
+    this.uploadFiles(files);
+  }
+
+  uploadFiles(files:any) {
+    if (this.isValidFileExtension(files)) {
+      let formData: FormData = new FormData();
+      formData.append("import_file", files[0], files[0].name);
+      formData.append("state_id",this.state_id);
+      let params = {url:"import-cities"};
+      this.http.import(params,formData).subscribe((res: Response) => {
+          console.log(res);
+          if (res.error) {
+            this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
+          }else{
+            this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
+            this.toggleModel();
+            this.applyFilters();
+          }
+      });
+    }
+  }
+
+
+
+  private isValidFileExtension(files) {
+
+    var extensions = (this.fileExt.split(',')).map(function (x) { return x.toLocaleUpperCase().trim() });
+
+    for (var i = 0; i < files.length; i++) {
+      var ext = files[i].name.toUpperCase().split('.').pop() || files[i].name;
+      var exists = extensions.includes(ext);
+      if (ext != "CSV") {
+        this.toastr.error("Invalid File Extension" , 'Error', { closeButton: true , timeOut: 3000});
+         return false
+      }
+      return this.isValidFileSize(files[i]);
+    }
+  }
+
+  private isValidFileSize(file) {
+    var fileSizeinMB = file.size / (1024 * 1000);
+    var size = Math.round(fileSizeinMB * 100) / 100; // convert upto 2 decimal place
+    if (size > this.maxSize){
+      let message = "Error (File Size): " + file.name + ": exceed file size limit of " + this.maxSize + "MB ( " + size + "MB )";
+      this.toastr.error(message , 'Error', { closeButton: true , timeOut: 3000});
+      
+      return false
+    }
+    return true;
   }
 
 }

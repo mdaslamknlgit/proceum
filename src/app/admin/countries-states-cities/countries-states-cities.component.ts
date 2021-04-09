@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class CountriesStatesCitiesComponent implements OnInit {
-  displayedColumns: string[] = ['s_no', 'country_name', 'language', 'currency', 'status', 'action'];
+  displayedColumns: string[] = ['s_no', 'country_name', 'language', 'currency','currency_symbal', 'status', 'action'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -156,8 +156,16 @@ export class CountriesStatesCitiesComponent implements OnInit {
     if (this.isValidFileExtension(files)) {
       let formData: FormData = new FormData();
       formData.append("import_file", files[0], files[0].name);
-      let params = {url:""};
-      this.http.post(params).subscribe((res: Response) => {
+      let params = {url:"import-countries"};
+      this.http.import(params,formData).subscribe((res: Response) => {
+          console.log(res);
+          if (res.error) {
+            this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
+          }else{
+            this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
+            this.toggleModel();
+            this.applyFilters();
+          }
       });
     }
   }

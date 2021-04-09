@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   domain:string;
   confirm_hide: boolean = true;
   password_hide: boolean = true;
+  is_show: boolean = false;
   constructor( private http: AuthService,private route: Router,private toastr: ToastrService,private socialAuthService: SocialAuthService) { }
 
   ngOnInit(): void {
@@ -83,6 +84,7 @@ export class RegisterComponent implements OnInit {
             };
             this.http.register(params).subscribe((res: Response) => {
               if (res.error) {
+                this.is_show = false;
                 this.toastr.error(res.message, 'Error', { closeButton: true , timeOut: 5000});
               } else {
                 if(res.register_type == 'SL'){
@@ -97,7 +99,8 @@ export class RegisterComponent implements OnInit {
                     this.route.navigate(['/student/dashboard']);
                   }
                 }else{
-                  this.toastr.success(res.message, 'Success', { closeButton: true });
+                  this.is_show = true;
+                  // this.toastr.success(res.message, 'Success', { closeButton: true });
 
                   this.register = { first_name:'', last_name:'', email: '', password: '', confirm_pwd: '',register_type:'' };
                 }

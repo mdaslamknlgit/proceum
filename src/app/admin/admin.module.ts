@@ -28,6 +28,8 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
 import { StatesComponent } from './states/states.component';
 import { CitiesComponent } from './cities/cities.component';
+import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
+import {HttpClientModule} from '@angular/common/http';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -129,6 +131,8 @@ const routes: Routes = [
     }),
     CommonModule,
     CKEditorModule,
+    MatSelectCountryModule,
+    HttpClientModule
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },

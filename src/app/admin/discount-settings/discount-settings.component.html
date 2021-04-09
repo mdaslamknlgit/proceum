@@ -32,6 +32,8 @@
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
                     <input
+                      maxlength="50"
+                      appAlphabetOnly
                       required
                       name="title_name"
                       [(ngModel)]="title"
@@ -62,6 +64,7 @@
                       #country="ngModel"
                       [(ngModel)]="country_id"
                       required
+                      (ngModelChange)="getStates()"
                     >
                       <mat-option
                         *ngFor="let country of countrys"
@@ -93,8 +96,11 @@
                       [(ngModel)]="state"
                       required
                     >
-                      <mat-option value="1">India</mat-option>
-                      <mat-option value="2">Khjakistan</mat-option>
+                      <mat-option
+                        *ngFor="let state of states"
+                        [value]="'' + state['id']"
+                        >{{ state["state_name"] }}</mat-option
+                      >
                     </mat-select>
                   </mat-form-field>
                   <span
@@ -120,8 +126,8 @@
                       [(ngModel)]="university"
                       required
                     >
-                      <mat-option value="1">India</mat-option>
-                      <mat-option value="2">Khjakistan</mat-option>
+                      <mat-option value="1">University1</mat-option>
+                      <mat-option value="2">University2</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <span
@@ -147,8 +153,8 @@
                       [(ngModel)]="college"
                       required
                     >
-                      <mat-option value="1">India</mat-option>
-                      <mat-option value="2">Khjakistan</mat-option>
+                      <mat-option value="1">College1</mat-option>
+                      <mat-option value="2">College2</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <span
@@ -169,11 +175,14 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
+                      maxlength="4"
+                      appNumbersonly
                       name="discount_percente_name"
                       #discount_percente_name="ngModel"
                       [(ngModel)]="discount_percente"
                       matInput
                       placeholder="Discount Percente"
+                      (blur)="formatValue(discount_percente)"
                     />
                   </mat-form-field>
                   <span
@@ -183,7 +192,8 @@
                         discount_percente_name.touched) &&
                       discount_percente_name.invalid
                     "
-                    >Discount Percent is required</span
+                    >Discount Percent is required and max 2 digits
+                    allowed.</span
                   >
                 </span>
               </span>
@@ -200,8 +210,8 @@
                       [(ngModel)]="course"
                       required
                     >
-                      <mat-option value="1">India</mat-option>
-                      <mat-option value="2">Khjakistan</mat-option>
+                      <mat-option value="1">MCI</mat-option>
+                      <mat-option value="2">USMLE</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <span
@@ -233,6 +243,7 @@
                       matInput
                       [matDatepicker]="picker"
                       autocomplete="off"
+                      [min]="today_date"
                     />
                     <mat-datepicker-toggle
                       matSuffix
@@ -269,6 +280,7 @@
                       matInput
                       [matDatepicker]="picker2"
                       autocomplete="off"
+                      [min]="valid_from"
                     />
                     <mat-datepicker-toggle
                       matSuffix
@@ -282,7 +294,8 @@
                       (discount_form.submitted || valid_to_name.touched) &&
                       valid_to_name.invalid
                     "
-                    >To Date is required</span
+                    >To Date is required and it should be greater than from
+                    date</span
                   >
                 </span>
               </span>
@@ -299,14 +312,14 @@
   </div>
 
   <div class="dsh_brd_crds">
-    <mat-form-field appearance="none">
+    <mat-form-field appearance="outline">
       <input
         matInput
-        type="text"
         [(ngModel)]="search_box"
-        (keyup)="doFilter($event.target.value)"
+        (keyup)="$event.keyCode == 13 ? doFilter() : ''"
         placeholder="Search"
       />
+      <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
     <button
@@ -466,6 +479,8 @@
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
                     <input
+                      maxlength="50"
+                      appAlphabetOnly
                       required
                       name="title_name_edit"
                       [(ngModel)]="title"
@@ -497,6 +512,7 @@
                       #country_edit="ngModel"
                       [(ngModel)]="country_id"
                       required
+                      (ngModelChange)="getStates()"
                     >
                       <mat-option
                         *ngFor="let country of countrys"
@@ -528,8 +544,11 @@
                       [(ngModel)]="state"
                       required
                     >
-                      <mat-option value="1">India</mat-option>
-                      <mat-option value="2">Khjakistan</mat-option>
+                      <mat-option
+                        *ngFor="let state of states"
+                        [value]="'' + state['id']"
+                        >{{ state["state_name"] }}</mat-option
+                      >
                     </mat-select>
                   </mat-form-field>
                   <span
@@ -556,8 +575,8 @@
                       [(ngModel)]="university"
                       required
                     >
-                      <mat-option value="1">India</mat-option>
-                      <mat-option value="2">Khjakistan</mat-option>
+                      <mat-option value="1">University1</mat-option>
+                      <mat-option value="2">university2</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <span
@@ -584,8 +603,8 @@
                       [(ngModel)]="college"
                       required
                     >
-                      <mat-option value="1">India</mat-option>
-                      <mat-option value="2">Khjakistan</mat-option>
+                      <mat-option value="1">College1</mat-option>
+                      <mat-option value="2">College2</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <span
@@ -607,11 +626,14 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
+                      maxlength="4"
+                      appNumbersonly
                       name="discount_percente_name_edit"
                       #discount_percente_name_edit="ngModel"
                       [(ngModel)]="discount_percente"
                       matInput
                       placeholder="Discount Percente"
+                      (blur)="formatValue(discount_percente)"
                     />
                   </mat-form-field>
                   <span
@@ -621,7 +643,8 @@
                         discount_percente_name_edit.touched) &&
                       discount_percente_name_edit.invalid
                     "
-                    >Discount Percent is required</span
+                    >Discount Percent is required and max 2 digits
+                    allowed.</span
                   >
                 </span>
               </span>
@@ -638,8 +661,8 @@
                       [(ngModel)]="course"
                       required
                     >
-                      <mat-option value="1">India</mat-option>
-                      <mat-option value="2">Khjakistan</mat-option>
+                      <mat-option value="1">MCI</mat-option>
+                      <mat-option value="2">USMLE</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <span
@@ -672,6 +695,7 @@
                       matInput
                       [matDatepicker]="picker3"
                       autocomplete="off"
+                      [min]="today_date"
                     />
                     <mat-datepicker-toggle
                       matSuffix
@@ -709,6 +733,7 @@
                       matInput
                       [matDatepicker]="picker4"
                       autocomplete="off"
+                      [min]="valid_from"
                     />
                     <mat-datepicker-toggle
                       matSuffix
@@ -723,7 +748,8 @@
                         valid_to_name_edit.touched) &&
                       valid_to_name_edit.invalid
                     "
-                    >To Date is required</span
+                    >To Date is required and it should be greater than from
+                    date</span
                   >
                 </span>
               </span>
@@ -735,6 +761,7 @@
           Submit
         </button>
       </form>
+      <div class="hgt_20"></div>
     </div>
   </div>
 </div>
