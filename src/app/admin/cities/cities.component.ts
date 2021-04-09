@@ -31,13 +31,14 @@ export class CitiesComponent implements OnInit {
   public country_name="";
   public maxSize: number = 5; // 5MB
   public fileExt: string = "xlsx";
+  public search_txt="";
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
     this.country_id = this.activatedRoute.snapshot.params.country_id;
     this.state_id = this.activatedRoute.snapshot.params.state_id;
    }
 
   ngOnInit(): void {
-    let params={url: 'get-all-cities',country_id:this.country_id,state_id:this.state_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let params={url: 'get-all-cities',country_id:this.country_id,state_id:this.state_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
     this.http.post(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['cities']);
       this.num_cities = res['data']['cities_count'];
@@ -55,7 +56,7 @@ export class CitiesComponent implements OnInit {
   }
 
   applyFilters(){
-    let params={url: 'get-all-cities',country_id:this.country_id,state_id:this.state_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let params={url: 'get-all-cities',country_id:this.country_id,state_id:this.state_id,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
     this.http.post(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['cities']);
       this.num_cities = res['data']['cities_count'];
