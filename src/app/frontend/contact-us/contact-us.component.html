@@ -36,23 +36,30 @@
             <div class="right-block">
                 <form #contact_form="ngForm" id="contact_form" name="contact_form" novalidate (ngSubmit)="contact_form.valid && submitContactUs()">
                 <div class="form-fields">
-                    <div class="inp_par_dv " >
+                    <div class="inp_par_dv "  >
                     <mat-form-field appearance="outline">
                         <mat-label>Name</mat-label>
-                        <input matInput placeholder="Full name" #contact_name="ngModel" name="name"
+                        <input matInput placeholder="Full name" ngModel #name="ngModel" name="name"
                         [(ngModel)]="contact.name"  pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
-                        required >
+                        required maxlength="30"
+                        onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))'
+                        >
                     </mat-form-field>
-                    <span class="prc_tltp">Name is required</span>
-                </div>
-                <div class="inp_par_dv" 
-                  >
+                    <!-- <span class="prc_tltp">Name is required</span> -->
+                    </div>
+                <div class="inp_par_dv" [ngClass]="{
+                    err_tltp_par:
+                      (contact_form.submitted && email.errors?.pattern )
+                  }" >
                     <mat-form-field appearance="outline">
                         <mat-label>Email Address</mat-label>
-                        <input matInput placeholder="Your email address"  #email="ngModel" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                        <input matInput placeholder="Your email address"  maxlength="30" #email="ngModel" ngModel name="email" pattern="/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/"
+                        onkeypress='return (event.charCode !=32)'
                         [(ngModel)]="contact.email" 
                         required >
                     </mat-form-field>
+                    
+                    <span class="prc_tltp">Please enter valid email</span>
                     </div>
                     <div class="inp_par_dv" >
                     <mat-form-field appearance="outline">
@@ -66,7 +73,7 @@
                       }">
                     <mat-form-field appearance="outline"> 
                          <mat-label>Description</mat-label>
-                        <textarea matInput placeholder="your query" #query="ngModel" name="query"
+                        <textarea matInput maxlength="255"placeholder="your query" #query="ngModel" ngModel name="query"
                         [(ngModel)]="contact.query" required rows="4" cols="30"></textarea>
                      </mat-form-field> 
                      <span class="prc_tltp">{{desMessage}}</span>

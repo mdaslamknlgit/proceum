@@ -11,18 +11,9 @@
     <div>
       <mat-form-field appearance="outline">
         <input matInput  (keyup)="doFilter($event.target.value)" placeholder="Search" />
-        <!-- <mat-icon matSuffix>close</mat-icon> -->
         <mat-icon matSuffix>search</mat-icon>
     </mat-form-field>
-    <!-- <mat-form-field appearance="outline">
-      <input matInput  [(ngModel)]="value">
-      
-      <mat-icon matSuffix>search</mat-icon>
-      <button mat-button *ngIf="value" matSuffix mat-icon-button (click)="value=''">
-        <mat-icon>close</mat-icon>
-      </button>
-      
-    </mat-form-field> -->
+    
     <a [href]="hrefPDF" mat-raised-button color="accent" class="float_right" >
       <mat-icon matTooltip="Download PDF">picture_as_pdf</mat-icon>
       
@@ -48,11 +39,7 @@
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
         <td mat-cell *matCellDef="let element">
-          <span *ngIf="element.status == 1"><mat-icon color="primary" matTooltip="Current Status is ACTIVE">
-            check_circle
-            </mat-icon></span>
-          <span *ngIf="element.status == 0" ><mat-icon color="warn" matTooltip="Current Status is IN-ACTIVE">cancel</mat-icon></span>
-          
+          <span matTooltip='Current Status is {{ element.status == 1 ? "ACTIVE" : "IN-ACTIVE"}}' class='{{ element.status == 1 ? "sts_grn" : "sts_rd" }}' >{{ element.status == 1 ? "Active" : "Inactive" }}</span>
         </td>
       </ng-container>
       
@@ -64,12 +51,9 @@
       <ng-container matColumnDef="action">
         <th mat-header-cell *matHeaderCellDef>Action</th>
         <td mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="manageTemplate(element.id)" *ngIf="element.status == 0">
-            <mat-icon matTooltip="View Details" class="accent" >visibility</mat-icon>
+          <button mat-icon-button (click)="manageTemplate(element.id)">
+            <mat-icon matTooltip="View Details" class="accent">visibility</mat-icon>
           </button>
-          <button mat-icon-button (click)="manageTemplate(element.id)" *ngIf="element.status == 1">
-          <mat-icon matTooltip="View Details" class="accent" >visibility</mat-icon>
-        </button>
         </td>
       </ng-container>
       <ng-container matColumnDef="noRecord">
