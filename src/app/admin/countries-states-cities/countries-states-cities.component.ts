@@ -27,11 +27,12 @@ export class CountriesStatesCitiesComponent implements OnInit {
   public country_id:any;
   public maxSize: number = 5; // 5MB
   public fileExt: string = "xlsx";
+  public search_txt = "";
   country: Country = { country_code:'', country_name:'', currency_text: '', currency_symbol: '', language_code: '',language:'',country_flag:'' };
   constructor(private http:CommonService,private route: Router,private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    let params={url: 'get-all-countries',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let params={url: 'get-all-countries',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
     this.http.post(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['countries']);
       this.num_countries = res['data']['countries_count'];
@@ -47,7 +48,7 @@ export class CountriesStatesCitiesComponent implements OnInit {
   }
 
   applyFilters(){
-    let params={url: 'get-all-countries',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let params={url: 'get-all-countries',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
     this.http.post(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['countries']);
       this.num_countries = res['data']['countries_count'];
