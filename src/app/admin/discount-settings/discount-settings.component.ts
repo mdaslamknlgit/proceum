@@ -224,12 +224,13 @@ export class DiscountSettingsComponent implements OnInit {
       }
     });
   }
-  public doFilter(value: string) {
+  public doFilter() {
     let param = { url: 'get-discounts', search: this.search_box };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['descounts']);
       } else {
+        this.dataSource = new MatTableDataSource([]);
         this.toster.error(res['message'], 'Error');
       }
     });
