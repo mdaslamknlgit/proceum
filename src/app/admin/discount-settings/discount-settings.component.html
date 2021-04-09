@@ -185,8 +185,8 @@
 
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input matInput [(ngModel)]="search_box" (keyup)="doFilter($event.target.value)" placeholder="Search" />
-      <mat-icon matSuffix>search</mat-icon>
+      <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''" placeholder="Search" />
+      <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
     <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">

@@ -86,13 +86,15 @@
     </div>
 
 
-    <div class="brd_crm">Proceum &raquo; <strong>{{country_name}}/States</strong></div>
+    <div class="brd_crm">
+        Proceum &nbsp;&raquo;&nbsp;<a routerLink="/admin/countries">{{country_name}}</a>&nbsp;&raquo;States
+    </div>
     <div class="pg_ttl">States</div>
     <hr />
     <div class="dsh_brd_crds">
         <mat-form-field appearance="outline">
-            <input matInput placeholder="Search" />
-            <mat-icon matSuffix>search</mat-icon>
+            <input matInput placeholder="Search" [(ngModel)]="search_txt" (keyup)="$event.keyCode == 13 ?applyFilters() : ''" />
+            <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
         </mat-form-field>
         <button mat-raised-button color="accent" class="float_right mt_0" type="button" (click)="toggleModel()">
             Add New State

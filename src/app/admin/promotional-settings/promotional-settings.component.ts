@@ -183,6 +183,7 @@ export class PromotionalSettingsComponent implements OnInit {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['descounts']);
       } else {
+        this.dataSource = new MatTableDataSource([]);
         this.toster.error(res['message'], 'Error');
       }
     });

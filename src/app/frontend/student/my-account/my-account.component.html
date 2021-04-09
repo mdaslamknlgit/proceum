@@ -71,9 +71,7 @@
               <span class="profile_pic">
                 <img src="{{src}}" alt="">
               </span>
-
             </span>
-
           </div>
           <div class="frm_dvs">
             <div class="hgt_20"></div>
@@ -81,11 +79,11 @@
           <div class="frm_dvs">
             <span></span>
             <span>
-              <!-- <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse -->
-              <!-- <input type="file" #fileInput mat-raised-button color="accent" accept="image/*" (change)="fileEvent($event)" style="display:none;" /> -->
-              <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
-                (change)="fileEvent($event)" />
-              <!-- </button> -->
+              <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
+              <input type="file" #fileInput mat-raised-button color="accent" accept="image/*" (change)="fileEvent($event)" style="display:none;" />
+              <!-- <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
+                (change)="fileEvent($event)" /> -->
+              </button>
             </span>
           </div>
           <div class="frm_dvs">
@@ -258,46 +256,49 @@
             <span class="hgt_20"></span>
           </div>
           <div class="frm_dvs" *ngIf='isdisplay'>
-            <span>Current password</span>
+            <span>Current password <span class="required">*</span></span>
             <span>
               <mat-form-field appearance="outline">
                 <input matInput placeholder="Current password" type="password"  autocomplete="off"[required]="isrequired"
                   [(ngModel)]="profile.current_password" minlength="8" maxlength="16" name="current_password"
                   onkeypress='return (event.charCode != 32)' #current_password="ngModel" ngModel
-                  pattern='[A-Za-z\d!@#$%^&*()_+]{7,19}'>
+                  >
               </mat-form-field>
             </span>
           </div>
           <div class="frm_dvs" *ngIf='isdisplay'>
-            <span>New password</span>
+            <span>New password <span class="required">*</span></span>
             <span>
+              <span class="inp_par_dv" [ngClass]="{
+                err_tltp_par:
+                (profile_form.submitted && new_password.errors?.pattern) 
+              }">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="New password" type="password" autocomplete="off" [required]="isrequired"
-                  [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password"
+                <input matInput placeholder="New password" [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
+                  [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
                   onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel>
+                  <!-- <mat-icon  matSuffix (click)="passwordFun('new')" >{{new_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
               </mat-form-field>
-              <span style="color:maroon"
-                class="{{ profile_form.submitted && newpwd_check == false ? 'err_tltp_par' : 'prc_tltp'}}">
-                Password should have minimum 8 characters, at least 1 uppercase letter, 1 lowercase
-                letter and 1 number
+              <span class="prc_tltp">
+                Password pattern mismatched
+              </span>
               </span>
             </span>
           </div>
           <div class="frm_dvs" *ngIf='isdisplay'>
-            <span>Confirm password</span>
+            <span>Confirm password <span class="required">*</span></span>
             <span>
               <span class="inp_par_dv" [ngClass]="{
                 err_tltp_par:
-                  (profile_form.submitted && profile.confirm_pwd == '') ||
-                  (profile_form.submitted && confirm_pwd.invalid) ||
-                  (profile_form.submitted && confirm_check == true )
+                (profile_form.submitted && confirm_pwd.errors?.pattern) 
               }">
                 <mat-form-field appearance="outline">
-                  <input matInput placeholder="Confirm password" autocomplete="off" type="password" [required]="isrequired"
-                    [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd"
+                  <input matInput placeholder="Confirm password" autocomplete="off" [type]="confirm_password_hide ? 'password' : 'text'" [required]="isrequired"
+                    [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
                     onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
+                    <!-- <mat-icon  matSuffix (click)="passwordFun('confirm')" >{{confirm_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
                 </mat-form-field>
-                <span class="prc_tltp"> New Password and Confirm password are not matched </span>
+                <span class="prc_tltp" > New Password and Confirm password are not matched </span>
               </span>
             </span>
           </div>
