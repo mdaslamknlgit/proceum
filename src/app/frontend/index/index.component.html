@@ -809,10 +809,10 @@
   </div>
   <br />
   <div class="subscribe">
-    <input type="text"  autocomplete="off" [(ngModel)]="email_address" name="email_address" placeholder="Enter your email [ex:sample123@gmail.com]" />
+    <input type="text"  autocomplete="off" [(ngModel)]="email_address" [class]="errClass" maxlength="30" (focus)="removeClass()" onkeypress='return (event.charCode != 32)' name="email_address" placeholder="Enter your email [ex:sample123@gmail.com]" />
     <button (click)="newsletterSubscribe()">Subscribe</button>
     <br/>
-    <span style="color:rgb(128,0,0)">{{ errEmailMsg }} </span>
+    <!-- <span style="color:rgb(128,0,0)">{{ errEmailMsg }} </span> -->
   </div>
   <div class="footer-menu">
     <ul>

@@ -316,10 +316,10 @@
       <input
         matInput
         [(ngModel)]="search_box"
-        (keyup)="doFilter($event.target.value)"
+        (keyup)="$event.keyCode == 13 ? doFilter() : ''"
         placeholder="Search"
       />
-      <mat-icon matSuffix>search</mat-icon>
+      <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
     <button

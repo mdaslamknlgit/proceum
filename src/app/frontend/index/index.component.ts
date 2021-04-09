@@ -12,10 +12,11 @@ export class IndexComponent implements OnInit {
   constructor(private http: AuthService,private toastr: ToastrService) {}
   email_address:string;
   errEmailMsg:string="";
-  emailRegexp = new RegExp("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
+  emailRegexp = new RegExp("/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/");
   menus:any;
   pages:any;
   newPages:any=[];
+  errClass:any;
   public isOpen = false;
   ngOnInit(): void {
     this.getMenus();
@@ -27,7 +28,10 @@ export class IndexComponent implements OnInit {
 
   menuToggle(){
     this.isOpen = !this.isOpen;
-}
+  }
+  removeClass(){
+    this.errClass="";
+  }
 
   isSticky: boolean = false;
   @HostListener('window:scroll', ['$event'])
@@ -37,12 +41,14 @@ export class IndexComponent implements OnInit {
   newsletterSubscribe() {
     //console.log(this.email_address);return false;
     if(this.email_address == undefined){
-      this.errEmailMsg="Email is Required";
+      //this.errEmailMsg="Email is Required";
+      this.errClass='input-border-color';
       return false;
     }
     let verifyEmail = this.emailRegexp.test(this.email_address.trim());
     if(verifyEmail){
       this.errEmailMsg="";
+      this.errClass="";
       let params = {
         "url": 'subscribe-newsletter',
         "email_address": this.email_address
@@ -57,7 +63,8 @@ export class IndexComponent implements OnInit {
         }
       });
     }else{
-      this.errEmailMsg="Please enter valid email";
+      //this.errEmailMsg="Please enter valid email";
+      this.errClass='input-border-color';
     }
   }
     getMenus(){

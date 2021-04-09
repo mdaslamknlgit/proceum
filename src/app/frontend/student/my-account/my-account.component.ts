@@ -23,6 +23,8 @@ export class MyAccountComponent implements OnInit {
   confirm_check:boolean=true;
   curpwd_check:boolean=true;
   newpwd_check:boolean=true;
+  new_password_hide: boolean = true;
+  confirm_password_hide: boolean = true;
   profile:Profile={
     "first_name":'',
     "last_name":'',
@@ -98,6 +100,13 @@ export class MyAccountComponent implements OnInit {
         this.src=(res['data'].profile_pic)?res['data'].profile_pic:this.url;
     });
   }
+  passwordFun(type) {
+    if(type== 'new'){
+    this.new_password_hide = !this.new_password_hide;
+    }else{
+      this.confirm_password_hide = !this.confirm_password_hide;
+    }
+  }
 
   profileUpdate() {
     const pwdregex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&#^()><?/:;,.])[A-Za-z\d$@$!%*?&#^()><?/:;,.].{7,15}');
@@ -128,7 +137,6 @@ export class MyAccountComponent implements OnInit {
             this.imgMessage = "Only images are supported like jpg,png,jpeg.";
             return;
         }
-        console.log(size);
         if(size >= 204800){
           this.imgMessage = "Profile image must be less than 200kb";
           return;
