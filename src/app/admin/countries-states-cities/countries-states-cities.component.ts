@@ -3,7 +3,6 @@ import { CommonService } from '../../services/common.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
@@ -28,7 +27,7 @@ export class CountriesStatesCitiesComponent implements OnInit {
   public maxSize: number = 5; // 5MB
   public fileExt: string = "xlsx";
   public search_txt = "";
-  country: Country = { country_code:'', country_name:'', currency_text: '', currency_symbol: '', language_code: '',language:'',country_flag:'' };
+  country: CountryDetails = { country_code:'', country_name:'', currency_text: '', currency_symbol: '', language_code: '',language:'',country_flag:'' };
   constructor(private http:CommonService,private route: Router,private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -148,6 +147,10 @@ export class CountriesStatesCitiesComponent implements OnInit {
 
   }
 
+  onCountrySelected(event:any){
+
+  }
+
   countryFileChange(event:any) {
     let files = event.target.files;
     this.uploadFiles(files);
@@ -208,7 +211,7 @@ export interface Response {
   errors?: any;
 }
 
-export interface Country {
+export interface CountryDetails {
   country_code:string;
   country_name:string;
   currency_text: string;

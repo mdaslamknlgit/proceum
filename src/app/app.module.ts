@@ -14,7 +14,7 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { DrawingBoardComponent } from './shared/drawing-board/drawing-board.component';
 import { NgWhiteboardModule } from 'ng-whiteboard';
 import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
-import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
+
 import {
   SocialLoginModule,
   SocialAuthServiceConfig,
@@ -50,7 +50,6 @@ import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
     NgWhiteboardModule,
     SocialLoginModule,
     MatIconModule,
-    MatSelectCountryModule.forRoot('en')
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true },
