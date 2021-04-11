@@ -34,6 +34,9 @@
                             <input matInput placeholder="Provide New Menu Name" autocomplete="off" [required]="isMenuRequired"
                                 name="new_menu_name" [(ngModel)]="customPage.new_menu_name" #new_menu_name="ngModel"
                                 ngModel>
+                                <button mat-button *ngIf="customPage.new_menu_name" matSuffix mat-icon-button aria-label="Clear" (click)="customPage.new_menu_name=''">
+                                    <mat-icon>close</mat-icon>
+                                  </button>
                         </mat-form-field>
                     </span>
                 </span>
@@ -60,6 +63,9 @@
                             <input matInput placeholder="Provide New Page Name" [required]="isRequired" autocomplete="off"
                                 name="new_page_name" [(ngModel)]="customPage.new_page_name" #new_Page_name="ngModel"
                                 ngModel>
+                                <button mat-button *ngIf="customPage.new_page_name" matSuffix mat-icon-button aria-label="Clear" (click)="customPage.new_page_name=''">
+                                    <mat-icon>close</mat-icon>
+                                  </button>
                         </mat-form-field>
                     </span>
                 </span>
@@ -67,9 +73,15 @@
             <div class="frm_dvs">
                 <span>Page Content <span class="required">*</span></span>
                 <span>
+                    <span [ngClass]="{
+                        err_tltp_par:
+                          (custom_page_form.submitted && Page_content.errors?.required )
+                      }">
                     <ckeditor (ready)="onReady($event)" [config]="{ placeholder: 'Type the Page content here!' }"
-                        required [(ngModel)]="customPage.Page_content" name="Page_content" [editor]="Editor">
+                        required [(ngModel)]="customPage.Page_content" ngModel #Page_content="ngModel" name="Page_content" [editor]="Editor">
                     </ckeditor>
+                    <span class="prc_tltp">Page content is required</span>
+                    </span>
                 </span>
             </div>
             <div class="frm_dvs">

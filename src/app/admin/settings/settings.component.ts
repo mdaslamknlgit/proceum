@@ -82,13 +82,11 @@ export class SettingsComponent implements OnInit {
     if (this.settings.organization_name.trim() !== "") {
       myFormData.append('organization_name', this.settings.organization_name.trim());
     }
-    console.log(1);
     //address validation
     if (this.settings.full_address.trim() === "") {
       this.address_check = false;
       return;
     }
-    console.log(1);
     //logo
     if (this.filedata) {
       let mimeType = this.filedata[0].type;
@@ -97,7 +95,6 @@ export class SettingsComponent implements OnInit {
         this.imgMessage = "Only images are supported like jpg,png,jpeg.";
         return;
       }
-      console.log(1);
 
       if (size >= 204800) {
         this.imgMessage = "logo must be less than 200kb";
@@ -105,11 +102,18 @@ export class SettingsComponent implements OnInit {
       }
       this.imgMessage = "";
       myFormData.append('logo', this.filedata[0]);
+    }else{
+      this.imgMessage = "Please upload the logo";
+        return;
     }
+    let contact_email_2=(this.settings.contact_email_2)?this.settings.contact_email_2.trim():this.settings.contact_email_2;
+    let contact_number_2=(this.settings.contact_number_2)?this.settings.contact_number_2.trim():this.settings.contact_number_2;
+    let copy_right=(this.settings.copy_right)?this.settings.copy_right.trim():this.settings.copy_right;
+    
     myFormData.append('contact_email_1', this.settings.contact_email_1.trim());
-    myFormData.append('contact_email_2', this.settings.contact_email_2.trim());
+    myFormData.append('contact_email_2', contact_email_2);
     myFormData.append('contact_number_1', this.settings.contact_number_1.trim());
-    myFormData.append('contact_number_2', this.settings.contact_number_2.trim());
+    myFormData.append('contact_number_2', contact_number_2);
     myFormData.append('full_address', this.settings.full_address.trim());
     myFormData.append('gstin_number', this.settings.gstin_number.trim());
     myFormData.append('contact_name', this.settings.contact_name.trim());
@@ -117,7 +121,7 @@ export class SettingsComponent implements OnInit {
     myFormData.append('time_format', this.settings.time_format.trim());
     myFormData.append('list_view_limit', this.settings.list_view_limit);
     myFormData.append('theme_color', this.settings.theme_color);
-    myFormData.append('copyright_text', this.settings.copy_right);
+    myFormData.append('copyright_text', copy_right);
 
     let param = {
       'url': 'settings'
@@ -135,12 +139,20 @@ export class SettingsComponent implements OnInit {
   }
   
   toggleModel() {
-    this.model_status = !this.model_status;
+    console.log(this.systemMode);
+    if(this.systemMode=="live"){
+      this.updateSysMode();
+    }else{
+      this.model_status = !this.model_status;
+    }
+    
   }
 
-
   updateSysMode() {
-    this.model_status = !this.model_status;
+    if(this.systemMode!="live"){
+      this.model_status = !this.model_status;
+    }
+
     const user = JSON.parse(atob(sessionStorage.getItem('user')));
     if (this.systemMode === "") {
       this.mode_check = false;

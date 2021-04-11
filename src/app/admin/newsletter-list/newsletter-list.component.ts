@@ -6,12 +6,11 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalPopupComponent } from './model-popup/model-popup.component';
 import { environment } from '../../../environments/environment';
-import {MatPaginatorModule} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-newsletter-list',
   templateUrl:`./newsletter-list.component.html`,
-  styleUrls: ['./newsletter-list.component.css']
+  styleUrls: ['./newsletter-list.component.scss']
 })
 export class NewsletterListComponent implements OnInit  {
   displayedColumns: string[] = ['id', 'email', 'status', 'created_at','action'];
@@ -23,7 +22,7 @@ export class NewsletterListComponent implements OnInit  {
   public sort_by: any;
   hrefPDF:string;
   hrefEXL:string
-  value="";
+  search="";
   constructor( 
     private http: CommonService,
     public dialog: MatDialog
@@ -41,6 +40,7 @@ export class NewsletterListComponent implements OnInit  {
   ngOnInit() {
     this.getNewsLetterList();
   }
+
   getNewsLetterList(){
     let param = { url: 'newsletter-list',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
     this.http.post(param).subscribe((res: Response) => {
@@ -70,25 +70,21 @@ export class NewsletterListComponent implements OnInit  {
 		this.page = (event.pageSize * event.pageIndex);
     this.applyFilters( );
   }
-  public doFilter = (value: string) => {
-    const key=value;
-    console.log(key);
-    
+  
+  clearSearchData(){
+    this.search = undefined;
+    this.doSearchFilter();
+  }
 
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
-    var val='';
-    if(key){
-      var val='/'+key;
-    }
+  public doSearchFilter() {
+    var val=(this.search == undefined ||this.search == "")?'':'/'+this.search;
     this.hrefEXL=environment.apiUrl+'export-newsletter/EXL'+val;
     this.hrefPDF=environment.apiUrl+'export-newsletter/PDF'+val;
-    //console.log(this.dataSource);
+    this.applyFilters();
   };
-export(){
-  this.hrefPDF=environment.apiUrl+'export-newsletter/PDF';
-}
+
   applyFilters(){
-    let param = { url: 'newsletter-list',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let param = { url: 'newsletter-list',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,'search_term':this.search};
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['newsletters']);
       this.dataSource.sort = this.sort;
@@ -100,8 +96,6 @@ export(){
 		if (this.sort_by.direction != '')
 			this.applyFilters( );
 	}
-
-
 }
 
 export interface NewsLetter {

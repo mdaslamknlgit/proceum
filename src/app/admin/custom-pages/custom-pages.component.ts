@@ -73,6 +73,7 @@ pagesList:any;
   }
 
   createCustomPage(){
+    console.log(this.customPage.Page_content);
     if(this.customPage.Page_content ==""){
       this.toaster.error("page content is required", 'Error', { progressBar: true });
       return;
@@ -86,12 +87,15 @@ pagesList:any;
       'page_content': this.customPage.Page_content,      
       'show_menu': (this.customPage.isShowChecked)?this.customPage.isShowChecked:false,     
     };
-console.log(this.customPage);
     this.http.post(params).subscribe((res) => {
       if(res['error'] == false){
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,
         });
+        this.isMenuRequired=true;
+        this.isMenuDisplay=true;
+        this.isRequired=true;
+        this.isPageDisplay=true;
         (<HTMLFormElement>document.getElementById('custom_page_form')).reset();
       }else{
         this.toaster.error(res['message'], 'Error', { progressBar: true });

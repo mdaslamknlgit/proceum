@@ -108,17 +108,13 @@ export class MyAccountComponent implements OnInit {
     }
   }
 
-  profileUpdate() {
+  updateProfile() {
     const pwdregex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&#^()><?/:;,.])[A-Za-z\d$@$!%*?&#^()><?/:;,.].{7,15}');
     var myFormData = new FormData();
     if(this.isrequired){
       let current_password = pwdregex.test(this.profile.current_password);
       let new_password = pwdregex.test(this.profile.new_password);
 
-      if(current_password == false){
-        this.curpwd_check = false;
-        return;
-      }
       if(new_password == false ){
         this.newpwd_check = false;
         return;
@@ -126,7 +122,8 @@ export class MyAccountComponent implements OnInit {
       if( this.profile.confirm_pwd !==  this.profile.new_password){
         this.confirm_check = true;
         return;
-      }       
+      }     
+      this.confirm_check = false;
       myFormData.append('current_password', this.profile.current_password.trim());
       myFormData.append('new_password', this.profile.new_password.trim());
     }
@@ -148,13 +145,14 @@ export class MyAccountComponent implements OnInit {
     myFormData.append('first_name',   this.profile.first_name);
     myFormData.append('last_name',   this.profile.last_name);
     let param={
-      'url':'update-profile'
+      'url':'update-student-profile'
     };
     this.http.formData(param,myFormData).subscribe((res) => {
       if(res['error'] ==false){
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,
         });
+        (<HTMLFormElement>document.getElementById('profile_form')).reset();
         this.getStudentProfile();
       }else{
         this.toaster.error(res['message'], 'Error', { progressBar: true });

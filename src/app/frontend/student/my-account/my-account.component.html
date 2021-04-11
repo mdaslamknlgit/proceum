@@ -61,7 +61,7 @@
   <h2 class="section-title">My Profile</h2>
 
   <div class="two-blocks">
-    <form #profile_form="ngForm" name="profile_form" (ngSubmit)="profile_form.valid && profileUpdate()" novalidate>
+    <form #profile_form="ngForm" name="profile_form" id="profile_form" (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
       <div class="grd_2c">
         <div class="tc_w50p">
           <span>All <span class="required">(*) </span>marked fields are mandatory</span>
@@ -290,7 +290,9 @@
             <span>
               <span class="inp_par_dv" [ngClass]="{
                 err_tltp_par:
-                (profile_form.submitted && confirm_pwd.errors?.pattern) 
+                (profile_form.submitted && profile.confirm_pwd !==profile.new_password)
+                 || (profile_form.submitted && confirm_check == false)
+                 || (profile_form.submitted && confirm_pwd.errors?.pattern)
               }">
                 <mat-form-field appearance="outline">
                   <input matInput placeholder="Confirm password" autocomplete="off" [type]="confirm_password_hide ? 'password' : 'text'" [required]="isrequired"
@@ -298,7 +300,7 @@
                     onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
                     <!-- <mat-icon  matSuffix (click)="passwordFun('confirm')" >{{confirm_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
                 </mat-form-field>
-                <span class="prc_tltp" > New Password and Confirm password are not matched </span>
+                <span class="prc_tltp" *ngIf="confirm_check"> New Password and Confirm password are not matched </span>
               </span>
             </span>
           </div>
