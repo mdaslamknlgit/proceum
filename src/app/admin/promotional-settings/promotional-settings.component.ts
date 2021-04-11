@@ -26,9 +26,11 @@ export class PromotionalSettingsComponent implements OnInit {
   //form fields
   description = '';
   course = '';
+  usage: any;
   promotional_percente = '';
   valid_from = new Date();
   valid_to = new Date();
+  today_date = new Date();
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
   public totalSize = 0;
@@ -76,6 +78,17 @@ export class PromotionalSettingsComponent implements OnInit {
     (<HTMLFormElement>document.getElementById('promotional_form')).reset();
     (<HTMLFormElement>document.getElementById('edit_promotional_form')).reset();
   }
+  generateCoupon() {
+    let param = { url: 'promotional/generate-coupon', code: this.code };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.code = res['code'];
+      } else {
+        let message = res['message'];
+        this.toster.error(message, 'Error');
+      }
+    });
+  }
   createPromotional() {
     let param = {
       url: 'promotional',
@@ -85,6 +98,7 @@ export class PromotionalSettingsComponent implements OnInit {
       promotional_percente: this.promotional_percente,
       valid_from: this.valid_from,
       valid_to: this.valid_to,
+      usage: this.usage,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -92,7 +106,7 @@ export class PromotionalSettingsComponent implements OnInit {
         this.toggleModel();
         this.getPromotionals();
       } else {
-        let message = res['errors']['titcodele']
+        let message = res['errors']['code']
           ? res['errors']['code']
           : res['message'];
         this.toster.error(message, 'Error');
@@ -100,7 +114,6 @@ export class PromotionalSettingsComponent implements OnInit {
     });
   }
   editPromotional(param) {
-    console.log(param);
     this.edit_model_status = !this.edit_model_status;
     this.code = param['code'];
     this.promotional_id = param['pk_id'];
@@ -119,6 +132,10 @@ export class PromotionalSettingsComponent implements OnInit {
       Number(valid_to[1]) - 1,
       Number(valid_to[0])
     ); //param['valid_to'];
+    this.usage = param['usage'];
+  }
+  formatValue(promotional_percente) {
+    this.promotional_percente = this.http.setToDecimal(promotional_percente);
   }
   updatePromotional() {
     let param = {
@@ -129,6 +146,7 @@ export class PromotionalSettingsComponent implements OnInit {
       promotional_percente: this.promotional_percente,
       valid_from: this.valid_from,
       valid_to: this.valid_to,
+      usage: this.usage,
     };
     this.http.put(param).subscribe((res) => {
       if (res['error'] == false) {

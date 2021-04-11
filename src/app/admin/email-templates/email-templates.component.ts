@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ManageTemplateComponent } from './manage-template/manage-template.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-email-templates',
@@ -31,7 +32,11 @@ export class EmailTemplatesComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public page = 0;
-  constructor(private http: CommonService, public dialog: MatDialog) {}
+  constructor(
+    private http: CommonService,
+    public dialog: MatDialog,
+    private router: Router
+  ) {}
   ngOnInit(): void {
     this.getTemplates();
   }
@@ -51,7 +56,9 @@ export class EmailTemplatesComponent implements OnInit {
     const dialogRef = this.dialog.open(ManageTemplateComponent, {
       data: { id: id },
     });
-
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.getTemplates();
