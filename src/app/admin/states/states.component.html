@@ -36,7 +36,7 @@
                             </span>
                             <span>
                                 <mat-form-field appearance="outline">
-                                    <input matInput placeholder="State Name" [(ngModel)]="state_name" name="state_name_name" #state_name_name="ngModel" maxlength="90" required />
+                                    <input matInput placeholder="State Name" [(ngModel)]="state_name" name="state_name_name" #state_name_name="ngModel" maxlength="90" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' required />
                                 </mat-form-field>
                             </span>
                         </div>
@@ -99,13 +99,13 @@
         <button mat-raised-button color="accent" class="float_right mt_0" type="button" (click)="toggleModel()">
             Add New State
         </button>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            <ng-container matColumnDef="s_no">
-                <th mat-header-cell *matHeaderCellDef> S.No </th>
+        <table mat-table (matSortChange)="sortData($event)" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+            <ng-container matColumnDef="pk_id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
                 <td mat-cell *matCellDef="let element"> {{element.s_no}} </td>
             </ng-container>
             <ng-container matColumnDef="state_name">
-                <th mat-header-cell *matHeaderCellDef> State Name </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> State Name </th>
                 <td mat-cell *matCellDef="let element"> 
                     <span (click)="navigateTo(element.country_id,element.state_id)" class="lnk_nav">{{element.state_name}}</span>
                 </td>
@@ -115,7 +115,7 @@
                 <td mat-cell *matCellDef="let element"> {{element.country_name}} ({{element.country_code}}) </td>
             </ng-container>
             <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
                 <td mat-cell *matCellDef="let element">
                     <span matTooltip='Current Status is {{ element.status == 1 ? "ACTIVE" : "IN-ACTIVE"}}' class='{{ element.status == 1 ? "sts_grn" : "sts_rd" }}' >{{ element.status == 1 ? "Active" : "Inactive" }}</span>
                 </td>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router } from '@angular/router';
+import { SocialAuthService } from 'angularx-social-login';
 @Component({
   selector: 'app-admin-topbar',
   templateUrl: './admin-topbar.component.html',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: String = '';
   public user;
-  constructor(private http: CommonService, private route: Router) {
+  constructor(private http: CommonService, private route: Router,private socialAuthService: SocialAuthService) {
     this.http.menu_status = '';
   }
   ngOnInit(): void {
@@ -27,6 +28,7 @@ export class AdminTopbarComponent implements OnInit {
     let params = { url: 'logout', login_id: login_id };
     this.http.post(params).subscribe((res) => {
       this.http.removeSession();
+      this.socialAuthService.signOut(true);
       this.route.navigate(['/login']);
     });
   }

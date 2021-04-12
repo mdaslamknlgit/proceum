@@ -41,7 +41,7 @@
                             </span>
                             <span>
                                 <mat-form-field appearance="outline">
-                                    <input matInput placeholder="City Name" [(ngModel)]="city_name" name="city_name_name" #city_name_name="ngModel" required />
+                                    <input matInput placeholder="City Name" [(ngModel)]="city_name" name="city_name_name" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' #city_name_name="ngModel" required />
                                 </mat-form-field>
                             </span>
                         </div>
@@ -106,13 +106,13 @@
         <button mat-raised-button color="accent" class="float_right mt_0" type="button" (click)="toggleModel()">
             Add New City
         </button>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            <ng-container matColumnDef="s_no">
-                <th mat-header-cell *matHeaderCellDef> S.No </th>
+        <table mat-table (matSortChange)="sortData($event)" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+            <ng-container matColumnDef="pk_id">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
                 <td mat-cell *matCellDef="let element"> {{element.s_no}} </td>
             </ng-container>
             <ng-container matColumnDef="city_name">
-                <th mat-header-cell *matHeaderCellDef> City Name </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> City Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.city_name}}</td>
             </ng-container>
             <ng-container matColumnDef="state_name">
@@ -124,7 +124,7 @@
                 <td mat-cell *matCellDef="let element"> {{element.country_name}} {{element.country_code}} </td>
             </ng-container>
             <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
                 <td mat-cell *matCellDef="let element">
                     <span matTooltip='Current Status is {{ element.status == 1 ? "ACTIVE" : "IN-ACTIVE"}}' class='{{ element.status == 1 ? "sts_grn" : "sts_rd" }}' >{{ element.status == 1 ? "Active" : "Inactive" }}</span>
                 </td>

@@ -127,6 +127,8 @@ export class LoginComponent implements OnInit {
     let params = { url: 'logout' };
     this.http.login(params).subscribe((res: Response) => {
       sessionStorage.removeItem('_token');
+      sessionStorage.removeItem('user');
+      this.socialAuthService.signOut(true);
       this.route.navigate(['/login']);
     });
   }

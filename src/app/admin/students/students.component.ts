@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class StudentsComponent implements OnInit {
   public api_url: string;
-  displayedColumns: string[] = ['id','student_name','student_email','student_phone','student_status','actions',];
+  displayedColumns: string[] = ['id','name','email','status','actions',];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -22,13 +22,14 @@ export class StudentsComponent implements OnInit {
   public page = 0;
   public pageSize = 10;
   public sort_by: any;
+  public search_txt ="";
   constructor(private http: CommonService, public dialog: MatDialog,private toastr: ToastrService) {}
   ngOnInit(): void {
     this.api_url = environment.apiUrl;
     this.getStudents();
   }
   getStudents() {
-    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['users']);
       this.dataSource.paginator = this.paginator;
@@ -42,15 +43,11 @@ export class StudentsComponent implements OnInit {
 		this.page = (event.pageSize * event.pageIndex);
     this.applyFilters();
   }
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
-  };
 
   applyFilters(){
-    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by};
+    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['users']);
-      this.dataSource.sort = this.sort;
       this.num_students = res['users_count'];
     });
   }
