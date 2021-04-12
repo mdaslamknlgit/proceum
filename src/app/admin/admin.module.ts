@@ -14,7 +14,7 @@ import { DiscountSettingsComponent } from './discount-settings/discount-settings
 import { PromotionalSettingsComponent } from './promotional-settings/promotional-settings.component';
 import { StepsComponent } from './curriculam/steps/steps.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
-import { AccessMatrixComponent } from './access-matrix/access-matrix.component';
+import { AccessMatrixComponent } from './roles-list/access-matrix/access-matrix.component';
 import { LoginHistoryComponent } from './login-history/login-history.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
@@ -22,13 +22,17 @@ import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.c
 import { SettingsComponent } from './settings/settings.component';
 import { CustomPagesComponent } from './custom-pages/custom-pages.component';
 import { CountriesStatesCitiesComponent } from './countries-states-cities/countries-states-cities.component';
-import { MAT_COLOR_FORMATS, NgxMatColorPickerModule, NGX_MAT_COLOR_FORMATS } from '@angular-material-components/color-picker';
+import {
+  MAT_COLOR_FORMATS,
+  NgxMatColorPickerModule,
+  NGX_MAT_COLOR_FORMATS,
+} from '@angular-material-components/color-picker';
 
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
 import { StatesComponent } from './states/states.component';
 import { CitiesComponent } from './cities/cities.component';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -118,7 +122,7 @@ const routes: Routes = [
     CustomPagesComponent,
     CountriesStatesCitiesComponent,
     StatesComponent,
-    CitiesComponent
+    CitiesComponent,
   ],
   imports: [
     MaterialModule,
@@ -130,12 +134,12 @@ const routes: Routes = [
     }),
     CommonModule,
     CKEditorModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
-   ],
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+  ],
   exports: [RouterModule],
 })
 export class AdminModule {}

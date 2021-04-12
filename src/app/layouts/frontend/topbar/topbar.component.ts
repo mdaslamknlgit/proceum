@@ -12,7 +12,11 @@ export class TopbarComponent implements OnInit {
   public sidemenu_status: String = '';
   public innerWidth: any;
   public isOpen = false;
-  constructor(private http: CommonService, private route: Router,private socialAuthService: SocialAuthService) {}
+  constructor(
+    private http: CommonService,
+    private route: Router,
+    private socialAuthService: SocialAuthService
+  ) {}
   public user;
   ngOnInit(): void {
     this.http.menu_status = '';
@@ -26,16 +30,16 @@ export class TopbarComponent implements OnInit {
   }
   logout() {
     let login_id = JSON.parse(atob(sessionStorage.getItem('user'))).login_id;
-    let params = { url: 'logout',login_id:login_id };
+    let params = { url: 'logout', login_id: login_id };
     this.http.post(params).subscribe((res) => {
       sessionStorage.removeItem('_token');
       sessionStorage.removeItem('user');
       this.socialAuthService.signOut(true);
       this.route.navigate(['/login']);
     });
- }
-  menuToggle(){
-      this.isOpen = !this.isOpen;
+  }
+  menuToggle() {
+    this.isOpen = !this.isOpen;
   }
   isSticky: boolean = false;
 
@@ -44,7 +48,7 @@ export class TopbarComponent implements OnInit {
   //   this.innerWidth = window.innerWidth;
   // }
 
-  @HostListener('window:scroll',  ['$event'])
+  @HostListener('window:scroll', ['$event'])
   checkScroll() {
     // var AinnerWidth = window.innerWidth;
     this.isSticky = window.pageYOffset >= 100;
