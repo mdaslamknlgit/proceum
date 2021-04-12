@@ -96,8 +96,8 @@ export class SettingsComponent implements OnInit {
         return;
       }
 
-      if (size >= 204800) {
-        this.imgMessage = "logo must be less than 200kb";
+      if (size >= 256000) {
+        this.imgMessage = "logo must be less than 250kb";
         return;
       }
       this.imgMessage = "";

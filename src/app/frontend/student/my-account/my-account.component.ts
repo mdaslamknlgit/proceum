@@ -134,7 +134,7 @@ export class MyAccountComponent implements OnInit {
             this.imgMessage = "Only images are supported like jpg,png,jpeg.";
             return;
         }
-        if(size >= 204800){
+        if(size >= 256000){
           this.imgMessage = "Profile image must be less than 200kb";
           return;
         }
