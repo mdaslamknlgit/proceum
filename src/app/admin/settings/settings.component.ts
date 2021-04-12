@@ -21,6 +21,7 @@ export class SettingsComponent implements OnInit {
   color: string;
   touchUi;
   url: any = "./assets/images/ProceumLogo.png";
+  question: any = "./assets/images/question.png";
   src: any;
   public model_status = false;
   systemMode: any;

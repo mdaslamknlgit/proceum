@@ -46,7 +46,6 @@ export class IndexComponent implements OnInit {
       return false;
     }
    let verifyEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email_address.trim());
-    console.log(verifyEmail);
     if(verifyEmail){
       this.errEmailMsg="";
       this.errClass="";

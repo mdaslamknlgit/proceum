@@ -64,7 +64,7 @@
     <form #profile_form="ngForm" name="profile_form" id="profile_form" (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
       <div class="grd_2c">
         <div class="tc_w50p">
-          <span>All <span class="required">(*) </span>marked fields are mandatory</span>
+          <span class="required">Fields marked with * are mandatory.</span>
           <div class="frm_dvs">
             <span>Profile Picture</span>
             <span>
@@ -258,12 +258,20 @@
           <div class="frm_dvs" *ngIf='isdisplay'>
             <span>Current password <span class="required">*</span></span>
             <span>
+              <span class="inp_par_dv" [ngClass]="{
+                err_tltp_par:
+                (profile_form.submitted && current_password.errors?.minlength) 
+              }">
               <mat-form-field appearance="outline">
                 <input matInput placeholder="Current password" type="password"  autocomplete="off"[required]="isrequired"
                   [(ngModel)]="profile.current_password" minlength="8" maxlength="16" name="current_password"
                   onkeypress='return (event.charCode != 32)' #current_password="ngModel" ngModel
                   >
               </mat-form-field>
+              <span class="prc_tltp">
+                password must contains minimumlength 8 charecters
+              </span>
+              </span>
             </span>
           </div>
           <div class="frm_dvs" *ngIf='isdisplay'>
@@ -280,7 +288,7 @@
                   <!-- <mat-icon  matSuffix (click)="passwordFun('new')" >{{new_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
               </mat-form-field>
               <span class="prc_tltp">
-                Password pattern mismatched
+                Password must contains 1 lowercase,1 uppercase,1 number,1 special charecter,minlength 8
               </span>
               </span>
             </span>
