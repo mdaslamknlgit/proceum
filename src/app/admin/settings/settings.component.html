@@ -6,7 +6,7 @@
     <div class="hgt_20"></div>
     <div class="grd_2c">
         <div class="tc_w50p">
-            <span>All <span class="required">(*) </span>marked fields are mandatory</span>
+            <span class="required">Fields marked with * are mandatory. </span>
             <form #settings_form="ngForm" id="settings_form" name="settings_form" (ngSubmit)="createSettings()"
                 novalidate>
                 <div class="frm_dvs">
@@ -19,7 +19,7 @@
                         <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
                             <input type="file" #fileInput mat-raised-button color="accent" required accept="image/*"
                                 (change)="fileEvent($event)" style="display:none;" />
-                        </button>
+                        </button><br/>
                         <span style="color:maroon">{{imgMessage}}</span>
                         <span class="hgt_20"></span>
                     </span>
@@ -163,8 +163,8 @@
                             <mat-select matInput name="date_format" [(ngModel)]="settings.date_format"
                                 #date_format="ngModel" ngModel required placeholder="select dateformat">
                                 <mat-option value="d/m/Y">d/m/Y (Ex:"02/04/2021")</mat-option>
-                                <mat-option value="d-m-Y">d-M-YY (Ex:"02-04-2021")</mat-option>
-                                <mat-option value="d,m,Y">d-M-YY (Ex:"02,04,2021")</mat-option>
+                                <mat-option value="d-m-Y">d-M-Y (Ex:"02-04-2021")</mat-option>
+                                <mat-option value="d,m,Y">d,M,Y (Ex:"02,04,2021")</mat-option>
                                 <mat-option value="d/m/y">d/m/y (Ex:"30/06/08")</mat-option>
                                 <mat-option value="d-m-y">d-m-y (Ex:"30-06-08")</mat-option>
                                 <mat-option value="d,m,y">d,m,y (Ex:"30,06,08")</mat-option>

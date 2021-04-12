@@ -68,7 +68,6 @@ export class MyAccountComponent implements OnInit {
   }
 
   checked(e){
-    console.log(e.checked);
     if(e.checked == true){
       this.isrequired=true;
       this.isdisplay=true;
@@ -87,7 +86,6 @@ export class MyAccountComponent implements OnInit {
       'role':this.user['role']      
     }
     this.http.post(params).subscribe((res) => {
-        console.log(res);    
         this.profile = {
           "first_name":res['data'].first_name,
           "last_name":res['data'].last_name,
@@ -134,7 +132,7 @@ export class MyAccountComponent implements OnInit {
             this.imgMessage = "Only images are supported like jpg,png,jpeg.";
             return;
         }
-        if(size >= 204800){
+        if(size >= 256000){
           this.imgMessage = "Profile image must be less than 200kb";
           return;
         }
@@ -147,12 +145,14 @@ export class MyAccountComponent implements OnInit {
     let param={
       'url':'update-student-profile'
     };
-    this.http.formData(param,myFormData).subscribe((res) => {
+    this.http.imageUpload(param,myFormData).subscribe((res) => {
       if(res['error'] ==false){
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,
         });
         (<HTMLFormElement>document.getElementById('profile_form')).reset();
+        this.isrequired=false;
+        this.isdisplay=false;
         this.getStudentProfile();
       }else{
         this.toaster.error(res['message'], 'Error', { progressBar: true });

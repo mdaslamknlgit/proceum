@@ -45,7 +45,7 @@ export class IndexComponent implements OnInit {
       this.errClass='input-border-color';
       return false;
     }
-    let verifyEmail = this.emailRegexp.test(this.email_address.trim());
+   let verifyEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email_address.trim());
     if(verifyEmail){
       this.errEmailMsg="";
       this.errClass="";

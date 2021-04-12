@@ -21,6 +21,7 @@ export class SettingsComponent implements OnInit {
   color: string;
   touchUi;
   url: any = "./assets/images/ProceumLogo.png";
+  question: any = "./assets/images/question.png";
   src: any;
   public model_status = false;
   systemMode: any;
@@ -96,8 +97,8 @@ export class SettingsComponent implements OnInit {
         return;
       }
 
-      if (size >= 204800) {
-        this.imgMessage = "logo must be less than 200kb";
+      if (size >= 256000) {
+        this.imgMessage = "logo must be less than 250kb";
         return;
       }
       this.imgMessage = "";
@@ -126,7 +127,7 @@ export class SettingsComponent implements OnInit {
     let param = {
       'url': 'settings'
     };
-    this.http.formData(param, myFormData).subscribe((res) => {
+    this.http.imageUpload(param, myFormData).subscribe((res) => {
       if (res['error'] == false) {
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,

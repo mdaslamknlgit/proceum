@@ -89,7 +89,7 @@ export class CommonService {
     return throwError(error);
   }
 
-  public formData(param, myFormData) {
+  public imageUpload(param, myFormData) {
     let headers = new HttpHeaders();
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
 

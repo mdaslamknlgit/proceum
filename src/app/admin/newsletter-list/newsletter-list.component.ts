@@ -33,7 +33,6 @@ export class NewsletterListComponent implements OnInit  {
      console.log();
      }
      
-
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
