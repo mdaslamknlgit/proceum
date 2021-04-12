@@ -126,7 +126,7 @@ export class SettingsComponent implements OnInit {
     let param = {
       'url': 'settings'
     };
-    this.http.formData(param, myFormData).subscribe((res) => {
+    this.http.imageUpload(param, myFormData).subscribe((res) => {
       if (res['error'] == false) {
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,
