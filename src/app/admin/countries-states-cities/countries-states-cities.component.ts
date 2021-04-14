@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-countries-states-cities',
@@ -13,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class CountriesStatesCitiesComponent implements OnInit {
-  displayedColumns: string[] = ['s_no', 'country_name', 'language', 'currency','currency_symbal', 'status', 'action'];
+  displayedColumns: string[] = ['pk_id', 'country_name', 'country_language', 'currency_text','currency_symbal', 'status', 'action'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -28,7 +29,7 @@ export class CountriesStatesCitiesComponent implements OnInit {
   public fileExt: string = "xlsx";
   public search_txt = "";
   country: CountryDetails = { country_code:'', country_name:'', currency_text: '', currency_symbol: '', language_code: '',language:'',country_flag:'' };
-  constructor(private http:CommonService,private route: Router,private toastr: ToastrService) { }
+  constructor(private http:CommonService,private route: Router,private toastr: ToastrService,public dialog: MatDialog) { }
 
   ngOnInit(): void {
     let params={url: 'get-all-countries',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
@@ -45,6 +46,12 @@ export class CountriesStatesCitiesComponent implements OnInit {
 		this.page = (event.pageSize * event.pageIndex);
     this.applyFilters();
   }
+
+  sortData(event) {
+		this.sort_by = event;
+		if (this.sort_by.direction != '')
+			this.applyFilters();
+	}
 
   applyFilters(){
     let params={url: 'get-all-countries',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
@@ -94,6 +101,7 @@ export class CountriesStatesCitiesComponent implements OnInit {
           this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
         }else{
           this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
+          this.country = { country_code:'', country_name:'', currency_text: '', currency_symbol: '', language_code: '',language:'',country_flag:'' };
           this.toggleModel();
           this.applyFilters();
         }
@@ -124,6 +132,7 @@ export class CountriesStatesCitiesComponent implements OnInit {
           this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
         }else{
           this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
+          this.country = { country_code:'', country_name:'', currency_text: '', currency_symbol: '', language_code: '',language:'',country_flag:'' };
           this.toggleCountryModel();
           this.applyFilters();
         }

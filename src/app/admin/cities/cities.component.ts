@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./cities.component.scss']
 })
 export class CitiesComponent implements OnInit {
-  displayedColumns: string[] = ['s_no', 'city_name', 'state_name', 'country_name', 'status', 'action'];
+  displayedColumns: string[] = ['pk_id', 'city_name', 'state_name', 'country_name', 'status', 'action'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -62,6 +62,12 @@ export class CitiesComponent implements OnInit {
     });
   }
 
+  sortData(event) {
+		this.sort_by = event;
+		if (this.sort_by.direction != '')
+			this.applyFilters();
+	}
+
   toggleModel() {
     this.model_status = !this.model_status;
   }
@@ -78,6 +84,7 @@ export class CitiesComponent implements OnInit {
           this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
         }else{
           this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
+          this.city_name ="";
           this.toggleModel();
           this.applyFilters();
         }
@@ -102,6 +109,7 @@ export class CitiesComponent implements OnInit {
           this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
         }else{
           this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
+          this.city_name ="";
           this.toggleCityModel();
           this.applyFilters();
         }
