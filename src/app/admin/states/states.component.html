@@ -126,9 +126,15 @@
                     <button mat-icon-button >
                     <mat-icon matTooltip='click here to edit State' (click)="openEditModel(element)">edit</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="changeStatus(element.state_id,'ST')">
+                    <!-- <button mat-icon-button (click)="changeStatus(element.state_id,'ST')">
                         <mat-icon matTooltip='click here to {{ element.status == 1 ? "IN-ACTIVE" : "ACTIVE"}}' >{{ element.status == 1 ? "visibility" : "visibility_off"}}</mat-icon>
-                    </button>
+                    </button> -->
+                    <button matTooltip="click here to {{element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'}}" mat-icon-button mwlConfirmationPopover
+                    [popoverTitle]="'Are you sure?'" [popoverMessage]="'are you sure to change status of <b>' +element.state_name +'</b> State'"
+                    placement="top"(confirm)="changeStatus(element.state_id,'ST')"confirmButtonType="danger"cancelButtonType="outline-secondary">
+                    <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
+                    <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
+                  </button>
                 </td>
             </ng-container>
 
