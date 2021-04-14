@@ -36,6 +36,10 @@ export class RolesListComponent implements OnInit {
   role_description_edit = '';
   public model_status = false;
   public edit_model_status = false;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  public page = 0;
+  is_loaded = false;
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -50,6 +54,11 @@ export class RolesListComponent implements OnInit {
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['roles']);
+        if (this.is_loaded == false) {
+          this.is_loaded = true;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
       } else {
         this.toster.error(res['message'], 'Error');
       }
@@ -73,6 +82,7 @@ export class RolesListComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success');
+        this.getRoles();
         this.toggleModel();
       } else {
         let message = res['errors']['title']

@@ -31,6 +31,7 @@
                       [(ngModel)]="step_name"
                       #step_name_name="ngModel"
                       name="step_name_name"
+                      pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
                       placeholder="Provide {{ step }} Name"
                       required
                     />
@@ -41,7 +42,8 @@
                       (step_form.submitted || step_name_name.touched) &&
                       step_name_name.invalid
                     "
-                    >{{ step }} Name is required</span
+                    >{{ step }} Name is required and allowed only Alphabets and
+                    spaces</span
                   >
                 </span>
               </span>
@@ -112,8 +114,8 @@
         matSort
         (matSortChange)="sortData($event)"
       >
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>No.</th>
+        <ng-container matColumnDef="pk_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
           <td mat-cell *matCellDef="let element">
             {{ element.s_no }}
           </td>
@@ -133,7 +135,13 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef>Status</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.status == 1 ? "Active" : "Inactive" }}
+            <span
+              matTooltip="Current Status is {{
+                element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+              }}"
+              class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}"
+              >{{ element.status == 1 ? "Active" : "Inactive" }}</span
+            >
           </td>
         </ng-container>
 
@@ -155,14 +163,16 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="editStep(element)">
+            <button
+              mat-icon-button
+              matTooltip="Click to edit"
+              (click)="editStep(element)"
+            >
               <mat-icon>edit</mat-icon>
             </button>
             <button
-              title="{{
-                element.status == 1
-                  ? 'Click to deactivate'
-                  : 'Click to activate'
+              matTooltip="click here to {{
+                element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
               }}"
               mat-icon-button
               mwlConfirmationPopover
@@ -237,17 +247,27 @@
         <div class="grd_2c no_bxsdw">
           <div class="frm_dvs">
             <span>{{ step }} Name</span>
-            <span>
+            <span class="err_tltp_par">
               <mat-form-field appearance="outline">
                 <input
                   matInput
                   [(ngModel)]="step_name"
                   #step_name_name="ngModel"
                   name="step_name_name"
+                  pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
                   placeholder="Provide Curiculum Name"
                   required
                 />
               </mat-form-field>
+              <span
+                class="prc_tltp"
+                *ngIf="
+                  (edit_step_form.submitted || step_name_name.touched) &&
+                  step_name_name.invalid
+                "
+                >{{ step }} Name is required and allowed only Alphabets and
+                spaces</span
+              >
             </span>
           </div>
         </div>
