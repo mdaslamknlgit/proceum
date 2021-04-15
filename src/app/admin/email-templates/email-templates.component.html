@@ -8,6 +8,10 @@
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
+<<<<<<< HEAD
+      <input matInput (keyup)="doFilter($event.target.value)" placeholder="Search" />
+      <mat-icon matSuffix>search</mat-icon>
+=======
       <input
         matInput
         [(ngModel)]="search_text"
@@ -15,24 +19,14 @@
         placeholder="Search"
       />
       <mat-icon matSuffix (click)="doFilter()">search</mat-icon>
+>>>>>>> 3f04206a9925c591c969a3ddb53a121ad09c2f86
     </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="accent"
-      class="float_right mt_0"
-      (click)="manageTemplate(0)"
-      type="button"
-    >
+    <button mat-raised-button color="accent" class="float_right mt_0" (click)="manageTemplate(0)" type="button">
       New Template
     </button>
     <div class="rsp_tbl">
-      <table
-        mat-table
-        [dataSource]="dataSource"
-        matSort
-        class="mat-elevation-z8"
-      >
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <!-- Position Column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>S.No</th>
@@ -79,22 +73,22 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        <tr class="mat-row" *matNoDataRow>
-          <td
-            style="text-align: center; margin: 20px"
-            class="mat-cell"
-            colspan="6"
-          >
+        <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">
             No Records Found
           </td>
         </tr>
       </table>
     </div>
+<<<<<<< HEAD
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
+=======
     <mat-paginator
       [pageSizeOptions]="[10, 20, 50, 100]"
       showFirstLastButtons
       (page)="getServerData($event)"
     ></mat-paginator>
+>>>>>>> 3f04206a9925c591c969a3ddb53a121ad09c2f86
   </div>
 </div>
 <app-admin-footer></app-admin-footer>
