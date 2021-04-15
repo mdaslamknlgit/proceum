@@ -18,7 +18,7 @@ export class StepsComponent implements OnInit {
   public curriculum_id = '';
 
   displayedColumns: string[] = [
-    'id',
+    'pk_id',
     'level_name',
     'status',
     'created_at',
@@ -93,7 +93,7 @@ export class StepsComponent implements OnInit {
         }
         this.totalSize = res['total_records'];
       } else {
-        this.toster.info(res['message'], 'Error');
+        //this.toster.info(res['message'], 'Info');
         this.dataSource = new MatTableDataSource([]);
       }
     });
@@ -166,6 +166,8 @@ export class StepsComponent implements OnInit {
     let param = {
       url: 'step/' + this.step_pk_id,
       step_name: this.step_name,
+      curriculum_id: this.curriculum_id,
+      step_number: this.step_number,
     };
     this.http.put(param).subscribe((res) => {
       if (res['error'] == false) {

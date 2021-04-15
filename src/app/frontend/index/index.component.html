@@ -1,28 +1,68 @@
 <div class="indx_bnnr">
-  <mat-toolbar [ngClass]="{'sticky-header' : isSticky}">
-
-    <span class="logo_spn" routerLink="/"><img src="./assets/images/ProceumLogo.png" /></span>
+  <mat-toolbar [ngClass]="{ 'sticky-header': isSticky }">
+    <span class="logo_spn" routerLink="/"
+      ><img src="./assets/images/ProceumLogo.png"
+    /></span>
     <!-- <span class="spacer"></span> -->
-    <div class="nav" [ngClass]="{'menu_open' : isOpen}">
-      <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active">Home</span>
-      <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
+    <div class="nav" [ngClass]="{ menu_open: isOpen }">
+      <span
+        mat-list-item
+        class="tp_rt_mn"
+        routerLink="/"
+        routerLinkActive="active"
+        >Home</span
+      >
+      <span
+        mat-list-item
+        class="tp_rt_mn"
+        routerLink="/about-us"
+        routerLinkActive="active"
+        >About Us</span
+      >
       <span mat-list-item class="tp_rt_mn">Pricing</span>
       <span mat-list-item class="tp_rt_mn">Subscribe</span>
       <span mat-list-item class="tp_rt_mn">Register Trail</span>
-      <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
-      <span mat-list-item [matMenuTriggerFor]="appMenu" class="tp_rt_mn" *ngFor="let menu of menus" (click)="changeSubmenu(menu.pk_id)">{{menu.name}}</span>
-      <mat-menu #appMenu="matMenu" >
-        <button mat-menu-item *ngFor="let page of newPages" routerLink="/mcicirriculam/{{page.pk_id}}" routerLinkActive="active" >{{page.name}}</button>
+      <span
+        mat-list-item
+        class="tp_rt_mn"
+        routerLink="/contact-us"
+        routerLinkActive="active"
+        >Contact Us</span
+      >
+      <span
+        mat-list-item
+        [matMenuTriggerFor]="appMenu"
+        class="tp_rt_mn"
+        *ngFor="let menu of menus"
+        (click)="changeSubmenu(menu.pk_id)"
+        >{{ menu.name }}</span
+      >
+      <mat-menu #appMenu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let page of newPages"
+          routerLink="/mcicirriculam/{{ page.pk_id }}"
+          routerLinkActive="active"
+        >
+          {{ page.name }}
+        </button>
       </mat-menu>
     </div>
-    <div routerLink="/login" class="lg_inbtn">
+    <div *ngIf="!user['id']" routerLink="/login" class="lg_inbtn">
       <mat-icon>login</mat-icon>Login
     </div>
+    <div *ngIf="user['id']" class="lg_inbtn" (click)="navigateTo()">
+      Dashboard
+    </div>
     <div class="spacer"></div>
-      <div class="top-right-icon">
-        <img src="../../../../assets/images/Search-icon.svg" alt="Search">
-        <img src="../../../../assets/images/hamburg-icon.svg" (click)="menuToggle()" alt="Hamberg">
-      </div>
+    <div class="top-right-icon">
+      <img src="../../../../assets/images/Search-icon.svg" alt="Search" />
+      <img
+        src="../../../../assets/images/hamburg-icon.svg"
+        (click)="menuToggle()"
+        alt="Hamberg"
+      />
+    </div>
     <!-- <button mat-icon-button class="tp_rt_mn lgot_btn" (click)="logout()"><mat-icon>logout</mat-icon></button> -->
   </mat-toolbar>
 
@@ -194,11 +234,12 @@
       most comprehensive, qualitatively superior and useful service at the click
       of a button to the individual, well-being of whose health, has resulted in
       the birth or establishment of all these services, institutions,
-      organizations, groups, methods and processes. lorem ipsum dummy text well-being of whose health, has resulted in
-      the birth or establishment of all these services, institutions,
-      organizations, groups, methods and processes. well-being of whose health, has resulted in
-      the birth or establishment of all these services, institutions,
-      organizations, groups, methods and processes.
+      organizations, groups, methods and processes. lorem ipsum dummy text
+      well-being of whose health, has resulted in the birth or establishment of
+      all these services, institutions, organizations, groups, methods and
+      processes. well-being of whose health, has resulted in the birth or
+      establishment of all these services, institutions, organizations, groups,
+      methods and processes.
     </div>
   </div>
 </section>
@@ -630,7 +671,7 @@
               <div mat-line>Surgery</div>
             </mat-list-item>
 
-             <mat-list-item>
+            <mat-list-item>
               <mat-icon mat-list-icon>check_circle</mat-icon>
               <div mat-line>OBG</div>
             </mat-list-item>
@@ -655,7 +696,7 @@
               <div mat-line>Anatomy</div>
             </mat-list-item>-->
           </mat-list>
-        </mat-card-content> 
+        </mat-card-content>
       </mat-card>
     </div>
 
@@ -806,9 +847,21 @@
   </div>
   <br />
   <div class="subscribe">
-    <input type="text"  autocomplete="off" [(ngModel)]="email_address" [class]="errClass" maxlength="30" (focus)="removeClass()" onkeypress='return (event.charCode != 32)' name="email_address" placeholder="Enter your email [ex:sample123@gmail.com]" />
-    <button class="cursor-pointer" (click)="newsletterSubscribe()">Subscribe</button>
-    <br/>
+    <input
+      type="text"
+      autocomplete="off"
+      [(ngModel)]="email_address"
+      [class]="errClass"
+      maxlength="30"
+      (focus)="removeClass()"
+      onkeypress="return (event.charCode != 32)"
+      name="email_address"
+      placeholder="Enter your email [ex:sample123@gmail.com]"
+    />
+    <button class="cursor-pointer" (click)="newsletterSubscribe()">
+      Subscribe
+    </button>
+    <br />
     <!-- <span style="color:rgb(128,0,0)">{{ errEmailMsg }} </span> -->
   </div>
   <div class="footer-menu">

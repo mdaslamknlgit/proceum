@@ -229,6 +229,7 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
+                      maxlength="4"
                       name="usage_name"
                       #usage_name="ngModel"
                       [(ngModel)]="usage"
@@ -253,6 +254,13 @@
         <hr />
         <button mat-raised-button color="accent" class="float_right mr_1">
           Submit
+        </button>
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="toggleModel()"
+        >
+          Close
         </button>
       </form>
       <div class="hgt_20"></div>
@@ -288,7 +296,9 @@
       >
         <!-- Position Column -->
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>No.</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+            S.No
+          </th>
           <td mat-cell *matCellDef="let element">
             {{ element.s_no }}
           </td>
@@ -315,19 +325,25 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.status == 1 ? "Active" : "Inactivate" }}
+            <span
+              matTooltip="Current Status is {{
+                element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+              }}"
+              class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}"
+              >{{ element.status == 1 ? "Active" : "Inactive" }}</span
+            >
           </td>
         </ng-container>
 
         <ng-container matColumnDef="created_at">
-          <th mat-header-cell *matHeaderCellDef cdkDrag>Created Date</th>
-          <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+          <th mat-header-cell *matHeaderCellDef cdkDrag>Valid From</th>
+          <td mat-cell *matCellDef="let element">{{ element.valid_from }}</td>
         </ng-container>
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="updated_at">
-          <th mat-header-cell *matHeaderCellDef cdkDrag>Updated Date</th>
-          <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
+          <th mat-header-cell *matHeaderCellDef cdkDrag>Valid To</th>
+          <td mat-cell *matCellDef="let element">{{ element.valid_to }}</td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
@@ -505,8 +521,8 @@
                       [(ngModel)]="course"
                       required
                     >
-                      <mat-option value="1">India</mat-option>
-                      <mat-option value="2">Khjakistan</mat-option>
+                      <mat-option value="1">Course1</mat-option>
+                      <mat-option value="2">Course2</mat-option>
                     </mat-select>
                   </mat-form-field>
                   <span
@@ -628,6 +644,13 @@
         <hr />
         <button mat-raised-button color="accent" class="float_right mr_1">
           Submit
+        </button>
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="edit_model_status = !edit_model_status"
+        >
+          Close
         </button>
       </form>
     </div>

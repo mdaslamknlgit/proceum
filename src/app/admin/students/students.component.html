@@ -10,8 +10,8 @@
   <div class="dsh_brd_crds">
 
     <mat-form-field appearance="outline">
-      <input matInput (keyup)="doFilter($event.target.value)" placeholder="Search" />
-      <mat-icon matSuffix>search</mat-icon>
+      <input matInput (keyup)="$event.keyCode == 13 ?applyFilters() : ''" [(ngModel)]="search_txt" placeholder="Search" />
+      <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
     </mat-form-field>
 
     <!-- <button mat-raised-button color="accent" class="float_right" (click)="createStucent()" type="button">Create Student</button> -->
@@ -27,23 +27,24 @@
           {{ element.s_no }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="student_name">
+      <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
         <td mat-cell *matCellDef="let element">{{ element.name }}</td>
       </ng-container>
-      <ng-container matColumnDef="student_email">
-        <th mat-header-cell *matHeaderCellDef>Email</th>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
         <td mat-cell *matCellDef="let element">{{ element.email }}</td>
       </ng-container>
-      <ng-container matColumnDef="student_phone">
+      <!-- <ng-container matColumnDef="student_phone">
         <th mat-header-cell *matHeaderCellDef>Phone</th>
         <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
-      </ng-container>
+      </ng-container> -->
 
-      <ng-container matColumnDef="student_status">
-        <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let element" style="cursor: pointer;">{{ element.status == 1 ? "Active" : "In
-          Activated" }}</td>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <span matTooltip='Current Status is {{ element.status == 1 ? "ACTIVE" : "IN-ACTIVE"}}' class='{{ element.status == 1 ? "sts_grn" : "sts_rd" }}' >{{ element.status == 1 ? "Active" : "Inactive" }}</span>
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
@@ -52,9 +53,17 @@
           <!-- <button mat-icon-button (click)="manageTemplate(element.id)">
               <mat-icon>edit</mat-icon>
             </button> -->
-            <button mat-icon-button (click)="changeStatus(element.id)">
-              <mat-icon>{{ element.status == 1 ? "visibility" : "visibility_off"}}</mat-icon>
-            </button>
+            <!-- <button mat-icon-button (click)="changeStatus(element.id)">
+              <mat-icon matTooltip='click here to {{ element.status == 1 ? "IN-ACTIVE" : "ACTIVE"}}'>{{ element.status == 1 ? "visibility" : "visibility_off"}}</mat-icon>
+            </button> -->
+
+            <button matTooltip="click here to {{element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'}}" mat-icon-button mwlConfirmationPopover
+            [popoverTitle]="'Are you sure?'" [popoverMessage]="'are you sure to change status of <b>' +element.name +'</b> Student'"
+            placement="top"(confirm)="changeStatus(element.id)"confirmButtonType="danger"cancelButtonType="outline-secondary">
+            <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
+            <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
+          </button>
+
           </td>
         </ng-container>
   

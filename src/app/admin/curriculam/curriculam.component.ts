@@ -14,7 +14,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 export class CurriculamComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
-    'Curriculum Name',
+    'name',
     'status',
     'created_at',
     'updated_at',
@@ -58,7 +58,7 @@ export class CurriculamComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.toster.error(res['message'], 'Error');
+        this.toster.info(res['message'], 'Info');
       }
     });
   }

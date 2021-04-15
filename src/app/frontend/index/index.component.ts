@@ -1,7 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { CommonService } from 'src/app/services/common.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -9,28 +10,43 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./index.component.scss'],
 })
 export class IndexComponent implements OnInit {
-  constructor(private http: AuthService,private toastr: ToastrService) {}
-  email_address:string;
-  errEmailMsg:string="";
-  emailRegexp = new RegExp("/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/");
-  menus:any;
-  pages:any;
-  newPages:any=[];
-  errClass:any;
+  constructor(
+    private http: AuthService,
+    private toastr: ToastrService,
+    private service: CommonService,
+    private router: Router
+  ) {}
+  email_address: string;
+  errEmailMsg: string = '';
+  emailRegexp = new RegExp('/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/');
+  menus: any;
+  pages: any;
+  newPages: any = [];
+  errClass: any;
   public isOpen = false;
+  user: any;
   ngOnInit(): void {
     this.getMenus();
+    this.user = this.service.getUser();
+    console.log(this.user);
+  }
+  navigateTo() {
+    if (this.user['role'] == '1') {
+      this.router.navigateByUrl('/admin/dashboard');
+    } else {
+      this.router.navigateByUrl('/student/dashboard');
+    }
   }
   scrollToTop() {
     // window.scroll(0, 0);
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  menuToggle(){
+  menuToggle() {
     this.isOpen = !this.isOpen;
   }
-  removeClass(){
-    this.errClass="";
+  removeClass() {
+    this.errClass = '';
   }
 
   isSticky: boolean = false;
@@ -40,52 +56,53 @@ export class IndexComponent implements OnInit {
   }
   newsletterSubscribe() {
     //console.log(this.email_address);return false;
-    if(this.email_address == undefined){
+    if (this.email_address == undefined) {
       //this.errEmailMsg="Email is Required";
-      this.errClass='input-border-color';
+      this.errClass = 'input-border-color';
       return false;
     }
-   let verifyEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email_address.trim());
-    if(verifyEmail){
-      this.errEmailMsg="";
-      this.errClass="";
+    let verifyEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      this.email_address.trim()
+    );
+    if (verifyEmail) {
+      this.errEmailMsg = '';
+      this.errClass = '';
       let params = {
-        "url": 'subscribe-newsletter',
-        "email_address": this.email_address
+        url: 'subscribe-newsletter',
+        email_address: this.email_address,
       };
       this.http.post(params).subscribe((res: Response) => {
         if (res.error) {
           this.toastr.error(res.message, 'Error', { closeButton: true });
-          this.errEmailMsg=res.message;
+          this.errEmailMsg = res.message;
         } else {
           this.toastr.success(res.message, 'Success', { closeButton: true });
-          this.email_address="";
+          this.email_address = '';
         }
       });
-    }else{
+    } else {
       //this.errEmailMsg="Please enter valid email";
-      this.errClass='input-border-color';
+      this.errClass = 'input-border-color';
     }
   }
-    getMenus(){
-      let params = { url: 'menu-submenu' };
-      this.http.post(params).subscribe((res) => {
-        this.menus=res['menus'];
-        this.pages=res['pages'];
-      });
-    }
+  getMenus() {
+    let params = { url: 'menu-submenu' };
+    this.http.post(params).subscribe((res) => {
+      this.menus = res['menus'];
+      this.pages = res['pages'];
+    });
+  }
 
-    changeSubmenu($key){    
-      console.log($key)
-      this.newPages =  this.pages.filter(function(page) {      
-        return page.parent_id== $key;    
-      });  
-     }
-
+  changeSubmenu($key) {
+    console.log($key);
+    this.newPages = this.pages.filter(function (page) {
+      return page.parent_id == $key;
+    });
+  }
 }
 
 export interface Response {
-	error: boolean;
-	message: string;
-	errors?: any;
-  }
+  error: boolean;
+  message: string;
+  errors?: any;
+}

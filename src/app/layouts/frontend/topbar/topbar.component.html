@@ -5,37 +5,75 @@
       <mat-icon>smartphone</mat-icon> +91 98855 88972
     </div>
     <div class="top-top-right">
-      <img src="../../../../assets/images/GetitonGoogleplay.svg" alt="Get it on Googleplay">
-      <img src="../../../../assets/images/app-store-badge.svg" alt="Download from Applestore">
+      <img
+        src="../../../../assets/images/GetitonGoogleplay.svg"
+        alt="Get it on Googleplay"
+      />
+      <img
+        src="../../../../assets/images/app-store-badge.svg"
+        alt="Download from Applestore"
+      />
     </div>
   </div>
 </div>
-<mat-toolbar [ngClass]="{'sticky-header' : isSticky}"> 
+<mat-toolbar [ngClass]="{ 'sticky-header': isSticky }">
   <button mat-icon-button (click)="toggleSidemenu('hello')" class="hmbrg_btn">
     <img src="./assets/images/hamburg-icon.svg" />
   </button>
-  <span class="logo_spn" routerLink="/"><img src="./assets/images/ProceumLogo.png" /></span>
+  <span class="logo_spn" routerLink="/"
+    ><img src="./assets/images/ProceumLogo.png"
+  /></span>
   <!-- <span class="spacer"></span> -->
-  <div class="nav" [ngClass]="{'menu_open' : isOpen}">
-    <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active">Home</span>
-    <span mat-list-item class="tp_rt_mn" routerLink="/about-us"routerLinkActive="active">About Us</span>
+  <div class="nav" [ngClass]="{ menu_open: isOpen }">
+    <span
+      mat-list-item
+      class="tp_rt_mn"
+      routerLink="/"
+      routerLinkActive="active"
+      >Home</span
+    >
+    <span
+      mat-list-item
+      class="tp_rt_mn"
+      routerLink="/about-us"
+      routerLinkActive="active"
+      >About Us</span
+    >
     <span mat-list-item class="tp_rt_mn">Pricing</span>
     <span mat-list-item class="tp_rt_mn">Subscribe</span>
-    <span mat-list-item class="tp_rt_mn">Register Trail</span>
-    <span mat-list-item class="tp_rt_mn" routerLink="/contact-us"routerLinkActive="active">Contact Us</span>
+    <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
+      >Register Trail</span
+    >
+    <span
+      mat-list-item
+      class="tp_rt_mn"
+      routerLink="/contact-us"
+      routerLinkActive="active"
+      >Contact Us</span
+    >
   </div>
   <div class="lg_inbtn">
-    <span *ngIf="!user['name']" routerLink="/login"><mat-icon>login</mat-icon>Login</span>
-    <span *ngIf="user['name']" (click)="logout()"><mat-icon>logout</mat-icon>Logout</span>
+    <span>{{ user["name"] + "(" + user["role_name"] + ")" }}</span>
+  </div>
+  <div class="lg_inbtn">
+    <span *ngIf="!user['name']" routerLink="/login"
+      ><mat-icon>login</mat-icon>Login</span
+    >
+    <span *ngIf="user['name']" (click)="logout()"
+      ><mat-icon>logout</mat-icon>Logout</span
+    >
   </div>
   <div class="spacer"></div>
-    <div class="top-right-icon">
-      <img src="../../../../assets/images/Search-icon.svg" alt="Search">
-      <img src="../../../../assets/images/hamburg-icon.svg" (click)="menuToggle()" alt="Hamberg">
-    </div>
+  <div class="top-right-icon">
+    <img src="../../../../assets/images/Search-icon.svg" alt="Search" />
+    <img
+      src="../../../../assets/images/hamburg-icon.svg"
+      (click)="menuToggle()"
+      alt="Hamberg"
+    />
+  </div>
   <!-- <button mat-icon-button class="tp_rt_mn lgot_btn" (click)="logout()"><mat-icon>logout</mat-icon></button> -->
 </mat-toolbar>
-
 
 <!-- <mat-toolbar [ngClass]="{'sticky-header' : isSticky}">
   <div class="top_nav" routerLink="/">
