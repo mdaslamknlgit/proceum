@@ -31,7 +31,6 @@
                       [(ngModel)]="step_name"
                       #step_name_name="ngModel"
                       name="step_name_name"
-                      pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
                       placeholder="Provide {{ step }} Name"
                       required
                     />
@@ -42,8 +41,7 @@
                       (step_form.submitted || step_name_name.touched) &&
                       step_name_name.invalid
                     "
-                    >{{ step }} Name is required and allowed only Alphabets and
-                    spaces</span
+                    >{{ step }} Name is required</span
                   >
                 </span>
               </span>
@@ -66,6 +64,13 @@
           <hr />
           <button mat-raised-button color="accent" class="float_right">
             Submit
+          </button>
+          <button
+            mat-raised-button
+            class="float_right mr_1 gry_btn"
+            (click)="toggleModel()"
+          >
+            Close
           </button>
           <div class="hgt_20"></div>
         </form>
@@ -133,7 +138,7 @@
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
           <td mat-cell *matCellDef="let element">
             <span
               matTooltip="Current Status is {{
@@ -254,7 +259,6 @@
                   [(ngModel)]="step_name"
                   #step_name_name="ngModel"
                   name="step_name_name"
-                  pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
                   placeholder="Provide Curiculum Name"
                   required
                 />
@@ -265,14 +269,20 @@
                   (edit_step_form.submitted || step_name_name.touched) &&
                   step_name_name.invalid
                 "
-                >{{ step }} Name is required and allowed only Alphabets and
-                spaces</span
+                >{{ step }} Name is required</span
               >
             </span>
           </div>
         </div>
         <button mat-raised-button color="accent" class="float_right">
           Submit
+        </button>
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="edit_model_status = !edit_model_status"
+        >
+          Close
         </button>
         <div class="hgt_20"></div>
       </form>

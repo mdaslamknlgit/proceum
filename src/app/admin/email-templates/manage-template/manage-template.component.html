@@ -37,7 +37,7 @@
               template.template_subject == ''
             "
           >
-            Template Subject <strong>Required</strong></span
+            Template Subject Required</span
           >
         </span>
       </span>
@@ -59,15 +59,17 @@
             />
           </mat-form-field>
           <span
-            *ngIf="template_form.submitted && template.template_name == ''"
+            *ngIf="
+              (template_form.submitted || template_name.touched) &&
+              template.template_name == ''
+            "
             class="prc_tltp"
-            >Template Name is <strong>required</strong></span
+            >Template Name is required</span
           >
           <span
             *ngIf="template_form.submitted && template_name.invalid"
             class="prc_tltp"
-            >Template Name is allowed
-            <strong> alphabets and _ required</strong></span
+            >Template Name is allowed alphabets and _ required</span
           >
         </span>
       </span>
@@ -89,22 +91,16 @@
     </div>
   </div>
   <div class="hgt_20"></div>
-  <ckeditor
-    [config]="{ placeholder: 'Type the email content here!' }"
-    [(ngModel)]="template.template"
-    name="template"
-    [editor]="Editor"
-  ></ckeditor>
+  <span class="err_tltp_par">
+    <ckeditor
+      [config]="{ placeholder: 'Type the email content here!' }"
+      [(ngModel)]="template.template"
+      name="template"
+      [editor]="Editor"
+    ></ckeditor>
+  </span>
   <div class="hgt_20"></div>
-  <button
-    mat-raised-button
-    color="accent"
-    class="float_right"
-    (click)="close()"
-    type="button"
-  >
-    Close
-  </button>
+
   <button
     mat-raised-button
     color="accent"
@@ -112,6 +108,14 @@
     type="submit"
   >
     Submit
+  </button>
+  <button
+    mat-raised-button
+    class="float_right mr_1 gry_btn"
+    (click)="close()"
+    type="button"
+  >
+    Close
   </button>
   <div class="hgt_20"></div>
 </form>

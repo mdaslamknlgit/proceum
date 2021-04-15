@@ -77,7 +77,6 @@ export class MyAccountComponent implements OnInit {
     }
   }
   getStudentProfile(){
-    
     this.user= JSON.parse(atob(sessionStorage.getItem('user')));
     this.user_id=this.user['id'];
     let params={
@@ -133,7 +132,7 @@ export class MyAccountComponent implements OnInit {
             return;
         }
         if(size >= 256000){
-          this.imgMessage = "Profile image must be less than 200kb";
+          this.imgMessage = "Profile image must be less than 250kb";
           return;
         }
           this.imgMessage = "";

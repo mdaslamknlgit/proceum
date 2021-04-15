@@ -25,9 +25,6 @@ content:any;
     console.log(params);
     this.http.post(params).subscribe((res) => {
       console.log(res['content'].content);
-      // var parser = new DOMParser();
-      // var doc = parser.parseFromString(res['content'].content, 'text/html');
-      //return doc.body;
       this.content=res['content'].content;
     });
   }
