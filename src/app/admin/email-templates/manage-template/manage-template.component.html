@@ -26,6 +26,7 @@
                 <span class="prc_tltp" *ngIf="
               (template_form.submitted || template_subject.touched) &&
               template.template_subject == ''
+<<<<<<< HEAD
             ">
                   Template Subject <strong>Required</strong></span>
               </span>
@@ -76,3 +77,89 @@
     </div>
   </div>
 </div>
+=======
+            "
+          >
+            Template Subject Required</span
+          >
+        </span>
+      </span>
+    </div>
+    <div class="frm_dvs">
+      <span>Template Name</span>
+      <span>
+        <span class="err_tltp_par">
+          <mat-form-field appearance="outline">
+            <input
+              matInput
+              #template_name="ngModel"
+              pattern="[a-zA-Z][a-zA-Z_]+"
+              name="template_name"
+              [(ngModel)]="template.template_name"
+              placeholder="Template Name"
+              disabled="{{ template.id != '0' ? true : false }}"
+              required
+            />
+          </mat-form-field>
+          <span
+            *ngIf="
+              (template_form.submitted || template_name.touched) &&
+              template.template_name == ''
+            "
+            class="prc_tltp"
+            >Template Name is required</span
+          >
+          <span
+            *ngIf="template_form.submitted && template_name.invalid"
+            class="prc_tltp"
+            >Template Name is allowed alphabets and _ required</span
+          >
+        </span>
+      </span>
+    </div>
+    <div class="frm_dvs">
+      <span class="algn_s_fs">Available Placeholders</span>
+      <span>
+        <mat-form-field appearance="outline">
+          <textarea
+            disabled="{{ template.id != '0' ? true : false }}"
+            matInput
+            placeholder="Available Placeholders"
+            rows="5"
+            name="template_placeholders"
+            [(ngModel)]="template.template_placeholders"
+          ></textarea>
+        </mat-form-field>
+      </span>
+    </div>
+  </div>
+  <div class="hgt_20"></div>
+  <span class="err_tltp_par">
+    <ckeditor
+      [config]="{ placeholder: 'Type the email content here!' }"
+      [(ngModel)]="template.template"
+      name="template"
+      [editor]="Editor"
+    ></ckeditor>
+  </span>
+  <div class="hgt_20"></div>
+
+  <button
+    mat-raised-button
+    color="accent"
+    class="float_right mr_1"
+    type="submit"
+  >
+    Submit
+  </button>
+  <button
+    mat-raised-button
+    class="float_right mr_1 gry_btn"
+    (click)="close()"
+    type="button"
+  >
+    Close
+  </button>
+  <div class="hgt_20"></div>
+</form>
+>>>>>>> 3f04206a9925c591c969a3ddb53a121ad09c2f86

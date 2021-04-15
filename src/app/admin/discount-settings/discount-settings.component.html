@@ -202,9 +202,7 @@
       <table mat-table [dataSource]="dataSource" matSort>
         <!-- Position Column -->
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-            S.No
-          </th>
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
           <td mat-cell *matCellDef="let element">
             {{ element.s_no }}
           </td>
@@ -270,14 +268,29 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="editDiscount(element)">
+            <button
+              mat-icon-button
+              (click)="editDiscount(element)"
+              matTooltip="Click to edit"
+            >
               <mat-icon>edit</mat-icon>
             </button>
+<<<<<<< HEAD
             <button title="{{
                 element.status == 1
                   ? 'Click to deactivate'
                   : 'Click to activate'
               }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+=======
+            <button
+              matTooltip="click here to {{
+                element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
+              }}"
+              mat-icon-button
+              mwlConfirmationPopover
+              [popoverTitle]="'Are you sure?'"
+              [popoverMessage]="
+>>>>>>> 3f04206a9925c591c969a3ddb53a121ad09c2f86
                 'are you sure to change status of <b>' +
                 element.title +
                 '</b> Discount'

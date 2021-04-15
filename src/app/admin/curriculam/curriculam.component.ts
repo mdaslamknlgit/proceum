@@ -34,6 +34,7 @@ export class CurriculamComponent implements OnInit {
   popoverMessage = '';
   confirmClicked = false;
   cancelClicked = false;
+  search_text = '';
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -55,7 +56,7 @@ export class CurriculamComponent implements OnInit {
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['curriculums']);
-        //this.dataSource.paginator = this.paginator;
+        this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
         this.toster.info(res['message'], 'Info');
@@ -157,7 +158,8 @@ export class CurriculamComponent implements OnInit {
     });
   }
   public getServerData(event?: PageEvent) {}
-  public doFilter(value: string) {
+  public doFilter() {
+    let value = this.search_text;
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
   public navigateTo(curriculum_id) {

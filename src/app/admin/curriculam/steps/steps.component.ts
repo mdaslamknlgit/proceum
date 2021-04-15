@@ -125,7 +125,7 @@ export class StepsComponent implements OnInit {
     console.log(this.sort_by);
     if (this.sort_by.direction != '') this.getSteps();
   }
-  public doFilter = (value: string) => {
+  public doFilter = () => {
     this.getSteps();
   };
   toggleModel() {

@@ -10,29 +10,26 @@
     <div>
       <span class="search"></span>
       <mat-form-field appearance="outline">
-        <input matInput autocomplete="off" placeholder="Search" [(ngModel)]="search" />
+        <input matInput  autocomplete="off" (keyup)="$event.keyCode == 13 ?doSearchFilter() : ''" placeholder="Search" [(ngModel)]="search"/>
+        <button matSuffix mat-icon-button class="cursor-pointer"  ><mat-icon >search</mat-icon></button>
         <!-- <button mat-button *ngIf="search" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchData()">
           <mat-icon>close</mat-icon>
         </button> -->
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-      <!-- <button mat-raised-button class="search_buttton cursor-pointer" matTooltip="click for Search"
-        (click)="doSearchFilter()">
-        <mat-icon class="cursor-pointer">search</mat-icon>
-      </button> -->
-
-      <!-- <mat-form-field appearance="outline">
+    </mat-form-field>
+    
+      
+    <!-- <mat-form-field appearance="outline">
       <input matInput  (keyup)="doFilter($event.target.value)" placeholder="Search" />
       <mat-icon matSuffix>search</mat-icon>
   </mat-form-field> -->
-      <a [href]="hrefPDF" mat-icon-button color="accent" class="float_right">
-        <mat-icon matTooltip="Download PDF">picture_as_pdf</mat-icon>
-      </a>
-      <a [href]="hrefEXL" mat-icon-button color="accent" class="float_right" matTooltip="Download EXCEL">
-        <mat-icon>description</mat-icon>
-      </a>
-    </div>
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <a [href]="hrefPDF" mat-icon-button color="accent" class="float_right" >
+      <mat-icon matTooltip="Download PDF">picture_as_pdf</mat-icon>
+    </a>
+    <a [href]="hrefEXL" mat-icon-button color="accent" class="float_right" matTooltip="Download EXCEL">
+      <mat-icon>description</mat-icon>
+    </a>
+  </div>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
       <!-- Position Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
@@ -41,9 +38,9 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+      <ng-container matColumnDef="email_address">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>  
+        <td mat-cell *matCellDef="let element">{{ element.email_address }}</td>
       </ng-container>
 
       <ng-container matColumnDef="status">
