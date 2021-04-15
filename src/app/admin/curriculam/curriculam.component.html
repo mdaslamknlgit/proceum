@@ -230,10 +230,11 @@
     <mat-form-field appearance="outline">
       <input
         matInput
-        (keyup)="doFilter($event.target.value)"
+        [(ngModel)]="search_text"
+        (keyup)="$event.keyCode == 13 ? doFilter() : ''"
         placeholder="Search"
       />
-      <mat-icon matSuffix>search</mat-icon>
+      <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
     <button
@@ -254,7 +255,7 @@
       >
         <!-- Position Column -->
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
           <td mat-cell *matCellDef="let element">
             {{ element.id }}
           </td>

@@ -32,6 +32,7 @@ export class EmailTemplatesComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public page = 0;
+  search_text = '';
   constructor(
     private http: CommonService,
     public dialog: MatDialog,
@@ -49,7 +50,8 @@ export class EmailTemplatesComponent implements OnInit {
     });
   }
   public getServerData(event?: PageEvent) {}
-  public doFilter = (value: string) => {
+  public doFilter = () => {
+    let value = this.search_text;
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   };
   manageTemplate(id) {

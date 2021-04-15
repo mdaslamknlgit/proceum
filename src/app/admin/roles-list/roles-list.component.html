@@ -100,9 +100,7 @@
       <table mat-table [dataSource]="dataSource" matSort>
         <!-- Position Column -->
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-            S.No
-          </th>
+          <th mat-header-cell *matHeaderCellDef>S.No</th>
           <td mat-cell *matCellDef="let element">
             {{ element.s_no }}
           </td>
@@ -144,14 +142,16 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="editRole(element)">
+            <button
+              mat-icon-button
+              (click)="editRole(element)"
+              matTooltip="Click to edit"
+            >
               <mat-icon>edit</mat-icon>
             </button>
             <button
-              title="{{
-                element.status == 1
-                  ? 'Click to deactivate'
-                  : 'Click to activate'
+              matTooltip="click here to {{
+                element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
               }}"
               mat-icon-button
               mwlConfirmationPopover
