@@ -5,10 +5,7 @@
   <div class="pg_ttl">Discount Settings</div>
   <hr />
   <div class="hgt_20"></div>
-  <div
-    class="cust_mdl_par cust_mdl_50p"
-    [ngClass]="{ cust_mdl_opn: model_status }"
-  >
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Discount Create
@@ -17,287 +14,164 @@
           &#x2715;
         </button>
       </div>
-      <form
-        id="discount_form"
-        #discount_form="ngForm"
-        name="discount_form"
-        (ngSubmit)="discount_form.valid && createDiscount()"
-        novalidate
-      >
+      <form id="discount_form" #discount_form="ngForm" name="discount_form"
+        (ngSubmit)="discount_form.valid && createDiscount()" novalidate>
         <div class="tbbd_bdy">
           <div class="grd_2c no_bxsdw">
+            <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked fields are
+              mandatory</span>
             <div class="hgt_20"></div>
             <div class="frm_dvs">
-              <span>Title</span>
+              <span>Title <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      maxlength="50"
-                      appAlphabetOnly
-                      required
-                      name="title_name"
-                      [(ngModel)]="title"
-                      matInput
-                      placeholder="Title"
-                      #title_name="ngModel"
-                    />
+                    <input maxlength="50" appAlphabetOnly required name="title_name" [(ngModel)]="title" matInput
+                      placeholder="Title" #title_name="ngModel" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (discount_form.submitted || title_name.touched) &&
                       title_name.invalid
-                    "
-                    >Title is required</span
-                  >
+                    ">Title is required</span>
                 </span>
               </span>
             </div>
             <div class="frm_dvs">
-              <span>Country</span>
+              <span>Country <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select Country"
-                      name="country"
-                      #country="ngModel"
-                      [(ngModel)]="country_id"
-                      required
-                      (ngModelChange)="getStates()"
-                    >
-                      <mat-option
-                        *ngFor="let country of countrys"
-                        [value]="country['pk_id']"
-                        >{{ country["country_name"] }}</mat-option
-                      >
+                    <mat-select placeholder="Select Country" name="country" #country="ngModel" [(ngModel)]="country_id"
+                      required (ngModelChange)="getStates()">
+                      <mat-option *ngFor="let country of countrys" [value]="country['pk_id']">{{ country["country_name"]
+                        }}</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    *ngIf="
+                  <span *ngIf="
                       (discount_form.submitted || country.touched) &&
                       country.invalid
-                    "
-                    class="prc_tltp"
-                    >Country is required</span
-                  >
-                </span></span
-              >
+                    " class="prc_tltp">Country is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
-              <span>State</span>
+              <span>State <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select State"
-                      #state_name="ngModel"
-                      name="state_name"
-                      [(ngModel)]="state"
-                      required
-                    >
-                      <mat-option
-                        *ngFor="let state of states"
-                        [value]="'' + state['id']"
-                        >{{ state["state_name"] }}
+                    <mat-select placeholder="Select State" #state_name="ngModel" name="state_name" [(ngModel)]="state"
+                      required>
+                      <mat-option *ngFor="let state of states" [value]="'' + state['id']">{{ state["state_name"] }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (discount_form.submitted || state_name.touched) &&
                       state_name.invalid
-                    "
-                    >State is required</span
-                  >
-                </span></span
-              >
+                    ">State is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
-              <span>University</span>
+              <span>University <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select University"
-                      name="university_name"
-                      #university_name="ngModel"
-                      [(ngModel)]="university"
-                      required
-                    >
+                    <mat-select placeholder="Select University" name="university_name" #university_name="ngModel"
+                      [(ngModel)]="university" required>
                       <mat-option value="1">University1</mat-option>
                       <mat-option value="2">University2</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (discount_form.submitted || university_name.touched) &&
                       university_name.invalid
-                    "
-                    >University is required</span
-                  >
-                </span></span
-              >
+                    ">University is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
-              <span>College</span>
+              <span>College <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select College"
-                      name="college_name"
-                      #college_name="ngModel"
-                      [(ngModel)]="college"
-                      required
-                    >
+                    <mat-select placeholder="Select College" name="college_name" #college_name="ngModel"
+                      [(ngModel)]="college" required>
                       <mat-option value="1">College1</mat-option>
                       <mat-option value="2">College2</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (discount_form.submitted || college_name.touched) &&
                       college_name.invalid
-                    "
-                    >College is required</span
-                  >
-                </span></span
-              >
+                    ">College is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
-              <span>Discount Percent</span>
+              <span>Discount Percent <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      required
-                      maxlength="5"
-                      appNumbersonly
-                      name="discount_percente_name"
-                      #discount_percente_name="ngModel"
-                      [(ngModel)]="discount_percente"
-                      matInput
-                      placeholder="Discount Percente"
-                      (blur)="formatValue(discount_percente)"
-                    />
+                    <input required maxlength="5" appNumbersonly name="discount_percente_name"
+                      #discount_percente_name="ngModel" [(ngModel)]="discount_percente" matInput
+                      placeholder="Discount Percente" (blur)="formatValue(discount_percente)" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (discount_form.submitted ||
                         discount_percente_name.touched) &&
                       discount_percente_name.invalid
-                    "
-                    >Discount Percent is required and max 2 digits
-                    allowed.</span
-                  >
+                    ">Discount Percent is required and max 2 digits
+                    allowed.</span>
                 </span>
               </span>
             </div>
             <div class="frm_dvs">
-              <span>Course</span>
+              <span>Course <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select Course"
-                      name="course_name"
-                      #course_name="ngModel"
-                      [(ngModel)]="course"
-                      required
-                    >
+                    <mat-select placeholder="Select Course" name="course_name" #course_name="ngModel"
+                      [(ngModel)]="course" required>
                       <mat-option value="1">MCI</mat-option>
                       <mat-option value="2">USMLE</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (discount_form.submitted || course_name.touched) &&
                       course_name.invalid
-                    "
-                    >Course is required</span
-                  >
-                </span></span
-              >
+                    ">Course is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
-              <span>Valid From Date</span>
+              <span>Valid From Date <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
-                  <mat-form-field
-                    appearance="outline"
-                    class="cal_wdth"
-                    color="accent"
-                  >
-                    <input
-                      placeholder="Select From Date"
-                      required
-                      name="valid_from_name"
-                      #valid_from_name="ngModel"
-                      [(ngModel)]="valid_from"
-                      matInput
-                      [matDatepicker]="picker"
-                      autocomplete="off"
-                      [min]="today_date"
-                    />
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker"
-                    ></mat-datepicker-toggle>
+                  <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+                    <input placeholder="Select From Date" required name="valid_from_name" #valid_from_name="ngModel"
+                      [(ngModel)]="valid_from" matInput [matDatepicker]="picker" autocomplete="off"
+                      [min]="today_date" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (discount_form.submitted || valid_from_name.touched) &&
                       valid_from_name.invalid
-                    "
-                    >From Date is required</span
-                  >
+                    ">From Date is required</span>
                 </span>
               </span>
             </div>
             <div class="frm_dvs">
-              <span>Valid To Date</span>
+              <span>Valid To Date <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
-                  <mat-form-field
-                    appearance="outline"
-                    class="cal_wdth"
-                    color="accent"
-                  >
-                    <input
-                      placeholder="Select To Date"
-                      required
-                      name="valid_to_name"
-                      #valid_to_name="ngModel"
-                      [(ngModel)]="valid_to"
-                      matInput
-                      [matDatepicker]="picker2"
-                      autocomplete="off"
-                      [min]="valid_from"
-                    />
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker2"
-                    ></mat-datepicker-toggle>
+                  <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+                    <input placeholder="Select To Date" required name="valid_to_name" #valid_to_name="ngModel"
+                      [(ngModel)]="valid_to" matInput [matDatepicker]="picker2" autocomplete="off" [min]="valid_from" />
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (discount_form.submitted || valid_to_name.touched) &&
                       valid_to_name.invalid
-                    "
-                    >To Date is required and it should be greater than from
-                    date</span
-                  >
+                    ">To Date is required and it should be greater than from
+                    date</span>
                 </span>
               </span>
             </div>
@@ -307,11 +181,7 @@
         <button mat-raised-button color="accent" class="float_right mr_1">
           Submit
         </button>
-        <button
-          mat-raised-button
-          class="float_right mr_1 gry_btn"
-          (click)="toggleModel()"
-        >
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">
           Close
         </button>
       </form>
@@ -321,22 +191,11 @@
 
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input
-        matInput
-        [(ngModel)]="search_box"
-        (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-        placeholder="Search"
-      />
+      <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''" placeholder="Search" />
       <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="accent"
-      class="float_right"
-      (click)="toggleModel()"
-      type="button"
-    >
+    <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">
       New Discount
     </button>
     <div class="rsp_tbl">
@@ -390,13 +249,10 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
           <td mat-cell *matCellDef="let element">
-            <span
-              matTooltip="Current Status is {{
+            <span matTooltip="Current Status is {{
                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-              }}"
-              class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}"
-              >{{ element.status == 1 ? "Active" : "Inactive" }}</span
-            >
+              }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+              "Inactive" }}</span>
           </td>
         </ng-container>
 
@@ -417,25 +273,16 @@
             <button mat-icon-button (click)="editDiscount(element)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button
-              title="{{
+            <button title="{{
                 element.status == 1
                   ? 'Click to deactivate'
                   : 'Click to activate'
-              }}"
-              mat-icon-button
-              mwlConfirmationPopover
-              [popoverTitle]="'Are you sure?'"
-              [popoverMessage]="
+              }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                 'are you sure to change status of <b>' +
                 element.title +
                 '</b> Discount'
-              "
-              placement="top"
-              (confirm)="deleteDiscount(element.pk_id, element.status)"
-              confirmButtonType="danger"
-              cancelButtonType="outline-secondary"
-            >
+              " placement="top" (confirm)="deleteDiscount(element.pk_id, element.status)" confirmButtonType="danger"
+              cancelButtonType="outline-secondary">
               <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
               <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
             </button>
@@ -444,48 +291,28 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        <tr class="mat-row" *matNoDataRow>
-          <td
-            style="text-align: center; margin: 20px"
-            class="mat-cell"
-            colspan="9"
-          >
+        <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="9">
             No Records Found
           </td>
         </tr>
       </table>
     </div>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons
-      (page)="getServerData($event)"
-    ></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>
-<div
-  class="cust_mdl_par cust_mdl_50p"
-  [ngClass]="{ cust_mdl_opn: edit_model_status }"
->
+<div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: edit_model_status }">
   <div class="cust_mdl_chl">
     <div class="pg_ttl">
       Discount Edit
       <span class="spacer"></span>
-      <button
-        type="button"
-        mat-icon-button
-        (click)="edit_model_status = !edit_model_status"
-      >
+      <button type="button" mat-icon-button (click)="edit_model_status = !edit_model_status">
         &#x2715;
       </button>
     </div>
     <div class="tbbd_bdy">
-      <form
-        id="edit_discount_form"
-        #edit_discount_form="ngForm"
-        name="edit_discount_form"
-        (ngSubmit)="edit_discount_form.valid && updateDiscount()"
-        novalidate
-      >
+      <form id="edit_discount_form" #edit_discount_form="ngForm" name="edit_discount_form"
+        (ngSubmit)="edit_discount_form.valid && updateDiscount()" novalidate>
         <div class="tbbd_bdy">
           <div class="grd_2c no_bxsdw">
             <div class="hgt_20"></div>
@@ -494,26 +321,14 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      maxlength="50"
-                      appAlphabetOnly
-                      required
-                      name="title_name_edit"
-                      [(ngModel)]="title"
-                      matInput
-                      placeholder="Title"
-                      #title_name_edit="ngModel"
-                    />
+                    <input maxlength="50" appAlphabetOnly required name="title_name_edit" [(ngModel)]="title" matInput
+                      placeholder="Title" #title_name_edit="ngModel" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_discount_form.submitted ||
                         title_name_edit.touched) &&
                       title_name_edit.invalid
-                    "
-                    >Title is required</span
-                  >
+                    ">Title is required</span>
                 </span>
               </span>
             </div>
@@ -522,146 +337,87 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select Country"
-                      name="country_edit"
-                      #country_edit="ngModel"
-                      [(ngModel)]="country_id"
-                      required
-                      (ngModelChange)="getStates()"
-                    >
-                      <mat-option
-                        *ngFor="let country of countrys"
-                        [value]="country['pk_id']"
-                        >{{ country["country_name"] }}</mat-option
-                      >
+                    <mat-select placeholder="Select Country" name="country_edit" #country_edit="ngModel"
+                      [(ngModel)]="country_id" required (ngModelChange)="getStates()">
+                      <mat-option *ngFor="let country of countrys" [value]="country['pk_id']">{{ country["country_name"]
+                        }}</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    *ngIf="
+                  <span *ngIf="
                       (edit_discount_form.submitted || country_edit.touched) &&
                       country_edit.invalid
-                    "
-                    class="prc_tltp"
-                    >Country is required</span
-                  >
-                </span></span
-              >
+                    " class="prc_tltp">Country is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
               <span>State</span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select State"
-                      #state_name_edit="ngModel"
-                      name="state_name_edit"
-                      [(ngModel)]="state"
-                      required
-                    >
-                      <mat-option
-                        *ngFor="let state of states"
-                        [value]="'' + state['id']"
-                        >{{ state["state_name"] }}
+                    <mat-select placeholder="Select State" #state_name_edit="ngModel" name="state_name_edit"
+                      [(ngModel)]="state" required>
+                      <mat-option *ngFor="let state of states" [value]="'' + state['id']">{{ state["state_name"] }}
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_discount_form.submitted ||
                         state_name_edit.touched) &&
                       state_name_edit.invalid
-                    "
-                    >State is required</span
-                  >
-                </span></span
-              >
+                    ">State is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
               <span>University</span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select University"
-                      name="university_name_edit"
-                      #university_name_edit="ngModel"
-                      [(ngModel)]="university"
-                      required
-                    >
+                    <mat-select placeholder="Select University" name="university_name_edit"
+                      #university_name_edit="ngModel" [(ngModel)]="university" required>
                       <mat-option value="1">University1</mat-option>
                       <mat-option value="2">university2</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_discount_form.submitted ||
                         university_name_edit.touched) &&
                       university_name_edit.invalid
-                    "
-                    >University is required</span
-                  >
-                </span></span
-              >
+                    ">University is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
               <span>College</span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select College"
-                      name="college_name_edit"
-                      #college_name_edit="ngModel"
-                      [(ngModel)]="college"
-                      required
-                    >
+                    <mat-select placeholder="Select College" name="college_name_edit" #college_name_edit="ngModel"
+                      [(ngModel)]="college" required>
                       <mat-option value="1">College1</mat-option>
                       <mat-option value="2">College2</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_discount_form.submitted ||
                         college_name_edit.touched) &&
                       college_name_edit.invalid
-                    "
-                    >College is required</span
-                  >
-                </span></span
-              >
+                    ">College is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
               <span>Discount Percent</span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      required
-                      maxlength="5"
-                      appNumbersonly
-                      name="discount_percente_name_edit"
-                      #discount_percente_name_edit="ngModel"
-                      [(ngModel)]="discount_percente"
-                      matInput
-                      placeholder="Discount Percente"
-                      (blur)="formatValue(discount_percente)"
-                    />
+                    <input required maxlength="5" appNumbersonly name="discount_percente_name_edit"
+                      #discount_percente_name_edit="ngModel" [(ngModel)]="discount_percente" matInput
+                      placeholder="Discount Percente" (blur)="formatValue(discount_percente)" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_discount_form.submitted ||
                         discount_percente_name_edit.touched) &&
                       discount_percente_name_edit.invalid
-                    "
-                    >Discount Percent is required and max 2 digits
-                    allowed.</span
-                  >
+                    ">Discount Percent is required and max 2 digits
+                    allowed.</span>
                 </span>
               </span>
             </div>
@@ -670,64 +426,35 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select
-                      placeholder="Select Course"
-                      name="course_name_edit"
-                      #course_name_edit="ngModel"
-                      [(ngModel)]="course"
-                      required
-                    >
+                    <mat-select placeholder="Select Course" name="course_name_edit" #course_name_edit="ngModel"
+                      [(ngModel)]="course" required>
                       <mat-option value="1">MCI</mat-option>
                       <mat-option value="2">USMLE</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_discount_form.submitted ||
                         course_name_edit.touched) &&
                       course_name_edit.invalid
-                    "
-                    >Course is required</span
-                  >
-                </span></span
-              >
+                    ">Course is required</span>
+                </span></span>
             </div>
             <div class="frm_dvs">
               <span>Valid From Date</span>
               <span>
                 <span class="err_tltp_par">
-                  <mat-form-field
-                    appearance="outline"
-                    class="cal_wdth"
-                    color="accent"
-                  >
-                    <input
-                      placeholder="Select From Date"
-                      required
-                      name="valid_from_name_edit"
-                      #valid_from_name_edit="ngModel"
-                      [(ngModel)]="valid_from"
-                      matInput
-                      [matDatepicker]="picker3"
-                      autocomplete="off"
-                      [min]="today_date"
-                    />
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker3"
-                    ></mat-datepicker-toggle>
+                  <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+                    <input placeholder="Select From Date" required name="valid_from_name_edit"
+                      #valid_from_name_edit="ngModel" [(ngModel)]="valid_from" matInput [matDatepicker]="picker3"
+                      autocomplete="off" [min]="today_date" />
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                     <mat-datepicker #picker3></mat-datepicker>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_discount_form.submitted ||
                         valid_from_name_edit.touched) &&
                       valid_from_name_edit.invalid
-                    "
-                    >From Date is required</span
-                  >
+                    ">From Date is required</span>
                 </span>
               </span>
             </div>
@@ -735,38 +462,18 @@
               <span>Valid To Date</span>
               <span>
                 <span class="err_tltp_par">
-                  <mat-form-field
-                    appearance="outline"
-                    class="cal_wdth"
-                    color="accent"
-                  >
-                    <input
-                      placeholder="Select To Date"
-                      required
-                      name="valid_to_name_edit"
-                      #valid_to_name_edit="ngModel"
-                      [(ngModel)]="valid_to"
-                      matInput
-                      [matDatepicker]="picker4"
-                      autocomplete="off"
-                      [min]="valid_from"
-                    />
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker4"
-                    ></mat-datepicker-toggle>
+                  <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+                    <input placeholder="Select To Date" required name="valid_to_name_edit" #valid_to_name_edit="ngModel"
+                      [(ngModel)]="valid_to" matInput [matDatepicker]="picker4" autocomplete="off" [min]="valid_from" />
+                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
                     <mat-datepicker #picker4></mat-datepicker>
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_discount_form.submitted ||
                         valid_to_name_edit.touched) &&
                       valid_to_name_edit.invalid
-                    "
-                    >To Date is required and it should be greater than from
-                    date</span
-                  >
+                    ">To Date is required and it should be greater than from
+                    date</span>
                 </span>
               </span>
             </div>
@@ -776,11 +483,7 @@
         <button mat-raised-button color="accent" class="float_right mr_1">
           Submit
         </button>
-        <button
-          mat-raised-button
-          class="float_right mr_1 gry_btn"
-          (click)="edit_model_status = !edit_model_status"
-        >
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="edit_model_status = !edit_model_status">
           Close
         </button>
       </form>

@@ -4,9 +4,11 @@
     <div class="brd_crm">Proceum &raquo; <strong>Settings</strong></div>
     <div class="pg_ttl">Settings Menu</div>
     <div class="hgt_20"></div>
-    <div class="grd_2c">
+    <div class="grd_2c"> <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked
+            fields are mandatory</span>
+        <span class="hgt_20"></span>
         <div class="tc_w50p">
-            <span class="required">Fields marked with * are mandatory. </span>
+
             <form #settings_form="ngForm" id="settings_form" name="settings_form" (ngSubmit)="createSettings()"
                 novalidate>
                 <div class="frm_dvs">
@@ -19,7 +21,7 @@
                         <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
                             <input type="file" #fileInput mat-raised-button color="accent" required accept="image/*"
                                 (change)="fileEvent($event)" style="display:none;" />
-                        </button><br/>
+                        </button><br />
                         <span style="color:maroon">{{imgMessage}}</span>
                         <span class="hgt_20"></span>
                     </span>
@@ -27,30 +29,33 @@
                 <div class="frm_dvs">
                     <span>Organization Name <span class="required">*</span></span>
                     <span>
+                        <span class="err_tltp_par">
                         <mat-form-field appearance="outline">
                             <input matInput placeholder="Organization Name" autocomplete="off" required
                                 name="organization_name" [(ngModel)]="settings.organization_name"
                                 #organization_name="ngModel" ngModel>
                         </mat-form-field>
+                        <span class="prc_tltp">Organization Name Required</span>
+                    </span>
                     </span>
                 </div>
                 <div class="frm_dvs">
                     <span>Contact Name <span class="required">*</span></span>
                     <span>
+                        <span class="err_tltp_par">
                         <mat-form-field appearance="outline">
                             <input matInput placeholder="Contact Name" autocomplete="off" required name="contact_name"
                                 [(ngModel)]="settings.contact_name" #contact_name="ngModel" ngModel
                                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))'>
                         </mat-form-field>
+                        <span class="prc_tltp">Contact Name Required</span>
+                    </span>
                     </span>
                 </div>
                 <div class="frm_dvs">
                     <span>GST Number <span class="required">*</span></span>
                     <span>
-                        <span [ngClass]="{
-                    err_tltp_par:
-                      (settings_form.submitted && gstin_number.errors?.pattern )
-                  }">
+                        <span class="err_tltp_par">
                             <mat-form-field appearance="outline">
                                 <input matInput placeholder="GST Number ( Ex:11AAAAA0000A1Z5 )" autocomplete="off"
                                     minlength="15" maxlength="15" required name="gstin_number"
@@ -58,22 +63,22 @@
                                     onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))'
                                     pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$">
                             </mat-form-field>
-                            <span class="prc_tltp">Please enter valid GST Number ( Ex:11AAAAA0000A1Z5 )</span>
+                            <span class="prc_tltp">GST Number Required ( Ex:11AAAAA0000A1Z5 )</span>
                         </span>
                     </span>
                 </div>
                 <div class="frm_dvs">
                     <span>Contact Phone 1 <span class="required">*</span></span>
                     <span>
-                        <span [ngClass]="{ err_tltp_par: (settings_form.submitted && contact_number_1.errors?.pattern ) }">
+                        <span class="err_tltp_par">
                             <mat-form-field appearance="outline">
-                                <input matInput placeholder="Contact Phone 1 ( Ex:9020345765 )" autocomplete="off" required
-                                    name="contact_number_1" minlength="10" maxlength="10"
+                                <input matInput placeholder="Contact Phone 1 ( Ex:9020345765 )" autocomplete="off"
+                                    required name="contact_number_1" minlength="10" maxlength="10"
                                     [(ngModel)]="settings.contact_number_1" #contact_number_1="ngModel" ngModel
                                     onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'
                                     pattern="^[6-9]{1}[0-9]{9}$">
                             </mat-form-field>
-                            <span class="prc_tltp">Please enter valid Phone Number ( Ex:9020345765 )</span>
+                            <span class="prc_tltp">Phone Number Required</span>
                         </span>
                     </span>
                 </div>
@@ -82,25 +87,22 @@
                     <span>
                         <mat-form-field appearance="outline">
                             <input matInput placeholder="Contact Phone 2" autocomplete="off" name="contact_number_2"
-                                [(ngModel)]="settings.contact_number_2" #contact_number_2="ngModel" ngModel maxlength="10"
-                                onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
+                                [(ngModel)]="settings.contact_number_2" #contact_number_2="ngModel" ngModel
+                                maxlength="10" onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
                         </mat-form-field>
                     </span>
                 </div>
                 <div class="frm_dvs">
                     <span>Contact Email 1 <span class="required">*</span></span>
                     <span>
-                        <span [ngClass]="{
-                        err_tltp_par:
-                          (settings_form.submitted && contact_email_1.errors?.pattern )
-                      }">
+                        <span class="err_tltp_par">
                             <mat-form-field appearance="outline">
-                                <input matInput placeholder="Email ( Ex:samplw123@gmail.com )" autocomplete="off" required
-                                    name="contact_email_1" [(ngModel)]="settings.contact_email_1"
+                                <input matInput placeholder="Email ( Ex:sample123@gmail.com )" autocomplete="off"
+                                    required name="contact_email_1" [(ngModel)]="settings.contact_email_1"
                                     #contact_email_1="ngModel" ngModel maxlength="30"
                                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
                             </mat-form-field>
-                            <span class="prc_tltp">Please enter valid Email ( Ex:samplw123@gmail.com )</span>
+                            <span class="prc_tltp">Email ID Required</span>
                         </span>
                     </span>
                 </div>
@@ -127,38 +129,48 @@
                 <div class="frm_dvs">
                     <span class="algn_s_fs">Full Address <span class="required">*</span></span>
                     <span>
+                        <span class="err_tltp_par">
                         <mat-form-field appearance="outline">
                             <textarea matInput rows="8" name="full_address" required
                                 placeholder="Please enter Your Address" [(ngModel)]="settings.full_address"
                                 #full_address="ngModel" ngModel></textarea>
                         </mat-form-field>
+                        <span class="prc_tltp">Address Required</span>
+                    </span>
                     </span>
                 </div>
                 <div class="frm_dvs">
                     <span>Theme/Color <span class="required">*</span></span>
                     <span>
+                        <span class="err_tltp_par">
                         <mat-form-field>
                             <input matInput [ngxMatColorPicker]="picker" readonly required name="theme_color"
                                 [(ngModel)]="settings.theme_color" #theme_color="ngModel" ngModel>
                             <ngx-mat-color-toggle matSuffix [for]="picker"></ngx-mat-color-toggle>
                             <ngx-mat-color-picker #picker [touchUi]="touchUi" [color]="color"></ngx-mat-color-picker>
                         </mat-form-field>
+                        <span class="prc_tltp">Theme Color Required</span>
+                        </span>
                     </span>
                 </div>
                 <div class="frm_dvs">
                     <span>List View Page Limit <span class="required">*</span></span>
                     <span>
+                        <span class="err_tltp_par">
                         <mat-form-field appearance="outline">
                             <input matInput type="number" autocomplete="off" placeholder="List View Page Limit eg:10"
-                                min="1" minlength="1" maxlength="2" required name="list_view_limit" 
+                                min="1" minlength="1" maxlength="2" required name="list_view_limit"
                                 [(ngModel)]="settings.list_view_limit" #list_view_limit="ngModel" ngModel
                                 onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
                         </mat-form-field>
+                        <span class="prc_tltp">Page Limit Required</span>
+                    </span>
                     </span>
                 </div>
                 <div class="frm_dvs">
                     <span>Date Format <span class="required">*</span></span>
                     <span>
+                        <span class="err_tltp_par">
                         <mat-form-field appearance="outline" color="accent">
                             <mat-select matInput name="date_format" [(ngModel)]="settings.date_format"
                                 #date_format="ngModel" ngModel required placeholder="select dateformat">
@@ -183,11 +195,14 @@
                                 <mat-option value="M,d,y">M,d,y</mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <span class="prc_tltp">Date Format Required</span>
+                    </span>
                     </span>
                 </div>
                 <div class="frm_dvs">
                     <span>Time Format <span class="required">*</span></span>
                     <span>
+                        <span class="err_tltp_par">
                         <mat-form-field appearance="outline" color="accent">
                             <mat-select required name="time_format" [(ngModel)]="settings.time_format"
                                 placeholder="select time format" #time_format="ngModel" ngModel>
@@ -195,18 +210,23 @@
                                 <mat-option value="H:i:s A">24 Hr (Ex: 14:20:02 PM )</mat-option>
                             </mat-select>
                         </mat-form-field>
+                        <span class="prc_tltp">Time format Required</span>
+                    </span>
                     </span>
                 </div>
-                <div class="text-center">
-                    <button type="submit" mat-raised-button color="accent">Save</button>
+
+                <div class="frm_dvs">
+                    <span>&nbsp;</span>
+                    <span><button type="submit" mat-raised-button color="accent">Save</button></span>
                 </div>
+
             </form>
         </div>
 
         <div class="tc_w50p">
             <!-- <form #system_mode_form="ngForm" id="system_mode_form" name="system_mode_form"
                 (ngSubmit)="system_mode_form.valid && updateSysMode()" novalidate> -->
-                <form>
+            <form>
                 <div class="frm_dvs">
                     <span>System Mode <span class="required">*</span></span>
                     <span>
@@ -216,9 +236,12 @@
                         </mat-radio-group>
                     </span>
                 </div>
-                <div class="text-center">
-                    <button mat-raised-button color="accent" (click)="toggleModel()">Save</button>
+                <hr>
+                <div class="frm_dvs">
+                    <span>&nbsp;</span>
+                    <span><button mat-raised-button color="accent" (click)="toggleModel()">Save</button></span>
                 </div>
+
             </form>
         </div>
     </div>
@@ -233,19 +256,16 @@
             <button mat-icon-button (click)="toggleModel()" class="float_right">&#x2715;</button>
         </div>
         <div class="tbbd_bdy">
-
             <div class="hgt_20"></div>
-                <div class="grd_2c no_bxsdw">
-                    <span style="float:left; width:20%;">
-                        <mat-icon style="width:30%;height:30%">help_outline</mat-icon>
-                    </span>   
-                <span style="float:left;  width:80%;">
-                    <span><b>Do you want to turn the system into maintanence Mode?</b></span><br/>
+            <mat-icon class="float_left w_50px">help_outline</mat-icon>
+              <div class="float_left w_80p ml_1"> 
+                    <span><b>Do you want to turn the system into maintanence Mode?</b></span>
+                    <div class="hgt_10"></div>
                     <span>System will not be accessable for the online users in Maintanence Mode.</span>
-                </span>
                 </div>
-                <hr>
-                <button mat-raised-button color="accent" class="float_right mr_1" (click)="updateSysMode()">Ok</button>
+           <div class="hgt_20"></div>
+            <hr>
+            <button mat-raised-button color="accent" class="float_right mr_1" (click)="updateSysMode()">Ok</button>
             <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">Cancel</button>
             <div class="hgt_20"></div>
         </div>
