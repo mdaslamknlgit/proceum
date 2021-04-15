@@ -11,12 +11,9 @@
       <span mat-list-item class="tp_rt_mn">Register Trail</span>
       <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
       <span mat-list-item [matMenuTriggerFor]="appMenu" class="tp_rt_mn" *ngFor="let menu of menus" (click)="changeSubmenu(menu.pk_id)">{{menu.name}}</span>
-      <mat-menu #appMenu="matMenu">
+      <mat-menu #appMenu="matMenu" >
         <button mat-menu-item *ngFor="let page of newPages" routerLink="/mcicirriculam/{{page.pk_id}}" routerLinkActive="active" >{{page.name}}</button>
       </mat-menu>
-        
-
-
     </div>
     <div routerLink="/login" class="lg_inbtn">
       <mat-icon>login</mat-icon>Login

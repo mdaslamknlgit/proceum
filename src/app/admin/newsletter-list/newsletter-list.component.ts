@@ -13,7 +13,7 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./newsletter-list.component.scss']
 })
 export class NewsletterListComponent implements OnInit  {
-  displayedColumns: string[] = ['id', 'email', 'status', 'created_at','action'];
+  displayedColumns: string[] = ['id', 'email_address', 'status', 'created_at','action'];
   dataSource:any=[];
   apiURL:string;
   public num_newsletters: number = 0;
@@ -70,10 +70,10 @@ export class NewsletterListComponent implements OnInit  {
     this.applyFilters( );
   }
   
-  clearSearchData(){
-    this.search = undefined;
-    this.doSearchFilter();
-  }
+  // clearSearchData(){
+  //   this.search = undefined;
+  //   this.doSearchFilter();
+  // }
 
   public doSearchFilter() {
     var val=(this.search == undefined ||this.search == "")?'':'/'+this.search;
@@ -87,6 +87,7 @@ export class NewsletterListComponent implements OnInit  {
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['newsletters']);
       this.dataSource.sort = this.sort;
+      this.num_newsletters=res['newsletters_count'];
     });
   }
 
@@ -95,6 +96,7 @@ export class NewsletterListComponent implements OnInit  {
 		if (this.sort_by.direction != '')
 			this.applyFilters( );
 	}
+
 }
 
 export interface NewsLetter {

@@ -7,7 +7,7 @@
     <div class="grd_2c">
         <div class="tc_w50p">
             <span class="required">Fields marked with * are mandatory. </span>
-            <form #settings_form="ngForm" id="settings_form" name="settings_form" (ngSubmit)="createSettings()"
+            <form #settings_form="ngForm" id="settings_form" name="settings_form" (ngSubmit)="settings_form.valid && createSettings()"
                 novalidate>
                 <div class="frm_dvs">
                     <span>System Logo <span class="required">*</span></span>
@@ -19,7 +19,8 @@
                         <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
                             <input type="file" #fileInput mat-raised-button color="accent" required accept="image/*"
                                 (change)="fileEvent($event)" style="display:none;" />
-                        </button><br/>
+                        </button>
+                        <span class="hgt_20"></span>
                         <span style="color:maroon">{{imgMessage}}</span>
                         <span class="hgt_20"></span>
                     </span>

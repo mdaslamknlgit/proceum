@@ -12,11 +12,12 @@
       <span class="search"></span>
       <mat-form-field appearance="outline">
         <input matInput  autocomplete="off" placeholder="Search" [(ngModel)]="search"/>
-        <button mat-button *ngIf="search" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchData()">
+        <button matSuffix mat-icon-button class="cursor-pointer"  matTooltip="click for Search" (click)="doSearchFilter()"><mat-icon  class="cursor-pointer">search</mat-icon></button>
+        <!-- <button mat-button *ngIf="search" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchData()">
           <mat-icon>close</mat-icon>
-        </button>
+        </button> -->
     </mat-form-field>
-    <button mat-raised-button class="search_buttton cursor-pointer"  matTooltip="click for Search" (click)="doSearchFilter()"><mat-icon  class="cursor-pointer">search</mat-icon></button>
+    
       
     <!-- <mat-form-field appearance="outline">
       <input matInput  (keyup)="doFilter($event.target.value)" placeholder="Search" />
@@ -29,7 +30,7 @@
       <mat-icon>description</mat-icon>
     </a>
   </div>
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
       <!-- Position Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No.</th>
@@ -38,9 +39,9 @@
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="email">
+      <ng-container matColumnDef="email_address">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>  
-        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.email_address }}</td>
       </ng-container>
 
       <ng-container matColumnDef="status">
@@ -51,7 +52,7 @@
       </ng-container>
       
       <ng-container matColumnDef="created_at">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subscription Date</th>  
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header>Subscription Date</th>  
         <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
       </ng-container>
 
