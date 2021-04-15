@@ -21,7 +21,7 @@
             }}"
           >
             <input
-              type="text"
+              type="email"
               [(ngModel)]="login.email"
               focus
               name="user_email"
@@ -34,18 +34,23 @@
             <span class="material-icons mail_icon">mail_outline</span>
             <span
               class="prc_tltp"
-              *ngIf="
-                (login.password == '' ||
-                  login.email == '' ||
-                  user_email.invalid) &&
-                login_id.submitted
-              "
-              >{{ message }}</span
+              *ngIf="user_email.invalid && login_id.submitted"
+              >Invalid Email</span
             >
           </div>
           <div class="psswrd">
-            <input [type]="password_hide ? 'password' : 'text'" required [(ngModel)]="login.password" name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel/>
-            <span class="material-icons mail_icon" (click)="passwordFun()">{{password_hide ? 'visibility_off' : 'visibility'}}</span>
+            <input
+              [type]="password_hide ? 'password' : 'text'"
+              required
+              [(ngModel)]="login.password"
+              name="user_password"
+              #user_password="ngModel"
+              placeholder="Enter Password"
+              ngModel
+            />
+            <span class="material-icons mail_icon" (click)="passwordFun()">{{
+              password_hide ? "visibility_off" : "visibility"
+            }}</span>
           </div>
           <!-- <div
             class="prc_hnt"

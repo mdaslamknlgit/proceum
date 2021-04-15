@@ -55,7 +55,7 @@ export class CurriculamComponent implements OnInit {
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['curriculums']);
-        //this.dataSource.paginator = this.paginator;
+        this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
         this.toster.info(res['message'], 'Info');
