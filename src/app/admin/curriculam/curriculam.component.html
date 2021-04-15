@@ -33,7 +33,6 @@
                       [(ngModel)]="curriculum_name"
                       #curriculum_name_name="ngModel"
                       name="curriculum_name_name"
-                      pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
                       placeholder="Provide Curiculum Name"
                       required
                     />
@@ -47,8 +46,7 @@
                       curriculum_name_name.invalid
                     "
                   >
-                    Curriculum Name is required and allowed Only Alphabets and
-                    spaces</span
+                    Curriculum Name is required</span
                   >
                 </span>
               </span>
@@ -69,7 +67,6 @@
                     <input
                       matInput
                       name="ref_{{ step }}"
-                      pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
                       [(ngModel)]="steps[step]"
                       #ref_{{step}}="ngModel"
                       required
@@ -80,8 +77,7 @@
                     class="prc_tltp"
                     *ngIf="curriculum_form.submitted && 'ref_' + step.invalid"
                   >
-                    Level {{ indexOfelement + 1 }} is required and allowed only
-                    Alphabets and spaces</span
+                    Level {{ indexOfelement + 1 }} is required</span
                   >
                 </span>
                 <button
@@ -111,6 +107,13 @@
           <hr />
           <button mat-raised-button color="accent" class="float_right mt_0">
             Submit
+          </button>
+          <button
+            mat-raised-button
+            class="float_right mr_1 gry_btn"
+            (click)="toggleModel()"
+          >
+            Close
           </button>
           <div class="hgt_20"></div>
         </form>
@@ -387,7 +390,6 @@
                     [(ngModel)]="curriculum_name"
                     #curriculum_name_name_edit="ngModel"
                     name="curriculum_name_name_edit"
-                    pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
                     placeholder="Provide Curiculum Name"
                     required
                   />
@@ -401,8 +403,7 @@
                     curriculum_name_name_edit.invalid
                   "
                 >
-                  Curriculum Name is required and allowed only Alphabets and
-                  spaces</span
+                  Curriculum Name is required</span
                 >
               </span>
             </span>
@@ -425,7 +426,6 @@
                   <input
                     matInput
                     name="ref_edit_{{ step }}"
-                    pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
                     [(ngModel)]="steps[step]"
                     #ref_edit_{{step}}="ngModel"
                     required
@@ -440,8 +440,7 @@
                     steps[step] == ''
                   "
                 >
-                  Level {{ indexOfelement + 1 }} is required and allowed only
-                  Alphabets and spaces</span
+                  Level {{ indexOfelement + 1 }} is required</span
                 >
               </span>
               <button
@@ -471,6 +470,13 @@
         <hr />
         <button mat-raised-button color="accent" class="mt_0 float_right">
           Submit
+        </button>
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="edit_model_status = !edit_model_status"
+        >
+          Close
         </button>
       </form>
       <div class="hgt_20"></div>
