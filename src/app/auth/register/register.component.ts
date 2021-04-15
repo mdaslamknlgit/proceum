@@ -93,10 +93,18 @@ export class RegisterComponent implements OnInit {
                   sessionStorage.setItem('user', json_user);
                   if (res['data']['user']['role'] == 1) {
                     //admin
-                    this.route.navigate(['/admin/dashboard']);
+                    let redirect_url = sessionStorage.getItem('_redirect_url')
+                      ? sessionStorage.getItem('_redirect_url')
+                      : '/admin/dashboard';
+                    sessionStorage.removeItem('_redirect_url');
+                    this.route.navigate([redirect_url]);
                   } else if (res['data']['user']['role'] == 2) {
                     //student
-                    this.route.navigate(['/student/dashboard']);
+                    let redirect_url = sessionStorage.getItem('_redirect_url')
+                      ? sessionStorage.getItem('_redirect_url')
+                      : '/student/dashboard';
+                    sessionStorage.removeItem('_redirect_url');
+                    this.route.navigate([redirect_url]);
                   }
                 }else{
                   this.is_show = true;

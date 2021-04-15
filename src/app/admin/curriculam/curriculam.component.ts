@@ -34,6 +34,7 @@ export class CurriculamComponent implements OnInit {
   popoverMessage = '';
   confirmClicked = false;
   cancelClicked = false;
+  search_text = '';
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -157,7 +158,8 @@ export class CurriculamComponent implements OnInit {
     });
   }
   public getServerData(event?: PageEvent) {}
-  public doFilter(value: string) {
+  public doFilter() {
+    let value = this.search_text;
     this.dataSource.filter = value.trim().toLocaleLowerCase();
   }
   public navigateTo(curriculum_id) {
