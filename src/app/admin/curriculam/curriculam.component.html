@@ -48,13 +48,9 @@
                     <input matInput name="ref_{{ step }}" [(ngModel)]="steps[step]" #ref_{{step}}="ngModel" required
                       placeholder="Provide Level {{ indexOfelement + 1 }} Label" />
                   </mat-form-field>
-                  <<<<<<< HEAD <span class="prc_tltp" *ngIf="curriculum_form.submitted && 'ref_' + step.invalid">
-                    Level {{ indexOfelement + 1 }} is required
-                </span>
-                =======
+                  
                 <span class="prc_tltp" *ngIf="curriculum_form.submitted && !steps[step]">
-                  Level {{ indexOfelement + 1 }} is required</span>
-                >>>>>>> 3f04206a9925c591c969a3ddb53a121ad09c2f86
+                  Level {{ indexOfelement + 1 }} is required</span> 
               </span>
               <button mat-raised-button type="button" *ngIf="last" (click)="addStep()" color="accent" class="ml_1">
                 +
@@ -185,12 +181,9 @@
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <<<<<<< HEAD <input matInput (keyup)="doFilter($event.target.value)" placeholder="Search" />
-      <mat-icon matSuffix>search</mat-icon>
-      =======
+     
       <input matInput [(ngModel)]="search_text" (keyup)="$event.keyCode == 13 ? doFilter() : ''" placeholder="Search" />
-      <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
-      >>>>>>> 3f04206a9925c591c969a3ddb53a121ad09c2f86
+      <mat-icon (click)="doFilter()" matSuffix>search</mat-icon> 
     </mat-form-field>
 
     <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">
