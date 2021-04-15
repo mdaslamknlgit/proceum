@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgForm } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
+
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
@@ -21,7 +21,6 @@ export class SettingsComponent implements OnInit {
   color: string;
   touchUi;
   url: any = "./assets/images/ProceumLogo.png";
-  question: any = "./assets/images/question.png";
   src: any;
   public model_status = false;
   systemMode: any;
@@ -132,6 +131,7 @@ export class SettingsComponent implements OnInit {
         this.toaster.success(res['message'], 'Success', {
           progressBar: true,
         });
+        this.src = this.url;
         (<HTMLFormElement>document.getElementById('settings_form')).reset();
       } else {
         this.toaster.error(res['message'], 'Error', { progressBar: true });
@@ -172,6 +172,7 @@ export class SettingsComponent implements OnInit {
           progressBar: true,
         });
         (<HTMLFormElement>document.getElementById('settings_form')).reset();
+        this.getSystemMode();
       } else {
         this.toaster.error(res['message'], 'Error', { progressBar: true });
       }

@@ -97,8 +97,8 @@
                       }">
                             <mat-form-field appearance="outline">
                                 <input matInput placeholder="Email ( Ex:samplw123@gmail.com )" autocomplete="off" required
-                                    name="contact_email_1" [(ngModel)]="settings.contact_email_1"
-                                    #contact_email_1="ngModel" ngModel maxlength="30"
+                                    name="contact_email_1" [(ngModel)]="settings.contact_email_1" 
+                                    #contact_email_1="ngModel" ngModel maxlength="254"
                                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
                             </mat-form-field>
                             <span class="prc_tltp">Please enter valid Email ( Ex:samplw123@gmail.com )</span>
@@ -110,7 +110,7 @@
                     <span>
                         <mat-form-field appearance="outline">
                             <input matInput placeholder="Contact Email 2" autocomplete="off" name="contact_email_2"
-                                [(ngModel)]="settings.contact_email_2" #contact_email_2="ngModel" ngModel
+                                [(ngModel)]="settings.contact_email_2" #contact_email_2="ngModel" ngModel maxlength="254"
                                 pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
                         </mat-form-field>
                     </span>
@@ -151,7 +151,7 @@
                     <span>
                         <mat-form-field appearance="outline">
                             <input matInput type="number" autocomplete="off" placeholder="List View Page Limit eg:10"
-                                min="1" minlength="1" maxlength="2" required name="list_view_limit" 
+                                min="1" minlength="1" maxlength="3" required name="list_view_limit" 
                                 [(ngModel)]="settings.list_view_limit" #list_view_limit="ngModel" ngModel
                                 onkeypress='return ((event.charCode >= 47 && event.charCode <= 58))'>
                         </mat-form-field>
@@ -213,7 +213,7 @@
                     <span>
                         <mat-radio-group name="mode" [(ngModel)]="systemMode" ngModel required>
                             <mat-radio-button value="live">Live Mode</mat-radio-button>
-                            <mat-radio-button value="maintanence">Maintanence Mode</mat-radio-button>
+                            <mat-radio-button value="maintenence">Maintenance Mode</mat-radio-button>
                         </mat-radio-group>
                     </span>
                 </div>
@@ -247,7 +247,7 @@
                 </div>
                 <hr>
                 <button mat-raised-button color="accent" class="float_right mr_1" (click)="updateSysMode()">Ok</button>
-            <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">Cancel</button>
+            <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">Close</button>
             <div class="hgt_20"></div>
         </div>
 
