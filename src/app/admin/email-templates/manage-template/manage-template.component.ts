@@ -3,6 +3,8 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CommonService } from 'src/app/services/common.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+import { UploadAdapter } from 'src/app/admin/custom-pages/UploadAdapter';
 
 @Component({
   selector: 'app-create',
@@ -34,6 +36,15 @@ export class ManageTemplateComponent implements OnInit {
     let param = { id: this.data.id };
     this.getTemplate(param);
   }
+
+  onReady(eventData) {
+    let apiUrl = environment.apiUrl;
+    eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
+        var data =new UploadAdapter(loader,apiUrl+'upload-image');
+        return data;
+    };
+  }
+
   getTemplate(data) {
     if (data.id > 0) {
       this.title = 'Edit Template';
@@ -55,6 +66,7 @@ export class ManageTemplateComponent implements OnInit {
     }
   }
   submitTemplate() {
+    console.log(this.template.template );
     if (this.template.template == '') {
       this.toaster.error('Template content is required', 'Error', {
         progressBar: true,
