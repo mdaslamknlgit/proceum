@@ -10,8 +10,8 @@
     <div>
       <span class="search"></span>
       <mat-form-field appearance="outline">
-        <input matInput  autocomplete="off" placeholder="Search" [(ngModel)]="search"/>
-        <button matSuffix mat-icon-button class="cursor-pointer"  matTooltip="click for Search" (click)="doSearchFilter()"><mat-icon  class="cursor-pointer">search</mat-icon></button>
+        <input matInput  autocomplete="off" (keyup)="$event.keyCode == 13 ?doSearchFilter() : ''" placeholder="Search" [(ngModel)]="search"/>
+        <button matSuffix mat-icon-button class="cursor-pointer"  ><mat-icon >search</mat-icon></button>
         <!-- <button mat-button *ngIf="search" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearchData()">
           <mat-icon>close</mat-icon>
         </button> -->
