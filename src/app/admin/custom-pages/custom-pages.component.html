@@ -4,7 +4,8 @@
     <div class="brd_crm">Proceum &raquo; <strong>Custom Page</strong></div>
     <div class="pg_ttl">Custom Page</div>
     <div class="hgt_20"></div>
-<form #custom_page_form="ngForm" id="custom_page_form" name="custom_page_form" (ngSubmit)="custom_page_form.valid && createCustomPage()" novalidate>
+    <form #custom_page_form="ngForm" id="custom_page_form" name="custom_page_form"
+        (ngSubmit)="custom_page_form.valid && createCustomPage()" novalidate>
         <div class="grd_2c">
             <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked fields are
                 mandatory</span>
@@ -23,24 +24,24 @@
                             </mat-select>
                         </mat-form-field>
                     </span>
-<<<<<<< HEAD
-                    <span class="mx_1" *ngIf="isMenuDisplay">(OR)</span>
+                    <span class="mx_1" *ngIf="isMenuDisplay">(OR)
+                    </span>
                     <span *ngIf="isMenuDisplay" class="err_tltp_par">
-=======
-                    <span class="mx_1"  *ngIf="isMenuDisplay">(OR)</span>
-                    <span *ngIf="isMenuDisplay">
->>>>>>> 463fb4067f8d11d47e8b4acdd6e947352a3024df
+
+
                         <mat-form-field appearance="outline">
-                            <input matInput placeholder="Provide New Menu Name" autocomplete="off" [required]="isMenuRequired"
-                                name="new_menu_name" [(ngModel)]="customPage.new_menu_name" #new_menu_name="ngModel"
-                                ngModel>
-                                <button mat-button *ngIf="customPage.new_menu_name" matSuffix mat-icon-button aria-label="Clear" (click)="customPage.new_menu_name=''">
-                                    <mat-icon>close</mat-icon>
-                                  </button>
+                            <input matInput placeholder="Provide New Menu Name" autocomplete="off"
+                                [required]="isMenuRequired" name="new_menu_name" [(ngModel)]="customPage.new_menu_name"
+                                #new_menu_name="ngModel" ngModel>
+                            <button mat-button *ngIf="customPage.new_menu_name" matSuffix mat-icon-button
+                                aria-label="Clear" (click)="customPage.new_menu_name=''">
+                                <mat-icon>close</mat-icon>
+                            </button>
                         </mat-form-field>
                         <span class="prc_tltp">New Menu Name Required</span>
+
                     </span>
-                </span>
+                    </span>
             </div>
             <div class="frm_dvs">
                 <span>Page Name <span class="required">*</span></span>
@@ -57,20 +58,18 @@
                         </mat-form-field>
                     </span>
                     <span class="mx_1" *ngIf="isPageDisplay">(OR)</span>
-<<<<<<< HEAD
-
                     <span *ngIf="isPageDisplay" class="err_tltp_par">
 
-=======
-                    <span *ngIf="isPageDisplay">
->>>>>>> 463fb4067f8d11d47e8b4acdd6e947352a3024df
+
+
                         <mat-form-field appearance="outline">
-                            <input matInput placeholder="Provide New Page Name" [required]="isRequired" autocomplete="off"
-                                name="new_page_name" [(ngModel)]="customPage.new_page_name" #new_Page_name="ngModel"
-                                ngModel>
-                                <button mat-button *ngIf="customPage.new_page_name" matSuffix mat-icon-button aria-label="Clear" (click)="customPage.new_page_name=''">
-                                    <mat-icon>close</mat-icon>
-                                  </button>
+                            <input matInput placeholder="Provide New Page Name" [required]="isRequired"
+                                autocomplete="off" name="new_page_name" [(ngModel)]="customPage.new_page_name"
+                                #new_Page_name="ngModel" ngModel>
+                            <button mat-button *ngIf="customPage.new_page_name" matSuffix mat-icon-button
+                                aria-label="Clear" (click)="customPage.new_page_name=''">
+                                <mat-icon>close</mat-icon>
+                            </button>
                         </mat-form-field>
                         <span class="prc_tltp">New Page Name Required</span>
                     </span>
@@ -79,7 +78,6 @@
             <div class="frm_dvs">
                 <span>Page Content <span class="required">*</span></span>
                 <span>
-<<<<<<< HEAD
                     <span class="err_tltp_par">
                         <ckeditor (ready)="onReady($event)" id="editor"
                             [config]="{ placeholder: 'Type the Page content here!' }" required
@@ -87,16 +85,8 @@
                             [editor]="Editor">
                         </ckeditor>
                         <span class="prc_tltp">Page content is required</span>
-=======
-                    <span [ngClass]="{
-                        err_tltp_par:
-                          (custom_page_form.submitted && Page_content.errors?.required )
-                      }">
-                    <ckeditor (ready)="onReady($event)" id="editor" [config]="{ placeholder: 'Type the Page content here!' }"
-                        required [(ngModel)]="customPage.Page_content" ngModel #Page_content="ngModel" name="Page_content" [editor]="Editor">
-                    </ckeditor>
-                    <span class="prc_tltp">Page content is required</span>
->>>>>>> 463fb4067f8d11d47e8b4acdd6e947352a3024df
+
+
                     </span>
                 </span>
             </div>
@@ -115,7 +105,7 @@
                 <span>&nbsp;</span>
                 <span><button type="submit" mat-raised-button color="accent">Save</button></span>
             </div>
-           
+
         </div>
     </form>
 </div>
