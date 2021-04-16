@@ -11,7 +11,7 @@ import { SocialAuthService, GoogleLoginProvider, SocialUser,FacebookLoginProvide
 })
 export class RegisterComponent implements OnInit {
   socialUser: SocialUser;
-  register: Register = { first_name:'', last_name:'', email: '', password: '', confirm_pwd: '',register_type:'' };
+  register: Register = { first_name:'', last_name:'', email: '',  phone:'',provider:'',id:'', password: '', confirm_pwd: '',register_type:'' };
   public message: string = 'Required data is missing';
   public email_check: boolean = false;
   public password_check: boolean = false;
@@ -33,6 +33,8 @@ export class RegisterComponent implements OnInit {
         this.register.password = 'Proceum@123' ;
         this.register.confirm_pwd = 'Proceum@123';
         this.register.register_type = 'SL';
+        this.register.provider =this.socialUser.provider;
+        this.register.id = this.socialUser.id;
         this.doRegistration();
       }
     });
@@ -80,6 +82,8 @@ export class RegisterComponent implements OnInit {
               password: this.register.password,
               role:2,
               register_type:this.register.register_type,
+              provider :this.register.provider,
+              id: this.register.id,
               domain:this.domain
             };
             this.http.register(params).subscribe((res: Response) => {
@@ -110,7 +114,7 @@ export class RegisterComponent implements OnInit {
                   this.is_show = true;
                   // this.toastr.success(res.message, 'Success', { closeButton: true });
 
-                  this.register = { first_name:'', last_name:'', email: '', password: '', confirm_pwd: '',register_type:'' };
+                  this.register = { first_name:'', last_name:'', email: '',  phone:'',provider:'',id:'', password: '', confirm_pwd: '',register_type:'' };
                 }
                 
               }
@@ -164,6 +168,9 @@ export interface Register {
   first_name:string;
   last_name:string;
   email: string;
+  phone:any;
+  provider:any
+  id:any;
   password: any;
   confirm_pwd:any;
   register_type:any;

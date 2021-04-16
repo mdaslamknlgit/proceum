@@ -19,6 +19,9 @@ export class LoginComponent implements OnInit {
     first_name: '',
     last_name: '',
     email: '',
+    phone:'',
+    provider:'',
+    id:'',
     password: '',
     confirm_pwd: '',
     register_type: '',
@@ -76,13 +79,16 @@ export class LoginComponent implements OnInit {
   socialiteLogin() {
     this.socialAuthService.authState.subscribe((user) => {
       if (user) {
+        console.log(user);
         this.socialUser = user;
         this.register.first_name = this.socialUser.firstName;
         this.register.last_name = this.socialUser.lastName;
-        this.register.email = this.socialUser.email;
+        this.register.email = this.socialUser.email?this.socialUser.email:'';
         this.register.password = 'Proceum@123';
         this.register.confirm_pwd = 'Proceum@123';
         this.register.register_type = 'SL';
+        this.register.provider =this.socialUser.provider;
+        this.register.id = this.socialUser.id;
         let params = {
           url: 'register',
           first_name: this.register.first_name,
@@ -91,6 +97,8 @@ export class LoginComponent implements OnInit {
           password: this.register.password,
           role: 2,
           register_type: this.register.register_type,
+          provider :this.register.provider,
+          id: this.register.id
         };
         this.http.register(params).subscribe((res: Response) => {
           if (res.error) {
@@ -146,6 +154,9 @@ export interface Register {
   first_name: string;
   last_name: string;
   email: string;
+  phone:any;
+  provider:any
+  id:any;
   password: any;
   confirm_pwd: any;
   register_type: any;
