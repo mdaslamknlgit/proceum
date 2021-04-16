@@ -156,7 +156,7 @@ export interface Register {
   email: string;
   phone:any;
   provider:any
-  id:any
+  id:any;
   password: any;
   confirm_pwd: any;
   register_type: any;
