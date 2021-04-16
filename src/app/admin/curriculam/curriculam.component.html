@@ -35,6 +35,10 @@
                 </span>
               </span>
             </div>
+            <div class="frm_dvs">
+              <span>Placeholder</span>
+              <span>&nbsp;</span>
+            </div>
             <div class="frm_dvs" *ngFor="
                 let step of steps;
                 let indexOfelement = index;
@@ -48,17 +52,17 @@
                     <input matInput name="ref_{{ step }}" [(ngModel)]="steps[step]" #ref_{{step}}="ngModel" required
                       placeholder="Provide Level {{ indexOfelement + 1 }} Label" />
                   </mat-form-field>
-                  
-                <span class="prc_tltp" *ngIf="curriculum_form.submitted && !steps[step]">
-                  Level {{ indexOfelement + 1 }} is required</span> 
-              </span>
-              <button mat-raised-button type="button" *ngIf="last" (click)="addStep()" color="accent" class="ml_1">
-                +
-              </button>
-              <button type="button" *ngIf="!first && last" (click)="removeStep(indexOfelement)" mat-raised-button
-                color="warn" class="ml_1">
-                -
-              </button>
+
+                  <span class="prc_tltp" *ngIf="curriculum_form.submitted && !steps[step]">
+                    Level {{ indexOfelement + 1 }} is required</span>
+                </span>
+                <button mat-raised-button type="button" *ngIf="last" (click)="addStep()" color="accent" class="ml_1">
+                  +
+                </button>
+                <button type="button" *ngIf="!first && last" (click)="removeStep(indexOfelement)" mat-raised-button
+                  color="warn" class="ml_1">
+                  -
+                </button>
               </span>
             </div>
           </div>
@@ -181,9 +185,9 @@
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-     
+
       <input matInput [(ngModel)]="search_text" (keyup)="$event.keyCode == 13 ? doFilter() : ''" placeholder="Search" />
-      <mat-icon (click)="doFilter()" matSuffix>search</mat-icon> 
+      <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
     <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">
@@ -319,26 +323,26 @@
                   <input matInput name="ref_edit_{{ step }}" [(ngModel)]="steps[step]" #ref_edit_{{step}}="ngModel"
                     required placeholder="Provide Level {{ indexOfelement + 1 }} Label" />
                 </mat-form-field>
-          <span class="prc_tltp" *ngIf="
+                <span class="prc_tltp" *ngIf="
                     edit_curriculum_form.submitted &&
                     'ref_edit_' + step.invalid &&
                     steps[step] == ''
                   ">
                   Level {{ indexOfelement + 1 }} is required
-              </span>
-           
-              <!-- <span class="prc_tltp" *ngIf="edit_curriculum_form.submitted && !steps[step]">
+                </span>
+
+                <!-- <span class="prc_tltp" *ngIf="edit_curriculum_form.submitted && !steps[step]">
                 Level {{ indexOfelement + 1 }} is required</span> -->
-            
-            </span>
-            <button *ngIf="last && false" mat-raised-button (click)="addStep()" color="accent" class="mr_1"
-              type="button">
-              +
-            </button>
-            <button *ngIf="!first && last && false" type="button" (click)="removeStep(indexOfelement)" mat-raised-button
-              color="warn" type="button">
-              -
-            </button>
+
+              </span>
+              <button *ngIf="last && false" mat-raised-button (click)="addStep()" color="accent" class="mr_1"
+                type="button">
+                +
+              </button>
+              <button *ngIf="!first && last && false" type="button" (click)="removeStep(indexOfelement)"
+                mat-raised-button color="warn" type="button">
+                -
+              </button>
             </span>
           </div>
         </div>
