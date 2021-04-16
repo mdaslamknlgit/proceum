@@ -56,9 +56,8 @@
                       (promotional_form.submitted || code_name.touched) &&
                       code_name.invalid
                     "
-                    >Promo/Coupon Code is required and allowed alphabets
-                    only</span
-                  >
+                    >Promo/Coupon Code is required and allowed Alphanumeric only
+                  </span>
                 </span>
                 <button
                   (click)="generateCoupon()"
@@ -236,13 +235,14 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
+                      min="1"
+                      type="number"
                       maxlength="4"
                       name="usage_name"
                       #usage_name="ngModel"
                       [(ngModel)]="usage"
                       matInput
                       placeholder="Usage"
-                      appNumbersonly
                     />
                   </mat-form-field>
                   <span
@@ -392,7 +392,7 @@
       </table>
     </div>
     <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
+      [pageSizeOptions]="[10, 20, 50, 100]"
       showFirstLastButtons
       (page)="getServerData($event)"
     ></mat-paginator>
@@ -453,7 +453,8 @@
                         code_name_edit.touched) &&
                       code_name_edit.invalid
                     "
-                    >Promo/Copoun is required and allowed alphabets only</span
+                    >Promo/Copoun is required and allowed Alphanumeric
+                    only</span
                   >
                 </span>
               </span>
@@ -627,7 +628,7 @@
                   <mat-form-field appearance="outline">
                     <input
                       required
-                      appNumbersonly
+                      type="number"
                       name="usage_name"
                       #usage_name="ngModel"
                       [(ngModel)]="usage"
@@ -639,7 +640,7 @@
                     class="prc_tltp"
                     *ngIf="
                       (promotional_form.submitted || usage_name.touched) &&
-                      usage_name.invalid
+                      (usage_name.invalid || usage == '')
                     "
                     >Promotional Percent is required</span
                   >

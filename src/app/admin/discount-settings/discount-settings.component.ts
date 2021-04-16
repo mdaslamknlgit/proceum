@@ -84,7 +84,7 @@ export class DiscountSettingsComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.countrys = res['data']['countrys'];
       } else {
-        this.toster.error(res['message'], 'Error');
+        //this.toster.error(res['message'], 'Error');
       }
     });
   }
@@ -221,7 +221,7 @@ export class DiscountSettingsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']['steps']);
         this.totalSize = res['total_records'];
       } else {
-        this.toster.info(res['message'], 'Error');
+        //this.toster.info(res['message'], 'Error');
         this.dataSource = new MatTableDataSource([]);
       }
     });
@@ -233,7 +233,7 @@ export class DiscountSettingsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']['descounts']);
       } else {
         this.dataSource = new MatTableDataSource([]);
-        this.toster.error(res['message'], 'Error');
+        //this.toster.error(res['message'], 'Error');
       }
     });
   }
