@@ -102,15 +102,22 @@
             </span>
           </div>
           <div class="hgt_20"></div>
-          <span class="err_tltp_par">
-            <ckeditor
-              [config]="{ placeholder: 'Type the email content here!' }"
-              (ready)="onReady($event)"
-              [(ngModel)]="template.template"
-              name="template"
-              [editor]="Editor"
-            ></ckeditor>
-          </span>
+          <div class="frm_dvs">
+            <span class="err_tltp_par">
+              <ckeditor
+                [config]="{ placeholder: 'Type the email content here!' }"
+                (ready)="onReady($event)"
+                [(ngModel)]="template.template"
+                name="template"
+                [editor]="Editor"
+              ></ckeditor>
+              <span
+                class="prc_tltp"
+                *ngIf="template_form.submitted && !template.template"
+                >Email content is required</span
+              >
+            </span>
+          </div>
           <div class="hgt_20"></div>
         </div>
 
