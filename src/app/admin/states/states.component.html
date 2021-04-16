@@ -10,7 +10,7 @@
             <div class="tbbd_bdy">
 
                 <div class="hgt_20"></div>
-                <form>
+                <form id="create_state_form" #create_state_form="ngForm" name="state_form" (ngSubmit)="saveState()" novalidate>
                     <div class="grd_2c no_bxsdw">
                         <div class="frm_dvs">
                             <span>Selected Country</span>
@@ -35,15 +35,22 @@
                                 State Name<span class="required">*</span>
                             </span>
                             <span>
+                                <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <input matInput placeholder="State Name" [(ngModel)]="state_name" name="state_name_name" #state_name_name="ngModel" maxlength="90" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' required />
                                 </mat-form-field>
+                                <span class="prc_tltp" *ngIf="
+                                (create_state_form.submitted ||
+                                state_name_name.touched) &&
+                                state_name_name.invalid
+                                ">State Name is Required</span>
+                            </span>
                             </span>
                         </div>
 
                     </div>
                     <hr>
-                    <button mat-raised-button color="accent" class="float_right mr_1" (click)="saveState()">Submit</button>
+                    <button mat-raised-button color="accent" class="float_right mr_1">Submit</button>
                 </form>
                 <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">Close</button>
                 <div class="hgt_20"></div>
@@ -61,22 +68,29 @@
             <div class="tbbd_bdy">
 
                 <div class="hgt_20"></div>
-                <form>
+                <form id="edit_state_form" #edit_state_form="ngForm" name="state_form" (ngSubmit)="updateState()" novalidate>
                     <div class="grd_2c no_bxsdw">
                         <div class="frm_dvs">
                             <span>
                                 State Name<span class="required">*</span>
                             </span>
                             <span>
+                                <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <input matInput placeholder="State Name" [(ngModel)]="state_name" name="state_name_name" #state_name_name="ngModel" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' maxlength="90" required />
                                 </mat-form-field>
+                                <span class="prc_tltp" *ngIf="
+                                (edit_state_form.submitted ||
+                                state_name_name.touched) &&
+                                state_name_name.invalid
+                                ">State Name is Required</span>
+                            </span>
                             </span>
                         </div>
 
                     </div>
                     <hr>
-                    <button mat-raised-button color="accent" class="float_right mr_1" (click)="updateState()">Submit</button>
+                    <button mat-raised-button color="accent" class="float_right mr_1">Submit</button>
                 </form>
                 <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleStateModel()">Close</button>
                 <div class="hgt_20"></div>

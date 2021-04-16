@@ -14,7 +14,7 @@
         </button>
       </div>
       <div class="tbbd_bdy">
-        <form>
+        <form id="create_city_form" #create_city_form="ngForm" name="city_form" (ngSubmit)="saveCity()" novalidate>
           <div class="grd_2c no_bxsdw">
             <div class="frm_dvs">
               <span>Selected State</span>
@@ -22,13 +22,6 @@
             </div>
             <div class="frm_dvs">
               <span> Browse Cities CSV </span>
-              <!-- <span>
-                                <mat-form-field appearance="outline">
-                                    <input matInput placeholder="Browse File to Upload" />
-                                </mat-form-field>
-                                <button mat-raised-button color="accent" class="ml_1">Browse</button>
-                            </span> -->
-
               <a (click)="fileInput.click()" class="dsflx">
                 <mat-icon>upload_file</mat-icon> Import Cities CSV
               </a>
@@ -47,6 +40,7 @@
             <div class="frm_dvs">
               <span> City Name<span class="required">*</span> </span>
               <span>
+                <span class="err_tltp_par">
                 <mat-form-field appearance="outline">
                   <input
                     matInput
@@ -59,6 +53,12 @@
                     required
                   />
                 </mat-form-field>
+                <span class="prc_tltp" *ngIf="
+                (create_city_form.submitted ||
+                city_name_name.touched) &&
+                city_name_name.invalid
+                ">City Name is Required</span>
+              </span>
               </span>
             </div>
           </div>
@@ -67,7 +67,6 @@
             mat-raised-button
             color="accent"
             class="float_right mr_1"
-            (click)="saveCity()"
           >
             Submit
           </button>
@@ -98,12 +97,13 @@
       </div>
       <div class="tbbd_bdy">
         <div class="hgt_20"></div>
-        <form>
+        <form id="edit_city_form" #edit_city_form="ngForm" name="city_form" (ngSubmit)="updateCity()" novalidate>
           <div class="grd_2c no_bxsdw">
             <div class="hgt_10"></div>
             <div class="frm_dvs">
               <span> City Name<span class="required">*</span> </span>
               <span>
+                <span class="err_tltp_par">
                 <mat-form-field appearance="outline">
                   <input
                     matInput
@@ -116,6 +116,12 @@
                     required
                   />
                 </mat-form-field>
+                <span class="prc_tltp" *ngIf="
+                (edit_city_form.submitted ||
+                city_name_name.touched) &&
+                city_name_name.invalid
+                ">City Name is Required</span>
+                </span>
               </span>
             </div>
           </div>
@@ -124,7 +130,6 @@
             mat-raised-button
             color="accent"
             class="float_right mr_1"
-            (click)="updateCity()"
           >
             Submit
           </button>
