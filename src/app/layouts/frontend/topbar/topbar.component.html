@@ -44,7 +44,7 @@
     <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
       >Register Trail</span
     >
-    <span
+    <span *ngIf="!user['name']"
       mat-list-item
       class="tp_rt_mn"
       routerLink="/contact-us"
@@ -52,7 +52,7 @@
       >Contact Us</span
     >
   </div>
-  <div class="lg_inbtn">
+  <div class="lg_inbtn" *ngIf="user['name']">
     <span>{{ user["name"] + "(" + user["role_name"] + ")" }}</span>
   </div>
   <div class="lg_inbtn">
