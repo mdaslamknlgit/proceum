@@ -70,14 +70,16 @@ export class CitiesComponent implements OnInit {
 
   toggleModel() {
     this.model_status = !this.model_status;
+    (<HTMLFormElement>document.getElementById('create_city_form')).reset();
   }
 
   toggleCityModel(){
     this.model_edit_status = !this.model_edit_status;
+    (<HTMLFormElement>document.getElementById('edit_city_form')).reset();
   }
 
   saveCity(){
-    if(this.city_name !=''){
+    if(this.city_name !='' && this.city_name !=null){
       let params={url: 'save-city',city_name:this.city_name,state_id:this.state_id};
       this.http.post(params).subscribe((res: Response) => {
         if (res.error) {
@@ -90,7 +92,7 @@ export class CitiesComponent implements OnInit {
         }
       });
     }else{
-      this.toastr.error("City Name is required" , 'Error', { closeButton: true , timeOut: 3000});
+      // this.toastr.error("City Name is required" , 'Error', { closeButton: true , timeOut: 3000});
     }
   }
 
@@ -102,7 +104,7 @@ export class CitiesComponent implements OnInit {
   }
 
   updateCity(){
-    if(this.city_name !=''){
+    if(this.city_name !='' && this.city_name !=null){
       let params={url: 'update-city',city_name:this.city_name,city_id:this.city_id};
       this.http.post(params).subscribe((res: Response) => {
         if (res.error) {
@@ -115,7 +117,7 @@ export class CitiesComponent implements OnInit {
         }
       });
     }else{
-      this.toastr.error("City Name is required" , 'Error', { closeButton: true , timeOut: 3000});
+      // this.toastr.error("City Name is required" , 'Error', { closeButton: true , timeOut: 3000});
     }
   }
 

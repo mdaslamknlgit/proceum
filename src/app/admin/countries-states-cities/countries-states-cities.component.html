@@ -10,7 +10,7 @@
             <div class="tbbd_bdy">
 
 
-                <form #country_id="ngForm" name="country_form" (ngSubmit)="saveCountryDetails()" novalidate>
+                <form id="create_country_form" #country_create_form="ngForm" name="country_form" (ngSubmit)="country_create_form.valid && saveCountryDetails()" novalidate>
                     <div class="grd_2c no_bxsdw">
                         <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked
                             fields are mandatory</span>
@@ -35,7 +35,11 @@
                                         <input matInput placeholder="Country Code" [(ngModel)]="country.country_code"
                                             name="country_code" #country_code="ngModel" required maxlength="2" />
                                     </mat-form-field>
-                                    <span class="prc_tltp">Country Code Required</span>
+                                    <span class="prc_tltp" *ngIf="
+                                    (country_create_form.submitted ||
+                                    country_code.touched) &&
+                                    country_code.invalid
+                                    ">Country Code is Required</span>
                                 </span>
                             </span>
                         </div>
@@ -48,7 +52,11 @@
                                             name="country_name" #country_name="ngModel" required maxlength="90"
                                             onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
                                     </mat-form-field>
-                                    <span class="prc_tltp">Country Name Required</span>
+                                    <span class="prc_tltp" *ngIf="
+                                    (country_create_form.submitted ||
+                                    country_name.touched) &&
+                                    country_name.invalid
+                                    ">Country Name is Required</span>
                                 </span>
                             </span>
                         </div>
@@ -56,10 +64,8 @@
                             <span>Flag Icon</span>
                             <span>
                                 <mat-form-field appearance="outline">
-                                    <input matInput placeholder="Flag Icon" [(ngModel)]="country.country_flag"
-                                        name="country_flag" #country_flag="ngModel" />
-                                    <!-- <mat-select-country></mat-select-country> -->
-                                </mat-form-field>
+                                    <input matInput placeholder="Flag Icon" [(ngModel)]="country.country_flag" name="country_flag" #country_flag="ngModel" />
+                                </mat-form-field> 
                             </span>
                         </div>
                         <div class="frm_dvs">
@@ -71,7 +77,11 @@
                                             name="currency_text" #currency_text="ngModel" maxlength="45" required
                                             onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
                                     </mat-form-field>
-                                    <span class="prc_tltp">Currency Text Required</span>
+                                    <span class="prc_tltp" *ngIf="
+                                    (country_create_form.submitted ||
+                                    currency_text.touched) &&
+                                    currency_text.invalid
+                                    ">Currency Text is Required</span>
                                 </span>
 
                             </span>
@@ -85,7 +95,11 @@
                                             [(ngModel)]="country.currency_symbol" name="currency_symbal"
                                             #currency_symbal="ngModel" maxlength="4" required />
                                     </mat-form-field>
-                                    <span class="prc_tltp">Currency Symbol Required</span>
+                                    <span class="prc_tltp" *ngIf="
+                                    (country_create_form.submitted ||
+                                    currency_symbal.touched) &&
+                                    currency_symbal.invalid
+                                    ">Currency Symbol is Required</span>
                                 </span>
                             </span>
                         </div>
@@ -97,7 +111,11 @@
                                     <input matInput placeholder="Language Code" [(ngModel)]="country.language_code"
                                         name="language_code" #language_code="ngModel" maxlength="5" required />
                                 </mat-form-field>
-                                <span class="prc_tltp">Currency Symbol Required</span>
+                                <span class="prc_tltp" *ngIf="
+                                (country_create_form.submitted ||
+                                language_code.touched) &&
+                                language_code.invalid
+                                ">Language Code is Required</span>
                                 </span>
                             </span>
                         </div>
@@ -111,7 +129,11 @@
                                         onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'
                                         required />
                                 </mat-form-field>
-                                <span class="prc_tltp">Language Required</span>
+                                <span class="prc_tltp" *ngIf="
+                                (country_create_form.submitted ||
+                                country_language.touched) &&
+                                country_language.invalid
+                                ">Language is Required</span>
                             </span>
                             </span>
                         </div>
@@ -135,11 +157,10 @@
             <div class="tbbd_bdy">
 
                 <div class="hgt_20"></div>
-                <form #country_id="ngForm" name="country_form" (ngSubmit)="updateCountryDetails()" novalidate>
+                <form id="edit_country_form" #edit_country_form="ngForm" name="country_form" (ngSubmit)="updateCountryDetails()" novalidate>
                     <div class="grd_2c no_bxsdw">
                         <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked fields are mandatory</span>
                         <div class="hgt_20"></div>
-                        <span class="flag-icon flag-icon-gr"></span>
                         <div class="frm_dvs">
                             <span>Country Code <span class="required">*</span></span>
                             <span>
@@ -148,7 +169,11 @@
                                     <input matInput placeholder="Country Code" [(ngModel)]="country.country_code"
                                         name="country_code" #country_code="ngModel" required maxlength="2" />
                                 </mat-form-field>
-                                <span class="prc_tltp">Country Code Required</span>
+                                <span class="prc_tltp" *ngIf="
+                                (edit_country_form.submitted ||
+                                country_code.touched) &&
+                                country_code.invalid
+                                ">Country Code is Required</span>
                             </span>
                             </span>
                         </div>
@@ -161,17 +186,21 @@
                                         name="country_name" #country_name="ngModel" required maxlength="90"
                                         onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
                                 </mat-form-field>
-                                <span class="prc_tltp">Country Name Required</span>
+                                <span class="prc_tltp" *ngIf="
+                                (edit_country_form.submitted ||
+                                country_name.touched) &&
+                                country_name.invalid
+                                ">Country Name is Required</span>
                                 </span>
                             </span>
                         </div>
                         <div class="frm_dvs">
                             <span>Flag Icon</span>
                             <span>
-                                <!-- <mat-form-field appearance="outline"> -->
-                                <!-- <input matInput placeholder="Flag Icon" [(ngModel)]="country.country_flag" name="country_flag" #country_flag="ngModel" /> -->
+                                <mat-form-field appearance="outline">
+                                <input matInput placeholder="Flag Icon" [(ngModel)]="country.country_flag" name="country_flag" #country_flag="ngModel" />
 
-                                <!-- </mat-form-field> -->
+                                </mat-form-field>
                             </span>
                         </div>
                         <div class="frm_dvs">
@@ -184,7 +213,11 @@
                                         onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'
                                         required />
                                 </mat-form-field>
-                                <span class="prc_tltp">Country Text Required</span>
+                                <span class="prc_tltp" *ngIf="
+                                (edit_country_form.submitted ||
+                                currency_text.touched) &&
+                                currency_text.invalid
+                                ">Currency Text is Required</span>
                             </span>
                             </span>
                         </div>
@@ -196,7 +229,11 @@
                                     <input matInput placeholder="Currency Symbol" [(ngModel)]="country.currency_symbol"
                                         name="currency_symbal" #currency_symbal="ngModel" maxlength="4" required />
                                 </mat-form-field>
-                                <span class="prc_tltp">Currency Symbol Required</span>
+                                <span class="prc_tltp" *ngIf="
+                                (edit_country_form.submitted ||
+                                currency_symbal.touched) &&
+                                currency_symbal.invalid
+                                ">Currency Symbol is Required</span>
                             </span>
                             </span>
                         </div>
@@ -208,7 +245,11 @@
                                     <input matInput placeholder="Language Code" [(ngModel)]="country.language_code"
                                         name="language_code" #language_code="ngModel" maxlength="5" required />
                                 </mat-form-field>
-                                <span class="prc_tltp">Language Code Required</span>
+                                <span class="prc_tltp" *ngIf="
+                                (edit_country_form.submitted ||
+                                language_code.touched) &&
+                                language_code.invalid
+                                ">Language Code is Required</span>
                             </span>
                             </span>
                         </div>
@@ -222,7 +263,11 @@
                                         onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'
                                         required />
                                 </mat-form-field>
-                                <span class="prc_tltp">Language Required</span>
+                                <span class="prc_tltp" *ngIf="
+                                (edit_country_form.submitted ||
+                                country_language.touched) &&
+                                country_language.invalid
+                                ">Language is Required</span>
                             </span>
                             </span>
                         </div>
