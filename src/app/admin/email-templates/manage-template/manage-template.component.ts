@@ -39,9 +39,11 @@ export class ManageTemplateComponent implements OnInit {
 
   onReady(eventData) {
     let apiUrl = environment.apiUrl;
-    eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
-        var data =new UploadAdapter(loader,apiUrl+'upload-image');
-        return data;
+    eventData.plugins.get('FileRepository').createUploadAdapter = function (
+      loader
+    ) {
+      var data = new UploadAdapter(loader, apiUrl + 'upload-image');
+      return data;
     };
   }
 
@@ -67,9 +69,9 @@ export class ManageTemplateComponent implements OnInit {
   }
   submitTemplate() {
     if (this.template.template == '') {
-      this.toaster.error('Template content is required', 'Error', {
-        progressBar: true,
-      });
+      //   this.toaster.error('Template content is required', 'Error', {
+      //     progressBar: true,
+      //   });
       return false;
     }
     let param = this.template;
