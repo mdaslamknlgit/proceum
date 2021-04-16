@@ -63,9 +63,11 @@ export class CountriesStatesCitiesComponent implements OnInit {
   
   toggleModel() {
     this.model_status = !this.model_status;
+    (<HTMLFormElement>document.getElementById('create_country_form')).reset();
   }
   toggleCountryModel(){
     this.edit_country_model = !this.edit_country_model;
+    (<HTMLFormElement>document.getElementById('edit_country_form')).reset();
   }
   openEditModel(param:any){
     this.edit_country_model = !this.edit_country_model;
@@ -85,7 +87,7 @@ export class CountriesStatesCitiesComponent implements OnInit {
 
   saveCountryDetails(){
     if(this.country.country_code == "" || this.country.country_name == "" || this.country.currency_text == "" || this.country.currency_symbol == "" || this.country.language_code == "" || this.country.language == ""){
-      this.toastr.error("Fields marked with * are mandatory" , 'Error', { closeButton: true , timeOut: 3000});
+      // this.toastr.error("Fields marked with * are mandatory" , 'Error', { closeButton: true , timeOut: 3000});
     }else{
       let params = { url: 'save-country',
       country_code:this.country.country_code,
@@ -114,7 +116,7 @@ export class CountriesStatesCitiesComponent implements OnInit {
   updateCountryDetails(){
 
     if(this.country.country_code == "" || this.country.country_name == "" || this.country.currency_text == "" || this.country.currency_symbol == "" || this.country.language_code == "" || this.country.language == ""){
-      this.toastr.error("Fields marked with * are mandatory" , 'Error', { closeButton: true , timeOut: 3000});
+      // this.toastr.error("Fields marked with * are mandatory" , 'Error', { closeButton: true , timeOut: 3000});
     }else{
       let params = { url: 'update-country',
       country_code:this.country.country_code,
