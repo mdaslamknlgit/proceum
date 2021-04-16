@@ -66,7 +66,6 @@ export class ManageTemplateComponent implements OnInit {
     }
   }
   submitTemplate() {
-    console.log(this.template.template );
     if (this.template.template == '') {
       this.toaster.error('Template content is required', 'Error', {
         progressBar: true,

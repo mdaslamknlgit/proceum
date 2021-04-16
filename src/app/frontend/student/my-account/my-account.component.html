@@ -93,19 +93,29 @@
           <div class="frm_dvs">
             <span>First name <span class="required">*</span></span>
             <span>
+              <span class="err_tltp_par">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="First name" autocomplete="off" name="first_name" [(ngModel)]="profile.first_name" required
+                <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel' ngModel [(ngModel)]="profile.first_name" required
                   onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
               </mat-form-field>
+              <span class="prc_tltp" *ngIf="profile_form.submitted && first_name.errors?.required">
+                First Name is required
+              </span>
+              </span>
             </span>
           </div>
           <div class="frm_dvs">
             <span>Last name <span class="required">*</span></span>
             <span>
+              <span class="err_tltp_par">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="Last name" autocomplete="off" required name="last_name" [(ngModel)]="profile.last_name"
+                <input matInput placeholder="Last name" autocomplete="off" required name="last_name" #last_name='ngModel' ngModel  [(ngModel)]="profile.last_name"
                   onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
               </mat-form-field>
+              <span class="prc_tltp" *ngIf="profile_form.submitted && last_name.errors?.required">
+                Last Name is required
+              </span>
+            </span>
             </span>
           </div>
           <div class="frm_dvs">
@@ -260,16 +270,21 @@
             <span>
               <span class="inp_par_dv" [ngClass]="{
                 err_tltp_par:
-                (profile_form.submitted && current_password.errors?.minlength) 
+                (profile_form.submitted && current_password.errors?.minlength) ||
+                (profile_form.submitted && current_password.errors?.required) 
               }">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="Current password" type="password"  autocomplete="off"[required]="isrequired"
+                <input matInput placeholder="Current password"  [type]="current_password_hide ? 'password' : 'text'"  autocomplete="off"[required]="isrequired"
                   [(ngModel)]="profile.current_password" minlength="8" maxlength="16" name="current_password"
                   onkeypress='return (event.charCode != 32)' #current_password="ngModel" ngModel
                   >
+                  <mat-icon  matSuffix (click)="passwordFun('old')" >{{current_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </mat-form-field>
-              <span class="prc_tltp">
-                password must contains minimumlength 8 charecters
+              <span class="prc_tltp" *ngIf="profile_form.submitted && current_password.errors?.required">
+                Current Password required
+              </span>
+              <span class="prc_tltp" *ngIf="profile_form.submitted && current_password.errors?.minlength">
+                Password must be length 8 charecters
               </span>
               </span>
             </span>
@@ -279,16 +294,20 @@
             <span>
               <span class="inp_par_dv" [ngClass]="{
                 err_tltp_par:
-                (profile_form.submitted && new_password.errors?.pattern) 
+                (profile_form.submitted && new_password.errors?.pattern) ||
+                (profile_form.submitted && new_password.errors?.required)
               }">
               <mat-form-field appearance="outline">
                 <input matInput placeholder="New password" [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
                   [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
                   onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel>
-                  <!-- <mat-icon  matSuffix (click)="passwordFun('new')" >{{new_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
+                  <mat-icon  matSuffix (click)="passwordFun('new')" >{{new_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </mat-form-field>
-              <span class="prc_tltp">
+              <span class="prc_tltp" *ngIf="profile_form.submitted && new_password.errors?.pattern">
                 Password must contains 1 lowercase,1 uppercase,1 number,1 special charecter,minlength 8
+              </span>
+              <span class="prc_tltp" *ngIf="profile_form.submitted && new_password.errors?.required">
+                New Password is required
               </span>
               </span>
             </span>
@@ -298,17 +317,22 @@
             <span>
               <span class="inp_par_dv" [ngClass]="{
                 err_tltp_par:
-                (profile_form.submitted && profile.confirm_pwd !==profile.new_password)
-                 || (profile_form.submitted && confirm_check == false)
+                (profile_form.submitted && profile.confirm_pwd !=profile.new_password)
+                 || (profile_form.submitted && confirm_check == true)
                  || (profile_form.submitted && confirm_pwd.errors?.pattern)
+                 || (profile_form.submitted && confirm_pwd.errors?.required)
               }">
                 <mat-form-field appearance="outline">
-                  <input matInput placeholder="Confirm password" autocomplete="off" [type]="confirm_password_hide ? 'password' : 'text'" [required]="isrequired"
+                  <input matInput placeholder="Confirm password" autocomplete="off" [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
                     [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
                     onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
-                    <!-- <mat-icon  matSuffix (click)="passwordFun('confirm')" >{{confirm_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon> -->
+                    <mat-icon  matSuffix (click)="passwordFun('confirm')" >{{confirm_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </mat-form-field>
-                <span class="prc_tltp" *ngIf="confirm_check"> New Password and Confirm Password are not matched </span>
+                <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_pwd.errors?.required">
+                  Confirm Password is required
+                </span>
+                <!-- <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_check"> New Password and Confirm Password are not matched </span> -->
+                <span class="prc_tltp" *ngIf="profile_form.submitted && profile.confirm_pwd !=profile.new_password"> New Password and Confirm Password are not matched </span>
               </span>
             </span>
           </div>
