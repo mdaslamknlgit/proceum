@@ -69,7 +69,7 @@ export class PromotionalSettingsComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.toster.error(res['message'], 'Error');
+        //this.toster.error(res['message'], 'Error');
       }
     });
   }
@@ -192,7 +192,7 @@ export class PromotionalSettingsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']['promotionals']);
         this.totalSize = res['total_records'];
       } else {
-        this.toster.info(res['message'], 'Error');
+        //this.toster.info(res['message'], 'Error');
         this.dataSource = new MatTableDataSource([]);
       }
     });
@@ -204,7 +204,7 @@ export class PromotionalSettingsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']['descounts']);
       } else {
         this.dataSource = new MatTableDataSource([]);
-        this.toster.error(res['message'], 'Error');
+        //this.toster.error(res['message'], 'Error');
       }
     });
   }
