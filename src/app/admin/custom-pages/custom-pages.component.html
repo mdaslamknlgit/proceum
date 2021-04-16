@@ -11,9 +11,8 @@
                 <span class="hgt_20"></span>
             </div>
             <div>
-                All <span class="required">(*) </span>marked fields are mandatory
+                <span class="text-right w_100p rqrd_txtinfo">Fields marked with * are mandatory.</span>
             </div>
-            
             <div class="frm_dvs">
                 <span>Menu Name <span class="required">*</span></span>
                 <span>
@@ -56,9 +55,7 @@
                         </mat-form-field>
                     </span>
                     <span class="mx_1" *ngIf="isPageDisplay">(OR)</span>
-
                     <span *ngIf="isPageDisplay">
-
                         <mat-form-field appearance="outline">
                             <input matInput placeholder="Provide New Page Name" [required]="isRequired" autocomplete="off"
                                 name="new_page_name" [(ngModel)]="customPage.new_page_name" #new_Page_name="ngModel"
@@ -77,7 +74,7 @@
                         err_tltp_par:
                           (custom_page_form.submitted && Page_content.errors?.required )
                       }">
-                    <ckeditor (ready)="onReady($event)" [config]="{ placeholder: 'Type the Page content here!' }"
+                    <ckeditor (ready)="onReady($event)" id="editor" [config]="{ placeholder: 'Type the Page content here!' }"
                         required [(ngModel)]="customPage.Page_content" ngModel #Page_content="ngModel" name="Page_content" [editor]="Editor">
                     </ckeditor>
                     <span class="prc_tltp">Page content is required</span>

@@ -43,9 +43,9 @@
 
                     </div>
                     <hr>
-                    <button mat-raised-button color="accent" class="float_right mr_1" (click)="saveState()">Save</button>
+                    <button mat-raised-button color="accent" class="float_right mr_1" (click)="saveState()">Submit</button>
                 </form>
-                <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">Cancel</button>
+                <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">Close</button>
                 <div class="hgt_20"></div>
             </div>
 
@@ -76,9 +76,9 @@
 
                     </div>
                     <hr>
-                    <button mat-raised-button color="accent" class="float_right mr_1" (click)="updateState()">Save</button>
+                    <button mat-raised-button color="accent" class="float_right mr_1" (click)="updateState()">Submit</button>
                 </form>
-                <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleStateModel()">Cancel</button>
+                <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleStateModel()">Close</button>
                 <div class="hgt_20"></div>
             </div>
 
@@ -140,8 +140,8 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            <tr class="mat-row" *matNoDataRow>
-                <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">No Records Found</td>
+            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                <td class="mat-cell" colspan="6">No Records Found</td>
               </tr>
         </table>
         <mat-paginator #paginator [pageSize]="pageSize" [length]="num_states"
