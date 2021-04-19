@@ -69,12 +69,13 @@ export class PromotionalSettingsComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
-        this.toster.error(res['message'], 'Error');
+        //this.toster.error(res['message'], 'Error');
       }
     });
   }
   toggleModel() {
     this.model_status = !this.model_status;
+    this.today_date = new Date();
     (<HTMLFormElement>document.getElementById('promotional_form')).reset();
     (<HTMLFormElement>document.getElementById('edit_promotional_form')).reset();
   }
@@ -126,6 +127,7 @@ export class PromotionalSettingsComponent implements OnInit {
       Number(valid_from[1]) - 1,
       Number(valid_from[0])
     ); // param['valid_from'];
+    this.today_date = this.valid_from;
     let valid_to = param['valid_to'].split('-');
     this.valid_to = new Date(
       Number(valid_to[2]),
@@ -190,7 +192,7 @@ export class PromotionalSettingsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']['promotionals']);
         this.totalSize = res['total_records'];
       } else {
-        this.toster.info(res['message'], 'Error');
+        //this.toster.info(res['message'], 'Error');
         this.dataSource = new MatTableDataSource([]);
       }
     });
@@ -202,7 +204,7 @@ export class PromotionalSettingsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']['descounts']);
       } else {
         this.dataSource = new MatTableDataSource([]);
-        this.toster.error(res['message'], 'Error');
+        //this.toster.error(res['message'], 'Error');
       }
     });
   }
