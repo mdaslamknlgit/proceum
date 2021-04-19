@@ -47,6 +47,17 @@ export class CustomPagesComponent implements OnInit {
       console.log(res['menu']);
     });
   }
+
+  getPages(){
+    let params = {
+      "url": "pages",
+      'parent_id':this.customPage.old_menu_name
+    };
+    this.http.post(params).subscribe((res) => {
+      this.pagesList = res['pages'];
+      console.log(res['menu']);
+    });
+  }
   selectPage() {
     if (this.customPage.old_page_name != "") {
       this.isPageDisplay = false;
@@ -64,8 +75,9 @@ export class CustomPagesComponent implements OnInit {
       this.isMenuRequired = true;
       this.isMenuDisplay = true;
     }
-
+  this.getPages();
   }
+  
 
   onReady(eventData) {
     let apiUrl = environment.apiUrl;
@@ -76,8 +88,20 @@ export class CustomPagesComponent implements OnInit {
   }
 
   createCustomPage() {
-    if (this.customPage.Page_content == "") {
-      this.toaster.error("page content is required", 'Error', { progressBar: true });
+    let i=0;
+    if (this.isMenuRequired) {
+      if(this.customPage.new_menu_name.trim()==""){
+        this.customPage.new_menu_name=this.customPage.new_menu_name.trim();
+        i++;
+      }
+    }
+    if (this.isRequired) {
+      if(this.customPage.new_page_name.trim()==""){
+        this.customPage.new_page_name=this.customPage.new_page_name.trim();
+        i++;
+      }
+    }
+    if(i!=0){
       return;
     }
     let params = {
@@ -106,3 +130,5 @@ export class CustomPagesComponent implements OnInit {
     });
   }
 }
+
+
