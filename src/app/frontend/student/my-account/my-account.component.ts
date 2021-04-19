@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import {NgForm} from '@angular/forms';
 import { AuthService } from '../../../auth/auth.service';
 
 
@@ -23,6 +22,7 @@ export class MyAccountComponent implements OnInit {
   confirm_check:boolean=true;
   curpwd_check:boolean=true;
   newpwd_check:boolean=true;
+  current_password_hide: boolean = true;
   new_password_hide: boolean = true;
   confirm_password_hide: boolean = true;
   profile:Profile={
@@ -100,6 +100,8 @@ export class MyAccountComponent implements OnInit {
   passwordFun(type) {
     if(type== 'new'){
     this.new_password_hide = !this.new_password_hide;
+    }else if(type=="old"){
+      this.current_password_hide = !this.current_password_hide;
     }else{
       this.confirm_password_hide = !this.confirm_password_hide;
     }

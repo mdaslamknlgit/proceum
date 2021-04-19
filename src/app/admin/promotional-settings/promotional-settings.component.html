@@ -6,7 +6,10 @@
   </div>
   <div class="pg_ttl">Promotional Settings</div>
   <div class="hgt_20"></div>
-  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
+  <div
+    class="cust_mdl_par cust_mdl_50p"
+    [ngClass]="{ cust_mdl_opn: model_status }"
+  >
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Promotional Create
@@ -15,64 +18,112 @@
           &#x2715;
         </button>
       </div>
-      <form id="promotional_form" #promotional_form="ngForm" name="promotional_form"
-        (ngSubmit)="promotional_form.valid && createPromotional()" novalidate>
+      <form
+        id="promotional_form"
+        #promotional_form="ngForm"
+        name="promotional_form"
+        (ngSubmit)="promotional_form.valid && createPromotional()"
+        novalidate
+      >
         <div class="tbbd_bdy">
           <div class="grd_2c no_bxsdw">
-            <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked fields are
-              mandatory</span>
+            <span class="text-right w_100p rqrd_txtinfo">
+              All <span class="required">( * ) </span>marked fields are
+              mandatory</span
+            >
             <div class="hgt_20"></div>
             <div class="frm_dvs">
               <span>Promo/Coupon Code <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input required maxlength="15" pattern="[A-Za-z0-9]*" name="code_name" [(ngModel)]="code" matInput
-                      placeholder="Promo/Coupon Code" #code_name="ngModel" (blur)="generateCoupon()" />
+                    <input
+                      required
+                      maxlength="15"
+                      pattern="[A-Za-z0-9]*"
+                      name="code_name"
+                      [(ngModel)]="code"
+                      matInput
+                      placeholder="Promo/Coupon Code"
+                      #code_name="ngModel"
+                      (blur)="generateCoupon()"
+                    />
                   </mat-form-field>
-                
-                  <span class="prc_tltp" *ngIf="
+
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (promotional_form.submitted || code_name.touched) &&
                       code_name.invalid
-                    ">Promo/Coupon Code is required and allowed alphabets
-                    only</span>
+                    "
+                    >Promo/Coupon Code is required and allowed Alphanumeric only
+                  </span>
                 </span>
-                <button (click)="generateCoupon()" mat-raised-button color="accent" class="ml_1" type="button">
+                <button
+                  (click)="generateCoupon()"
+                  mat-raised-button
+                  color="accent"
+                  class="ml_1"
+                  type="button"
+                >
                   Generate
                 </button>
               </span>
-             
             </div>
             <div class="frm_dvs">
-              <span class="algn_s_fs">Description <span class="required">*</span></span>
+              <span class="algn_s_fs"
+                >Description <span class="required">*</span></span
+              >
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <textarea required name="description_name" [(ngModel)]="description" matInput
-                      placeholder="Description" #description_name="ngModel"></textarea>
+                    <textarea
+                      required
+                      name="description_name"
+                      [(ngModel)]="description"
+                      matInput
+                      placeholder="Description"
+                      #description_name="ngModel"
+                    ></textarea>
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (promotional_form.submitted ||
                         description_name.touched) &&
                       description_name.invalid
-                    ">Description is required</span>
-                </span></span>
+                    "
+                    >Description is required</span
+                  >
+                </span></span
+              >
             </div>
             <div class="frm_dvs">
               <span>Promotional Percent <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input required maxlength="5" name="promotional_percente_name" #promotional_percente_name="ngModel"
-                      [(ngModel)]="promotional_percente" matInput placeholder="Promotional Percente"
-                      (blur)="formatValue(promotional_percente)" />
+                    <input
+                      required
+                      maxlength="5"
+                      name="promotional_percente_name"
+                      #promotional_percente_name="ngModel"
+                      [(ngModel)]="promotional_percente"
+                      matInput
+                      placeholder="Promotional Percente"
+                      (blur)="formatValue(promotional_percente)"
+                    />
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (promotional_form.submitted ||
                         promotional_percente_name.touched) &&
                       promotional_percente_name.invalid
-                    ">Promotional Percent is required and allowed max 2
-                    digits</span>
+                    "
+                    >Promotional Percent is required and allowed max 2
+                    digits</span
+                  >
                 </span>
               </span>
             </div>
@@ -81,33 +132,62 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select Course" name="course_name" #course_name="ngModel"
-                      [(ngModel)]="course" required>
+                    <mat-select
+                      placeholder="Select Course"
+                      name="course_name"
+                      #course_name="ngModel"
+                      [(ngModel)]="course"
+                      required
+                    >
                       <mat-option value="1">Course1</mat-option>
                       <mat-option value="2">Course2</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (promotional_form.submitted || course_name.touched) &&
                       course_name.invalid
-                    ">Course is required</span>
-                </span></span>
+                    "
+                    >Course is required</span
+                  >
+                </span></span
+              >
             </div>
             <div class="frm_dvs">
               <span>Valid From Date <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
-                  <mat-form-field appearance="outline" class="cal_wdth" color="accent">
-                    <input placeholder="Select From Date" required name="valid_from_name" #valid_from_name="ngModel"
-                      [(ngModel)]="valid_from" matInput [matDatepicker]="picker" autocomplete="off"
-                      [min]="today_date" />
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-form-field
+                    appearance="outline"
+                    class="cal_wdth"
+                    color="accent"
+                  >
+                    <input
+                      placeholder="Select From Date"
+                      required
+                      name="valid_from_name"
+                      #valid_from_name="ngModel"
+                      [(ngModel)]="valid_from"
+                      matInput
+                      [matDatepicker]="picker"
+                      autocomplete="off"
+                      [min]="today_date"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (promotional_form.submitted || valid_from_name.touched) &&
                       valid_from_name.invalid
-                    ">From Date is required</span>
+                    "
+                    >From Date is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -115,16 +195,36 @@
               <span>Valid To Date <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
-                  <mat-form-field appearance="outline" class="cal_wdth" color="accent">
-                    <input placeholder="Select To Date" required name="valid_to_name" #valid_to_name="ngModel"
-                      [(ngModel)]="valid_to" matInput [matDatepicker]="picker2" autocomplete="off" [min]="valid_from" />
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-form-field
+                    appearance="outline"
+                    class="cal_wdth"
+                    color="accent"
+                  >
+                    <input
+                      placeholder="Select To Date"
+                      required
+                      name="valid_to_name"
+                      #valid_to_name="ngModel"
+                      [(ngModel)]="valid_to"
+                      matInput
+                      [matDatepicker]="picker2"
+                      autocomplete="off"
+                      [min]="valid_from"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker2"
+                    ></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (promotional_form.submitted || valid_to_name.touched) &&
                       valid_to_name.invalid
-                    ">To Date is required</span>
+                    "
+                    >To Date is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -133,13 +233,26 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input required maxlength="4" name="usage_name" #usage_name="ngModel" [(ngModel)]="usage" matInput
-                      placeholder="Usage" appNumbersonly />
+                    <input
+                      required
+                      min="1"
+                      type="number"
+                      maxlength="4"
+                      name="usage_name"
+                      #usage_name="ngModel"
+                      [(ngModel)]="usage"
+                      matInput
+                      placeholder="Usage"
+                    />
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (promotional_form.submitted || usage_name.touched) &&
                       usage_name.invalid
-                    ">Promotional Code usage required</span>
+                    "
+                    >Usage required</span
+                  >
                 </span>
               </span>
             </div>
@@ -149,7 +262,11 @@
         <button mat-raised-button color="accent" class="float_right mr_1">
           Submit
         </button>
-        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="toggleModel()"
+        >
           Close
         </button>
       </form>
@@ -159,15 +276,31 @@
 
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''" placeholder="Search" />
+      <input
+        matInput
+        [(ngModel)]="search_box"
+        (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+        placeholder="Search"
+      />
       <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">
+    <button
+      mat-raised-button
+      color="accent"
+      class="float_right"
+      (click)="toggleModel()"
+      type="button"
+    >
       New Promotional
     </button>
     <div class="rsp_tbl">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z8"
+      >
         <!-- Position Column -->
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef>S.No</th>
@@ -197,10 +330,13 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
           <td mat-cell *matCellDef="let element">
-            <span matTooltip="Current Status is {{
+            <span
+              matTooltip="Current Status is {{
                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-              }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-              "Inactive" }}</span>
+              }}"
+              class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}"
+              >{{ element.status == 1 ? "Active" : "Inactive" }}</span
+            >
           </td>
         </ng-container>
 
@@ -236,8 +372,12 @@
                 'are you sure to change status of <b>' +
                 element.code +
                 '</b> Promotional'
-              " placement="top" (confirm)="deletePromotional(element.pk_id, element.status)" confirmButtonType="danger"
-              cancelButtonType="outline-secondary">
+              "
+              placement="top"
+              (confirm)="deletePromotional(element.pk_id, element.status)"
+              confirmButtonType="danger"
+              cancelButtonType="outline-secondary"
+            >
               <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
               <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
             </button>
@@ -247,79 +387,133 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-          <td class="mat-cell" colspan="9">
-            No Records Found
-          </td>
+          <td class="mat-cell" colspan="9">No Records Found</td>
         </tr>
       </table>
     </div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[10, 20, 50, 100]"
+      showFirstLastButtons
+      (page)="getServerData($event)"
+    ></mat-paginator>
   </div>
 </div>
-<div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: edit_model_status }">
+<div
+  class="cust_mdl_par cust_mdl_50p"
+  [ngClass]="{ cust_mdl_opn: edit_model_status }"
+>
   <div class="cust_mdl_chl">
     <div class="pg_ttl">
       Promotional Edit
       <span class="spacer"></span>
-      <button type="button" mat-icon-button (click)="edit_model_status = !edit_model_status">
+      <button
+        type="button"
+        mat-icon-button
+        (click)="edit_model_status = !edit_model_status"
+      >
         &#x2715;
       </button>
     </div>
     <div class="tbbd_bdy">
-      <form id="edit_promotional_form" #edit_promotional_form="ngForm" name="edit_promotional_form"
-        (ngSubmit)="edit_promotional_form.valid && updatePromotional()" novalidate>
+      <form
+        id="edit_promotional_form"
+        #edit_promotional_form="ngForm"
+        name="edit_promotional_form"
+        (ngSubmit)="edit_promotional_form.valid && updatePromotional()"
+        novalidate
+      >
         <div class="tbbd_bdy">
           <div class="grd_2c no_bxsdw">
-            <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked fields are mandatory</span>
+            <span class="text-right w_100p rqrd_txtinfo">
+              All <span class="required">( * ) </span>marked fields are
+              mandatory</span
+            >
             <div class="hgt_20"></div>
             <div class="frm_dvs">
               <span>Promo/Coupon Code <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input required maxlength="15" pattern="[A-Za-z0-9]*" name="code_name_edit" [(ngModel)]="code"
-                      matInput placeholder="Promo/Coupon" #code_name_edit="ngModel" />
+                    <input
+                      required
+                      maxlength="15"
+                      pattern="[A-Za-z0-9]*"
+                      name="code_name_edit"
+                      [(ngModel)]="code"
+                      matInput
+                      placeholder="Promo/Coupon"
+                      #code_name_edit="ngModel"
+                    />
                   </mat-form-field>
 
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (edit_promotional_form.submitted ||
                         code_name_edit.touched) &&
                       code_name_edit.invalid
-                    ">Promo/Copoun is required and allowed alphabets only</span>
+                    "
+                    >Promo/Copoun is required and allowed Alphanumeric
+                    only</span
+                  >
                 </span>
               </span>
             </div>
 
             <div class="frm_dvs">
-              <span class="algn_s_fs">Description <span class="required">*</span></span>
+              <span class="algn_s_fs"
+                >Description <span class="required">*</span></span
+              >
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <textarea required name="description_name_edit" [(ngModel)]="description" matInput
-                      placeholder="Description" #description_name_edit="ngModel"></textarea>
+                    <textarea
+                      required
+                      name="description_name_edit"
+                      [(ngModel)]="description"
+                      matInput
+                      placeholder="Description"
+                      #description_name_edit="ngModel"
+                    ></textarea>
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (edit_promotional_form.submitted ||
                         description_name_edit.touched) &&
                       description_name_edit.invalid
-                    ">Description is required</span>
-                </span></span>
+                    "
+                    >Description is required</span
+                  >
+                </span></span
+              >
             </div>
             <div class="frm_dvs">
               <span>Promotional Percent <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input required maxlength="5" name="promotional_percente_name_edit"
-                      #promotional_percente_name_edit="ngModel" [(ngModel)]="promotional_percente" matInput
-                      placeholder="Promotional Percente" (blur)="formatValue(promotional_percente)" />
+                    <input
+                      required
+                      maxlength="5"
+                      name="promotional_percente_name_edit"
+                      #promotional_percente_name_edit="ngModel"
+                      [(ngModel)]="promotional_percente"
+                      matInput
+                      placeholder="Promotional Percente"
+                      (blur)="formatValue(promotional_percente)"
+                    />
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (edit_promotional_form.submitted ||
                         promotional_percente_name_edit.touched) &&
                       promotional_percente_name_edit.invalid
-                    ">Promotional Percent is required and allowed max 2
-                    digits</span>
+                    "
+                    >Promotional Percent is required and allowed max 2
+                    digits</span
+                  >
                 </span>
               </span>
             </div>
@@ -328,35 +522,64 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select Course" name="course_name_edit" #course_name_edit="ngModel"
-                      [(ngModel)]="course" required>
+                    <mat-select
+                      placeholder="Select Course"
+                      name="course_name_edit"
+                      #course_name_edit="ngModel"
+                      [(ngModel)]="course"
+                      required
+                    >
                       <mat-option value="1">Course1</mat-option>
                       <mat-option value="2">Course2</mat-option>
                     </mat-select>
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (edit_promotional_form.submitted ||
                         course_name_edit.touched) &&
                       course_name_edit.invalid
-                    ">Course is required</span>
-                </span></span>
+                    "
+                    >Course is required</span
+                  >
+                </span></span
+              >
             </div>
             <div class="frm_dvs">
               <span>Valid From Date <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
-                  <mat-form-field appearance="outline" class="cal_wdth" color="accent">
-                    <input placeholder="Select From Date" required name="valid_from_name_edit"
-                      #valid_from_name_edit="ngModel" [(ngModel)]="valid_from" matInput [matDatepicker]="picker3"
-                      autocomplete="off" [min]="today_date" />
-                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                  <mat-form-field
+                    appearance="outline"
+                    class="cal_wdth"
+                    color="accent"
+                  >
+                    <input
+                      placeholder="Select From Date"
+                      required
+                      name="valid_from_name_edit"
+                      #valid_from_name_edit="ngModel"
+                      [(ngModel)]="valid_from"
+                      matInput
+                      [matDatepicker]="picker3"
+                      autocomplete="off"
+                      [min]="today_date"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker3"
+                    ></mat-datepicker-toggle>
                     <mat-datepicker #picker3></mat-datepicker>
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (edit_promotional_form.submitted ||
                         valid_from_name_edit.touched) &&
                       valid_from_name_edit.invalid
-                    ">From Date is required</span>
+                    "
+                    >From Date is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -364,17 +587,37 @@
               <span>Valid To Date <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
-                  <mat-form-field appearance="outline" class="cal_wdth" color="accent">
-                    <input placeholder="Select To Date" required name="valid_to_name_edit" #valid_to_name_edit="ngModel"
-                      [(ngModel)]="valid_to" matInput [matDatepicker]="picker4" autocomplete="off" [min]="valid_from" />
-                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                  <mat-form-field
+                    appearance="outline"
+                    class="cal_wdth"
+                    color="accent"
+                  >
+                    <input
+                      placeholder="Select To Date"
+                      required
+                      name="valid_to_name_edit"
+                      #valid_to_name_edit="ngModel"
+                      [(ngModel)]="valid_to"
+                      matInput
+                      [matDatepicker]="picker4"
+                      autocomplete="off"
+                      [min]="valid_from"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker4"
+                    ></mat-datepicker-toggle>
                     <mat-datepicker #picker4></mat-datepicker>
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (edit_promotional_form.submitted ||
                         valid_to_name_edit.touched) &&
                       valid_to_name_edit.invalid
-                    ">To Date is required</span>
+                    "
+                    >To Date is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -383,13 +626,24 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input required appNumbersonly name="usage_name" #usage_name="ngModel" [(ngModel)]="usage" matInput
-                      placeholder="Usage" />
+                    <input
+                      required
+                      type="number"
+                      name="usage_name"
+                      #usage_name="ngModel"
+                      [(ngModel)]="usage"
+                      matInput
+                      placeholder="Usage"
+                    />
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
                       (promotional_form.submitted || usage_name.touched) &&
-                      usage_name.invalid
-                    ">Promotional Percent is required</span>
+                      (usage_name.invalid || usage == '')
+                    "
+                    >Promotional Percent is required</span
+                  >
                 </span>
               </span>
             </div>
@@ -399,7 +653,11 @@
         <button mat-raised-button color="accent" class="float_right mr_1">
           Submit
         </button>
-        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="edit_model_status = !edit_model_status">
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="edit_model_status = !edit_model_status"
+        >
           Close
         </button>
       </form>

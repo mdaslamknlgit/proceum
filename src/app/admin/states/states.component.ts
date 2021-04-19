@@ -24,7 +24,7 @@ export class StatesComponent implements OnInit {
   public model_state_status = false;
   public country_id:any;
   public country_name="";
-  public state_name = '';
+  public state_name = "";
   public state_id:any;
   public maxSize: number = 5; // 5MB
   public fileExt: string = "xlsx";
@@ -64,9 +64,11 @@ export class StatesComponent implements OnInit {
 	}
   toggleModel() {
     this.model_status = !this.model_status;
+    (<HTMLFormElement>document.getElementById('create_state_form')).reset();
   }
   toggleStateModel() {
-    this.model_state_status = !this.model_state_status
+    this.model_state_status = !this.model_state_status;
+    (<HTMLFormElement>document.getElementById('edit_state_form')).reset();
   }
 
   public navigateTo(country_id:any,state_id:any) {
@@ -74,7 +76,8 @@ export class StatesComponent implements OnInit {
   }
 
   saveState(){
-    if(this.state_name !=''){
+    console.log(this.state_name);
+    if(this.state_name !='' && this.state_name !=null){
       let params={url: 'save-state',state_name:this.state_name,country_id: this.country_id};
       this.http.post(params).subscribe((res: Response) => {
         if (res.error) {
@@ -87,7 +90,7 @@ export class StatesComponent implements OnInit {
         }
       });
     }else{
-      this.toastr.error("State Name is required" , 'Error', { closeButton: true , timeOut: 3000});
+      // this.toastr.error("State Name is required" , 'Error', { closeButton: true , timeOut: 3000});
     }
 
   }
@@ -100,7 +103,7 @@ export class StatesComponent implements OnInit {
   }
 
   updateState(){
-    if(this.state_name !=''){
+    if(this.state_name !='' && this.state_name !=null){
       let params={url: 'update-state',state_name:this.state_name,state_id: this.state_id};
       this.http.post(params).subscribe((res: Response) => {
         if (res.error) {
@@ -113,7 +116,7 @@ export class StatesComponent implements OnInit {
         }
       });
     }else{
-      this.toastr.error("State Name is required" , 'Error', { closeButton: true , timeOut: 3000});
+      // this.toastr.error("State Name is required" , 'Error', { closeButton: true , timeOut: 3000});
     }
 
   }
