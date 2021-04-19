@@ -1,0 +1,133 @@
+<app-admin-topbar></app-admin-topbar>
+<app-sidebar></app-sidebar>
+<div class="mn_dshbrd">
+  <div class="brd_crm">
+    Proceum &raquo; Settings &raquo; <strong>Settings</strong>
+  </div>
+  <div class="pg_ttl">Settings List</div>
+  <hr />
+  <div class="dsh_brd_crds">
+    <div>
+      <span class="search"></span>
+      <mat-form-field appearance="outline">
+        <input matInput  autocomplete="off" (keyup)="$event.keyCode == 13 ?applyFilters() : ''" placeholder="Search" [(ngModel)]="search"/>
+        <mat-icon matSuffix (click)="applyFilters()" class="cursor-pointer">search</mat-icon>
+    </mat-form-field>
+    
+      <a mat-raised-button color="accent" class="float_right" routerLink="/admin/create-settings" routerLinkActive="active" >New Settings</a>
+  </div>
+
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
+      <!-- Position Column -->
+      <ng-container matColumnDef="pk_id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+        <td mat-cell *matCellDef="let index = index">
+          {{ page + index + 1 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="organization_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Organization Name</th>  
+        <td mat-cell *matCellDef="let element">{{ element.organization_name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="contact_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Contact Name</th>
+        <td mat-cell *matCellDef="let element">{{ element.contact_name }}</td>
+      </ng-container>
+      <ng-container matColumnDef="contact_email_1">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Contact Email</th>
+        <td mat-cell *matCellDef="let element">{{ element.contact_email_1 }}</td>
+      </ng-container>
+      <ng-container matColumnDef="contact_number_1">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Contact Number</th>
+        <td mat-cell *matCellDef="let element">{{ element.contact_number_1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header>Created Date</th>  
+        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button>
+            <mat-icon matTooltip="View Details" class="accent" (click)="toggleModel(element.pk_id)">visibility</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="noRecord">
+        <td mat-footer-cell *matFooterCellDef>No records found.</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+        <td class="mat-cell" colspan="6">
+          No Records Found
+        </td>
+      </tr>
+    </table>
+    <mat-paginator #paginator [pageSize]="pageSize" [length]="num_settings" [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
+  </div>
+</div>
+<app-admin-footer></app-admin-footer>
+
+<div class="cust_mdl_par cust_mdl_35p" [ngClass]="{ cust_mdl_opn: model_status }">
+  <div class="cust_mdl_chl">
+      <div class="pg_ttl">View Details
+          <span class="spacer"></span>
+          <button mat-icon-button (click)="toggleModel('')" class="float_right">&#x2715;</button>
+      </div>
+      <div class="tbbd_bdy">
+          <div class="hgt_20"></div>
+              <div class="grd_2c no_bxsdw">
+                <div class="frm_dvs">
+                  <span><b>Organization Name:</b></span>
+                  <span>{{settings.organization_name}}</span>
+                </div>
+                <div class="frm_dvs">
+                  <span><b>GST Number:</b></span>
+                  <span>{{settings.gstNumber}}</span>
+                </div>
+                <div class="frm_dvs">
+                  <span><b>Full Address :</b></span>
+                  <span>{{settings.address}}</span>
+                </div>
+                <div class="frm_dvs">
+                  <span><b>Theme/Color :</b></span>
+                  <span>{{settings.theme_color}}</span>
+                </div>
+                <div class="frm_dvs">
+                  <span><b>Copyright Text :</b></span>
+                  <span>{{settings.copy_right_text}}</span>
+                </div>
+                <div class="frm_dvs">
+                  <span><b>List View Page Limit :</b></span>
+                  <span>{{settings.list_view_page_limit}}</span>
+                </div>
+                <div class="frm_dvs">
+                  <span><b>Date Format :</b></span>
+                  <span>{{settings.date_format}}</span>
+                </div>
+                <div class="frm_dvs">
+                  <span><b>Time Format :</b></span>
+                  <span>{{settings.time_format}}</span>
+                </div>
+                <div class="frm_dvs">
+                  <span><b>Created At :</b></span>
+                  <span>{{settings.created_at}}</span>
+                </div>
+                <div class="frm_dvs">
+                  <span><b>Updated At :</b></span>
+                  <span>{{settings.updated_at}}</span>
+                </div>
+              </div>
+              <hr>
+          <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel('')">Close</button>
+          <div class="hgt_20"></div>
+      </div>
+  </div>
+</div>
