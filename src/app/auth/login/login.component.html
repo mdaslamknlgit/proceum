@@ -9,19 +9,20 @@
         <p class="sgn_hd">Sign In</p>
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
 
-        <form #login_id="ngForm" name="login_form" (ngSubmit)="login_id.valid && doLogin()" novalidate>
-          <div class="mail err_tltp_par">
+        <form #login_id="ngForm" name="login_form" (ngSubmit)="doLogin()" novalidate>
+          <div class="mail {{ login_id.submitted && (login.email == '' || user_email.invalid) ? 'err_tltp_par' : ''}}">
             <input type="email" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email
               #user_email="ngModel" ngModel required />
             <span class="material-icons mail_icon">mail_outline</span>
-            <span class="prc_tltp" *ngIf="user_email.invalid && login_id.submitted">Invalid Email</span>
+            <span class="prc_tltp" *ngIf="login_id.submitted && (login.email == '' || email_check == false)">{{email_error}}</span>
           </div>
-          <div class="psswrd">
+          <div class="psswrd {{ login_id.submitted && (login.password == '') ? 'err_tltp_par' : ''}}">
             <input [type]="password_hide ? 'password' : 'text'" required [(ngModel)]="login.password"
               name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel />
             <span class="material-icons mail_icon" (click)="passwordFun()">{{
               password_hide ? "visibility_off" : "visibility"
               }}</span>
+              <span class="prc_tltp" *ngIf="login_id.submitted && login.password == ''">{{password_error}}</span>
           </div>
           <!-- <div
             class="prc_hnt"

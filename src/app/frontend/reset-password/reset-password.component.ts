@@ -13,7 +13,8 @@ export class ResetPasswordComponent implements OnInit {
   password_confirm_hide: boolean = true;
   password_check: boolean = false;
   confirm_check: boolean = false;
-  public message: string = '';
+  public password_msg: string = 'Password is Required';
+  public confirm_msg: string = 'Confirm Password is Required';
   is_show: boolean = false;
   reset: Reset = { new_password: '', confirm_password: '' };
   hash_token:any;
@@ -27,9 +28,6 @@ export class ResetPasswordComponent implements OnInit {
   doResetPassword(){
 
     if(this.reset.new_password == '' || this.reset.confirm_password == ''){
-      this.message = "Required data is missing";
-      this.toastr.error(this.message, 'Error', { closeButton: true , timeOut: 5000});
-      return;
     }else{
 
       if(this.reset.new_password != ""){
@@ -55,15 +53,10 @@ export class ResetPasswordComponent implements OnInit {
 
           }else{
             this.confirm_check = false;
-            this.message = "Password and Confirm password are not matched";
-            this.toastr.error(this.message , 'Error', { closeButton: true , timeOut: 5000});
-            
-            return;
+            this.confirm_msg = "Password and Confirm password are not matched";
           }
         }else{
-          this.message = "A minimum 8 characters password contains a combination of uppercase and lowercase letter,special character and number are required.";
-          this.toastr.error(this.message, 'Error', { closeButton: true , timeOut: 5000});
-          return;
+          this.password_msg = "A minimum 8 characters password contains a combination of uppercase and lowercase letter,special character and number are required.";
         }
 
   
