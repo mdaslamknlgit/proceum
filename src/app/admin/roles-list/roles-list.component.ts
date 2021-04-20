@@ -21,7 +21,7 @@ export interface PeriodicElement {
 export class RolesListComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
-    'title',
+    'role_name',
     'status',
     'created_at',
     'updated_at',
@@ -85,8 +85,8 @@ export class RolesListComponent implements OnInit {
         this.getRoles();
         this.toggleModel();
       } else {
-        let message = res['errors']['title']
-          ? res['errors']['title']
+        let message = res['errors']['role_name']
+          ? res['errors']['role_name']
           : res['message'];
         this.toster.error(message, 'Error');
       }
