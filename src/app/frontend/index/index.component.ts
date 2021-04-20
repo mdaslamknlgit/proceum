@@ -20,8 +20,7 @@ export class IndexComponent implements OnInit {
   errEmailMsg: string = '';
   emailRegexp = new RegExp('/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/');
   menus: any;
-  pages: any;
-  newPages: any = [];
+  subMenus: any = [];
   errClass: any;
   public isOpen = false;
   user: any;
@@ -89,15 +88,21 @@ export class IndexComponent implements OnInit {
     let params = { url: 'menu-submenu' };
     this.http.post(params).subscribe((res) => {
       this.menus = res['menus'];
-      this.pages = res['pages'];
+     // this.pages = res['pages'];
     });
   }
 
-  changeSubmenu($key) {
-    console.log($key);
-    this.newPages = this.pages.filter(function (page) {
-      return page.parent_id == $key;
+  changeSubmenu(menu_id) {
+      let params = {
+      "url": "sub-menu",
+      'parent_id':menu_id
+       };
+    this.http.post(params).subscribe((res) => {
+      this.subMenus = res['pages'];
     });
+    // this.newPages = this.pages.filter(function (page) {
+    //   return page.parent_id == key;
+    // });
   }
 }
 

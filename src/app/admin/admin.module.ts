@@ -33,6 +33,8 @@ import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
 import { StatesComponent } from './states/states.component';
 import { CitiesComponent } from './cities/cities.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SettingsListComponent } from './settings-list/settings-list.component';
+import { CustomPageListComponent } from './custom-page-list/custom-page-list.component';
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -99,8 +101,13 @@ const routes: Routes = [
     component: CitiesComponent,
   },
   { path: 'newsletter-list', component: NewsletterListComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'custom-page', component: CustomPagesComponent },
+  { path: 'create-settings', component: SettingsComponent },
+  {
+    path: 'settings',
+    component: SettingsListComponent,
+  },
+  { path: 'custom-page', component: CustomPageListComponent },
+  { path: 'create-custom-page', component: CustomPagesComponent },
 ];
 @NgModule({
   declarations: [
@@ -123,6 +130,8 @@ const routes: Routes = [
     CountriesStatesCitiesComponent,
     StatesComponent,
     CitiesComponent,
+    SettingsListComponent,
+    CustomPageListComponent,
   ],
   imports: [
     MaterialModule,

@@ -23,6 +23,15 @@ export class TopbarComponent implements OnInit {
     this.user = this.http.getUser();
     this.innerWidth = window.innerWidth;
   }
+
+  navigateTo() {
+    if (this.user['role'] == '1') {
+      this.route.navigateByUrl('/admin/dashboard');
+    } else if(this.user['role'] == '2') {
+      this.route.navigateByUrl('/student/dashboard');
+    }
+  }
+
   toggleSidemenu(param) {
     this.sidemenu_status =
       this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';

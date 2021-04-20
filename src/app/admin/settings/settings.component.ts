@@ -20,10 +20,12 @@ export class SettingsComponent implements OnInit {
   mode_check: boolean = true;
   color: string;
   touchUi;
-  url: any = "./assets/images/ProceumLogo.png";
+  url: any = "./assets/images/sample_logo.png";
   src: any;
   public model_status = false;
-  systemMode: any;
+  systemMode: any='live';
+  organization_name_check:boolean;
+  contact_name_check:boolean;
   settings: any = {
     "organization_name": "",
     "contact_name": "",
@@ -58,6 +60,11 @@ export class SettingsComponent implements OnInit {
       this.imgMessage = "";
       this.src = this.url;
     }
+    let size = this.filedata[0].size;
+    if (size >= 256000) {
+      this.imgMessage = "Logo must be less than 250kb";
+      return;
+    }
     const reader = new FileReader();
     this.imagePath = this.filedata;
     reader.readAsDataURL(this.filedata[0]);
@@ -79,14 +86,31 @@ export class SettingsComponent implements OnInit {
 
   createSettings() {
     var myFormData = new FormData();
+    let i=0;
     if (this.settings.organization_name.trim() !== "") {
       myFormData.append('organization_name', this.settings.organization_name.trim());
+    }else{
+      this.settings.organization_name=this.settings.organization_name.trim();
+    i++;
     }
+   
+    //address validation
+    if (this.settings.contact_name.trim() !== "") {
+      myFormData.append('contact_name', this.settings.contact_name.trim());
+    }else{
+      this.settings.contact_name=this.settings.contact_name.trim();
+      i++;
+    }
+
     //address validation
     if (this.settings.full_address.trim() === "") {
-      this.address_check = false;
+      this.settings.full_address=this.settings.full_address.trim();
+      i++;
+    }
+    if(i!=0){
       return;
     }
+
     //logo
     if (this.filedata) {
       let mimeType = this.filedata[0].type;
@@ -97,7 +121,7 @@ export class SettingsComponent implements OnInit {
       }
 
       if (size >= 256000) {
-        this.imgMessage = "logo must be less than 250kb";
+        this.imgMessage = "Logo must be less than 250kb";
         return;
       }
       this.imgMessage = "";
@@ -116,7 +140,7 @@ export class SettingsComponent implements OnInit {
     myFormData.append('contact_number_2', contact_number_2);
     myFormData.append('full_address', this.settings.full_address.trim());
     myFormData.append('gstin_number', this.settings.gstin_number.trim());
-    myFormData.append('contact_name', this.settings.contact_name.trim());
+    
     myFormData.append('date_format', this.settings.date_format.trim());
     myFormData.append('time_format', this.settings.time_format.trim());
     myFormData.append('list_view_limit', this.settings.list_view_limit);
@@ -124,7 +148,7 @@ export class SettingsComponent implements OnInit {
     myFormData.append('copyright_text', copy_right);
 
     let param = {
-      'url': 'settings'
+      'url': 'create-settings'
     };
     this.http.imageUpload(param, myFormData).subscribe((res) => {
       if (res['error'] == false) {
