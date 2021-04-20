@@ -51,9 +51,33 @@
       routerLinkActive="active"
       >Contact Us</span
     >
+    <!-- <span
+        mat-list-item
+        [matMenuTriggerFor]="appMenu"
+        class="tp_rt_mn"
+        *ngFor="let menu of menus"
+        (click)="changeSubmenu(menu.pk_id)"
+        >{{ menu.name }}</span
+      > -->
+    <!-- <span
+        mat-list-item
+        [matMenuTriggerFor]="appMenu"
+        class="tp_rt_mn"
+        routerLinkActive="active"
+        >CMS</span
+      >
+      <mat-menu #appMenu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let subMenu of subMenus"
+          routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
+        >
+          {{ subMenu.name }}
+        </button>
+      </mat-menu> -->
   </div>
   <div class="lg_inbtn" *ngIf="user['name']">
-    <span>{{ user["name"] + "(" + user["role_name"] + ")" }}</span>
+    <span>{{ user["name"] + "(" + user["role_name"] + ")" }}  <mat-icon>face</mat-icon></span>
   </div>
   <div class="lg_inbtn">
     <span *ngIf="!user['name']" routerLink="/login"

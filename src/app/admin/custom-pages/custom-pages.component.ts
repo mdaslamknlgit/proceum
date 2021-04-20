@@ -1,7 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import ImageInsert from '@ckeditor/ckeditor5-image/src/imageinsert';
-import FileRepository from '@ckeditor/ckeditor5-upload/src/filerepository';
 import { CommonService } from '../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../environments/environment';
@@ -115,9 +113,7 @@ export class CustomPagesComponent implements OnInit {
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success', {
-          progressBar: true,
-        });
+        this.toaster.success(res['message'], 'Success');
         this.isMenuRequired = true;
         this.isMenuDisplay = true;
         this.isRequired = true;
@@ -125,7 +121,7 @@ export class CustomPagesComponent implements OnInit {
         (<HTMLFormElement>document.getElementById('custom_page_form')).reset();
         this.getMenusAndPages();
       } else {
-        this.toaster.error(res['message'], 'Error', { progressBar: true });
+        this.toaster.error(res['message'], 'Error');
       }
     });
   }
