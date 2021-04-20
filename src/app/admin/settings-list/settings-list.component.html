@@ -14,9 +14,10 @@
         <mat-icon matSuffix (click)="applyFilters()" class="cursor-pointer">search</mat-icon>
     </mat-form-field>
     
-      <a mat-raised-button color="accent" class="float_right" routerLink="/admin/create-settings" routerLinkActive="active" >New Settings</a>
+      <a mat-raised-button color="accent" class="float_right margin-bottom_20" routerLink="/admin/create-settings" routerLinkActive="active" >New Settings</a>
   </div>
 
+  <div class="rsp_tbl">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
       <!-- Position Column -->
       <ng-container matColumnDef="pk_id">
@@ -69,6 +70,7 @@
         </td>
       </tr>
     </table>
+  </div>
     <mat-paginator #paginator [pageSize]="pageSize" [length]="num_settings" [pageSizeOptions]="pageSizeOptions"
       [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
   </div>
