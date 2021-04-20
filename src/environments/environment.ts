@@ -6,9 +6,9 @@ export const environment = {
   production: false,
   page_size: 10,
   page_size_options: [10, 20, 50, 100],
-  // apiUrl: 'http://192.168.0.12:8080/api/',
+  apiUrl: 'http://192.168.0.8:8080/api/',
   // apiUrl: 'http://192.10.250.106:8000/api/',
-  apiUrl  : 'https://apidev.proceum.com/api/'
+  // apiUrl  : 'https://apidev.proceum.com/api/'
 };
 
 /*
