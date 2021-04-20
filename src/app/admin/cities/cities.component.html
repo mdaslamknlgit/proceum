@@ -48,6 +48,7 @@
                     [(ngModel)]="city_name"
                     name="city_name_name"
                     maxlength="90"
+                    trim="blur"
                     onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
                     #city_name_name="ngModel"
                     required
@@ -112,6 +113,7 @@
                     name="city_name_name"
                     #city_name_name="ngModel"
                     maxlength="90"
+                    trim="blur"
                     onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
                     required
                   />
@@ -167,12 +169,14 @@
     <button
       mat-raised-button
       color="accent"
-      class="float_right mt_0"
+      class="float_right mt_0 margin-bottom_20"
       type="button"
       (click)="toggleModel()"
     >
       Add New City
     </button>
+
+    <div class="rsp_tbl">
     <table
       mat-table
       (matSortChange)="sortData($event)"
@@ -258,6 +262,7 @@
         </td>
       </tr>
     </table>
+    </div>
     <mat-paginator
       #paginator
       [pageSize]="pageSize"

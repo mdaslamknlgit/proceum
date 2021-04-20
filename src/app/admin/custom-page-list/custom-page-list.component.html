@@ -1,0 +1,92 @@
+<app-admin-topbar></app-admin-topbar>
+<app-sidebar></app-sidebar>
+<div class="mn_dshbrd">
+  <div class="brd_crm">
+    Proceum &raquo; Settings &raquo; <strong>CustomPage</strong>
+  </div>
+  <div class="pg_ttl">CustomPage List</div>
+  <hr />
+  <div class="dsh_brd_crds">
+    <div>
+      <span class="search"></span>
+      <mat-form-field appearance="outline">
+        <input matInput  autocomplete="off" (keyup)="$event.keyCode == 13 ?applyFilters() : ''" placeholder="Search" [(ngModel)]="search"/>
+        <mat-icon matSuffix (click)="applyFilters()" class="cursor-pointer">search</mat-icon>
+    </mat-form-field>
+    <a mat-raised-button color="accent" class="float_right margin-bottom_20" routerLink="/admin/create-custom-page" routerLinkActive="active" >New Custom Page</a>
+  </div>
+  <div class="rsp_tbl">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
+      <!-- Position Column -->
+      <ng-container matColumnDef="pk_id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+        <td mat-cell *matCellDef="let index = index">
+          {{ page + index + 1 }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="menu_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Menu Name</th>  
+        <td mat-cell *matCellDef="let element">{{ element.menu_name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="page_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Page Name</th>  
+        <td mat-cell *matCellDef="let element">{{ element.page_name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="show_menu">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let element">
+          <span matTooltip="Current Status is {{
+              element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+            }}" class="{{ element.show_menu == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.show_menu == 1 ? "Active" : "Inactive"
+            }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef  mat-sort-header>Created Date</th>  
+        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>Action</th>
+        <td mat-cell *matCellDef="let element">
+          <!-- <button mat-icon-button (click)="viewCurriculum(element)">
+            <mat-icon>view_list</mat-icon>
+          </button> -->
+          <!-- <button matTooltip="Click to edit" mat-icon-button (click)="editCurriculum(element)">
+            <mat-icon>edit</mat-icon>
+          </button> -->
+          <button matTooltip="click here to {{
+              element.show_menu == 1 ? 'IN-ACTIVE' : 'ACTIVE'
+            }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+              'are you sure to change status of <b>' +
+              element.page_name +
+              '</b>'
+            " placement="top" (confirm)="changeStatus(element.pk_id, element.show_menu)" confirmButtonType="danger"
+            cancelButtonType="outline-secondary">
+            <mat-icon *ngIf="element.show_menu == 1">visibility_off</mat-icon>
+            <mat-icon *ngIf="element.show_menu == 0">visibility</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="noRecord">
+        <td mat-footer-cell *matFooterCellDef>No records found.</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+        <td class="mat-cell" colspan="6">
+          No Records Found
+        </td>
+      </tr>
+    </table>
+  </div>
+    <mat-paginator #paginator [pageSize]="pageSize" [length]="num_custom_page" [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
+  </div>
+</div>
+<app-admin-footer></app-admin-footer>

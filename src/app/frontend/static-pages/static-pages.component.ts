@@ -9,23 +9,28 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class StaticPagesComponent implements OnInit {
 id:number;
-content:any;
+pageContent:any=[];
+pageName:string;
   constructor(private route: ActivatedRoute,private http: AuthService) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params.id;
-    this.getStaticPageContent();
+    this.route.params.subscribe(routeParams => {
+      this.id=routeParams.id;
+      this.getStaticPageContent();
+    });    
   }
 
   getStaticPageContent(){
+    console.log( this.id);
     let params = {
       "url": 'page-content',
       'pk_id':this.id
     };
-    console.log(params);
+   // console.log(params);
     this.http.post(params).subscribe((res) => {
-      console.log(res['content'].content);
-      this.content=res['content'].content;
+      console.log(res['content']);
+      this.pageContent=res['content'];
+      this.pageName=res['page_name'];
     });
   }
 

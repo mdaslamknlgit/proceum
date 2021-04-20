@@ -91,8 +91,8 @@
             </span>
           </div>
           <div class="frm_dvs">
-            <span>&nbsp;</span>
-            <span><span class="required">{{imgMessage}}</span></span>
+            <span >&nbsp;</span>
+            <span><span style="margin-top: 15px;" class="required">{{imgMessage}}</span></span>
           </div>
           <div class="frm_dvs">
             <span>First name <span class="required">*</span></span>
@@ -210,7 +210,7 @@
             </span>
           </div>
           <div class="frm_dvs">
-            <span>College/Institue</span>
+            <span>College/Institute</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
                 <mat-select disabled="disabled">
@@ -319,24 +319,23 @@
           <div class="frm_dvs" *ngIf='isdisplay'>
             <span>Confirm password <span class="required">*</span></span>
             <span>
-              <span class="inp_par_dv" [ngClass]="{
+              <span class="inp_par_dv mat-form-field-infix ng-tns-c75-24" [ngClass]="{
                 err_tltp_par:
-                (profile_form.submitted && profile.confirm_pwd !=profile.new_password)
-                 || (profile_form.submitted && confirm_check == true)
+                  (profile_form.submitted && confirm_check == true)
                  || (profile_form.submitted && confirm_pwd.errors?.pattern)
                  || (profile_form.submitted && confirm_pwd.errors?.required)
               }">
                 <mat-form-field appearance="outline">
                   <input matInput placeholder="Confirm password" autocomplete="off" [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
-                    [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
-                    onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
+                  [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
+                  validateEqual="password"  onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
                     <mat-icon  matSuffix (click)="passwordFun('confirm')" >{{confirm_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </mat-form-field>
                 <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_pwd.errors?.required">
                   Confirm Password is required
                 </span>
                 <!-- <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_check"> New Password and Confirm Password are not matched </span> -->
-                <span class="prc_tltp" *ngIf="profile_form.submitted && profile.confirm_pwd !=profile.new_password"> New Password and Confirm Password are not matched </span>
+                <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_check == true"> New Password and Confirm Password are not matched </span>
               </span>
             </span>
           </div>
