@@ -19,7 +19,7 @@
     <a href="{{api_url}}export-students/PDF" mat-icon-button color="accent" class="float_right" matTooltip="Download as PDF" matTooltipPosition="above"><mat-icon>picture_as_pdf</mat-icon></a>
     <a href="{{api_url}}export-students/EXL" mat-icon-button color="accent" class="float_right" matTooltip="Download as Excel" matTooltipPosition="above"><mat-icon >description</mat-icon></a>
     
-      <div class="">
+      <div class="rsp_tbl">
     <table mat-table (matSortChange)="sortData($event)" class="mat-elevation-z8"  [dataSource]="dataSource" matSort>
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
@@ -73,9 +73,10 @@
           <td class="mat-cell" colspan="6">No Records Found</td>
         </tr>
       </table>
+    </div>
       <mat-paginator #paginator [pageSize]="pageSize" [length]="num_students"
          [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
-    </div>
+    
   </div>
 </div>
 
