@@ -21,7 +21,7 @@
       >
       <span mat-list-item class="tp_rt_mn">Pricing</span>
       <span mat-list-item class="tp_rt_mn">Subscribe</span>
-      <span mat-list-item class="tp_rt_mn">Register Trail</span>
+      <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn">Register Trail</span>
       <span
         mat-list-item
         class="tp_rt_mn"
@@ -40,11 +40,11 @@
       <mat-menu #appMenu="matMenu">
         <button
           mat-menu-item
-          *ngFor="let page of newPages"
-          routerLink="/mcicirriculam/{{ page.pk_id }}"
+          *ngFor="let subMenu of subMenus"
+          routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
           routerLinkActive="active"
         >
-          {{ page.name }}
+          {{ subMenu.name }}
         </button>
       </mat-menu>
     </div>

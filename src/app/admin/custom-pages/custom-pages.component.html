@@ -2,7 +2,7 @@
 <app-sidebar></app-sidebar>
 <div class="mn_dshbrd">
     <div class="brd_crm">Proceum &raquo; <strong>Custom Page</strong></div>
-    <div class="pg_ttl">Custom Page</div>
+    <div class="pg_ttl">Create Custom Page</div>
     <div class="hgt_20"></div>
     <form #custom_page_form="ngForm" id="custom_page_form" name="custom_page_form" (ngSubmit)="custom_page_form.valid && createCustomPage()" novalidate>
         <div class="grd_2c">
@@ -28,15 +28,17 @@
                         </mat-form-field>
                     </span>
                     <span class="mx_1"  *ngIf="isMenuDisplay">(OR)</span>
-                    <span *ngIf="isMenuDisplay">
+                    <span *ngIf="isMenuDisplay" class="err_tltp_par">
                         <mat-form-field appearance="outline">
-                            <input matInput placeholder="Provide New Menu Name" autocomplete="off" [required]="isMenuRequired"
-                                name="new_menu_name" [(ngModel)]="customPage.new_menu_name" #new_menu_name="ngModel"
-                                ngModel>
-                                <button mat-button *ngIf="customPage.new_menu_name" matSuffix mat-icon-button aria-label="Clear" (click)="customPage.new_menu_name=''">
+                            <input matInput placeholder="Provide New Menu Name"  maxlength="90" autocomplete="off" [required]="isMenuRequired"
+                                name="new_menu_name" [(ngModel)]="customPage.new_menu_name" #new_menu_name="ngModel" pattern="[^ ](.*|\n|\r|\r\n)*"
+                                ngModel  onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))' >
+                                <!-- <button mat-button *ngIf="customPage.new_menu_name" matSuffix mat-icon-button aria-label="Clear" (click)="customPage.new_menu_name=''">
                                     <mat-icon>close</mat-icon>
-                                  </button>
+                                  </button> -->
                         </mat-form-field>
+                        <span class="prc_tltp" *ngIf="custom_page_form.submitted  && new_menu_name.errors?.pattern">Menu name is required</span>
+                        <span class="prc_tltp" *ngIf="custom_page_form.submitted  && new_menu_name.invalid">Menu name is required</span>
                     </span>
                 </span>
             </div>
@@ -46,7 +48,7 @@
                     <span>
                         <mat-form-field appearance="outline" color="accent">
                             <mat-select [required]="!isRequired" name="old_page_name" (selectionChange)="selectPage()"
-                                placeholder="Select Page" [(ngModel)]="customPage.old_page_name"
+                                placeholder="Select Page" [(ngModel)]="customPage.old_page_name" 
                                 #old_page_name="ngModel" ngModel>
                                 <mat-option value="">select page</mat-option>
                                 <mat-option *ngFor="let page of pagesList" [value]="page.name">{{page.name}}
@@ -56,16 +58,18 @@
                     </span>
                     <span class="mx_1" *ngIf="isPageDisplay">(OR)</span>
 
-                    <span *ngIf="isPageDisplay">
+                    <span *ngIf="isPageDisplay" class="err_tltp_par">
 
                         <mat-form-field appearance="outline">
-                            <input matInput placeholder="Provide New Page Name" [required]="isRequired" autocomplete="off"
-                                name="new_page_name" [(ngModel)]="customPage.new_page_name" #new_Page_name="ngModel"
-                                ngModel>
-                                <button mat-button *ngIf="customPage.new_page_name" matSuffix mat-icon-button aria-label="Clear" (click)="customPage.new_page_name=''">
+                            <input matInput placeholder="Provide New Page Name" [required]="isRequired" autocomplete="off" maxlength="90"
+                                name="new_page_name" [(ngModel)]="customPage.new_page_name" #new_page_name="ngModel" pattern="[^ ](.*|\n|\r|\r\n)*"
+                                ngModel  onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))'>
+                                <!-- <button mat-button *ngIf="customPage.new_page_name" matSuffix mat-icon-button aria-label="Clear" (click)="customPage.new_page_name=''">
                                     <mat-icon>close</mat-icon>
-                                  </button>
+                                  </button> -->
                         </mat-form-field>
+                        <span class="prc_tltp" *ngIf="custom_page_form.submitted  && new_page_name.invalid">Page name is required</span>
+                        <span class="prc_tltp" *ngIf="custom_page_form.submitted  && new_page_name.errors?.pattern">Page name is required</span>
                     </span>
                 </span>
             </div>
@@ -76,7 +80,7 @@
                         err_tltp_par:
                           (custom_page_form.submitted && Page_content.errors?.required )
                       }">
-                    <ckeditor (ready)="onReady($event)" id="editor" [config]="{ placeholder: 'Type the Page content here!' }"
+                    <ckeditor (ready)="onReady($event)" id="editor" #editor [config]="{ placeholder: 'Type the Page content here!' }"
                         required [(ngModel)]="customPage.Page_content" ngModel #Page_content="ngModel" name="Page_content" [editor]="Editor">
                     </ckeditor>
                     <span class="prc_tltp">Page content is required</span>
