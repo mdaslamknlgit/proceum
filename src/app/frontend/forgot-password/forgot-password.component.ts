@@ -11,7 +11,7 @@ import { SocialAuthService, GoogleLoginProvider, SocialUser,FacebookLoginProvide
 export class ForgotPasswordComponent implements OnInit {
   public register_email:string = '';
   public email_check: boolean = false;
-  public message: string = '';
+  public message: string = 'Email is Required';
   domain:string;
   constructor( private http: AuthService,private toastr: ToastrService,private socialAuthService: SocialAuthService ) { }
 
@@ -24,8 +24,6 @@ export class ForgotPasswordComponent implements OnInit {
       this.email_check = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.register_email);
       if (this.email_check == false) {
         this.message = "Invalid email";
-        this.toastr.error(this.message, 'Error', { closeButton: true , timeOut: 5000});
-        return;
       }else{
         let params = {
           url: 'forgot-password',
@@ -38,6 +36,7 @@ export class ForgotPasswordComponent implements OnInit {
             this.message = res.message;
             this.toastr.error(this.message, 'Error', { closeButton: true , timeOut: 5000});
           }else{
+            this.email_check = true;
             this.toastr.success(res.message, 'Success', { closeButton: true, timeOut: 5000 });
 
           }
@@ -46,7 +45,6 @@ export class ForgotPasswordComponent implements OnInit {
       }
     }else{
       this.message = "Email is required";
-      this.toastr.error(this.message, 'Error', { closeButton: true , timeOut: 5000});
     }
 
   }
