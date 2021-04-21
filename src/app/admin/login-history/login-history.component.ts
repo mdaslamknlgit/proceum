@@ -42,6 +42,8 @@ export class LoginHistoryComponent implements OnInit {
   public search_txt ="";
   public from_date='';
   public to_date='';
+  public fromDate='';
+  public toDate='';
   public maxDate= new Date();
   public tomindate:any;
   public is_todate:boolean=true;
@@ -69,18 +71,8 @@ export class LoginHistoryComponent implements OnInit {
   }
 
   applyFilters(){
-    let fromDate="";
-    let toDate="";
-    if(this.from_date){
-      fromDate =this.datepipe.transform(this.from_date, 'yyyy-MM-dd'); 
-    }else{
-      fromDate = "";
-    }
-    if(this.to_date){
-      toDate =this.datepipe.transform(this.to_date, 'yyyy-MM-dd'); 
-    }else{
-      toDate = "";
-    }
+    let fromDate =this.from_date?this.datepipe.transform(this.from_date, 'yyyy-MM-dd'):""; 
+    let toDate =this.to_date?this.datepipe.transform(this.to_date, 'yyyy-MM-dd'):""; 
     let param = { url: 'get-login-history',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,"search_txt":this.search_txt,"from_date":fromDate,"to_date":toDate};
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['login_history']);
@@ -108,9 +100,11 @@ export class LoginHistoryComponent implements OnInit {
     this.to_date="";
     this.is_submit=true;
     this.is_todate=false;
+    this.fromDate =this.from_date?this.datepipe.transform(this.from_date, 'yyyy-MM-dd'):""; 
   }
 
   todateChabge(){
+    this.toDate=this.to_date?this.datepipe.transform(this.to_date, 'yyyy-MM-dd'):""; 
     this.is_submit=false;
   }
 
