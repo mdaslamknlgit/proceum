@@ -20,21 +20,20 @@
             <!-- <br> -->
             <!-- You have been unsubscribed Proceum email list. -->
         </div>
-        <form  #unsubscribeForm="ngForm" (ngSubmit)="onSubmit(unsubscribeForm.value)" novalidate >
+        <form  #unsubscribe_form="ngForm" id="unsubscribe_form" name="unsubscribe_form"  (ngSubmit)="unsubscribe_form.submitted && onSubmit()" novalidate >
         <div class="feedback_block">
           <p>Please take a moment to tell us why you no longer wish to hear from us</p>
-          <div class="form-fields">
+          <div class="form-fields err_tltp_par">
               
             <mat-form-field appearance="outline">
                 <mat-label>Description</mat-label>
-                <textarea matInput pattern = "^(?!\s*$).+" rows="10" cols="60" minlength="1" maxlength="600" placeholder="Please share your feedback" name="reason" ngModel #reason="ngModel" required>{{textMessage}}</textarea><br />
+                <textarea matInput rows="10" cols="60" minlength="1" 
+                maxlength="600" placeholder="Please share your feedback" name="reason" [(ngModel)]="feedback.reason"
+                ngModel #reason="ngModel" required></textarea><br />
             </mat-form-field>
-            <div *ngIf="reason.touched && !reason.valid">
-                <div *ngIf="reason.errors.required" >Reason is required.</div>
-              </div>
-              <span>{{excption_message}}</span>
+                <span *ngIf="unsubscribe_form.submitted && reason.errors?.required" class="prc_tltp" >Reason is required.</span>
           </div>
-          <button type="submit"  [disabled]="unsubscribeForm.invalid && !reason.valid" class="teal_btn lgn_btn">Submit</button>
+          <button type="submit" class="teal_btn lgn_btn">Submit</button>
         </div>
         </form>
         <br>
