@@ -20,7 +20,8 @@ export class StudentsComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   public num_students: number = 0;
   public page = 0;
-  public pageSize = 10;
+  public pageSize = environment.page_size;
+  public page_size_options = environment.page_size_options;
   public sort_by: any;
   public search_txt ="";
   constructor(private http: CommonService, public dialog: MatDialog,private toastr: ToastrService) {}
