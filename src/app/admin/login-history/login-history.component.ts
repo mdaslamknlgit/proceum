@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../environments/environment';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { DatePipe } from '@angular/common'
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -29,7 +30,7 @@ export const MY_DATE_FORMATS = {
 })
 export class LoginHistoryComponent implements OnInit {
   public api_url:string;
-  displayedColumns: string[] = ['pk_id','name','latitude','longitude','country_name','city_name','platform_name','device_type','browser','ip_v4_address','login_time','logout_time'];
+  displayedColumns: string[] = ['pk_id','name','email','latitude','longitude','country_name','city_name','platform_name','device_type','browser','ip_v4_address','login_time','logout_time'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,7 +46,7 @@ export class LoginHistoryComponent implements OnInit {
   public tomindate:any;
   public is_todate:boolean=true;
   public is_submit:boolean=true;
-  constructor(private http: CommonService, public dialog: MatDialog) {}
+  constructor(private http: CommonService, public dialog: MatDialog,public datepipe: DatePipe) {}
   ngOnInit(): void {
     this.api_url = environment.apiUrl;
     this.getLoginHistory();
@@ -66,12 +67,21 @@ export class LoginHistoryComponent implements OnInit {
 		this.page = (event.pageSize * event.pageIndex);
     this.applyFilters( );
   }
-  public doFilter = (value: string) => {
-    this.dataSource.filter = value.trim().toLocaleLowerCase();
-  };
 
   applyFilters(){
-    let param = { url: 'get-login-history',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,"search_txt":this.search_txt,"from_date":this.from_date,"to_date":this.to_date};
+    let fromDate="";
+    let toDate="";
+    if(this.from_date){
+      fromDate =this.datepipe.transform(this.from_date, 'yyyy-MM-dd'); 
+    }else{
+      fromDate = "";
+    }
+    if(this.to_date){
+      toDate =this.datepipe.transform(this.to_date, 'yyyy-MM-dd'); 
+    }else{
+      toDate = "";
+    }
+    let param = { url: 'get-login-history',"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,"search_txt":this.search_txt,"from_date":fromDate,"to_date":toDate};
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['login_history']);
       this.dataSource.sort = this.sort;
