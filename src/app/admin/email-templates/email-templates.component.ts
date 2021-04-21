@@ -57,6 +57,8 @@ export class EmailTemplatesComponent implements OnInit {
   manageTemplate(id) {
     const dialogRef = this.dialog.open(ManageTemplateComponent, {
       data: { id: id },
+      width: '951px',
+      restoreFocus: false,
     });
     this.router.events.subscribe(() => {
       dialogRef.close();

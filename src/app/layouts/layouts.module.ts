@@ -11,6 +11,7 @@ import { NgWhiteboardModule } from 'ng-whiteboard';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { SidemenuComponent } from './frontend/sidemenu/sidemenu.component';
 import { RouterModule } from '@angular/router';
+import { StudentTopbarComponent } from './frontend/student-topbar/student-topbar.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RouterModule } from '@angular/router';
     AdminTopbarComponent,
     WhiteBoardComponent,
     SidemenuComponent,
+    StudentTopbarComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { RouterModule } from '@angular/router';
     AdminFooterComponent,
     AdminTopbarComponent,
     SidemenuComponent,
+    StudentTopbarComponent,
   ],
 })
 export class LayoutsModule {}

@@ -10,10 +10,16 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-newsletter-list',
   templateUrl: `./newsletter-list.component.html`,
-  styleUrls: ['./newsletter-list.component.scss']
+  styleUrls: ['./newsletter-list.component.scss'],
 })
 export class NewsletterListComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'email_address', 'status', 'created_at', 'action'];
+  displayedColumns: string[] = [
+    'id',
+    'email_address',
+    'status',
+    'created_at',
+    'action',
+  ];
   dataSource: any = [];
   apiURL: string;
   public num_newsletters: number = 0;
@@ -22,12 +28,9 @@ export class NewsletterListComponent implements OnInit {
   public pageSizeOptions = environment.page_size_options;
   public sort_by: any;
   hrefPDF: string;
-  hrefEXL: string
-  search = "";
-  constructor(
-    private http: CommonService,
-    public dialog: MatDialog
-  ) {
+  hrefEXL: string;
+  search = '';
+  constructor(private http: CommonService, public dialog: MatDialog) {
     this.apiURL = environment.apiUrl;
     this.hrefPDF = environment.apiUrl + 'export-newsletter/PDF';
     this.hrefEXL = environment.apiUrl + 'export-newsletter/EXL';
@@ -41,7 +44,12 @@ export class NewsletterListComponent implements OnInit {
   }
 
   getNewsLetterList() {
-    let param = { url: 'newsletter-list', "offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by };
+    let param = {
+      url: 'newsletter-list',
+      offset: this.page,
+      limit: this.pageSize,
+      sort_by: this.sort_by,
+    };
     this.http.post(param).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['newsletters']);
       this.dataSource.sort = this.sort;
@@ -53,7 +61,8 @@ export class NewsletterListComponent implements OnInit {
   manageTemplate(id) {
     const dialogRef = this.dialog.open(ModalPopupComponent, {
       width: '400px',
-      data: { id: id }
+      data: { id: id },
+      restoreFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -65,7 +74,7 @@ export class NewsletterListComponent implements OnInit {
 
   public getServerData(event?: PageEvent) {
     this.pageSize = event.pageSize;
-    this.page = (event.pageSize * event.pageIndex);
+    this.page = event.pageSize * event.pageIndex;
     this.applyFilters();
   }
 
@@ -75,14 +84,21 @@ export class NewsletterListComponent implements OnInit {
   // }
 
   public doSearchFilter() {
-    var val = (this.search == undefined || this.search == "") ? '' : '/' + this.search;
+    var val =
+      this.search == undefined || this.search == '' ? '' : '/' + this.search;
     this.hrefEXL = environment.apiUrl + 'export-newsletter/EXL' + val;
     this.hrefPDF = environment.apiUrl + 'export-newsletter/PDF' + val;
     this.applyFilters();
-  };
+  }
 
   applyFilters() {
-    let param = { url: 'newsletter-list', "offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by, 'search_term': this.search };
+    let param = {
+      url: 'newsletter-list',
+      offset: this.page,
+      limit: this.pageSize,
+      sort_by: this.sort_by,
+      search_term: this.search,
+    };
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['newsletters']);
       this.dataSource.sort = this.sort;
@@ -92,10 +108,8 @@ export class NewsletterListComponent implements OnInit {
 
   sortData(event) {
     this.sort_by = event;
-    if (this.sort_by.direction != '')
-      this.applyFilters();
+    if (this.sort_by.direction != '') this.applyFilters();
   }
-
 }
 
 export interface NewsLetter {
@@ -103,7 +117,7 @@ export interface NewsLetter {
   email: string;
   status: number;
   reason: string;
-  action?: any
+  action?: any;
 }
 
 export interface Response {
