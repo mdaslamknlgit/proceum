@@ -13,8 +13,9 @@
         <input matInput  autocomplete="off" (keyup)="$event.keyCode == 13 ?applyFilters() : ''" placeholder="Search" [(ngModel)]="search"/>
         <mat-icon matSuffix (click)="applyFilters()" class="cursor-pointer">search</mat-icon>
     </mat-form-field>
-    <a mat-raised-button color="accent" class="float_right" routerLink="/admin/create-custom-page" routerLinkActive="active" >New Custom Page</a>
+    <a mat-raised-button color="accent" class="float_right margin-bottom_20" routerLink="/admin/create-custom-page" routerLinkActive="active" >New Custom Page</a>
   </div>
+  <div class="rsp_tbl">
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" (matSortChange)="sortData($event)">
       <!-- Position Column -->
       <ng-container matColumnDef="pk_id">
@@ -83,6 +84,7 @@
         </td>
       </tr>
     </table>
+  </div>
     <mat-paginator #paginator [pageSize]="pageSize" [length]="num_custom_page" [pageSizeOptions]="pageSizeOptions"
       [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
   </div>

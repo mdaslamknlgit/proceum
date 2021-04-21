@@ -27,7 +27,10 @@ export class LoginComponent implements OnInit {
     register_type: '',
   };
   login: Login = { email: '', password: '' };
-  public message: string = 'Invalid email or password';
+  public email_error: string = 'Email is Required';
+  public password_error: string = 'Password is Required';
+  public email_check:boolean=true;
+
   password_hide: boolean = true;
   constructor(
     private http: AuthService,
@@ -44,36 +47,45 @@ export class LoginComponent implements OnInit {
   }
 
   doLogin() {
-    let params = {
-      url: 'login',
-      email: this.login.email,
-      password: this.login.password,
-    };
-    this.http.login(params).subscribe((res: Response) => {
-      if (res.error) {
-        this.toastr.error(res.message, 'Error', { closeButton: true , timeOut: 5000});
-
-      } else {
-        sessionStorage.setItem('_token', res['data'].token);
-        let json_user = btoa(JSON.stringify(res['data'].user));
-        sessionStorage.setItem('user', json_user);
-        if (res['data']['user']['role'] == 1) {
-          //admin
-          let redirect_url = sessionStorage.getItem('_redirect_url')
-            ? sessionStorage.getItem('_redirect_url')
-            : '/admin/dashboard';
-          sessionStorage.removeItem('_redirect_url');
-          this.route.navigate([redirect_url]);
-        } else if (res['data']['user']['role'] == 2) {
-          //student
-          let redirect_url = sessionStorage.getItem('_redirect_url')
-            ? sessionStorage.getItem('_redirect_url')
-            : '/student/dashboard';
-          sessionStorage.removeItem('_redirect_url');
-          this.route.navigate([redirect_url]);
+    if (this.login.email != "" ) {
+      this.email_check = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.login.email);
+      if (this.email_check == false) {
+        this.email_error = "Invalid email";
+      }else{
+        if(this.login.password !=""){
+          let params = {
+            url: 'login',
+            email: this.login.email,
+            password: this.login.password,
+          };
+          this.http.login(params).subscribe((res: Response) => {
+            if (res.error) {
+              this.toastr.error(res.message, 'Error', { closeButton: true , timeOut: 5000});
+      
+            } else {
+              sessionStorage.setItem('_token', res['data'].token);
+              let json_user = btoa(JSON.stringify(res['data'].user));
+              sessionStorage.setItem('user', json_user);
+              if (res['data']['user']['role'] == 1) {
+                //admin
+                let redirect_url = sessionStorage.getItem('_redirect_url')
+                  ? sessionStorage.getItem('_redirect_url')
+                  : '/admin/dashboard';
+                sessionStorage.removeItem('_redirect_url');
+                this.route.navigate([redirect_url]);
+              } else if (res['data']['user']['role'] == 2) {
+                //student
+                let redirect_url = sessionStorage.getItem('_redirect_url')
+                  ? sessionStorage.getItem('_redirect_url')
+                  : '/student/dashboard';
+                sessionStorage.removeItem('_redirect_url');
+                this.route.navigate([redirect_url]);
+              }
+            }
+          });
         }
       }
-    });
+    }
   }
 
   socialiteLogin() {
@@ -163,7 +175,7 @@ export interface Register {
 }
 
 export interface Login {
-  email: String;
+  email: string;
   password: any;
 }
 export interface Response {

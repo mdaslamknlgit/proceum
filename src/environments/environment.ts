@@ -8,7 +8,7 @@ export const environment = {
   page_size_options: [10, 20, 50, 100],
   apiUrl: 'http://192.10.250.150:8000/api/',
   // apiUrl: 'http://192.10.250.106:8000/api/',
-  // apiUrl  : 'https://apidev.proceum.com/api/'
+  //apiUrl: 'https://apiqa.proceum.com/api/',
 };
 
 /*

@@ -311,6 +311,11 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
   opacity: 0.8;
+ 
+}
+.sd_br{
+  scrollbar-color: #555 #fff;
+  scrollbar-width: thin;
 }
 html,
 body {
@@ -398,12 +403,12 @@ app-index {
   font-weight: 900;
 }
 ul {
-  margin: 0;
-  padding: 0;
+  // margin: 0;
+  // padding: 0;
 }
 li {
   outline: none;
-  list-style: none;
+  //list-style: none;
 }
 .mat-list-item {
   font-family: "NunitoSans";
@@ -633,20 +638,23 @@ mat-grid-list mat-checkbox{margin: 0;}
   max-width: 1186px;
   margin: 90px auto 0;
 }
+
 .inner-content {
   font-weight: 300;
   opacity: 0.9;
 }
 app-topbar.inner-header mat-toolbar {
-  background-color: #f3f3f4 !important;
-  height: 90px;
+  background-color: #fff !important;
+  height: 64px;
   top: 0px;
   position: fixed;
 }
+
 .title-header {
   text-align: center;
   padding: 30px 0;
 }
+
 .section-title h3 {
   font-size: 36px;
   font-weight: 400;
@@ -709,7 +717,7 @@ app-topbar.inner-header mat-toolbar {
 .cust_mdl_par{position: fixed;
   left: 0;
   right: 0;
-  z-index: 98;
+  z-index: 1002;
   top: 0;
   bottom: 0;
   background: #00000026;
@@ -821,6 +829,17 @@ app-topbar.inner-header mat-toolbar {
   .feedback_block .form-fields mat-form-field {
     width: 100%;
 }
+.popover.top.popover-top.bs-popover-top.ng-star-inserted{
+  left: 0 !important;
+  top: 40% !important;
+  transform: initial !important;
+  white-space: normal !important;
+  position: fixed !important;
+  width: 80%;
+  margin: 0 auto;
+  z-index: 9;
+  right: 0;
+}
 }
 .lg_inbtn span{
     display: flex;
@@ -833,7 +852,7 @@ app-topbar.inner-header mat-toolbar {
 .tc_w50p{ width: 50%; display: inline-block;}
 .oc_w100p{width: 100%;}
 .grd_2c .frm_dvs{width: 100%; display: flex; align-items:baseline;}
-.grd_2c .frm_dvs > span:nth-child(odd){flex-basis: 30%; text-align: left; display: flex; align-self: baseline; min-height: 35px;}
+.grd_2c .frm_dvs > span:nth-child(odd){flex-basis: 30%; text-align: left; display: flex; align-self: baseline; /*min-height: 35px;*/}
 .grd_2c .frm_dvs > span:nth-child(even){flex-basis: 70%; display: flex; align-items: flex-start;}
 .cal_wdth{width: 271px;}
 .grd_2c{background-color: #fff; border-radius: 8px; box-shadow: 0 2px 3px -2px #808080; font-size: 14px; padding: 20px; height: 100%; box-sizing: border-box;}
@@ -1164,8 +1183,15 @@ mat-icon.w_50px{font-size: 50px; width: 50px; height: 50px;}
   }
 
   // mat table responsive
+  @media screen and (max-width: 460px){
+    .mat-form-field{ width: 100%;}
+    .grd_2c .frm_dvs > span:nth-child(even){ display: block;}
+    .tc_w50p{ width: 100%;}
+    .grd_2c{ display: block;}
+    
+  }
   @media screen and (max-width: 960px) {
-    .mat-table {
+     /* .mat-table {
       border: 0;
       vertical-align: middle
     }
@@ -1174,7 +1200,7 @@ mat-icon.w_50px{font-size: 50px; width: 50px; height: 50px;}
       font-size: 1em;
     }
     
-    /*  Enable this to hide header
+    Enable this to hide header
     .mat-table .mat-header-cell {
       
       border: 10px solid;
@@ -1185,7 +1211,7 @@ mat-icon.w_50px{font-size: 50px; width: 50px; height: 50px;}
       position: absolute;
       width: 1px;
     }
-    */
+    
     .mat-table .mat-row {
       border-bottom: 5px solid #ddd;
       display: block;
@@ -1193,7 +1219,7 @@ mat-icon.w_50px{font-size: 50px; width: 50px; height: 50px;}
     /*
     .mat-table .mat-row:nth-child(even) {background: #CCC}
     .mat-table .mat-row:nth-child(odd) {background: #FFF}
-    */
+    
     .mat-table .mat-cell {
       border-bottom: 1px solid #ddd;
       display: block;
@@ -1207,7 +1233,7 @@ mat-icon.w_50px{font-size: 50px; width: 50px; height: 50px;}
       /*
       * aria-label has no advantage, it won't be read inside a table
       content: attr(aria-label);
-      */
+      
       content: attr(data-label);
       float: left;
       text-transform: uppercase;
@@ -1221,9 +1247,154 @@ mat-icon.w_50px{font-size: 50px; width: 50px; height: 50px;}
       .mat-table .mat-cell:first-child {
       margin-top: 4%;
     }
+    */
   }
   // ends
 
+  .crs_par {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+  .crs_chld {
+    background: #fff;
+    margin-bottom:2%;
+    padding: 1%;
+    flex-basis: 32%;
+    box-sizing: border-box;
+}
+.crs_hdng {
+  font-weight: bold;
+}
+.crs_dsc {
+  font-size: 12px;
+}
+.crs_d_r_p {
+  display: flex;
+  margin: 5px 0;
+}
+.crs_d_r_p > span {
+  display: flex;
+  justify-content: center;
+  flex: auto;
+  font-size: 12px;
+  align-items: center;
+  color: #8e8e8e;
+}
+span.rpe_sym {
+  font-size: 18px;
+  margin-right: 3px;
+}
+.crs_rtng{display: flex; align-items: center;}
+.crs_rtng mat-icon{color:#ffc107; font-size: 20px;}
+.pr_btn_dv, .bn_btn_dv{border-radius: 12px;
+  background-color: #171f32;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  flex: auto;
+  margin:4% 2%;
+  justify-content: center;
+  padding: 2px 0;
+  font-size: 14px;
+  cursor: pointer;
+}
+  .pr_btn_dv, .bn_btn_dv{
+    mat-icon{font-size: 18px;
+      display: flex;
+      align-items: center;}
+  }
+  .bn_btn_dv{
+    background-color:#7c7c7c;
+  }
+  .crs_pr_bynw {
+    display: flex;
+}
+.grn_bg {
+  background-color: #65bb61;
+}
+
+.crs_icn {
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  color: #fff;
+}
+.crs_tp_sc{display: flex; justify-content: space-between; flex: auto;}
+.crs_tp_sc > span{display: flex; justify-content: space-between; align-items: center;}
+.crs_d_r_p > span.bld_txt_blk{font-weight: bold; color:#000;}
+.crs_innr_chld {
+  display: flex;
+  flex: auto;
+}
+.crs_innr_lgo {
+  background: #fff;
+  display: flex;
+  flex: auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  margin-right: 1%;
+}
+.crs_innr_dsc{margin-right: 1%;}
+.crs_innr_hd{font-size: 22px; font-weight: bold;}
+.crs_innr_prc span.bld_txt_blk{font-weight: bold; color:#000; font-size: 20px;}
+.crs_innr_dets{background-color: #fff; border-radius: 6px;}
+.crs_innr_dets_tbl li {
+  border-bottom: 1px solid #f7f7f7;
+  display: flex;
+  padding: 8px 10px;
+}
+.crs_innr_dets_tbl li span{display: flex;}
+.dets_tbl_hd{color: #0f98a6; width: 50%;}
+.dets_tbl_cnt{width: 50%;}
+.crs_innr_lgo, .crs_innr_dsc, .crs_innr_dets {
+  flex-basis: 33%;
+}
+.crs_dets_hd{padding: 10px; display: flex;}
+.wht_hr {
+  border: 0;
+  border-bottom: 1px solid #fff;
+} 
+.m_auto{margin: auto;}
+.crs_tbbd_sc {
+  background: #fff;
+    padding-top: 20px;
+    border-radius: 6px;
+  .mat-tab-label.mat-tab-label-active{background-color: transparent; color: #0f98a6;}
+  .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: #0f98a6 ;
+}
+  .mat-tab-body-wrapper{background: #fbfbfb;
+    padding: 20px;}
+    .mat-expansion-panel-body {
+      padding: 16px 24px 16px;
+      background: #f8fcfc;
+  }
+}
+.crs_innr_tbd li{display: flex; align-items: center; font-weight: 600; margin-bottom: 8px;}
+.crs_innr_tbd mat-icon{
+  color: #0f98a6;
+  font-size: 24px;
+  margin-right: 5px;}
+.crs_fr_indi{
+  border-radius: 3px;
+  background-color: #65bb61;
+  padding: 2px 8px;
+  color: #fff;
+  font-size: 12px;
+  margin: 0 5px; font-weight: normal;}
+.crs_du_spn, .crs_clktovw{font-size: 14px; color: #ddd; font-weight: normal; margin: 0 5px;}
+.crs_lkd mat-icon{color: #f0c442;}
+.crs_pdf_dl{color: #0f98a6;}
+.crs_pdf_dl li {display: flex; align-items: center;}
+.crs_yr_spn{font-weight: 600;}
+.crs_pdf_dl li mat-icon{color: #db561f;}
   .popover-content .confirm-btns {
     text-align: right;
     display: block !important;
@@ -1233,4 +1404,7 @@ mat-icon.w_50px{font-size: 50px; width: 50px; height: 50px;}
 }
 .input-border-color {
   outline: 2px solid #a01616 !important;
+}
+.margin-bottom_20{
+  margin-bottom: 20px !important;
 }

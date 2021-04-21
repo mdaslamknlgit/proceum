@@ -32,15 +32,15 @@
       routerLinkActive="active"
       >Home</span
     >
-    <span
+    <span *ngIf="!user['id']"
       mat-list-item
       class="tp_rt_mn"
       routerLink="/about-us"
       routerLinkActive="active"
       >About Us</span
     >
-    <span mat-list-item class="tp_rt_mn">Pricing</span>
-    <span mat-list-item class="tp_rt_mn">Subscribe</span>
+    <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
+    <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
     <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
       >Register Trail</span
     >
@@ -51,10 +51,34 @@
       routerLinkActive="active"
       >Contact Us</span
     >
+    <!-- <span
+        mat-list-item
+        [matMenuTriggerFor]="appMenu"
+        class="tp_rt_mn"
+        *ngFor="let menu of menus"
+        (click)="changeSubmenu(menu.pk_id)"
+        >{{ menu.name }}</span
+      > -->
+    <!-- <span
+        mat-list-item
+        [matMenuTriggerFor]="appMenu"
+        class="tp_rt_mn"
+        routerLinkActive="active"
+        >CMS</span
+      >
+      <mat-menu #appMenu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let subMenu of subMenus"
+          routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
+        >
+          {{ subMenu.name }}
+        </button>
+      </mat-menu> -->
   </div>
-  <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
+  <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
   <div class="lg_inbtn" *ngIf="user['name']">
-    <span>{{ user["name"] + "(" + user["role_name"] + ")" }}</span>
+    <span>{{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  <mat-icon>face</mat-icon></span>
   </div>
   <div class="lg_inbtn">
     <span *ngIf="!user['name']" routerLink="/login"

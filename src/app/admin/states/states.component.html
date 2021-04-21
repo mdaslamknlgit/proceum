@@ -115,9 +115,10 @@
             <input matInput placeholder="Search" [(ngModel)]="search_txt" (keyup)="$event.keyCode == 13 ?applyFilters() : ''" />
             <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
         </mat-form-field>
-        <button mat-raised-button color="accent" class="float_right mt_0" type="button" (click)="toggleModel()">
+        <button mat-raised-button color="accent" class="float_right mt_0 margin-bottom_20" type="button" (click)="toggleModel()">
             Add New State
         </button>
+        <div class="rsp_tbl">
         <table mat-table (matSortChange)="sortData($event)" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
             <ng-container matColumnDef="pk_id">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> S.No </th>
@@ -163,6 +164,7 @@
                 <td class="mat-cell" colspan="6">No Records Found</td>
               </tr>
         </table>
+        </div>
         <mat-paginator #paginator [pageSize]="pageSize" [length]="num_states"
         [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
     </div>

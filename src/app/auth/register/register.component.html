@@ -8,32 +8,31 @@
         <div class="sgn_sec">
             <p class="sgn_hd">Sign Up</p>
             <form #register_id="ngForm" name="register_form" (ngSubmit)="doRegistration()" novalidate>
-                <div class="fir_name err_tltp_par">
+                <div class="fir_name {{ register_id.submitted && register.first_name == '' ? 'err_tltp_par' : ''}}">
                     <input type="text" required [(ngModel)]="register.first_name" focus name="user_firstname" autocomplete="off" maxlength="30" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' #user_firstname="ngModel" placeholder="First Name" ngModel/>
                     <span class="material-icons first_name_icon">person</span>
-                    <span class="prc_tltp" *ngIf="user_firstname.invalid && register_id.submitted">First Name is Required</span>
+                    <span class="prc_tltp" *ngIf="register_id.submitted && register.first_name == ''">{{first_name}}</span>
                 </div>
-                <div class="last_name err_tltp_par">
+                <div class="last_name {{ register_id.submitted && register.last_name == '' ? 'err_tltp_par' : ''}}">
                     <input type="text" required [(ngModel)]="register.last_name" name="user_lastname" autocomplete="off" maxlength="30" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' #user_lastname="ngModel" placeholder="Last Name" ngModel/>
                     <span class="material-icons last_name_icon">person</span>
-                    <span class="prc_tltp" *ngIf="user_lastname.invalid && register_id.submitted">Last Name is Required</span>
+                    <span class="prc_tltp" *ngIf="register_id.submitted && register.last_name == ''">{{last_name}}</span>
                 </div>
-                <div class="mail err_tltp_par">
+                <div class="mail {{ register_id.submitted && (register.email == '' || user_email.invalid || email_check == false) ? 'err_tltp_par' : ''}}">
                 <input type="text" [(ngModel)]="register.email" name="user_email" autocomplete="off" maxlength="90" placeholder="Your Email" onkeypress='return (event.charCode != 32)'  email #user_email="ngModel" ngModel required/>
                 <span class="material-icons mail_icon">mail_outline</span>
-                <span class="prc_tltp" *ngIf="user_email.invalid && register_id.submitted">{{email_error}}</span>
+                <span class="prc_tltp" *ngIf="register_id.submitted && (register.email == '' || user_email.invalid || email_check == false)">{{email_error}}</span>
                 </div>
-                <div class="psswrd err_tltp_par">
+                <div class="psswrd {{ register_id.submitted && (register.password == '' || password_check == false) ? 'err_tltp_par' : ''}}">
                   <input [type]="password_hide ? 'password' : 'text'" required [(ngModel)]="register.password" minlength="8" maxlength="16" name="user_password" onkeypress='return (event.charCode != 32)' #user_password="ngModel" placeholder="Password" ngModel/>
                   <span class="material-icons mail_icon" (click)="passwordFun()">{{password_hide ? 'visibility_off' : 'visibility'}}</span>
-                  <span class="prc_tltp" *ngIf="user_email.invalid && register_id.submitted">{{password_error}}</span>
+                  <span class="prc_tltp" *ngIf="register_id.submitted && (register.password == '' || password_check == false)">{{password_error}}</span>
                 </div>
-                <div class="psswrd err_tltp_par">
+                <div class="psswrd {{ register_id.submitted && (register.confirm_pwd == '' || confirm_check == false) ? 'err_tltp_par' : ''}}">
                     <input [type]="confirm_hide ? 'password' : 'text'" required [(ngModel)]="register.confirm_pwd" minlength="8" maxlength="16" name="user_confirmpassword" onkeypress='return (event.charCode != 32)' #user_confirmpassword="ngModel" placeholder="Confirm Password" ngModel/>
                     <span class="material-icons mail_icon" (click)="confirmFun()">{{confirm_hide ? 'visibility_off' : 'visibility'}}</span>
-                    <span class="prc_tltp" *ngIf="user_email.invalid && register_id.submitted">{{confirm_password_error}}</span>
+                    <span class="prc_tltp" *ngIf="register_id.submitted && (register.confirm_pwd == '' || confirm_check == false)">{{confirm_password_error}}</span>
                   </div>
-                <!-- <div class="prc_hnt" *ngIf="(register.password == '' || register.email == '' || user_email.invalid || email_check == false || password_check == false || confirm_check == false ||) && register_id.submitted">{{ message }}</div> -->
                 <button type="submit" class="teal_btn lgn_btn">Register</button><br>
             </form>
             <div class="scl_lgns">

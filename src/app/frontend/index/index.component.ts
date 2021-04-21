@@ -87,12 +87,13 @@ export class IndexComponent implements OnInit {
   getMenus() {
     let params = { url: 'menu-submenu' };
     this.http.post(params).subscribe((res) => {
-      this.menus = res['menus'];
-     // this.pages = res['pages'];
+      //this.menus = res['menus'];
+      this.subMenus = res['pages'];
     });
   }
 
   changeSubmenu(menu_id) {
+    this.subMenus=[];
       let params = {
       "url": "sub-menu",
       'parent_id':menu_id

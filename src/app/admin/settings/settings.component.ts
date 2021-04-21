@@ -152,13 +152,11 @@ export class SettingsComponent implements OnInit {
     };
     this.http.imageUpload(param, myFormData).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success', {
-          progressBar: true,
-        });
+        this.toaster.success(res['message'], 'Success');
         this.src = this.url;
         (<HTMLFormElement>document.getElementById('settings_form')).reset();
       } else {
-        this.toaster.error(res['message'], 'Error', { progressBar: true });
+        this.toaster.error(res['message'], 'Error');
       }
     });
   }
@@ -192,13 +190,11 @@ export class SettingsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success', {
-          progressBar: true,
-        });
+        this.toaster.success(res['message'], 'Success');
         (<HTMLFormElement>document.getElementById('settings_form')).reset();
         this.getSystemMode();
       } else {
-        this.toaster.error(res['message'], 'Error', { progressBar: true });
+        this.toaster.error(res['message'], 'Error');
       }
     });
   }
