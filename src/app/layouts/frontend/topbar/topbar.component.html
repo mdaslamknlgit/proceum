@@ -1,23 +1,6 @@
-<div class="top-top-bar">
-  <div class="inner-container-top">
-    <div class="top-top-left">
-      <mat-icon>mail_outline</mat-icon> info@proceum.com
-      <mat-icon>smartphone</mat-icon> +91 98855 88972
-    </div>
-    <div class="top-top-right">
-      <img
-        src="../../../../assets/images/GetitonGoogleplay.svg"
-        alt="Get it on Googleplay"
-      />
-      <img
-        src="../../../../assets/images/app-store-badge.svg"
-        alt="Download from Applestore"
-      />
-    </div>
-  </div>
-</div>
+
 <mat-toolbar [ngClass]="{ 'sticky-header': isSticky }">
-  <button mat-icon-button (click)="toggleSidemenu('hello')" class="hmbrg_btn">
+  <button mat-icon-button (click)="menuToggle()" class="hmbrg_btn">
     <img src="./assets/images/hamburg-icon.svg" />
   </button>
   <span class="logo_spn" routerLink="/"
@@ -30,29 +13,43 @@
       class="tp_rt_mn"
       routerLink="/"
       routerLinkActive="active"
-      >
-      
-      <span class="d-flex"><mat-icon *ngIf="user['id']">home</mat-icon> <span class="m_hide">Home</span></span>
+      >Home
       </span
     >
-    <span *ngIf="!user['id']"
+    <span 
       mat-list-item
       class="tp_rt_mn"
       routerLink="/about-us"
       routerLinkActive="active"
       >About Us</span
     >
-    <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
+
+    <span 
+      mat-list-item
+      class="tp_rt_mn"
+      routerLink="/student-curriculum"
+      routerLinkActive="active"
+      >Courses</span
+    >
+
+    <!-- <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
     <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
     <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
       >Register Trail</span
-    >
-    <span *ngIf="!user['name']"
+    > -->
+    <span 
       mat-list-item
       class="tp_rt_mn"
       routerLink="/contact-us"
       routerLinkActive="active"
       >Contact Us</span
+    >
+
+    <span 
+      mat-list-item
+      class="tp_rt_mn"
+      routerLinkActive="active"
+      >Blog</span
     >
     <!-- <span
         mat-list-item
@@ -79,7 +76,7 @@
         </button>
       </mat-menu> -->
   </div>
-  <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
+  <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
   <div class="lg_inbtn" *ngIf="user['name']">
     <span><mat-icon>face</mat-icon> <span class="m_hide">{{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span></span></span>
   </div>
