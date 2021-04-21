@@ -218,7 +218,7 @@ export class DiscountSettingsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['steps']);
+        this.dataSource = new MatTableDataSource(res['data']['descounts']);
         this.totalSize = res['total_records'];
       } else {
         //this.toster.info(res['message'], 'Error');

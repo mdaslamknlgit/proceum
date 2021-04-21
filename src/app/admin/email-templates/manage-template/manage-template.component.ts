@@ -80,12 +80,10 @@ export class ManageTemplateComponent implements OnInit {
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.isupdated = true;
-          this.toaster.success(res['message'], 'Success', {
-            progressBar: true,
-          });
+          this.toaster.success(res['message'], 'Success');
           this.close();
         } else {
-          this.toaster.error(res['message'], 'Error', { progressBar: true });
+          this.toaster.error(res['message'], 'Error');
         }
       });
     } else {

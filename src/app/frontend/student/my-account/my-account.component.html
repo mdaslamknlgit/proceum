@@ -302,7 +302,7 @@
                 (profile_form.submitted && new_password.errors?.required)
               }">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="New password" [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
+                <input matInput (keyup)="passwordVerification()" placeholder="New password" [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
                   [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
                   onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel>
                   <mat-icon  matSuffix (click)="passwordFun('new')" >{{new_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -325,8 +325,8 @@
                  || (profile_form.submitted && confirm_pwd.errors?.pattern)
                  || (profile_form.submitted && confirm_pwd.errors?.required)
               }">
-                <mat-form-field appearance="outline">
-                  <input matInput placeholder="Confirm password" autocomplete="off" [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
+                <mat-form-field appearance="outline" [class]="errClass">
+                  <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off" [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
                   [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
                   validateEqual="password"  onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
                     <mat-icon  matSuffix (click)="passwordFun('confirm')" >{{confirm_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -334,7 +334,6 @@
                 <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_pwd.errors?.required">
                   Confirm Password is required
                 </span>
-                <!-- <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_check"> New Password and Confirm Password are not matched </span> -->
                 <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_check == true"> New Password and Confirm Password are not matched </span>
               </span>
             </span>
