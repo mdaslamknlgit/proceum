@@ -35,6 +35,12 @@ export class CustomPagesComponent implements OnInit {
   ngOnInit(): void {
     this.getMenusAndPages();
   }
+  htmlEditorConfig = {
+    mediaEmbed: {
+        previewsInData: true
+    }
+}
+
   getMenusAndPages() {
     let params = {
       "url": "menu-pages"

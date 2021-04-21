@@ -32,15 +32,15 @@
       routerLinkActive="active"
       >Home</span
     >
-    <span
+    <span *ngIf="!user['id']"
       mat-list-item
       class="tp_rt_mn"
       routerLink="/about-us"
       routerLinkActive="active"
       >About Us</span
     >
-    <span mat-list-item class="tp_rt_mn">Pricing</span>
-    <span mat-list-item class="tp_rt_mn">Subscribe</span>
+    <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
+    <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
     <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
       >Register Trail</span
     >
@@ -76,9 +76,9 @@
         </button>
       </mat-menu> -->
   </div>
-  <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
+  <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
   <div class="lg_inbtn" *ngIf="user['name']">
-    <span>{{ user["name"] + "(" + user["role_name"] + ")" }}  <mat-icon>face</mat-icon></span>
+    <span>{{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  <mat-icon>face</mat-icon></span>
   </div>
   <div class="lg_inbtn">
     <span *ngIf="!user['name']" routerLink="/login"
