@@ -16,7 +16,8 @@ export class UnsubscribeEmailComponent implements OnInit {
     email:string;
     excption_message:string="";
     textMessage:string="";
-    feedback:any;
+    reason1:any="";
+    feedback:any={reason:""};
     isUnsubscribe:boolean=false;
 
     ngOnInit(): void {
@@ -25,29 +26,27 @@ export class UnsubscribeEmailComponent implements OnInit {
       });
     }
 
-    onSubmit(data) {
-
-      this.feedback=data.reason.trim();
-        if(this.feedback){  
+    onSubmit() {
+      this.feedback.reason=this.feedback.reason.trim();
+        if(this.feedback.reason){  
           let params = {
             "url": 'unsubscribe-newsletter',
             "email_address": this.email,
-            "status_reason": this.feedback
+            "status_reason": this.feedback.reason
           };
           
           this.http.post(params).subscribe((res: Response) => {
-            let message = res.message;           
             if (res.error) {
-              this.toastr.error(message, 'Error', { closeButton: true });
+              this.toastr.error(res.message, 'Error');
             } else {
-              this.toastr.success(message, 'Error', { closeButton: true });
-              data.reason="";
+              this.toastr.success(res.message, 'Success');
+              this.feedback.reason="";
               this.textMessage="";
               this.isUnsubscribe=true;
             }
           });
         }else{
-         this.excption_message="feedback is required";   
+          this.feedback.reason=this.feedback.reason.trim();
         }
       }
 }
