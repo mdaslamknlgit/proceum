@@ -10,7 +10,7 @@ import { Router, NavigationEnd } from '@angular/router';
 export class AppComponent {
   @HostListener('contextmenu', ['$event'])
   onRightClick(event) {
-    // event.preventDefault(); //uncomment to desable right click
+    event.preventDefault(); //uncomment to desable right click
   }
   public is_admin: boolean = false;
   public is_student: boolean = false;
