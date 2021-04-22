@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../environments/environment';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -30,7 +30,7 @@ export const MY_DATE_FORMATS = {
 })
 export class LoginHistoryComponent implements OnInit {
   public api_url:string;
-  displayedColumns: string[] = ['pk_id','name','email','latitude','longitude','country_name','city_name','platform_name','device_type','browser','ip_v4_address','login_time','logout_time'];
+  displayedColumns: string[] = ['pk_id','first_name','email','latitude','longitude','country_name','city_name','platform_name','device_type','browser','ip_v4_address','login_time','logout_time'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
