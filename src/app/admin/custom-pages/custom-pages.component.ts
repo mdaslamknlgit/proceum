@@ -113,7 +113,7 @@ export class CustomPagesComponent implements OnInit {
       'url': 'create-page',
       'page_name': (this.customPage.old_page_name) ? this.customPage.old_page_name : this.customPage.new_page_name,
       'menu_name': (this.customPage.old_menu_name) ? this.customPage.old_menu_name : this.customPage.new_menu_name,
-      'menu_check': (this.isMenuRequired) ? true : false,
+      'menu_check': (this.isMenuRequired) ? false : true,
       'page_check': (this.isPageRequired) ? true : false,
       'page_content': this.customPage.page_content,
       'show_menu': (this.customPage.isShowChecked) ? this.customPage.isShowChecked : false,
