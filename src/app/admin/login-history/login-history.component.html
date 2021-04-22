@@ -13,25 +13,26 @@
 
    
   </div>
-    <div class="dsh_brd_crds">
-      <mat-form-field appearance="outline">
+    <div class="dsh_brd_crds inputs_wdth_200">
+      <div class="d_flx_ac">
+      <mat-form-field appearance="outline" class="mr_1">
         <input matInput (keyup)="$event.keyCode == 13 ?applyFilters() : ''" [(ngModel)]="search_txt" placeholder="Search" />
         <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
       </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>From Date</mat-label>
-        <input matInput [max]="maxDate" [matDatepicker]="from_picker" [(ngModel)]="from_date" (dateChange)="fromdateChabge()" readonly>
+      <mat-form-field appearance="outline" class="mr_1">
+        <input matInput [max]="maxDate" [matDatepicker]="from_picker" [(ngModel)]="from_date" (dateChange)="fromdateChabge()" readonly placeholder="From Date" >
         <mat-datepicker-toggle matSuffix [for]="from_picker"></mat-datepicker-toggle>
         <mat-datepicker #from_picker></mat-datepicker>
       </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>To Date</mat-label>
-        <input matInput [min]="tomindate" [max]="maxDate" [matDatepicker]="to_picker" [(ngModel)]="to_date" (dateChange)="todateChabge()" [disabled]="is_todate" readonly>
+      <mat-form-field appearance="outline" class="mr_1">
+       
+        <input matInput [min]="tomindate" [max]="maxDate" [matDatepicker]="to_picker" [(ngModel)]="to_date" (dateChange)="todateChabge()" [disabled]="is_todate" readonly  placeholder="To Date">
         <mat-datepicker-toggle matSuffix [for]="to_picker"></mat-datepicker-toggle>
         <mat-datepicker #to_picker></mat-datepicker>
       </mat-form-field>
-      <button mat-raised-button color="accent" class="float_right mr_1" (click)="applyFilters()" [disabled]="is_submit">Submit</button>
-      <button mat-raised-button color="danger" class="float_right mr_1" (click)="resetFilters()">Reset</button>
+      <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm" (click)="applyFilters()" [disabled]="is_submit">Submit</button>
+      <button mat-raised-button color="warn" class="float_right mr_1 btn_st_frm" (click)="resetFilters()" matTooltip="Reset" > <mat-icon>restart_alt</mat-icon></button>
+    </div>
       <div class="rsp_tbl">
       <table mat-table (matSortChange)="sortData($event)" class="mat-elevation-z8" [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="pk_id">
@@ -89,7 +90,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-          <td class="mat-cell" colspan="6">No Records Found</td>
+          <td class="mat-cell" colspan="13">No Records Found</td>
         </tr>
       </table>
       </div>
