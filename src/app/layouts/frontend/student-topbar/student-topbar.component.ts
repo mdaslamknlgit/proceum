@@ -1,7 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router } from '@angular/router';
-import { SocialAuthService } from 'angularx-social-login';
 
 @Component({
   selector: 'app-student-topbar',
@@ -17,7 +16,6 @@ export class StudentTopbarComponent implements OnInit {
   constructor(
     private http: CommonService,
     private route: Router,
-    private socialAuthService: SocialAuthService
   ) {}
   public user;
   ngOnInit(): void {
@@ -46,7 +44,6 @@ export class StudentTopbarComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       sessionStorage.removeItem('_token');
       sessionStorage.removeItem('user');
-      this.socialAuthService.signOut(true);
       this.route.navigate(['/login']);
     });
   }
