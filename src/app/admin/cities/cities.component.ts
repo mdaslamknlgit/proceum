@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cities',
@@ -18,7 +19,8 @@ export class CitiesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   public num_cities: number = 0;
   public page = 0;
-  public pageSize = 10;
+  public pageSize = environment.page_size;
+  public page_size_options = environment.page_size_options;
   public sort_by: any;
   public model_status = false;
   public model_edit_status = false;

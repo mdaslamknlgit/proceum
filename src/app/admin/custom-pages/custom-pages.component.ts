@@ -11,7 +11,7 @@ import { UploadAdapter } from './UploadAdapter';
   styleUrls: ['./custom-pages.component.scss']
 })
 export class CustomPagesComponent implements OnInit {
-  isRequired: boolean = true;
+  isPageRequired: boolean = true;
   isMenuRequired: boolean = true;
   isMenuDisplay: boolean = true;
   isPageDisplay: boolean = true;
@@ -20,10 +20,8 @@ export class CustomPagesComponent implements OnInit {
     "new_page_name": "",
     "new_menu_name": "",
     "old_menu_name": "",
-    "isNewPageChecked": "",
-    "isNewMenuChecked": "",
     "isShowChecked": "",
-    "Page_content": "",
+    "page_content": "",
   };
   public Editor = ClassicEditor;
   menuList: any;
@@ -53,28 +51,32 @@ export class CustomPagesComponent implements OnInit {
   }
 
   getPages(){
+    this.pagesList =[];
     let params = {
       "url": "pages",
       'parent_id':this.customPage.old_menu_name
     };
     this.http.post(params).subscribe((res) => {
       this.pagesList = res['pages'];
-      console.log(res['menu']);
     });
   }
+
   selectPage() {
     if (this.customPage.old_page_name != "") {
       this.isPageDisplay = false;
-      this.isRequired = false;
+      this.isPageRequired = false;
+      this.customPage.new_page_name="";
     } else {
-      this.isRequired = true;
+      this.isPageRequired = true;
       this.isPageDisplay = true;
     }
   }
+
   selectMenu() {
     if (this.customPage.old_menu_name != "") {
       this.isMenuDisplay = false;
       this.isMenuRequired = false;
+      this.customPage.new_menu_name="";
     } else {
       this.isMenuRequired = true;
       this.isMenuDisplay = true;
@@ -82,7 +84,6 @@ export class CustomPagesComponent implements OnInit {
   this.getPages();
   }
   
-
   onReady(eventData) {
     let apiUrl = environment.apiUrl;
     eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
@@ -99,7 +100,7 @@ export class CustomPagesComponent implements OnInit {
         i++;
       }
     }
-    if (this.isRequired) {
+    if (this.isPageRequired) {
       if(this.customPage.new_page_name.trim()==""){
         this.customPage.new_page_name=this.customPage.new_page_name.trim();
         i++;
@@ -111,10 +112,10 @@ export class CustomPagesComponent implements OnInit {
     let params = {
       'url': 'create-page',
       'page_name': (this.customPage.old_page_name) ? this.customPage.old_page_name : this.customPage.new_page_name,
-      'page_checked': this.customPage.isNewPageChecked,
       'menu_name': (this.customPage.old_menu_name) ? this.customPage.old_menu_name : this.customPage.new_menu_name,
-      'menu_check': (this.customPage.old_menu_name) ? true : false,
-      'page_content': this.customPage.Page_content,
+      'menu_check': (this.isMenuRequired) ? true : false,
+      'page_check': (this.isPageRequired) ? true : false,
+      'page_content': this.customPage.page_content,
       'show_menu': (this.customPage.isShowChecked) ? this.customPage.isShowChecked : false,
     };
     this.http.post(params).subscribe((res) => {
@@ -122,7 +123,7 @@ export class CustomPagesComponent implements OnInit {
         this.toaster.success(res['message'], 'Success');
         this.isMenuRequired = true;
         this.isMenuDisplay = true;
-        this.isRequired = true;
+        this.isPageRequired = true;
         this.isPageDisplay = true;
         (<HTMLFormElement>document.getElementById('custom_page_form')).reset();
         this.getMenusAndPages();

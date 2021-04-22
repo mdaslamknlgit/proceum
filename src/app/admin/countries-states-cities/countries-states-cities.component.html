@@ -109,7 +109,7 @@
                                 <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <input matInput placeholder="Language Code" [(ngModel)]="country.language_code" trim="blur"
-                                        name="language_code" #language_code="ngModel" maxlength="5" required />
+                                        name="language_code" #language_code="ngModel" maxlength="5" required onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32) || (event.charCode == 45))' />
                                 </mat-form-field>
                                 <span class="prc_tltp" *ngIf="
                                 (country_create_form.submitted ||
@@ -361,7 +361,7 @@
                     <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">No Records Found</td>
                 </tr>
             </table>
-            <mat-paginator #paginator [pageSize]="pageSize" [length]="num_countries" [pageSizeOptions]="[5, 10, 20]"
+            <mat-paginator #paginator [pageSize]="pageSize" [length]="num_countries" [pageSizeOptions]="page_size_options"
                 [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
         </div>
     </div>

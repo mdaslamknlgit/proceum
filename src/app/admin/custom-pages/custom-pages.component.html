@@ -47,7 +47,7 @@
                 <span>
                     <span>
                         <mat-form-field appearance="outline" color="accent">
-                            <mat-select [required]="!isRequired" name="old_page_name" (selectionChange)="selectPage()"
+                            <mat-select [required]="!isPageRequired" name="old_page_name" (selectionChange)="selectPage()"
                                 placeholder="Select Page" [(ngModel)]="customPage.old_page_name" 
                                 #old_page_name="ngModel" ngModel>
                                 <mat-option value="">select page</mat-option>
@@ -61,7 +61,7 @@
                     <span *ngIf="isPageDisplay" class="err_tltp_par">
 
                         <mat-form-field appearance="outline">
-                            <input matInput placeholder="Provide New Page Name" [required]="isRequired" autocomplete="off" maxlength="90"
+                            <input matInput placeholder="Provide New Page Name" [required]="isPageRequired" autocomplete="off" maxlength="90"
                                 name="new_page_name" [(ngModel)]="customPage.new_page_name" #new_page_name="ngModel" pattern="[^ ](.*|\n|\r|\r\n)*"
                                 ngModel >
                                 <!-- <button mat-button *ngIf="customPage.new_page_name" matSuffix mat-icon-button aria-label="Clear" (click)="customPage.new_page_name=''">
@@ -78,10 +78,10 @@
                 <span>
                     <span [ngClass]="{
                         err_tltp_par:
-                          (custom_page_form.submitted && Page_content.errors?.required )
+                          (custom_page_form.submitted && page_content.errors?.required )
                       }" class="oc_w100p">
                     <ckeditor (ready)="onReady($event)" id="editor" #editor [config]="htmlEditorConfig"
-                        required [(ngModel)]="customPage.Page_content" ngModel #Page_content="ngModel" name="Page_content" [editor]="Editor">
+                        required [(ngModel)]="customPage.page_content" ngModel #page_content="ngModel" name="page_content" [editor]="Editor">
                     </ckeditor>
                     <span class="prc_tltp">Page content is required</span>
                     </span>
