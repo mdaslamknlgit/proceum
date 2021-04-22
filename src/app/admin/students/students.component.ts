@@ -6,15 +6,32 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { DatePipe } from '@angular/common';
+
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD-MM-YYYY',
+  },
+  display: {
+    dateInput: 'DD-MM-YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  },
+};
 
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
-  styleUrls: ['./students.component.scss']
+  styleUrls: ['./students.component.scss'],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+  ]
 })
 export class StudentsComponent implements OnInit {
   public api_url: string;
-  displayedColumns: string[] = ['id','name','email','status','actions',];
+  displayedColumns: string[] = ['id','first_name','email','status','created_at','actions',];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -24,13 +41,21 @@ export class StudentsComponent implements OnInit {
   public page_size_options = environment.page_size_options;
   public sort_by: any;
   public search_txt ="";
-  constructor(private http: CommonService, public dialog: MatDialog,private toastr: ToastrService) {}
+  public from_date='';
+  public to_date='';
+  public fromDate='';
+  public toDate='';
+  public maxDate= new Date();
+  public tomindate:any;
+  public is_todate:boolean=true;
+  public is_submit:boolean=true;
+  constructor(private http: CommonService, public dialog: MatDialog,private toastr: ToastrService,public datepipe: DatePipe) {}
   ngOnInit(): void {
     this.api_url = environment.apiUrl;
     this.getStudents();
   }
   getStudents() {
-    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
+    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt,"from_date":"","to_date":""};
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['users']);
       this.dataSource.paginator = this.paginator;
@@ -46,7 +71,9 @@ export class StudentsComponent implements OnInit {
   }
 
   applyFilters(){
-    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt};
+    let fromDate =this.from_date?this.datepipe.transform(this.from_date, 'yyyy-MM-dd'):""; 
+    let toDate =this.to_date?this.datepipe.transform(this.to_date, 'yyyy-MM-dd'):""; 
+    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt,"from_date":fromDate,"to_date":toDate};
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['users']);
       this.num_students = res['users_count'];
@@ -76,6 +103,26 @@ export class StudentsComponent implements OnInit {
     });
 
 
+  }
+
+  resetFilters(){
+    this.search_txt="";
+    this.from_date="";
+    this.to_date="";
+    this.applyFilters();
+  }
+
+  fromdateChabge(){
+    this.tomindate=new Date(this.from_date)
+    this.to_date="";
+    this.is_submit=true;
+    this.is_todate=false;
+    this.fromDate =this.from_date?this.datepipe.transform(this.from_date, 'yyyy-MM-dd'):""; 
+  }
+
+  todateChabge(){
+    this.toDate=this.to_date?this.datepipe.transform(this.to_date, 'yyyy-MM-dd'):""; 
+    this.is_submit=false;
   }
 
 }
