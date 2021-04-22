@@ -35,6 +35,7 @@ import { CitiesComponent } from './cities/cities.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SettingsListComponent } from './settings-list/settings-list.component';
 import { CustomPageListComponent } from './custom-page-list/custom-page-list.component';
+import { DatePipe } from '@angular/common'
 const routes: Routes = [
   {
     path: 'dashboard',
@@ -148,6 +149,7 @@ const routes: Routes = [
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    DatePipe
   ],
   exports: [RouterModule],
 })

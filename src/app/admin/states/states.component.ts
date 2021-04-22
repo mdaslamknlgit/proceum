@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-states',
@@ -18,7 +19,8 @@ export class StatesComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   public num_states: number = 0;
   public page = 0;
-  public pageSize = 10;
+  public pageSize = environment.page_size;
+  public page_size_options = environment.page_size_options;
   public sort_by: any;
   public model_status = false;
   public model_state_status = false;
