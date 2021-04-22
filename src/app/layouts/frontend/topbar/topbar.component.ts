@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { SocialAuthService } from 'angularx-social-login';
 
 @Component({
@@ -12,19 +12,27 @@ export class TopbarComponent implements OnInit {
   public sidemenu_status: String = '';
   public innerWidth: any;
   public isOpen = false;
+  activeClass:string='tp_rt_mn';
   menus: any;
   subMenus: any = [];
   constructor(
     private http: CommonService,
     private route: Router,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
+    private activeRoute: ActivatedRoute,
   ) {}
   public user;
+  id:number=undefined;
   ngOnInit(): void {
     this.http.menu_status = '';
     this.user = this.http.getUser();
     this.innerWidth = window.innerWidth;
     this.getMenus();
+    this.activeRoute.params.subscribe(routeParams => {
+      if(routeParams.id){
+        this.activeClass='tp_rt_mn active';
+      }
+    }); 
   }
 
   navigateTo() {
@@ -32,6 +40,11 @@ export class TopbarComponent implements OnInit {
       this.route.navigateByUrl('/admin/dashboard');
     } else if(this.user['role'] == '2') {
       this.route.navigateByUrl('/student/dashboard');
+    }
+  }
+  menuActive(){
+    if(typeof this.id != undefined){
+      this.activeClass='tp_rt_mn active';
     }
   }
 

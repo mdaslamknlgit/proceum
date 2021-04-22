@@ -89,7 +89,6 @@ export class LoginComponent implements OnInit {
   }
 
   socialiteLogin() {
-    console.log("hello");
     this.socialAuthService.authState.subscribe((user) => {
       if (user) {
         this.socialUser = user;
