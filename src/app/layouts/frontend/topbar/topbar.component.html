@@ -12,7 +12,8 @@
       mat-list-item
       class="tp_rt_mn"
       routerLink="/"
-      routerLinkActive="active"
+      routerLinkActive="active" 
+      [routerLinkActiveOptions]="{exact: true}"
       >Home
       </span
     >
@@ -59,22 +60,24 @@
         (click)="changeSubmenu(menu.pk_id)"
         >{{ menu.name }}</span
       > -->
-    <!-- <span
+    <span
         mat-list-item
         [matMenuTriggerFor]="appMenu"
-        class="tp_rt_mn"
+        [class]="activeClass"
         routerLinkActive="active"
-        >CMS</span
+        >Custom Menu</span
       >
       <mat-menu #appMenu="matMenu">
         <button
           mat-menu-item
           *ngFor="let subMenu of subMenus"
           routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
+          routerLinkActive="active"
+          #rla="routerLinkActive"
         >
           {{ subMenu.name }}
         </button>
-      </mat-menu> -->
+      </mat-menu>
   </div>
   <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
   <div class="lg_inbtn" *ngIf="user['name']">
