@@ -188,6 +188,7 @@ export class PromotionalSettingsComponent implements OnInit {
       search: this.search_box,
     };
     this.http.post(param).subscribe((res) => {
+      console.log(res['data']['promotionals']);
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['promotionals']);
         this.totalSize = res['total_records'];
@@ -201,7 +202,7 @@ export class PromotionalSettingsComponent implements OnInit {
     let param = { url: 'get-promotionals', search: this.search_box };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['descounts']);
+        this.dataSource = new MatTableDataSource(res['data']['promotionals']);
       } else {
         this.dataSource = new MatTableDataSource([]);
         //this.toster.error(res['message'], 'Error');

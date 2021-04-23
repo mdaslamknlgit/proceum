@@ -111,11 +111,13 @@
           <div class="frm_dvs mob_d_block">
             <span class="err_tltp_par">
               <ckeditor
-                [config]="{ placeholder: 'Type the email content here!' }"
                 (ready)="onReady($event)"
                 [(ngModel)]="template.template"
                 name="template"
                 [editor]="Editor"
+                id="editor"
+                #editor
+                [config]="htmlEditorConfig"
               ></ckeditor>
               <span
                 class="prc_tltp"

@@ -22,6 +22,13 @@ export class ManageTemplateComponent implements OnInit {
   public isupdated = false;
   public Editor = ClassicEditor;
   public title = '';
+  htmlEditorConfig = {
+    mediaEmbed: {
+      previewsInData: true,
+    },
+
+    placeholder: 'Type the email content here!',
+  };
   constructor(
     private http: CommonService,
     private toaster: ToastrService,
