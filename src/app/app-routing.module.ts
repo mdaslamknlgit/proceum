@@ -15,7 +15,6 @@ import { ForgotPasswordComponent } from './frontend/forgot-password/forgot-passw
 import { EmailVerifiedComponent } from './frontend/email-verified/email-verified.component';
 import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscribe-email.component';
 import { CurriculumComponent } from './frontend/student/curriculum/curriculum.component';
-import { SettingsComponent } from './admin/settings/settings.component';
 import { StaticPagesComponent } from './frontend/static-pages/static-pages.component';
 import { ResetPasswordComponent } from './frontend/reset-password/reset-password.component';
 
@@ -67,7 +66,6 @@ const routes: Routes = [
     },
   },
   { path: 'student-curriculum', component: CurriculumComponent },
-  {path : 'settings', component: SettingsComponent},
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: IndexComponent }, 
 ];

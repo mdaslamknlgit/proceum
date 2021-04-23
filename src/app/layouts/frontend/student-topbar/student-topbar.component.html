@@ -23,15 +23,18 @@
   <span class="logo_spn" routerLink="/"
     ><img src="./assets/images/ProceumLogo.png"
   /></span>
-  <!-- <span class="spacer"></span> -->
-  <div class="nav" [ngClass]="{ menu_open: isOpen }">
+  <span class="spacer"></span>
+  <!-- <div class="nav" [ngClass]="{ menu_open: isOpen }"> -->
     <span
       mat-list-item
       class="tp_rt_mn"
       routerLink="/"
       routerLinkActive="active"
-      >Home</span
-    >
+      >
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+      
+      </span>
     <span *ngIf="!user['id']"
       mat-list-item
       class="tp_rt_mn"
@@ -75,20 +78,20 @@
           {{ subMenu.name }}
         </button>
       </mat-menu> -->
-  </div>
+  
   <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
-  <div class="lg_inbtn" *ngIf="user['name']">
-    <span>{{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  <mat-icon>face</mat-icon></span>
-  </div>
-  <div class="lg_inbtn">
-    <span *ngIf="!user['name']" routerLink="/login"
-      ><mat-icon>login</mat-icon>Login</span
-    >
-    <span *ngIf="user['name']" (click)="logout()"
-      ><mat-icon>logout</mat-icon>Logout</span
-    >
-  </div>
-  <div class="spacer"></div>
+
+  <span *ngIf="user['name']" mat-list-item class="tp_rt_mn">
+    <mat-icon>face</mat-icon>
+    <span> {{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  </span>
+  </span>
+  
+    <span *ngIf="user['name']" (click)="logout()" class="tp_rt_mn"
+      ><mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </span>
+  <!-- </div> -->
+  <!-- <div class="spacer"></div> -->
   <div class="top-right-icon">
     <img src="../../../../assets/images/Search-icon.svg" alt="Search" />
     <!-- <img
