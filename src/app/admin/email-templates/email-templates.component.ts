@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { ManageTemplateComponent } from './manage-template/manage-template.component';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-email-templates',
@@ -20,6 +21,7 @@ export class EmailTemplatesComponent implements OnInit {
     template_subject: '',
     template_name: '',
   };
+  pageSizeOptions = environment.page_size_options;
   displayedColumns: string[] = [
     'id',
     'subject',
