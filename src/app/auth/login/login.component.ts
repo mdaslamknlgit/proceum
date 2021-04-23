@@ -39,56 +39,6 @@ export class LoginComponent implements OnInit {
     private socialAuthService: SocialAuthService
   ) {}
   ngOnInit(): void {
-    this.http.removeSession();
-  }
-
-  passwordFun() {
-    this.password_hide = !this.password_hide;
-  }
-
-  doLogin() {
-    if (this.login.email != "" ) {
-      this.email_check = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.login.email);
-      if (this.email_check == false) {
-        this.email_error = "Invalid email";
-      }else{
-        if(this.login.password !=""){
-          let params = {
-            url: 'login',
-            email: this.login.email,
-            password: this.login.password,
-          };
-          this.http.login(params).subscribe((res: Response) => {
-            if (res.error) {
-              this.toastr.error(res.message, 'Error', { closeButton: true , timeOut: 5000});
-      
-            } else {
-              sessionStorage.setItem('_token', res['data'].token);
-              let json_user = btoa(JSON.stringify(res['data'].user));
-              sessionStorage.setItem('user', json_user);
-              if (res['data']['user']['role'] == 1) {
-                //admin
-                let redirect_url = sessionStorage.getItem('_redirect_url')
-                  ? sessionStorage.getItem('_redirect_url')
-                  : '/admin/dashboard';
-                sessionStorage.removeItem('_redirect_url');
-                this.route.navigate([redirect_url]);
-              } else if (res['data']['user']['role'] == 2) {
-                //student
-                let redirect_url = sessionStorage.getItem('_redirect_url')
-                  ? sessionStorage.getItem('_redirect_url')
-                  : '/student/dashboard';
-                sessionStorage.removeItem('_redirect_url');
-                this.route.navigate([redirect_url]);
-              }
-            }
-          });
-        }
-      }
-    }
-  }
-
-  socialiteLogin() {
     this.socialAuthService.authState.subscribe((user) => {
       if (user) {
         this.socialUser = user;
@@ -137,15 +87,61 @@ export class LoginComponent implements OnInit {
         });
       }
     });
+
   }
+
+  passwordFun() {
+    this.password_hide = !this.password_hide;
+  }
+
+  doLogin() {
+    if (this.login.email != "" ) {
+      this.email_check = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.login.email);
+      if (this.email_check == false) {
+        this.email_error = "Invalid email";
+      }else{
+        if(this.login.password !=""){
+          let params = {
+            url: 'login',
+            email: this.login.email,
+            password: this.login.password,
+          };
+          this.http.login(params).subscribe((res: Response) => {
+            if (res.error) {
+              this.toastr.error(res.message, 'Error', { closeButton: true , timeOut: 5000});
+      
+            } else {
+              sessionStorage.setItem('_token', res['data'].token);
+              let json_user = btoa(JSON.stringify(res['data'].user));
+              sessionStorage.setItem('user', json_user);
+              if (res['data']['user']['role'] == 1) {
+                //admin
+                let redirect_url = sessionStorage.getItem('_redirect_url')
+                  ? sessionStorage.getItem('_redirect_url')
+                  : '/admin/dashboard';
+                sessionStorage.removeItem('_redirect_url');
+                this.route.navigate([redirect_url]);
+              } else if (res['data']['user']['role'] == 2) {
+                //student
+                let redirect_url = sessionStorage.getItem('_redirect_url')
+                  ? sessionStorage.getItem('_redirect_url')
+                  : '/student/dashboard';
+                sessionStorage.removeItem('_redirect_url');
+                this.route.navigate([redirect_url]);
+              }
+            }
+          });
+        }
+      }
+    }
+  }
+
 
   sociallogin(social_type: string): void {
     if (social_type == 'GG') {
       this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
-      this.socialiteLogin();
     } else if (social_type == 'FB') {
       this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
-      this.socialiteLogin();
     } else if (social_type == 'AP') {
     }
   }
@@ -155,7 +151,6 @@ export class LoginComponent implements OnInit {
     this.http.login(params).subscribe((res: Response) => {
       sessionStorage.removeItem('_token');
       sessionStorage.removeItem('user');
-      this.socialAuthService.signOut(true);
       this.route.navigate(['/login']);
     });
   }
