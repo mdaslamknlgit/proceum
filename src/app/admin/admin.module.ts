@@ -19,8 +19,9 @@ import { LoginHistoryComponent } from './login-history/login-history.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
 import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.component';
-import { SettingsComponent } from './settings/settings.component';
-import { CustomPagesComponent } from './custom-pages/custom-pages.component';
+import { CreateSettingsComponent } from './settings/create-settings/create-settings.component';
+import { CreateCustomPagesComponent } from './custom-pages/create-custom-pages/create-custom-pages.component';
+import { EditCustomPagesComponent } from './custom-pages/edit-custom-pages/edit-custom-pages.component';
 import { CountriesStatesCitiesComponent } from './countries-states-cities/countries-states-cities.component';
 import {
   MAT_COLOR_FORMATS,
@@ -33,8 +34,8 @@ import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
 import { StatesComponent } from './states/states.component';
 import { CitiesComponent } from './cities/cities.component';
 import { HttpClientModule } from '@angular/common/http';
-import { SettingsListComponent } from './settings-list/settings-list.component';
-import { CustomPageListComponent } from './custom-page-list/custom-page-list.component';
+import { SettingsListComponent } from './settings/settings-list/settings-list.component';
+import { CustomPageListComponent } from './custom-pages/custom-page-list/custom-page-list.component';
 import { DatePipe } from '@angular/common'
 const routes: Routes = [
   {
@@ -102,13 +103,14 @@ const routes: Routes = [
     component: CitiesComponent,
   },
   { path: 'newsletter-list', component: NewsletterListComponent },
-  { path: 'create-settings', component: SettingsComponent },
+  { path: 'create-settings', component: CreateSettingsComponent },
   {
     path: 'settings',
     component: SettingsListComponent,
   },
   { path: 'custom-page', component: CustomPageListComponent },
-  { path: 'create-custom-page', component: CustomPagesComponent },
+  { path: 'create-custom-page', component: CreateCustomPagesComponent },
+  { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
 ];
 @NgModule({
   declarations: [
@@ -126,13 +128,14 @@ const routes: Routes = [
     LoginHistoryComponent,
     NewsletterListComponent,
     ModalPopupComponent,
-    SettingsComponent,
-    CustomPagesComponent,
+    CreateSettingsComponent,
+    CreateCustomPagesComponent,
     CountriesStatesCitiesComponent,
     StatesComponent,
     CitiesComponent,
     SettingsListComponent,
     CustomPageListComponent,
+    EditCustomPagesComponent
   ],
   imports: [
     MaterialModule,

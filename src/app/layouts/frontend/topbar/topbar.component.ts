@@ -81,6 +81,7 @@ export class TopbarComponent implements OnInit {
     let params = { url: 'menu-submenu' };
     this.http.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
+      console.log( res['pages'])
       this.subMenuCount=this.subMenus.length
     });
   }

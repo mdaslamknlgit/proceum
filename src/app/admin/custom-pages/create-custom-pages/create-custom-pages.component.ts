@@ -1,16 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { CommonService } from '../../services/common.service';
+import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../../environments/environment';
-import { UploadAdapter } from './UploadAdapter';
+import { environment } from '../../../../environments/environment';
+import { UploadAdapter } from '../UploadAdapter';
 
 @Component({
-  selector: 'app-custom-pages',
-  templateUrl: './custom-pages.component.html',
-  styleUrls: ['./custom-pages.component.scss']
+  selector: 'app-create-custom-pages',
+  templateUrl: './create-custom-pages.component.html',
+  styleUrls: ['./create-custom-pages.component.scss']
 })
-export class CustomPagesComponent implements OnInit {
+export class CreateCustomPagesComponent implements OnInit {
   isPageRequired: boolean = true;
   isMenuRequired: boolean = true;
   isMenuDisplay: boolean = true;
