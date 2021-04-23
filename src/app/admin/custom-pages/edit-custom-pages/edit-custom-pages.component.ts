@@ -4,7 +4,7 @@ import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
 import { UploadAdapter } from '../UploadAdapter';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 
 @Component({
   selector: 'app-custom-pages',
@@ -31,13 +31,14 @@ export class EditCustomPagesComponent implements OnInit {
   menuList: any;
   pagesList: any;
   constructor(
-    private route: ActivatedRoute,
+    private activeRoute: ActivatedRoute,
+    private route: Router,
     private http: CommonService, 
     private toaster: ToastrService
   ) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(routeParams => {
+    this.activeRoute.params.subscribe(routeParams => {
       this.page_id=routeParams.id;
       this.getMenusAndPages();
     });    
@@ -94,11 +95,7 @@ export class EditCustomPagesComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toaster.success(res['message'], 'Success');
-        this.isMenuRequired = true;
-        this.isMenuDisplay = true;
-        this.isPageRequired = true;
-        this.isPageDisplay = true;
-        (<HTMLFormElement>document.getElementById('custom_page_form')).reset();
+        this.route.navigate(['admin/custom-page']);
         this.getMenusAndPages();
       } else {
         this.toaster.error(res['message'], 'Error');
