@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonService } from '../../services/common.service';
+import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  templateUrl: './create-settings.component.html',
+  styleUrls: ['./create-settings.component.scss']
 })
-export class SettingsComponent implements OnInit {
+export class CreateSettingsComponent implements OnInit {
 
   filedata: any;
   imgMsg: any;
@@ -78,11 +78,9 @@ export class SettingsComponent implements OnInit {
       "url": 'get-mode'
     }
     this.http.post(params).subscribe((res) => {
-      console.log(res['sys_mode'].value);
       this.systemMode = (res['sys_mode'].value) ? res['sys_mode'].value : "live";
     });
   }
-
 
   createSettings() {
     var myFormData = new FormData();
@@ -93,7 +91,6 @@ export class SettingsComponent implements OnInit {
       this.settings.organization_name=this.settings.organization_name.trim();
     i++;
     }
-   
     //address validation
     if (this.settings.contact_name.trim() !== "") {
       myFormData.append('contact_name', this.settings.contact_name.trim());
@@ -101,7 +98,6 @@ export class SettingsComponent implements OnInit {
       this.settings.contact_name=this.settings.contact_name.trim();
       i++;
     }
-
     //address validation
     if (this.settings.full_address.trim() === "") {
       this.settings.full_address=this.settings.full_address.trim();
@@ -110,7 +106,6 @@ export class SettingsComponent implements OnInit {
     if(i!=0){
       return;
     }
-
     //logo
     if (this.filedata) {
       let mimeType = this.filedata[0].type;
@@ -140,7 +135,6 @@ export class SettingsComponent implements OnInit {
     myFormData.append('contact_number_2', contact_number_2);
     myFormData.append('full_address', this.settings.full_address.trim());
     myFormData.append('gstin_number', this.settings.gstin_number.trim());
-    
     myFormData.append('date_format', this.settings.date_format.trim());
     myFormData.append('time_format', this.settings.time_format.trim());
     myFormData.append('list_view_limit', this.settings.list_view_limit);
@@ -162,20 +156,17 @@ export class SettingsComponent implements OnInit {
   }
   
   toggleModel() {
-    console.log(this.systemMode);
     if(this.systemMode=="live"){
       this.updateSysMode();
     }else{
       this.model_status = !this.model_status;
     }
-    
   }
 
   updateSysMode() {
     if(this.systemMode!="live"){
       this.model_status = !this.model_status;
     }
-
     const user = JSON.parse(atob(sessionStorage.getItem('user')));
     if (this.systemMode === "") {
       this.mode_check = false;
