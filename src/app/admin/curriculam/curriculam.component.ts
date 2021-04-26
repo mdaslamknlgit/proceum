@@ -6,12 +6,15 @@ import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-curriculam',
   templateUrl: './curriculam.component.html',
   styleUrls: ['./curriculam.component.scss'],
 })
 export class CurriculamComponent implements OnInit {
+  pageSizeOptions = environment.page_size_options;
   displayedColumns: string[] = [
     'id',
     'name',

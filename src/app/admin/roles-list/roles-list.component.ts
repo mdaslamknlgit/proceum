@@ -19,6 +19,7 @@ export interface PeriodicElement {
   styleUrls: ['./roles-list.component.scss'],
 })
 export class RolesListComponent implements OnInit {
+  page_size_options = environment.page_size_options;
   displayedColumns: string[] = [
     'id',
     'role_name',
