@@ -38,6 +38,8 @@ export class CurriculamComponent implements OnInit {
   confirmClicked = false;
   cancelClicked = false;
   search_text = '';
+  duplicate_error = false;
+  duplicate_error_value = '';
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -80,7 +82,36 @@ export class CurriculamComponent implements OnInit {
   removeStep(i) {
     this.steps.splice(i, 1);
   }
+  checkDuplicate(this_value, step) {
+    let arr = this.steps;
+    this.duplicate_error_value = '';
+    this.duplicate_error = false;
+    arr.forEach((val) => {
+      if (
+        arr[val] == this_value &&
+        this_value != null &&
+        this_value != '' &&
+        val != step
+      ) {
+        this.duplicate_error = true;
+        this.duplicate_error_value = this_value;
+      } else {
+      }
+    });
+    if (this.duplicate_error) {
+      this.toster.error('Duplicate Level names not allowed');
+    }
+  }
+  resetDuplicates(step) {
+    this.steps[step] = '';
+    this.duplicate_error_value = '';
+    this.duplicate_error = false;
+  }
   createCurriculum() {
+    if (this.duplicate_error) {
+      this.toster.error('Duplicate Level names not allowed');
+      return false;
+    }
     let steps = [];
     this.steps.forEach((step) => {
       steps.push(this.steps[step]);
@@ -108,6 +139,7 @@ export class CurriculamComponent implements OnInit {
     this.view_model_status = !this.view_model_status;
   }
   editCurriculum(param) {
+    this.duplicate_error = false;
     this.edit_model_status = !this.edit_model_status;
     this.curriculum_name = param['name'];
     this.curriculum_id = param['id'];
@@ -124,6 +156,10 @@ export class CurriculamComponent implements OnInit {
     });
   }
   updateCurriculum() {
+    if (this.duplicate_error) {
+      this.toster.error('Duplicate Level names not allowed');
+      return false;
+    }
     let steps = [];
     this.steps.forEach((step) => {
       steps.push(this.steps[step]);

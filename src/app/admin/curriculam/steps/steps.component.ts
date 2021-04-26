@@ -159,6 +159,7 @@ export class StepsComponent implements OnInit {
   editStep(param) {
     this.edit_model_status = !this.edit_model_status;
     this.step_name = param['name'];
+    this.step_code = param['code'];
     //this.curriculum_id = param['id'];
     this.step_pk_id = param['id'];
   }
@@ -166,6 +167,7 @@ export class StepsComponent implements OnInit {
     let param = {
       url: 'step/' + this.step_pk_id,
       step_name: this.step_name,
+      step_code: this.step_code,
       curriculum_id: this.curriculum_id,
       step_number: this.step_number,
     };

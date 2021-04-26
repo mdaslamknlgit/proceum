@@ -75,7 +75,15 @@
               >
               <span>
                 <span class="err_tltp_par">
-                  <mat-form-field appearance="outline">
+                  <mat-form-field
+                    appearance="outline"
+                    class="{{
+                      duplicate_error_value != '' &&
+                      duplicate_error_value == steps[step]
+                        ? 'error'
+                        : ''
+                    }}"
+                  >
                     <input
                       trim="blur"
                       matInput
@@ -83,6 +91,11 @@
                       [(ngModel)]="steps[step]"
                       #ref_{{step}}="ngModel"
                       required
+                      (keyup)="checkDuplicate(steps[step], step)"
+                      (blur)="
+                        duplicate_error_value == steps[step] &&
+                          resetDuplicates(step)
+                      "
                       placeholder="Provide Level {{ indexOfelement + 1 }} Label"
                     />
                   </mat-form-field>
@@ -92,6 +105,15 @@
                     *ngIf="curriculum_form.submitted && !steps[step]"
                   >
                     Level {{ indexOfelement + 1 }} is required</span
+                  >
+                  <span
+                    class="prc_tltp"
+                    *ngIf="
+                      duplicate_error_value != '' &&
+                      duplicate_error_value == steps[step]
+                    "
+                  >
+                    Duplicate Names not allowed</span
                   >
                 </span>
                 <button
@@ -449,6 +471,7 @@
                 <mat-form-field appearance="outline">
                   <input
                     trim="blur"
+                    (blur)="checkDuplicate(steps[step], step)"
                     matInput
                     name="ref_edit_{{ step }}"
                     [(ngModel)]="steps[step]"
