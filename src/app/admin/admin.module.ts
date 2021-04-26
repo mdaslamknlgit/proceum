@@ -18,7 +18,6 @@ import { AccessMatrixComponent } from './roles-list/access-matrix/access-matrix.
 import { LoginHistoryComponent } from './login-history/login-history.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
-import { ModalPopupComponent } from './newsletter-list/model-popup/model-popup.component';
 import { CreateSettingsComponent } from './settings/create-settings/create-settings.component';
 import { CreateCustomPagesComponent } from './custom-pages/create-custom-pages/create-custom-pages.component';
 import { EditCustomPagesComponent } from './custom-pages/edit-custom-pages/edit-custom-pages.component';
@@ -127,7 +126,6 @@ const routes: Routes = [
     AccessMatrixComponent,
     LoginHistoryComponent,
     NewsletterListComponent,
-    ModalPopupComponent,
     CreateSettingsComponent,
     CreateCustomPagesComponent,
     CountriesStatesCitiesComponent,

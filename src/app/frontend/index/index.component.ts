@@ -25,7 +25,6 @@ export class IndexComponent implements OnInit {
   public isOpen = false;
   user: any;
   ngOnInit(): void {
-    this.getMenus();
     this.user = this.service.getUser();
     console.log(this.user);
   }
@@ -54,9 +53,7 @@ export class IndexComponent implements OnInit {
     this.isSticky = window.pageYOffset >= 150;
   }
   newsletterSubscribe() {
-    //console.log(this.email_address);return false;
     if (this.email_address == undefined) {
-      //this.errEmailMsg="Email is Required";
       this.errClass = 'input-border-color';
       return false;
     }
@@ -83,27 +80,6 @@ export class IndexComponent implements OnInit {
       //this.errEmailMsg="Please enter valid email";
       this.errClass = 'input-border-color';
     }
-  }
-  getMenus() {
-    let params = { url: 'menu-submenu' };
-    this.http.post(params).subscribe((res) => {
-      //this.menus = res['menus'];
-      this.subMenus = res['pages'];
-    });
-  }
-
-  changeSubmenu(menu_id) {
-    this.subMenus=[];
-      let params = {
-      "url": "sub-menu",
-      'parent_id':menu_id
-       };
-    this.http.post(params).subscribe((res) => {
-      this.subMenus = res['pages'];
-    });
-    // this.newPages = this.pages.filter(function (page) {
-    //   return page.parent_id == key;
-    // });
   }
 }
 

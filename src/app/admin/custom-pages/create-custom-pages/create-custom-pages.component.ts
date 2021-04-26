@@ -45,8 +45,6 @@ export class CreateCustomPagesComponent implements OnInit {
     };
     this.http.post(params).subscribe((res) => {
       this.menuList = res['menu'];
-      this.pagesList = res['pages'];
-      console.log(res['menu']);
     });
   }
 

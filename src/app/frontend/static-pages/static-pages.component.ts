@@ -26,7 +26,6 @@ pageName:string;
       "url": 'page-content',
       'pk_id':this.id
     };
-   // console.log(params);
     this.http.post(params).subscribe((res) => {
       console.log(res['content']);
       this.pageContent=res['content'];

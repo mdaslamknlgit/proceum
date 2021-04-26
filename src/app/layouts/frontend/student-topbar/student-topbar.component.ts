@@ -22,7 +22,6 @@ export class StudentTopbarComponent implements OnInit {
     this.http.menu_status = '';
     this.user = this.http.getUser();
     this.innerWidth = window.innerWidth;
-    this.getMenus();
   }
 
   navigateTo() {
@@ -61,27 +60,5 @@ export class StudentTopbarComponent implements OnInit {
   checkScroll() {
     // var AinnerWidth = window.innerWidth;
     this.isSticky = window.pageYOffset >= 100;
-  }
-
-  getMenus() {
-    let params = { url: 'menu-submenu' };
-    this.http.post(params).subscribe((res) => {
-     // this.menus = res['menus'];
-     // console.log(this.menus);
-      this.subMenus = res['pages'];
-    });
-  }
-
-  changeSubmenu(menu_id) {
-      let params = {
-      "url": "sub-menu",
-      'parent_id':menu_id
-       };
-    this.http.post(params).subscribe((res) => {
-      this.subMenus = res['pages'];
-    });
-    // this.newPages = this.pages.filter(function (page) {
-    //   return page.parent_id == key;
-    // });
   }
 }
