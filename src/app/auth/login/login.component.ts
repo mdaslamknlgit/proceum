@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit {
   public email_error: string = 'Email is Required';
   public password_error: string = 'Password is Required';
   public email_check:boolean=true;
+  public is_login:boolean=false;
 
   password_hide: boolean = true;
   constructor(
@@ -40,7 +41,8 @@ export class LoginComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
-      if (user) {
+      if (user && this.is_login==false) {
+        this.is_login=true;
         this.socialUser = user;
         this.register.first_name = this.socialUser.firstName;
         this.register.last_name = this.socialUser.lastName;
@@ -87,7 +89,6 @@ export class LoginComponent implements OnInit {
         });
       }
     });
-
   }
 
   passwordFun() {

@@ -21,6 +21,7 @@ export class RegisterComponent implements OnInit {
   public email_check: boolean = true;
   public password_check: boolean = true;
   public confirm_check: boolean = true;
+  public is_login:boolean=false;
   domain:string;
   confirm_hide: boolean = true;
   password_hide: boolean = true;
@@ -30,7 +31,8 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.domain = location.origin;
     this.socialAuthService.authState.subscribe((user) => {
-      if(user){
+      if(user &&  this.is_login == false){
+        this.is_login = true;
         this.socialUser = user;
         this.register.first_name = this.socialUser.firstName;
         this.register.last_name =  this.socialUser.lastName;
