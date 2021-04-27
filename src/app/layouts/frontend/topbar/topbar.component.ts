@@ -15,6 +15,7 @@ export class TopbarComponent implements OnInit {
   menus: any;
   subMenus: any = [];
   subMenuCount:number=0;
+  isCustomMenuShow:boolean=true;
   constructor(
     private http: CommonService,
     private route: Router,
@@ -81,8 +82,9 @@ export class TopbarComponent implements OnInit {
     let params = { url: 'menu-submenu' };
     this.http.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
-      console.log( res['pages'])
-      this.subMenuCount=this.subMenus.length
+      if(this.subMenus.length ==0){
+        this.isCustomMenuShow=false;
+      }
     });
   }
 
