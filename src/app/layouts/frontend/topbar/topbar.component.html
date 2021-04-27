@@ -55,9 +55,17 @@
       > -->
     <span
       *ngIf="isCustomMenuShow"
-        mat-list-item
-        [matMenuTriggerFor]="appMenu"
-        [class]="activeClass"
+      mat-list-item
+      [matMenuTriggerFor]="appMenu"
+      [class]="activeClass"
+      routerLinkActive="active"
+      >Custom Menu</span
+    >
+    <mat-menu #appMenu="matMenu">
+      <button
+        mat-menu-item
+        *ngFor="let subMenu of subMenus"
+        routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
         routerLinkActive="active"
         #rla="routerLinkActive"
       >
