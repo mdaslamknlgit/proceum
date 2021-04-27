@@ -18,7 +18,6 @@ export class IndexComponent implements OnInit {
   ) {}
   email_address: string;
   errEmailMsg: string = '';
-  emailRegexp = new RegExp('/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/');
   menus: any;
   subMenus: any = [];
   errClass: any;
@@ -55,6 +54,10 @@ export class IndexComponent implements OnInit {
   newsletterSubscribe() {
     if (this.email_address == undefined) {
       this.errClass = 'input-border-color';
+      this.errEmailMsg="Email is required";
+      setTimeout(() => {
+        this.errEmailMsg="";
+    }, 5000);
       return false;
     }
     let verifyEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
@@ -77,7 +80,10 @@ export class IndexComponent implements OnInit {
         }
       });
     } else {
-      //this.errEmailMsg="Please enter valid email";
+        this.errEmailMsg="Please enter valid email";
+        setTimeout(() => {
+          this.errEmailMsg="";
+        }, 5000);
       this.errClass = 'input-border-color';
     }
   }
