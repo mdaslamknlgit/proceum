@@ -29,9 +29,13 @@ export class CommonService {
     sessionStorage.removeItem('user');
   }
   public get(param) {
+    let user = this.getUser();
+    console.log(user['configs']);
+    param.config = user['config'];
     let headers = new HttpHeaders();
     headers = headers
       .set('Authorization', 'Bearer ' + this.getToken())
+      .set('config', JSON.stringify(user['configs']))
       .set('Content-Type', 'application/json');
     return this.http.get(this.apiURL + param.url, { headers: headers }).pipe(
       map((res) => res),
@@ -73,10 +77,9 @@ export class CommonService {
     );
   }
 
-  public import(param:any,formData:any){
+  public import(param: any, formData: any) {
     let headers = new HttpHeaders();
-      headers = headers
-      .set("Authorization", "Bearer "+this.getToken());
+    headers = headers.set('Authorization', 'Bearer ' + this.getToken());
     return this.http
       .post(this.apiURL + param.url, formData, { headers: headers })
       .pipe(
@@ -84,12 +87,12 @@ export class CommonService {
         catchError(this.errorHandler)
       );
   }
-  
+
   errorHandler(error: Response) {
     return throwError(error);
   }
 
-  public imageUpload(param:any, myFormData:any) {
+  public imageUpload(param: any, myFormData: any) {
     let headers = new HttpHeaders();
     headers = headers.append('Authorization', 'Bearer ' + this.getToken());
 
