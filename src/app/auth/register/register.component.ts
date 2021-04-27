@@ -31,8 +31,8 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.domain = location.origin;
     this.socialAuthService.authState.subscribe((user) => {
-      if(user &&  this.is_login == false){
-        this.is_login = true;
+      if (user && this.is_login==false) {
+        this.is_login=true;
         this.socialUser = user;
         this.register.first_name = this.socialUser.firstName;
         this.register.last_name =  this.socialUser.lastName;
