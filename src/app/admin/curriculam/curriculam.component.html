@@ -80,7 +80,7 @@
                     class="{{
                       duplicate_error_value != '' &&
                       duplicate_error_value == steps[step]
-                        ? 'error'
+                        ? 'mat-form-field-invalid'
                         : ''
                     }}"
                   >
@@ -113,7 +113,7 @@
                       duplicate_error_value == steps[step]
                     "
                   >
-                    Duplicate Names not allowed</span
+                    Duplicate Level Name not allowed</span
                   >
                 </span>
                 <button
@@ -468,10 +468,22 @@
             <span>
               <!-- [ngClass]="{err_tltp_par: curriculum_form.submitted && curriculum_name == ''}" -->
               <span class="err_tltp_par">
-                <mat-form-field appearance="outline">
+                <mat-form-field
+                  appearance="outline"
+                  class="{{
+                    duplicate_error_value != '' &&
+                    duplicate_error_value == steps[step]
+                      ? 'mat-form-field-invalid'
+                      : ''
+                  }}"
+                >
                   <input
                     trim="blur"
-                    (blur)="checkDuplicate(steps[step], step)"
+                    (keyup)="checkDuplicate(steps[step], step)"
+                    (blur)="
+                      duplicate_error_value == steps[step] &&
+                        resetDuplicates(step)
+                    "
                     matInput
                     name="ref_edit_{{ step }}"
                     [(ngModel)]="steps[step]"
@@ -490,9 +502,15 @@
                 >
                   Level {{ indexOfelement + 1 }} is required
                 </span>
-
-                <!-- <span class="prc_tltp" *ngIf="edit_curriculum_form.submitted && !steps[step]">
-                Level {{ indexOfelement + 1 }} is required</span> -->
+                <span
+                  class="prc_tltp"
+                  *ngIf="
+                    duplicate_error_value != '' &&
+                    duplicate_error_value == steps[step]
+                  "
+                >
+                  Duplicate Level Name not allowed</span
+                >
               </span>
               <button
                 *ngIf="last && false"

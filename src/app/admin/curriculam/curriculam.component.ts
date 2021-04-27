@@ -99,7 +99,7 @@ export class CurriculamComponent implements OnInit {
       }
     });
     if (this.duplicate_error) {
-      this.toster.error('Duplicate Level names not allowed');
+      //this.toster.error('Duplicate Level names not allowed', 'Error');
     }
   }
   resetDuplicates(step) {

@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -11,39 +11,39 @@ export class TopbarComponent implements OnInit {
   public sidemenu_status: String = '';
   public innerWidth: any;
   public isOpen = false;
-  activeClass:string='tp_rt_mn';
+  activeClass: string = 'tp_rt_mn';
   menus: any;
   subMenus: any = [];
-  subMenuCount:number=0;
+  subMenuCount: number = 1;
   constructor(
     private http: CommonService,
     private route: Router,
-    private activeRoute: ActivatedRoute,
+    private activeRoute: ActivatedRoute
   ) {}
   public user;
-  id:number=undefined;
+  id: number = undefined;
   ngOnInit(): void {
     this.http.menu_status = '';
     this.user = this.http.getUser();
     this.innerWidth = window.innerWidth;
     this.getMenus();
-    this.activeRoute.params.subscribe(routeParams => {
-      if(routeParams.id){
-        this.activeClass='tp_rt_mn active';
+    this.activeRoute.params.subscribe((routeParams) => {
+      if (routeParams.id) {
+        this.activeClass = 'tp_rt_mn active';
       }
-    }); 
+    });
   }
 
   navigateTo() {
     if (this.user['role'] == '1') {
       this.route.navigateByUrl('/admin/dashboard');
-    } else if(this.user['role'] == '2') {
+    } else if (this.user['role'] == '2') {
       this.route.navigateByUrl('/student/dashboard');
     }
   }
-  menuActive(){
-    if(typeof this.id != undefined){
-      this.activeClass='tp_rt_mn active';
+  menuActive() {
+    if (typeof this.id != undefined) {
+      this.activeClass = 'tp_rt_mn active';
     }
   }
 
@@ -81,16 +81,16 @@ export class TopbarComponent implements OnInit {
     let params = { url: 'menu-submenu' };
     this.http.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
-      console.log( res['pages'])
-      this.subMenuCount=this.subMenus.length
+      console.log(res['pages']);
+      this.subMenuCount = this.subMenus.length;
     });
   }
 
   changeSubmenu(menu_id) {
-      let params = {
-      "url": "sub-menu",
-      'parent_id':menu_id
-       };
+    let params = {
+      url: 'sub-menu',
+      parent_id: menu_id,
+    };
     this.http.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
     });

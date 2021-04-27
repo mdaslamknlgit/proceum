@@ -31,6 +31,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { MatTreeModule } from '@angular/material/tree';
 import { InputTrimModule } from 'ng2-trim-directive';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
   imports: [
@@ -60,6 +61,7 @@ import { InputTrimModule } from 'ng2-trim-directive';
     NgMultiSelectDropDownModule,
     MomentDateModule,
     MatTreeModule,
+    NgxMatSelectSearchModule,
   ],
   exports: [
     MatInputModule,
@@ -93,6 +95,7 @@ import { InputTrimModule } from 'ng2-trim-directive';
     MomentDateModule,
     MatTreeModule,
     InputTrimModule,
+    NgxMatSelectSearchModule,
   ],
 })
 export class MaterialModule {}
