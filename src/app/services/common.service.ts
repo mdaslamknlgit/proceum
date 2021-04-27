@@ -30,8 +30,6 @@ export class CommonService {
   }
   public get(param) {
     let user = this.getUser();
-    console.log(user['configs']);
-    param.config = user['config'];
     let headers = new HttpHeaders();
     headers = headers
       .set('Authorization', 'Bearer ' + this.getToken())
@@ -43,9 +41,11 @@ export class CommonService {
     );
   }
   public post(param) {
+    let user = this.getUser();
     let headers = new HttpHeaders();
     headers = headers
       .set('Authorization', 'Bearer ' + this.getToken())
+      .set('config', JSON.stringify(user['configs']))
       .set('Content-Type', 'application/json');
     return this.http
       .post(this.apiURL + param.url, param, { headers: headers })
@@ -55,9 +55,11 @@ export class CommonService {
       );
   }
   public put(param) {
+    let user = this.getUser();
     let headers = new HttpHeaders();
     headers = headers
       .set('Authorization', 'Bearer ' + this.getToken())
+      .set('config', JSON.stringify(user['configs']))
       .set('Content-Type', 'application/json');
     return this.http
       .put(this.apiURL + param.url, param, { headers: headers })
@@ -67,9 +69,11 @@ export class CommonService {
       );
   }
   public delete(param) {
+    let user = this.getUser();
     let headers = new HttpHeaders();
     headers = headers
       .set('Authorization', 'Bearer ' + this.getToken())
+      .set('config', JSON.stringify(user['configs']))
       .set('Content-Type', 'application/json');
     return this.http.delete(this.apiURL + param.url, { headers: headers }).pipe(
       map((res) => res),
@@ -78,8 +82,11 @@ export class CommonService {
   }
 
   public import(param: any, formData: any) {
+    let user = this.getUser();
     let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Bearer ' + this.getToken());
+    headers = headers
+      .set('Authorization', 'Bearer ' + this.getToken())
+      .set('config', JSON.stringify(user['configs']));
     return this.http
       .post(this.apiURL + param.url, formData, { headers: headers })
       .pipe(
