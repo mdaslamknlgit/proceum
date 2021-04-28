@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -18,6 +19,7 @@ export class TopbarComponent implements OnInit {
   isCustomMenuShow: boolean = true;
   constructor(
     private http: CommonService,
+    private authHttp: AuthService,
     private route: Router,
     private activeRoute: ActivatedRoute
   ) {}
@@ -80,7 +82,7 @@ export class TopbarComponent implements OnInit {
 
   getMenus() {
     let params = { url: 'menu-submenu' };
-    this.http.post(params).subscribe((res) => {
+    this.authHttp.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
       if (this.subMenus.length == 0) {
         this.isCustomMenuShow = false;
