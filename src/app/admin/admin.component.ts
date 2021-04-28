@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'admin-root',
@@ -7,6 +8,12 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent {
-  constructor(private router: Router) {}
+  loading: boolean;
+  constructor(private loaderService: CommonService, private router: Router) {
+    this.loaderService.isLoading.subscribe((v) => {
+      this.loading = v;
+    });
+  }
   ngOnInit() {}
+
 }
