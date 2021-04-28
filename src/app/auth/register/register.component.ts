@@ -31,7 +31,8 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.domain = location.origin;
     this.socialAuthService.authState.subscribe((user) => {
-      if (user) {
+      if (user && this.is_login==false) {
+        this.is_login=true;
         this.socialUser = user;
         this.register.first_name = this.socialUser.firstName;
         this.register.last_name =  this.socialUser.lastName;
@@ -72,8 +73,7 @@ export class RegisterComponent implements OnInit {
                   id: this.register.id,
                   domain:this.domain
                 };
-                if(this.is_login==false){
-                this.is_login=true;
+                
                 this.http.register(params).subscribe((res: Response) => {
                   if (res.error) {
                     this.is_show = false;
@@ -105,8 +105,6 @@ export class RegisterComponent implements OnInit {
                     
                   }
                 });
-              }
-    
               }else{
                 this.confirm_check = false;
                 this.confirm_password_error = "Password and Confirm password are not matched";
