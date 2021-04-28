@@ -26,7 +26,7 @@ pageName:string;
   getStaticPageContent(){
     console.log( this.id);
     let params = {
-      "url": 'get-page-content',
+      "url": 'page-content',
       'pk_id':this.id
     };
     this.http.post(params).subscribe((res) => {

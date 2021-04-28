@@ -36,83 +36,91 @@ import { HttpClientModule } from '@angular/common/http';
 import { SettingsListComponent } from './settings/settings-list/settings-list.component';
 import { CustomPageListComponent } from './custom-pages/custom-page-list/custom-page-list.component';
 import { DatePipe } from '@angular/common';
+import { AdminComponent } from './admin.component';
 const routes: Routes = [
   {
-    path: 'dashboard',
-    component: DashboardComponent,
+    path: '',
+    component: AdminComponent,
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+      },
+      {
+        path: 'individuals',
+        component: StudentsComponent,
+      },
+      {
+        path: 'login-history',
+        component: LoginHistoryComponent,
+      },
+      {
+        path: 'settings/email-templates',
+        component: EmailTemplatesComponent,
+      },
+      {
+        path: 'curriculum',
+        component: CurriculamComponent,
+      },
+      {
+        path: 'discount-settings',
+        component: DiscountSettingsComponent,
+      },
+      {
+        path: 'promotional-settings',
+        component: PromotionalSettingsComponent,
+      },
+      {
+        path: 'curriculum/:curriculum_id',
+        component: StepsComponent,
+      },
+      {
+        path: 'curriculum/:curriculum_id/:step',
+        component: StepsComponent,
+      },
+      {
+        path: 'curriculum/:curriculum_id/:step/:level_parent_id',
+        component: StepsComponent,
+      },
+      {
+        path: 'roles-list',
+        component: RolesListComponent,
+      },
+      {
+        path: 'access-matrix',
+        component: AccessMatrixComponent,
+      },
+      {
+        path: 'countries',
+        component: CountriesStatesCitiesComponent,
+      },
+      {
+        path: 'countries/:country_id',
+        component: StatesComponent,
+      },
+      {
+        path: 'countries/:country_id/:state_id',
+        component: CitiesComponent,
+      },
+      { path: 'newsletter-list', component: NewsletterListComponent },
+      { path: 'create-settings', component: CreateSettingsComponent },
+      {
+        path: 'settings',
+        component: SettingsListComponent,
+      },
+      { path: 'custom-page', component: CustomPageListComponent },
+      { path: 'create-custom-page', component: CreateCustomPagesComponent },
+      { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
+    ],
   },
-  {
-    path: 'users',
-    component: UsersComponent,
-  },
-  {
-    path: 'individuals',
-    component: StudentsComponent,
-  },
-  {
-    path: 'login-history',
-    component: LoginHistoryComponent,
-  },
-  {
-    path: 'settings/email-templates',
-    component: EmailTemplatesComponent,
-  },
-  {
-    path: 'curriculum',
-    component: CurriculamComponent,
-  },
-  {
-    path: 'discount-settings',
-    component: DiscountSettingsComponent,
-  },
-  {
-    path: 'promotional-settings',
-    component: PromotionalSettingsComponent,
-  },
-  {
-    path: 'curriculum/:curriculum_id',
-    component: StepsComponent,
-  },
-  {
-    path: 'curriculum/:curriculum_id/:step',
-    component: StepsComponent,
-  },
-  {
-    path: 'curriculum/:curriculum_id/:step/:level_parent_id',
-    component: StepsComponent,
-  },
-  {
-    path: 'roles-list',
-    component: RolesListComponent,
-  },
-  {
-    path: 'access-matrix',
-    component: AccessMatrixComponent,
-  },
-  {
-    path: 'countries',
-    component: CountriesStatesCitiesComponent,
-  },
-  {
-    path: 'countries/:country_id',
-    component: StatesComponent,
-  },
-  {
-    path: 'countries/:country_id/:state_id',
-    component: CitiesComponent,
-  },
-  { path: 'newsletter-list', component: NewsletterListComponent },
-  { path: 'create-settings', component: CreateSettingsComponent },
-  {
-    path: 'settings',
-    component: SettingsListComponent,
-  },
-  { path: 'custom-page', component: CustomPageListComponent },
-  { path: 'create-custom-page', component: CreateCustomPagesComponent },
-  { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
 ];
 @NgModule({
   declarations: [
+    AdminComponent,
     DashboardComponent,
     UsersComponent,
     EmailTemplatesComponent,

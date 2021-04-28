@@ -1,7 +1,8 @@
-<div class="sd_br" [ngClass]="sidemenuStatus">
+<div class="sd_br" [ngClass]="sidemenuStatus" (scroll)="scrollHandler($event)">
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
     <li
+      routerLinkActive="active"
       routerLink="/admin/dashboard"
       [ngClass]="{ active: active_route == '/admin/dashboard' }"
     >
@@ -9,33 +10,18 @@
     </li>
 
     <li
-      class="hs_sbmnu {{
-        menu_active == 7 ||
-        active_route == '/admin/roles-list' ||
-        active_route == '/admin/access-matrix'
-          ? 'active'
-          : ''
-      }}"
+      routerLinkActive="active"
+      class="hs_sbmnu {{ menu_active == 7 ? 'active' : '' }}"
       (click)="activeMenu(7)"
     >
       <div class="sd_mnuhd">
         <mat-icon>manage_accounts</mat-icon> Roles Management
       </div>
       <ul class="sdmn_sub">
-        <li
-          [ngClass]="{
-            active: active_route == '/admin/roles-list'
-          }"
-          routerLink="/admin/roles-list"
-        >
+        <li routerLinkActive="active" routerLink="/admin/roles-list">
           <mat-icon>manage_accounts</mat-icon> Roles List
         </li>
-        <li
-          [ngClass]="{
-            active: active_route == '/admin/access-matrix'
-          }"
-          routerLink="/admin/access-matrix"
-        >
+        <li routerLink="/admin/access-matrix">
           <mat-icon>manage_accounts</mat-icon> Privilege/Access Matrix
         </li>
       </ul>
@@ -178,7 +164,9 @@
       class="hs_sbmnu {{
         menu_active == 6 ||
         active_route == '/admin/settings/email-templates' ||
-        active_route == '/admin/countries'
+        active_route == '/admin/countries' ||
+        active_route == '/admin/settings' ||
+        active_route == '/admin/custom-page'
           ? 'active'
           : ''
       }}"
@@ -202,10 +190,20 @@
         >
           <mat-icon>email</mat-icon>Email Templates
         </li>
-        <li routerLink="/admin/settings">
+        <li
+          routerLink="/admin/settings"
+          [ngClass]="{
+            active: active_route == '/admin/settings'
+          }"
+        >
           <mat-icon>phonelink_setup</mat-icon>System Settings
         </li>
-        <li routerLink="/admin/custom-page">
+        <li
+          routerLink="/admin/custom-page"
+          [ngClass]="{
+            active: active_route == '/admin/custom-page'
+          }"
+        >
           <mat-icon>note_add</mat-icon>Custom Pages
         </li>
         <li><mat-icon>cloud_off</mat-icon>Offline</li>
@@ -213,12 +211,21 @@
       </ul>
     </li>
     <li
-      class="hs_sbmnu {{ menu_active == 8 ? 'active' : '' }}"
+      class="hs_sbmnu {{
+        menu_active == 8 || active_route == '/admin/newsletter-list'
+          ? 'active'
+          : ''
+      }}"
       (click)="activeMenu(8)"
     >
       <div class="sd_mnuhd"><mat-icon>feed</mat-icon> Newsletter</div>
       <ul class="sdmn_sub">
-        <li routerLink="/admin/newsletter-list">
+        <li
+          routerLink="/admin/newsletter-list"
+          [ngClass]="{
+            active: active_route == '/admin/newsletter-list'
+          }"
+        >
           <mat-icon>list</mat-icon>List
         </li>
       </ul>
