@@ -2,6 +2,7 @@
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
     <li
+      routerLinkActive="active"
       routerLink="/admin/dashboard"
       [ngClass]="{ active: active_route == '/admin/dashboard' }"
     >
@@ -9,33 +10,18 @@
     </li>
 
     <li
-      class="hs_sbmnu {{
-        menu_active == 7 ||
-        active_route == '/admin/roles-list' ||
-        active_route == '/admin/access-matrix'
-          ? 'active'
-          : ''
-      }}"
+      routerLinkActive="active"
+      class="hs_sbmnu {{ menu_active == 7 ? 'active' : '' }}"
       (click)="activeMenu(7)"
     >
       <div class="sd_mnuhd">
         <mat-icon>manage_accounts</mat-icon> Roles Management
       </div>
       <ul class="sdmn_sub">
-        <li
-          [ngClass]="{
-            active: active_route == '/admin/roles-list'
-          }"
-          routerLink="/admin/roles-list"
-        >
+        <li routerLinkActive="active" routerLink="/admin/roles-list">
           <mat-icon>manage_accounts</mat-icon> Roles List
         </li>
-        <li
-          [ngClass]="{
-            active: active_route == '/admin/access-matrix'
-          }"
-          routerLink="/admin/access-matrix"
-        >
+        <li routerLink="/admin/access-matrix">
           <mat-icon>manage_accounts</mat-icon> Privilege/Access Matrix
         </li>
       </ul>

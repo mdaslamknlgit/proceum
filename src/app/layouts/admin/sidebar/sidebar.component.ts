@@ -31,10 +31,11 @@ export class SidebarComponent implements OnInit {
     return this.http.menu_status;
   }
   activeMenu(num) {
-    if (!this.is_open && this.menu_active != num) this.menu_active = num;
-    else {
-      this.menu_active = 0;
-      this.active_route = '';
-    }
+    this.menu_active = num;
+    // if (!this.is_open && this.menu_active != num) this.menu_active = num;
+    // else {
+    //   this.menu_active = 0;
+    //   this.active_route = '';
+    // }
   }
 }
