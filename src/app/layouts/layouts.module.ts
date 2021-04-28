@@ -29,7 +29,7 @@ import { StudentTopbarComponent } from './frontend/student-topbar/student-topbar
     MaterialModule,
     NgWhiteboardModule,
     ColorPickerModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [
     TopbarComponent,
