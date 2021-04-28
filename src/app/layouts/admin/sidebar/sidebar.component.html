@@ -183,7 +183,9 @@
       class="hs_sbmnu {{
         menu_active == 6 ||
         active_route == '/admin/settings/email-templates' ||
-        active_route == '/admin/countries'
+        active_route == '/admin/countries' ||
+        active_route == '/admin/settings' ||
+        active_route == '/admin/custom-page'
           ? 'active'
           : ''
       }}"
@@ -207,10 +209,20 @@
         >
           <mat-icon>email</mat-icon>Email Templates
         </li>
-        <li routerLink="/admin/settings">
+        <li
+          routerLink="/admin/settings"
+          [ngClass]="{
+            active: active_route == '/admin/settings'
+          }"
+        >
           <mat-icon>phonelink_setup</mat-icon>System Settings
         </li>
-        <li routerLink="/admin/custom-page">
+        <li
+          routerLink="/admin/custom-page"
+          [ngClass]="{
+            active: active_route == '/admin/custom-page'
+          }"
+        >
           <mat-icon>note_add</mat-icon>Custom Pages
         </li>
         <li><mat-icon>cloud_off</mat-icon>Offline</li>
@@ -218,12 +230,21 @@
       </ul>
     </li>
     <li
-      class="hs_sbmnu {{ menu_active == 8 ? 'active' : '' }}"
+      class="hs_sbmnu {{
+        menu_active == 8 || active_route == '/admin/newsletter-list'
+          ? 'active'
+          : ''
+      }}"
       (click)="activeMenu(8)"
     >
       <div class="sd_mnuhd"><mat-icon>feed</mat-icon> Newsletter</div>
       <ul class="sdmn_sub">
-        <li routerLink="/admin/newsletter-list">
+        <li
+          routerLink="/admin/newsletter-list"
+          [ngClass]="{
+            active: active_route == '/admin/newsletter-list'
+          }"
+        >
           <mat-icon>list</mat-icon>List
         </li>
       </ul>
