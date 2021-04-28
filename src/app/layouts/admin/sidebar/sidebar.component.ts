@@ -19,7 +19,15 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
+  scrollHandler(event) {
+    const container = document.querySelector('.sd_br');
+    sessionStorage.setItem('sidemenu_scroll', '' + container.scrollTop);
+  }
   get sidemenuStatus() {
+    const container = document.querySelector('.sd_br');
+    container.scrollTop = sessionStorage.getItem('sidemenu_scroll')
+      ? Number(sessionStorage.getItem('sidemenu_scroll'))
+      : 0;
     return this.http.menu_status;
   }
   activeMenu(num) {
