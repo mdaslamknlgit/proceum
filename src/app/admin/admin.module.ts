@@ -79,17 +79,17 @@ const routes: Routes = [
       {
         path: 'curriculum/:curriculum_id',
         component: StepsComponent,
-        data: { shouldReuse: true },
+        data: { shouldReuse: false },
       },
       {
         path: 'curriculum/:curriculum_id/:step',
         component: StepsComponent,
-        data: { shouldReuse: true },
+        data: { shouldReuse: false },
       },
       {
         path: 'curriculum/:curriculum_id/:step/:level_parent_id',
         component: StepsComponent,
-        data: { shouldReuse: true },
+        data: { shouldReuse: false },
       },
       {
         path: 'roles-list',
