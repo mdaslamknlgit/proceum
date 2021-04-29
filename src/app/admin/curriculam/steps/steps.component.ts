@@ -49,7 +49,7 @@ export class StepsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private route: Router
   ) {
-    this.route.routeReuseStrategy.shouldReuseRoute = () => false;
+    //this.route.routeReuseStrategy.shouldReuseRoute = () => false;
   }
   ngOnInit(): void {
     this.step_id = this.activatedRoute.snapshot.params.step;

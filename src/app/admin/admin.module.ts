@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material/material.module';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
-import { RouterModule, Routes } from '@angular/router';
+import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 import { LayoutsModule } from '../layouts/layouts.module';
 import { UsersComponent } from './users/users.component';
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
@@ -37,6 +37,8 @@ import { SettingsListComponent } from './settings/settings-list/settings-list.co
 import { CustomPageListComponent } from './custom-pages/custom-page-list/custom-page-list.component';
 import { DatePipe } from '@angular/common';
 import { AdminComponent } from './admin.component';
+import { CustomRouteReuseStategy } from '../classes/reuse-strategy';
+
 const routes: Routes = [
   {
     path: '',
@@ -77,14 +79,17 @@ const routes: Routes = [
       {
         path: 'curriculum/:curriculum_id',
         component: StepsComponent,
+        data: { shouldReuse: true },
       },
       {
         path: 'curriculum/:curriculum_id/:step',
         component: StepsComponent,
+        data: { shouldReuse: true },
       },
       {
         path: 'curriculum/:curriculum_id/:step/:level_parent_id',
         component: StepsComponent,
+        data: { shouldReuse: true },
       },
       {
         path: 'roles-list',
@@ -158,6 +163,7 @@ const routes: Routes = [
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    { provide: RouteReuseStrategy, useClass: CustomRouteReuseStategy },
     DatePipe,
   ],
   exports: [RouterModule],
