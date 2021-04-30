@@ -38,6 +38,7 @@ import { CustomPageListComponent } from './custom-pages/custom-page-list/custom-
 import { DatePipe } from '@angular/common';
 import { AdminComponent } from './admin.component';
 import { CustomRouteReuseStategy } from '../classes/reuse-strategy';
+import { CreateContentComponent } from './create-content/create-content.component';
 
 const routes: Routes = [
   {
@@ -120,6 +121,7 @@ const routes: Routes = [
       { path: 'custom-page', component: CustomPageListComponent },
       { path: 'create-custom-page', component: CreateCustomPagesComponent },
       { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
+      { path: 'create-content', component: CreateContentComponent },
     ],
   },
 ];
@@ -147,6 +149,7 @@ const routes: Routes = [
     SettingsListComponent,
     CustomPageListComponent,
     EditCustomPagesComponent,
+    CreateContentComponent,
   ],
   imports: [
     MaterialModule,
