@@ -52,7 +52,7 @@ export class EditCustomPagesComponent implements OnInit {
 
   getMenusAndPages() {
     let params = {
-      "url": "menu-pages",
+      "url": "get-menu-pages",
       "page_id": this.page_id
     };
     this.http.post(params).subscribe((res) => {

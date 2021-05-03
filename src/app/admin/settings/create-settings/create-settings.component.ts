@@ -75,7 +75,7 @@ export class CreateSettingsComponent implements OnInit {
 
   getSystemMode() {
     let params = {
-      "url": 'get-mode'
+      "url": 'get-system-mode'
     }
     this.http.post(params).subscribe((res) => {
       this.systemMode = (res['sys_mode'].value) ? res['sys_mode'].value : "live";
@@ -175,7 +175,7 @@ export class CreateSettingsComponent implements OnInit {
       this.mode_check = true;
     }
     let param = {
-      'url': 'update-settings-mode',
+      'url': 'update-system-mode',
       "mode": this.systemMode,
       "user_id": user.id
     };

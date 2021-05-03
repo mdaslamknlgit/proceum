@@ -84,7 +84,7 @@ export class MyAccountComponent implements OnInit {
     this.user = JSON.parse(atob(sessionStorage.getItem('user')));
     this.user_id = this.user['id'];
     let params = {
-      'url': 'student-profile',
+      'url': 'get-student-profile',
       'id': this.user_id,
       'role': this.user['role']
     }
