@@ -22,42 +22,126 @@
                   <input type="text" [(ngModel)]="register.email" name="user_email" autocomplete="off" maxlength="90" placeholder="Your Email" onkeypress='return (event.charCode != 32)'  email #user_email="ngModel" ngModel required/>
                   <span class="prc_tltp" *ngIf="register_id.submitted && (register.email == '' || user_email.invalid || email_check == false)">{{email_error}}</span>
                 </div>
-                
-                <div class="psswrd {{ register_id.submitted && (register.confirm_pwd == '' || confirm_check == false) ? 'err_tltp_par' : ''}}">
-                    <input [type]="confirm_hide ? 'password' : 'text'" required [(ngModel)]="register.confirm_pwd" minlength="8" maxlength="16" name="user_confirmpassword" onkeypress='return (event.charCode != 32)' #user_confirmpassword="ngModel" placeholder="Confirm Password" ngModel/>
-                    <span class="prc_tltp" *ngIf="register_id.submitted && (register.confirm_pwd == '' || confirm_check == false)">{{confirm_password_error}}</span>
+
+                <div class="phone">
+                  <input type="text"  placeholder="Phone" >
                 </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Profession" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Company name" >
+                </div>
+                
+                
               </div>
               <div class="right_block_reg">
                 <div class="last_name {{ register_id.submitted && register.last_name == '' ? 'err_tltp_par' : ''}}">
                   <input type="text" required [(ngModel)]="register.last_name" name="user_lastname" autocomplete="off" maxlength="30" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' #user_lastname="ngModel" placeholder="Last Name" ngModel/>
                   <span class="prc_tltp" *ngIf="register_id.submitted && register.last_name == ''">{{last_name}}</span>
                 </div>
+                <div class="psswrd {{ register_id.submitted && (register.confirm_pwd == '' || confirm_check == false) ? 'err_tltp_par' : ''}}">
+                  <input [type]="confirm_hide ? 'password' : 'text'" required [(ngModel)]="register.confirm_pwd" minlength="8" maxlength="16" name="user_confirmpassword" onkeypress='return (event.charCode != 32)' #user_confirmpassword="ngModel" placeholder="Confirm Password" ngModel/>
+                  <span class="prc_tltp" *ngIf="register_id.submitted && (register.confirm_pwd == '' || confirm_check == false)">{{confirm_password_error}}</span>
+              </div>
                 <!-- <div class="psswrd {{ register_id.submitted && (register.password == '' || password_check == false) ? 'err_tltp_par' : ''}}">
                   <input [type]="password_hide ? 'password' : 'text'" required [(ngModel)]="register.password" minlength="8" maxlength="16" name="user_password" onkeypress='return (event.charCode != 32)' #user_password="ngModel" placeholder="Password" ngModel/>
                   <span class="prc_tltp" *ngIf="register_id.submitted && (register.password == '' || password_check == false)">{{password_error}}</span>
                 </div> -->
+                <div class="mail">
+                  <input type="text"  placeholder="Qualification" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="University/College" >
+                </div>
               </div>
+            </div>
+            <div class="login_btns">
+              <button matStepperNext class="teal_btn sign_btn lgn_btn">Next</button>
             </div>
           </mat-step>
           <mat-step [stepControl]="secondFormGroup" label="Address details">
-            Lorem ipsum
+            <div class="reg_container">
+              <div class="left_block_reg">
+    
+                <div class="fir_name">
+                    <input type="text" placeholder="Year of study" ngModel/>
+                </div>
+                
+                <div class="mail">
+                  <input type="text" placeholder="Address line 2"  required/>
+                </div>
 
-            <div>
+                <div class="phone">
+                  <input type="text"  placeholder="City" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Country" >
+                </div>
+                
+              </div>
+              <div class="right_block_reg">
+                <div class="last_name">
+                  <input type="text" placeholder="Address line 1" ngModel/>
+                </div>
+                
+                <div class="mail">
+                  <input type="text"  placeholder="Landmark" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="State/Province" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Zip code" >
+                </div>
+              </div>
+            </div>
+
+            <!-- Conditions -->
+            <div class="conditions_div">
+              <mat-checkbox class="example-margin">I would like to receive updates on Discounts</mat-checkbox>
+              <mat-checkbox class="example-margin">I accept the terms & conditions and privacy policy</mat-checkbox>
+            </div>
+
+            <div class="login_btns">
+              <button matStepperPrevious class="teal_btn sign_btn-2 lgn_btn">Back</button>
+              <button matStepperNext class="teal_btn sign_btn lgn_btn">Done</button>
+            </div>
+
+            <!-- <div>
               <button mat-button matStepperPrevious>Back</button>
               <button mat-button (click)="stepper.reset()">Reset</button>
-            </div>
+            </div> -->
 
           </mat-step>
         </mat-horizontal-stepper>
 
-        
+        <div class="or_signin_with">
+          <span>or signin with</span>
+        </div>
+        <div class="social_login_block">
+          <div class="sign_google" (click)="sociallogin('GG')">
+            <img src="../../../assets/images/sign-googleicon.svg" />
+          </div>
+          <div class="sign_fb" (click)="sociallogin('FB')">
+            <img src="../../../assets/images/sign-fbicon.svg" alt="">
+          </div>
+          <div class="sign_apple" (click)="sociallogin('AP')">
+            <img src="../../../assets/images/sign-appleicon.svg" alt="">
+          </div>
+        </div>
 
         
-            <div class="login_btns">
+            <!-- <div class="login_btns">
               <input type="button" class="teal_btn sign_btn-2 lgn_btn" value="Login" routerLink="/register">
               <button type="submit" class="teal_btn sign_btn lgn_btn">Register</button>
-            </div>
+            </div> -->
         
       </form>
 

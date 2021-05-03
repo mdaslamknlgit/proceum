@@ -40,6 +40,13 @@ export class DrawingBoardComponent implements OnInit {
     this.isFullscreen = true;
   }
 
+  // Close window
+  closeWindow(){
+    window.close()
+  }
+
+  
+
   /* Close fullscreen */
   closeFullscreen() {
     if (this.document.exitFullscreen) {
