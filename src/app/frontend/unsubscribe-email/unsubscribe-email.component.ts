@@ -37,9 +37,9 @@ export class UnsubscribeEmailComponent implements OnInit {
           
           this.http.post(params).subscribe((res: Response) => {
             if (res.error) {
-              this.toastr.error(res.message, 'Error');
+              this.toastr.error(res.message, 'Error', { closeButton: true });
             } else {
-              this.toastr.success(res.message, 'Success');
+              this.toastr.success(res.message, 'Success', { closeButton: true });
               this.feedback.reason="";
               this.textMessage="";
               this.isUnsubscribe=true;

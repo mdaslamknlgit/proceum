@@ -55,6 +55,7 @@ export class TopbarComponent implements OnInit {
       this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
     this.http.menu_status = this.sidemenu_status;
   }
+
   logout() {
     let login_id = JSON.parse(atob(sessionStorage.getItem('user'))).login_id;
     let params = { url: 'logout', login_id: login_id };
@@ -64,6 +65,7 @@ export class TopbarComponent implements OnInit {
       this.route.navigate(['/login']);
     });
   }
+  
   menuToggle() {
     this.isOpen = !this.isOpen;
   }
@@ -98,8 +100,5 @@ export class TopbarComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
     });
-    // this.newPages = this.pages.filter(function (page) {
-    //   return page.parent_id == key;
-    // });
   }
 }
