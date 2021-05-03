@@ -58,7 +58,6 @@ export class StepsComponent implements OnInit {
       this.parent_id = param.level_parent_id ? param.level_parent_id : 0;
       this.curriculum_id = param.curriculum_id;
       this.reLoad();
-      console.log(this.step_id, this.parent_id);
     });
   }
   reLoad() {
