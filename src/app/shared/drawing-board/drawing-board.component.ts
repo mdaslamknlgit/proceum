@@ -69,19 +69,19 @@ export class DrawingBoardComponent implements OnInit {
   }
   onInit() {}
   onClear() {
-    this.toastr.success('Clear!','Success', { closeButton: true });
+    this.toastr.success('Clear!','', { closeButton: true });
   }
   onUndo() {
-    this.toastr.success('Undo!','Success', { closeButton: true });
+    this.toastr.success('Undo!','', { closeButton: true });
   }
   onRedo() {
-    this.toastr.success('Redo!','Success', { closeButton: true });
+    this.toastr.success('Redo!','', { closeButton: true });
   }
   onSave() {
-    this.toastr.success('Save!','Success', { closeButton: true });
+    this.toastr.success('Save!','', { closeButton: true });
   }
   onImageAded() {
-    this.toastr.success('ImageAded!','Success', { closeButton: true });
+    this.toastr.success('ImageAded!','', { closeButton: true });
   }
 
   erase() {
