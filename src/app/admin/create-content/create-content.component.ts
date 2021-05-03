@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 @Component({
   selector: 'app-create-content',
@@ -11,5 +12,12 @@ export class CreateContentComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  public Editor = ClassicEditor;
+  htmlEditorConfig = {
+    mediaEmbed: {
+      previewsInData: true,
+    },
 
+    placeholder: 'Enter content',
+  };
 }
