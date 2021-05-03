@@ -78,10 +78,10 @@ export class CustomPageListComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getCustomPageList();
       } else {
-        this.toster.error(res['message'], res['message']);
+        this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }

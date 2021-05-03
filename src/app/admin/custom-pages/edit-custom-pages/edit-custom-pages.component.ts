@@ -95,11 +95,11 @@ export class EditCustomPagesComponent implements OnInit {
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success');
+        this.toaster.success(res['message'], 'Success', { closeButton: true });
         this.route.navigate(['admin/custom-page']);
         this.getMenusAndPages();
       } else {
-        this.toaster.error(res['message'], 'Error');
+        this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
