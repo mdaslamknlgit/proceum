@@ -10,6 +10,9 @@ import { SocialAuthService, GoogleLoginProvider, SocialUser,FacebookLoginProvide
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  isLinear = false;
+
+
   socialUser: SocialUser;
   register: Register = { first_name:'', last_name:'', email: '',  phone:'',provider:'',id:'', password: '', confirm_pwd: '',register_type:'' };
   public message: string = 'Required data is missing';
