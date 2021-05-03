@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin-topbar.component.scss'],
 })
 export class AdminTopbarComponent implements OnInit {
-  public sidemenu_status: String = '';
+  public sidemenu_status: string = sessionStorage.getItem('sidemenu');
   public user;
   constructor(private http: CommonService, private route: Router) {
-    this.http.menu_status = '';
+    this.http.menu_status = sessionStorage.getItem('sidemenu');
   }
   ngOnInit(): void {
     this.user = this.http.getUser();
@@ -19,6 +19,7 @@ export class AdminTopbarComponent implements OnInit {
   toggleSidemenu(param) {
     this.sidemenu_status =
       this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
+    sessionStorage.setItem('sidemenu', this.sidemenu_status);
     this.http.menu_status = this.sidemenu_status;
   }
 

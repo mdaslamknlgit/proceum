@@ -48,9 +48,18 @@ export class LoginHistoryComponent implements OnInit {
   public tomindate:any;
   public is_todate:boolean=true;
   public is_submit:boolean=true;
+  public date_format_time:any
+  public timezone:any;
   constructor(private http: CommonService, public dialog: MatDialog,public datepipe: DatePipe) {}
   ngOnInit(): void {
     this.api_url = environment.apiUrl;
+    let user = this.http.getUser();
+    this.date_format_time = JSON.stringify(user['configs']);
+    // console.log(data);
+    // this.date_format_time = data["date_format_time"];
+    // this.timezone = data["timezone"];
+    // console.log(this.date_format_time);
+    // console.log(this.timezone);
     this.getLoginHistory();
   }
 
@@ -85,6 +94,8 @@ export class LoginHistoryComponent implements OnInit {
     this.search_txt="";
     this.from_date="";
     this.to_date="";
+    this.fromDate = "";
+    this.toDate="";
     this.applyFilters();
   }
 
