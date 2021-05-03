@@ -61,7 +61,7 @@ export class RolesListComponent implements OnInit {
           this.dataSource.sort = this.sort;
         }
       } else {
-        this.toster.error(res['message'], 'Error');
+        this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
@@ -82,14 +82,14 @@ export class RolesListComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getRoles();
         this.toggleModel();
       } else {
         let message = res['errors']['role_name']
           ? res['errors']['role_name']
           : res['message'];
-        this.toster.error(message, 'Error');
+        this.toster.error(message, 'Error', { closeButton: true });
       }
     });
   }
@@ -107,11 +107,11 @@ export class RolesListComponent implements OnInit {
     };
     this.http.put(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.edit_model_status = !this.edit_model_status;
         this.getRoles();
       } else {
-        this.toster.error(res['errors']['title'], res['message']);
+        this.toster.error(res['errors']['title'], res['message'], { closeButton: true });
       }
     });
   }
@@ -123,10 +123,10 @@ export class RolesListComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getRoles();
       } else {
-        this.toster.error(res['message'], res['message']);
+        this.toster.error(res['message'], res['message'], { closeButton: true });
       }
     });
   }

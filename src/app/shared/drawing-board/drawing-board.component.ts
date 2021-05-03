@@ -20,19 +20,19 @@ export class DrawingBoardComponent implements OnInit {
   ngOnInit(): void {}
   onInit() {}
   onClear() {
-    this.toastr.success('Clear!');
+    this.toastr.success('Clear!','Success', { closeButton: true });
   }
   onUndo() {
-    this.toastr.success('Undo!');
+    this.toastr.success('Undo!','Success', { closeButton: true });
   }
   onRedo() {
-    this.toastr.success('Redo!');
+    this.toastr.success('Redo!','Success', { closeButton: true });
   }
   onSave() {
-    this.toastr.success('Save!');
+    this.toastr.success('Save!','Success', { closeButton: true });
   }
   onImageAded() {
-    this.toastr.success('ImageAded!');
+    this.toastr.success('ImageAded!','Success', { closeButton: true });
   }
 
   erase() {
