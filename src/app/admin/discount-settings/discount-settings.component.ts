@@ -140,7 +140,7 @@ export class DiscountSettingsComponent implements OnInit {
           let message = res['errors']['title']
             ? res['errors']['title']
             : res['message'];
-          this.toster.error(message, 'Error');
+          this.toster.error(message, 'Error', { closeButton: true });
         }
       });
     }
@@ -160,14 +160,14 @@ export class DiscountSettingsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.toggleModel();
         this.getDiscounts();
       } else {
         let message = res['errors']['title']
           ? res['errors']['title']
           : res['message'];
-        this.toster.error(message, 'Error');
+        this.toster.error(message, 'Error', { closeButton: true });
       }
     });
   }
@@ -214,14 +214,14 @@ export class DiscountSettingsComponent implements OnInit {
     };
     this.http.put(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         //(<HTMLFormElement>(
         //document.getElementById('edit_discount_form')
         //)).reset();
         this.edit_model_status = !this.edit_model_status;
         this.getDiscounts();
       } else {
-        this.toster.error(res['errors']['title'], res['message']);
+        this.toster.error(res['errors']['title'], res['message'], { closeButton: true });
       }
     });
   }
@@ -233,10 +233,10 @@ export class DiscountSettingsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getDiscounts();
       } else {
-        this.toster.error(res['message'], res['message']);
+        this.toster.error(res['message'], res['message'], { closeButton: true });
       }
     });
   }

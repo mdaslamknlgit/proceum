@@ -19,7 +19,7 @@ export class AccessMatrixComponent implements OnInit {
       if (res['error'] == false) {
         this.roles = res['data']['roles'];
       } else {
-        this.toster.error(res['message'], 'Error');
+        this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
@@ -41,9 +41,9 @@ export class AccessMatrixComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
       } else {
-        this.toster.error(res['message'], 'Error');
+        this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
