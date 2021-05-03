@@ -167,13 +167,13 @@ export class MyAccountComponent implements OnInit {
     };
     this.http.imageUpload(param, myFormData).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success');
+        this.toaster.success(res['message'], 'Success', { closeButton: true });
         (<HTMLFormElement>document.getElementById('profile_form')).reset();
         this.isrequired = false;
         this.isdisplay = false;
         this.getStudentProfile();
       } else {
-        this.toaster.error(res['message'], 'Error');
+        this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }

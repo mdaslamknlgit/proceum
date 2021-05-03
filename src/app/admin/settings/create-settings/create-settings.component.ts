@@ -146,11 +146,11 @@ export class CreateSettingsComponent implements OnInit {
     };
     this.http.imageUpload(param, myFormData).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success');
+        this.toaster.success(res['message'], 'Success', { closeButton: true });
         this.src = this.url;
         (<HTMLFormElement>document.getElementById('settings_form')).reset();
       } else {
-        this.toaster.error(res['message'], 'Error');
+        this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
@@ -181,11 +181,11 @@ export class CreateSettingsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success');
+        this.toaster.success(res['message'], 'Success', { closeButton: true });
         (<HTMLFormElement>document.getElementById('settings_form')).reset();
         this.getSystemMode();
       } else {
-        this.toaster.error(res['message'], 'Error');
+        this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
