@@ -1,57 +1,54 @@
 <div class="wht_brd_tls">
-  <table border="0">
-    <tr>
-      <td>&nbsp;</td>
-      <td>&nbsp;</td>
-      <td>
-        <button type="button" class="pen_btn" (click)="tglwbrd()">
-          <img
+  <span class="pen_btn" (click)="tglwbrd()">
+    <span class="tp_rt_mn">
+      <span>Draw it</span>
+    </span>
+    <mat-icon *ngIf="whtbrdsts == 'block' ? false : true">
+      <!-- drive_file_rename_outline -->
+      brush
+    </mat-icon>
+
+    <!-- <img
             *ngIf="whtbrdsts == 'block' ? false : true"
             src="assets/images/create.svg"
-          /><img
+          /> -->
+    <!-- <img
             *ngIf="whtbrdsts == 'block' ? true : false"
             src="assets/images/cursor.svg"
-          />
-        </button>
-      </td>
-    </tr>
-    <tr *ngIf="whtbrdsts == 'none' ? false : true">
-      <td>
-        <button class="undo_btn" (click)="undo()" type="button">
-          <img src="assets/images/undo.svg" />
-        </button>
-      </td>
-      <td>
-        <button class="redo_btn" (click)="redo()" type="button">
-          <img src="assets/images/redo.svg" />
-        </button>
-      </td>
-      <td>
-        <button class="clr_btn" (click)="erase()" type="button">
-          <img src="assets/images/delete.svg" />
-        </button>
-      </td>
-    </tr>
-    <tr *ngIf="whtbrdsts == 'none' ? false : true">
-      <td>&nbsp;</td>
-      <td>
-        <select class="pn_sz" (change)="setSize($event.target.value)">
-          <option value="2" selected>1</option>
-          <option value="5">2</option>
-          <option value="10">3</option>
-          <option value="20">4</option>
-        </select>
-      </td>
-      <td>
-        <input
-          [(colorPicker)]="color"
-          [cpOKButton]="true"
-          [style.background]="color"
-          class="colr_pkr"
-        />
-      </td>
-    </tr>
-  </table>
+          /> -->
+    <mat-icon *ngIf="whtbrdsts == 'block' ? true : false"> close </mat-icon>
+  </span>
+  <span class="tool-icons" *ngIf="whtbrdsts == 'block' ? true : false">
+    <span *ngIf="whtbrdsts == 'none' ? false : true">
+      <span class="undo_btn" (click)="undo()">
+        <img src="assets/images/undo.svg" />
+      </span>
+
+      <span class="redo_btn" (click)="redo()">
+        <img src="assets/images/redo.svg" />
+      </span>
+
+      <span class="clr_btn" (click)="erase()">
+        <img src="assets/images/delete.svg" />
+      </span>
+    </span>
+    <span *ngIf="whtbrdsts == 'none' ? false : true">
+      <select class="pn_sz" (change)="setSize($event.target.value)">
+        <option value="2" selected>1</option>
+        <option value="5">2</option>
+        <option value="10">3</option>
+        <option value="20">4</option>
+      </select>
+
+      <input
+        [(colorPicker)]="color"
+        [cpOutputFormat]="hex"
+        [cpOKButton]="true"
+        [style.background]="color"
+        class="colr_pkr"
+      />
+    </span>
+  </span>
 </div>
 <div
   class="wht_brd"

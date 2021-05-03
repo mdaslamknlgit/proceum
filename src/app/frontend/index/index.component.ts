@@ -18,14 +18,12 @@ export class IndexComponent implements OnInit {
   ) {}
   email_address: string;
   errEmailMsg: string = '';
-  emailRegexp = new RegExp('/^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/');
   menus: any;
   subMenus: any = [];
   errClass: any;
   public isOpen = false;
   user: any;
   ngOnInit(): void {
-    this.getMenus();
     this.user = this.service.getUser();
     console.log(this.user);
   }
@@ -54,10 +52,12 @@ export class IndexComponent implements OnInit {
     this.isSticky = window.pageYOffset >= 150;
   }
   newsletterSubscribe() {
-    //console.log(this.email_address);return false;
     if (this.email_address == undefined) {
-      //this.errEmailMsg="Email is Required";
       this.errClass = 'input-border-color';
+      this.errEmailMsg="Email is required";
+      setTimeout(() => {
+        this.errEmailMsg="";
+    }, 5000);
       return false;
     }
     let verifyEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
@@ -80,30 +80,12 @@ export class IndexComponent implements OnInit {
         }
       });
     } else {
-      //this.errEmailMsg="Please enter valid email";
+        this.errEmailMsg="Please enter valid email";
+        setTimeout(() => {
+          this.errEmailMsg="";
+        }, 5000);
       this.errClass = 'input-border-color';
     }
-  }
-  getMenus() {
-    let params = { url: 'menu-submenu' };
-    this.http.post(params).subscribe((res) => {
-      //this.menus = res['menus'];
-      this.subMenus = res['pages'];
-    });
-  }
-
-  changeSubmenu(menu_id) {
-    this.subMenus=[];
-      let params = {
-      "url": "sub-menu",
-      'parent_id':menu_id
-       };
-    this.http.post(params).subscribe((res) => {
-      this.subMenus = res['pages'];
-    });
-    // this.newPages = this.pages.filter(function (page) {
-    //   return page.parent_id == key;
-    // });
   }
 }
 

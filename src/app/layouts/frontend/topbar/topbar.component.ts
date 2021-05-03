@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -11,39 +12,41 @@ export class TopbarComponent implements OnInit {
   public sidemenu_status: String = '';
   public innerWidth: any;
   public isOpen = false;
-  activeClass:string='tp_rt_mn';
+  activeClass: string = 'tp_rt_mn';
   menus: any;
   subMenus: any = [];
-  subMenuCount:number=0;
+  subMenuCount: number = 0;
+  isCustomMenuShow: boolean = true;
   constructor(
     private http: CommonService,
+    private authHttp: AuthService,
     private route: Router,
-    private activeRoute: ActivatedRoute,
+    private activeRoute: ActivatedRoute
   ) {}
   public user;
-  id:number=undefined;
+  id: number = undefined;
   ngOnInit(): void {
     this.http.menu_status = '';
     this.user = this.http.getUser();
     this.innerWidth = window.innerWidth;
     this.getMenus();
-    this.activeRoute.params.subscribe(routeParams => {
-      if(routeParams.id){
-        this.activeClass='tp_rt_mn active';
+    this.activeRoute.params.subscribe((routeParams) => {
+      if (routeParams.id) {
+        this.activeClass = 'tp_rt_mn active';
       }
-    }); 
+    });
   }
 
   navigateTo() {
     if (this.user['role'] == '1') {
       this.route.navigateByUrl('/admin/dashboard');
-    } else if(this.user['role'] == '2') {
+    } else if (this.user['role'] == '2') {
       this.route.navigateByUrl('/student/dashboard');
     }
   }
-  menuActive(){
-    if(typeof this.id != undefined){
-      this.activeClass='tp_rt_mn active';
+  menuActive() {
+    if (typeof this.id != undefined) {
+      this.activeClass = 'tp_rt_mn active';
     }
   }
 
@@ -52,6 +55,7 @@ export class TopbarComponent implements OnInit {
       this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
     this.http.menu_status = this.sidemenu_status;
   }
+
   logout() {
     let login_id = JSON.parse(atob(sessionStorage.getItem('user'))).login_id;
     let params = { url: 'logout', login_id: login_id };
@@ -61,6 +65,7 @@ export class TopbarComponent implements OnInit {
       this.route.navigate(['/login']);
     });
   }
+  
   menuToggle() {
     this.isOpen = !this.isOpen;
   }
@@ -79,23 +84,21 @@ export class TopbarComponent implements OnInit {
 
   getMenus() {
     let params = { url: 'menu-submenu' };
-    this.http.post(params).subscribe((res) => {
+    this.authHttp.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
-      console.log( res['pages'])
-      this.subMenuCount=this.subMenus.length
+      if (this.subMenus.length == 0) {
+        this.isCustomMenuShow = false;
+      }
     });
   }
 
   changeSubmenu(menu_id) {
-      let params = {
-      "url": "sub-menu",
-      'parent_id':menu_id
-       };
+    let params = {
+      url: 'sub-menu',
+      parent_id: menu_id,
+    };
     this.http.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
     });
-    // this.newPages = this.pages.filter(function (page) {
-    //   return page.parent_id == key;
-    // });
   }
 }

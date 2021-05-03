@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-static-pages',
@@ -11,7 +12,9 @@ export class StaticPagesComponent implements OnInit {
 id:number;
 pageContent:any=[];
 pageName:string;
-  constructor(private route: ActivatedRoute,private http: AuthService) { }
+  constructor(private route: ActivatedRoute,private http: AuthService,
+    private sanitizer: DomSanitizer
+    ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(routeParams => {
@@ -19,17 +22,17 @@ pageName:string;
       this.getStaticPageContent();
     });    
   }
-
+  html:any;
   getStaticPageContent(){
     console.log( this.id);
     let params = {
-      "url": 'page-content',
+      "url": 'get-page-content',
       'pk_id':this.id
     };
-   // console.log(params);
     this.http.post(params).subscribe((res) => {
-      console.log(res['content']);
-      this.pageContent=res['content'];
+      for(var i=0;i<res['content'].length;i++){
+        this.pageContent[i]={"content":this.sanitizer.bypassSecurityTrustHtml(res['content'][i].content)}
+      }
       this.pageName=res['page_name'];
     });
   }

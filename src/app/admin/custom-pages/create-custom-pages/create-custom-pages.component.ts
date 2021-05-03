@@ -41,12 +41,10 @@ export class CreateCustomPagesComponent implements OnInit {
 
   getMenusAndPages() {
     let params = {
-      "url": "menu-pages"
+      "url": "get-menu-pages"
     };
     this.http.post(params).subscribe((res) => {
       this.menuList = res['menu'];
-      this.pagesList = res['pages'];
-      console.log(res['menu']);
     });
   }
 

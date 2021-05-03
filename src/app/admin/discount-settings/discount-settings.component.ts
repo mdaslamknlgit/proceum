@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-discount-settings',
@@ -28,7 +29,7 @@ export class DiscountSettingsComponent implements OnInit {
   //form fields
   country_id = 0;
   state = '';
-  states = '';
+  states = [];
   university = '';
   college = '';
   course = '';
@@ -52,6 +53,8 @@ export class DiscountSettingsComponent implements OnInit {
   popoverTitle = '';
   popoverMessage = '';
   countrys = [];
+  all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -83,10 +86,39 @@ export class DiscountSettingsComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.countrys = res['data']['countrys'];
+        this.all_countrys.next(this.countrys.slice());
       } else {
         //this.toster.error(res['message'], 'Error');
       }
     });
+  }
+  filterCountries(event) {
+    let search = event;
+    if (!search) {
+      this.all_countrys.next(this.countrys.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_countrys.next(
+      this.countrys.filter(
+        (country) => country.country_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+  filterStates(event) {
+    let search = event;
+    if (!search) {
+      this.all_states.next(this.states.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_states.next(
+      this.states.filter(
+        (state) => state.state_name.toLowerCase().indexOf(search) > -1
+      )
+    );
   }
   toggleModel() {
     this.model_status = !this.model_status;
@@ -103,6 +135,7 @@ export class DiscountSettingsComponent implements OnInit {
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.states = res['data']['states'];
+          this.all_states.next(this.states.slice());
         } else {
           let message = res['errors']['title']
             ? res['errors']['title']

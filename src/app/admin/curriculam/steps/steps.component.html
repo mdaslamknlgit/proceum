@@ -1,5 +1,3 @@
-<app-admin-topbar></app-admin-topbar>
-<app-sidebar></app-sidebar>
 <div class="mn_dshbrd">
   <div
     class="cust_mdl_par cust_mdl_50p"
@@ -194,7 +192,7 @@
                 '</b> ' +
                 step
               "
-              placement="top"
+              placement="auto"
               (confirm)="deleteStep(element.id, element.status)"
               confirmButtonType="danger"
               cancelButtonType="outline-secondary"
@@ -286,6 +284,20 @@
               </span>
             </span>
           </div>
+          <div class="frm_dvs">
+            <span> {{ step }} Code </span>
+            <span>
+              <mat-form-field appearance="outline">
+                <input
+                  matInput
+                  [(ngModel)]="step_code"
+                  #step_name_code="ngModel"
+                  name="edit_step_name_code"
+                  placeholder="Provide {{ step }} Code"
+                />
+              </mat-form-field>
+            </span>
+          </div>
         </div>
         <button mat-raised-button color="accent" class="float_right">
           Submit
@@ -302,5 +314,3 @@
     </div>
   </div>
 </div>
-
-<app-admin-footer></app-admin-footer>

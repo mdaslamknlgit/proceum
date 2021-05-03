@@ -109,6 +109,8 @@ export class StudentsComponent implements OnInit {
     this.search_txt="";
     this.from_date="";
     this.to_date="";
+    this.fromDate = "";
+    this.toDate="";
     this.applyFilters();
   }
 

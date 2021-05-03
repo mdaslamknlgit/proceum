@@ -4,7 +4,6 @@ import { CommonService } from '../../services/common.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalPopupComponent } from './model-popup/model-popup.component';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -30,6 +29,11 @@ export class NewsletterListComponent implements OnInit {
   hrefPDF: string;
   hrefEXL: string;
   search = '';
+  created_at: string;
+  updated_at: string;
+  reason: string;
+  status: boolean;
+  public model_status = false;
   constructor(private http: CommonService, public dialog: MatDialog) {
     this.apiURL = environment.apiUrl;
     this.hrefPDF = environment.apiUrl + 'export-newsletter/PDF';
@@ -58,34 +62,14 @@ export class NewsletterListComponent implements OnInit {
     });
   }
 
-  manageTemplate(id) {
-    const dialogRef = this.dialog.open(ModalPopupComponent, {
-      width: '400px',
-      data: { id: id },
-      restoreFocus: false,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.getNewsLetterList();
-      }
-    });
-  }
-
   public getServerData(event?: PageEvent) {
     this.pageSize = event.pageSize;
     this.page = event.pageSize * event.pageIndex;
     this.applyFilters();
   }
 
-  // clearSearchData(){
-  //   this.search = undefined;
-  //   this.doSearchFilter();
-  // }
-
   public doSearchFilter() {
-    var val =
-      this.search == undefined || this.search == '' ? '' : '/' + this.search;
+    var val = (this.search == undefined || this.search == '') ? '' : '/' + this.search;
     this.hrefEXL = environment.apiUrl + 'export-newsletter/EXL' + val;
     this.hrefPDF = environment.apiUrl + 'export-newsletter/PDF' + val;
     this.applyFilters();
@@ -110,6 +94,24 @@ export class NewsletterListComponent implements OnInit {
     this.sort_by = event;
     if (this.sort_by.direction != '') this.applyFilters();
   }
+
+  showDetails(id) {
+    this.created_at = "";
+    this.updated_at = "";
+    this.reason = "";
+    let param = { url: 'newsletter/' + id };
+    this.http.get(param).subscribe((res: viewResponse) => {
+      this.created_at = res.created_at;
+      this.updated_at = res.updated_at;
+      this.reason = res.status_reason;
+      this.status = (res.status == 0) ? true : false;
+    });
+    this.model_status = !this.model_status;
+  }
+
+  toggleModel() {
+    this.model_status = !this.model_status;
+  }
 }
 
 export interface NewsLetter {
@@ -120,6 +122,13 @@ export interface NewsLetter {
   action?: any;
 }
 
+export interface viewResponse {
+  created_at: any;
+  updated_at: any;
+  status_reason: any;
+  status: number;
+  id: number;
+}
 export interface Response {
   error: boolean;
   message: string;

@@ -1,4 +1,3 @@
-
 <mat-toolbar [ngClass]="{ 'sticky-header': isSticky }">
   <button mat-icon-button (click)="menuToggle()" class="hmbrg_btn">
     <img src="./assets/images/hamburg-icon.svg" />
@@ -12,12 +11,11 @@
       mat-list-item
       class="tp_rt_mn"
       routerLink="/"
-      routerLinkActive="active" 
-      [routerLinkActiveOptions]="{exact: true}"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
       >Home
-      </span
-    >
-    <span 
+    </span>
+    <span
       mat-list-item
       class="tp_rt_mn"
       routerLink="/about-us"
@@ -25,7 +23,7 @@
       >About Us</span
     >
 
-    <span 
+    <span
       mat-list-item
       class="tp_rt_mn"
       routerLink="/student-curriculum"
@@ -38,7 +36,7 @@
     <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
       >Register Trail</span
     > -->
-    <span 
+    <span
       mat-list-item
       class="tp_rt_mn"
       routerLink="/contact-us"
@@ -46,12 +44,7 @@
       >Contact Us</span
     >
 
-    <span 
-      mat-list-item
-      class="tp_rt_mn"
-      routerLinkActive="active"
-      >Blog</span
-    >
+    <span mat-list-item class="tp_rt_mn" routerLinkActive="active">Blog</span>
     <!-- <span
         mat-list-item
         [matMenuTriggerFor]="appMenu"
@@ -61,25 +54,31 @@
         >{{ menu.name }}</span
       > -->
     <span
-      *ngIf="subMenuCount>0"
-        mat-list-item
-        [matMenuTriggerFor]="appMenu"
-        [class]="activeClass"
+      *ngIf="isCustomMenuShow"
+      mat-list-item
+      [matMenuTriggerFor]="appMenu"
+      [class]="activeClass"
+      routerLinkActive="active"
+      >Custom Menu</span
+    >
+    <mat-menu #appMenu="matMenu" class="dynamic_menu_cls">
+      <button
+        mat-menu-item
+        *ngFor="let subMenu of subMenus"
+        routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
         routerLinkActive="active"
-        >Custom Menu</span
+        #rla="routerLinkActive"
       >
-      <mat-menu #appMenu="matMenu">
-        <button
-          mat-menu-item
-          *ngFor="let subMenu of subMenus"
-          routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
-          routerLinkActive="active"
-          #rla="routerLinkActive"
-        >
-          {{ subMenu.name }}
-        </button>
-      </mat-menu>
-      <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
+        {{ subMenu.name }}
+      </button>
+    </mat-menu>
+    <span
+      *ngIf="user['id']"
+      mat-list-item
+      class="tp_rt_mn"
+      (click)="navigateTo()"
+      >Dashboard</span
+    >
   </div>
 
   <!-- <div class="lg_inbtn" *ngIf="user['name']">
@@ -90,9 +89,10 @@
       ><mat-icon>login</mat-icon>Login</span
     >
     <span *ngIf="user['name']" (click)="logout()"
-      ><mat-icon>logout</mat-icon><span class="m_hide">Logout</span></span>
+      ><mat-icon>logout</mat-icon><span class="m_hide">Logout</span></span
+    >
   </div>
-  
+
   <!-- <div class="top-right-icon">
     <img src="../../../../assets/images/Search-icon.svg" alt="Search" />
     <img

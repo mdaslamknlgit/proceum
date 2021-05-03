@@ -1,5 +1,3 @@
-<app-admin-topbar></app-admin-topbar>
-<app-sidebar></app-sidebar>
 <div class="mn_dshbrd">
   <div class="brd_crm">Proceum &raquo; <strong>Discount Settings</strong></div>
   <div class="pg_ttl">Discount Settings</div>
@@ -71,8 +69,17 @@
                       required
                       (ngModelChange)="getStates()"
                     >
+                      <mat-option>
+                        <ngx-mat-select-search
+                          [noEntriesFoundLabel]="'No Countries found'"
+                          [placeholderLabel]="'Search Country'"
+                          name="search_country"
+                          ngModel
+                          (ngModelChange)="filterCountries($event)"
+                        ></ngx-mat-select-search
+                      ></mat-option>
                       <mat-option
-                        *ngFor="let country of countrys"
+                        *ngFor="let country of all_countrys | async"
                         [value]="country['pk_id']"
                         >{{ country["country_name"] }}</mat-option
                       >
@@ -101,8 +108,17 @@
                       [(ngModel)]="state"
                       required
                     >
+                      <mat-option>
+                        <ngx-mat-select-search
+                          [noEntriesFoundLabel]="'No States found'"
+                          [placeholderLabel]="'Search State'"
+                          name="search_state"
+                          ngModel
+                          (ngModelChange)="filterStates($event)"
+                        ></ngx-mat-select-search>
+                      </mat-option>
                       <mat-option
-                        *ngFor="let state of states"
+                        *ngFor="let state of all_states | async"
                         [value]="'' + state['id']"
                         >{{ state["state_name"] }}
                       </mat-option>
@@ -434,7 +450,7 @@
                 element.title +
                 '</b> Discount'
               "
-              placement="top"
+              placement="auto"
               (confirm)="deleteDiscount(element.pk_id, element.status)"
               confirmButtonType="danger"
               cancelButtonType="outline-secondary"
@@ -533,12 +549,35 @@
                       required
                       (ngModelChange)="getStates()"
                     >
+                      <mat-option>
+                        <ngx-mat-select-search
+                          [noEntriesFoundLabel]="'No Countries found'"
+                          [placeholderLabel]="'Search Country'"
+                          name="search_country"
+                          ngModel
+                          (ngModelChange)="filterCountries($event)"
+                        ></ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option
+                        *ngFor="let country of all_countrys | async"
+                        [value]="country['pk_id']"
+                        >{{ country["country_name"] }}</mat-option
+                      >
+                    </mat-select>
+                    <!-- <mat-select
+                      placeholder="Select Country"
+                      name="country_edit"
+                      #country_edit="ngModel"
+                      [(ngModel)]="country_id"
+                      required
+                      (ngModelChange)="getStates()"
+                    >
                       <mat-option
                         *ngFor="let country of countrys"
                         [value]="country['pk_id']"
                         >{{ country["country_name"] }}</mat-option
                       >
-                    </mat-select>
+                    </mat-select> -->
                   </mat-form-field>
                   <span
                     *ngIf="
@@ -563,8 +602,17 @@
                       [(ngModel)]="state"
                       required
                     >
+                      <mat-option>
+                        <ngx-mat-select-search
+                          [noEntriesFoundLabel]="'No States found'"
+                          [placeholderLabel]="'Search State'"
+                          name="search_state"
+                          ngModel
+                          (ngModelChange)="filterStates($event)"
+                        ></ngx-mat-select-search
+                      ></mat-option>
                       <mat-option
-                        *ngFor="let state of states"
+                        *ngFor="let state of all_states | async"
                         [value]="'' + state['id']"
                         >{{ state["state_name"] }}
                       </mat-option>

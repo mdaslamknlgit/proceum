@@ -24,7 +24,7 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import { FormsModule,ReactiveFormsModule  } from '@angular/forms';
     ReactiveFormsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
+      preventDuplicates: true,
     }),
     BrowserAnimationsModule,
     ColorPickerModule,
