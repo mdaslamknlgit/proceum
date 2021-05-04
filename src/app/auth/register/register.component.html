@@ -1,7 +1,52 @@
 <app-topbar></app-topbar>
 <div class="login_main inner-container"  *ngIf="!is_show">
   <div class="log_mdl_cont">
-    <div class="log_div text_center">
+
+    <!-- Choose account section -->
+    <div class="log_div text_center" style="display: none;">
+      <!-- <h2 class="clr_wht fnt_nrml wlcm_hd">Welcome to Proceum</h2> -->
+      <div class="sgn_sec">
+        <p class="sgn_hd">Choose the account type <br>
+          that is suitable for you</p>
+        <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
+
+        <div class="reg_container">
+          <div class="left_block_reg">
+            <div class="account_type">
+              <mat-icon>account_circle</mat-icon>
+              <div class="acc_title">Individual user</div>
+              <span>(I am a Student / Doctor/ Professor)</span>
+            </div>
+            <div class="account_type">
+              <mat-icon>school</mat-icon>
+              <div class="acc_title">College</div>
+              <span>(We are an College offer courses)</span>
+            </div>
+          </div>
+          <div class="right_block_reg">
+            <div class="account_type">
+              <mat-icon>supervised_user_circle</mat-icon>
+              <div class="acc_title">Institution</div>
+              <span>( I would like to become reseller)</span>
+            </div>
+            <div class="account_type">
+              <mat-icon>account_balance</mat-icon>
+              <div class="acc_title">University</div>
+              <span>(We are an University offer courses)</span>
+            </div>
+          </div>
+        </div>
+
+        
+
+
+      </div>
+      
+
+    </div>
+
+    <!-- Individual login form -->
+    <div class="log_div text_center" style="display: none;">
       <!-- <h2 class="clr_wht fnt_nrml wlcm_hd">Welcome to Proceum</h2> -->
       <div class="sgn_sec">
         <p class="sgn_hd">Individual user</p>
@@ -167,6 +212,381 @@
       </div> -->
 
     </div>
+
+    <!-- Institution login form -->
+    <div class="log_div text_center" style="display: none;">
+      <div class="sgn_sec">
+        <p class="sgn_hd">Institution</p>
+
+        <form #register_id="ngForm" name="register_form" (ngSubmit)="doRegistration()" novalidate>
+        <mat-horizontal-stepper [linear]="isLinear" #stepper>
+          <mat-step [stepControl]="firstFormGroup" label="Agent details">
+            <div class="reg_container">
+              <div class="left_block_reg">
+    
+                <div class="mail">
+                  <input type="text"  placeholder="Agent company name" >
+                </div>
+                
+                <div class="mail">
+                  <input type="text"  placeholder="Agent code" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Contact person’s name" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Email address*" >
+                </div>
+                
+                
+              </div>
+              <div class="right_block_reg">
+                <div class="mail">
+                  <input type="text"  placeholder="Agent company phone number" >
+                </div>
+                <div class="mail">
+                  <input type="text"  placeholder="Phone" >
+                </div>
+           
+                <div class="mail">
+                  <input type="text"  placeholder="Total No.of Students" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Password*" >
+                </div>
+              </div>
+            </div>
+            <div class="login_btns">
+              <button matStepperNext class="teal_btn sign_btn lgn_btn">Next</button>
+            </div>
+          </mat-step>
+          <mat-step [stepControl]="secondFormGroup" label="Address details">
+            <div class="reg_container">
+              <div class="left_block_reg">
+    
+                <div class="fir_name">
+                    <input type="text" placeholder="Affiliated university name" ngModel/>
+                </div>
+                
+                <div class="mail">
+                  <input type="text" placeholder="Address"  required/>
+                </div>
+
+                <div class="phone">
+                  <input type="text"  placeholder="Address line 2" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="City" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Country" >
+                </div>
+                
+              </div>
+              <div class="right_block_reg">
+                <div class="last_name">
+                  <input type="text" placeholder="Affiliated university code" ngModel/>
+                </div>
+                
+                <div class="mail">
+                  <input type="text"  placeholder="Address line 1" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Landmark" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="State/Province" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Zip code" >
+                </div>
+              </div>
+            </div>
+
+            <!-- Conditions -->
+            <div class="conditions_div">
+              <mat-checkbox class="example-margin">I would like to receive updates on Discounts</mat-checkbox>
+              <mat-checkbox class="example-margin">I accept the terms & conditions and privacy policy</mat-checkbox>
+            </div>
+
+            <div class="login_btns">
+              <button matStepperPrevious class="teal_btn sign_btn-2 lgn_btn">Back</button>
+              <button matStepperNext class="teal_btn sign_btn lgn_btn">Done</button>
+            </div>
+
+          </mat-step>
+        </mat-horizontal-stepper>
+
+
+        
+      </form>
+
+
+
+      </div>
+ 
+
+    </div>
+
+    <!-- College login form -->
+    <div class="log_div text_center" style="display: none;"> 
+      <div class="sgn_sec">
+        <p class="sgn_hd">College</p>
+
+        <form #register_id="ngForm" name="register_form" (ngSubmit)="doRegistration()" novalidate>
+        <mat-horizontal-stepper [linear]="isLinear" #stepper>
+          <mat-step [stepControl]="firstFormGroup" label="College details">
+            <div class="reg_container">
+              <div class="left_block_reg">
+    
+                <div class="mail">
+                  <input type="text"  placeholder="College name" >
+                </div>
+                
+                <div class="mail">
+                  <input type="text"  placeholder="College code" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Contact person’s name" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Email address*" >
+                </div>
+                
+                
+              </div>
+              <div class="right_block_reg">
+                <div class="mail">
+                  <input type="text"  placeholder="College phone number" >
+                </div>
+                <div class="mail">
+                  <input type="text"  placeholder="Phone" >
+                </div>
+           
+                <div class="mail">
+                  <input type="text"  placeholder="Total No.of Students" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Password*" >
+                </div>
+              </div>
+            </div>
+            <div class="login_btns">
+              <button matStepperNext class="teal_btn sign_btn lgn_btn">Next</button>
+            </div>
+          </mat-step>
+          <mat-step [stepControl]="secondFormGroup" label="Address details">
+            <div class="reg_container">
+              <div class="left_block_reg">
+    
+                <div class="fir_name">
+                    <input type="text" placeholder="Affiliated university name" ngModel/>
+                </div>
+                
+                <div class="mail">
+                  <input type="text" placeholder="Address"  required/>
+                </div>
+
+                <div class="phone">
+                  <input type="text"  placeholder="Address line 2" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="City" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Country" >
+                </div>
+                
+              </div>
+              <div class="right_block_reg">
+                <div class="last_name">
+                  <input type="text" placeholder="Affiliated university code" ngModel/>
+                </div>
+                
+                <div class="mail">
+                  <input type="text"  placeholder="Address line 1" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Landmark" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="State/Province" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Zip code" >
+                </div>
+              </div>
+            </div>
+
+            <!-- Conditions -->
+            <div class="conditions_div">
+              <mat-checkbox class="example-margin">I would like to receive updates on Discounts</mat-checkbox>
+              <mat-checkbox class="example-margin">I accept the terms & conditions and privacy policy</mat-checkbox>
+            </div>
+
+            <div class="login_btns">
+              <button matStepperPrevious class="teal_btn sign_btn-2 lgn_btn">Back</button>
+              <button matStepperNext class="teal_btn sign_btn lgn_btn">Done</button>
+            </div>
+
+          </mat-step>
+        </mat-horizontal-stepper>
+
+
+        
+      </form>
+
+
+
+      </div>
+ 
+
+    </div>
+
+
+    <!-- University login form -->
+    <div class="log_div text_center"> 
+      <div class="sgn_sec">
+        <p class="sgn_hd">University</p>
+
+        <form #register_id="ngForm" name="register_form" (ngSubmit)="doRegistration()" novalidate>
+        <mat-horizontal-stepper [linear]="isLinear" #stepper>
+          <mat-step [stepControl]="firstFormGroup" label="University details">
+            <div class="reg_container">
+              <div class="left_block_reg">
+    
+                <div class="mail">
+                  <input type="text"  placeholder="University name" >
+                </div>
+                
+                <div class="mail">
+                  <input type="text"  placeholder="University code" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Phone" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Email address*" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Total No.of students" >
+                </div>
+                
+                
+              </div>
+              <div class="right_block_reg">
+                <div class="mail">
+                  <input type="text"  placeholder="University phone number" >
+                </div>
+                <div class="mail">
+                  <input type="text"  placeholder="Contact person’s name" >
+                </div>
+           
+                <div class="mail">
+                  <input type="text"  placeholder="Total No.of affiliate colleges" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Password*" >
+                </div>
+              </div>
+            </div>
+            <div class="login_btns">
+              <button matStepperNext class="teal_btn sign_btn lgn_btn">Next</button>
+            </div>
+          </mat-step>
+          <mat-step [stepControl]="secondFormGroup" label="Address details">
+            <div class="reg_container">
+              <div class="left_block_reg">
+    
+                <div class="fir_name">
+                    <input type="text" placeholder="Affiliated university name" ngModel/>
+                </div>
+                
+                <div class="mail">
+                  <input type="text" placeholder="Address"  required/>
+                </div>
+
+                <div class="phone">
+                  <input type="text"  placeholder="Address line 2" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="City" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Country" >
+                </div>
+                
+              </div>
+              <div class="right_block_reg">
+                <div class="last_name">
+                  <input type="text" placeholder="Affiliated university code" ngModel/>
+                </div>
+                
+                <div class="mail">
+                  <input type="text"  placeholder="Address line 1" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Landmark" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="State/Province" >
+                </div>
+
+                <div class="mail">
+                  <input type="text"  placeholder="Zip code" >
+                </div>
+              </div>
+            </div>
+
+            <!-- Conditions -->
+            <div class="conditions_div">
+              <mat-checkbox class="example-margin">I would like to receive updates on Discounts</mat-checkbox>
+              <mat-checkbox class="example-margin">I accept the terms & conditions and privacy policy</mat-checkbox>
+            </div>
+
+            <div class="login_btns">
+              <button matStepperPrevious class="teal_btn sign_btn-2 lgn_btn">Back</button>
+              <button matStepperNext class="teal_btn sign_btn lgn_btn">Done</button>
+            </div>
+
+          </mat-step>
+        </mat-horizontal-stepper>
+
+
+        
+      </form>
+
+
+
+      </div>
+ 
+
+    </div>
+
   </div>
 </div>
 
