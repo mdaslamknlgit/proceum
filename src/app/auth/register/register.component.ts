@@ -82,8 +82,13 @@ export class RegisterComponent implements OnInit {
       this.is_college =false;
       this.is_university =true;
       this.is_institution =false;
+    }else{
+      this.is_account_type =true;
+      this.is_induvidual =false;
+      this.is_college =false;
+      this.is_university =false;
+      this.is_institution =false;
     }
-    console.log(registration_type);
   }
 
 
