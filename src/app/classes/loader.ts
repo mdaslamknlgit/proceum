@@ -53,13 +53,13 @@ export class Loader {
             this.route.navigateByUrl('/login');
           }
           if (err.status == 400) {
-            this.toster.error(err.error, 'Error');
+            this.toster.error(err.error, 'Error', { closeButton: true });
           }
           if (err.status == 500 || err.status == 405) {
-            this.toster.error(err.error['message'], 'Error');
+            this.toster.error(err.error['message'], 'Error', { closeButton: true });
           }
           if (err.status == 404) {
-            this.toster.error('Requested url end point not found', 'Error');
+            this.toster.error('Requested url end point not found', 'Error', { closeButton: true });
           }
         },
         () => {

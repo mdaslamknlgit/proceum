@@ -123,7 +123,7 @@ export class CurriculamComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.steps = ['step_' + 0];
         this.toggleModel();
         this.getCurriculums();
@@ -131,7 +131,7 @@ export class CurriculamComponent implements OnInit {
         let message = res['errors']['curriculum_name']
           ? res['errors']['curriculum_name']
           : res['message'];
-        this.toster.error(message, 'Error');
+        this.toster.error(message, 'Error', { closeButton: true });
       }
     });
   }
@@ -171,14 +171,14 @@ export class CurriculamComponent implements OnInit {
     };
     this.http.put(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         (<HTMLFormElement>(
           document.getElementById('edit_curriculum_form')
         )).reset();
         this.edit_model_status = !this.edit_model_status;
         this.getCurriculums();
       } else {
-        this.toster.error(res['errors']['curriculum_name'], res['message']);
+        this.toster.error(res['errors']['curriculum_name'], res['message'], { closeButton: true });
       }
     });
   }
@@ -189,10 +189,10 @@ export class CurriculamComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getCurriculums();
       } else {
-        this.toster.error(res['message'], res['message']);
+        this.toster.error(res['message'], res['message'], { closeButton: true });
       }
     });
   }

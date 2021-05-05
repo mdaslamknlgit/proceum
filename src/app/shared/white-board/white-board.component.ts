@@ -7,7 +7,7 @@ import { NgWhiteboardService } from 'ng-whiteboard';
 })
 export class WhiteBoardComponent implements OnInit {
   whtbrdsts = 'none';
-  color: string = '#000';
+  color: string = '#ff5a00';
   backgroundColor: string = 'transparent';
   size: string = '2px';
   public main_div_height = 0;

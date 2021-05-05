@@ -75,7 +75,7 @@ export class CreateSettingsComponent implements OnInit {
 
   getSystemMode() {
     let params = {
-      "url": 'get-mode'
+      "url": 'get-system-mode'
     }
     this.http.post(params).subscribe((res) => {
       this.systemMode = (res['sys_mode'].value) ? res['sys_mode'].value : "live";
@@ -146,11 +146,11 @@ export class CreateSettingsComponent implements OnInit {
     };
     this.http.imageUpload(param, myFormData).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success');
+        this.toaster.success(res['message'], 'Success', { closeButton: true });
         this.src = this.url;
         (<HTMLFormElement>document.getElementById('settings_form')).reset();
       } else {
-        this.toaster.error(res['message'], 'Error');
+        this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
@@ -175,17 +175,17 @@ export class CreateSettingsComponent implements OnInit {
       this.mode_check = true;
     }
     let param = {
-      'url': 'update-settings-mode',
+      'url': 'update-system-mode',
       "mode": this.systemMode,
       "user_id": user.id
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success');
+        this.toaster.success(res['message'], 'Success', { closeButton: true });
         (<HTMLFormElement>document.getElementById('settings_form')).reset();
         this.getSystemMode();
       } else {
-        this.toaster.error(res['message'], 'Error');
+        this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }

@@ -41,7 +41,7 @@ export class CreateCustomPagesComponent implements OnInit {
 
   getMenusAndPages() {
     let params = {
-      "url": "menu-pages"
+      "url": "get-menu-pages"
     };
     this.http.post(params).subscribe((res) => {
       this.menuList = res['menu'];
@@ -118,7 +118,7 @@ export class CreateCustomPagesComponent implements OnInit {
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
-        this.toaster.success(res['message'], 'Success');
+        this.toaster.success(res['message'], 'Success', { closeButton: true });
         this.isMenuRequired = true;
         this.isMenuDisplay = true;
         this.isPageRequired = true;
@@ -126,7 +126,7 @@ export class CreateCustomPagesComponent implements OnInit {
         (<HTMLFormElement>document.getElementById('custom_page_form')).reset();
         this.getMenusAndPages();
       } else {
-        this.toaster.error(res['message'], 'Error');
+        this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }

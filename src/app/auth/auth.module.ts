@@ -4,6 +4,11 @@ import { LoginComponent } from './login/login.component';
 import { MaterialModule } from '../material/material.module';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
+import { LayoutsModule } from '../layouts/layouts.module';
+
+
+
+
 const routes: Routes = [
   {
     path: '',
@@ -12,7 +17,7 @@ const routes: Routes = [
 ];
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), MaterialModule],
+  imports: [CommonModule, RouterModule.forChild(routes), MaterialModule, LayoutsModule],
   exports: [RouterModule],
 })
 export class AuthModule {}

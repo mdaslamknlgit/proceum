@@ -20,7 +20,6 @@ export class AppComponent {
       var keyCode = e.keyCode ? e.keyCode : e.which;
       if (keyCode == 44) {
         e.stopPropagation();
-        console.log(keyCode);
         this.stopPrntScr();
       }
     });
