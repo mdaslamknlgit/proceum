@@ -49,6 +49,7 @@ export class Loader {
           observer.error(err);
           if (err.status == 401) {
             this.toster.error(err.statusText, 'Session Error');
+            sessionStorage.clear();
             this.route.navigateByUrl('/login');
           }
           if (err.status == 400) {
