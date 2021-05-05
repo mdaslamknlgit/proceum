@@ -18,7 +18,7 @@
       <mat-icon>aspect_ratio</mat-icon>
       <span> Exit Full screen </span>
     </label>
-    <label for="">
+    <label for="" (click)="closeWindow()">
       <mat-icon>close</mat-icon>
     </label>
   </div>
@@ -40,6 +40,7 @@
 
   <div class="size-dropdown">
     <button
+    matTooltip="Line weight"
       (click)="
         $event.preventDefault(); $event.stopPropagation(); isActive = !isActive
       "
@@ -115,10 +116,14 @@
   </div>
 
   <!-- <button>Erase</button> -->
-  <button (click)="undo()">
+  <button (click)="undo()"
+  matTooltip="Undo"
+  >
     <mat-icon>undo</mat-icon>
   </button>
-  <button (click)="redo()">
+  <button (click)="redo()"
+  matTooltip="Redo"
+  >
     <mat-icon>redo</mat-icon>
   </button>
 
@@ -149,6 +154,7 @@
   </label> -->
 <label
     for="colorInput"
+    matTooltip="Pen color"
     class="color-label"
     [ngStyle]="{ 'background-color': color }"
   >
@@ -172,6 +178,7 @@
   />
   <label
     for="backgroundInput"
+    matTooltip="Background color"
     class="color-label"
     [ngStyle]="{ 'background-color': backgroundColor }"
   ></label>
@@ -186,6 +193,7 @@
   <label
     for="photoInput"
     class="color-label"
+    matTooltip="Background image"
     [ngStyle]="{
       'background-image':
         'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACHElEQVRYhe3XsWtUQRAG8N+G45ADJUUIFiHYaCESTArTWKRSSSVpRSvxL5A0VuJ/YorUFmlsxUKTYCVGhRRBEMHYJKjJmTyLN6fv4uVuDy+JhXMMj7f77czH7De771KhcJI2dKLZ/wUCtVxgkk7hAsYdTnwfG3hXKL5nBS4yf3iETRQ9fBMPs+NmJp/JSHzQr+bE7ljKJA0lqRbewK2scrbb7SQ1KnE65mrTQJJquINpNGK4HhXo125iGLvx/jVJL/C4UPz4haqU+SyW9F/qfn0Jo39oAPNoHgOBJuY7aeC6PtryL6wWudDez8OZAdbxAJM4HT4ZY+uZMX7nqmzBqu6l21Pu30QQP4NzyoOpEWMTgdnrEWu1kwZ6EXiO8cq58ARv8RoLuBhz44EdKIEmpgJ3AzsdMJsVElO6C7pvAstR4lE864JbqGzHcg6B3NtwpVDsB4HLXXBTGAnsSk7gXALbFXy3Vq1VYm53wfVNYCyeX7DWBbcWmOqa7papgY/KO2EI9w7B7GAmYtVjzUDbcB61wN7FK3zDllKYszFXC+zAz4FPyhuutc9jyoPnkrhcYm4usAMn0CJxH/UOHy31mOuVvI1AisXirr4izz7gKd7H+3lckys8XhaKabRVYDGD+aB8sdMWzCoFddTJt4RgDxJoCeiNo/kwaUbsOdFNbRpoWZLGMaIU1SBtF58LxUZbvoMEjttO/K/ZfwI/AfTgP/XC4sIdAAAAAElFTkSuQmCC)',

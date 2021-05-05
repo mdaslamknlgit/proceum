@@ -10,6 +10,9 @@ import { SocialAuthService, GoogleLoginProvider, SocialUser,FacebookLoginProvide
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  isLinear = false;
+
+
   socialUser: SocialUser;
   register: Register = { first_name:'', last_name:'', email: '',  phone:'',provider:'',id:'', password: '', confirm_pwd: '',register_type:'' };
   public message: string = 'Required data is missing';
@@ -26,6 +29,11 @@ export class RegisterComponent implements OnInit {
   confirm_hide: boolean = true;
   password_hide: boolean = true;
   is_show: boolean = false;
+  is_account_type:boolean=true;
+  is_induvidual:boolean=false;
+  is_college:boolean=false;
+  is_university:boolean=false;
+  is_institution:boolean=false;
   constructor( private http: AuthService,private route: Router,private toastr: ToastrService,private socialAuthService: SocialAuthService) { }
 
   ngOnInit(): void {
@@ -48,6 +56,41 @@ export class RegisterComponent implements OnInit {
     });
 
   }
+
+  registrationForm(registration_type:string){
+    if(registration_type == "individual"){
+      this.is_account_type =false;
+      this.is_induvidual =true;
+      this.is_college =false;
+      this.is_university =false;
+      this.is_institution =false;
+    }else if(registration_type == "college"){
+      this.is_account_type =false;
+      this.is_induvidual =false;
+      this.is_college =true;
+      this.is_university =false;
+      this.is_institution =false;
+    }else if(registration_type == "institution"){
+      this.is_account_type =false;
+      this.is_induvidual =false;
+      this.is_college =false;
+      this.is_university =false;
+      this.is_institution =true;
+    }else if(registration_type == "university"){
+      this.is_account_type =false;
+      this.is_induvidual =false;
+      this.is_college =false;
+      this.is_university =true;
+      this.is_institution =false;
+    }else{
+      this.is_account_type =true;
+      this.is_induvidual =false;
+      this.is_college =false;
+      this.is_university =false;
+      this.is_institution =false;
+    }
+  }
+
 
   doRegistration(){
     if(this.register.first_name == '' || this.register.last_name == '' || this.register.email == '' || this.register.password == '' || this.register.confirm_pwd == ''){

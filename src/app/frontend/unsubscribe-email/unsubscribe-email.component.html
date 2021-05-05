@@ -1,4 +1,60 @@
-<div class="indvidual_main" >
+<app-topbar></app-topbar>
+<div class="login_main inner-container">
+  <div class="log_mdl_cont">
+    <div class="log_div text_center">
+
+      <div class="sgn_sec">
+        <p class="sgn_hd">Unsubscribe</p>
+
+        <div class="message-box-div" *ngIf="isUnsubscribe">
+          <mat-icon>unsubscribe</mat-icon>
+          <div class="message-area">
+              Congratulations, <br> You have been unsubscribed successfully!
+          </div>
+          <div>
+              <a routerLink="/">Click here to go to Homepage</a>
+          </div> 
+    </div>
+
+    <div class="message-box-div message-warning-div" *ngIf="!isUnsubscribe">
+      <mat-icon>unsubscribe</mat-icon>
+      <div class="message-area">
+          <span class="message-warning">You will be missed !! </span> 
+          <!-- <br> -->
+          <!-- You have been unsubscribed Proceum email list. -->
+      </div>
+      <form  #unsubscribe_form="ngForm" id="unsubscribe_form" name="unsubscribe_form"  (ngSubmit)="unsubscribe_form.submitted && onSubmit()" novalidate >
+      <div class="feedback_block">
+        <p>Please take a moment to tell us why you no longer wish to hear from us</p>
+        <div class="form-fields err_tltp_par">
+            
+          <mat-form-field appearance="outline">
+              <mat-label>Description</mat-label>
+              <textarea matInput rows="10" cols="60" minlength="1" 
+              maxlength="600" placeholder="Please share your feedback" name="reason" [(ngModel)]="feedback.reason"
+              ngModel #reason="ngModel" required></textarea><br />
+          </mat-form-field>
+        </div>
+        <div class="login_btns" style="text-align: center;">
+          <!-- <input type="button" value="Homepage" routerlink="/" class="teal_btn sign_btn-2 lgn_btn"> -->
+          <button type="submit" class="teal_btn sign_btn lgn_btn">Submit</button>
+        </div>
+
+        <!-- <button type="submit" class="teal_btn lgn_btn">Submit</button> -->
+      </div>
+      </form>
+      <!-- <br>
+      <div>
+          <a routerLink="/">Click here to go to Homepage</a>
+      </div> -->
+</div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="indvidual_main" style="display: none;" >
     <div class="ind_mdl_cont">
       <div class="ind_logo_img">
         <a routerLink="/"> <img src="assets/images/ProceumLogo_w.png" /></a>
@@ -10,7 +66,7 @@
             </div>
             <div>
                 <a routerLink="/">Click here to go to Homepage</a>
-            </div>
+            </div> 
       </div>
 
       <div class="message-box-div message-warning-div" *ngIf="!isUnsubscribe">

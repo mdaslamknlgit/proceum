@@ -58,7 +58,6 @@ export class StepsComponent implements OnInit {
       this.parent_id = param.level_parent_id ? param.level_parent_id : 0;
       this.curriculum_id = param.curriculum_id;
       this.reLoad();
-      console.log(this.step_id, this.parent_id);
     });
   }
   reLoad() {
@@ -147,14 +146,14 @@ export class StepsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.toggleModel();
         this.getSteps();
       } else {
         let message = res['errors']['step_name']
           ? res['errors']['step_name']
           : res['message'];
-        this.toster.error(message, 'Error');
+        this.toster.error(message, 'Error', { closeButton: true });
       }
     });
   }
@@ -175,12 +174,12 @@ export class StepsComponent implements OnInit {
     };
     this.http.put(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         (<HTMLFormElement>document.getElementById('edit_step_form')).reset();
         this.edit_model_status = !this.edit_model_status;
         this.getSteps();
       } else {
-        this.toster.error(res['errors']['step_name'], res['message']);
+        this.toster.error(res['errors']['step_name'], res['message'], { closeButton: true });
       }
     });
   }
@@ -191,10 +190,10 @@ export class StepsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success');
+        this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getSteps();
       } else {
-        this.toster.error(res['message'], res['message']);
+        this.toster.error(res['message'], res['message'], { closeButton: true });
       }
     });
   }

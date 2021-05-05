@@ -40,6 +40,13 @@ export class DrawingBoardComponent implements OnInit {
     this.isFullscreen = true;
   }
 
+  // Close window
+  closeWindow(){
+    window.close()
+  }
+
+  
+
   /* Close fullscreen */
   closeFullscreen() {
     if (this.document.exitFullscreen) {
@@ -62,19 +69,19 @@ export class DrawingBoardComponent implements OnInit {
   }
   onInit() {}
   onClear() {
-    this.toastr.success('Clear!');
+    this.toastr.success('Clear!','', { closeButton: true });
   }
   onUndo() {
-    this.toastr.success('Undo!');
+    this.toastr.success('Undo!','', { closeButton: true });
   }
   onRedo() {
-    this.toastr.success('Redo!');
+    this.toastr.success('Redo!','', { closeButton: true });
   }
   onSave() {
-    this.toastr.success('Save!');
+    this.toastr.success('Save!','', { closeButton: true });
   }
   onImageAded() {
-    this.toastr.success('ImageAded!');
+    this.toastr.success('ImageAded!','', { closeButton: true });
   }
 
   erase() {
