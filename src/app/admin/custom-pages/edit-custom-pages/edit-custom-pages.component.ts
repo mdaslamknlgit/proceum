@@ -3,7 +3,7 @@ import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
 import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
-import { UploadAdapter } from '../UploadAdapter';
+import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
