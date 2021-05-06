@@ -2,18 +2,23 @@
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
     <li
-      (click)="activeMenu(0)"
+      (click)="menu_active = 0"
       routerLinkActive="active"
       routerLink="/admin/dashboard"
-      [ngClass]="{ active: active_route == '/admin/dashboard' }"
     >
       <div class="sd_mnuhd"><mat-icon>dashboard</mat-icon> Dashboard</div>
     </li>
 
     <li
+      class="hs_sbmnu {{
+        menu_active == 7 ||
+        active_route == '/admin/roles-list' ||
+        active_route == '/admin/access-matrix'
+          ? 'active'
+          : ''
+      }}"
       routerLinkActive="active"
-      class="hs_sbmnu {{ menu_active == 7 ? 'active' : '' }}"
-      (click)="activeMenu(7)"
+      (click)="activeMenu(7, menu_active)"
     >
       <div class="sd_mnuhd">
         <mat-icon>manage_accounts</mat-icon> Roles Management
@@ -36,19 +41,21 @@
           ? 'active'
           : ''
       }}"
-      (click)="activeMenu(1)"
+      routerLinkActive="active"
+      (click)="activeMenu(1, menu_active)"
     >
       <div class="sd_mnuhd">
         <mat-icon>manage_accounts</mat-icon> User Management
       </div>
       <ul class="sdmn_sub">
-        <li routerLink="/admin/login-history">
+        <li routerLinkActive="active" routerLink="/admin/login-history">
           <mat-icon>assignment</mat-icon> Login History
         </li>
       </ul>
     </li>
     <li
       (click)="menu_active = 0"
+      routerLinkActive="active"
       routerLink="/admin/curriculum"
       [ngClass]="{
         active:
@@ -61,12 +68,19 @@
       </div>
     </li>
     <li
-      class="hs_sbmnu {{ menu_active == 2 ? 'active' : '' }}"
-      (click)="activeMenu(2)"
+      class="hs_sbmnu {{
+        menu_active == 2 || active_route == '/admin/create-content'
+          ? 'active'
+          : ''
+      }}"
+      routerLinkActive="active"
+      (click)="activeMenu(2, menu_active)"
     >
       <div class="sd_mnuhd"><mat-icon>source</mat-icon> Content Management</div>
       <ul class="sdmn_sub">
-        <li routerLink="/admin/create-content"><mat-icon>notes</mat-icon>Create Content</li>
+        <li routerLinkActive="active" routerLink="/admin/create-content">
+          <mat-icon>notes</mat-icon>Create Content
+        </li>
         <li><mat-icon>speaker_notes</mat-icon>Learning Notes</li>
         <li><mat-icon>description</mat-icon>Teacher Materials</li>
         <li><mat-icon>style</mat-icon>Flash Cards</li>
@@ -79,7 +93,7 @@
     </li>-->
     <li
       class="hs_sbmnu {{ menu_active == 3 ? 'active' : '' }}"
-      (click)="activeMenu(3)"
+      (click)="activeMenu(3, menu_active)"
     >
       <div class="sd_mnuhd">
         <mat-icon>corporate_fare</mat-icon> Assets Library
@@ -90,21 +104,24 @@
         <li><mat-icon>text_snippet</mat-icon>Documents</li>
       </ul>
     </li>
-    <li (click)="menu_active = 0">
+    <li routerLinkActive="active" (click)="menu_active = 0">
       <div class="sd_mnuhd"><mat-icon>today</mat-icon> Study Planner</div>
     </li>
-    <li (click)="menu_active = 0">
+    <li routerLinkActive="active" (click)="menu_active = 0">
       <div class="sd_mnuhd"><mat-icon>quiz</mat-icon> Question Bank</div>
     </li>
-    <li (click)="menu_active = 0">
+    <li routerLinkActive="active" (click)="menu_active = 0">
       <div class="sd_mnuhd"><mat-icon>description</mat-icon> Exam Modes</div>
     </li>
-    <li (click)="menu_active = 0">
+    <li routerLinkActive="active" (click)="menu_active = 0">
       <div class="sd_mnuhd"><mat-icon>assignment</mat-icon> Assessments</div>
     </li>
     <li
-      class="hs_sbmnu {{ menu_active == 4 ? 'active' : '' }}"
-      (click)="activeMenu(4)"
+      routerLinkActive="active"
+      class="hs_sbmnu {{
+        menu_active == 4 || active_route == '/admin/individuals' ? 'active' : ''
+      }}"
+      (click)="activeMenu(4, menu_active)"
     >
       <div class="sd_mnuhd">
         <mat-icon>account_balance</mat-icon> Clients / Partners
@@ -113,9 +130,9 @@
         <li><mat-icon>account_balance</mat-icon> Universities</li>
         <li><mat-icon>school</mat-icon> Colleges</li>
         <li><mat-icon>account_balance</mat-icon> Institutes</li>
-        <li routerLink="/admin/individuals" [ngClass]="{active: active_route == '/admin/individuals'}">
-        <mat-icon>manage_accounts</mat-icon> Individuals
-      </li>
+        <li routerLinkActive="active" routerLink="/admin/individuals">
+          <mat-icon>manage_accounts</mat-icon> Individuals
+        </li>
       </ul>
     </li>
 
@@ -141,7 +158,7 @@
           ? 'active'
           : ''
       }}"
-      (click)="activeMenu(5)"
+      (click)="activeMenu(5, menu_active)"
     >
       <div class="sd_mnuhd">
         <mat-icon>assessment</mat-icon>Coupons/Promotions
@@ -172,7 +189,7 @@
           ? 'active'
           : ''
       }}"
-      (click)="activeMenu(6)"
+      (click)="activeMenu(6, menu_active)"
     >
       <div class="sd_mnuhd"><mat-icon>settings</mat-icon> Settings</div>
       <ul class="sdmn_sub">
@@ -218,7 +235,7 @@
           ? 'active'
           : ''
       }}"
-      (click)="activeMenu(8)"
+      (click)="activeMenu(8, menu_active)"
     >
       <div class="sd_mnuhd"><mat-icon>feed</mat-icon> Newsletter</div>
       <ul class="sdmn_sub">

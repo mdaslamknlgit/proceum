@@ -1,15 +1,15 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
 import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
-import { UploadAdapter } from '../UploadAdapter';
-import { Router } from '@angular/router';
+import { UploadAdapter } from '../../../classes/UploadAdapter';
+import {  Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-custom-pages',
   templateUrl: './create-custom-pages.component.html',
-  styleUrls: ['./create-custom-pages.component.scss']
+  styleUrls: ['./create-custom-pages.component.scss'],
 })
 export class CreateCustomPagesComponent implements OnInit {
   isPageRequired: boolean = true;
@@ -17,12 +17,12 @@ export class CreateCustomPagesComponent implements OnInit {
   isMenuDisplay: boolean = true;
   isPageDisplay: boolean = true;
   customPage = {
-    "old_page_name": "",
-    "new_page_name": "",
-    "new_menu_name": "",
-    "old_menu_name": "",
-    "isShowChecked": "",
-    "page_content": "",
+    old_page_name: '',
+    new_page_name: '',
+    new_menu_name: '',
+    old_menu_name: '',
+    isShowChecked: '',
+    page_content: '',
   };
   public Editor = ClassicEditor;
   menuList: any;
@@ -36,25 +36,28 @@ export class CreateCustomPagesComponent implements OnInit {
     this.getMenusAndPages();
   }
   htmlEditorConfig = {
+    toolbar: {
+      items: environment.ckeditor_toolbar,
+    },
     mediaEmbed: {
-        previewsInData: true
-    }
-}
+      previewsInData: true,
+    },
+  };
 
   getMenusAndPages() {
     let params = {
-      "url": "get-menu-pages"
+      url: 'get-menu-pages',
     };
     this.http.post(params).subscribe((res) => {
       this.menuList = res['menu'];
     });
   }
 
-  getPages(){
-    this.pagesList =[];
+  getPages() {
+    this.pagesList = [];
     let params = {
-      "url": "pages",
-      'parent_id':this.customPage.old_menu_name
+      url: 'pages',
+      parent_id: this.customPage.old_menu_name,
     };
     this.http.post(params).subscribe((res) => {
       this.pagesList = res['pages'];
@@ -62,7 +65,7 @@ export class CreateCustomPagesComponent implements OnInit {
   }
 
   selectPage() {
-    if (this.customPage.old_page_name != "") {
+    if (this.customPage.old_page_name != '') {
       this.isPageDisplay = false;
       this.isPageRequired = false;
       this.customPage.new_page_name="";
@@ -71,7 +74,6 @@ export class CreateCustomPagesComponent implements OnInit {
         'pk_id':this.customPage.old_page_name
       };
       this.http.post(params).subscribe((res) => {
-        console.log(res['content']);
         this.customPage.page_content=res['content'];
         this.customPage.isShowChecked=(res['show_menu'])?'checked':'';
       });
@@ -83,10 +85,10 @@ export class CreateCustomPagesComponent implements OnInit {
   }
 
   selectMenu() {
-    if (this.customPage.old_menu_name != "") {
+    if (this.customPage.old_menu_name != '') {
       this.isMenuDisplay = false;
       this.isMenuRequired = false;
-      this.customPage.new_menu_name="";
+      this.customPage.new_menu_name = '';
     } else {
       this.isMenuRequired = true;
       this.isMenuDisplay = true;
@@ -96,32 +98,34 @@ export class CreateCustomPagesComponent implements OnInit {
       this.isPageRequired=true;
       this.isPageDisplay = true;
     }
-  this.getPages();
+    this.getPages();
   }
-  
+
   onReady(eventData) {
     let apiUrl = environment.apiUrl;
-    eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
-        var data =new UploadAdapter(loader,apiUrl+'upload-image');
-        return data;
+    eventData.plugins.get('FileRepository').createUploadAdapter = function (
+      loader
+    ) {
+      var data = new UploadAdapter(loader, apiUrl + 'upload-image');
+      return data;
     };
   }
 
   createCustomPage() {
-    let i=0;
+    let i = 0;
     if (this.isMenuRequired) {
-      if(this.customPage.new_menu_name.trim()==""){
-        this.customPage.new_menu_name=this.customPage.new_menu_name.trim();
+      if (this.customPage.new_menu_name.trim() == '') {
+        this.customPage.new_menu_name = this.customPage.new_menu_name.trim();
         i++;
       }
     }
     if (this.isPageRequired) {
-      if(this.customPage.new_page_name.trim()==""){
-        this.customPage.new_page_name=this.customPage.new_page_name.trim();
+      if (this.customPage.new_page_name.trim() == '') {
+        this.customPage.new_page_name = this.customPage.new_page_name.trim();
         i++;
       }
     }
-    if(i!=0){
+    if (i != 0) {
       return;
     }
     let params = {
@@ -149,5 +153,3 @@ export class CreateCustomPagesComponent implements OnInit {
     });
   }
 }
-
-

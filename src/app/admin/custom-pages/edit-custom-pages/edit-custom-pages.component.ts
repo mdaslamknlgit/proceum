@@ -1,15 +1,15 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
 import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
-import { UploadAdapter } from '../UploadAdapter';
+import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-custom-pages',
   templateUrl: './edit-custom-pages.component.html',
-  styleUrls: ['./edit-custom-pages.component.scss']
+  styleUrls: ['./edit-custom-pages.component.scss'],
 })
 export class EditCustomPagesComponent implements OnInit {
   isPageRequired: boolean = true;
@@ -20,12 +20,12 @@ export class EditCustomPagesComponent implements OnInit {
   page_id: number;
   data: any;
   customPage = {
-    "page_name": "",
-    "new_page_name": "",
-    "menu_name": "",
-    "old_menu_name": "",
-    "isShowChecked": "",
-    "page_content": "",
+    page_name: '',
+    new_page_name: '',
+    menu_name: '',
+    old_menu_name: '',
+    isShowChecked: '',
+    page_content: '',
   };
   public Editor = ClassicEditor;
   menuList: any;
@@ -35,10 +35,10 @@ export class EditCustomPagesComponent implements OnInit {
     private route: Router,
     private http: CommonService,
     private toaster: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.activeRoute.params.subscribe(routeParams => {
+    this.activeRoute.params.subscribe((routeParams) => {
       this.page_id = routeParams.id;
       this.getMenusAndPages();
     });
@@ -46,14 +46,14 @@ export class EditCustomPagesComponent implements OnInit {
 
   htmlEditorConfig = {
     mediaEmbed: {
-      previewsInData: true
-    }
-  }
+      previewsInData: true,
+    },
+  };
 
   getMenusAndPages() {
     let params = {
-      "url": "get-menu-pages",
-      "page_id": this.page_id
+      url: 'get-menu-pages',
+      page_id: this.page_id,
     };
     this.http.post(params).subscribe((res) => {
       this.menuList = res['menu'];
@@ -68,8 +68,8 @@ export class EditCustomPagesComponent implements OnInit {
   getPages() {
     this.pagesList = [];
     let params = {
-      "url": "pages",
-      'parent_id': this.customPage.menu_name
+      url: 'pages',
+      parent_id: this.customPage.menu_name,
     };
     this.http.post(params).subscribe((res) => {
       this.pagesList = res['pages'];
@@ -78,7 +78,9 @@ export class EditCustomPagesComponent implements OnInit {
 
   onReady(eventData) {
     let apiUrl = environment.apiUrl;
-    eventData.plugins.get('FileRepository').createUploadAdapter = function (loader) {
+    eventData.plugins.get('FileRepository').createUploadAdapter = function (
+      loader
+    ) {
       var data = new UploadAdapter(loader, apiUrl + 'upload-image');
       return data;
     };
@@ -86,12 +88,12 @@ export class EditCustomPagesComponent implements OnInit {
 
   updateCustomPage() {
     let params = {
-      'url': 'update-page',
-      'page_name': this.customPage.page_name,
-      'menu_name': this.customPage.menu_name,
-      'page_content': this.customPage.page_content,
-      "pk_id": this.page_id,
-      'show_menu': (this.customPage.isShowChecked) ? true : false,
+      url: 'update-page',
+      page_name: this.customPage.page_name,
+      menu_name: this.customPage.menu_name,
+      page_content: this.customPage.page_content,
+      pk_id: this.page_id,
+      show_menu: this.customPage.isShowChecked ? true : false,
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
@@ -104,5 +106,3 @@ export class EditCustomPagesComponent implements OnInit {
     });
   }
 }
-
-
