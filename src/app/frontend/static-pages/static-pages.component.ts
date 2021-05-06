@@ -30,10 +30,8 @@ pageName:string;
       'pk_id':this.id
     };
     this.http.post(params).subscribe((res) => {
-      for(var i=0;i<res['content'].length;i++){
-        this.pageContent[i]={"content":this.sanitizer.bypassSecurityTrustHtml(res['content'][i].content)}
-      }
-      this.pageName=res['page_name'];
+        this.pageContent=this.sanitizer.bypassSecurityTrustHtml(res['content']);
+        this.pageName=res['page_name'];
     });
   }
 
