@@ -169,6 +169,6 @@ const routes: Routes = [
     { provide: RouteReuseStrategy, useClass: CustomRouteReuseStategy },
     DatePipe,
   ],
-  exports: [RouterModule],
+  exports: [CKEditorModule, RouterModule],
 })
 export class AdminModule {}
