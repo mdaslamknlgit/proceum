@@ -33,6 +33,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { InputTrimModule } from 'ng2-trim-directive';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
@@ -65,6 +66,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatTreeModule,
     NgxMatSelectSearchModule,
     MatStepperModule,
+    MatSlideToggleModule,
   ],
   exports: [
     MatInputModule,
@@ -100,6 +102,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     InputTrimModule,
     NgxMatSelectSearchModule,
     MatStepperModule,
+    MatSlideToggleModule,
   ],
 })
 export class MaterialModule {}

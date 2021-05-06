@@ -5,7 +5,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
-import { UploadAdapter } from 'src/app/admin/custom-pages/UploadAdapter';
+import { UploadAdapter } from '../../../classes/UploadAdapter';
 
 @Component({
   selector: 'app-create',

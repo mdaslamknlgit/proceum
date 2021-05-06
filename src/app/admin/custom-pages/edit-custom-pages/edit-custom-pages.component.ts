@@ -3,7 +3,7 @@ import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
 import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
-import { UploadAdapter } from '../UploadAdapter';
+import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -58,11 +58,10 @@ export class EditCustomPagesComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       this.menuList = res['menu'];
       this.pagesList = res['pages'];
-      this.customPage.page_name = res['page'][0].name;
-      this.customPage.menu_name = res['page'][0].parent_id;
-      this.customPage.isShowChecked =
-        res['page'][0].show_menu == 1 ? 'checked' : '';
-      this.customPage.page_content = res['page'][0].content;
+      this.customPage.page_name = res['page'].name;
+      this.customPage.menu_name = res['page'].parent_id;
+      this.customPage.isShowChecked = (res['page'].show_menu == 1) ? "checked" : "";
+      this.customPage.page_content = res['page'].content;
     });
   }
 
