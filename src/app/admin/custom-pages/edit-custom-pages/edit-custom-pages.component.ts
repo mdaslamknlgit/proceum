@@ -45,6 +45,9 @@ export class EditCustomPagesComponent implements OnInit {
   }
 
   htmlEditorConfig = {
+    toolbar: {
+      items: environment.ckeditor_toolbar,
+    },
     mediaEmbed: {
       previewsInData: true,
     },
