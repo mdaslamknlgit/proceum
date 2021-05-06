@@ -159,7 +159,9 @@ export class PromotionalSettingsComponent implements OnInit {
         this.edit_model_status = !this.edit_model_status;
         this.getPromotionals();
       } else {
-        this.toster.error(res['errors']['code'], res['message'], { closeButton: true });
+        this.toster.error(res['errors']['code'], res['message'], {
+          closeButton: true,
+        });
       }
     });
   }
@@ -174,7 +176,9 @@ export class PromotionalSettingsComponent implements OnInit {
         this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getPromotionals();
       } else {
-        this.toster.error(res['message'], res['message'], { closeButton: true });
+        this.toster.error(res['message'], res['message'], {
+          closeButton: true,
+        });
       }
     });
   }

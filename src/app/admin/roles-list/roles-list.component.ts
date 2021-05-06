@@ -111,7 +111,10 @@ export class RolesListComponent implements OnInit {
         this.edit_model_status = !this.edit_model_status;
         this.getRoles();
       } else {
-        this.toster.error(res['errors']['title'], res['message'], { closeButton: true });
+        let message = res['errors']['role_name']
+          ? res['errors']['role_name']
+          : res['message'];
+        this.toster.error(message, 'Error', { closeButton: true });
       }
     });
   }
@@ -126,7 +129,9 @@ export class RolesListComponent implements OnInit {
         this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getRoles();
       } else {
-        this.toster.error(res['message'], res['message'], { closeButton: true });
+        this.toster.error(res['message'], res['message'], {
+          closeButton: true,
+        });
       }
     });
   }
