@@ -1,20 +1,21 @@
 <div class="mn_dshbrd">
   <div class="brd_crm">Proceum &raquo; <strong>Settings</strong></div>
-  <div class="pg_ttl">Create Settings</div>
+  <div class="pg_ttl">Save Settings</div>
   <div class="hgt_20"></div>
   <div class="grd_2c">
     <span class="text-right w_100p rqrd_txtinfo">
       All <span class="required">( * ) </span>marked fields are mandatory</span
     >
     <div class="hgt_20"></div>
-    <div class="tc_w50p">
-      <form
+    <form
         #settings_form="ngForm"
         id="settings_form"
         name="settings_form"
-        (ngSubmit)="settings_form.valid && createSettings()"
+        (ngSubmit)="settings_form.valid && saveSettings()"
         novalidate
       >
+    <div class="tc_w50p">
+      
         <div class="frm_dvs">
           <span>System Logo <span class="required">*</span></span>
           <span class="fw_w frm_img">
@@ -41,9 +42,9 @@
                 style="display: none"
               />
             </button>
-            <span class="hgt_20"></span>
+            <span class="hgt_10"></span>
             <span class="required">{{ imgMessage }}</span>
-            <span class="hgt_20"></span>
+            <span class="hgt_10"></span>
           </span>
         </div>
         <div class="frm_dvs">
@@ -286,219 +287,222 @@
             </mat-form-field>
           </span>
         </div>
-        <div class="frm_dvs">
-          <span class="algn_s_fs">Copyright Text</span>
-          <span>
+        
+        
+        <!-- <div class="hgt_20"></div> -->
+    </div>
+    <div class="tc_w50p">
+      <div class="frm_dvs">
+        <span class="algn_s_fs">Copyright Text</span>
+        <span>
+          <mat-form-field appearance="outline">
+            <textarea
+              matInput
+              rows="8"
+              name="copy_right"
+              placeholder="Please enter copy right text"
+              autocomplete="off"
+              [(ngModel)]="settings.copy_right"
+              #copy_right="ngModel"
+              ngModel
+            ></textarea>
+          </mat-form-field>
+        </span>
+      </div>
+      <div class="frm_dvs">
+        <span class="algn_s_fs"
+          >Full Address <span class="required">*</span></span
+        >
+        <span>
+          <span class="err_tltp_par">
             <mat-form-field appearance="outline">
               <textarea
                 matInput
                 rows="8"
-                name="copy_right"
-                placeholder="Please enter copy right text"
-                autocomplete="off"
-                [(ngModel)]="settings.copy_right"
-                #copy_right="ngModel"
+                name="full_address"
+                required
+                placeholder="Please enter Your Address"
+                [(ngModel)]="settings.full_address"
+                pattern="[^ ](.*|\n|\r|\r\n)*"
+                #full_address="ngModel"
                 ngModel
               ></textarea>
             </mat-form-field>
+            <span
+              *ngIf="settings_form.submitted && settings.full_address == ''"
+              class="prc_tltp"
+              >Full Address is required</span
+            >
+            <span
+              *ngIf="settings_form.submitted && full_address.errors?.pattern"
+              class="prc_tltp"
+              >Please enter valid address</span
+            >
           </span>
-        </div>
-        <div class="frm_dvs">
-          <span class="algn_s_fs"
-            >Full Address <span class="required">*</span></span
-          >
-          <span>
-            <span class="err_tltp_par">
-              <mat-form-field appearance="outline">
-                <textarea
-                  matInput
-                  rows="8"
-                  name="full_address"
-                  required
-                  placeholder="Please enter Your Address"
-                  [(ngModel)]="settings.full_address"
-                  pattern="[^ ](.*|\n|\r|\r\n)*"
-                  #full_address="ngModel"
-                  ngModel
-                ></textarea>
-              </mat-form-field>
-              <span
-                *ngIf="settings_form.submitted && settings.full_address == ''"
-                class="prc_tltp"
-                >Full Address is required</span
-              >
-              <span
-                *ngIf="settings_form.submitted && full_address.errors?.pattern"
-                class="prc_tltp"
-                >Please enter valid address</span
-              >
-            </span>
+        </span>
+      </div>
+      <div class="frm_dvs">
+        <span>Theme/Color <span class="required">*</span></span>
+        <span>
+          <span class="err_tltp_par">
+            <mat-form-field>
+              <input
+                matInput
+                [ngxMatColorPicker]="picker"
+                readonly
+                required
+                name="theme_color"
+                [(ngModel)]="settings.theme_color"
+                #theme_color="ngModel"
+                ngModel
+              />
+              <ngx-mat-color-toggle
+                matSuffix
+                [for]="picker"
+              ></ngx-mat-color-toggle>
+              <ngx-mat-color-picker
+                #picker
+                [touchUi]="touchUi"
+                [color]="color"
+              ></ngx-mat-color-picker>
+            </mat-form-field>
+            <span
+              *ngIf="
+                (settings_form.submitted || theme_color.touched) &&
+                settings.theme_color == ''
+              "
+              class="prc_tltp"
+              >Theme/Color is required</span
+            >
           </span>
-        </div>
-        <div class="frm_dvs">
-          <span>Theme/Color <span class="required">*</span></span>
-          <span>
-            <span class="err_tltp_par">
-              <mat-form-field>
-                <input
-                  matInput
-                  [ngxMatColorPicker]="picker"
-                  readonly
-                  required
-                  name="theme_color"
-                  [(ngModel)]="settings.theme_color"
-                  #theme_color="ngModel"
-                  ngModel
-                />
-                <ngx-mat-color-toggle
-                  matSuffix
-                  [for]="picker"
-                ></ngx-mat-color-toggle>
-                <ngx-mat-color-picker
-                  #picker
-                  [touchUi]="touchUi"
-                  [color]="color"
-                ></ngx-mat-color-picker>
-              </mat-form-field>
-              <span
-                *ngIf="
-                  (settings_form.submitted || theme_color.touched) &&
-                  settings.theme_color == ''
-                "
-                class="prc_tltp"
-                >Theme/Color is required</span
-              >
-            </span>
+        </span>
+      </div>
+      <div class="frm_dvs">
+        <span>List View Page Limit<span class="required">*</span></span>
+        <span>
+          <span class="err_tltp_par">
+            <mat-form-field appearance="outline">
+              <input
+                matInput
+                autocomplete="off"
+                placeholder="List View Page Limit eg:10"
+                min="1"
+                minlength="1"
+                maxlength="3"
+                min="1"
+                max="100"
+                required
+                name="list_view_limit"
+                [(ngModel)]="settings.list_view_limit"
+                #list_view_limit="ngModel"
+                ngModel
+                onkeypress="return ((event.charCode >= 47 && event.charCode <= 58))"
+              />
+            </mat-form-field>
+            <span
+              *ngIf="
+                settings_form.submitted &&
+                (settings.list_view_limit == undefined ||
+                  settings.list_view_limit == '')
+              "
+              class="prc_tltp"
+              >List View Page Limit is required</span
+            >
           </span>
-        </div>
-        <div class="frm_dvs">
-          <span>List View Page Limit<span class="required">*</span></span>
-          <span>
-            <span class="err_tltp_par">
-              <mat-form-field appearance="outline">
-                <input
-                  matInput
-                  autocomplete="off"
-                  placeholder="List View Page Limit eg:10"
-                  min="1"
-                  minlength="1"
-                  maxlength="3"
-                  min="1"
-                  max="100"
-                  required
-                  name="list_view_limit"
-                  [(ngModel)]="settings.list_view_limit"
-                  #list_view_limit="ngModel"
-                  ngModel
-                  onkeypress="return ((event.charCode >= 47 && event.charCode <= 58))"
-                />
-              </mat-form-field>
-              <span
-                *ngIf="
-                  settings_form.submitted &&
-                  (settings.list_view_limit == undefined ||
-                    settings.list_view_limit == '')
-                "
-                class="prc_tltp"
-                >List View Page Limit is required</span
+        </span>
+      </div>
+      <div class="frm_dvs">
+        <span>Date Format <span class="required">*</span></span>
+        <span>
+          <span class="err_tltp_par">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select
+                matInput
+                name="date_format"
+                [(ngModel)]="settings.date_format"
+                #date_format="ngModel"
+                ngModel
+                required
+                placeholder="select dateformat"
               >
-            </span>
-          </span>
-        </div>
-        <div class="frm_dvs">
-          <span>Date Format <span class="required">*</span></span>
-          <span>
-            <span class="err_tltp_par">
-              <mat-form-field appearance="outline" color="accent">
-                <mat-select
-                  matInput
-                  name="date_format"
-                  [(ngModel)]="settings.date_format"
-                  #date_format="ngModel"
-                  ngModel
-                  required
-                  placeholder="select dateformat"
+                <mat-option value="d/m/Y">d/m/Y (Ex:"02/04/2021")</mat-option>
+                <mat-option value="d-m-Y">d-m-Y (Ex:"02-04-2021")</mat-option>
+                <mat-option value="d,m,Y">d,m,Y (Ex:"02,04,2021")</mat-option>
+                <mat-option value="d/m/y">d/m/y (Ex:"30/06/08")</mat-option>
+                <mat-option value="d-m-y">d-m-y (Ex:"30-06-08")</mat-option>
+                <mat-option value="d,m,y">d,m,y (Ex:"30,06,08")</mat-option>
+                <mat-option value="Y/m/d">Y/m/d (Ex:"2021/06/08")</mat-option>
+                <mat-option value="Y-m-d">Y-m-d (Ex:"2021-06-08")</mat-option>
+                <mat-option value="Y,m,d">Y,m,d (Ex:"2021,06,08")</mat-option>
+                <mat-option value="Y/m/d">m/d/Y (Ex:"08/06/2021")</mat-option>
+                <mat-option value="m-d-Y">m-d-Y (Ex:"08-06-2021")</mat-option>
+                <mat-option value="m,d,Y">m,d,Y (Ex:"08,06,2021")</mat-option>
+                <mat-option value="y/m/d">y/m/d (Ex:"21/06/08")</mat-option>
+                <mat-option value="y-m-d">y-m-d (Ex:"21-06-08")</mat-option>
+                <mat-option value="y,m,d">y,m,d (Ex:"21,06,08")</mat-option>
+                <mat-option value="F jS, Y"
+                  >F jS, Y (Ex:April 9th, 2012)</mat-option
                 >
-                  <mat-option value="d/m/Y">d/m/Y (Ex:"02/04/2021")</mat-option>
-                  <mat-option value="d-m-Y">d-m-Y (Ex:"02-04-2021")</mat-option>
-                  <mat-option value="d,m,Y">d,m,Y (Ex:"02,04,2021")</mat-option>
-                  <mat-option value="d/m/y">d/m/y (Ex:"30/06/08")</mat-option>
-                  <mat-option value="d-m-y">d-m-y (Ex:"30-06-08")</mat-option>
-                  <mat-option value="d,m,y">d,m,y (Ex:"30,06,08")</mat-option>
-                  <mat-option value="Y/m/d">Y/m/d (Ex:"2021/06/08")</mat-option>
-                  <mat-option value="Y-m-d">Y-m-d (Ex:"2021-06-08")</mat-option>
-                  <mat-option value="Y,m,d">Y,m,d (Ex:"2021,06,08")</mat-option>
-                  <mat-option value="Y/m/d">m/d/Y (Ex:"08/06/2021")</mat-option>
-                  <mat-option value="m-d-Y">m-d-Y (Ex:"08-06-2021")</mat-option>
-                  <mat-option value="m,d,Y">m,d,Y (Ex:"08,06,2021")</mat-option>
-                  <mat-option value="y/m/d">y/m/d (Ex:"21/06/08")</mat-option>
-                  <mat-option value="y-m-d">y-m-d (Ex:"21-06-08")</mat-option>
-                  <mat-option value="y,m,d">y,m,d (Ex:"21,06,08")</mat-option>
-                  <mat-option value="F jS, Y"
-                    >F jS, Y (Ex:April 9th, 2012)</mat-option
-                  >
-                  <mat-option value="F j, Y"
-                    >F j, Y (Ex:January 1, 2018)</mat-option
-                  >
-                  <mat-option value="Y-m-d">Y-m-d (Ex:2016-03-28)</mat-option>
-                  <mat-option value="M,d,y">M,d,y</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <span
-                *ngIf="settings_form.submitted && settings.date_format == ''"
-                class="prc_tltp"
-                >Date format is required</span
-              >
-            </span>
-          </span>
-        </div>
-        <div class="frm_dvs">
-          <span>Time Format <span class="required">*</span></span>
-          <span>
-            <span class="err_tltp_par">
-              <mat-form-field appearance="outline" color="accent">
-                <mat-select
-                  required
-                  name="time_format"
-                  [(ngModel)]="settings.time_format"
-                  placeholder="select time format"
-                  #time_format="ngModel"
-                  ngModel
+                <mat-option value="F j, Y"
+                  >F j, Y (Ex:January 1, 2018)</mat-option
                 >
-                  <mat-option value="12 Hr"
-                    >12 Hr (Ex: 02:20:02 PM )</mat-option
-                  >
-                  <mat-option value="24 Hr"
-                    >24 Hr (Ex: 14:20:02 PM )</mat-option
-                  >
-                </mat-select>
-              </mat-form-field>
-              <span
-                *ngIf="
-                  (settings_form.submitted || time_format.touched) &&
-                  settings.time_format == ''
-                "
-                class="prc_tltp"
-                >Time format is required</span
-              >
-            </span>
+                <mat-option value="Y-m-d">Y-m-d (Ex:2016-03-28)</mat-option>
+                <mat-option value="M,d,y">M,d,y</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span
+              *ngIf="settings_form.submitted && settings.date_format == ''"
+              class="prc_tltp"
+              >Date format is required</span
+            >
           </span>
-        </div>
-        <div class="text-center">
-          <button type="submit" mat-raised-button color="accent">Save</button>
-        </div>
-        <div class="hgt_20"></div>
-      </form>
-    </div>
+        </span>
+      </div>
+      <div class="frm_dvs">
+        <span>Time Format <span class="required">*</span></span>
+        <span>
+          <span class="err_tltp_par">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select
+                required
+                name="time_format"
+                [(ngModel)]="settings.time_format"
+                placeholder="select time format"
+                #time_format="ngModel"
+                ngModel
+              >
+                <mat-option value="12 Hr"
+                  >12 Hr (Ex: 02:20:02 PM )</mat-option
+                >
+                <mat-option value="24 Hr"
+                  >24 Hr (Ex: 14:20:02 PM )</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <span
+              *ngIf="
+                (settings_form.submitted || time_format.touched) &&
+                settings.time_format == ''
+              "
+              class="prc_tltp"
+              >Time format is required</span
+            >
+          </span>
+        </span>
+      </div>
 
-    <div class="tc_w50p">
       <!-- <form #system_mode_form="ngForm" id="system_mode_form" name="system_mode_form"
                 (ngSubmit)="system_mode_form.valid && updateSysMode()" novalidate> -->
-      <form>
+      <!-- <form> -->
         <div class="frm_dvs">
-          <span>System Mode <span class="required">*</span></span>
+          <span>Maintenance Mode <span class="required">*</span></span>
           <span>
-            <mat-radio-group
+            <mat-slide-toggle 
+            class="ml_10"
+            (change)="openModel($event)"
+            [checked]="ischecked"
+            ></mat-slide-toggle>
+            <!-- <mat-radio-group
               name="mode"
               [(ngModel)]="systemMode"
               ngModel
@@ -508,17 +512,22 @@
               <mat-radio-button value="maintenance"
                 >Maintenance Mode</mat-radio-button
               >
-            </mat-radio-group>
-          </span>
+            </mat-radio-group>-->
+          </span> 
         </div>
         <div class="hgt_20"></div>
-        <div class="text-center">
+        <!-- <div class="text-center">
           <button mat-raised-button color="accent" (click)="toggleModel()">
             Save
           </button>
-        </div>
-      </form>
+        </div> -->
+      <!-- </form> -->
     </div>
+    <div class="hgt_20"></div>
+    <div class="text-center">
+      <button type="submit" mat-raised-button color="accent">Save</button>
+    </div>
+  </form>
   </div>
 </div>
 
@@ -530,7 +539,7 @@
     <div class="pg_ttl">
       Confirmation Required!
       <span class="spacer"></span>
-      <button mat-icon-button (click)="toggleModel()" class="float_right">
+      <button mat-icon-button (click)="closeModel()" class="float_right">
         &#x2715;
       </button>
     </div>
@@ -564,7 +573,7 @@
       <button
         mat-raised-button
         class="float_right mr_1 gry_btn"
-        (click)="toggleModel()"
+        (click)="closeModel()"
       >
         Close
       </button>

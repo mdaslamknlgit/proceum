@@ -48,7 +48,7 @@ export class Loader {
           this.removeRequest(req);
           observer.error(err);
           if (err.status == 401) {
-            this.toster.error(err.statusText, 'Session Error');
+            this.toster.error(err.statusText, 'Session Error', { closeButton: true });
             sessionStorage.clear();
             this.route.navigateByUrl('/login');
           }
