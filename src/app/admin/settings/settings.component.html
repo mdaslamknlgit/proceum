@@ -219,10 +219,19 @@
                 [(ngModel)]="settings.contact_number_2"
                 #contact_number_2="ngModel"
                 ngModel
+                minlength="10" 
                 maxlength="10"
+                pattern="^[6-9]{1}[0-9]{9}$"
                 onkeypress="return ((event.charCode >= 47 && event.charCode <= 58))"
               />
             </mat-form-field>
+            <span
+                *ngIf="
+                  settings_form.submitted && contact_number_2.errors?.pattern
+                "
+                class="prc_tltp"
+                >Please enter valid Phone Number ( Ex:9020345765 )</span
+              >
           </span>
         </div>
         <div class="frm_dvs">
@@ -297,7 +306,8 @@
         <span>
           <mat-form-field appearance="outline">
             <textarea
-              matInput
+              matInput 
+              maxlength="45"
               rows="8"
               name="copy_right"
               placeholder="Please enter copy right text"
@@ -318,7 +328,8 @@
             <mat-form-field appearance="outline">
               <textarea
                 matInput
-                rows="8"
+                rows="8" 
+                maxlength="255"
                 name="full_address"
                 required
                 placeholder="Please enter Your Address"
