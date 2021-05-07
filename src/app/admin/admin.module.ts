@@ -18,7 +18,7 @@ import { AccessMatrixComponent } from './roles-list/access-matrix/access-matrix.
 import { LoginHistoryComponent } from './login-history/login-history.component';
 import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
-import { CreateSettingsComponent } from './settings/create-settings/create-settings.component';
+import { SettingsComponent } from './settings/settings.component';
 import { CreateCustomPagesComponent } from './custom-pages/create-custom-pages/create-custom-pages.component';
 import { EditCustomPagesComponent } from './custom-pages/edit-custom-pages/edit-custom-pages.component';
 import { CountriesStatesCitiesComponent } from './countries-states-cities/countries-states-cities.component';
@@ -33,7 +33,6 @@ import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
 import { StatesComponent } from './states/states.component';
 import { CitiesComponent } from './cities/cities.component';
 import { HttpClientModule } from '@angular/common/http';
-import { SettingsListComponent } from './settings/settings-list/settings-list.component';
 import { CustomPageListComponent } from './custom-pages/custom-page-list/custom-page-list.component';
 import { DatePipe } from '@angular/common';
 import { AdminComponent } from './admin.component';
@@ -113,11 +112,8 @@ const routes: Routes = [
         component: CitiesComponent,
       },
       { path: 'newsletter-list', component: NewsletterListComponent },
-      { path: 'create-settings', component: CreateSettingsComponent },
-      {
-        path: 'settings',
-        component: SettingsListComponent,
-      },
+      { path: 'settings', component: SettingsComponent },
+     
       { path: 'custom-page', component: CustomPageListComponent },
       { path: 'create-custom-page', component: CreateCustomPagesComponent },
       { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
@@ -141,12 +137,11 @@ const routes: Routes = [
     AccessMatrixComponent,
     LoginHistoryComponent,
     NewsletterListComponent,
-    CreateSettingsComponent,
+    SettingsComponent,
     CreateCustomPagesComponent,
     CountriesStatesCitiesComponent,
     StatesComponent,
     CitiesComponent,
-    SettingsListComponent,
     CustomPageListComponent,
     EditCustomPagesComponent,
     CreateContentComponent,

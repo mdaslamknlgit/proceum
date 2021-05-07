@@ -17,19 +17,30 @@
     <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
 
     <span mat-list-item class="tp_rt_mn" routerLinkActive="active">Blog</span>
-    <!-- <span
+    <span
         mat-list-item
         [matMenuTriggerFor]="appMenu"
         class="tp_rt_mn"
+        [class]="activeClass"
         *ngFor="let menu of menus"
+        routerLinkActive="active"
         (click)="changeSubmenu(menu.pk_id)"
         >{{ menu.name }}</span
-      > -->
-    <span *ngIf="isCustomMenuShow" mat-list-item [matMenuTriggerFor]="appMenu" [class]="activeClass"
-      routerLinkActive="active">Custom Menu</span>
-    <mat-menu #appMenu="matMenu" class="dynamic_menu_cls">
-      <button mat-menu-item *ngFor="let subMenu of subMenus" routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
-        routerLinkActive="active" #rla="routerLinkActive">
+      >
+    <!-- <span
+      *ngIf="isCustomMenuShow"
+      mat-list-item
+      [matMenuTriggerFor]="appMenu"
+      [class]="activeClass"
+      routerLinkActive="active"
+      >Custom Menu</span
+    > -->
+    <mat-menu #appMenu="matMenu" class="dynamic_menu_cls" >
+      <button
+        mat-menu-item
+        *ngFor="let subMenu of subMenus"
+        routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
+      >
         {{ subMenu.name }}
       </button>
     </mat-menu>

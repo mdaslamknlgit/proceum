@@ -1,17 +1,25 @@
-<div class="sd_br" [ngClass]="sidemenuStatus"> 
+<div class="sd_br" [ngClass]="sidemenuStatus" (scroll)="scrollHandler($event)">
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
-    <li routerLink="/student/dashboard" class="active">
+    <li 
+    routerLink="/student/dashboard" 
+    (click)="menu_active = 0"
+      routerLinkActive="active"
+    >
       <div class="sd_mnuhd">
         <mat-icon>dashboard</mat-icon> Dashboard
       </div>
     </li>
-    <li class="hs_sbmnu {{ menu_active == 4 ? 'active' : '' }}" (click)="activeMenu(4)">
+    <li 
+    routerLinkActive="active"
+    class="hs_sbmnu {{ menu_active == 4 ? 'active' : '' }}" 
+    (click)="activeMenu(4, menu_active)"
+    >
       <div class="sd_mnuhd">
         <mat-icon>auto_stories</mat-icon> Curriculum
       </div>
       <ul class="sdmn_sub">
-        <li routerLink="/student-curriculum">
+        <li routerLinkActive="active" routerLink="/student-curriculum">
           <mat-icon>play_circle_outline</mat-icon> MCI Curriculum
         </li>
         <li>
@@ -22,7 +30,11 @@
         </li>
       </ul>
     </li>
-    <li class="hs_sbmnu {{ menu_active == 1 ? 'active' : '' }}" (click)="activeMenu(1)">
+    <li 
+    routerLinkActive="active"
+    class="hs_sbmnu {{ menu_active == 1 ? 'active' : '' }}" 
+    (click)="activeMenu(1, menu_active)"
+    >
       <div class="sd_mnuhd">
         <mat-icon>auto_stories</mat-icon> Learning Notes
       </div>
@@ -40,7 +52,7 @@
         <mat-icon>today</mat-icon> Study Planner
       </div>
     </li>
-    <li  class="hs_sbmnu {{ menu_active == 2 ? 'active' : '' }}" (click)="activeMenu(2)">
+    <li  routerLinkActive="active" class="hs_sbmnu {{ menu_active == 2 ? 'active' : '' }}" (click)="activeMenu(2, menu_active)">
       <div class="sd_mnuhd">
         <mat-icon>school</mat-icon> Classes
       </div>
@@ -56,7 +68,7 @@
         </li>
       </ul>
     </li>
-    <li  class="hs_sbmnu {{ menu_active == 3 ? 'active' : '' }}" (click)="activeMenu(3)">
+    <li  routerLinkActive="active" class="hs_sbmnu {{ menu_active == 3 ? 'active' : '' }}" (click)="activeMenu(3, menu_active)">
       <div class="sd_mnuhd">
         <mat-icon>cast_for_education</mat-icon> Webinars
       </div>
@@ -72,7 +84,7 @@
         </li>
       </ul>
     </li>
-    <li routerLink="/student/my-account">
+    <li  routerLinkActive="active" routerLink="/student/my-account">
       <div class="sd_mnuhd">
         <mat-icon>manage_accounts</mat-icon> My Account
       </div>

@@ -83,21 +83,20 @@ export class TopbarComponent implements OnInit {
   }
 
   getMenus() {
-    let params = { url: 'menu-submenu' };
+    let params = { url: 'get-menus' };
     this.authHttp.post(params).subscribe((res) => {
-      this.subMenus = res['pages'];
-      if (this.subMenus.length == 0) {
-        this.isCustomMenuShow = false;
-      }
+      this.menus = res['menus'];
     });
   }
-
+  
   changeSubmenu(menu_id) {
+    this.subMenus =[];
     let params = {
       url: 'sub-menu',
       parent_id: menu_id,
+      name: 'sub-menu'
     };
-    this.http.post(params).subscribe((res) => {
+    this.authHttp.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
     });
   }

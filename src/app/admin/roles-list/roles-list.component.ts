@@ -40,7 +40,7 @@ export class RolesListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public page = 0;
-  is_loaded = false;
+  is_loaded = true;
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -55,8 +55,9 @@ export class RolesListComponent implements OnInit {
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['roles']);
-        if (this.is_loaded == false) {
-          this.is_loaded = true;
+        if (this.is_loaded == true || true) {
+          this.is_loaded = false;
+          //alert();
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
@@ -88,7 +89,7 @@ export class RolesListComponent implements OnInit {
       } else {
         let message = res['errors']['role_name']
           ? res['errors']['role_name']
-          : res['message'];
+          : res['errors'];
         this.toster.error(message, 'Error', { closeButton: true });
       }
     });
@@ -111,7 +112,10 @@ export class RolesListComponent implements OnInit {
         this.edit_model_status = !this.edit_model_status;
         this.getRoles();
       } else {
-        this.toster.error(res['errors']['title'], res['message'], { closeButton: true });
+        let message = res['errors']['role_name']
+          ? res['errors']['role_name']
+          : res['errors'];
+        this.toster.error(message, 'Error', { closeButton: true });
       }
     });
   }
@@ -126,7 +130,9 @@ export class RolesListComponent implements OnInit {
         this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getRoles();
       } else {
-        this.toster.error(res['message'], res['message'], { closeButton: true });
+        this.toster.error(res['message'], res['message'], {
+          closeButton: true,
+        });
       }
     });
   }

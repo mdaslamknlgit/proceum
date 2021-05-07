@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonService } from '../../../services/common.service';
+import { CommonService } from '../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-settings',
-  templateUrl: './create-settings.component.html',
-  styleUrls: ['./create-settings.component.scss']
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.scss']
 })
-export class CreateSettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit {
 
   filedata: any;
-  imgMsg: any;
   imgMessage: any;
   gstin_check: boolean = true;
   email_check: boolean = true;
@@ -23,9 +22,12 @@ export class CreateSettingsComponent implements OnInit {
   url: any = "./assets/images/sample_logo.png";
   src: any;
   public model_status = false;
-  systemMode: any='live';
+  systemMode: any;
   organization_name_check:boolean;
   contact_name_check:boolean;
+  data:any;
+  id:string='';
+  ischecked:boolean;
   settings: any = {
     "organization_name": "",
     "contact_name": "",
@@ -48,7 +50,7 @@ export class CreateSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.src = this.url;
     this.getSystemMode();
-    this.systemMode = 'live';
+    this.getSettingsList();
   }
   fileEvent(e) {
     this.filedata = e.target.files;
@@ -78,11 +80,38 @@ export class CreateSettingsComponent implements OnInit {
       "url": 'get-system-mode'
     }
     this.http.post(params).subscribe((res) => {
-      this.systemMode = (res['sys_mode'].value) ? res['sys_mode'].value : "live";
+     // this.systemMode = (res['sys_mode'].value == "maintenance") ? true : false;
+     this.ischecked=(res['sys_mode'].value == "maintenance") ? true : false;
+    });
+  }
+  
+  getSettingsList() {
+    let param = { url: 'settings-list'};
+    this.http.post(param).subscribe((res: Response) => {
+      this.data=res['settings'].organization_name;
+      if(this.data){
+      this.settings = {
+        "organization_name": res['settings'].organization_name,
+        "contact_name": res['settings'].contact_name,
+        "gstin_number": res['settings'].gstin_number,
+        "contact_number_1": res['settings'].contact_number_1,
+        "contact_number_2":  (res['settings'].contact_number_2 == "null")?'':res['settings'].contact_number_2,
+        "contact_email_1": res['settings'].contact_email_1,
+        "contact_email_2":  (res['settings'].contact_email_2 == "null")?'':res['settings'].contact_email_2,
+        "full_address": res['settings'].full_address,
+        "date_format": res['settings'].date_format,
+        "time_format": res['settings'].time_format,
+        "list_view_limit": res['settings'].list_view_limit,
+        "theme_color": res['settings'].theme_color,
+        "copy_right": (res['settings'].copyright_text == "undefined")?'':res['settings'].copyright_text,
+      };
+      this.src = res['settings'].logo_path;
+      this.id = res['settings'].pk_id;
+    }
     });
   }
 
-  createSettings() {
+  saveSettings() {
     var myFormData = new FormData();
     let i=0;
     if (this.settings.organization_name.trim() !== "") {
@@ -107,24 +136,26 @@ export class CreateSettingsComponent implements OnInit {
       return;
     }
     //logo
-    if (this.filedata) {
-      let mimeType = this.filedata[0].type;
-      let size = this.filedata[0].size;
-      if (mimeType.match(/image\/*/) == null) {
-        this.imgMessage = "Only images are supported like jpg,png,jpeg.";
-        return;
-      }
+    
+      if (this.filedata) {
+        let mimeType = this.filedata[0].type;
+        let size = this.filedata[0].size;
+        if (mimeType.match(/image\/*/) == null) {
+          this.imgMessage = "Only images are supported like jpg,png,jpeg.";
+          return;
+        }
 
-      if (size >= 256000) {
-        this.imgMessage = "Logo must be less than 250kb";
-        return;
+        if (size >= 256000) {
+          this.imgMessage = "Logo must be less than 250kb";
+          return;
+        }
+        this.imgMessage = "";
+        myFormData.append('logo', this.filedata[0]);
+      }else if(this.id == ""){
+          this.imgMessage = "Please upload the logo";
+          return;
       }
-      this.imgMessage = "";
-      myFormData.append('logo', this.filedata[0]);
-    }else{
-      this.imgMessage = "Please upload the logo";
-        return;
-    }
+    
     let contact_email_2=(this.settings.contact_email_2)?this.settings.contact_email_2.trim():this.settings.contact_email_2;
     let contact_number_2=(this.settings.contact_number_2)?this.settings.contact_number_2.trim():this.settings.contact_number_2;
     let copy_right=(this.settings.copy_right)?this.settings.copy_right.trim():this.settings.copy_right;
@@ -140,6 +171,7 @@ export class CreateSettingsComponent implements OnInit {
     myFormData.append('list_view_limit', this.settings.list_view_limit);
     myFormData.append('theme_color', this.settings.theme_color);
     myFormData.append('copyright_text', copy_right);
+    myFormData.append('id', this.id);
 
     let param = {
       'url': 'create-settings'
@@ -148,46 +180,45 @@ export class CreateSettingsComponent implements OnInit {
       if (res['error'] == false) {
         this.toaster.success(res['message'], 'Success', { closeButton: true });
         this.src = this.url;
-        (<HTMLFormElement>document.getElementById('settings_form')).reset();
+        this.getSettingsList();
       } else {
         this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
   
-  toggleModel() {
-    if(this.systemMode=="live"){
-      this.updateSysMode();
+  openModel(e) {
+    if(e.checked == true){
+      this.systemMode=true;
+      this.ischecked=true;
+      this.model_status = true;
     }else{
-      this.model_status = !this.model_status;
+      this.systemMode=false;
+      this.ischecked=false;
+      this.updateSysMode();
     }
+  }
+  closeModel() {
+      this.model_status = false;
+      this.ischecked=false;
   }
 
   updateSysMode() {
-    if(this.systemMode!="live"){
-      this.model_status = !this.model_status;
-    }
+    let mode= (this.systemMode == true) ? "maintenance" : "live";
+    this.model_status =false;
     const user = JSON.parse(atob(sessionStorage.getItem('user')));
-    if (this.systemMode === "") {
-      this.mode_check = false;
-      return;
-    } else {
-      this.mode_check = true;
-    }
     let param = {
       'url': 'update-system-mode',
-      "mode": this.systemMode,
+      "mode": mode,
       "user_id": user.id
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.toaster.success(res['message'], 'Success', { closeButton: true });
-        (<HTMLFormElement>document.getElementById('settings_form')).reset();
         this.getSystemMode();
       } else {
         this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
-
 }

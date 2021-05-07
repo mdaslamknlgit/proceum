@@ -1,10 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+//import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
 import { CommonService } from 'src/app/services/common.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
-import { UploadAdapter } from 'src/app/admin/custom-pages/UploadAdapter';
+import { UploadAdapter } from '../../../classes/UploadAdapter';
 
 @Component({
   selector: 'app-create',
@@ -23,6 +24,9 @@ export class ManageTemplateComponent implements OnInit {
   public Editor = ClassicEditor;
   public title = '';
   htmlEditorConfig = {
+    toolbar: {
+      items: environment.ckeditor_toolbar,
+    },
     mediaEmbed: {
       previewsInData: true,
     },
@@ -87,7 +91,9 @@ export class ManageTemplateComponent implements OnInit {
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.isupdated = true;
-          this.toaster.success(res['message'], 'Success', { closeButton: true });
+          this.toaster.success(res['message'], 'Success', {
+            closeButton: true,
+          });
           this.close();
         } else {
           this.toaster.error(res['message'], 'Error', { closeButton: true });
@@ -98,7 +104,9 @@ export class ManageTemplateComponent implements OnInit {
       this.http.put(param).subscribe((res) => {
         if (res['error'] == false) {
           this.isupdated = true;
-          this.toaster.success(res['message'], 'Success', { closeButton: true });
+          this.toaster.success(res['message'], 'Success', {
+            closeButton: true,
+          });
           this.close();
         } else {
           this.toaster.error(res['message'], 'Error', { closeButton: true });

@@ -49,7 +49,6 @@ export class CustomPageListComponent implements OnInit {
 
   applyFilters() {
     let param = { url: 'custompage-list', "offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by, 'search_term': this.search };
-   console.log(param);
     this.http.post(param).subscribe((res) => {
       this.customPageList=res['customPage'];
       this.dataSource = new MatTableDataSource(res['customPage']);
