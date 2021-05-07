@@ -180,7 +180,6 @@ export class SettingsComponent implements OnInit {
       if (res['error'] == false) {
         this.toaster.success(res['message'], 'Success', { closeButton: true });
         this.src = this.url;
-        (<HTMLFormElement>document.getElementById('settings_form')).reset();
         this.getSettingsList();
       } else {
         this.toaster.error(res['message'], 'Error', { closeButton: true });
