@@ -20,16 +20,13 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { StudentComponent } from './student.component';
 
 const routes: Routes = [
+  
   {
     path: '',
     component: StudentComponent,
     children: [ {
     path: 'dashboard',
     component: DashboardComponent,
-  },
-  {
-    path: '',
-    component: IndexComponent,
   },
   {
     path: 'my-account',
