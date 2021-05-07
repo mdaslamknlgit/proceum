@@ -180,7 +180,6 @@ export class SettingsComponent implements OnInit {
       if (res['error'] == false) {
         this.toaster.success(res['message'], 'Success', { closeButton: true });
         this.src = this.url;
-        (<HTMLFormElement>document.getElementById('settings_form')).reset();
         this.getSettingsList();
       } else {
         this.toaster.error(res['message'], 'Error', { closeButton: true });
@@ -191,16 +190,17 @@ export class SettingsComponent implements OnInit {
   openModel(e) {
     if(e.checked == true){
       this.systemMode=true;
-      this.ischecked=!this.ischecked;
+      this.ischecked=true;
       this.model_status = true;
     }else{
       this.systemMode=false;
+      this.ischecked=false;
       this.updateSysMode();
     }
-    console.log(this.systemMode);
   }
   closeModel() {
       this.model_status = false;
+      this.ischecked=false;
   }
 
   updateSysMode() {

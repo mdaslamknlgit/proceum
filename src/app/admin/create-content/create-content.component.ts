@@ -26,8 +26,6 @@ export class CreateContentComponent implements OnInit {
     image: {
       upload: ['png'],
       toolbar: [
-        'imageTextAlternative',
-        '|',
         'imageStyle:alignLeft',
         'imageStyle:full',
         'imageStyle:alignRight',

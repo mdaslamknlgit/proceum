@@ -185,7 +185,9 @@
         active_route == '/admin/settings/email-templates' ||
         active_route == '/admin/countries' ||
         active_route == '/admin/settings' ||
-        active_route == '/admin/custom-page'
+        active_route == '/admin/custom-page' ||
+        active_route == '/admin/create-custom-page' ||
+        active_route == '/admin/edit-custom-page/:id'
           ? 'active'
           : ''
       }}"
@@ -220,7 +222,9 @@
         <li
           routerLink="/admin/custom-page"
           [ngClass]="{
-            active: active_route == '/admin/custom-page'
+            active: (active_route == '/admin/custom-page' ||
+            active_route == '/admin/create-custom-page' ||
+            active_route == '/admin/edit-custom-page/:id')
           }"
         >
           <mat-icon>note_add</mat-icon>Custom Pages

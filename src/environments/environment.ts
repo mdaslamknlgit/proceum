@@ -26,6 +26,7 @@ export const environment = {
     '|',
     //'imageUpload',
     'blockQuote',
+    '/',
     'insertTable',
     'undo',
     'redo',

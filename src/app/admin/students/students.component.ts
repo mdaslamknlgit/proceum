@@ -49,9 +49,12 @@ export class StudentsComponent implements OnInit {
   public tomindate:any;
   public is_todate:boolean=true;
   public is_submit:boolean=true;
+  public user_id:any;
   constructor(private http: CommonService, public dialog: MatDialog,private toastr: ToastrService,public datepipe: DatePipe) {}
   ngOnInit(): void {
     this.api_url = environment.apiUrl;
+    let user = this.http.getUser();
+    this.user_id = user.id;
     this.getStudents();
   }
   getStudents() {
