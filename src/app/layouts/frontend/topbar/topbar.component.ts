@@ -94,6 +94,7 @@ export class TopbarComponent implements OnInit {
     let params = {
       url: 'sub-menu',
       parent_id: menu_id,
+      name: 'sub-menu'
     };
     this.authHttp.post(params).subscribe((res) => {
       this.subMenus = res['pages'];

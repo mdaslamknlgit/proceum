@@ -1,8 +1,5 @@
 <div class="mn_dshbrd">
-  <div
-    class="cust_mdl_par cust_mdl_50p"
-    [ngClass]="{ cust_mdl_opn: model_status }"
-  >
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Add New State
@@ -13,17 +10,10 @@
       </div>
       <div class="tbbd_bdy">
         <div class="hgt_20"></div>
-        <form
-          id="create_state_form"
-          #create_state_form="ngForm"
-          name="state_form"
-          (ngSubmit)="saveState()"
-          novalidate
-        >
+        <form id="create_state_form" #create_state_form="ngForm" name="state_form" (ngSubmit)="saveState()" novalidate>
           <span class="text-right w_100p rqrd_txtinfo">
             All <span class="required">( * ) </span>marked fields are
-            mandatory</span
-          >
+            mandatory</span>
           <div class="hgt_20"></div>
           <div class="grd_2c no_bxsdw">
             <div class="frm_dvs">
@@ -35,13 +25,8 @@
               <a (click)="fileInput.click()" class="dsflx">
                 <mat-icon>upload_file</mat-icon> Import States CSV
               </a>
-              <input
-                hidden
-                type="file"
-                #fileInput
-                (change)="stateFileChange($event)"
-                (click)="fileInput.value = null"
-              />
+              <input hidden type="file" #fileInput (change)="stateFileChange($event)"
+                (click)="fileInput.value = null" />
             </div>
             <div class="frm_dvs">
               <span>&nbsp;</span>
@@ -52,27 +37,16 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="State Name"
-                      trim="blur"
-                      [(ngModel)]="state_name"
-                      name="state_name_name"
-                      #state_name_name="ngModel"
-                      maxlength="90"
+                    <input matInput placeholder="State Name" trim="blur" [(ngModel)]="state_name" name="state_name_name"
+                      #state_name_name="ngModel" maxlength="90"
                       onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                      required
-                    />
+                      required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (create_state_form.submitted ||
                         state_name_name.touched) &&
                       state_name_name.invalid
-                    "
-                    >State Name is Required</span
-                  >
+                    ">State Name is Required</span>
                 </span>
               </span>
             </div>
@@ -82,11 +56,7 @@
             Submit
           </button>
         </form>
-        <button
-          mat-raised-button
-          class="float_right mr_1 gry_btn"
-          (click)="toggleModel()"
-        >
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">
           Close
         </button>
         <div class="hgt_20"></div>
@@ -94,62 +64,37 @@
     </div>
   </div>
 
-  <div
-    class="cust_mdl_par cust_mdl_50p"
-    [ngClass]="{ cust_mdl_opn: model_state_status }"
-  >
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_state_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Edit State
         <span class="spacer"></span>
-        <button
-          mat-icon-button
-          (click)="toggleStateModel()"
-          class="float_right"
-        >
+        <button mat-icon-button (click)="toggleStateModel()" class="float_right">
           &#x2715;
         </button>
       </div>
       <div class="tbbd_bdy">
         <div class="hgt_20"></div>
-        <form
-          id="edit_state_form"
-          #edit_state_form="ngForm"
-          name="state_form"
-          (ngSubmit)="updateState()"
-          novalidate
-        >
+        <form id="edit_state_form" #edit_state_form="ngForm" name="state_form" (ngSubmit)="updateState()" novalidate>
           <div class="grd_2c no_bxsdw">
             <span class="text-right w_100p rqrd_txtinfo">
               All <span class="required">( * ) </span>marked fields are
-              mandatory</span
-            >
+              mandatory</span>
             <div class="hgt_20"></div>
             <div class="frm_dvs">
               <span> State Name<span class="required">*</span> </span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="State Name"
-                      [(ngModel)]="state_name"
-                      trim="blur"
-                      name="state_name_name"
+                    <input matInput placeholder="State Name" [(ngModel)]="state_name" trim="blur" name="state_name_name"
                       #state_name_name="ngModel"
                       onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                      maxlength="90"
-                      required
-                    />
+                      maxlength="90" required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_state_form.submitted || state_name_name.touched) &&
                       state_name_name.invalid
-                    "
-                    >State Name is Required</span
-                  >
+                    ">State Name is Required</span>
                 </span>
               </span>
             </div>
@@ -159,11 +104,7 @@
             Submit
           </button>
         </form>
-        <button
-          mat-raised-button
-          class="float_right mr_1 gry_btn"
-          (click)="toggleStateModel()"
-        >
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleStateModel()">
           Close
         </button>
         <div class="hgt_20"></div>
@@ -174,38 +115,22 @@
   <div class="brd_crm">
     Proceum &nbsp;&raquo;&nbsp;<a routerLink="/admin/countries">{{
       country_name
-    }}</a
-    >&nbsp;&raquo;States
+      }}</a>&nbsp;&raquo;States
   </div>
   <div class="pg_ttl">States</div>
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input
-        matInput
-        placeholder="Search"
-        [(ngModel)]="search_txt"
-        (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
-      />
+      <input matInput placeholder="Search" [(ngModel)]="search_txt"
+        (keyup)="$event.keyCode == 13 ? applyFilters() : ''" />
       <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
     </mat-form-field>
-    <button
-      mat-raised-button
-      color="accent"
-      class="float_right mt_0 margin-bottom_20"
-      type="button"
-      (click)="toggleModel()"
-    >
+    <button mat-raised-button color="accent" class="float_right mt_0 margin-bottom_20" type="button"
+      (click)="toggleModel()">
       Add New State
     </button>
     <div class="rsp_tbl">
-      <table
-        mat-table
-        (matSortChange)="sortData($event)"
-        [dataSource]="dataSource"
-        class="mat-elevation-z8"
-        matSort
-      >
+      <table mat-table (matSortChange)="sortData($event)" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="pk_id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
           <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
@@ -213,11 +138,8 @@
         <ng-container matColumnDef="state_name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>State Name</th>
           <td mat-cell *matCellDef="let element">
-            <span
-              (click)="navigateTo(element.country_id, element.state_id)"
-              class="lnk_nav"
-              >{{ element.state_name }}</span
-            >
+            <span (click)="navigateTo(element.country_id, element.state_id)" class="lnk_nav">{{ element.state_name
+              }}</span>
           </td>
         </ng-container>
         <ng-container matColumnDef="country_name">
@@ -229,45 +151,29 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
           <td mat-cell *matCellDef="let element">
-            <span
-              matTooltip="Current Status is {{
+            <span matTooltip="Current Status is {{
                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-              }}"
-              class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}"
-              >{{ element.status == 1 ? "Active" : "Inactive" }}</span
-            >
+              }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+              "Inactive" }}</span>
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <th mat-header-cell *matHeaderCellDef class="text_center">Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button>
-              <mat-icon
-                matTooltip="click here to edit State"
-                (click)="openEditModel(element)"
-                >edit</mat-icon
-              >
+              <mat-icon matTooltip="click here to edit State" (click)="openEditModel(element)">edit</mat-icon>
             </button>
             <!-- <button mat-icon-button (click)="changeStatus(element.state_id,'ST')">
                         <mat-icon matTooltip='click here to {{ element.status == 1 ? "IN-ACTIVE" : "ACTIVE"}}' >{{ element.status == 1 ? "visibility" : "visibility_off"}}</mat-icon>
                     </button> -->
-            <button
-              matTooltip="click here to {{
+            <button matTooltip="click here to {{
                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
-              }}"
-              mat-icon-button
-              mwlConfirmationPopover
-              [popoverTitle]="'Are you sure?'"
-              [popoverMessage]="
+              }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                 'are you sure to change status of <b>' +
                 element.state_name +
                 '</b> State'
-              "
-              placement="auto"
-              (confirm)="changeStatus(element.state_id, 'ST')"
-              confirmButtonType="danger"
-              cancelButtonType="outline-secondary"
-            >
+              " placement="auto" (confirm)="changeStatus(element.state_id, 'ST')" confirmButtonType="danger"
+              cancelButtonType="outline-secondary">
               <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
               <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
             </button>
@@ -281,13 +187,7 @@
         </tr>
       </table>
     </div>
-    <mat-paginator
-      #paginator
-      [pageSize]="pageSize"
-      [length]="num_states"
-      [pageSizeOptions]="page_size_options"
-      [showFirstLastButtons]="true"
-      (page)="getServerData($event)"
-    ></mat-paginator>
+    <mat-paginator #paginator [pageSize]="pageSize" [length]="num_states" [pageSizeOptions]="page_size_options"
+      [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>
