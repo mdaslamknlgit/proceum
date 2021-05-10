@@ -2,41 +2,22 @@
   <button mat-icon-button (click)="toggleSidemenu('hello')" class="hmbrg_btn">
     <img src="./assets/images/hamburg-icon.svg" />
   </button>
-  <span class="logo_spn" routerLink="/"
-    ><img src="./assets/images/ProceumLogo.png"
-  /></span>
+  <span class="logo_spn" routerLink="/"><img src="./assets/images/ProceumLogo.png" /></span>
   <span class="spacer"></span>
   <!-- <div class="nav" [ngClass]="{ menu_open: isOpen }"> -->
-    <span
-      mat-list-item
-      class="tp_rt_mn"
-      routerLink="/"
-      routerLinkActive="active"
-      >
-      <mat-icon>home</mat-icon>
-      <span>Home</span>
-      
-      </span>
-    <span *ngIf="!user['id']"
-      mat-list-item
-      class="tp_rt_mn"
-      routerLink="/about-us"
-      routerLinkActive="active"
-      >About Us</span
-    >
-    <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
-    <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
-    <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
-      >Register Trail</span
-    >
-    <span *ngIf="!user['name']"
-      mat-list-item
-      class="tp_rt_mn"
-      routerLink="/contact-us"
-      routerLinkActive="active"
-      >Contact Us</span
-    >
-    <!-- <span
+  <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active">
+    <mat-icon>home</mat-icon>
+    <span>Home</span>
+
+  </span>
+  <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About
+    Us</span>
+  <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
+  <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
+  <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn">Register Trail</span>
+  <span *ngIf="!user['name']" mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact
+    Us</span>
+  <!-- <span
         mat-list-item
         [matMenuTriggerFor]="appMenu"
         class="tp_rt_mn"
@@ -44,7 +25,7 @@
         (click)="changeSubmenu(menu.pk_id)"
         >{{ menu.name }}</span
       > -->
-    <!-- <span
+  <!-- <span
         mat-list-item
         [matMenuTriggerFor]="appMenu"
         class="tp_rt_mn"
@@ -60,16 +41,16 @@
           {{ subMenu.name }}
         </button>
       </mat-menu> -->
-  
+
   <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
 
   <span *ngIf="user['name']" mat-list-item class="tp_rt_mn">
     <mat-icon>face</mat-icon>
-    <span> {{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  </span>
+    <span> {{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span> </span>
   </span>
-  
-    <span *ngIf="user['name']" (click)="logout()" class="tp_rt_mn"
-      ><mat-icon>logout</mat-icon>
+
+  <span *ngIf="user['name']" (click)="logout()" class="tp_rt_mn">
+    <mat-icon>logout</mat-icon>
     <span>Logout</span>
   </span>
   <!-- </div> -->
