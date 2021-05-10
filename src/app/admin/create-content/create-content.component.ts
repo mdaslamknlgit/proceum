@@ -2,7 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import * as Editor from '../../../assets/ckeditor5/build/ckeditor';
+import Clipboard from '@ckeditor/ckeditor5-clipboard/src/clipboard';
 import { UploadAdapter } from '../../classes/UploadAdapter';
+import { CommonService } from 'src/app/services/common.service';
+
 //import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
 @Component({
   selector: 'app-create-content',
@@ -11,11 +14,11 @@ import { UploadAdapter } from '../../classes/UploadAdapter';
 })
 export class CreateContentComponent implements OnInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
-  constructor() {}
+  constructor(private http: CommonService) {}
 
   public Editor = Editor;
   ngOnInit(): void {
-    //console.log(this.Editor.ui.componentFactory.names());
+    this.getAllFiles();
   }
   editorConfig = {
     Plugins: [],
@@ -49,5 +52,12 @@ export class CreateContentComponent implements OnInit {
       var data = new UploadAdapter(loader, apiUrl + 'upload');
       return data;
     };
+  }
+
+  getAllFiles() {
+    let param = { url: 'get-all-files' };
+    this.http.post(param).subscribe((res) => {
+      console.log(res);
+    });
   }
 }
