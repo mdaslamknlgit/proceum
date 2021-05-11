@@ -51,8 +51,8 @@ export const environment = {
     //'htmlSource',
   ],
   // apiUrl: 'http://192.168.0.12:8080/api/',
- // apiUrl: 'http://192.10.250.150:8000/api/',
-   apiUrl: 'https://apiqa.proceum.com/api/',
+ apiUrl: 'http://192.10.250.106:8000/api/',
+  //  apiUrl: 'https://apiqa.proceum.com/api/',
 };
 
 /*

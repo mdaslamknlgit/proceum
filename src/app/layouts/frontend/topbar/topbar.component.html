@@ -17,14 +17,14 @@
     <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
 
     <span mat-list-item class="tp_rt_mn" routerLinkActive="active">Blog</span>
-    <span
+   <span *ngFor="let menu of menus"> 
+     <span
+      *ngIf="menu.subMenus.length>0"
         mat-list-item
         [matMenuTriggerFor]="appMenu"
         class="tp_rt_mn"
         [class]="activeClass"
-        *ngFor="let menu of menus"
         routerLinkActive="active"
-        (click)="changeSubmenu(menu.pk_id)"
         >{{ menu.name }}</span
       >
     <!-- <span
@@ -38,13 +38,15 @@
     <mat-menu #appMenu="matMenu" class="dynamic_menu_cls" >
       <button
         mat-menu-item
-        *ngFor="let subMenu of subMenus"
+        *ngFor="let subMenu of menu.subMenus"
         routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
       >
         {{ subMenu.name }}
       </button>
     </mat-menu>
+  </span>
     <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
+  
   </div>
 
   <!-- <div class="lg_inbtn" *ngIf="user['name']">
