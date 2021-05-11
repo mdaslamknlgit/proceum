@@ -55,7 +55,7 @@ export class CreateContentComponent implements OnInit {
   }
 
   getAllFiles() {
-    let param = { url: 'get-all-files' };
+    let param = { url: 'get-file-details', path: 'favicon.jpg' };
     this.http.post(param).subscribe((res) => {
       console.log(res);
     });
