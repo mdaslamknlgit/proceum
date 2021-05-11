@@ -34,6 +34,8 @@ import { InputTrimModule } from 'ng2-trim-directive';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
@@ -67,6 +69,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     NgxMatSelectSearchModule,
     MatStepperModule,
     MatSlideToggleModule,
+    MatChipsModule
   ],
   exports: [
     MatInputModule,
@@ -103,6 +106,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     NgxMatSelectSearchModule,
     MatStepperModule,
     MatSlideToggleModule,
+    MatChipsModule
   ],
 })
 export class MaterialModule {}
