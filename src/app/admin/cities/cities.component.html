@@ -1,8 +1,5 @@
 <div class="mn_dshbrd">
-  <div
-    class="cust_mdl_par cust_mdl_50p"
-    [ngClass]="{ cust_mdl_opn: model_status }"
-  >
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Add New City
@@ -12,13 +9,7 @@
         </button>
       </div>
       <div class="tbbd_bdy">
-        <form
-          id="create_city_form"
-          #create_city_form="ngForm"
-          name="city_form"
-          (ngSubmit)="saveCity()"
-          novalidate
-        >
+        <form id="create_city_form" #create_city_form="ngForm" name="city_form" (ngSubmit)="saveCity()" novalidate>
           <div class="grd_2c no_bxsdw">
             <div class="frm_dvs">
               <span>Selected State</span>
@@ -29,13 +20,7 @@
               <a (click)="fileInput.click()" class="dsflx">
                 <mat-icon>upload_file</mat-icon> Import Cities CSV
               </a>
-              <input
-                hidden
-                type="file"
-                #fileInput
-                (change)="cityFileChange($event)"
-                (click)="fileInput.value = null"
-              />
+              <input hidden type="file" #fileInput (change)="cityFileChange($event)" (click)="fileInput.value = null" />
             </div>
             <div class="frm_dvs">
               <span>&nbsp;</span>
@@ -46,26 +31,15 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="City Name"
-                      [(ngModel)]="city_name"
-                      name="city_name_name"
-                      maxlength="90"
+                    <input matInput placeholder="City Name" [(ngModel)]="city_name" name="city_name_name" maxlength="90"
                       trim="blur"
                       onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                      #city_name_name="ngModel"
-                      required
-                    />
+                      #city_name_name="ngModel" required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (create_city_form.submitted || city_name_name.touched) &&
                       city_name_name.invalid
-                    "
-                    >City Name is Required</span
-                  >
+                    ">City Name is Required</span>
                 </span>
               </span>
             </div>
@@ -75,11 +49,7 @@
             Submit
           </button>
         </form>
-        <button
-          mat-raised-button
-          class="float_right mr_1 gry_btn"
-          (click)="toggleModel()"
-        >
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">
           Close
         </button>
         <div class="hgt_20"></div>
@@ -87,10 +57,7 @@
     </div>
   </div>
 
-  <div
-    class="cust_mdl_par cust_mdl_50p"
-    [ngClass]="{ cust_mdl_opn: model_edit_status }"
-  >
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_edit_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Edit City
@@ -101,13 +68,7 @@
       </div>
       <div class="tbbd_bdy">
         <div class="hgt_20"></div>
-        <form
-          id="edit_city_form"
-          #edit_city_form="ngForm"
-          name="city_form"
-          (ngSubmit)="updateCity()"
-          novalidate
-        >
+        <form id="edit_city_form" #edit_city_form="ngForm" name="city_form" (ngSubmit)="updateCity()" novalidate>
           <div class="grd_2c no_bxsdw">
             <div class="hgt_10"></div>
             <div class="frm_dvs">
@@ -115,26 +76,15 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="City Name"
-                      [(ngModel)]="city_name"
-                      name="city_name_name"
-                      #city_name_name="ngModel"
-                      maxlength="90"
-                      trim="blur"
+                    <input matInput placeholder="City Name" [(ngModel)]="city_name" name="city_name_name"
+                      #city_name_name="ngModel" maxlength="90" trim="blur"
                       onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                      required
-                    />
+                      required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_city_form.submitted || city_name_name.touched) &&
                       city_name_name.invalid
-                    "
-                    >City Name is Required</span
-                  >
+                    ">City Name is Required</span>
                 </span>
               </span>
             </div>
@@ -144,11 +94,7 @@
             Submit
           </button>
         </form>
-        <button
-          mat-raised-button
-          class="float_right mr_1 gry_btn"
-          (click)="toggleCityModel()"
-        >
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleCityModel()">
           Close
         </button>
         <div class="hgt_20"></div>
@@ -159,39 +105,23 @@
   <div class="brd_crm">
     Proceum &nbsp;&raquo;&nbsp;
     <a routerLink="/admin/countries">{{ country_name }}</a> &nbsp;&raquo;&nbsp;
-    <a routerLink="/admin/countries/{{ country_id }}">{{ state_name }}</a
-    >&nbsp;&raquo;Cities
+    <a routerLink="/admin/countries/{{ country_id }}">{{ state_name }}</a>&nbsp;&raquo;Cities
   </div>
   <div class="pg_ttl">Cities</div>
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input
-        matInput
-        placeholder="Search"
-        [(ngModel)]="search_txt"
-        (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
-      />
+      <input matInput placeholder="Search" [(ngModel)]="search_txt"
+        (keyup)="$event.keyCode == 13 ? applyFilters() : ''" />
       <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
     </mat-form-field>
-    <button
-      mat-raised-button
-      color="accent"
-      class="float_right mt_0 margin-bottom_20"
-      type="button"
-      (click)="toggleModel()"
-    >
+    <button mat-raised-button color="accent" class="float_right mt_0 margin-bottom_20" type="button"
+      (click)="toggleModel()">
       Add New City
     </button>
 
     <div class="rsp_tbl">
-      <table
-        mat-table
-        (matSortChange)="sortData($event)"
-        [dataSource]="dataSource"
-        class="mat-elevation-z8"
-        matSort
-      >
+      <table mat-table (matSortChange)="sortData($event)" [dataSource]="dataSource" class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="pk_id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
           <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
@@ -213,45 +143,29 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
           <td mat-cell *matCellDef="let element">
-            <span
-              matTooltip="Current Status is {{
+            <span matTooltip="Current Status is {{
                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-              }}"
-              class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}"
-              >{{ element.status == 1 ? "Active" : "Inactive" }}</span
-            >
+              }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+              "Inactive" }}</span>
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef class="text_center">Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button>
-              <mat-icon
-                matTooltip="click here to edit City"
-                (click)="openEditModel(element)"
-                >edit</mat-icon
-              >
+              <mat-icon matTooltip="click here to edit City" (click)="openEditModel(element)">edit</mat-icon>
             </button>
             <!-- <button mat-icon-button (click)="changeStatus(element.city_id,'CT')">
                         <mat-icon matTooltip='click here to {{ element.status == 1 ? "IN-ACTIVE" : "ACTIVE"}}'>{{ element.status == 1 ? "visibility" : "visibility_off"}}</mat-icon>
                     </button> -->
-            <button
-              matTooltip="click here to {{
+            <button matTooltip="click here to {{
                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
-              }}"
-              mat-icon-button
-              mwlConfirmationPopover
-              [popoverTitle]="'Are you sure?'"
-              [popoverMessage]="
+              }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                 'are you sure to change status of <b>' +
                 element.city_name +
                 '</b> City'
-              "
-              placement="auto"
-              (confirm)="changeStatus(element.city_id, 'CT')"
-              confirmButtonType="danger"
-              cancelButtonType="outline-secondary"
-            >
+              " placement="auto" (confirm)="changeStatus(element.city_id, 'CT')" confirmButtonType="danger"
+              cancelButtonType="outline-secondary">
               <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
               <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
             </button>
@@ -261,23 +175,13 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-          <td
-            style="text-align: center; margin: 20px"
-            class="mat-cell"
-            colspan="6"
-          >
+          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">
             No Records Found
           </td>
         </tr>
       </table>
     </div>
-    <mat-paginator
-      #paginator
-      [pageSize]="pageSize"
-      [length]="num_cities"
-      [pageSizeOptions]="page_size_options"
-      [showFirstLastButtons]="true"
-      (page)="getServerData($event)"
-    ></mat-paginator>
+    <mat-paginator #paginator [pageSize]="pageSize" [length]="num_cities" [pageSizeOptions]="page_size_options"
+      [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>
