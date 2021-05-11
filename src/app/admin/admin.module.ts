@@ -62,7 +62,7 @@ const routes: Routes = [
         component: LoginHistoryComponent,
       },
       {
-        path: 'assets-library',
+        path: 'assets-library/:files',
         component: AssetsLibraryComponent,
       },
       {
