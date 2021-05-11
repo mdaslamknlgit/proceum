@@ -38,6 +38,7 @@ import { DatePipe } from '@angular/common';
 import { AdminComponent } from './admin.component';
 import { CustomRouteReuseStategy } from '../classes/reuse-strategy';
 import { CreateContentComponent } from './create-content/create-content.component';
+import { AssetsLibraryComponent } from './assets-library/assets-library.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,10 @@ const routes: Routes = [
       {
         path: 'login-history',
         component: LoginHistoryComponent,
+      },
+      {
+        path: 'assets-library/:files',
+        component: AssetsLibraryComponent,
       },
       {
         path: 'settings/email-templates',
@@ -113,7 +118,7 @@ const routes: Routes = [
       },
       { path: 'newsletter-list', component: NewsletterListComponent },
       { path: 'settings', component: SettingsComponent },
-     
+
       { path: 'custom-page', component: CustomPageListComponent },
       { path: 'create-custom-page', component: CreateCustomPagesComponent },
       { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
@@ -145,6 +150,7 @@ const routes: Routes = [
     CustomPageListComponent,
     EditCustomPagesComponent,
     CreateContentComponent,
+    AssetsLibraryComponent,
   ],
   imports: [
     MaterialModule,

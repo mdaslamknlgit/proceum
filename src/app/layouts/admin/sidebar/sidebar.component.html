@@ -92,16 +92,29 @@
       </div>
     </li>-->
     <li
-      class="hs_sbmnu {{ menu_active == 3 ? 'active' : '' }}"
+      class="hs_sbmnu {{
+        menu_active == 3 || active_route.includes('/admin/assets-library')
+          ? 'active'
+          : ''
+      }}"
       (click)="activeMenu(3, menu_active)"
     >
       <div class="sd_mnuhd">
         <mat-icon>corporate_fare</mat-icon> Assets Library
       </div>
       <ul class="sdmn_sub">
-        <li><mat-icon>play_circle_outline</mat-icon>Videos</li>
-        <li><mat-icon>wallpaper</mat-icon>Images</li>
-        <li><mat-icon>text_snippet</mat-icon>Documents</li>
+        <li routerLinkActive="active" routerLink="/admin/assets-library/videos">
+          <mat-icon>play_circle_outline</mat-icon>Videos
+        </li>
+        <li routerLinkActive="active" routerLink="/admin/assets-library/images">
+          <mat-icon>wallpaper</mat-icon>Images
+        </li>
+        <li
+          routerLinkActive="active"
+          routerLink="/admin/assets-library/documents"
+        >
+          <mat-icon>text_snippet</mat-icon>Documents
+        </li>
       </ul>
     </li>
     <li routerLinkActive="active" (click)="menu_active = 0">
@@ -222,9 +235,10 @@
         <li
           routerLink="/admin/custom-page"
           [ngClass]="{
-            active: (active_route == '/admin/custom-page' ||
-            active_route == '/admin/create-custom-page' ||
-            active_route == '/admin/edit-custom-page/:id')
+            active:
+              active_route == '/admin/custom-page' ||
+              active_route == '/admin/create-custom-page' ||
+              active_route == '/admin/edit-custom-page/:id'
           }"
         >
           <mat-icon>note_add</mat-icon>Custom Pages

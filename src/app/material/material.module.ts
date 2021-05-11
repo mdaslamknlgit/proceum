@@ -35,6 +35,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatChipsModule} from '@angular/material/chips';
+
 
 @NgModule({
   declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
@@ -69,6 +71,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatStepperModule,
     MatSlideToggleModule,
     MatAutocompleteModule,
+    MatChipsModule
   ],
   exports: [
     MatInputModule,
@@ -106,6 +109,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatStepperModule,
     MatSlideToggleModule,
     MatAutocompleteModule,
+    MatChipsModule
   ],
 })
 export class MaterialModule {}
