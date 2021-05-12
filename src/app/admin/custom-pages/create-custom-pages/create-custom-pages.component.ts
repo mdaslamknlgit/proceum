@@ -38,6 +38,12 @@ export class CreateCustomPagesComponent implements OnInit {
   htmlEditorConfig = {
     toolbar: {
       items: environment.ckeditor_toolbar,
+      table: {
+        contentToolbar: [
+            'tableColumn', 'tableRow', 'mergeTableCells',
+            'tableProperties', 'tableCellProperties'
+        ],
+    }
     },
     mediaEmbed: {
       previewsInData: true,

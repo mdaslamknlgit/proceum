@@ -103,7 +103,7 @@ export class SettingsComponent implements OnInit {
         "time_format": res['settings'].time_format,
         "list_view_limit": res['settings'].list_view_limit,
         "theme_color": res['settings'].theme_color,
-        "copy_right": (res['settings'].copyright_text == "undefined")?'':res['settings'].copyright_text,
+        "copy_right": (res['settings'].copyright_text == "undefined" ||res['settings'].copyright_text == "null")?'':res['settings'].copyright_text,
       };
       this.src = res['settings'].logo_path;
       this.id = res['settings'].pk_id;
@@ -210,7 +210,8 @@ export class SettingsComponent implements OnInit {
     let param = {
       'url': 'update-system-mode',
       "mode": mode,
-      "user_id": user.id
+      "user_id": user.id,
+      "role_id":user.role
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

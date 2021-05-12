@@ -34,6 +34,7 @@ import { InputTrimModule } from 'ng2-trim-directive';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
 
 
@@ -69,6 +70,7 @@ import {MatChipsModule} from '@angular/material/chips';
     NgxMatSelectSearchModule,
     MatStepperModule,
     MatSlideToggleModule,
+    MatAutocompleteModule,
     MatChipsModule
   ],
   exports: [
@@ -106,6 +108,7 @@ import {MatChipsModule} from '@angular/material/chips';
     NgxMatSelectSearchModule,
     MatStepperModule,
     MatSlideToggleModule,
+    MatAutocompleteModule,
     MatChipsModule
   ],
 })

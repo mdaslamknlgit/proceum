@@ -2,7 +2,7 @@
 <div class="login_main inner-container" *ngIf="!is_show">
   <div class="log_mdl_cont">
     <!-- Choose account section -->
-    <div class="log_div text_center"  *ngIf="is_account_type">
+    <div class="log_div text_center" *ngIf="is_account_type">
       <!-- <h2 class="clr_wht fnt_nrml wlcm_hd">Welcome to Proceum</h2> -->
       <div class="sgn_sec">
         <p class="sgn_hd">Choose the account type <br>
@@ -21,7 +21,7 @@
               <span>(We are an College offer courses)</span>
             </div>
           </div>
-          <div class="right_block_reg" >
+          <div class="right_block_reg">
             <div class="account_type" (click)="registrationForm('institution')">
               <mat-icon>supervised_user_circle</mat-icon>
               <div class="acc_title">Institution</div>
@@ -35,11 +35,11 @@
           </div>
         </div>
 
-        
+
 
 
       </div>
-      
+
 
     </div>
 
@@ -47,11 +47,13 @@
     <div class="log_div text_center" *ngIf="is_induvidual">
       <!-- <h2 class="clr_wht fnt_nrml wlcm_hd">Welcome to Proceum</h2> -->
       <div class="sgn_sec">
-        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back <mat-icon>arrow_back</mat-icon></span> Individual user</p>
+        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back <mat-icon>arrow_back</mat-icon>
+          </span> Individual user</p>
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
         <!-- <form #register_id="ngForm" name="register_form" (ngSubmit)="doRegistration()" novalidate> -->
         <mat-horizontal-stepper [linear]="isLinear" #stepper>
           <mat-step [stepControl]="firstFormGroup" label="Basic details">
+            <div class="hgt_20"></div>
             <div class="reg_container">
               <div class="left_block_reg">
                 <!-- <div class="fir_name {{ register_id.submitted && register.first_name == '' ? 'err_tltp_par' : ''}}">
@@ -63,24 +65,36 @@
                   <span class="prc_tltp" *ngIf="register_id.submitted && (register.email == '' || user_email.invalid || email_check == false)">{{email_error}}</span>
                 </div> -->
                 <div class="fir_name">
-                  <input type="text" placeholder="First Name" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="First Name">
+                  </mat-form-field>
                 </div>
                 <div class="mail">
-                  <input type="text" placeholder="Email address" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Email address">
+                  </mat-form-field>
                 </div>
                 <div class="phone">
-                  <input type="text" placeholder="Phone" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Phone">
+                  </mat-form-field>
                 </div>
                 <div class="mail">
-                  <input type="text" placeholder="Profession" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Profession">
+                  </mat-form-field>
                 </div>
                 <div class="mail">
-                  <input type="text" placeholder="Company name" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Company name">
+                  </mat-form-field>
                 </div>
               </div>
               <div class="right_block_reg">
                 <!-- <div class="last_name {{ register_id.submitted && register.last_name == '' ? 'err_tltp_par' : ''}}">
-                  <input type="text" required [(ngModel)]="register.last_name" name="user_lastname" autocomplete="off" maxlength="30" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' #user_lastname="ngModel" placeholder="Last Name" ngModel/>
+                  <mat-form-field appearance="legacy">
+                  <input matInput required [(ngModel)]="register.last_name" name="user_lastname" autocomplete="off" maxlength="30" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' #user_lastname="ngModel" placeholder="Last Name" ngModel/>
+                  </mat-form-field>
                   <span class="prc_tltp" *ngIf="register_id.submitted && register.last_name == ''">{{last_name}}</span>
                 </div>
                 <div class="psswrd {{ register_id.submitted && (register.confirm_pwd == '' || confirm_check == false) ? 'err_tltp_par' : ''}}">
@@ -92,17 +106,23 @@
                   <span class="prc_tltp" *ngIf="register_id.submitted && (register.password == '' || password_check == false)">{{password_error}}</span>
                 </div> -->
                 <div class="last_name">
-                  <input type="text"  placeholder="Last Name" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Last Name">
+                  </mat-form-field>
                 </div>
                 <div class="psswrd">
-                  <input type="password"  placeholder="Password" >
+                  <input type="password" placeholder="Password">
                 </div>
                 <div class="mail">
-                  <input type="text"  placeholder="Qualification" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Qualification">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="University/College" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="University/College">
+                  </mat-form-field>
                 </div>
               </div>
             </div>
@@ -113,39 +133,55 @@
           <mat-step [stepControl]="secondFormGroup" label="Address details">
             <div class="reg_container">
               <div class="left_block_reg">
-    
+
                 <div class="fir_name">
-                    <input type="text" placeholder="Year of study" ngModel/>
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Year of study" ngModel />
+                  </mat-form-field>
                 </div>
-                
+
                 <div class="mail">
-                  <input type="text" placeholder="Address line 2"  required/>
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address line 2" required />
+                  </mat-form-field>
                 </div>
 
                 <div class="phone">
-                  <input type="text"  placeholder="City" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="City">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Country" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Country">
+                  </mat-form-field>
                 </div>
-                
+
               </div>
               <div class="right_block_reg">
                 <div class="last_name">
-                  <input type="text" placeholder="Address line 1" ngModel/>
-                </div>
-                
-                <div class="mail">
-                  <input type="text"  placeholder="Landmark" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address line 1" ngModel />
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="State/Province" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Landmark">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Zip code" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="State/Province">
+                  </mat-form-field>
+                </div>
+
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Zip code">
+                  </mat-form-field>
                 </div>
               </div>
             </div>
@@ -184,13 +220,13 @@
           </div>
         </div>
 
-        
-            <!-- <div class="login_btns">
+
+        <!-- <div class="login_btns">
               <input type="button" class="teal_btn sign_btn-2 lgn_btn" value="Login" routerLink="/register">
               <button type="submit" class="teal_btn sign_btn lgn_btn">Register</button>
             </div> -->
-        
-      <!-- </form> -->
+
+        <!-- </form> -->
 
 
         <!-- <div class="or_signin_with">
@@ -218,46 +254,58 @@
     <!-- Institution login form -->
     <div class="log_div text_center" *ngIf="is_institution">
       <div class="sgn_sec">
-        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back <mat-icon>arrow_back</mat-icon></span> Institution</p>
+        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back <mat-icon>arrow_back</mat-icon>
+          </span> Institution</p>
 
         <!-- <form #register_id="ngForm" name="register_form" (ngSubmit)="doRegistration()" novalidate> -->
         <mat-horizontal-stepper [linear]="isLinear" #stepper>
           <mat-step [stepControl]="firstFormGroup" label="Institution details">
             <div class="reg_container">
               <div class="left_block_reg">
-    
-                <div class="mail">
-                  <input type="text"  placeholder="Institution name" >
-                </div>
-                
-                <div class="mail">
-                  <input type="text"  placeholder="Institution code" >
-                </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Contact person’s name" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Institution name">
+                  </mat-form-field>
                 </div>
-
                 <div class="mail">
-                  <input type="text"  placeholder="Email address*" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Institution code">
+                  </mat-form-field>
                 </div>
-                
-                
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Contact person’s name">
+                  </mat-form-field>
+                </div>
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Email address*">
+                  </mat-form-field>
+                </div>
               </div>
               <div class="right_block_reg">
                 <div class="mail">
-                  <input type="text"  placeholder="Agent company phone number" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Agent company phone number">
+                  </mat-form-field>
                 </div>
                 <div class="mail">
-                  <input type="text"  placeholder="Phone" >
-                </div>
-           
-                <div class="mail">
-                  <input type="text"  placeholder="Total No.of Students" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Phone">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Password*" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Total No.of Students">
+                  </mat-form-field>
+                </div>
+
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Password*">
+                  </mat-form-field>
                 </div>
               </div>
             </div>
@@ -266,47 +314,68 @@
             </div>
           </mat-step>
           <mat-step [stepControl]="secondFormGroup" label="Address details">
+            <div class="hgt_20"></div>
             <div class="reg_container">
               <div class="left_block_reg">
-                <div class="fir_name"> 
-                    <input type="text" placeholder="Affiliated university name" ngModel/> 
+                <div class="fir_name">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Affiliated university name" ngModel />
+                  </mat-form-field>
                 </div>
                 <div class="mail">
-                  <input type="text" placeholder="Address"  required/>
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address" required />
+                  </mat-form-field>
                 </div>
 
                 <div class="phone">
-                  <input type="text"  placeholder="Address line 2" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address line 2">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="City" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="City">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Country" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Country">
+                  </mat-form-field>
                 </div>
-                
+
               </div>
               <div class="right_block_reg">
                 <div class="last_name">
-                  <input type="text" placeholder="Affiliated university code" ngModel/>
-                </div>
-                
-                <div class="mail">
-                  <input type="text"  placeholder="Address line 1" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Affiliated university code" ngModel />
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Landmark" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address line 1">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="State/Province" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Landmark">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Zip code" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="State/Province">
+                  </mat-form-field>
+                </div>
+
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Zip code">
+                  </mat-form-field>
                 </div>
               </div>
             </div>
@@ -326,59 +395,76 @@
         </mat-horizontal-stepper>
 
 
-        
-      <!-- </form> -->
+
+        <!-- </form> -->
 
 
 
       </div>
- 
+
 
     </div>
 
     <!-- College login form -->
-    <div class="log_div text_center" *ngIf="is_college"> 
+    <div class="log_div text_center" *ngIf="is_college">
       <div class="sgn_sec">
-        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back <mat-icon>arrow_back</mat-icon></span> College</p>
+        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back <mat-icon>arrow_back</mat-icon>
+          </span> College</p>
 
         <!-- <form #register_id="ngForm" name="register_form" (ngSubmit)="doRegistration()" novalidate> -->
         <mat-horizontal-stepper [linear]="isLinear" #stepper>
           <mat-step [stepControl]="firstFormGroup" label="College details">
             <div class="reg_container">
               <div class="left_block_reg">
-    
+
                 <div class="mail">
-                  <input type="text"  placeholder="College name" >
-                </div>
-                
-                <div class="mail">
-                  <input type="text"  placeholder="College code" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="College name">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Contact person’s name" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="College code">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Email address*" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Contact person’s name">
+                  </mat-form-field>
                 </div>
-                
-                
+
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Email address*">
+                  </mat-form-field>
+                </div>
+
+
               </div>
               <div class="right_block_reg">
                 <div class="mail">
-                  <input type="text"  placeholder="College phone number" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="College phone number">
+                  </mat-form-field>
                 </div>
                 <div class="mail">
-                  <input type="text"  placeholder="Phone" >
-                </div>
-           
-                <div class="mail">
-                  <input type="text"  placeholder="Total No.of Students" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Phone">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Password*" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Total No.of Students">
+                  </mat-form-field>
+                </div>
+
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Password*">
+                  </mat-form-field>
                 </div>
               </div>
             </div>
@@ -387,49 +473,66 @@
             </div>
           </mat-step>
           <mat-step [stepControl]="secondFormGroup" label="Address details">
+            <div class="hgt_20"></div>
             <div class="reg_container">
               <div class="left_block_reg">
-    
                 <div class="fir_name">
-                    <input type="text" placeholder="Affiliated university name" ngModel/>
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Affiliated university name" ngModel />
+                  </mat-form-field>
                 </div>
-                
                 <div class="mail">
-                  <input type="text" placeholder="Address"  required/>
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address" required />
+                  </mat-form-field>
                 </div>
-
                 <div class="phone">
-                  <input type="text"  placeholder="Address line 2" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address line 2">
+                  </mat-form-field>
+                </div>
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="City">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="City" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Country">
+                  </mat-form-field>
                 </div>
 
-                <div class="mail">
-                  <input type="text"  placeholder="Country" >
-                </div>
-                
               </div>
               <div class="right_block_reg">
                 <div class="last_name">
-                  <input type="text" placeholder="Affiliated university code" ngModel/>
-                </div>
-                
-                <div class="mail">
-                  <input type="text"  placeholder="Address line 1" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Affiliated university code" ngModel />
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Landmark" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address line 1">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="State/Province" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Landmark">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Zip code" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="State/Province">
+                  </mat-form-field>
+                </div>
+
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Zip code">
+                  </mat-form-field>
                 </div>
               </div>
             </div>
@@ -449,64 +552,83 @@
         </mat-horizontal-stepper>
 
 
-        
-      <!-- </form> -->
+
+        <!-- </form> -->
 
 
 
       </div>
- 
+
 
     </div>
 
 
     <!-- University login form -->
-    <div class="log_div text_center" *ngIf="is_university"> 
+    <div class="log_div text_center" *ngIf="is_university">
       <div class="sgn_sec">
-        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back <mat-icon>arrow_back</mat-icon></span> University</p>
+        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back <mat-icon>arrow_back</mat-icon>
+          </span> University</p>
 
         <!-- <form #register_id="ngForm" name="register_form" (ngSubmit)="doRegistration()" novalidate> -->
         <mat-horizontal-stepper [linear]="isLinear" #stepper>
           <mat-step [stepControl]="firstFormGroup" label="University details">
             <div class="reg_container">
               <div class="left_block_reg">
-    
+
                 <div class="mail">
-                  <input type="text"  placeholder="University name" >
-                </div>
-                
-                <div class="mail">
-                  <input type="text"  placeholder="University code" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="University name">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Phone" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="University code">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Email address*" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Phone">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Total No.of students" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Email address*">
+                  </mat-form-field>
                 </div>
-                
-                
+
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Total No.of students">
+                  </mat-form-field>
+                </div>
+
+
               </div>
               <div class="right_block_reg">
                 <div class="mail">
-                  <input type="text"  placeholder="University phone number" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="University phone number">
+                  </mat-form-field>
                 </div>
                 <div class="mail">
-                  <input type="text"  placeholder="Contact person’s name" >
-                </div>
-           
-                <div class="mail">
-                  <input type="text"  placeholder="Total No.of affiliate colleges" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Contact person’s name">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Password*" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Total No.of affiliate colleges">
+                  </mat-form-field>
+                </div>
+
+                <div class="mail">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Password*">
+                  </mat-form-field>
                 </div>
               </div>
             </div>
@@ -517,41 +639,57 @@
           <mat-step [stepControl]="secondFormGroup" label="Address details">
             <div class="reg_container">
               <div class="left_block_reg">
-    
-                
+
+
                 <div class="mail">
-                  <input type="text" placeholder="Address"  required/>
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address" required />
+                  </mat-form-field>
                 </div>
 
                 <div class="phone">
-                  <input type="text"  placeholder="Address line 2" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address line 2">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="City" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="City">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Country" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Country">
+                  </mat-form-field>
                 </div>
-                
+
               </div>
               <div class="right_block_reg">
-                
+
                 <div class="mail">
-                  <input type="text"  placeholder="Address line 1" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Address line 1">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Landmark" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Landmark">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="State/Province" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="State/Province">
+                  </mat-form-field>
                 </div>
 
                 <div class="mail">
-                  <input type="text"  placeholder="Zip code" >
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Zip code">
+                  </mat-form-field>
                 </div>
               </div>
             </div>
@@ -571,13 +709,13 @@
         </mat-horizontal-stepper>
 
 
-        
-      <!-- </form> -->
+
+        <!-- </form> -->
 
 
 
       </div>
- 
+
 
     </div>
 
@@ -636,19 +774,18 @@
   </div> -->
 
 
-  <div class="indvidual_main" *ngIf="is_show">
-    <div class="ind_mdl_cont">
-      <div class="ind_logo_img">
-        <a routerLink="/"> <img src="assets/images/ProceumLogo_w.png" /></a>
-      </div>
-      <div class="message-box-div">
-            <mat-icon>forward_to_inbox</mat-icon>
-            <div class="message-area">
-              <p>Thank you for registering with us! </p>
-              <p>A verification link has been sent to your email. Please check your inbox/spam/junk folder to verify your mail and activate account. </p>
-            </div>
+<div class="indvidual_main" *ngIf="is_show">
+  <div class="ind_mdl_cont">
+    <div class="ind_logo_img">
+      <a routerLink="/"> <img src="assets/images/ProceumLogo_w.png" /></a>
+    </div>
+    <div class="message-box-div">
+      <mat-icon>forward_to_inbox</mat-icon>
+      <div class="message-area">
+        <p>Thank you for registering with us! </p>
+        <p>A verification link has been sent to your email. Please check your inbox/spam/junk folder to verify your mail
+          and activate account. </p>
       </div>
     </div>
   </div>
-  
-  
+</div>

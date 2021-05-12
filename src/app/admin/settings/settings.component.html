@@ -30,9 +30,18 @@
           <span>
             <span class="err_tltp_par">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="Organization Name" autocomplete="off" required name="organization_name"
-                  [(ngModel)]="settings.organization_name" pattern="[^ ](.*|\n|\r|\r\n)*" #organization_name="ngModel"
-                  ngModel />
+                <input
+                  matInput
+                  placeholder="Organization Name"
+                  autocomplete="off"
+                  required
+                  maxlength="255"
+                  name="organization_name"
+                  [(ngModel)]="settings.organization_name"
+                  pattern="[^ ](.*|\n|\r|\r\n)*"
+                  #organization_name="ngModel"
+                  ngModel
+                />
               </mat-form-field>
               <span *ngIf="
                   settings_form.submitted && settings.organization_name == ''
@@ -51,9 +60,19 @@
           <span>
             <span class="err_tltp_par">
               <mat-form-field appearance="outline">
-                <input matInput placeholder="Contact Name" autocomplete="off" required name="contact_name"
-                  [(ngModel)]="settings.contact_name" #contact_name="ngModel" ngModel pattern="[^ ](.*|\n|\r|\r\n)*"
-                  onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))" />
+                <input
+                  matInput
+                  placeholder="Contact Name"
+                  autocomplete="off"
+                  required
+                  maxlength="90"
+                  name="contact_name"
+                  [(ngModel)]="settings.contact_name"
+                  #contact_name="ngModel"
+                  ngModel
+                  pattern="[^ ](.*|\n|\r|\r\n)*"
+                  onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))"
+                />
               </mat-form-field>
               <span *ngIf="settings_form.submitted && settings.contact_name == ''" class="prc_tltp">Contact Name is
                 required</span>
@@ -208,52 +227,66 @@
               " class="prc_tltp">List View Page Limit is required</span>
             </span>
           </span>
-        </div>
-        <div class="frm_dvs">
-          <span>Date Format <span class="required">*</span></span>
-          <span>
-            <span class="err_tltp_par">
-              <mat-form-field appearance="outline" color="accent">
-                <mat-select matInput name="date_format" [(ngModel)]="settings.date_format" #date_format="ngModel"
-                  ngModel required placeholder="select dateformat">
-                  <mat-option value="d/m/Y">d/m/Y (Ex:"02/04/2021")</mat-option>
-                  <mat-option value="d-m-Y">d-m-Y (Ex:"02-04-2021")</mat-option>
-                  <mat-option value="d,m,Y">d,m,Y (Ex:"02,04,2021")</mat-option>
-                  <mat-option value="d/m/y">d/m/y (Ex:"30/06/08")</mat-option>
-                  <mat-option value="d-m-y">d-m-y (Ex:"30-06-08")</mat-option>
-                  <mat-option value="d,m,y">d,m,y (Ex:"30,06,08")</mat-option>
-                  <mat-option value="Y/m/d">Y/m/d (Ex:"2021/06/08")</mat-option>
-                  <mat-option value="Y-m-d">Y-m-d (Ex:"2021-06-08")</mat-option>
-                  <mat-option value="Y,m,d">Y,m,d (Ex:"2021,06,08")</mat-option>
-                  <mat-option value="Y/m/d">m/d/Y (Ex:"08/06/2021")</mat-option>
-                  <mat-option value="m-d-Y">m-d-Y (Ex:"08-06-2021")</mat-option>
-                  <mat-option value="m,d,Y">m,d,Y (Ex:"08,06,2021")</mat-option>
-                  <mat-option value="y/m/d">y/m/d (Ex:"21/06/08")</mat-option>
-                  <mat-option value="y-m-d">y-m-d (Ex:"21-06-08")</mat-option>
-                  <mat-option value="y,m,d">y,m,d (Ex:"21,06,08")</mat-option>
-                  <mat-option value="F jS, Y">F jS, Y (Ex:April 9th, 2012)</mat-option>
-                  <mat-option value="F j, Y">F j, Y (Ex:January 1, 2018)</mat-option>
-                  <mat-option value="Y-m-d">Y-m-d (Ex:2016-03-28)</mat-option>
-                  <mat-option value="M,d,y">M,d,y</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <span *ngIf="settings_form.submitted && settings.date_format == ''" class="prc_tltp">Date format is
-                required</span>
-            </span>
+      </div>
+      <div class="frm_dvs">
+        <span>Date Format <span class="required">*</span></span>
+        <span>
+          <span class="err_tltp_par">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select
+                matInput
+                name="date_format"
+                [(ngModel)]="settings.date_format"
+                #date_format="ngModel"
+                ngModel
+                required
+                placeholder="select dateformat"
+              >
+                <mat-option value="d/m/Y">d/m/Y (Ex:02/04/2021)</mat-option>
+                <mat-option value="d-m-Y">d-m-Y (Ex:02-04-2021)</mat-option>
+                <mat-option value="Y/m/d">Y/m/d (Ex:2021/06/08)</mat-option>
+                <mat-option value="Y-m-d">Y-m-d (Ex:2021-06-08)</mat-option>
+                <mat-option value="Y/m/d">m/d/Y (Ex:08/06/2021)</mat-option>
+                <mat-option value="m-d-Y">m-d-Y (Ex:08-06-2021)</mat-option>
+                <mat-option value="F jS, Y"
+                  >F jS, Y (Ex:April 9th, 2012)</mat-option
+                >
+                <mat-option value="F j, Y"
+                  >F j, Y (Ex:January 1, 2018)</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <span
+              *ngIf="settings_form.submitted && settings.date_format == ''"
+              class="prc_tltp"
+              >Date format is required</span
+            >
           </span>
-        </div>
-        <div class="frm_dvs">
-          <span>Time Format <span class="required">*</span></span>
-          <span>
-            <span class="err_tltp_par">
-              <mat-form-field appearance="outline" color="accent">
-                <mat-select required name="time_format" [(ngModel)]="settings.time_format"
-                  placeholder="select time format" #time_format="ngModel" ngModel>
-                  <mat-option value="12 Hr">12 Hr (Ex: 02:20:02 PM )</mat-option>
-                  <mat-option value="24 Hr">24 Hr (Ex: 14:20:02 PM )</mat-option>
-                </mat-select>
-              </mat-form-field>
-              <span *ngIf="
+        </span>
+      </div>
+      <div class="frm_dvs">
+        <span>Time Format <span class="required">*</span></span>
+        <span>
+          <span class="err_tltp_par">
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select
+                required
+                name="time_format"
+                [(ngModel)]="settings.time_format"
+                placeholder="select time format"
+                #time_format="ngModel"
+                ngModel
+              >
+                <mat-option value="12 Hr"
+                  >12 Hr (Ex: 02:20:02 PM )</mat-option
+                >
+                <mat-option value="24 Hr"
+                  >24 Hr (Ex: 14:20:02 )</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <span
+              *ngIf="
                 (settings_form.submitted || time_format.touched) &&
                 settings.time_format == ''
               " class="prc_tltp">Time format is required</span>
@@ -296,8 +329,10 @@
     </form>
   </div>
 </div>
-
-<div class="cust_mdl_par cust_mdl_30p" [ngClass]="{ cust_mdl_opn: model_status }">
+<div
+  class="cust_mdl_par cust_mdl_30p"
+  [ngClass]="{ cust_mdl_opn: model_status }"
+>
   <div class="cust_mdl_chl">
     <div class="pg_ttl">
       Confirmation Required!
