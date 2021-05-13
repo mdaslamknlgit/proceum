@@ -1,38 +1,83 @@
 <div class="mn_dshbrd">
-
-  <div class="cust_mdl_par cust_mdl_50p cust_mdl_opn">
+  <div
+    class="cust_mdl_par cust_mdl_50p {{
+      properties_popup ? 'cust_mdl_opn' : ''
+    }}"
+  >
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Properties
         <span class="spacer"></span>
-        <button mat-icon-button class="float_right">
+        <button
+          (click)="ClosePropertisModal()"
+          mat-icon-button
+          class="float_right"
+        >
           &#x2715;
         </button>
       </div>
       <div class="tbbd_bdy">
         <div class="hgt_20"></div>
-        <div class="img_prp"><img src="../../../assets/images/Highlighted_questionbank.png" alt="" /></div>
+        <div class="img_prp">
+          <img src="{{ preview_path }}" alt="" />
+        </div>
         <div class="img_prp_dets">
           <ul>
             <li>
-              <span class="img_info_hd">File Name</span>
-              <span class="img_info_dets">Highlighted_questionbank.png</span>
+              <span class="img_info_hd">File Location</span>
+              <span class="img_info_dets">{{ file_details["path"] }}</span>
+            </li>
+            <li>
+              <span class="img_info_hd">File Type</span>
+              <span class="img_info_dets">{{ file_details["extension"] }}</span>
             </li>
             <li>
               <span class="img_info_hd">File Size</span>
-              <span class="img_info_dets">2 MB</span>
+              <span class="img_info_dets">{{ file_details["size"] }} KB</span>
             </li>
             <li>
-              <span class="img_info_hd">Time Uploaded</span>
-              <span class="img_info_dets">12 May 2021, 11:25 am</span>
+              <span class="img_info_hd">Uploaded Date</span>
+              <span class="img_info_dets">{{ file_details["date_time"] }}</span>
             </li>
           </ul>
         </div>
+        <hr />
+        <a
+          href="{{ bucket_path + file_details['path'] }}"
+          target="_blank"
+          mat-raised-button
+          color="accent"
+          class="float_right mr_1"
+        >
+          Download
+        </a>
+        <button
+          mat-raised-button
+          mwlConfirmationPopover
+          [popoverTitle]="'Are you sure?'"
+          [popoverMessage]="
+            'are you sure to delete this file? File will be deleted permanently.'
+          "
+          placement="auto"
+          (confirm)="deleteFile(file_details['path'])"
+          confirmButtonType="danger"
+          cancelButtonType="outline-secondary"
+          color="warn"
+          class="float_right mr_1"
+        >
+          Delete
+        </button>
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="ClosePropertisModal()"
+        >
+          Close
+        </button>
         <div class="hgt_20"></div>
       </div>
     </div>
   </div>
-
 
   <div class="brd_crm">
     Proceum&nbsp;&raquo; <strong>Assets Library</strong>
@@ -51,18 +96,14 @@
         </mat-chip>
     </mat-chip-list> -->
   <div class="fls_edt_btn">
-    <ul>
+    <ul class="float_right">
       <li>
-        <mat-icon>skip_previous</mat-icon>
-      </li>
-      <li>
-        <mat-icon>skip_next</mat-icon>
-      </li>
-      <li>
-        <mat-icon>autorenew</mat-icon>
+        <mat-icon matTooltip="Refresh" (click)="openFolder(current_path)"
+          >autorenew</mat-icon
+        >
       </li>
     </ul>
-    <ul>
+    <!--<ul class="float_right">
       <li>
         <mat-icon>note</mat-icon>
       </li>
@@ -76,7 +117,7 @@
         <mat-icon>delete</mat-icon>
       </li>
     </ul>
-    <ul class="float_right">
+     <ul class="float_right">
       <li>
         <mat-icon>file_copy</mat-icon>
       </li>
@@ -86,12 +127,14 @@
       <li>
         <mat-icon>content_paste</mat-icon>
       </li>
-    </ul>
+    </ul> -->
   </div>
   <div class="hgt_20"></div>
   <div class="explr_nav">
-    <mat-icon class="mr_5px">dns</mat-icon> /&nbsp;<span *ngFor="let path of current_path_list">{{ path + " / "
-      }}</span>
+    <mat-icon class="mr_5px">dns</mat-icon> /&nbsp;<span
+      *ngFor="let path of current_path_list"
+      >{{ path + " / " }}</span
+    >
   </div>
   <div class="hgt_20"></div>
   <mat-tab-group (selectedTabChange)="getFiles($event)">
@@ -102,120 +145,172 @@
           <input matInput placeholder="Search" />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-        <button mat-raised-button onclick="document.getElementById('fileToUpload').click()" color="accent"
-          class="float_right mr_1 mt_5px">
+        <button
+          mat-raised-button
+          onclick="document.getElementById('fileToUpload').click()"
+          color="accent"
+          class="float_right mr_1 mt_5px"
+        >
           <mat-icon>upload</mat-icon>
-          Upload Files<input id="fileToUpload" type="file" style="display:none;">
+          Upload Files<input
+            (change)="uploadFiles($event)"
+            multiple="true"
+            id="fileToUpload"
+            type="file"
+            style="display: none"
+          />
         </button>
       </div>
       <div class="hgt_20"></div>
       <div class="mlti_fls">
-        <div class="mlti_fls_dv">
+        <div
+          *ngIf="current_path_list.length > 1"
+          class="mlti_fls_dv"
+          (click)="goBack()"
+        >
           <img src="../../../assets/images/folder_back.png" alt="" />
           <span class="fl_nme text_center">Back</span>
         </div>
-        <div class="mlti_fls_dv">
+        <div
+          class="mlti_fls_dv"
+          *ngFor="let folder of directories"
+          (click)="openFolder(folder)"
+        >
           <img src="../../../assets/images/folder.png" alt="" />
-          <span class="fl_nme">Folder Name</span>
+          <span
+            matTooltip="{{ folder.substring(folder.lastIndexOf('/') + 1) }}"
+            class="fl_nme"
+            >{{ folder.substring(folder.lastIndexOf("/") + 1) }}</span
+          >
         </div>
-        <div class="mlti_fls_dv">
+        <div
+          class="mlti_fls_dv"
+          *ngFor="let file of all_files | async"
+          (click)="showPropertisModal(file, file.split('.').pop() + '.png')"
+        >
+          <img
+            src="../../../assets/images/{{ file.split('.').pop() }}.png"
+            alt="{{ file.substring(file.lastIndexOf('/') + 1) }}"
+          />
+          <span
+            matTooltip="{{ file.substring(file.lastIndexOf('/') + 1) }}"
+            class="fl_nme"
+            >{{ file.substring(file.lastIndexOf("/") + 1) }}</span
+          >
+        </div>
+        <!-- <div class="mlti_fls_dv">
           <img src="../../../assets/images/pdf.png" alt="" />
-          <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+          <span class="fl_nme"
+            >This is file name is too long so have to ellispsis it.pdf</span
+          >
         </div>
         <div class="mlti_fls_dv">
           <img src="../../../assets/images/docx.png" alt="" />
-          <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+          <span class="fl_nme"
+            >This is file name is too long so have to ellispsis it.pdf</span
+          >
         </div>
         <div class="mlti_fls_dv">
           <img src="../../../assets/images/xlsx.png" alt="" />
-          <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+          <span class="fl_nme"
+            >This is file name is too long so have to ellispsis it.pdf</span
+          >
         </div>
         <div class="mlti_fls_dv">
           <img src="../../../assets/images/pdf.png" alt="" />
-          <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+          <span class="fl_nme"
+            >This is file name is too long so have to ellispsis it.pdf</span
+          >
         </div>
         <div class="mlti_fls_dv">
           <img src="../../../assets/images/docx.png" alt="" />
-          <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+          <span class="fl_nme"
+            >This is file name is too long so have to ellispsis it.pdf</span
+          >
         </div>
         <div class="mlti_fls_dv">
           <img src="../../../assets/images/xlsx.png" alt="" />
-          <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+          <span class="fl_nme"
+            >This is file name is too long so have to ellispsis it.pdf</span
+          >
         </div>
         <div class="mlti_fls_dv">
           <img src="../../../assets/images/pdf.png" alt="" />
-          <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+          <span class="fl_nme"
+            >This is file name is too long so have to ellispsis it.pdf</span
+          >
         </div>
         <div class="mlti_fls_dv">
           <img src="../../../assets/images/pdf.png" alt="" />
-          <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
-        </div>
+          <span class="fl_nme"
+            >This is file name is too long so have to ellispsis it.pdf</span
+          >
+        </div> -->
       </div>
     </mat-tab>
     <mat-tab label="Images">
       <div class="hgt_20"></div>
       <div class="dsh_brd_crds">
         <mat-form-field appearance="outline" class="float_right">
-          <input [(ngModel)]="search_images" (keyup)="filterFiles()" matInput placeholder="Search" />
+          <input
+            [(ngModel)]="search_images"
+            (keyup)="filterFiles()"
+            matInput
+            placeholder="Search"
+          />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-        <button mat-raised-button color="accent" class="float_right mr_1 mt_5px">
-          Upload Files
+        <button
+          mat-raised-button
+          onclick="document.getElementById('imageToUpload').click()"
+          color="accent"
+          class="float_right mr_1 mt_5px"
+        >
+          <mat-icon>upload</mat-icon>
+          Upload Files<input
+            (change)="uploadFiles($event)"
+            multiple="true"
+            accept="image/*"
+            id="imageToUpload"
+            type="file"
+            style="display: none"
+          />
         </button>
       </div>
       <div class="hgt_20"></div>
       <div class="mlti_fls">
-        <div *ngIf="current_path_list.length > 1" class="mlti_fls_dv" (click)="goBack()">
+        <div
+          *ngIf="current_path_list.length > 1"
+          class="mlti_fls_dv"
+          (click)="goBack()"
+        >
           <img src="../../../assets/images/folder_back.png" alt="" />
           <span class="fl_nme text_center">Back</span>
         </div>
-        <div class="mlti_fls_dv" *ngFor="let folder of directories" (click)="openFolder(folder)">
+        <div
+          class="mlti_fls_dv"
+          *ngFor="let folder of directories"
+          (click)="openFolder(folder)"
+        >
           <img src="../../../assets/images/folder.png" alt="" />
-          <span matTooltip="{{ folder.substring(folder.lastIndexOf('/') + 1) }}" class="fl_nme">{{
-            folder.substring(folder.lastIndexOf("/") + 1) }}</span>
+          <span
+            matTooltip="{{ folder.substring(folder.lastIndexOf('/') + 1) }}"
+            class="fl_nme"
+            >{{ folder.substring(folder.lastIndexOf("/") + 1) }}</span
+          >
         </div>
-        <div class="mlti_fls_dv" *ngFor="let file of all_files | async">
+        <div
+          class="mlti_fls_dv"
+          *ngFor="let file of all_files | async"
+          (click)="showPropertisModal(file, false)"
+        >
           <img src="{{ bucket_path + file }}" alt="" />
-          <span matTooltip="{{ file.substring(file.lastIndexOf('/') + 1) }}" class="fl_nme">{{
-            file.substring(file.lastIndexOf("/") + 1) }}</span>
-        </div>
-        <!--
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf_temp.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
+          <span
+            matTooltip="{{ file.substring(file.lastIndexOf('/') + 1) }}"
+            class="fl_nme"
+            >{{ file.substring(file.lastIndexOf("/") + 1) }}</span
           >
         </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf_temp.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf_temp.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf_temp.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf_temp.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf_temp.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>-->
       </div>
     </mat-tab>
     <mat-tab label="Videos">
@@ -228,39 +323,77 @@
               <input matInput placeholder="Search" />
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
-            <button mat-raised-button color="accent" class="float_right mr_1 mt_5px">
+            <button
+              mat-raised-button
+              color="accent"
+              class="float_right mr_1 mt_5px"
+            >
               Upload Files
             </button>
           </div>
           <div class="hgt_20"></div>
           <div class="mlti_fls">
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+            <div
+              *ngIf="current_path_list.length > 1"
+              class="mlti_fls_dv"
+              (click)="goBack()"
+            >
+              <img src="../../../assets/images/folder_back.png" alt="" />
+              <span class="fl_nme text_center">Back</span>
+            </div>
+            <div
+              class="mlti_fls_dv"
+              *ngFor="let folder of directories"
+              (click)="openFolder(folder)"
+            >
+              <img src="../../../assets/images/folder.png" alt="" />
+              <span
+                matTooltip="{{ folder.substring(folder.lastIndexOf('/') + 1) }}"
+                class="fl_nme"
+                >{{ folder.substring(folder.lastIndexOf("/") + 1) }}</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/pdf_temp.png" alt="" />
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
           </div>
         </mat-tab>
@@ -271,7 +404,11 @@
               <input matInput placeholder="Search" />
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
-            <button mat-raised-button color="accent" class="float_right mr_1 mt_5px">
+            <button
+              mat-raised-button
+              color="accent"
+              class="float_right mr_1 mt_5px"
+            >
               Upload Files
             </button>
           </div>
@@ -279,31 +416,45 @@
           <div class="mlti_fls">
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
           </div>
         </mat-tab>
@@ -314,7 +465,11 @@
               <input matInput placeholder="Search" />
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
-            <button mat-raised-button color="accent" class="float_right mr_1 mt_5px">
+            <button
+              mat-raised-button
+              color="accent"
+              class="float_right mr_1 mt_5px"
+            >
               Upload Files
             </button>
           </div>
@@ -322,31 +477,45 @@
           <div class="mlti_fls">
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
             <div class="mlti_fls_dv">
               <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme">This is file name is too long so have to ellispsis it.pdf</span>
+              <span class="fl_nme"
+                >This is file name is too long so have to ellispsis it.pdf</span
+              >
             </div>
           </div>
         </mat-tab>

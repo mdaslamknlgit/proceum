@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
 import { CommonService } from 'src/app/services/common.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-assets-library',
@@ -14,11 +16,16 @@ export class AssetsLibraryComponent implements OnInit {
   public files = [];
   public directories = [];
   public bucket_path = '';
+  public preview_path = '';
   public all_files: ReplaySubject<any> = new ReplaySubject<any>(1);
   search_images = '';
-  constructor(private http: CommonService) {}
+  public properties_popup: boolean = false;
+  public file_details = [];
+  constructor(private http: CommonService, private toster: ToastrService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.openFolder(this.current_path);
+  }
   getFiles(tab) {
     this.activeTab = tab.tab.textLabel.toLowerCase();
     this.current_path = this.activeTab;
@@ -65,5 +72,48 @@ export class AssetsLibraryComponent implements OnInit {
     current_path_array.pop();
     let current_path = current_path_array.join('/');
     this.openFolder(current_path);
+  }
+  showPropertisModal(path, image_path) {
+    this.preview_path = image_path
+      ? '../../../assets/images/' + image_path
+      : this.bucket_path + path;
+    this.properties_popup = true;
+    let param = { url: 'get-file-details', path: path };
+    this.http.post(param).subscribe((res) => {
+      this.file_details = res['data'];
+      console.log(this.file_details);
+    });
+  }
+  ClosePropertisModal() {
+    this.properties_popup = false;
+  }
+  uploadFiles(event) {
+    const uploadData = new FormData();
+    let files = event.target.files;
+    console.log(files);
+    for (var i = 0; i < files.length; i++) {
+      uploadData.append('file' + i, files[i]);
+    }
+    uploadData.append('path', this.current_path);
+    uploadData.append('number_files', files.length);
+    let param = { url: 'upload-files' };
+    this.http.imageUpload(param, uploadData).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success('Files successfully uploaded.', 'File Uploaded');
+        this.openFolder(this.current_path);
+      }
+    });
+  }
+  deleteFile(path) {
+    let param = { url: 'delete-file', path: path };
+    this.http.post(param).subscribe((res) => {
+      this.toster.success('Files successfully Deleted.', 'File Deleted');
+      this.openFolder(this.current_path);
+      this.ClosePropertisModal();
+    });
+  }
+  downloadFile(file) {
+    let path = file.split('/').join('|');
+    window.location.href = environment.apiUrl + 'download-file/' + path;
   }
 }
