@@ -71,7 +71,20 @@ export class SettingsComponent implements OnInit {
     this.imagePath = this.filedata;
     reader.readAsDataURL(this.filedata[0]);
     reader.onload = (_event) => {
-      this.src = reader.result;
+      
+      const img = new Image();
+      img.src = reader.result as string;
+        img.onload = () => {
+          const height = img.naturalHeight;
+          const width = img.naturalWidth;
+          if(height > 250 || width > 250)
+          {
+            this.imgMessage = "System Logo height and width must be less than 250 pixels";
+            this.src = this.url;
+            return;
+          }
+        };
+        this.src = reader.result;
     }
   }
 
@@ -137,7 +150,7 @@ export class SettingsComponent implements OnInit {
     }
     //logo
     
-      if (this.filedata) {
+      if (this.filedata && this.imgMessage == '') {
         let mimeType = this.filedata[0].type;
         let size = this.filedata[0].size;
         if (mimeType.match(/image\/*/) == null) {
@@ -149,6 +162,25 @@ export class SettingsComponent implements OnInit {
           this.imgMessage = "Logo must be less than 250kb";
           return;
         }
+
+        const reader = new FileReader();
+        this.imagePath = this.filedata;
+        reader.readAsDataURL(this.filedata[0]);
+        reader.onload = (_event) => {          
+          const img = new Image();
+          img.src = reader.result as string;
+            img.onload = () => {
+              const height = img.naturalHeight;
+              const width = img.naturalWidth;
+              if(height > 250 || width > 250)
+              {
+                this.imgMessage = "System Logo height and width must be less than 250 pixels";
+                this.src = this.url;
+                return;
+              }
+            };
+        }
+
         this.imgMessage = "";
         myFormData.append('logo', this.filedata[0]);
       }else if(this.id == ""){
@@ -177,6 +209,7 @@ export class SettingsComponent implements OnInit {
       'url': 'create-settings'
     };
     this.http.imageUpload(param, myFormData).subscribe((res) => {
+      this.imgMessage = "";
       if (res['error'] == false) {
         this.toaster.success(res['message'], 'Success', { closeButton: true });
         this.src = this.url;
