@@ -47,7 +47,11 @@ export class CreateContentComponent implements OnInit {
     };
   }
   constructor(private http: CommonService) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.http.child_data.subscribe((res) => {
+      console.log(res);
+    });
+  }
   CloseModal() {
     this.library_popup = false;
   }

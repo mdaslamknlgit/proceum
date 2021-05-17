@@ -25,7 +25,6 @@ export class AssetsLibraryComponent implements OnInit {
   constructor(private http: CommonService, private toster: ToastrService) {}
 
   ngOnInit(): void {
-    console.log(this.data);
     this.openFolder(this.current_path);
   }
   getFiles(tab) {
@@ -83,7 +82,7 @@ export class AssetsLibraryComponent implements OnInit {
     let param = { url: 'get-file-details', path: path };
     this.http.post(param).subscribe((res) => {
       this.file_details = res['data'];
-      console.log(this.file_details);
+      this.http.setChildData(this.file_details);
     });
   }
   ClosePropertisModal() {
