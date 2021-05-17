@@ -59,11 +59,29 @@ export class MyAccountComponent implements OnInit {
       this.imgMessage = "";
       this.src = this.url;
     }
+    let size = this.filedata[0].size;
+    if (size >= 256000) {
+      this.imgMessage = "Profile Picture must be less than 250kb";
+      return;
+    }
     const reader = new FileReader();
     this.imagePath = this.filedata;
     reader.readAsDataURL(this.filedata[0]);
     reader.onload = (_event) => {
-      this.src = reader.result;
+      
+      const img = new Image();
+      img.src = reader.result as string;
+        img.onload = () => {
+          const height = img.naturalHeight;
+          const width = img.naturalWidth;
+          if(height > 250 || width > 250)
+          {
+            this.imgMessage = "Profile Picture height and width must be less than 250 pixels";
+            this.src = this.url;
+            return;
+          }
+        };
+        this.src = reader.result;
     }
 
   }
@@ -145,7 +163,7 @@ export class MyAccountComponent implements OnInit {
       myFormData.append('current_password', this.profile.current_password.trim());
       myFormData.append('new_password', this.profile.new_password.trim());
     }
-    if (this.filedata) {
+    if (this.filedata && this.imgMessage == '') {
       let mimeType = this.filedata[0].type;
       let size = this.filedata[0].size;
       if (mimeType.match(/image\/*/) == null) {
@@ -153,12 +171,34 @@ export class MyAccountComponent implements OnInit {
         return;
       }
       if (size >= 256000) {
-        this.imgMessage = "Profile image must be less than 250kb";
+        this.imgMessage = "Profile Picture must be less than 250kb";
         return;
       }
+
+      const reader = new FileReader();
+        this.imagePath = this.filedata;
+        reader.readAsDataURL(this.filedata[0]);
+        reader.onload = (_event) => {          
+          const img = new Image();
+          img.src = reader.result as string;
+            img.onload = () => {
+              const height = img.naturalHeight;
+              const width = img.naturalWidth;
+              if(height > 250 || width > 250)
+              {
+                this.imgMessage = "Profile Picture height and width must be less than 250 pixels";
+                this.src = this.url;
+                return;
+              }
+            };
+        }
+
       this.imgMessage = "";
       myFormData.append('profile_pic', this.filedata[0]);
-    }
+    }else if(this.user_id == ""){
+      this.imgMessage = "Please upload the Profile Picture";
+      return;
+  }
     myFormData.append('id', this.user_id);
     myFormData.append('first_name', this.profile.first_name);
     myFormData.append('last_name', this.profile.last_name);
@@ -166,6 +206,7 @@ export class MyAccountComponent implements OnInit {
       'url': 'update-student-profile'
     };
     this.http.imageUpload(param, myFormData).subscribe((res) => {
+      this.imgMessage = '';
       if (res['error'] == false) {
         this.toaster.success(res['message'], 'Success', { closeButton: true });
         (<HTMLFormElement>document.getElementById('profile_form')).reset();

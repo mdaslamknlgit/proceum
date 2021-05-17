@@ -2,11 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import * as Editor from '../../../assets/ckeditor5/build/ckeditor';
-import Clipboard from '@ckeditor/ckeditor5-clipboard/src/clipboard';
 import { UploadAdapter } from '../../classes/UploadAdapter';
 import { CommonService } from 'src/app/services/common.service';
 
-//import SimpleUploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/simpleuploadadapter';
 @Component({
   selector: 'app-create-content',
   templateUrl: './create-content.component.html',
@@ -14,12 +12,8 @@ import { CommonService } from 'src/app/services/common.service';
 })
 export class CreateContentComponent implements OnInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
-  constructor(private http: CommonService) {}
-
+  public library_popup: boolean = true;
   public Editor = Editor;
-  ngOnInit(): void {
-    this.getAllFiles();
-  }
   editorConfig = {
     Plugins: [],
     placeholder: 'Enter content',
@@ -41,7 +35,6 @@ export class CreateContentComponent implements OnInit {
     mediaEmbed: {
       previewsInData: true,
     },
-    // This value must be kept in sync with the language defined in webpack.config.js.
     language: 'en',
   };
   onReady(eventData) {
@@ -53,11 +46,13 @@ export class CreateContentComponent implements OnInit {
       return data;
     };
   }
-
-  getAllFiles() {
-    let param = { url: 'get-file-details', path: 'favicon.jpg' };
-    this.http.post(param).subscribe((res) => {
+  constructor(private http: CommonService) {}
+  ngOnInit(): void {
+    this.http.child_data.subscribe((res) => {
       console.log(res);
     });
+  }
+  CloseModal() {
+    this.library_popup = false;
   }
 }

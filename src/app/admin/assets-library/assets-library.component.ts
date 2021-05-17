@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
 import { CommonService } from 'src/app/services/common.service';
@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./assets-library.component.scss'],
 })
 export class AssetsLibraryComponent implements OnInit {
+  @Input() data = {};
   public activeTab = 'documents';
   public current_path = 'documents';
   public current_path_list = ['documents'];
@@ -81,7 +82,7 @@ export class AssetsLibraryComponent implements OnInit {
     let param = { url: 'get-file-details', path: path };
     this.http.post(param).subscribe((res) => {
       this.file_details = res['data'];
-      console.log(this.file_details);
+      this.http.setChildData(this.file_details);
     });
   }
   ClosePropertisModal() {

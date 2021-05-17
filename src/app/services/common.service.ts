@@ -7,6 +7,7 @@ import { throwError, BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class CommonService {
+  public child_data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public isLoading = new BehaviorSubject(false);
   private apiURL: string;
   public menu_status: String;
@@ -116,5 +117,8 @@ export class CommonService {
     } else {
       return '0.00';
     }
+  }
+  public setChildData(data: any) {
+    this.child_data.next(data);
   }
 }
