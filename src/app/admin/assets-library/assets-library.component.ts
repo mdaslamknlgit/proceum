@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
 import { CommonService } from 'src/app/services/common.service';
@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./assets-library.component.scss'],
 })
 export class AssetsLibraryComponent implements OnInit {
+  @Input() data = {};
   public activeTab = 'documents';
   public current_path = 'documents';
   public current_path_list = ['documents'];
@@ -24,6 +25,7 @@ export class AssetsLibraryComponent implements OnInit {
   constructor(private http: CommonService, private toster: ToastrService) {}
 
   ngOnInit(): void {
+    console.log(this.data);
     this.openFolder(this.current_path);
   }
   getFiles(tab) {

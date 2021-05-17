@@ -19,7 +19,7 @@
       <div class="tbbd_bdy">
         <div class="hgt_20"></div>
         <div class="img_prp">
-          <img src="{{ preview_path }}" alt="" />
+          <img [src]="preview_path" alt="" />
         </div>
         <div class="img_prp_dets">
           <ul>
@@ -43,7 +43,7 @@
         </div>
         <hr />
         <a
-          href="{{ bucket_path + file_details['path'] }}"
+          [href]="bucket_path + file_details['path']"
           target="_blank"
           mat-raised-button
           color="accent"
@@ -79,12 +79,12 @@
     </div>
   </div>
 
-  <div class="brd_crm">
+  <div class="brd_crm" *ngIf="!data['modal_view']">
     Proceum&nbsp;&raquo; <strong>Assets Library</strong>
   </div>
-  <div class="pg_ttl">Assets Library</div>
-  <hr />
-  <div class="hgt_20"></div>
+  <div class="pg_ttl" *ngIf="!data['modal_view']">Assets Library</div>
+  <hr *ngIf="!data['modal_view']" />
+  <div *ngIf="!data['modal_view']" class="hgt_20"></div>
   <!-- <mat-chip-list>
         <mat-chip color="primary">
             <mat-icon class="mr_5px">dns</mat-icon>
@@ -95,7 +95,7 @@
             Local
         </mat-chip>
     </mat-chip-list> -->
-  <div class="fls_edt_btn">
+  <!--<div class="fls_edt_btn">
     <ul class="float_right">
       <li>
         <mat-icon matTooltip="Refresh" (click)="openFolder(current_path)"
@@ -103,7 +103,7 @@
         >
       </li>
     </ul>
-    <!--<ul class="float_right">
+    <ul class="float_right">
       <li>
         <mat-icon>note</mat-icon>
       </li>
@@ -127,16 +127,16 @@
       <li>
         <mat-icon>content_paste</mat-icon>
       </li>
-    </ul> -->
-  </div>
-  <div class="hgt_20"></div>
+    </ul> 
+  </div>-->
+  <div *ngIf="!data['modal_view']" class="hgt_20"></div>
   <div class="explr_nav">
     <mat-icon class="mr_5px">dns</mat-icon> /&nbsp;<span
       *ngFor="let path of current_path_list"
       >{{ path + " / " }}</span
     >
   </div>
-  <div class="hgt_20"></div>
+  <div *ngIf="!data['modal_view']" class="hgt_20"></div>
   <mat-tab-group (selectedTabChange)="getFiles($event)">
     <mat-tab label="Documents">
       <div class="hgt_20"></div>
@@ -147,6 +147,17 @@
         </mat-form-field>
         <button
           mat-raised-button
+          matTooltip="Refresh"
+          color="accent"
+          class="float_right mr_1 mt_5px"
+          (click)="openFolder(current_path)"
+          type="button"
+          color="accent"
+        >
+          <mat-icon>autorenew</mat-icon>
+        </button>
+        <button
+          mat-raised-button
           onclick="document.getElementById('fileToUpload').click()"
           color="accent"
           class="float_right mr_1 mt_5px"
@@ -155,6 +166,8 @@
           Upload Files<input
             (change)="uploadFiles($event)"
             multiple="true"
+            accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+            text/plain, application/pdf"
             id="fileToUpload"
             type="file"
             style="display: none"
@@ -186,10 +199,17 @@
         <div
           class="mlti_fls_dv"
           *ngFor="let file of all_files | async"
-          (click)="showPropertisModal(file, file.split('.').pop() + '.png')"
+          (click)="
+            showPropertisModal(
+              file,
+              file.split('.').pop().toLowerCase() + '.png'
+            )
+          "
         >
           <img
-            src="../../../assets/images/{{ file.split('.').pop() }}.png"
+            src="../../../assets/images/{{
+              file.split('.').pop().toLowerCase()
+            }}.png"
             alt="{{ file.substring(file.lastIndexOf('/') + 1) }}"
           />
           <span
@@ -198,54 +218,6 @@
             >{{ file.substring(file.lastIndexOf("/") + 1) }}</span
           >
         </div>
-        <!-- <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/docx.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/xlsx.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/docx.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/xlsx.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div>
-        <div class="mlti_fls_dv">
-          <img src="../../../assets/images/pdf.png" alt="" />
-          <span class="fl_nme"
-            >This is file name is too long so have to ellispsis it.pdf</span
-          >
-        </div> -->
       </div>
     </mat-tab>
     <mat-tab label="Images">
@@ -262,6 +234,17 @@
         </mat-form-field>
         <button
           mat-raised-button
+          matTooltip="Refresh"
+          color="accent"
+          class="float_right mr_1 mt_5px"
+          (click)="openFolder(current_path)"
+          type="button"
+          color="accent"
+        >
+          <mat-icon>autorenew</mat-icon>
+        </button>
+        <button
+          mat-raised-button
           onclick="document.getElementById('imageToUpload').click()"
           color="accent"
           class="float_right mr_1 mt_5px"
@@ -270,7 +253,7 @@
           Upload Files<input
             (change)="uploadFiles($event)"
             multiple="true"
-            accept="image/*"
+            accept="image/x-png,image/gif,image/jpeg"
             id="imageToUpload"
             type="file"
             style="display: none"
@@ -304,7 +287,7 @@
           *ngFor="let file of all_files | async"
           (click)="showPropertisModal(file, false)"
         >
-          <img src="{{ bucket_path + file }}" alt="" />
+          <img [src]="bucket_path + file" alt="{{ file }}" />
           <span
             matTooltip="{{ file.substring(file.lastIndexOf('/') + 1) }}"
             class="fl_nme"
@@ -316,7 +299,7 @@
     <mat-tab label="Videos">
       <div class="hgt_20"></div>
       <mat-tab-group>
-        <mat-tab label="K-Point Videos">
+        <mat-tab label="Local Videos">
           <div class="hgt_20"></div>
           <div class="dsh_brd_crds">
             <mat-form-field appearance="outline" class="float_right">
@@ -325,10 +308,30 @@
             </mat-form-field>
             <button
               mat-raised-button
+              matTooltip="Refresh"
+              color="accent"
+              class="float_right mr_1 mt_5px"
+              (click)="openFolder(current_path)"
+              type="button"
+              color="accent"
+            >
+              <mat-icon>autorenew</mat-icon>
+            </button>
+            <button
+              mat-raised-button
+              onclick="document.getElementById('videoToUpload').click()"
               color="accent"
               class="float_right mr_1 mt_5px"
             >
-              Upload Files
+              <mat-icon>upload</mat-icon>
+              Upload Files<input
+                (change)="uploadFiles($event)"
+                multiple="true"
+                accept="video/*"
+                id="videoToUpload"
+                type="file"
+                style="display: none"
+              />
             </button>
           </div>
           <div class="hgt_20"></div>
@@ -353,46 +356,18 @@
                 >{{ folder.substring(folder.lastIndexOf("/") + 1) }}</span
               >
             </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme"
-                >This is file name is too long so have to ellispsis it.pdf</span
-              >
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme"
-                >This is file name is too long so have to ellispsis it.pdf</span
-              >
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme"
-                >This is file name is too long so have to ellispsis it.pdf</span
-              >
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme"
-                >This is file name is too long so have to ellispsis it.pdf</span
-              >
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme"
-                >This is file name is too long so have to ellispsis it.pdf</span
-              >
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme"
-                >This is file name is too long so have to ellispsis it.pdf</span
-              >
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf_temp.png" alt="" />
-              <span class="fl_nme"
-                >This is file name is too long so have to ellispsis it.pdf</span
+            <div
+              class="mlti_fls_dv"
+              *ngFor="let file of all_files | async"
+              (click)="
+                showPropertisModal(file, '../../../assets/images/video.png')
+              "
+            >
+              <img src="../../../assets/images/video.png" alt="{{ file }}" />
+              <span
+                matTooltip="{{ file.substring(file.lastIndexOf('/') + 1) }}"
+                class="fl_nme"
+                >{{ file.substring(file.lastIndexOf("/") + 1) }}</span
               >
             </div>
           </div>
@@ -458,7 +433,7 @@
             </div>
           </div>
         </mat-tab>
-        <mat-tab label="Other Videos">
+        <mat-tab label="KPoint Videos">
           <div class="hgt_20"></div>
           <div class="dsh_brd_crds">
             <mat-form-field appearance="outline" class="float_right">
