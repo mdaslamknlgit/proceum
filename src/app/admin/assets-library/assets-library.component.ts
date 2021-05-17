@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
 import { CommonService } from 'src/app/services/common.service';
@@ -14,6 +15,7 @@ export class AssetsLibraryComponent implements OnInit {
   public activeTab = 'documents';
   public current_path = 'documents';
   public current_path_list = ['documents'];
+  public selectedIndex = 2;
   public files = [];
   public directories = [];
   public bucket_path = '';
@@ -22,10 +24,19 @@ export class AssetsLibraryComponent implements OnInit {
   search_images = '';
   public properties_popup: boolean = false;
   public file_details = [];
-  constructor(private http: CommonService, private toster: ToastrService) {}
+  constructor(
+    private http: CommonService,
+    private toster: ToastrService,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.openFolder(this.current_path);
+    this.activatedRoute.params.subscribe((param) => {
+      this.activeTab = param.files;
+      this.current_path = param.files;
+      this.current_path_list = [this.activeTab];
+      this.openFolder(this.current_path);
+    });
   }
   getFiles(tab) {
     this.activeTab = tab.tab.textLabel.toLowerCase();
@@ -91,7 +102,7 @@ export class AssetsLibraryComponent implements OnInit {
   uploadFiles(event) {
     const uploadData = new FormData();
     let files = event.target.files;
-    console.log(files);
+    if (files.length == 0) return false;
     for (var i = 0; i < files.length; i++) {
       uploadData.append('file' + i, files[i]);
     }
