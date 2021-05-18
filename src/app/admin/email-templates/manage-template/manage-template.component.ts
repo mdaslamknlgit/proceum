@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 //import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
 import { CommonService } from 'src/app/services/common.service';
@@ -6,6 +6,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { UploadAdapter } from '../../../classes/UploadAdapter';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 
 @Component({
   selector: 'app-create',
@@ -22,6 +23,7 @@ export class ManageTemplateComponent implements OnInit {
   };
   public isupdated = false;
   public Editor = ClassicEditor;
+  @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   public title = '';
   htmlEditorConfig = {
     toolbar: {
@@ -33,6 +35,8 @@ export class ManageTemplateComponent implements OnInit {
 
     placeholder: 'Type the email content here!',
   };
+  public placeholders_array: Array<any> = [];
+  selected_placeholder = '';
   constructor(
     private http: CommonService,
     private toaster: ToastrService,
@@ -57,7 +61,15 @@ export class ManageTemplateComponent implements OnInit {
       return data;
     };
   }
-
+  addPlaceholder() {
+    let arg = this.selected_placeholder;
+    const appendData = arg;
+    const selection = this.editor.editorInstance.model.document.selection;
+    const range = selection.getFirstRange();
+    this.editor.editorInstance.model.change((writer) => {
+      writer.insert(appendData, range.start);
+    });
+  }
   getTemplate(data) {
     if (data.id > 0) {
       this.title = 'Edit Template';
@@ -72,6 +84,7 @@ export class ManageTemplateComponent implements OnInit {
             template_name: template['name'],
             template_placeholders: template['placeholders'],
           };
+          this.placeholders_array = template['placeholders'].split(',');
         }
       });
     } else {
