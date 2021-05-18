@@ -13,7 +13,7 @@ import { CommonService } from 'src/app/services/common.service';
 export class CreateContentComponent implements OnInit {
   public active_tab = 'images';
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
-  public library_popup: boolean = true;
+  public library_popup: boolean = false;
   public Editor = Editor;
   editorConfig = {
     Plugins: [],
@@ -55,5 +55,10 @@ export class CreateContentComponent implements OnInit {
   }
   CloseModal() {
     this.library_popup = false;
+  }
+  openAssetsLibrary(tab) {
+    alert(tab);
+    this.active_tab = tab;
+    this.library_popup = true;
   }
 }
