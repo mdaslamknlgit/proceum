@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 @Component({
   selector: 'app-admin-topbar',
   templateUrl: './admin-topbar.component.html',
@@ -9,11 +9,24 @@ import { Router } from '@angular/router';
 export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: string = sessionStorage.getItem('sidemenu');
   public user;
+  width: any;
+  @HostListener('window:load', ['$event'])
+  @HostListener('window:resize', ['$event'])
+  onEvent(event) {
+    this.width = window.innerWidth;
+  }
   constructor(private http: CommonService, private route: Router) {
     this.http.menu_status = sessionStorage.getItem('sidemenu');
   }
   ngOnInit(): void {
     this.user = this.http.getUser();
+    this.route.events.subscribe((ev) => {
+      if (ev instanceof NavigationEnd) {
+        if (this.width < 1024) {
+          this.sidemenu_status = this.http.menu_status = 'sd_cls';
+        }
+      }
+    });
   }
 
   toggleSidemenu(param) {
