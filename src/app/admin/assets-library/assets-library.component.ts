@@ -16,6 +16,7 @@ export class AssetsLibraryComponent implements OnInit {
   public current_path = 'documents';
   public current_path_list = ['documents'];
   public selectedIndex = 2;
+  public active_class_file = '';
   public files = [];
   public directories = [];
   public bucket_path = '';
@@ -33,10 +34,22 @@ export class AssetsLibraryComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
       this.activeTab = param.files;
-      this.current_path = param.files;
+      if (this.activeTab == 'videos') this.selectedIndex = 2;
+      else if (this.activeTab == 'images') this.selectedIndex = 1;
+      else this.selectedIndex = 0;
+      this.current_path = this.activeTab;
       this.current_path_list = [this.activeTab];
       this.openFolder(this.current_path);
     });
+    if (this.data['modal_view']) {
+      this.activeTab = this.data['active_tab'];
+      if (this.activeTab == 'videos') this.selectedIndex = 2;
+      else if (this.activeTab == 'images') this.selectedIndex = 1;
+      else this.selectedIndex = 0;
+      this.current_path = this.activeTab;
+      this.current_path_list = [this.activeTab];
+      this.openFolder(this.current_path);
+    }
   }
   getFiles(tab) {
     this.activeTab = tab.tab.textLabel.toLowerCase();
@@ -86,6 +99,7 @@ export class AssetsLibraryComponent implements OnInit {
     this.openFolder(current_path);
   }
   showPropertisModal(path, image_path) {
+    this.active_class_file = path.substring(path.lastIndexOf('/') + 1);
     this.preview_path = image_path
       ? '../../../assets/images/' + image_path
       : this.bucket_path + path;
@@ -100,12 +114,42 @@ export class AssetsLibraryComponent implements OnInit {
     this.properties_popup = false;
   }
   uploadFiles(event) {
+    let allowed_types = [];
+    if (this.activeTab == 'documents') {
+      allowed_types = [
+        'doc',
+        'docx',
+        'pdf',
+        'odt',
+        'xls',
+        'xlsx',
+        'ppt',
+        'csv',
+      ];
+    } else if (this.activeTab == 'images') {
+      allowed_types = ['jpg', 'jpeg', 'bmp', 'gif', 'png'];
+    } else {
+      allowed_types = ['mp4', 'flv'];
+    }
     const uploadData = new FormData();
     let files = event.target.files;
     if (files.length == 0) return false;
+    let valid_files = [];
     for (var i = 0; i < files.length; i++) {
-      uploadData.append('file' + i, files[i]);
+      let ext = files[i].name.split('.').pop().toLowerCase();
+      if (allowed_types.includes(ext)) {
+        valid_files.push(files[i]);
+        uploadData.append('file' + i, files[i]);
+      } else {
+        this.toster.error(
+          ext +
+            ' Extension not allowed file (' +
+            files[i].name +
+            ') not uploaded'
+        );
+      }
     }
+    if (valid_files.length == 0) return false;
     uploadData.append('path', this.current_path);
     uploadData.append('number_files', files.length);
     let param = { url: 'upload-files' };
