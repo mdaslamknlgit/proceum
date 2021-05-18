@@ -11,6 +11,7 @@ import { CommonService } from 'src/app/services/common.service';
   styleUrls: ['./create-content.component.scss'],
 })
 export class CreateContentComponent implements OnInit {
+  public active_tab = 'images';
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   public library_popup: boolean = true;
   public Editor = Editor;
