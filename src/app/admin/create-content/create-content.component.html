@@ -9,9 +9,7 @@
         </button>
       </div>
       <div class="tbbd_bdy">
-        <app-assets-library
-          [data]="{ modal_view: true, active_tab: active_tab }"
-        ></app-assets-library>
+        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab }"></app-assets-library>
 
         <hr />
         <button mat-raised-button color="accent" class="float_right mr_1">
@@ -60,7 +58,7 @@
           </div>
         </div>
         <!-- content description -->
-        <div class="description_block">
+        <!-- <div class="description_block">
           <div class="c_block">
             <div class="c_block_title">
               <mat-icon>subject</mat-icon>
@@ -73,12 +71,7 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- #Row 2 -->
-      <div class="cc_row">
-        <!-- Main video -->
+        </div> -->
         <div class="main_video_block">
           <div class="c_block">
             <div class="c_block_title">
@@ -100,6 +93,24 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- #Row 2 -->
+      <div class="cc_row">
+        <div class="description_block">
+        <div class="c_block">
+          <div class="c_block_title">
+            <mat-icon>subject</mat-icon>
+            <label for="Intro video"> Content description</label>
+          </div>
+          <div class="c_block_content">
+            <div class="ck_editor">
+              <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
+                style="height: 200px"></ckeditor>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
 
@@ -160,13 +171,13 @@
                       style="height: 200px"></ckeditor>
                   </div>
                 </mat-tab>
-                <mat-tab label="High Yield">
+                <mat-tab label="High Yield Text">
                   <div class="ck_editor">
                     <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
                       style="height: 200px"></ckeditor>
                   </div>
                 </mat-tab>
-                <mat-tab label="Question Bank">
+                <mat-tab label="MCQ's">
                   <div class="cc_top_button">
                     <label for="">Question Bank</label>
                     <div class="spacer"></div>
@@ -251,7 +262,7 @@
                     </div>
                   </div>
                 </mat-tab>
-                <mat-tab label="Related Topics">
+                <mat-tab label="Cases">
                   <div class="cc_row">
                     <mat-form-field appearance="outline" class="page_title_input">
                       <input matInput placeholder="Search topics" />
@@ -287,6 +298,12 @@
                     </div>
                   </div>
                 </mat-tab>
+                <mat-tab label="Related Topics">
+                  <div class="ck_editor">
+                    <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
+                      style="height: 200px"></ckeditor>
+                  </div>
+                </mat-tab>
                 <mat-tab label="External References">
                   <div class="ck_editor">
                     <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
@@ -309,7 +326,7 @@
     </div>
 
     <!-- Right content -->
-    <div class="cc_right_content">
+    <!-- <div class="cc_right_content">
       <div class="tools_block">
         <div class="c_block">
           <div class="c_block_title">
@@ -332,6 +349,6 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
