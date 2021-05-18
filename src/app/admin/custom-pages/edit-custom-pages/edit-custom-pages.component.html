@@ -74,7 +74,10 @@
       <div class="frm_dvs">
         <span>Page Content <span class="required">*</span></span>
         <span class="edtr_frm">
-          <span class="oc_w100p err_tltp_par">
+          <span [ngClass]="{
+            err_tltp_par:
+              custom_page_form.submitted && page_content.errors?.required
+          }" class="oc_w100p">
             <ckeditor (ready)="onReady($event)" id="editor" #editor [config]="htmlEditorConfig" required
               [(ngModel)]="customPage.page_content" ngModel #page_content="ngModel" name="page_content"
               [editor]="Editor">
