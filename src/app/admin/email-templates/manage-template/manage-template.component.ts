@@ -25,15 +25,38 @@ export class ManageTemplateComponent implements OnInit {
   public Editor = ClassicEditor;
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   public title = '';
+  //   htmlEditorConfig = {
+  //     toolbar: {
+  //       items: environment.ckeditor_toolbar,
+  //     },
+  //     mediaEmbed: {
+  //       previewsInData: true,
+  //     },
+
+  //     placeholder: 'Type the email content here!',
+  //   };
   htmlEditorConfig = {
+    Plugins: [],
+    placeholder: 'Enter content',
     toolbar: {
       items: environment.ckeditor_toolbar,
+    },
+    image: {
+      upload: ['png'],
+      toolbar: [
+        'imageStyle:alignLeft',
+        'imageStyle:full',
+        'imageStyle:alignRight',
+      ],
+      styles: ['full', 'alignLeft', 'alignRight'],
+    },
+    table: {
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
     },
     mediaEmbed: {
       previewsInData: true,
     },
-
-    placeholder: 'Type the email content here!',
+    language: 'en',
   };
   public placeholders_array: Array<any> = [];
   selected_placeholder = '';

@@ -112,7 +112,6 @@ export class AssetsLibraryComponent implements OnInit {
     let param = { url: 'get-file-details', path: path };
     this.http.post(param).subscribe((res) => {
       this.file_details = res['data'];
-      this.http.setChildData(this.file_details);
     });
   }
   ClosePropertisModal() {
@@ -176,5 +175,9 @@ export class AssetsLibraryComponent implements OnInit {
   downloadFile(file) {
     let path = file.split('/').join('|');
     window.location.href = environment.apiUrl + 'download-file/' + path;
+  }
+  selectFile(file) {
+    this.http.setChildData(file);
+    this.ClosePropertisModal();
   }
 }
