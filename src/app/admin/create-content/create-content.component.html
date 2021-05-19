@@ -231,27 +231,27 @@
               <mat-icon>attachment</mat-icon>
               <label for="Intro video"> Attachments</label>
               <span class="spacer"></span>
-              <mat-icon (click)="openAssetsLibrary('documents')">add</mat-icon>
+              <mat-icon (click)="openAssetsLibrary('documents', 'attachments')"
+                >add</mat-icon
+              >
             </div>
             <div class="c_block_content">
               <ul>
-                <li>
-                  <img src="../../../assets/images/pdf.png" alt="" />
-                  <span class="upldd_hd"> Upload Video Name Upload Video </span>
+                <li *ngFor="let file of attachments; let i = index">
+                  <img [src]="file['path']" alt="" />
+                  <span class="upldd_hd">
+                    {{
+                      file["file_path"].substring(
+                        file["file_path"].lastIndexOf("/") + 1
+                      )
+                    }}
+                  </span>
                   <span class="spacer"></span>
-                  <mat-icon class="vd_dl_icn">remove_circle_outline</mat-icon>
-                </li>
-                <li>
-                  <img src="../../../assets/images/doc.png" alt="" />
-                  <span class="upldd_hd"> Upload Video Name Upload Video </span>
-                  <span class="spacer"></span>
-                  <mat-icon class="vd_dl_icn">remove_circle_outline</mat-icon>
-                </li>
-                <li>
-                  <img src="../../../assets/images/ppt.png" alt="" />
-                  <span class="upldd_hd"> Upload Video Name Upload Video </span>
-                  <span class="spacer"></span>
-                  <mat-icon class="vd_dl_icn">remove_circle_outline</mat-icon>
+                  <mat-icon
+                    class="vd_dl_icn"
+                    (click)="removeFile(i, 'attachments')"
+                    >remove_circle_outline</mat-icon
+                  >
                 </li>
               </ul>
             </div>
@@ -264,37 +264,26 @@
               <mat-icon>wallpaper</mat-icon>
               <label for="Intro video"> Upload images / Thumbnails</label>
               <span class="spacer"></span>
-              <mat-icon>add</mat-icon>
+              <mat-icon (click)="openAssetsLibrary('images', 'images')"
+                >add</mat-icon
+              >
             </div>
             <div class="c_block_content">
               <ul>
-                <li>
-                  <img src="../../../assets/images/ppt.png" alt="" />
-                  <span class="text_center">Lorem ipsum.jpg</span>
-                </li>
-                <li>
-                  <img src="../../../assets/images/ppt.png" alt="" />
-                  <span class="text_center">Lorem ipsum.jpg</span>
-                </li>
-                <li>
-                  <img src="../../../assets/images/ppt.png" alt="" />
-                  <span class="text_center">Lorem ipsum.jpg</span>
-                </li>
-                <li>
-                  <img src="../../../assets/images/ppt.png" alt="" />
-                  <span class="text_center">Lorem ipsum.jpg</span>
-                </li>
-                <li>
-                  <img src="../../../assets/images/ppt.png" alt="" />
-                  <span class="text_center">Lorem ipsum.jpg</span>
-                </li>
-                <li>
-                  <img src="../../../assets/images/ppt.png" alt="" />
-                  <span class="text_center">Lorem ipsum.jpg</span>
-                </li>
-                <li>
-                  <img src="../../../assets/images/ppt.png" alt="" />
-                  <span class="text_center">Lorem ipsum.jpg</span>
+                <li *ngFor="let file of images; let i = index">
+                  <img
+                    [src]="file['path']"
+                    alt="{{
+                      file['file_path'].substring(
+                        file['file_path'].lastIndexOf('/') + 1
+                      )
+                    }}"
+                  />
+                  <span class="text_center">{{
+                    file["file_path"].substring(
+                      file["file_path"].lastIndexOf("/") + 1
+                    )
+                  }}</span>
                 </li>
               </ul>
             </div>
