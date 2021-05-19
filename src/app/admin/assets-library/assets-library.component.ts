@@ -32,22 +32,27 @@ export class AssetsLibraryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((param) => {
-      this.activeTab = param.files;
-      if (this.activeTab == 'videos') this.selectedIndex = 2;
-      else if (this.activeTab == 'images') this.selectedIndex = 1;
-      else this.selectedIndex = 0;
-      this.current_path = this.activeTab;
-      this.current_path_list = [this.activeTab];
-      this.openFolder(this.current_path);
-    });
-    if (this.data['modal_view']) {
+    if (!this.data['modal_view']) {
+      this.activatedRoute.params.subscribe((param) => {
+        this.activeTab = param.files;
+        if (this.activeTab == 'videos') this.selectedIndex = 2;
+        else if (this.activeTab == 'images') this.selectedIndex = 1;
+        else this.selectedIndex = 0;
+        this.current_path = this.activeTab;
+        this.current_path_list = [this.activeTab];
+        console.log(this.current_path_list, this.current_path);
+        this.openFolder(this.current_path);
+      });
+    } else {
       this.activeTab = this.data['active_tab'];
       if (this.activeTab == 'videos') this.selectedIndex = 2;
       else if (this.activeTab == 'images') this.selectedIndex = 1;
       else this.selectedIndex = 0;
-      this.current_path = this.activeTab;
-      this.current_path_list = [this.activeTab];
+
+      this.current_path = this.data['active_tab'];
+
+      this.current_path_list.push(this.data['active_tab']);
+      console.log(this.current_path_list, this.current_path);
       this.openFolder(this.current_path);
     }
   }
