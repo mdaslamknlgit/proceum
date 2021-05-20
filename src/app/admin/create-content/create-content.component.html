@@ -1,5 +1,7 @@
 <div class="mn_dshbrd">
-  <div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
+  <div
+    class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}"
+  >
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Proceum Library
@@ -9,14 +11,20 @@
         </button>
       </div>
       <div class="tbbd_bdy" *ngIf="library_popup">
-        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab }"></app-assets-library>
+        <app-assets-library
+          [data]="{ modal_view: true, active_tab: active_tab }"
+        ></app-assets-library>
 
         <hr />
         <button mat-raised-button color="accent" class="float_right mr_1">
           Select
         </button>
 
-        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="CloseModal()">
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="CloseModal()"
+        >
           Close
         </button>
         <div class="hgt_20"></div>
@@ -29,7 +37,10 @@
     <div class="cc_left_content dsh_brd_crds">
       <div class="cc_row">
         <mat-form-field appearance="outline" class="page_title_input">
-          <input matInput placeholder="Enter Content Title (max. 250 characters)" />
+          <input
+            matInput
+            placeholder="Enter Content Title (max. 250 characters)"
+          />
         </mat-form-field>
       </div>
       <!-- #Row1 -->
@@ -79,7 +90,10 @@
               <label for="Intro video"> Main video</label>
             </div>
             <mat-form-field appearance="outline" class="mn_vd_inp">
-              <input matInput placeholder="Enter Content Title (max. 250 characters)" />
+              <input
+                matInput
+                placeholder="Enter Content Title (max. 250 characters)"
+              />
             </mat-form-field>
             <div class="c_block_content">
               <div class="upload_placeholder">
@@ -160,8 +174,13 @@
             </div>
             <div class="c_block_content">
               <div class="ck_editor">
-                <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                  style="height: 200px"></ckeditor>
+                <ckeditor
+                  (ready)="onReady($event)"
+                  [editor]="Editor"
+                  #editor
+                  [config]="editorConfig"
+                  style="height: 200px"
+                ></ckeditor>
               </div>
             </div>
           </div>
@@ -212,9 +231,11 @@
               <mat-icon>attachment</mat-icon>
               <label for="Intro video"> Attachments</label>
               <span class="spacer"></span>
-              <mat-icon (click)="openAssetsLibrary('documents', 'attachments')">add</mat-icon>
+              <mat-icon (click)="openAssetsLibrary('documents', 'attachments')"
+                >add</mat-icon
+              >
             </div>
-            <div class="c_block_content">
+            <div class="c_block_content" *ngIf="attachments.length == 0">
               <div class="upload_placeholder">
                 <div class="place_block">
                   <span>Click + icon to add Attachements</span>
@@ -227,13 +248,17 @@
                   <img [src]="file['path']" alt="" />
                   <span class="upldd_hd">
                     {{
-                    file["file_path"].substring(
-                    file["file_path"].lastIndexOf("/") + 1
-                    )
+                      file["file_path"].substring(
+                        file["file_path"].lastIndexOf("/") + 1
+                      )
                     }}
                   </span>
                   <span class="spacer"></span>
-                  <mat-icon class="vd_dl_icn" (click)="removeFile(i, 'attachments')">remove_circle_outline</mat-icon>
+                  <mat-icon
+                    class="vd_dl_icn"
+                    (click)="removeFile(i, 'attachments')"
+                    >remove_circle_outline</mat-icon
+                  >
                 </li>
               </ul>
             </div>
@@ -246,9 +271,11 @@
               <mat-icon>wallpaper</mat-icon>
               <label for="Intro video"> Upload images / Thumbnails</label>
               <span class="spacer"></span>
-              <mat-icon (click)="openAssetsLibrary('images', 'images')">add</mat-icon>
+              <mat-icon (click)="openAssetsLibrary('images', 'images')"
+                >add</mat-icon
+              >
             </div>
-            <div class="c_block_content">
+            <div class="c_block_content" *ngIf="images.length == 0">
               <div class="upload_placeholder">
                 <div class="place_block">
                   <span>Click + icon to add Attachements</span>
@@ -258,18 +285,23 @@
             <div class="c_block_content">
               <ul>
                 <li *ngFor="let file of images; let i = index">
-                  <img [src]="file['path']" alt="{{
+                  <img
+                    [src]="file['path']"
+                    alt="{{
                       file['file_path'].substring(
                         file['file_path'].lastIndexOf('/') + 1
                       )
-                    }}" />
+                    }}"
+                  />
                   <span class="upldd_hd">{{
                     file["file_path"].substring(
-                    file["file_path"].lastIndexOf("/") + 1
+                      file["file_path"].lastIndexOf("/") + 1
                     )
-                    }}</span>
-                    <span class="spacer"></span>
-                    <mat-icon class="vd_dl_icn" (click)="removeFile(i, 'attachments')">remove_circle_outline</mat-icon>
+                  }}</span>
+                  <span class="spacer"></span>
+                  <mat-icon class="vd_dl_icn" (click)="removeFile(i, 'images')"
+                    >remove_circle_outline</mat-icon
+                  >
                 </li>
               </ul>
             </div>
@@ -286,20 +318,35 @@
               <mat-tab-group>
                 <mat-tab label="Learning Objectives">
                   <div class="ck_editor">
-                    <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                      style="height: 200px"></ckeditor>
+                    <ckeditor
+                      (ready)="onReady($event)"
+                      [editor]="Editor"
+                      #editor
+                      [config]="editorConfig"
+                      style="height: 200px"
+                    ></ckeditor>
                   </div>
                 </mat-tab>
                 <mat-tab label="Learning Notes">
                   <div class="ck_editor">
-                    <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                      style="height: 200px"></ckeditor>
+                    <ckeditor
+                      (ready)="onReady($event)"
+                      [editor]="Editor"
+                      #editor
+                      [config]="editorConfig"
+                      style="height: 200px"
+                    ></ckeditor>
                   </div>
                 </mat-tab>
                 <mat-tab label="High Yield Text">
                   <div class="ck_editor">
-                    <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                      style="height: 200px"></ckeditor>
+                    <ckeditor
+                      (ready)="onReady($event)"
+                      [editor]="Editor"
+                      #editor
+                      [config]="editorConfig"
+                      style="height: 200px"
+                    ></ckeditor>
                   </div>
                 </mat-tab>
                 <mat-tab label="MCQ's">
@@ -310,8 +357,13 @@
                     <button>Select from Question Bank</button>
                   </div>
                   <div class="ck_editor">
-                    <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                      style="height: 200px"></ckeditor>
+                    <ckeditor
+                      (ready)="onReady($event)"
+                      [editor]="Editor"
+                      #editor
+                      [config]="editorConfig"
+                      style="height: 200px"
+                    ></ckeditor>
                   </div>
 
                   <div class="qtns_block">
@@ -320,8 +372,12 @@
                       <div class="ans_div">
                         <mat-form-field appearance="outline">
                           <mat-select>
-                            <mat-option value="option1">Single selection</mat-option>
-                            <mat-option value="option2">Multiple selection</mat-option>
+                            <mat-option value="option1"
+                              >Single selection</mat-option
+                            >
+                            <mat-option value="option2"
+                              >Multiple selection</mat-option
+                            >
                           </mat-select>
                         </mat-form-field>
                       </div>
@@ -330,10 +386,18 @@
                       <label for="">Answers</label>
                       <div class="ans_div">
                         <mat-radio-group>
-                          <mat-radio-button value="Option1">Option 1</mat-radio-button>
-                          <mat-radio-button value="Option2">Option 2</mat-radio-button>
-                          <mat-radio-button value="Option3">Option 3</mat-radio-button>
-                          <mat-radio-button value="Option4">Option 4</mat-radio-button>
+                          <mat-radio-button value="Option1"
+                            >Option 1</mat-radio-button
+                          >
+                          <mat-radio-button value="Option2"
+                            >Option 2</mat-radio-button
+                          >
+                          <mat-radio-button value="Option3"
+                            >Option 3</mat-radio-button
+                          >
+                          <mat-radio-button value="Option4"
+                            >Option 4</mat-radio-button
+                          >
                         </mat-radio-group>
                       </div>
                     </div>
@@ -352,10 +416,18 @@
                       <label for="">Options</label>
                       <div class="ans_div">
                         <mat-radio-group>
-                          <mat-radio-button value="Option1">Option 1</mat-radio-button>
-                          <mat-radio-button value="Option2">Option 2</mat-radio-button>
-                          <mat-radio-button value="Option3">Option 3</mat-radio-button>
-                          <mat-radio-button value="Option4">Option 4</mat-radio-button>
+                          <mat-radio-button value="Option1"
+                            >Option 1</mat-radio-button
+                          >
+                          <mat-radio-button value="Option2"
+                            >Option 2</mat-radio-button
+                          >
+                          <mat-radio-button value="Option3"
+                            >Option 3</mat-radio-button
+                          >
+                          <mat-radio-button value="Option4"
+                            >Option 4</mat-radio-button
+                          >
                         </mat-radio-group>
                       </div>
                     </div>
@@ -374,10 +446,18 @@
                       <label for="">Options</label>
                       <div class="ans_div">
                         <mat-radio-group>
-                          <mat-radio-button value="Option1">Option 1</mat-radio-button>
-                          <mat-radio-button value="Option2">Option 2</mat-radio-button>
-                          <mat-radio-button value="Option3">Option 3</mat-radio-button>
-                          <mat-radio-button value="Option4">Option 4</mat-radio-button>
+                          <mat-radio-button value="Option1"
+                            >Option 1</mat-radio-button
+                          >
+                          <mat-radio-button value="Option2"
+                            >Option 2</mat-radio-button
+                          >
+                          <mat-radio-button value="Option3"
+                            >Option 3</mat-radio-button
+                          >
+                          <mat-radio-button value="Option4"
+                            >Option 4</mat-radio-button
+                          >
                         </mat-radio-group>
                       </div>
                     </div>
@@ -389,7 +469,10 @@
                 </mat-tab>
                 <mat-tab label="Cases">
                   <div class="cc_row">
-                    <mat-form-field appearance="outline" class="page_title_input">
+                    <mat-form-field
+                      appearance="outline"
+                      class="page_title_input"
+                    >
                       <input matInput placeholder="Search topics" />
                       <mat-icon matSuffix>search</mat-icon>
                     </mat-form-field>
@@ -398,7 +481,8 @@
                     <!-- Inserted questions -->
                     <div class="qtns_block insrtd_qtns">
                       <div>
-                        <span>It is a long established fact that a reader will be
+                        <span
+                          >It is a long established fact that a reader will be
                           distracted by the readable content of a page when
                           looking at its layout.
                         </span>
@@ -411,7 +495,8 @@
                     <hr />
                     <div class="qtns_block insrtd_qtns">
                       <div>
-                        <span>It is a long established fact that a reader will be
+                        <span
+                          >It is a long established fact that a reader will be
                           distracted by the readable content of a page when
                           looking at its layout.
                         </span>
@@ -425,14 +510,24 @@
                 </mat-tab>
                 <mat-tab label="Related Topics">
                   <div class="ck_editor">
-                    <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                      style="height: 200px"></ckeditor>
+                    <ckeditor
+                      (ready)="onReady($event)"
+                      [editor]="Editor"
+                      #editor
+                      [config]="editorConfig"
+                      style="height: 200px"
+                    ></ckeditor>
                   </div>
                 </mat-tab>
                 <mat-tab label="External References">
                   <div class="ck_editor">
-                    <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                      style="height: 200px"></ckeditor>
+                    <ckeditor
+                      (ready)="onReady($event)"
+                      [editor]="Editor"
+                      #editor
+                      [config]="editorConfig"
+                      style="height: 200px"
+                    ></ckeditor>
                   </div>
                 </mat-tab>
               </mat-tab-group>
