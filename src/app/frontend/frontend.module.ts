@@ -18,6 +18,7 @@ import { CurriculumComponent } from './student/curriculum/curriculum.component';
 import { StaticPagesComponent } from './static-pages/static-pages.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { StudentComponent } from './student.component';
+import { McqsComponent } from './student/mcqs/mcqs.component';
 
 const routes: Routes = [
   
@@ -51,7 +52,7 @@ const routes: Routes = [
     UnsubscribeEmailComponent, 
     CurriculumComponent, 
     ResetPasswordComponent, 
-    StaticPagesComponent,
+    StaticPagesComponent, McqsComponent,
   ],
   imports: [
     CommonModule,

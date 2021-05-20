@@ -17,6 +17,7 @@ import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscr
 import { CurriculumComponent } from './frontend/student/curriculum/curriculum.component';
 import { StaticPagesComponent } from './frontend/static-pages/static-pages.component';
 import { ResetPasswordComponent } from './frontend/reset-password/reset-password.component';
+import { McqsComponent } from './frontend/student/mcqs/mcqs.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -66,6 +67,7 @@ const routes: Routes = [
     },
   },
   { path: 'student-curriculum', component: CurriculumComponent },
+  { path: 'mcqs', component: McqsComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: IndexComponent }, 
 ];
