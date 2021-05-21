@@ -123,6 +123,7 @@ const routes: Routes = [
       { path: 'create-custom-page', component: CreateCustomPagesComponent },
       { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
       { path: 'create-content', component: CreateContentComponent },
+      { path: 'create-content/:id', component: CreateContentComponent },
     ],
   },
 ];
