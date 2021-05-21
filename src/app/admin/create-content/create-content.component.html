@@ -32,163 +32,163 @@
     </div>
   </div>
   <div class="pg_ttl">Create content</div>
-  <div class="main_content_cc">
-    <!-- Left content -->
-    <div class="cc_left_content dsh_brd_crds">
-      <div class="cc_row">
-        <mat-form-field appearance="outline" class="page_title_input">
-          <input
-            matInput
-            placeholder="Enter Content Title (max. 250 characters)"
-          />
-        </mat-form-field>
-      </div>
-      <!-- #Row1 -->
-      <div class="cc_row">
-        <!-- Intro video -->
-        <div class="introvide_block">
-          <div class="c_block">
-            <div class="c_block_title">
-              <mat-icon>videocam</mat-icon>
-              <label for="Intro video"> Intro video</label>
-            </div>
-            <div class="c_block_content">
-              <div class="upload_placeholder">
-                <div class="place_block">
-                  <mat-icon> add </mat-icon><br />
-                  <span> Click here or Drop here to upload Video </span>
+  <form
+    id="content_form"
+    #content_create_form="ngForm"
+    name="content_create_form"
+    (ngSubmit)="content_create_form.valid && createContent(false)"
+    novalidate
+  >
+    <div class="main_content_cc">
+      <!-- Left content -->
+      <div class="cc_left_content dsh_brd_crds">
+        <div class="cc_row err_tltp_par">
+          <mat-form-field appearance="outline" class="page_title_input">
+            <input
+              matInput
+              trim="blur"
+              name="title_name"
+              maxlength="250"
+              [(ngModel)]="title"
+              placeholder="Enter Content Title"
+              #title_name="ngModel"
+              required
+            />
+          </mat-form-field>
+          <span
+            class="prc_tltp"
+            *ngIf="
+              (content_create_form.submitted || title_name.touched) &&
+              title_name.invalid
+            "
+          >
+            Content Title is required</span
+          >
+        </div>
+        <!-- #Row1 -->
+        <div class="cc_row">
+          <!-- Intro video -->
+          <div class="introvide_block">
+            <div class="c_block">
+              <div class="c_block_title">
+                <mat-icon>videocam</mat-icon>
+                <label for="Intro video"> Intro video</label>
+              </div>
+              <div class="c_block_content">
+                <div class="upload_placeholder">
+                  <div class="place_block">
+                    <mat-icon> add </mat-icon><br />
+                    <span> Click here to add video </span>
+                  </div>
+                </div>
+                <div class="upload_btn">
+                  <!-- <button>
+                  <mat-icon> upload </mat-icon>
+                  Select video
+                </button> -->
                 </div>
               </div>
-              <div class="upload_btn">
-                <button>
+            </div>
+          </div>
+          <div class="main_video_block">
+            <div class="c_block">
+              <div class="c_block_title">
+                <mat-icon>videocam</mat-icon>
+                <label for="Intro video"> Main video</label>
+              </div>
+              <mat-form-field appearance="outline" class="mn_vd_inp">
+                <input
+                  matInput
+                  placeholder="Enter Content Title (max. 250 characters)"
+                />
+              </mat-form-field>
+              <div class="c_block_content">
+                <div
+                  class="upload_placeholder"
+                  (click)="openAssetsLibrary('videos', 'videos')"
+                >
+                  <div class="place_block">
+                    <mat-icon> add </mat-icon><br />
+                    <span> Click Here to add Video </span>
+                  </div>
+                </div>
+                <div class="upload_btn">
+                  <!-- <button>
                   <mat-icon> upload </mat-icon>
-                  Upload video
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- content description -->
-        <!-- <div class="description_block">
-          <div class="c_block">
-            <div class="c_block_title">
-              <mat-icon>subject</mat-icon>
-              <label for="Intro video"> Content description</label>
-            </div>
-            <div class="c_block_content">
-              <div class="ck_editor">
-                <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                  style="height: 200px"></ckeditor>
-              </div>
-            </div>
-          </div>
-        </div> -->
-        <div class="main_video_block">
-          <div class="c_block">
-            <div class="c_block_title">
-              <mat-icon>videocam</mat-icon>
-              <label for="Intro video"> Main video</label>
-            </div>
-            <mat-form-field appearance="outline" class="mn_vd_inp">
-              <input
-                matInput
-                placeholder="Enter Content Title (max. 250 characters)"
-              />
-            </mat-form-field>
-            <div class="c_block_content">
-              <div class="upload_placeholder">
-                <div class="place_block">
-                  <mat-icon> add </mat-icon><br />
-                  <span> Click here or Drop here to upload Video </span>
+                  Select video
+                </button> -->
                 </div>
               </div>
-              <div class="upload_btn">
-                <button>
-                  <mat-icon> upload </mat-icon>
-                  Upload video
-                </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="cc_row">
+          <div class="upldd_vds">
+            <div class="c_block">
+              <div class="c_block_title">
+                <mat-icon>videocam</mat-icon>
+                <label for="Intro video"> Selected Videos</label>
+              </div>
+              <div class="c_block_content">
+                <div class="c_block_content" *ngIf="videos.length == 0">
+                  <div class="upload_placeholder">
+                    <div class="place_block">
+                      <span>No videos selected</span>
+                    </div>
+                  </div>
+                </div>
+                <ul>
+                  <li *ngFor="let file of videos; let i = index">
+                    <mat-icon>play_circle_filled</mat-icon>
+                    <span class="upldd_hd">
+                      {{
+                        file["file_path"].substring(
+                          file["file_path"].lastIndexOf("/") + 1
+                        )
+                      }}
+                      <p>29:51 min</p>
+                    </span>
+                    <span class="spacer"></span>
+                    <mat-icon
+                      class="vd_dl_icn"
+                      (click)="removeFile(i, 'videos')"
+                      >remove_circle_outline</mat-icon
+                    >
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="cc_row">
-        <div class="upldd_vds">
-          <div class="c_block">
-            <div class="c_block_title">
-              <mat-icon>videocam</mat-icon>
-              <label for="Intro video"> Uploaded Videos</label>
-            </div>
-            <div class="c_block_content">
-              <ul>
-                <li>
-                  <mat-icon>play_circle_filled</mat-icon>
-                  <span class="upldd_hd">
-                    Upload Video Name Upload Video
-                    <p>29:51 min</p>
-                  </span>
-                  <span class="spacer"></span>
-                  <mat-icon class="vd_dl_icn">remove_circle_outline</mat-icon>
-                </li>
-                <li>
-                  <mat-icon>play_circle_filled</mat-icon>
-                  <span class="upldd_hd">
-                    Upload Video Name Upload Video
-                    <p>29:51 min</p>
-                  </span>
-                  <span class="spacer"></span>
-                  <mat-icon class="vd_dl_icn">remove_circle_outline</mat-icon>
-                </li>
-                <li>
-                  <mat-icon>play_circle_filled</mat-icon>
-                  <span class="upldd_hd">
-                    Upload Video Name Upload Video
-                    <p>29:51 min</p>
-                  </span>
-                  <span class="spacer"></span>
-                  <mat-icon class="vd_dl_icn">remove_circle_outline</mat-icon>
-                </li>
-                <li>
-                  <mat-icon>play_circle_filled</mat-icon>
-                  <span class="upldd_hd">
-                    Upload Video Name Upload Video
-                    <p>29:51 min</p>
-                  </span>
-                  <span class="spacer"></span>
-                  <mat-icon class="vd_dl_icn">remove_circle_outline</mat-icon>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- #Row 2 -->
-      <div class="cc_row">
-        <div class="description_block">
-          <div class="c_block">
-            <div class="c_block_title">
-              <mat-icon>subject</mat-icon>
-              <label for="Intro video"> Content description</label>
-            </div>
-            <div class="c_block_content">
-              <div class="ck_editor">
-                <ckeditor
-                  (ready)="onReady($event)"
-                  [editor]="Editor"
-                  #editor
-                  [config]="editorConfig"
-                  style="height: 200px"
-                ></ckeditor>
+        <!-- #Row 2 -->
+        <div class="cc_row">
+          <div class="description_block">
+            <div class="c_block">
+              <div class="c_block_title">
+                <mat-icon>subject</mat-icon>
+                <label for="Intro video"> Content description</label>
+              </div>
+              <div class="c_block_content">
+                <div class="ck_editor">
+                  <ckeditor
+                    [(ngModel)]="main_content"
+                    name="main_content_name"
+                    (ready)="onReady($event)"
+                    [editor]="Editor"
+                    #editor
+                    [config]="editorConfig"
+                    style="height: 500px"
+                  ></ckeditor>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- #Row 3 -->
-      <!-- <div class="cc_row">
+        <!-- #Row 3 -->
+        <!-- <div class="cc_row">
         <div class="attachments_block">
           <div class="c_block">
             <div class="c_block_title">
@@ -223,330 +223,343 @@
           </div>
         </div>
       </div> -->
-      <!-- #Row 3.5 -->
-      <div class="cc_row">
-        <div class="upld_attchmnts">
-          <div class="c_block">
-            <div class="c_block_title">
-              <mat-icon>attachment</mat-icon>
-              <label for="Intro video"> Attachments</label>
-              <span class="spacer"></span>
-              <mat-icon (click)="openAssetsLibrary('documents', 'attachments')"
-                >add</mat-icon
-              >
-            </div>
-            <div class="c_block_content" *ngIf="attachments.length == 0">
-              <div class="upload_placeholder">
-                <div class="place_block">
-                  <span>Click + icon to add Attachements</span>
+        <!-- #Row 3.5 -->
+        <div class="cc_row">
+          <div class="upld_attchmnts">
+            <div class="c_block">
+              <div class="c_block_title">
+                <mat-icon>attachment</mat-icon>
+                <label for="Intro video"> Attachments</label>
+                <span class="spacer"></span>
+                <mat-icon
+                  (click)="openAssetsLibrary('documents', 'attachments')"
+                  >add</mat-icon
+                >
+              </div>
+              <div class="c_block_content" *ngIf="attachments.length == 0">
+                <div class="upload_placeholder">
+                  <div class="place_block">
+                    <span>Click + icon to add Attachements</span>
+                  </div>
                 </div>
               </div>
+              <div class="c_block_content">
+                <ul>
+                  <li *ngFor="let file of attachments; let i = index">
+                    <img [src]="file['path']" alt="" />
+                    <span class="upldd_hd">
+                      {{
+                        file["file_path"].substring(
+                          file["file_path"].lastIndexOf("/") + 1
+                        )
+                      }}
+                    </span>
+                    <span class="spacer"></span>
+                    <mat-icon
+                      class="vd_dl_icn"
+                      (click)="removeFile(i, 'attachments')"
+                      >remove_circle_outline</mat-icon
+                    >
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="c_block_content">
-              <ul>
-                <li *ngFor="let file of attachments; let i = index">
-                  <img [src]="file['path']" alt="" />
-                  <span class="upldd_hd">
-                    {{
+          </div>
+
+          <div class="upld_img_thmb">
+            <div class="c_block">
+              <div class="c_block_title">
+                <mat-icon>wallpaper</mat-icon>
+                <label for="Intro video"> Upload images / Thumbnails</label>
+                <span class="spacer"></span>
+                <mat-icon (click)="openAssetsLibrary('images', 'images')"
+                  >add</mat-icon
+                >
+              </div>
+              <div class="c_block_content" *ngIf="images.length == 0">
+                <div class="upload_placeholder">
+                  <div class="place_block">
+                    <span>Click + icon to add Attachements</span>
+                  </div>
+                </div>
+              </div>
+              <div class="c_block_content">
+                <ul>
+                  <li *ngFor="let file of images; let i = index">
+                    <img
+                      [src]="file['path']"
+                      alt="{{
+                        file['file_path'].substring(
+                          file['file_path'].lastIndexOf('/') + 1
+                        )
+                      }}"
+                    />
+                    <span class="upldd_hd">{{
                       file["file_path"].substring(
                         file["file_path"].lastIndexOf("/") + 1
                       )
-                    }}
-                  </span>
-                  <span class="spacer"></span>
-                  <mat-icon
-                    class="vd_dl_icn"
-                    (click)="removeFile(i, 'attachments')"
-                    >remove_circle_outline</mat-icon
-                  >
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="upld_img_thmb">
-          <div class="c_block">
-            <div class="c_block_title">
-              <mat-icon>wallpaper</mat-icon>
-              <label for="Intro video"> Upload images / Thumbnails</label>
-              <span class="spacer"></span>
-              <mat-icon (click)="openAssetsLibrary('images', 'images')"
-                >add</mat-icon
-              >
-            </div>
-            <div class="c_block_content" *ngIf="images.length == 0">
-              <div class="upload_placeholder">
-                <div class="place_block">
-                  <span>Click + icon to add Attachements</span>
-                </div>
+                    }}</span>
+                    <span class="spacer"></span>
+                    <mat-icon
+                      class="vd_dl_icn"
+                      (click)="removeFile(i, 'images')"
+                      >remove_circle_outline</mat-icon
+                    >
+                  </li>
+                </ul>
               </div>
             </div>
-            <div class="c_block_content">
-              <ul>
-                <li *ngFor="let file of images; let i = index">
-                  <img
-                    [src]="file['path']"
-                    alt="{{
-                      file['file_path'].substring(
-                        file['file_path'].lastIndexOf('/') + 1
-                      )
-                    }}"
-                  />
-                  <span class="upldd_hd">{{
-                    file["file_path"].substring(
-                      file["file_path"].lastIndexOf("/") + 1
-                    )
-                  }}</span>
-                  <span class="spacer"></span>
-                  <mat-icon class="vd_dl_icn" (click)="removeFile(i, 'images')"
-                    >remove_circle_outline</mat-icon
-                  >
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
-      </div>
 
-      <!-- #Row 4 -->
-      <div class="cc_row">
-        <!-- Attachments -->
-        <div class="tabs_block">
-          <div class="c_block">
-            <div class="c_block_content">
-              <mat-tab-group>
-                <mat-tab label="Learning Objectives">
-                  <div class="ck_editor">
-                    <ckeditor
-                      (ready)="onReady($event)"
-                      [editor]="Editor"
-                      #editor
-                      [config]="editorConfig"
-                      style="height: 200px"
-                    ></ckeditor>
-                  </div>
-                </mat-tab>
-                <mat-tab label="Learning Notes">
-                  <div class="ck_editor">
-                    <ckeditor
-                      (ready)="onReady($event)"
-                      [editor]="Editor"
-                      #editor
-                      [config]="editorConfig"
-                      style="height: 200px"
-                    ></ckeditor>
-                  </div>
-                </mat-tab>
-                <mat-tab label="High Yield Text">
-                  <div class="ck_editor">
-                    <ckeditor
-                      (ready)="onReady($event)"
-                      [editor]="Editor"
-                      #editor
-                      [config]="editorConfig"
-                      style="height: 200px"
-                    ></ckeditor>
-                  </div>
-                </mat-tab>
-                <mat-tab label="MCQ's">
-                  <div class="cc_top_button">
-                    <label for="">Question Bank</label>
-                    <div class="spacer"></div>
-                    <button>Create New Question</button>
-                    <button>Select from Question Bank</button>
-                  </div>
-                  <div class="ck_editor">
-                    <ckeditor
-                      (ready)="onReady($event)"
-                      [editor]="Editor"
-                      #editor
-                      [config]="editorConfig"
-                      style="height: 200px"
-                    ></ckeditor>
-                  </div>
+        <!-- #Row 4 -->
+        <div class="cc_row">
+          <!-- Attachments -->
+          <div class="tabs_block">
+            <div class="c_block">
+              <div class="c_block_content">
+                <mat-tab-group>
+                  <mat-tab label="Learning Objectives">
+                    <div class="ck_editor">
+                      <ckeditor
+                        [(ngModel)]="learning_obj_content"
+                        name="learning_obj_content_name"
+                        (ready)="onReady($event)"
+                        [editor]="Editor"
+                        #editor
+                        [config]="editorConfig"
+                        style="height: 500px"
+                      ></ckeditor>
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="Learning Notes">
+                    <div class="ck_editor">
+                      <ckeditor
+                        (ready)="onReady($event)"
+                        [(ngModel)]="learning_notes_content"
+                        name="learning_notes_content_name"
+                        [editor]="Editor"
+                        #editor
+                        [config]="editorConfig"
+                        style="height: 500px"
+                      ></ckeditor>
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="High Yield Text">
+                    <div class="ck_editor">
+                      <ckeditor
+                        [(ngModel)]="highyield_content"
+                        name="highyield_content_name"
+                        (ready)="onReady($event)"
+                        [editor]="Editor"
+                        #editor
+                        [config]="editorConfig"
+                        style="height: 500px"
+                      ></ckeditor>
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="MCQs">
+                    <div class="cc_top_button">
+                      <label for="">Question Bank</label>
+                      <div class="spacer"></div>
+                      <button>Create New Question</button>
+                      <button>Select from Question Bank</button>
+                    </div>
+                    <div class="ck_editor">
+                      <ckeditor
+                        (ready)="onReady($event)"
+                        [editor]="Editor"
+                        #editor
+                        [config]="editorConfig"
+                        style="height: 500px"
+                      ></ckeditor>
+                    </div>
 
-                  <div class="qtns_block">
-                    <div>
-                      <label for="">Question type</label>
-                      <div class="ans_div">
-                        <mat-form-field appearance="outline">
-                          <mat-select>
-                            <mat-option value="option1"
-                              >Single selection</mat-option
+                    <div class="qtns_block">
+                      <div>
+                        <label for="">Question type</label>
+                        <div class="ans_div">
+                          <mat-form-field appearance="outline">
+                            <mat-select>
+                              <mat-option value="option1"
+                                >Single selection</mat-option
+                              >
+                              <mat-option value="option2"
+                                >Multiple selection</mat-option
+                              >
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div>
+                        <label for="">Answers</label>
+                        <div class="ans_div">
+                          <mat-radio-group>
+                            <mat-radio-button value="Option1"
+                              >Option 1</mat-radio-button
                             >
-                            <mat-option value="option2"
-                              >Multiple selection</mat-option
+                            <mat-radio-button value="Option2"
+                              >Option 2</mat-radio-button
                             >
-                          </mat-select>
-                        </mat-form-field>
+                            <mat-radio-button value="Option3"
+                              >Option 3</mat-radio-button
+                            >
+                            <mat-radio-button value="Option4"
+                              >Option 4</mat-radio-button
+                            >
+                          </mat-radio-group>
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <label for="">Answers</label>
-                      <div class="ans_div">
-                        <mat-radio-group>
-                          <mat-radio-button value="Option1"
-                            >Option 1</mat-radio-button
-                          >
-                          <mat-radio-button value="Option2"
-                            >Option 2</mat-radio-button
-                          >
-                          <mat-radio-button value="Option3"
-                            >Option 3</mat-radio-button
-                          >
-                          <mat-radio-button value="Option4"
-                            >Option 4</mat-radio-button
-                          >
-                        </mat-radio-group>
-                      </div>
+                    <div class="upload_btn">
+                      <button>Insert another Question</button>
                     </div>
-                  </div>
-                  <div class="upload_btn">
-                    <button>Insert another Question</button>
-                  </div>
-                  <hr />
-                  <!-- Inserted questions -->
-                  <div class="qtns_block insrtd_qtns">
-                    <div>
-                      <label for="">Question</label>
-                      <span>Lorem ipsum dummy text question ?</span>
-                    </div>
-                    <div>
-                      <label for="">Options</label>
-                      <div class="ans_div">
-                        <mat-radio-group>
-                          <mat-radio-button value="Option1"
-                            >Option 1</mat-radio-button
-                          >
-                          <mat-radio-button value="Option2"
-                            >Option 2</mat-radio-button
-                          >
-                          <mat-radio-button value="Option3"
-                            >Option 3</mat-radio-button
-                          >
-                          <mat-radio-button value="Option4"
-                            >Option 4</mat-radio-button
-                          >
-                        </mat-radio-group>
-                      </div>
-                    </div>
-                    <div class="edit_options">
-                      <mat-icon>edit</mat-icon>
-                      <mat-icon>remove_circle_outline</mat-icon>
-                    </div>
-                  </div>
-                  <hr />
-                  <div class="qtns_block insrtd_qtns">
-                    <div>
-                      <label for="">Question</label>
-                      <span>Lorem ipsum dummy text question ?</span>
-                    </div>
-                    <div>
-                      <label for="">Options</label>
-                      <div class="ans_div">
-                        <mat-radio-group>
-                          <mat-radio-button value="Option1"
-                            >Option 1</mat-radio-button
-                          >
-                          <mat-radio-button value="Option2"
-                            >Option 2</mat-radio-button
-                          >
-                          <mat-radio-button value="Option3"
-                            >Option 3</mat-radio-button
-                          >
-                          <mat-radio-button value="Option4"
-                            >Option 4</mat-radio-button
-                          >
-                        </mat-radio-group>
-                      </div>
-                    </div>
-                    <div class="edit_options">
-                      <mat-icon>edit</mat-icon>
-                      <mat-icon>remove_circle_outline</mat-icon>
-                    </div>
-                  </div>
-                </mat-tab>
-                <mat-tab label="Cases">
-                  <div class="cc_row">
-                    <mat-form-field
-                      appearance="outline"
-                      class="page_title_input"
-                    >
-                      <input matInput placeholder="Search topics" />
-                      <mat-icon matSuffix>search</mat-icon>
-                    </mat-form-field>
-
                     <hr />
                     <!-- Inserted questions -->
                     <div class="qtns_block insrtd_qtns">
                       <div>
-                        <span
-                          >It is a long established fact that a reader will be
-                          distracted by the readable content of a page when
-                          looking at its layout.
-                        </span>
+                        <label for="">Question</label>
+                        <span>Lorem ipsum dummy text question ?</span>
+                      </div>
+                      <div>
+                        <label for="">Options</label>
+                        <div class="ans_div">
+                          <mat-radio-group>
+                            <mat-radio-button value="Option1"
+                              >Option 1</mat-radio-button
+                            >
+                            <mat-radio-button value="Option2"
+                              >Option 2</mat-radio-button
+                            >
+                            <mat-radio-button value="Option3"
+                              >Option 3</mat-radio-button
+                            >
+                            <mat-radio-button value="Option4"
+                              >Option 4</mat-radio-button
+                            >
+                          </mat-radio-group>
+                        </div>
                       </div>
                       <div class="edit_options">
-                        <mat-icon class="d_none">edit</mat-icon>
+                        <mat-icon>edit</mat-icon>
                         <mat-icon>remove_circle_outline</mat-icon>
                       </div>
                     </div>
                     <hr />
                     <div class="qtns_block insrtd_qtns">
                       <div>
-                        <span
-                          >It is a long established fact that a reader will be
-                          distracted by the readable content of a page when
-                          looking at its layout.
-                        </span>
+                        <label for="">Question</label>
+                        <span>Lorem ipsum dummy text question ?</span>
+                      </div>
+                      <div>
+                        <label for="">Options</label>
+                        <div class="ans_div">
+                          <mat-radio-group>
+                            <mat-radio-button value="Option1"
+                              >Option 1</mat-radio-button
+                            >
+                            <mat-radio-button value="Option2"
+                              >Option 2</mat-radio-button
+                            >
+                            <mat-radio-button value="Option3"
+                              >Option 3</mat-radio-button
+                            >
+                            <mat-radio-button value="Option4"
+                              >Option 4</mat-radio-button
+                            >
+                          </mat-radio-group>
+                        </div>
                       </div>
                       <div class="edit_options">
-                        <mat-icon class="d_none">edit</mat-icon>
+                        <mat-icon>edit</mat-icon>
                         <mat-icon>remove_circle_outline</mat-icon>
                       </div>
                     </div>
-                  </div>
-                </mat-tab>
-                <mat-tab label="Related Topics">
-                  <div class="ck_editor">
-                    <ckeditor
-                      (ready)="onReady($event)"
-                      [editor]="Editor"
-                      #editor
-                      [config]="editorConfig"
-                      style="height: 200px"
-                    ></ckeditor>
-                  </div>
-                </mat-tab>
-                <mat-tab label="External References">
-                  <div class="ck_editor">
-                    <ckeditor
-                      (ready)="onReady($event)"
-                      [editor]="Editor"
-                      #editor
-                      [config]="editorConfig"
-                      style="height: 200px"
-                    ></ckeditor>
-                  </div>
-                </mat-tab>
-              </mat-tab-group>
+                  </mat-tab>
+                  <mat-tab label="Related Topics">
+                    <div class="cc_row">
+                      <mat-form-field
+                        appearance="outline"
+                        class="page_title_input"
+                      >
+                        <input matInput placeholder="Search topics" />
+                        <mat-icon matSuffix>search</mat-icon>
+                      </mat-form-field>
+
+                      <hr />
+                      <!-- Inserted questions -->
+                      <div class="qtns_block insrtd_qtns">
+                        <div>
+                          <span
+                            >It is a long established fact that a reader will be
+                            distracted by the readable content of a page when
+                            looking at its layout.
+                          </span>
+                        </div>
+                        <div class="edit_options">
+                          <mat-icon class="d_none">edit</mat-icon>
+                          <mat-icon>remove_circle_outline</mat-icon>
+                        </div>
+                      </div>
+                      <hr />
+                      <div class="qtns_block insrtd_qtns">
+                        <div>
+                          <span
+                            >It is a long established fact that a reader will be
+                            distracted by the readable content of a page when
+                            looking at its layout.
+                          </span>
+                        </div>
+                        <div class="edit_options">
+                          <mat-icon class="d_none">edit</mat-icon>
+                          <mat-icon>remove_circle_outline</mat-icon>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="Cases">
+                    <div class="ck_editor">
+                      <ckeditor
+                        (ready)="onReady($event)"
+                        [editor]="Editor"
+                        #editor
+                        [config]="editorConfig"
+                        style="height: 500px"
+                      ></ckeditor>
+                    </div>
+                  </mat-tab>
+                  <mat-tab label="External References">
+                    <div class="ck_editor">
+                      <ckeditor
+                        [(ngModel)]="external_ref_content"
+                        name="external_ref_content_name"
+                        (ready)="onReady($event)"
+                        [editor]="Editor"
+                        #editor
+                        [config]="editorConfig"
+                        style="height: 500px"
+                      ></ckeditor>
+                    </div>
+                  </mat-tab>
+                </mat-tab-group>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Bottom buttons  -->
+        <div class="page_buttons cc_top_button">
+          <div class="spacer"></div>
+          <button class="plain" type="button" (click)="createContent(true)">
+            Save as draft
+          </button>
+          <button type="button" class="orange_btn">Discard changes</button>
+          <button class="green_btn">Submit</button>
+        </div>
       </div>
 
-      <!-- Bottom buttons  -->
-      <div class="page_buttons cc_top_button">
-        <div class="spacer"></div>
-        <button class="plain">Save as draft</button>
-        <button class="orange_btn">Discard changes</button>
-        <button class="green_btn">Submit</button>
-      </div>
-    </div>
-
-    <!-- Right content -->
-    <!-- <div class="cc_right_content">
+      <!-- Right content -->
+      <!-- <div class="cc_right_content">
       <div class="tools_block">
         <div class="c_block">
           <div class="c_block_title">
@@ -570,5 +583,6 @@
         </div>
       </div>
     </div> -->
-  </div>
+    </div>
+  </form>
 </div>
