@@ -156,7 +156,13 @@
       <div class="hgt_20"></div>
       <div class="dsh_brd_crds">
         <mat-form-field appearance="outline" class="float_right">
-          <input matInput placeholder="Search" />
+          <input
+            matInput
+            [(ngModel)]="search_images"
+            (keyup)="filterFiles()"
+            matInput
+            placeholder="Search"
+          />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
         <button
@@ -180,6 +186,7 @@
           Upload Files<input
             (change)="uploadFiles($event)"
             multiple="true"
+            #documents
             accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
             text/plain, application/pdf"
             id="fileToUpload"

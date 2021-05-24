@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./assets-library.component.scss'],
 })
 export class AssetsLibraryComponent implements OnInit {
+  @ViewChild('documents') documents_input: ElementRef;
   @Input() data = {};
   public activeTab = 'documents';
   public current_path = 'documents';
@@ -153,7 +154,10 @@ export class AssetsLibraryComponent implements OnInit {
         );
       }
     }
-    if (valid_files.length == 0) return false;
+    if (valid_files.length == 0) {
+      this.documents_input.nativeElement.value = '';
+      return false;
+    }
     uploadData.append('path', this.current_path);
     uploadData.append('number_files', files.length);
     let param = { url: 'upload-files' };
