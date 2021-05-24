@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
-import * as Editor from '../../../assets/ckeditor5/build/ckeditor';
-import { UploadAdapter } from '../../classes/UploadAdapter';
+import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
+import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
@@ -73,40 +73,48 @@ export class CreateContentComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
       this.content_id = param.id;
-      let data = { url: 'create-content/' + this.content_id };
-      this.http.post(data).subscribe((res) => {
-        if (res['error'] == false) {
-          let data = res['data']['content_data'];
-          this.title = data['title'];
-          this.main_content = data['main_content'];
-          this.learning_obj_content = data['learning_obj_content'];
-          this.learning_notes_content = data['learning_notes_content'];
-          this.highyield_content = data['highyield_content'];
-          this.external_ref_content = data['external_ref_content'];
-          this.attachments = data['attachments'];
-          this.attachment_files = [];
-          if (data['attachments'].length > 0) {
-            data['attachments'].forEach((file) => {
-              this.attachment_files.push(file['file_path']);
-            });
-          }
-          this.images = data['images'];
-          this.images_files = [];
-          if (data['images'].length > 0) {
-            data['images'].forEach((file) => {
-              this.images_files.push(file['file_path']);
-            });
-          }
-          this.videos = data['main_videos'];
-          this.videos_files = [];
-          if (data['main_videos'].length > 0) {
-            data['main_videos'].forEach((file) => {
-              this.videos_files.push(file['file_path']);
-            });
-          }
-        }
-      });
+      if (this.content_id != undefined) {
+        this.getContent();
+      }
     });
+    this.getChildData();
+  }
+  getContent() {
+    let data = { url: 'create-content/' + this.content_id };
+    this.http.post(data).subscribe((res) => {
+      if (res['error'] == false) {
+        let data = res['data']['content_data'];
+        this.title = data['title'];
+        this.main_content = data['main_content'];
+        this.learning_obj_content = data['learning_obj_content'];
+        this.learning_notes_content = data['learning_notes_content'];
+        this.highyield_content = data['highyield_content'];
+        this.external_ref_content = data['external_ref_content'];
+        this.attachments = data['attachments'];
+        this.attachment_files = [];
+        if (data['attachments'].length > 0) {
+          data['attachments'].forEach((file) => {
+            this.attachment_files.push(file['file_path']);
+          });
+        }
+        this.images = data['images'];
+        this.images_files = [];
+        if (data['images'].length > 0) {
+          data['images'].forEach((file) => {
+            this.images_files.push(file['file_path']);
+          });
+        }
+        this.videos = data['main_videos'];
+        this.videos_files = [];
+        if (data['main_videos'].length > 0) {
+          data['main_videos'].forEach((file) => {
+            this.videos_files.push(file['file_path']);
+          });
+        }
+      }
+    });
+  }
+  getChildData() {
     this.http.child_data.subscribe((res) => {
       if (this.library_purpose == 'attachments') {
         let obj = { file_path: res['file_path'], path: res['path'] };
