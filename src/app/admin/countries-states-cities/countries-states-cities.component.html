@@ -1,8 +1,5 @@
 <div class="mn_dshbrd">
-  <div
-    class="cust_mdl_par cust_mdl_50p"
-    [ngClass]="{ cust_mdl_opn: model_status }"
-  >
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Add New Country
@@ -12,31 +9,20 @@
         </button>
       </div>
       <div class="tbbd_bdy">
-        <form
-          id="create_country_form"
-          #country_create_form="ngForm"
-          name="country_form"
-          (ngSubmit)="country_create_form.valid && saveCountryDetails()"
-          novalidate
-        >
+        <form id="create_country_form" #country_create_form="ngForm" name="country_form"
+          (ngSubmit)="country_create_form.valid && saveCountryDetails()" novalidate>
           <div class="grd_2c no_bxsdw">
             <span class="text-right w_100p rqrd_txtinfo">
               All <span class="required">( * ) </span>marked fields are
-              mandatory</span
-            >
+              mandatory</span>
             <div class="hgt_20"></div>
             <div class="frm_dvs">
               <span class="bold">Add Country </span>
               <a (click)="fileInput.click()" class="dsflx">
                 <mat-icon>upload_file</mat-icon> Import Countries CSV
               </a>
-              <input
-                hidden
-                type="file"
-                #fileInput
-                (change)="countryFileChange($event)"
-                (click)="fileInput.value = null"
-              />
+              <input hidden type="file" #fileInput (change)="countryFileChange($event)"
+                (click)="fileInput.value = null" />
             </div>
             <hr />
             <div class="hgt_10"></div>
@@ -45,25 +31,13 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Country Code"
-                      [(ngModel)]="country.country_code"
-                      name="country_code"
-                      #country_code="ngModel"
-                      required
-                      maxlength="2"
-                      trim="blur"
-                    />
+                    <input matInput placeholder="Country Code" [(ngModel)]="country.country_code" name="country_code"
+                      #country_code="ngModel" required maxlength="2" trim="blur" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (country_create_form.submitted || country_code.touched) &&
                       country_code.invalid
-                    "
-                    >Country Code is Required</span
-                  >
+                    ">Country Code is Required</span>
                 </span>
               </span>
             </div>
@@ -72,26 +46,14 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Country Name"
-                      [(ngModel)]="country.country_name"
-                      name="country_name"
-                      #country_name="ngModel"
-                      required
-                      maxlength="90"
-                      trim="blur"
-                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                    />
+                    <input matInput placeholder="Country Name" [(ngModel)]="country.country_name" name="country_name"
+                      #country_name="ngModel" required maxlength="90" trim="blur"
+                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (country_create_form.submitted || country_name.touched) &&
                       country_name.invalid
-                    "
-                    >Country Name is Required</span
-                  >
+                    ">Country Name is Required</span>
                 </span>
               </span>
             </div>
@@ -99,13 +61,8 @@
               <span>Flag Icon</span>
               <span>
                 <mat-form-field appearance="outline">
-                  <input
-                    matInput
-                    placeholder="Flag Icon"
-                    [(ngModel)]="country.country_flag"
-                    name="country_flag"
-                    #country_flag="ngModel"
-                  />
+                  <input matInput placeholder="Flag Icon" [(ngModel)]="country.country_flag" name="country_flag"
+                    #country_flag="ngModel" />
                 </mat-form-field>
               </span>
             </div>
@@ -114,27 +71,15 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Currency Text"
-                      [(ngModel)]="country.currency_text"
-                      name="currency_text"
-                      #currency_text="ngModel"
-                      maxlength="45"
-                      required
-                      trim="blur"
-                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                    />
+                    <input matInput placeholder="Currency Text" [(ngModel)]="country.currency_text" name="currency_text"
+                      #currency_text="ngModel" maxlength="45" required trim="blur"
+                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (country_create_form.submitted ||
                         currency_text.touched) &&
                       currency_text.invalid
-                    "
-                    >Currency Text is Required</span
-                  >
+                    ">Currency Text is Required</span>
                 </span>
               </span>
             </div>
@@ -143,26 +88,14 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Currency Symbol"
-                      trim="blur"
-                      [(ngModel)]="country.currency_symbol"
-                      name="currency_symbal"
-                      #currency_symbal="ngModel"
-                      maxlength="4"
-                      required
-                    />
+                    <input matInput placeholder="Currency Symbol" trim="blur" [(ngModel)]="country.currency_symbol"
+                      name="currency_symbal" #currency_symbal="ngModel" maxlength="4" required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (country_create_form.submitted ||
                         currency_symbal.touched) &&
                       currency_symbal.invalid
-                    "
-                    >Currency Symbol is Required</span
-                  >
+                    ">Currency Symbol is Required</span>
                 </span>
               </span>
             </div>
@@ -171,27 +104,15 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Language Code"
-                      [(ngModel)]="country.language_code"
-                      trim="blur"
-                      name="language_code"
-                      #language_code="ngModel"
-                      maxlength="5"
-                      required
-                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32) || (event.charCode == 45))"
-                    />
+                    <input matInput placeholder="Language Code" [(ngModel)]="country.language_code" trim="blur"
+                      name="language_code" #language_code="ngModel" maxlength="5" required
+                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32) || (event.charCode == 45))" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (country_create_form.submitted ||
                         language_code.touched) &&
                       language_code.invalid
-                    "
-                    >Language Code is Required</span
-                  >
+                    ">Language Code is Required</span>
                 </span>
               </span>
             </div>
@@ -200,27 +121,16 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Language"
-                      [(ngModel)]="country.language"
-                      trim="blur"
-                      name="country_language"
-                      #country_language="ngModel"
-                      maxlength="45"
+                    <input matInput placeholder="Language" [(ngModel)]="country.language" trim="blur"
+                      name="country_language" #country_language="ngModel" maxlength="45"
                       onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                      required
-                    />
+                      required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (country_create_form.submitted ||
                         country_language.touched) &&
                       country_language.invalid
-                    "
-                    >Language is Required</span
-                  >
+                    ">Language is Required</span>
                 </span>
               </span>
             </div>
@@ -230,11 +140,7 @@
             Submit
           </button>
         </form>
-        <button
-          mat-raised-button
-          class="float_right mr_1 gry_btn"
-          (click)="toggleModel()"
-        >
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">
           Close
         </button>
         <div class="hgt_20"></div>
@@ -242,61 +148,36 @@
     </div>
   </div>
 
-  <div
-    class="cust_mdl_par cust_mdl_50p"
-    [ngClass]="{ cust_mdl_opn: edit_country_model }"
-  >
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: edit_country_model }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Edit Country
         <span class="spacer"></span>
-        <button
-          mat-icon-button
-          (click)="toggleCountryModel()"
-          class="float_right"
-        >
+        <button mat-icon-button (click)="toggleCountryModel()" class="float_right">
           &#x2715;
         </button>
       </div>
       <div class="tbbd_bdy">
         <div class="hgt_20"></div>
-        <form
-          id="edit_country_form"
-          #edit_country_form="ngForm"
-          name="country_form"
-          (ngSubmit)="updateCountryDetails()"
-          novalidate
-        >
+        <form id="edit_country_form" #edit_country_form="ngForm" name="country_form" (ngSubmit)="updateCountryDetails()"
+          novalidate>
           <div class="grd_2c no_bxsdw">
             <span class="text-right w_100p rqrd_txtinfo">
               All <span class="required">( * ) </span>marked fields are
-              mandatory</span
-            >
+              mandatory</span>
             <div class="hgt_20"></div>
             <div class="frm_dvs">
               <span>Country Code <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Country Code"
-                      [(ngModel)]="country.country_code"
-                      trim="blur"
-                      name="country_code"
-                      #country_code="ngModel"
-                      required
-                      maxlength="2"
-                    />
+                    <input matInput placeholder="Country Code" [(ngModel)]="country.country_code" trim="blur"
+                      name="country_code" #country_code="ngModel" required maxlength="2" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_country_form.submitted || country_code.touched) &&
                       country_code.invalid
-                    "
-                    >Country Code is Required</span
-                  >
+                    ">Country Code is Required</span>
                 </span>
               </span>
             </div>
@@ -305,26 +186,14 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Country Name"
-                      [(ngModel)]="country.country_name"
-                      trim="blur"
-                      name="country_name"
-                      #country_name="ngModel"
-                      required
-                      maxlength="90"
-                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                    />
+                    <input matInput placeholder="Country Name" [(ngModel)]="country.country_name" trim="blur"
+                      name="country_name" #country_name="ngModel" required maxlength="90"
+                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_country_form.submitted || country_name.touched) &&
                       country_name.invalid
-                    "
-                    >Country Name is Required</span
-                  >
+                    ">Country Name is Required</span>
                 </span>
               </span>
             </div>
@@ -332,13 +201,8 @@
               <span>Flag Icon</span>
               <span>
                 <mat-form-field appearance="outline">
-                  <input
-                    matInput
-                    placeholder="Flag Icon"
-                    [(ngModel)]="country.country_flag"
-                    name="country_flag"
-                    #country_flag="ngModel"
-                  />
+                  <input matInput placeholder="Flag Icon" [(ngModel)]="country.country_flag" name="country_flag"
+                    #country_flag="ngModel" />
                 </mat-form-field>
               </span>
             </div>
@@ -347,26 +211,15 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Currency Text"
-                      [(ngModel)]="country.currency_text"
-                      name="currency_text"
-                      #currency_text="ngModel"
-                      maxlength="45"
-                      trim="blur"
+                    <input matInput placeholder="Currency Text" [(ngModel)]="country.currency_text" name="currency_text"
+                      #currency_text="ngModel" maxlength="45" trim="blur"
                       onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                      required
-                    />
+                      required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_country_form.submitted || currency_text.touched) &&
                       currency_text.invalid
-                    "
-                    >Currency Text is Required</span
-                  >
+                    ">Currency Text is Required</span>
                 </span>
               </span>
             </div>
@@ -375,26 +228,14 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Currency Symbol"
-                      [(ngModel)]="country.currency_symbol"
-                      name="currency_symbal"
-                      trim="blur"
-                      #currency_symbal="ngModel"
-                      maxlength="4"
-                      required
-                    />
+                    <input matInput placeholder="Currency Symbol" [(ngModel)]="country.currency_symbol"
+                      name="currency_symbal" trim="blur" #currency_symbal="ngModel" maxlength="4" required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_country_form.submitted ||
                         currency_symbal.touched) &&
                       currency_symbal.invalid
-                    "
-                    >Currency Symbol is Required</span
-                  >
+                    ">Currency Symbol is Required</span>
                 </span>
               </span>
             </div>
@@ -403,26 +244,14 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Language Code"
-                      [(ngModel)]="country.language_code"
-                      name="language_code"
-                      trim="blur"
-                      #language_code="ngModel"
-                      maxlength="5"
-                      required
-                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32) || (event.charCode == 45))"
-                    />
+                    <input matInput placeholder="Language Code" [(ngModel)]="country.language_code" name="language_code"
+                      trim="blur" #language_code="ngModel" maxlength="5" required
+                      onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32) || (event.charCode == 45))" />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_country_form.submitted || language_code.touched) &&
                       language_code.invalid
-                    "
-                    >Language Code is Required</span
-                  >
+                    ">Language Code is Required</span>
                 </span>
               </span>
             </div>
@@ -431,27 +260,16 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      matInput
-                      placeholder="Language"
-                      [(ngModel)]="country.language"
-                      name="country_language"
-                      trim="blur"
-                      #country_language="ngModel"
-                      maxlength="45"
+                    <input matInput placeholder="Language" [(ngModel)]="country.language" name="country_language"
+                      trim="blur" #country_language="ngModel" maxlength="45"
                       onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))"
-                      required
-                    />
+                      required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (edit_country_form.submitted ||
                         country_language.touched) &&
                       country_language.invalid
-                    "
-                    >Language is Required</span
-                  >
+                    ">Language is Required</span>
                 </span>
               </span>
             </div>
@@ -461,11 +279,7 @@
             Submit
           </button>
         </form>
-        <button
-          mat-raised-button
-          class="float_right mr_1 gry_btn"
-          (click)="toggleCountryModel()"
-        >
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleCountryModel()">
           Close
         </button>
         <div class="hgt_20"></div>
@@ -478,30 +292,16 @@
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input
-        matInput
-        placeholder="Search"
-        [(ngModel)]="search_txt"
-        (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
-      />
+      <input matInput placeholder="Search" [(ngModel)]="search_txt"
+        (keyup)="$event.keyCode == 13 ? applyFilters() : ''" />
       <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
     </mat-form-field>
-    <button
-      mat-raised-button
-      color="accent"
-      class="float_right mt_0 margin-bottom_20"
-      type="button"
-      (click)="toggleModel()"
-    >
+    <button mat-raised-button color="accent" class="float_right mt_0 margin-bottom_20" type="button"
+      (click)="toggleModel()">
       Add New Country
     </button>
     <div class="rsp_tbl">
-      <table
-        mat-table
-        (matSortChange)="sortData($event)"
-        [dataSource]="dataSource"
-        matSort
-      >
+      <table mat-table (matSortChange)="sortData($event)" [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="pk_id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
           <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
@@ -512,9 +312,8 @@
             Country Name
           </th>
           <td mat-cell *matCellDef="let element">
-            <span (click)="navigateTo(element.id)" class="lnk_nav"
-              >{{ element.country_name }} ({{ element.country_code }})</span
-            >
+            <span (click)="navigateTo(element.id)" class="lnk_nav">{{ element.country_name }} ({{ element.country_code
+              }})</span>
           </td>
         </ng-container>
 
@@ -544,13 +343,10 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
           <td mat-cell *matCellDef="let element">
-            <span
-              matTooltip="Current Status is {{
+            <span matTooltip="Current Status is {{
                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-              }}"
-              class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}"
-              >{{ element.status == 1 ? "Active" : "Inactive" }}</span
-            >
+              }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+              "Inactive" }}</span>
           </td>
         </ng-container>
 
@@ -558,32 +354,20 @@
           <th mat-header-cell *matHeaderCellDef class="text_center">Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button>
-              <mat-icon
-                matTooltip="click here to edit Country"
-                (click)="openEditModel(element)"
-                >edit
+              <mat-icon matTooltip="click here to edit Country" (click)="openEditModel(element)">edit
               </mat-icon>
             </button>
             <!-- <button mat-icon-button (click)="changeStatus(element.id,'CU')">
                         <mat-icon matTooltip='click here to {{ element.status == 1 ? "IN-ACTIVE" : "ACTIVE"}}'>{{ element.status == 1 ? "visibility" : "visibility_off"}}</mat-icon>
                     </button> -->
-            <button
-              matTooltip="click here to {{
+            <button matTooltip="click here to {{
                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
-              }}"
-              mat-icon-button
-              mwlConfirmationPopover
-              [popoverTitle]="'Are you sure?'"
-              [popoverMessage]="
+              }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                 'are you sure to change status of <b>' +
                 element.country_name +
                 '</b> Country'
-              "
-              placement="auto"
-              (confirm)="changeStatus(element.id, 'CU')"
-              confirmButtonType="danger"
-              cancelButtonType="outline-secondary"
-            >
+              " placement="auto" (confirm)="changeStatus(element.id, 'CU')" confirmButtonType="danger"
+              cancelButtonType="outline-secondary">
               <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
               <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
             </button>
@@ -593,23 +377,13 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-          <td
-            style="text-align: center; margin: 20px"
-            class="mat-cell"
-            colspan="7"
-          >
+          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="7">
             No Records Found
           </td>
         </tr>
       </table>
-      <mat-paginator
-        #paginator
-        [pageSize]="pageSize"
-        [length]="num_countries"
-        [pageSizeOptions]="page_size_options"
-        [showFirstLastButtons]="true"
-        (page)="getServerData($event)"
-      ></mat-paginator>
+      <mat-paginator #paginator [pageSize]="pageSize" [length]="num_countries" [pageSizeOptions]="page_size_options"
+        [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
     </div>
   </div>
 </div>
