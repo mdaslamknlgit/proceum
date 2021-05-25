@@ -40,6 +40,7 @@ import { CustomRouteReuseStategy } from '../classes/reuse-strategy';
 import { CreateContentComponent } from './content-management/create-content/create-content.component';
 import { AssetsLibraryComponent } from './assets-library/assets-library.component';
 import { ContentManagementComponent } from './content-management/content-management.component';
+import { MapingComponent } from './content-management/maping/maping.component';
 
 const routes: Routes = [
   {
@@ -124,6 +125,7 @@ const routes: Routes = [
       { path: 'create-custom-page', component: CreateCustomPagesComponent },
       { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
       { path: 'manage-content', component: ContentManagementComponent },
+      { path: 'link-content', component: MapingComponent },
       { path: 'create-content', component: CreateContentComponent },
       { path: 'create-content/:id', component: CreateContentComponent },
     ],
@@ -155,6 +157,7 @@ const routes: Routes = [
     CreateContentComponent,
     AssetsLibraryComponent,
     ContentManagementComponent,
+    MapingComponent,
   ],
   imports: [
     MaterialModule,
