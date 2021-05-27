@@ -121,4 +121,8 @@ export class CommonService {
   public setChildData(data: any) {
     this.child_data.next(data);
   }
+  public ucFirst(value: string): string {
+    let first = value.substr(0, 1).toUpperCase();
+    return first + value.substr(1);
+  }
 }
