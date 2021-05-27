@@ -18,6 +18,7 @@ import { CurriculumComponent } from './frontend/student/curriculum/curriculum.co
 import { StaticPagesComponent } from './frontend/static-pages/static-pages.component';
 import { ResetPasswordComponent } from './frontend/reset-password/reset-password.component';
 import { McqsComponent } from './frontend/student/mcqs/mcqs.component';
+import { UgmedvolComponent } from './frontend/student/ugmedvol/ugmedvol.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -68,6 +69,7 @@ const routes: Routes = [
   },
   { path: 'student-curriculum', component: CurriculumComponent },
   { path: 'mcqs', component: McqsComponent },
+  { path: 'ugmedvol', component: UgmedvolComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: IndexComponent }, 
 ];
