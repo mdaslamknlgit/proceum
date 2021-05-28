@@ -24,7 +24,7 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { MatIconModule } from '@angular/material/icon';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     SpinnerComponent,
     NotFoundComponent,
     DrawingBoardComponent,
-    ProceumLibraryComponent,
+    ProceumLibraryComponent, 
   ],
   imports: [
     BrowserModule,
