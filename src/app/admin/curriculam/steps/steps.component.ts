@@ -123,7 +123,6 @@ export class StepsComponent implements OnInit {
   }
   sortData(event) {
     this.sort_by = event;
-    console.log(this.sort_by);
     if (this.sort_by.direction != '') this.getSteps();
   }
   public doFilter = () => {
@@ -179,7 +178,9 @@ export class StepsComponent implements OnInit {
         this.edit_model_status = !this.edit_model_status;
         this.getSteps();
       } else {
-        this.toster.error(res['errors']['step_name'], res['message'], { closeButton: true });
+        this.toster.error(res['errors']['step_name'], res['message'], {
+          closeButton: true,
+        });
       }
     });
   }
@@ -193,7 +194,9 @@ export class StepsComponent implements OnInit {
         this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getSteps();
       } else {
-        this.toster.error(res['message'], res['message'], { closeButton: true });
+        this.toster.error(res['message'], res['message'], {
+          closeButton: true,
+        });
       }
     });
   }

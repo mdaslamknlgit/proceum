@@ -16,7 +16,7 @@ export const MY_DATE_FORMATS = {
     dateInput: 'DD-MM-YYYY',
     monthYearLabel: 'MMMM YYYY',
     dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY'
+    monthYearA11yLabel: 'MMMM YYYY',
   },
 };
 @Component({
@@ -47,16 +47,20 @@ export class NewsletterListComponent implements OnInit {
   reason: string;
   status: boolean;
   public model_status = false;
-  public from_date='';
-  public to_date='';
-  public fromDate='';
-  public toDate='';
-  public maxDate= new Date();
-  public tomindate:any;
-  public is_todate:boolean=true;
-  public is_submit:boolean=true;
-  public user_id:any;
-  constructor(private http: CommonService, public dialog: MatDialog ,public datepipe: DatePipe) {
+  public from_date = '';
+  public to_date = '';
+  public fromDate = '';
+  public toDate = '';
+  public maxDate = new Date();
+  public tomindate: any;
+  public is_todate: boolean = true;
+  public is_submit: boolean = true;
+  public user_id: any;
+  constructor(
+    private http: CommonService,
+    public dialog: MatDialog,
+    public datepipe: DatePipe
+  ) {
     this.apiURL = environment.apiUrl;
     this.hrefPDF = environment.apiUrl + 'export-newsletter/PDF';
     this.hrefEXL = environment.apiUrl + 'export-newsletter/EXL';
@@ -66,10 +70,9 @@ export class NewsletterListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    const user = JSON.parse(atob(sessionStorage.getItem('user')));
-    this.user_id=user.id
+    const user = JSON.parse(atob(localStorage.getItem('user')));
+    this.user_id = user.id;
     this.doSearchFilter();
-
   }
 
   getNewsLetterList() {
@@ -94,26 +97,37 @@ export class NewsletterListComponent implements OnInit {
   }
 
   public doSearchFilter() {
-    var val = (this.search == undefined || this.search == '') ? '/' + '0' : '/' + this.search;
-    val+= '/' + this.user_id; 
-    val+=this.from_date? '/' + this.datepipe.transform(this.from_date, 'yyyy-MM-dd'): '/' + "0"; 
-    val+=this.to_date?'/' + this.datepipe.transform(this.to_date, 'yyyy-MM-dd'):'/' + "0"; 
+    var val =
+      this.search == undefined || this.search == ''
+        ? '/' + '0'
+        : '/' + this.search;
+    val += '/' + this.user_id;
+    val += this.from_date
+      ? '/' + this.datepipe.transform(this.from_date, 'yyyy-MM-dd')
+      : '/' + '0';
+    val += this.to_date
+      ? '/' + this.datepipe.transform(this.to_date, 'yyyy-MM-dd')
+      : '/' + '0';
     this.hrefEXL = environment.apiUrl + 'export-newsletter/EXL' + val;
     this.hrefPDF = environment.apiUrl + 'export-newsletter/PDF' + val;
     this.applyFilters();
   }
 
   applyFilters() {
-    let fromDate =this.from_date?this.datepipe.transform(this.from_date, 'yyyy-MM-dd'):""; 
-    let toDate =this.to_date?this.datepipe.transform(this.to_date, 'yyyy-MM-dd'):""; 
+    let fromDate = this.from_date
+      ? this.datepipe.transform(this.from_date, 'yyyy-MM-dd')
+      : '';
+    let toDate = this.to_date
+      ? this.datepipe.transform(this.to_date, 'yyyy-MM-dd')
+      : '';
     let param = {
       url: 'newsletter-list',
       offset: this.page,
       limit: this.pageSize,
       sort_by: this.sort_by,
       search_term: this.search,
-      "from_date":fromDate,
-      "to_date":toDate
+      from_date: fromDate,
+      to_date: toDate,
     };
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['newsletters']);
@@ -127,37 +141,40 @@ export class NewsletterListComponent implements OnInit {
     if (this.sort_by.direction != '') this.applyFilters();
   }
 
-  resetFilters(){
-    this.search="";
-    this.from_date="";
-    this.to_date="";
+  resetFilters() {
+    this.search = '';
+    this.from_date = '';
+    this.to_date = '';
     this.doSearchFilter();
   }
 
-  fromdateChabge(){
-    this.tomindate=new Date(this.from_date)
-    this.to_date="";
-    this.is_submit=true;
-    this.is_todate=false;
-    this.fromDate =this.from_date?this.datepipe.transform(this.from_date, 'yyyy-MM-dd'):""; 
+  fromdateChabge() {
+    this.tomindate = new Date(this.from_date);
+    this.to_date = '';
+    this.is_submit = true;
+    this.is_todate = false;
+    this.fromDate = this.from_date
+      ? this.datepipe.transform(this.from_date, 'yyyy-MM-dd')
+      : '';
   }
 
-  todateChabge(){
-    this.toDate=this.to_date?this.datepipe.transform(this.to_date, 'yyyy-MM-dd'):""; 
-    this.is_submit=false;
+  todateChabge() {
+    this.toDate = this.to_date
+      ? this.datepipe.transform(this.to_date, 'yyyy-MM-dd')
+      : '';
+    this.is_submit = false;
   }
-
 
   showDetails(id) {
-    this.created_at = "";
-    this.updated_at = "";
-    this.reason = "";
+    this.created_at = '';
+    this.updated_at = '';
+    this.reason = '';
     let param = { url: 'newsletter/' + id };
     this.http.get(param).subscribe((res: viewResponse) => {
       this.created_at = res.created_at;
       this.updated_at = res.updated_at;
       this.reason = res.status_reason;
-      this.status = (res.status == 0) ? true : false;
+      this.status = res.status == 0 ? true : false;
     });
     this.model_status = !this.model_status;
   }

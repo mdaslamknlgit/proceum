@@ -21,8 +21,8 @@ export class AuthGuardService implements CanActivate {
     return this.checkUserLogin(next, url);
   }
   checkUserLogin(route: ActivatedRouteSnapshot, url: any): boolean {
-    if (sessionStorage.getItem('_token')) {
-      const user = JSON.parse(atob(sessionStorage.getItem('user')));
+    if (localStorage.getItem('_token')) {
+      const user = JSON.parse(atob(localStorage.getItem('user')));
       if (route.data.role && route.data.role.indexOf(user['role']) === -1) {
         // this.toastr.error(
         //   'You Don`t have permissions to access this url',
@@ -34,7 +34,7 @@ export class AuthGuardService implements CanActivate {
       }
       return true;
     }
-    sessionStorage.setItem('_redirect_url', window.location.pathname);
+    localStorage.setItem('_redirect_url', window.location.pathname);
     this.router.navigate(['/login']);
     return false;
   }

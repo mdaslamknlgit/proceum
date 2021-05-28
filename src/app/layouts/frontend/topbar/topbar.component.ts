@@ -57,15 +57,15 @@ export class TopbarComponent implements OnInit {
   }
 
   logout() {
-    let login_id = JSON.parse(atob(sessionStorage.getItem('user'))).login_id;
+    let login_id = JSON.parse(atob(localStorage.getItem('user'))).login_id;
     let params = { url: 'logout', login_id: login_id };
     this.http.post(params).subscribe((res) => {
-      sessionStorage.removeItem('_token');
-      sessionStorage.removeItem('user');
+      localStorage.removeItem('_token');
+      localStorage.removeItem('user');
       this.route.navigate(['/login']);
     });
   }
-  
+
   menuToggle() {
     this.isOpen = !this.isOpen;
   }
@@ -88,13 +88,13 @@ export class TopbarComponent implements OnInit {
       this.menus = res['menus'];
     });
   }
-  
+
   changeSubmenu(menu_id) {
-    this.subMenus =[];
+    this.subMenus = [];
     let params = {
       url: 'sub-menu',
       parent_id: menu_id,
-      name: 'sub-menu'
+      name: 'sub-menu',
     };
     this.authHttp.post(params).subscribe((res) => {
       this.subMenus = res['pages'];

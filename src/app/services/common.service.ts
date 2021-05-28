@@ -15,19 +15,19 @@ export class CommonService {
     this.apiURL = environment.apiUrl;
   }
   getToken() {
-    let token = sessionStorage.getItem('_token');
+    let token = localStorage.getItem('_token');
     return token;
   }
   getUser() {
-    if (sessionStorage.getItem('user'))
-      return JSON.parse(atob(sessionStorage.getItem('user')));
+    if (localStorage.getItem('user'))
+      return JSON.parse(atob(localStorage.getItem('user')));
     else {
       return '';
     }
   }
   public removeSession() {
-    sessionStorage.removeItem('_token');
-    sessionStorage.removeItem('user');
+    localStorage.removeItem('_token');
+    localStorage.removeItem('user');
   }
   public get(param) {
     let user = this.getUser();

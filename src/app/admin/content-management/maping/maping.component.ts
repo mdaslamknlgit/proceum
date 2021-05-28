@@ -6,53 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { environment } from 'src/environments/environment';
 
-const ELEMENT_DATA = [
-  {
-    sno: 1,
-    Volume: 'UG MED VOL -1',
-    Subject: 'Human anatomy',
-    Chapter: 'N/A',
-    Topic: 'Anatomical terminology',
-    SubTopic: 'Demonstrate Positions & movements in human body',
-    Actions: 'test',
-  },
-  {
-    sno: 1,
-    Volume: 'UG MED VOL -1',
-    Subject: 'Human anatomy',
-    Chapter: 'N/A',
-    Topic: 'Anatomical terminology',
-    SubTopic: 'Demonstrate Positions & movements in human body',
-    Actions: 'test',
-  },
-  {
-    sno: 1,
-    Volume: 'UG MED VOL -1',
-    Subject: 'Human anatomy',
-    Chapter: 'N/A',
-    Topic: 'Anatomical terminology',
-    SubTopic: 'Demonstrate Positions & movements in human body',
-    Actions: 'test',
-  },
-  {
-    sno: 1,
-    Volume: 'UG MED VOL -1',
-    Subject: 'Human anatomy',
-    Chapter: 'N/A',
-    Topic: 'Anatomical terminology',
-    SubTopic: 'Demonstrate Positions & movements in human body',
-    Actions: 'test',
-  },
-  {
-    sno: 1,
-    Volume: 'UG MED VOL -1',
-    Subject: 'Human anatomy',
-    Chapter: 'N/A',
-    Topic: 'Anatomical terminology',
-    SubTopic: 'Demonstrate Positions & movements in human body',
-    Actions: 'test',
-  },
-];
 @Component({
   selector: 'app-maping',
   templateUrl: './maping.component.html',
@@ -61,31 +14,40 @@ const ELEMENT_DATA = [
 export class MapingComponent implements OnInit {
   displayedColumns: string[] = [
     's_no',
-    'Volume',
-    'Subject',
-    'Chapter',
-    'Topic',
-    'SubTopic',
-    'Actions',
+    'title',
+    'created_by',
+    'created_date',
+    'actions',
   ];
   stepsDisplayedColumns: string[] = [];
 
   dataSource = new MatTableDataSource();
   stepsDataSource = new MatTableDataSource();
+
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: false }) content_paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) content_sort: MatSort;
+  public page: number = 0;
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
   public totalSize = 0;
   public sort_by: any;
   public search_box = '';
+  public content_page: number = 0;
+  public content_pageSize = environment.page_size;
+  public content_totalSize = 0;
+  public content_sort_by: any;
+  public content_search_box = '';
   modal_popup = false;
-  page: number = 0;
+
   public curriculum_list = [];
   public curriculum_labels = [];
   public curriculum_id = 1;
   public level_options = [];
   public selected_level = [];
+  public link_to_string = '';
+  public current_level_id = 0;
   constructor(private http: CommonService, private toster: ToastrService) {}
 
   ngOnInit(): void {
@@ -107,19 +69,21 @@ export class MapingComponent implements OnInit {
         });
         this.stepsDisplayedColumns.push('actions');
         this.totalSize = res['total_records'];
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.stepsDataSource.paginator = this.paginator;
+        this.stepsDataSource.sort = this.sort;
         this.level_options = [];
         this.level_options[1] = data['level_1'];
       }
     });
   }
   applyFilters(level_id) {
+    this.current_level_id = level_id;
     let param = {
       url: 'content-map-list',
       offset: this.page,
       limit: this.pageSize,
       curriculum_id: this.curriculum_id,
+      step_id: this.selected_level[level_id],
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -139,11 +103,88 @@ export class MapingComponent implements OnInit {
       }
     });
   }
+  getServerData(event) {
+    this.page = event.pageSize * event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.applyFilters(this.current_level_id);
+  }
+  sortData(event) {
+    this.sort_by = event;
+    if (this.sort_by.direction != '') this.applyFilters(this.current_level_id);
+  }
   ucFirst(string) {
     return this.http.ucFirst(string);
   }
-  openModal() {
+  getLevels(level_id) {
+    let param = {
+      url: 'get-levels-by-level',
+      step_id: this.selected_level[level_id],
+    };
+    console.log(this.selected_level);
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        let data = res['data'];
+        this.level_options[level_id + 1] = data['steps'];
+      }
+    });
+  }
+  openModal(element) {
+    let string = element['concat_names'];
+    let string_to_arr = string.split('|');
+    string_to_arr = string_to_arr.reverse();
+    this.link_to_string = string_to_arr.join(' / ');
     this.modal_popup = true;
+    this.getContentList();
+  }
+  getContentList() {
+    let param = {
+      url: 'content-list',
+      offset: this.content_page,
+      limit: this.content_pageSize,
+      order_by: this.content_sort_by,
+      search: this.content_search_box,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.dataSource = new MatTableDataSource(res['data']['content_list']);
+        this.dataSource.paginator = this.content_paginator;
+        this.content_totalSize = res['total_records'];
+      }
+    });
+  }
+  contentGetServerData(event) {
+    this.content_page = event.pageSize * event.pageIndex;
+    this.content_pageSize = event.pageSize;
+    let param = {
+      url: 'content-list',
+      offset: this.content_page,
+      limit: this.content_pageSize,
+      order_by: this.content_sort_by,
+      search: this.content_search_box,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.dataSource = new MatTableDataSource(res['data']['content_list']);
+        //this.dataSource.paginator = this.paginator;
+        this.content_totalSize = res['total_records'];
+      }
+    });
+  }
+  doFilter() {
+    let param = {
+      url: 'content-list',
+      offset: this.content_page,
+      limit: this.content_pageSize,
+      order_by: this.content_sort_by,
+      search: this.content_search_box,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.dataSource = new MatTableDataSource(res['data']['content_list']);
+        // this.dataSource.paginator = this.paginator;
+        this.content_totalSize = res['total_records'];
+      }
+    });
   }
   closeModal() {
     this.modal_popup = false;
