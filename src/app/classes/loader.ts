@@ -48,18 +48,24 @@ export class Loader {
           this.removeRequest(req);
           observer.error(err);
           if (err.status == 401) {
-            this.toster.error(err.statusText, 'Session Error', { closeButton: true });
-            sessionStorage.clear();
+            this.toster.error(err.statusText, 'Session Error', {
+              closeButton: true,
+            });
+            localStorage.clear();
             this.route.navigateByUrl('/login');
           }
           if (err.status == 400) {
             this.toster.error(err.error, 'Error', { closeButton: true });
           }
           if (err.status == 500 || err.status == 405) {
-            this.toster.error(err.error['message'], 'Error', { closeButton: true });
+            this.toster.error(err.error['message'], 'Error', {
+              closeButton: true,
+            });
           }
           if (err.status == 404) {
-            this.toster.error('Requested url end point not found', 'Error', { closeButton: true });
+            this.toster.error('Requested url end point not found', 'Error', {
+              closeButton: true,
+            });
           }
         },
         () => {

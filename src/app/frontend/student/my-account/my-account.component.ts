@@ -3,15 +3,14 @@ import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../auth/auth.service';
 
-
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
-  styleUrls: ['./my-account.component.scss']
+  styleUrls: ['./my-account.component.scss'],
 })
 export class MyAccountComponent implements OnInit {
   user: any;
-  url: any = "../../../../assets/images/Demo-placeholder.jpeg";
+  url: any = '../../../../assets/images/Demo-placeholder.jpeg';
   src: any;
   isrequired: boolean = false;
   isdisplay: boolean = false;
@@ -27,19 +26,20 @@ export class MyAccountComponent implements OnInit {
   new_password_hide: boolean = true;
   confirm_password_hide: boolean = true;
   profile: Profile = {
-    "first_name": '',
-    "last_name": '',
-    "email": '',
-    "profile_pic": '',
-    "current_password": '',
-    "new_password": '',
-    "confirm_pwd": '',
+    first_name: '',
+    last_name: '',
+    email: '',
+    profile_pic: '',
+    current_password: '',
+    new_password: '',
+    confirm_pwd: '',
   };
 
   constructor(
-    private http: CommonService, private toaster: ToastrService,
+    private http: CommonService,
+    private toaster: ToastrService,
     private http1: AuthService
-  ) { }
+  ) {}
   filedata: any;
   ngOnInit(): void {
     this.src = this.url;
@@ -53,37 +53,35 @@ export class MyAccountComponent implements OnInit {
 
     const mimeType = this.filedata[0].type;
     if (mimeType.match(/image\/*/) == null) {
-      this.imgMessage = "Only images are supported like jpg,png,jpeg.";
+      this.imgMessage = 'Only images are supported like jpg,png,jpeg.';
       return;
     } else {
-      this.imgMessage = "";
+      this.imgMessage = '';
       this.src = this.url;
     }
     let size = this.filedata[0].size;
     if (size >= 256000) {
-      this.imgMessage = "Profile Picture must be less than 250kb";
+      this.imgMessage = 'Profile Picture must be less than 250kb';
       return;
     }
     const reader = new FileReader();
     this.imagePath = this.filedata;
     reader.readAsDataURL(this.filedata[0]);
     reader.onload = (_event) => {
-      
       const img = new Image();
       img.src = reader.result as string;
-        img.onload = () => {
-          const height = img.naturalHeight;
-          const width = img.naturalWidth;
-          if(height > 250 || width > 250)
-          {
-            this.imgMessage = "Profile Picture height and width must be less than 250 pixels";
-            this.src = this.url;
-            return;
-          }
-        };
-        this.src = reader.result;
-    }
-
+      img.onload = () => {
+        const height = img.naturalHeight;
+        const width = img.naturalWidth;
+        if (height > 250 || width > 250) {
+          this.imgMessage =
+            'Profile Picture height and width must be less than 250 pixels';
+          this.src = this.url;
+          return;
+        }
+      };
+      this.src = reader.result;
+    };
   }
 
   checked(e) {
@@ -93,35 +91,35 @@ export class MyAccountComponent implements OnInit {
     } else {
       this.isrequired = false;
       this.isdisplay = false;
-      this.profile.current_password="";
-      this.profile.new_password="";
-      this.profile.confirm_pwd="";
+      this.profile.current_password = '';
+      this.profile.new_password = '';
+      this.profile.confirm_pwd = '';
     }
   }
   getStudentProfile() {
-    this.user = JSON.parse(atob(sessionStorage.getItem('user')));
+    this.user = JSON.parse(atob(localStorage.getItem('user')));
     this.user_id = this.user['id'];
     let params = {
-      'url': 'get-student-profile',
-      'id': this.user_id,
-      'role': this.user['role']
-    }
+      url: 'get-student-profile',
+      id: this.user_id,
+      role: this.user['role'],
+    };
     this.http.post(params).subscribe((res) => {
       this.profile = {
-        "first_name": res['data'].first_name,
-        "last_name": res['data'].last_name,
-        "email": res['data'].email,
-        "profile_pic": '',
-        "current_password": '',
-        "new_password": '',
-        "confirm_pwd": '',
+        first_name: res['data'].first_name,
+        last_name: res['data'].last_name,
+        email: res['data'].email,
+        profile_pic: '',
+        current_password: '',
+        new_password: '',
+        confirm_pwd: '',
       };
-      this.src = (res['data'].profile_pic) ? res['data'].profile_pic : this.url;
+      this.src = res['data'].profile_pic ? res['data'].profile_pic : this.url;
     });
   }
-  
+
   passwordVerification() {
-    if (this.profile.confirm_pwd != "") {
+    if (this.profile.confirm_pwd != '') {
       if (this.profile.confirm_pwd !== this.profile.new_password) {
         this.confirm_check = true;
         this.errClass = 'mat-form-field-invalid';
@@ -134,7 +132,7 @@ export class MyAccountComponent implements OnInit {
   passwordFun(type) {
     if (type == 'new') {
       this.new_password_hide = !this.new_password_hide;
-    } else if (type == "old") {
+    } else if (type == 'old') {
       this.current_password_hide = !this.current_password_hide;
     } else {
       this.confirm_password_hide = !this.confirm_password_hide;
@@ -142,7 +140,9 @@ export class MyAccountComponent implements OnInit {
   }
 
   updateProfile() {
-    const pwdregex = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&#^()><?/:;,.])[A-Za-z\d$@$!%*?&#^()><?/:;,.].{7,15}');
+    const pwdregex = new RegExp(
+      '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&#^()><?/:;,.])[A-Za-zd$@$!%*?&#^()><?/:;,.].{7,15}'
+    );
     var myFormData = new FormData();
     if (this.isrequired) {
       let current_password = pwdregex.test(this.profile.current_password);
@@ -160,50 +160,53 @@ export class MyAccountComponent implements OnInit {
       }
       this.errClass = '';
       this.confirm_check = false;
-      myFormData.append('current_password', this.profile.current_password.trim());
+      myFormData.append(
+        'current_password',
+        this.profile.current_password.trim()
+      );
       myFormData.append('new_password', this.profile.new_password.trim());
     }
     if (this.filedata && this.imgMessage == '') {
       let mimeType = this.filedata[0].type;
       let size = this.filedata[0].size;
       if (mimeType.match(/image\/*/) == null) {
-        this.imgMessage = "Only images are supported like jpg,png,jpeg.";
+        this.imgMessage = 'Only images are supported like jpg,png,jpeg.';
         return;
       }
       if (size >= 256000) {
-        this.imgMessage = "Profile Picture must be less than 250kb";
+        this.imgMessage = 'Profile Picture must be less than 250kb';
         return;
       }
 
       const reader = new FileReader();
-        this.imagePath = this.filedata;
-        reader.readAsDataURL(this.filedata[0]);
-        reader.onload = (_event) => {          
-          const img = new Image();
-          img.src = reader.result as string;
-            img.onload = () => {
-              const height = img.naturalHeight;
-              const width = img.naturalWidth;
-              if(height > 250 || width > 250)
-              {
-                this.imgMessage = "Profile Picture height and width must be less than 250 pixels";
-                this.src = this.url;
-                return;
-              }
-            };
-        }
+      this.imagePath = this.filedata;
+      reader.readAsDataURL(this.filedata[0]);
+      reader.onload = (_event) => {
+        const img = new Image();
+        img.src = reader.result as string;
+        img.onload = () => {
+          const height = img.naturalHeight;
+          const width = img.naturalWidth;
+          if (height > 250 || width > 250) {
+            this.imgMessage =
+              'Profile Picture height and width must be less than 250 pixels';
+            this.src = this.url;
+            return;
+          }
+        };
+      };
 
-      this.imgMessage = "";
+      this.imgMessage = '';
       myFormData.append('profile_pic', this.filedata[0]);
-    }else if(this.user_id == ""){
-      this.imgMessage = "Please upload the Profile Picture";
+    } else if (this.user_id == '') {
+      this.imgMessage = 'Please upload the Profile Picture';
       return;
-  }
+    }
     myFormData.append('id', this.user_id);
     myFormData.append('first_name', this.profile.first_name);
     myFormData.append('last_name', this.profile.last_name);
     let param = {
-      'url': 'update-student-profile'
+      url: 'update-student-profile',
     };
     this.http.imageUpload(param, myFormData).subscribe((res) => {
       this.imgMessage = '';
@@ -218,7 +221,6 @@ export class MyAccountComponent implements OnInit {
       }
     });
   }
-
 }
 export interface Response {
   name: string;
@@ -234,5 +236,4 @@ export interface Profile {
   new_password: any;
   confirm_pwd: any;
   profile_pic: string;
-
 }
