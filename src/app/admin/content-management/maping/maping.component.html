@@ -26,8 +26,18 @@
         <div class="rsp_tbl">
           <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="s_no">
-              <th mat-header-cell *matHeaderCellDef>S.No</th>
-              <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
+              <th mat-header-cell *matHeaderCellDef>Select</th>
+              <td mat-cell *matCellDef="let element">
+                <mat-checkbox
+                  [value]="element['id']"
+                  [checked]="
+                    slected_content_ids[element['id']] != undefined
+                      ? slected_content_ids[element['id']]['is_selected']
+                      : false
+                  "
+                  (change)="selectContent($event, element['id'])"
+                ></mat-checkbox>
+              </td>
             </ng-container>
 
             <ng-container matColumnDef="title">
@@ -51,7 +61,13 @@
 
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Action</th>
-              <td mat-cell *matCellDef="let element">{{ element.Chapter }}</td>
+              <td mat-cell *matCellDef="let element">
+                <a
+                  href="/admin/create-content/{{ element['id'] }}"
+                  target="_blank"
+                  >View</a
+                >
+              </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -80,7 +96,9 @@
           <button mat-raised-button (click)="closeModal()" class="mr_1 gry_btn">
             Close
           </button>
-          <button mat-raised-button color="accent">Save</button>
+          <button mat-raised-button (click)="linkContent()" color="accent">
+            Save
+          </button>
         </div>
         <div class="hgt_20"></div>
       </div>
@@ -160,7 +178,7 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element; let i = dataIndex">
-            <span (click)="openModal(element)">Link</span>
+            <a (click)="openModal(element)">Link Content</a>
           </td>
         </ng-container>
 

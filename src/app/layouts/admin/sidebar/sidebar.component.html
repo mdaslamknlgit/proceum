@@ -69,7 +69,11 @@
     </li>
     <li
       class="hs_sbmnu {{
-        menu_active == 2 || active_route == '/admin/create-content'
+        menu_active == 2 ||
+        active_route == '/admin/create-content' ||
+        active_route == '/admin/link-content' ||
+        active_route.includes('/admin/create-content') ||
+        active_route == '/admin/manage-content'
           ? 'active'
           : ''
       }}"
@@ -78,11 +82,14 @@
     >
       <div class="sd_mnuhd"><mat-icon>source</mat-icon> Content Management</div>
       <ul class="sdmn_sub">
+        <li routerLinkActive="active" routerLink="/admin/create-content">
+          <mat-icon>add</mat-icon>Create Content
+        </li>
         <li routerLinkActive="active" routerLink="/admin/manage-content">
           <mat-icon>notes</mat-icon>Manage Content
         </li>
         <li routerLinkActive="active" routerLink="/admin/link-content">
-          <mat-icon>notes</mat-icon>Link/Mapping Content
+          <mat-icon>notes</mat-icon>Link Content
         </li>
         <li><mat-icon>speaker_notes</mat-icon>Learning Notes</li>
         <li><mat-icon>description</mat-icon>Teacher Materials</li>

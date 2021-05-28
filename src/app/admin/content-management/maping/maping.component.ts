@@ -48,6 +48,8 @@ export class MapingComponent implements OnInit {
   public selected_level = [];
   public link_to_string = '';
   public current_level_id = 0;
+  public slected_content_ids = [];
+  public topic_id = 0;
   constructor(private http: CommonService, private toster: ToastrService) {}
 
   ngOnInit(): void {
@@ -133,7 +135,19 @@ export class MapingComponent implements OnInit {
     let string_to_arr = string.split('|');
     string_to_arr = string_to_arr.reverse();
     this.link_to_string = string_to_arr.join(' / ');
+    let linked_list = element['linked_list'];
+    this.topic_id = element['pk_id'];
+    if (linked_list.length > 0) {
+      linked_list.forEach((res) => {
+        this.slected_content_ids[res['content_id']] = {
+          content_id: res['content_id'],
+          is_selected: true,
+          source_id: this.topic_id,
+        };
+      });
+    }
     this.modal_popup = true;
+
     this.getContentList();
   }
   getContentList() {
@@ -181,12 +195,40 @@ export class MapingComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['content_list']);
-        // this.dataSource.paginator = this.paginator;
         this.content_totalSize = res['total_records'];
+      }
+    });
+  }
+  selectContent(event, id) {
+    this.slected_content_ids[id] = {
+      content_id: id,
+      is_selected: event.checked,
+      source_id: this.topic_id,
+    };
+  }
+  linkContent() {
+    let filtered = this.slected_content_ids.filter(function (el) {
+      return el != null;
+    });
+    let param = {
+      url: 'link-content',
+      content: filtered,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.closeModal();
+        this.applyFilters(this.current_level_id);
+      } else {
+        this.toster.error(res['message'], 'Error', {
+          closeButton: true,
+        });
       }
     });
   }
   closeModal() {
     this.modal_popup = false;
+    this.topic_id = 0;
+    this.slected_content_ids = [];
   }
 }
