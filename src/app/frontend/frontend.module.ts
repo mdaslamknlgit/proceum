@@ -19,7 +19,7 @@ import { StaticPagesComponent } from './static-pages/static-pages.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { StudentComponent } from './student.component';
 import { McqsComponent } from './student/mcqs/mcqs.component';
-import { UgmedvolComponent } from './student/ugmedvol/ugmedvol.component';
+import { LevelComponent } from './student/levels/level.component';
 
 const routes: Routes = [
   
@@ -33,7 +33,8 @@ const routes: Routes = [
   {
     path: 'my-account',
     component: MyAccountComponent,
-  }
+  },
+  { path: 'level', component: LevelComponent },
 ],
 },
 ];
@@ -53,7 +54,7 @@ const routes: Routes = [
     UnsubscribeEmailComponent, 
     CurriculumComponent, 
     ResetPasswordComponent, 
-    StaticPagesComponent, McqsComponent, UgmedvolComponent,
+    StaticPagesComponent, McqsComponent, LevelComponent,
   ],
   imports: [
     CommonModule,
