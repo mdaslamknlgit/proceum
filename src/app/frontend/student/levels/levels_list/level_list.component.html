@@ -1,34 +1,23 @@
 <app-sidemenu></app-sidemenu>
 <div class="mn_dshbrd">
-  <!-- <div class="pg_ttl">Level Design</div> -->
+  <div class="pg_ttl">Level Design</div>
   <div class="brd_crm mt_0">
     <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
       curriculum["curriculumn_name"]
-    }}</span>
-    <span *ngFor="let bread of breadcome; let i = index"
-      >/<span
-        *ngIf="i < breadcome.length - 1"
-        routerLink="/student/curriculums/{{
+      }}</span>
+    <span *ngFor="let bread of breadcome; let i = index">/<span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
-        }}"
-        >{{ bread["name"] }}</span
-      >
+        }}">{{ bread["name"] }}</span>
       <strong *ngIf="i == breadcome.length - 1">
-        {{ bread["name"] }}</strong
-      ></span
-    >
+        {{ bread["name"] }}</strong></span>
   </div>
   <div class="hgt_20"></div>
   <div class="dsh_brd_crds">
     <span>Search</span>
     <div class="clear_fix"></div>
     <mat-form-field appearance="outline" class="xl_srch">
-      <input
-        [(ngModel)]="search"
-        matInput
-        (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-        placeholder="Courses, subject, chapter, topic, sub-topic, etc…"
-      />
+      <input [(ngModel)]="search" matInput (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+        placeholder="Courses, subject, chapter, topic, sub-topic, etc…" />
       <mat-icon matSuffix color="accent">search</mat-icon>
     </mat-form-field>
   </div>
@@ -36,13 +25,9 @@
     <mat-tab label="All">
       <div class="crs_tbbd_mn">
         <div class="crs_tbbd_dv" *ngFor="let level of levels">
-          <span
-            class="ct_hd"
-            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+          <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
-            }}/{{ level['id'] }}"
-            >{{ level["name"] }} - (Code : {{ level["code"] }})</span
-          >
+            }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn">
             <mat-icon>star</mat-icon>
@@ -52,25 +37,25 @@
             <mat-icon>star</mat-icon>
           </span>
           <span class="ct_vw">Videos watched</span>
-          <span class="ct_br"
-            ><mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+          <span class="ct_br">
+            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
           </span>
           <span class="ct_cnt">100/628</span>
-          <span class="ct_fav"> <mat-icon>favorite_border</mat-icon> </span>
-          <span class="ct_bm"> <mat-icon>bookmark_border</mat-icon> </span>
+          <span class="ct_fav">
+            <mat-icon>favorite_border</mat-icon>
+          </span>
+          <span class="ct_bm">
+            <mat-icon>bookmark_border</mat-icon>
+          </span>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="Most Popular">
       <div class="crs_tbbd_mn">
         <div class="crs_tbbd_dv" *ngFor="let level of levels">
-          <span
-            class="ct_hd"
-            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+          <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
-            }}/{{ level['id'] }}"
-            >{{ level["name"] }} - (Code : {{ level["code"] }})</span
-          >
+            }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn">
             <mat-icon>star</mat-icon>
@@ -80,25 +65,25 @@
             <mat-icon>star</mat-icon>
           </span>
           <span class="ct_vw">Videos watched</span>
-          <span class="ct_br"
-            ><mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+          <span class="ct_br">
+            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
           </span>
           <span class="ct_cnt">100/628</span>
-          <span class="ct_fav"> <mat-icon>favorite_border</mat-icon> </span>
-          <span class="ct_bm"> <mat-icon>bookmark_border</mat-icon> </span>
+          <span class="ct_fav">
+            <mat-icon>favorite_border</mat-icon>
+          </span>
+          <span class="ct_bm">
+            <mat-icon>bookmark_border</mat-icon>
+          </span>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="Most Rated">
       <div class="crs_tbbd_mn">
         <div class="crs_tbbd_dv" *ngFor="let level of levels">
-          <span
-            class="ct_hd"
-            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+          <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
-            }}/{{ level['id'] }}"
-            >{{ level["name"] }} - (Code : {{ level["code"] }})</span
-          >
+            }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn">
             <mat-icon>star</mat-icon>
@@ -108,25 +93,25 @@
             <mat-icon>star</mat-icon>
           </span>
           <span class="ct_vw">Videos watched</span>
-          <span class="ct_br"
-            ><mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+          <span class="ct_br">
+            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
           </span>
           <span class="ct_cnt">100/628</span>
-          <span class="ct_fav"> <mat-icon>favorite_border</mat-icon> </span>
-          <span class="ct_bm"> <mat-icon>bookmark_border</mat-icon> </span>
+          <span class="ct_fav">
+            <mat-icon>favorite_border</mat-icon>
+          </span>
+          <span class="ct_bm">
+            <mat-icon>bookmark_border</mat-icon>
+          </span>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="Favorite">
       <div class="crs_tbbd_mn">
         <div class="crs_tbbd_dv" *ngFor="let level of levels">
-          <span
-            class="ct_hd"
-            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+          <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
-            }}/{{ level['id'] }}"
-            >{{ level["name"] }} - (Code : {{ level["code"] }})</span
-          >
+            }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn">
             <mat-icon>star</mat-icon>
@@ -136,14 +121,26 @@
             <mat-icon>star</mat-icon>
           </span>
           <span class="ct_vw">Videos watched</span>
-          <span class="ct_br"
-            ><mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+          <span class="ct_br">
+            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
           </span>
           <span class="ct_cnt">100/628</span>
-          <span class="ct_fav"> <mat-icon>favorite_border</mat-icon> </span>
-          <span class="ct_bm"> <mat-icon>bookmark_border</mat-icon> </span>
+          <span class="ct_fav">
+            <mat-icon>favorite_border</mat-icon>
+          </span>
+          <span class="ct_bm">
+            <mat-icon>bookmark_border</mat-icon>
+          </span>
         </div>
       </div>
     </mat-tab>
   </mat-tab-group>
+  <div class="hgt_20"></div>
+  <div class="hgt_20 text_right">
+    <button mat-raised-button color="accent">Load More</button>
+  </div>
+  
 </div>
+<div class="mv_up_btn">
+    <button mat-mini-fab color="accent"><mat-icon>arrow_upward</mat-icon></button>
+  </div>
