@@ -17,7 +17,6 @@ import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscr
 import { CurriculumComponent } from './frontend/student/curriculum/curriculum.component';
 import { StaticPagesComponent } from './frontend/static-pages/static-pages.component';
 import { ResetPasswordComponent } from './frontend/reset-password/reset-password.component';
-import { McqsComponent } from './frontend/student/mcqs/mcqs.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -31,13 +30,13 @@ const routes: Routes = [
   { path: 'contact-us', component: ContactUsComponent },
   { path: 'faqs', component: FaqsComponent },
   { path: 'our-team', component: OurTeamComponent },
-  { path: 'privacy-policy', component: PrivacyPolicyComponent},
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'library', component:ProceumLibraryComponent},
-  { path: 'forgot-password', component:ForgotPasswordComponent},
-  { path: 'reset-password/:token', component:ResetPasswordComponent},
-  { path: 'email-verification/:hash', component:EmailVerifiedComponent},
-  { path: 'unsubscription', component:UnsubscribeEmailComponent},
+  { path: 'library', component: ProceumLibraryComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'reset-password/:token', component: ResetPasswordComponent },
+  { path: 'email-verification/:hash', component: EmailVerifiedComponent },
+  { path: 'unsubscription', component: UnsubscribeEmailComponent },
   {
     path: 'mcicirriculam/:id',
     component: StaticPagesComponent,
@@ -67,9 +66,8 @@ const routes: Routes = [
     },
   },
   { path: 'student-curriculum', component: CurriculumComponent },
-  { path: 'mcqs', component: McqsComponent },
   { path: 'not-found', component: NotFoundComponent },
-  { path: '**', component: IndexComponent }, 
+  { path: '**', component: IndexComponent },
 ];
 @NgModule({
   imports: [

@@ -18,7 +18,7 @@ import { CurriculumComponent } from './student/curriculum/curriculum.component';
 import { StaticPagesComponent } from './static-pages/static-pages.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { StudentComponent } from './student.component';
-import { McqsComponent } from './student/mcqs/mcqs.component';
+import { DetailsComponent } from './student/levels/details/details.component';
 import { LevelComponent } from './student/levels/level.component';
 import { Level_listComponent } from './student/levels/levels_list/level_list.component';
 
@@ -36,6 +36,10 @@ const routes: Routes = [
         component: MyAccountComponent,
       },
       { path: 'curriculums', component: LevelComponent },
+      {
+        path: 'curriculum/details/:curriculum_id/:level_id/:level_parent_id',
+        component: DetailsComponent,
+      },
       { path: 'curriculums/:curriculum_id', component: Level_listComponent },
       {
         path: 'curriculums/:curriculum_id/:level_id',
@@ -65,7 +69,7 @@ const routes: Routes = [
     CurriculumComponent,
     ResetPasswordComponent,
     StaticPagesComponent,
-    McqsComponent,
+    DetailsComponent,
     LevelComponent,
     Level_listComponent,
   ],
