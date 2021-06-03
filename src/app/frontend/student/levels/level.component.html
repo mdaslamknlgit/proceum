@@ -9,7 +9,13 @@
     <span>Search</span>
     <div class="clear_fix"></div>
     <mat-form-field appearance="outline" class="xl_srch">
-      <input matInput placeholder="Courses, subject, chapter, topic, sub-topic, etc…" />
+      <input
+        matInput
+        [(ngModel)]="search"
+        matInput
+        (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+        placeholder="Search Curriculums"
+      />
       <mat-icon matSuffix color="accent">search</mat-icon>
     </mat-form-field>
   </div>
@@ -31,18 +37,22 @@
             <span class="cs_stc_hd">{{ label["display_label"] }}</span>
             <span class="cs_stc_nm">{{
               level["level_counts"]["level_" + label["level_number"]]
-              ? level["level_counts"]["level_" + label["level_number"]]
-              : 0
-              }}</span>
+                ? level["level_counts"]["level_" + label["level_number"]]
+                : 0
+            }}</span>
           </span>
           <span class="cs_av">
             <span class="cs_af">
               <mat-icon>favorite_border</mat-icon>Add to fav
             </span>
             <span class="cs_bb"></span>
-            <span class="cs_vw" routerLink="/student/curriculums/{{ level['id'] }}/{{
+            <span
+              class="cs_vw"
+              routerLink="/student/curriculums/{{ level['id'] }}/{{
                 level['labels'][0]['level_number']
-              }}">View<mat-icon>east</mat-icon></span>
+              }}"
+              >View<mat-icon>east</mat-icon></span
+            >
           </span>
         </div>
       </div>
@@ -64,18 +74,22 @@
             <span class="cs_stc_hd">{{ label["display_label"] }}</span>
             <span class="cs_stc_nm">{{
               level["level_counts"]["level_" + label["level_number"]]
-              ? level["level_counts"]["level_" + label["level_number"]]
-              : 0
-              }}</span>
+                ? level["level_counts"]["level_" + label["level_number"]]
+                : 0
+            }}</span>
           </span>
           <span class="cs_av">
             <span class="cs_af">
               <mat-icon>favorite_border</mat-icon>Add to fav
             </span>
             <span class="cs_bb"></span>
-            <span class="cs_vw" routerLink="/student/curriculums/{{ level['id'] }}/{{
+            <span
+              class="cs_vw"
+              routerLink="/student/curriculums/{{ level['id'] }}/{{
                 level['labels'][0]['level_number']
-              }}">View<mat-icon>east</mat-icon></span>
+              }}"
+              >View<mat-icon>east</mat-icon></span
+            >
           </span>
         </div>
       </div>
@@ -97,18 +111,22 @@
             <span class="cs_stc_hd">{{ label["display_label"] }}</span>
             <span class="cs_stc_nm">{{
               level["level_counts"]["level_" + label["level_number"]]
-              ? level["level_counts"]["level_" + label["level_number"]]
-              : 0
-              }}</span>
+                ? level["level_counts"]["level_" + label["level_number"]]
+                : 0
+            }}</span>
           </span>
           <span class="cs_av">
             <span class="cs_af">
               <mat-icon>favorite_border</mat-icon>Add to fav
             </span>
             <span class="cs_bb"></span>
-            <span class="cs_vw" routerLink="/student/curriculums/{{ level['id'] }}/{{
+            <span
+              class="cs_vw"
+              routerLink="/student/curriculums/{{ level['id'] }}/{{
                 level['labels'][0]['level_number']
-              }}">View<mat-icon>east</mat-icon></span>
+              }}"
+              >View<mat-icon>east</mat-icon></span
+            >
           </span>
         </div>
       </div>
@@ -130,18 +148,22 @@
             <span class="cs_stc_hd">{{ label["display_label"] }}</span>
             <span class="cs_stc_nm">{{
               level["level_counts"]["level_" + label["level_number"]]
-              ? level["level_counts"]["level_" + label["level_number"]]
-              : 0
-              }}</span>
+                ? level["level_counts"]["level_" + label["level_number"]]
+                : 0
+            }}</span>
           </span>
           <span class="cs_av">
             <span class="cs_af">
               <mat-icon>favorite_border</mat-icon>Add to fav
             </span>
             <span class="cs_bb"></span>
-            <span class="cs_vw" routerLink="/student/curriculums/{{ level['id'] }}/{{
+            <span
+              class="cs_vw"
+              routerLink="/student/curriculums/{{ level['id'] }}/{{
                 level['labels'][0]['level_number']
-              }}">View<mat-icon>east</mat-icon></span>
+              }}"
+              >View<mat-icon>east</mat-icon></span
+            >
           </span>
         </div>
       </div>

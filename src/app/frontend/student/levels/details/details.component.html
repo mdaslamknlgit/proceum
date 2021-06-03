@@ -1,6 +1,6 @@
 <!-- <app-topbar class="inner-header"></app-topbar> -->
 <!-- <app-sidemenu></app-sidemenu> -->
-<div class="innr_sd_mnu ism_opn">
+<div class="innr_sd_mnu">
   <!-- ism_opn -->
   <div class="ism_scrl">
     <ul>
@@ -44,10 +44,26 @@
   </div>
 </div>
 <div class="mn_dshbrd crs_dshbrd">
-  <div class="pg_ttl">MCQ's</div>
-  <div class="brd_crm">Proceum &raquo; <strong>MCQ's</strong></div>
+  <div class="pg_ttl">{{ title }}</div>
+  <div class="brd_crm">
+    <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
+      curriculum["curriculumn_name"]
+    }}</span>
+    <span *ngFor="let bread of breadcome; let i = index">
+      /<span
+        *ngIf="i < breadcome.length - 1"
+        routerLink="/student/curriculums/{{
+          curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
+        }}"
+        >{{ bread["name"] }}</span
+      >
+      <strong *ngIf="i == breadcome.length - 1">
+        {{ setTitle(bread["name"]) }}</strong
+      ></span
+    >
+  </div>
 
-  <div class="crs_lft_hd">
+  <!-- <div class="crs_lft_hd">
     <span class="crs_bk_btn"
       ><mat-icon>arrow_back</mat-icon>General features of Muscle</span
     >
@@ -56,7 +72,7 @@
       AN 3.2 Enumerate parts of skeletal muscle and differentiate between
       tendons and aponeuroses with examples
     </span>
-  </div>
+  </div> -->
   <div class="crses_lft_mn">
     <div class="crses_lft">
       <div class="crs_desc">

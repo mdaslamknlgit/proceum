@@ -9,6 +9,7 @@ import { CommonService } from 'src/app/services/common.service';
 })
 export class LevelComponent implements OnInit {
   public levels = [];
+  public search = '';
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService
@@ -20,6 +21,7 @@ export class LevelComponent implements OnInit {
   getCurriculums() {
     let param = {
       url: 'curriculum-list',
+      search: this.search,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -29,5 +31,8 @@ export class LevelComponent implements OnInit {
         this.levels = [];
       }
     });
+  }
+  doFilter() {
+    this.getCurriculums();
   }
 }
