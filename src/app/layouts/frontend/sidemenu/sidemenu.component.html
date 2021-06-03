@@ -1,103 +1,86 @@
 <div class="sd_br" [ngClass]="sidemenuStatus" (scroll)="scrollHandler($event)">
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
-    <li 
-    routerLink="/student/dashboard" 
-    (click)="menu_active = 0"
+    <li
+      routerLink="/student/dashboard"
+      (click)="menu_active = 0"
       routerLinkActive="active"
     >
-      <div class="sd_mnuhd">
-        <mat-icon>dashboard</mat-icon> Dashboard
-      </div>
+      <div class="sd_mnuhd"><mat-icon>dashboard</mat-icon> Dashboard</div>
     </li>
-    <li 
-    routerLinkActive="active"
-    class="hs_sbmnu {{ menu_active == 4 ? 'active' : '' }}" 
-    (click)="activeMenu(4, menu_active)"
+    <li
+      routerLinkActive="active"
+      class="{{
+        active_route.includes('/student/level') ||
+        active_route == '/student/curriculums'
+          ? 'active'
+          : ''
+      }}"
+      routerLink="/student/curriculums"
     >
-      <div class="sd_mnuhd">
-        <mat-icon>auto_stories</mat-icon> Curriculum
-      </div>
-      <ul class="sdmn_sub">
-        <li routerLinkActive="active" routerLink="/student-curriculum">
-          <mat-icon>play_circle_outline</mat-icon> MCI Curriculum
+      <div class="sd_mnuhd"><mat-icon>auto_stories</mat-icon> Curriculum</div>
+      <!-- <ul class="sdmn_sub">
+        <li
+          *ngFor="let val of curriculums"
+          routerLinkActive="active"
+          routerLink="/student/level/{{ val['id'] }}"
+        >
+          <mat-icon>play_circle_outline</mat-icon> {{ val["name"] }}
         </li>
-        <li>
-          <mat-icon>play_circle_outline</mat-icon> USMLE Curriculum
-        </li>
-        <li>
-          <mat-icon>play_circle_outline</mat-icon> BIU Curriculum
-        </li>
-      </ul>
+      </ul> -->
     </li>
-    <li 
-    routerLinkActive="active"
-    class="hs_sbmnu {{ menu_active == 1 ? 'active' : '' }}" 
-    (click)="activeMenu(1, menu_active)"
+    <li
+      routerLinkActive="active"
+      class="hs_sbmnu {{ menu_active == 1 ? 'active' : '' }}"
+      (click)="activeMenu(1, menu_active)"
     >
       <div class="sd_mnuhd">
         <mat-icon>auto_stories</mat-icon> Learning Notes
       </div>
       <ul class="sdmn_sub">
-        <li>
-          <mat-icon>play_circle_outline</mat-icon> Videos
-        </li>
-        <li>
-          <mat-icon>sticky_note_2</mat-icon> Teacher Materials
-        </li>
+        <li><mat-icon>play_circle_outline</mat-icon> Videos</li>
+        <li><mat-icon>sticky_note_2</mat-icon> Teacher Materials</li>
       </ul>
     </li>
     <li>
-      <div class="sd_mnuhd">
-        <mat-icon>today</mat-icon> Study Planner
-      </div>
+      <div class="sd_mnuhd"><mat-icon>today</mat-icon> Study Planner</div>
     </li>
-    <li  routerLinkActive="active" class="hs_sbmnu {{ menu_active == 2 ? 'active' : '' }}" (click)="activeMenu(2, menu_active)">
-      <div class="sd_mnuhd">
-        <mat-icon>school</mat-icon> Classes
-      </div>
+    <li
+      routerLinkActive="active"
+      class="hs_sbmnu {{ menu_active == 2 ? 'active' : '' }}"
+      (click)="activeMenu(2, menu_active)"
+    >
+      <div class="sd_mnuhd"><mat-icon>school</mat-icon> Classes</div>
       <ul class="sdmn_sub">
-        <li>
-          <mat-icon>today</mat-icon> Today Classes
-        </li>
-        <li>
-          <mat-icon>event</mat-icon> Upcoming Classes
-        </li>
-        <li>
-          <mat-icon>rotate_left</mat-icon> Past Classes
-        </li>
+        <li><mat-icon>today</mat-icon> Today Classes</li>
+        <li><mat-icon>event</mat-icon> Upcoming Classes</li>
+        <li><mat-icon>rotate_left</mat-icon> Past Classes</li>
       </ul>
     </li>
-    <li  routerLinkActive="active" class="hs_sbmnu {{ menu_active == 3 ? 'active' : '' }}" (click)="activeMenu(3, menu_active)">
+    <li
+      routerLinkActive="active"
+      class="hs_sbmnu {{ menu_active == 3 ? 'active' : '' }}"
+      (click)="activeMenu(3, menu_active)"
+    >
       <div class="sd_mnuhd">
         <mat-icon>cast_for_education</mat-icon> Webinars
       </div>
       <ul class="sdmn_sub">
-        <li>
-          <mat-icon>live_tv</mat-icon> Live Events
-        </li>
-        <li>
-          <mat-icon>event</mat-icon> Upcoming Events
-        </li>
-        <li>
-          <mat-icon>auto_awesome_motion</mat-icon> Past Events
-        </li>
+        <li><mat-icon>live_tv</mat-icon> Live Events</li>
+        <li><mat-icon>event</mat-icon> Upcoming Events</li>
+        <li><mat-icon>auto_awesome_motion</mat-icon> Past Events</li>
       </ul>
     </li>
-    <li  routerLinkActive="active" routerLink="/student/my-account">
+    <li routerLinkActive="active" routerLink="/student/my-account">
       <div class="sd_mnuhd">
         <mat-icon>manage_accounts</mat-icon> My Account
       </div>
     </li>
     <li>
-      <div class="sd_mnuhd">
-        <mat-icon>quiz</mat-icon> Question Bank
-      </div>
+      <div class="sd_mnuhd"><mat-icon>quiz</mat-icon> Question Bank</div>
     </li>
     <li>
-      <div class="sd_mnuhd">
-        <mat-icon>style</mat-icon> Flash Cards
-      </div>
+      <div class="sd_mnuhd"><mat-icon>style</mat-icon> Flash Cards</div>
     </li>
   </ul>
 </div>

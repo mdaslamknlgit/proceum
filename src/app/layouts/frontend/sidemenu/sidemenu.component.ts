@@ -21,7 +21,6 @@ export class SidemenuComponent implements OnInit {
       }
     });
   }
-
   scrollHandler(event) {
     const container = document.querySelector('.sd_br');
     localStorage.setItem('sidemenu_scroll', '' + container.scrollTop);

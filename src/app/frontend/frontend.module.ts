@@ -20,41 +20,54 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { StudentComponent } from './student.component';
 import { McqsComponent } from './student/mcqs/mcqs.component';
 import { LevelComponent } from './student/levels/level.component';
+import { Level_listComponent } from './student/levels/levels_list/level_list.component';
 
 const routes: Routes = [
-  
   {
     path: '',
     component: StudentComponent,
-    children: [ {
-    path: 'dashboard',
-    component: DashboardComponent,
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+      },
+      {
+        path: 'my-account',
+        component: MyAccountComponent,
+      },
+      { path: 'curriculums', component: LevelComponent },
+      { path: 'curriculums/:curriculum_id', component: Level_listComponent },
+      {
+        path: 'curriculums/:curriculum_id/:level_id',
+        component: Level_listComponent,
+      },
+      {
+        path: 'curriculums/:curriculum_id/:level_id/:level_parent_id',
+        component: Level_listComponent,
+      },
+    ],
   },
-  {
-    path: 'my-account',
-    component: MyAccountComponent,
-  },
-  { path: 'level', component: LevelComponent },
-],
-},
 ];
 @NgModule({
   declarations: [
     StudentComponent,
-    DashboardComponent, 
-    IndexComponent, 
-    ContactUsComponent, 
-    PrivacyPolicyComponent, 
-    FaqsComponent, 
-    AboutUsComponent, 
-    OurTeamComponent, 
-    MyAccountComponent, 
-    ForgotPasswordComponent, 
-    EmailVerifiedComponent, 
-    UnsubscribeEmailComponent, 
-    CurriculumComponent, 
-    ResetPasswordComponent, 
-    StaticPagesComponent, McqsComponent, LevelComponent,
+    DashboardComponent,
+    IndexComponent,
+    ContactUsComponent,
+    PrivacyPolicyComponent,
+    FaqsComponent,
+    AboutUsComponent,
+    OurTeamComponent,
+    MyAccountComponent,
+    ForgotPasswordComponent,
+    EmailVerifiedComponent,
+    UnsubscribeEmailComponent,
+    CurriculumComponent,
+    ResetPasswordComponent,
+    StaticPagesComponent,
+    McqsComponent,
+    LevelComponent,
+    Level_listComponent,
   ],
   imports: [
     CommonModule,
