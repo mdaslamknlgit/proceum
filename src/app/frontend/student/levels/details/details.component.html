@@ -4,47 +4,38 @@
   <!-- ism_opn -->
   <div class="ism_scrl">
     <ul>
-      <li>
+      <li (click)="showDiv(1)">
         <mat-icon class="ism_icn">quiz</mat-icon>
         <!-- <span class="ism_hd">this is test heading for menu</span> -->
       </li>
-      <li>
+      <li (click)="showDiv(2)">
         <mat-icon class="ism_icn">history_edu</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
       </li>
-      <li>
+      <li (click)="showDiv(3)">
         <mat-icon class="ism_icn">lightbulb</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
       </li>
-      <li>
+      <li (click)="showDiv(4)">
         <mat-icon class="ism_icn">wallpaper</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
       </li>
-      <li>
+      <li (click)="showDiv(5)">
         <mat-icon class="ism_icn">attachment</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
       </li>
-      <li>
+      <li (click)="showDiv(6)">
         <mat-icon class="ism_icn">highlight</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
       </li>
-      <li>
+      <li (click)="showDiv(7)">
         <mat-icon class="ism_icn">description</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
       </li>
-      <li>
+      <li (click)="showDiv(8)" i>
         <mat-icon class="ism_icn">insert_link</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
       </li>
-      <li>
+      <li (click)="showDiv(9)">
         <mat-icon class="ism_icn">bolt</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
       </li>
     </ul>
   </div>
 </div>
 <div class="mn_dshbrd crs_dshbrd">
-  <div class="pg_ttl">{{ title }}</div>
   <div class="brd_crm">
     <span routerLink="/student/curriculums">Curriculums / </span>
     <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
@@ -64,7 +55,16 @@
       ></span
     >
   </div>
-
+  <div class="brd_crm detsbrd">
+    <span
+      *ngFor="let value of content_list"
+      [ngClass]="{
+        dets_actv: value['content_id'] == content_id ? true : false
+      }"
+      >{{ value["content_title"] }}</span
+    >
+  </div>
+  <div class="pg_ttl">{{ title }}</div>
   <!-- <div class="crs_lft_hd">
     <span class="crs_bk_btn"
       ><mat-icon>arrow_back</mat-icon>General features of Muscle</span
@@ -75,7 +75,7 @@
       tendons and aponeuroses with examples
     </span>
   </div> -->
-  <div class="crses_lft_mn">
+  <div class="crses_lft_mn" *ngIf="active_div == 1">
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
@@ -114,6 +114,14 @@
       </div>
     </div>
   </div>
+  <div *ngIf="active_div == 2">Active div {{ active_div }}</div>
+  <div *ngIf="active_div == 3">Active div {{ active_div }}</div>
+  <div *ngIf="active_div == 4">Active div {{ active_div }}</div>
+  <div *ngIf="active_div == 5">Active div {{ active_div }}</div>
+  <div *ngIf="active_div == 6">Active div {{ active_div }}</div>
+  <div *ngIf="active_div == 7">Active div {{ active_div }}</div>
+  <div *ngIf="active_div == 8">Active div {{ active_div }}</div>
+  <div *ngIf="active_div == 9">Active div {{ active_div }}</div>
 </div>
 <div class="crses_rgt">
   <div class="intr_vd_hd">
@@ -242,4 +250,3 @@
     </mat-accordion>
   </div>
 </div>
-<app-footer></app-footer>

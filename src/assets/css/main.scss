@@ -437,6 +437,7 @@ li {
   background-color: #fff;
   position:fixed;
   z-index: 98;
+  top:0;
 }
 .clr_grn {
   color: #385e3b;
@@ -1550,7 +1551,6 @@ div.cust_mdl_par div.mn_dshbrd{margin: 20px auto 0 auto; width: 100%;}
     .crses_lft{background-color: #fff; 
       box-sizing: border-box;
       width: 100%;
-      margin-top: 20px;
       min-height: 360px;
       .crs_desc_hd{display: flex; height: 50px; align-items: center; border-bottom: 1px solid #e6e6e6; margin-bottom: 10px; padding-right: 20px;}
       .desc_in_hd{position: relative;    padding: 0 20px;}
@@ -1566,7 +1566,7 @@ div.cust_mdl_par div.mn_dshbrd{margin: 20px auto 0 auto; width: 100%;}
     }
    
   }
-  .mn_dshbrd.crs_dshbrd {
+  .mn_dshbrd.crs_dshbrd, .mn_sdopn .mn_dshbrd.crs_dshbrd, .mn_sdcls .mn_dshbrd.crs_dshbrd {
     width: calc(59% - 80px);
     margin: 64px 1% 64px 80px;
     display: inline-block;
@@ -1706,4 +1706,14 @@ div.cust_mdl_par div.mn_dshbrd{margin: 20px auto 0 auto; width: 100%;}
 }
 
 .log_mdl_cont{left: 0; right: 0;}
-.mv_up_btn{position: absolute; right: 20px; bottom: 70px;}
+.mv_up_btn{position: fixed; right: 20px; bottom: 70px; z-index: 98; opacity: 0.6;}
+.mv_up_btn:hover{opacity: 1;}
+.detsbrd{
+  span{padding: 5px 10px;
+    background: #6fd86a;
+    color: #fff;
+    border-radius: 6px;}
+    .dets_actv, span:hover{
+      background: #41ab3c; color: #fff;
+    }
+}
