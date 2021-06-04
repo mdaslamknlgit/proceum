@@ -4,69 +4,61 @@
   <!-- ism_opn -->
   <div class="ism_scrl">
     <ul>
-      <li>
-        <mat-icon class="ism_icn ism_actv_btn">quiz</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
+      <li (click)="showDiv(1)">
+        <mat-icon class="ism_icn" matTooltip="Quiz">quiz</mat-icon>
       </li>
-      <li>
+      <li (click)="showDiv(2)">
         <mat-icon class="ism_icn">history_edu</mat-icon>
       </li>
-      <li>
+      <li (click)="showDiv(3)">
         <mat-icon class="ism_icn">lightbulb</mat-icon>
       </li>
-      <li>
-        <mat-icon class="ism_icn">wallpaper</mat-icon>
+      <li (click)="showDiv(4)">
+        <mat-icon class="ism_icn" matTooltip="Wallpaper/Thumbnails">wallpaper</mat-icon>
       </li>
-      <li>
-        <mat-icon class="ism_icn">attachment</mat-icon>
+      <li (click)="showDiv(5)">
+        <mat-icon class="ism_icn" matTooltip="Attachments">attachment</mat-icon>
       </li>
-      <li>
+      <li (click)="showDiv(6)">
         <mat-icon class="ism_icn">highlight</mat-icon>
       </li>
-      <li>
+      <li (click)="showDiv(7)">
         <mat-icon class="ism_icn">description</mat-icon>
       </li>
-      <li>
+      <li (click)="showDiv(8)">
         <mat-icon class="ism_icn">insert_link</mat-icon>
       </li>
-      <li>
+      <li (click)="showDiv(9)">
         <mat-icon class="ism_icn">bolt</mat-icon>
       </li>
     </ul>
   </div>
 </div>
 <div class="mn_dshbrd crs_dshbrd">
-  
   <div class="brd_crm">
     <span routerLink="/student/curriculums">Curriculums / </span>
     <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
       curriculum["curriculumn_name"]
-    }}</span>
+      }}</span>
     <span *ngFor="let bread of breadcome; let i = index">
       /
-      <span
-        *ngIf="i < breadcome.length - 1"
-        routerLink="/student/curriculums/{{
+      <span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
-        }}"
-        >{{ bread["name"] }}</span
-      >
+        }}">{{ bread["name"] }}</span>
       <strong *ngIf="i == breadcome.length - 1">
-        {{ setTitle(bread["name"]) }}</strong
-      ></span
-    >
+        {{ setTitle(bread["name"]) }}</strong></span>
   </div>
   <div class="brd_crm detsbrd">
-    <span class="dets_actv">Curriculums</span>
-    <span>Curriculums</span>
-    <span>Curriculums</span>
-    </div>
-    <div class="pg_ttl">{{ title }}
-      <span class="spacer"></span>
-      <button mat-mini-fab color="accent">
-        <mat-icon>expand_more</mat-icon>
-      </button>
-    </div>
+    <span *ngFor="let value of content_list" [ngClass]="{
+        dets_actv: value['content_id'] == content_id ? true : false
+      }">{{ value["content_title"] }}</span>
+  </div>
+  <div class="pg_ttl">{{ title }}
+    <span class="spacer"></span>
+    <button mat-mini-fab color="accent">
+      <mat-icon>expand_more</mat-icon>
+    </button>
+  </div>
   <!-- <div class="crs_lft_hd">
     <span class="crs_bk_btn"
       ><mat-icon>arrow_back</mat-icon>General features of Muscle</span
@@ -76,17 +68,67 @@
       AN 3.2 Enumerate parts of skeletal muscle and differentiate between
       tendons and aponeuroses with examples
     </span>
-  </div> -->
-  <div class="crses_lft_mn">
+  </div> --> 
+  <div class="crses_lft_mn" *ngIf="active_div == 1">
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd">Description</span>
+          <span class="desc_in_hd">Description 1</span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
             <span class="a_mns">A<sup>-</sup></span>
           </span>
+          <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="crs_desc_cnt">
+          Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
+          Quisque vehicula ultrices justo ut auctor. Integer mollis justo lacus,
+          vel ultrices odio tempor vel. Morbi ullamcorper porta augue, a posuere
+          lacus ultricies sed. In maximus augue et nibh dignissim molestie.
+          Praesent lacinia dui et lorem eleifend rhoncus. Praesent vel nibh
+          <div class="hgt_20"></div>
+          <div class="desc_cnt_imgs">
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+          </div>
+          <div class="hgt_20"></div>
+          rhoncus, ullamcorper est eleifend, ultrices dui. Vivamus ultricies
+          malesuada libero, vel ultricies erat vehicula vel. Quisque accumsan
+          orci eu sem laoreet ornare. Phasellus pulvinar vulputate mi, at luctus
+          magna scelerisque suscipit. Maecenas a odio nisl. Integer ac felis
+          tincidunt, consectetur est in, vestibulum mauris. Nullam justo leo,
+          facilisis vitae pretium sit amet, lacinia et aug
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 2">
+    Active div {{ active_div }}
+  </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 3">
+    <div class="crses_lft">
+      <div class="crs_desc">
+        <div class="crs_desc_hd">
+          <span class="desc_in_hd">Active div {{ active_div }}</span>
+          <span class="spacer"></span>
+          <span class="fnt_sze">
+            <span class="a_pls">A<sup>+</sup></span>
+            <span class="a_mns">A<sup>-</sup></span>
+          </span>
+          <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button>
         </div>
         <div class="crs_desc_cnt">
           Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
@@ -116,6 +158,90 @@
       </div>
     </div>
   </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 4">
+    <div class="crses_lft">
+      <div class="crs_desc">
+        <div class="crs_desc_hd">
+          <span class="desc_in_hd"><mat-icon>wallpaper</mat-icon> Images/Thumbnails</span>
+          <span class="spacer"></span>
+          <span class="fnt_sze">
+            <span class="a_pls">A<sup>+</sup></span>
+            <span class="a_mns">A<sup>-</sup></span>
+          </span>
+          <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="crs_desc_cnt">
+          <div class="desc_tmb_img">
+          <img src="../../../assets/images/vid_smpl.jpg" />
+          <img src="../../../assets/images/vid_smpl.jpg" />
+          <img src="../../../assets/images/vid_smpl.jpg" />
+          <img src="../../../assets/images/vid_smpl.jpg" />
+          <img src="../../../assets/images/vid_smpl.jpg" />
+          <img src="../../../assets/images/vid_smpl.jpg" />
+          <img src="../../../assets/images/vid_smpl.jpg" />
+          <img src="../../../assets/images/vid_smpl.jpg" />
+          <img src="../../../assets/images/vid_smpl.jpg" />
+          <img src="../../../assets/images/vid_smpl.jpg" /> 
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 5">
+    <div class="crses_lft">
+      <div class="crs_desc">
+        <div class="crs_desc_hd">
+          <span class="desc_in_hd"><mat-icon>attachment</mat-icon> Attachments</span>
+          <span class="spacer"></span> 
+          <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="crs_desc_cnt">
+          <div class="mlti_fls desc_mlti_fls">
+            <div class="mlti_fls_dv" >
+              <img src="../../../assets/images/ppt.png" alt="" />
+              <span class="fl_nme" matTooltip="asfsdf sd">asfsdf sd</span>
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/doc.png" alt="" />
+              <span class="fl_nme" matTooltip="asdf sd fsd">asdf sd fsd</span>
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/pdf.png" alt="" />
+              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl">hsadjkfhasjl kjlsdakfl</span>
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/pdf.png" alt="" />
+              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl">hsadjkfhasjl kjlsdakfl</span>
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/pdf.png" alt="" />
+              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl">hsadjkfhasjl kjlsdakfl</span>
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/pdf.png" alt="" />
+              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl">hsadjkfhasjl kjlsdakfl</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 6">
+    Active div {{ active_div }}
+  </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 7">
+    Active div {{ active_div }}
+  </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 8">
+    Active div {{ active_div }}
+  </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 9">
+    Active div {{ active_div }}
+  </div>
 </div>
 <div class="crses_rgt">
   <div class="intr_vd_hd">
@@ -133,10 +259,18 @@
     <img src="../../../assets/images/vid_smpl.jpg" />
   </div>
   <div class="intr_vd_optns">
-    <span> <mat-icon>thumb_up_off_alt</mat-icon> Like </span>
-    <span> <mat-icon>share</mat-icon> Share </span>
-    <span> <mat-icon>favorite_border</mat-icon> Favorite </span>
-    <span> <mat-icon>bookmark_border</mat-icon> Add to Bookmark </span>
+    <span>
+      <mat-icon>thumb_up_off_alt</mat-icon> Like
+    </span>
+    <span>
+      <mat-icon>share</mat-icon> Share
+    </span>
+    <span>
+      <mat-icon>favorite_border</mat-icon> Favorite
+    </span>
+    <span>
+      <mat-icon>bookmark_border</mat-icon> Add to Bookmark
+    </span>
   </div>
   <div class="intr_vd_tml">
     <mat-accordion>
@@ -149,21 +283,15 @@
         </mat-expansion-panel-header>
         <div class="tm_ln_dv">
           <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt"
-            >Sed non tortor ut diam aliquam aliquam</span
-          >
+          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
         </div>
         <div class="tm_ln_dv">
           <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt"
-            >Sed non tortor ut diam aliquam aliquam</span
-          >
+          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
         </div>
         <div class="tm_ln_dv">
           <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt"
-            >Sed non tortor ut diam aliquam aliquam</span
-          >
+          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
         </div>
       </mat-expansion-panel>
       <mat-expansion-panel>
@@ -243,4 +371,4 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-</div> 
+</div>
