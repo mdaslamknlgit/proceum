@@ -46,11 +46,13 @@
 <div class="mn_dshbrd crs_dshbrd">
   <div class="pg_ttl">{{ title }}</div>
   <div class="brd_crm">
+    <span routerLink="/student/curriculums">Curriculums / </span>
     <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
       curriculum["curriculumn_name"]
     }}</span>
     <span *ngFor="let bread of breadcome; let i = index">
-      /<span
+      /
+      <span
         *ngIf="i < breadcome.length - 1"
         routerLink="/student/curriculums/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
