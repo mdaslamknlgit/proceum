@@ -34,10 +34,7 @@ export class IndexComponent implements OnInit {
       this.router.navigateByUrl('/student/dashboard');
     }
   }
-  scrollToTop() {
-    // window.scroll(0, 0);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+ 
 
   menuToggle() {
     this.isOpen = !this.isOpen;
