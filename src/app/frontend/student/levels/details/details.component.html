@@ -5,8 +5,7 @@
   <div class="ism_scrl">
     <ul>
       <li (click)="showDiv(1)">
-        <mat-icon class="ism_icn">quiz</mat-icon>
-        <!-- <span class="ism_hd">this is test heading for menu</span> -->
+        <mat-icon class="ism_icn" matTooltip="Quiz">quiz</mat-icon>
       </li>
       <li (click)="showDiv(2)">
         <mat-icon class="ism_icn">history_edu</mat-icon>
@@ -15,10 +14,12 @@
         <mat-icon class="ism_icn">lightbulb</mat-icon>
       </li>
       <li (click)="showDiv(4)">
-        <mat-icon class="ism_icn">wallpaper</mat-icon>
+        <mat-icon class="ism_icn" matTooltip="Wallpaper/Thumbnails"
+          >wallpaper</mat-icon
+        >
       </li>
       <li (click)="showDiv(5)">
-        <mat-icon class="ism_icn">attachment</mat-icon>
+        <mat-icon class="ism_icn" matTooltip="Attachments">attachment</mat-icon>
       </li>
       <li (click)="showDiv(6)">
         <mat-icon class="ism_icn">highlight</mat-icon>
@@ -26,7 +27,7 @@
       <li (click)="showDiv(7)">
         <mat-icon class="ism_icn">description</mat-icon>
       </li>
-      <li (click)="showDiv(8)" i>
+      <li (click)="showDiv(8)">
         <mat-icon class="ism_icn">insert_link</mat-icon>
       </li>
       <li (click)="showDiv(9)">
@@ -64,7 +65,13 @@
       >{{ value["content_title"] }}</span
     >
   </div>
-  <div class="pg_ttl">{{ content["title"] }}</div>
+  <div class="pg_ttl">
+    {{ title }}
+    <span class="spacer"></span>
+    <button mat-mini-fab color="accent">
+      <mat-icon>expand_more</mat-icon>
+    </button>
+  </div>
   <!-- <div class="crs_lft_hd">
     <span class="crs_bk_btn"
       ><mat-icon>arrow_back</mat-icon>General features of Muscle</span
@@ -79,12 +86,62 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd">Description</span>
+          <span class="desc_in_hd">Description 1</span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
             <span class="a_mns">A<sup>-</sup></span>
           </span>
+          <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="crs_desc_cnt">
+          Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
+          Quisque vehicula ultrices justo ut auctor. Integer mollis justo lacus,
+          vel ultrices odio tempor vel. Morbi ullamcorper porta augue, a posuere
+          lacus ultricies sed. In maximus augue et nibh dignissim molestie.
+          Praesent lacinia dui et lorem eleifend rhoncus. Praesent vel nibh
+          <div class="hgt_20"></div>
+          <div class="desc_cnt_imgs">
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+          </div>
+          <div class="hgt_20"></div>
+          rhoncus, ullamcorper est eleifend, ultrices dui. Vivamus ultricies
+          malesuada libero, vel ultricies erat vehicula vel. Quisque accumsan
+          orci eu sem laoreet ornare. Phasellus pulvinar vulputate mi, at luctus
+          magna scelerisque suscipit. Maecenas a odio nisl. Integer ac felis
+          tincidunt, consectetur est in, vestibulum mauris. Nullam justo leo,
+          facilisis vitae pretium sit amet, lacinia et aug
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 2">
+    Active div {{ active_div }}
+  </div>
+  <div class="crses_lft_mn" *ngIf="active_div == 3">
+    <div class="crses_lft">
+      <div class="crs_desc">
+        <div class="crs_desc_hd">
+          <span class="desc_in_hd">Active div {{ active_div }}</span>
+          <span class="spacer"></span>
+          <span class="fnt_sze">
+            <span class="a_pls">A<sup>+</sup></span>
+            <span class="a_mns">A<sup>-</sup></span>
+          </span>
+          <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button>
         </div>
         <div class="crs_desc_cnt">
           Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
@@ -114,17 +171,89 @@
       </div>
     </div>
   </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 2">
-    Active div {{ active_div }}
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 3">
-    Active div {{ active_div }}
-  </div>
   <div class="crses_lft_mn" *ngIf="active_div == 4">
-    Active div {{ active_div }}
+    <div class="crses_lft">
+      <div class="crs_desc">
+        <div class="crs_desc_hd">
+          <span class="desc_in_hd"
+            ><mat-icon>wallpaper</mat-icon> Images/Thumbnails</span
+          >
+          <span class="spacer"></span>
+          <span class="fnt_sze">
+            <span class="a_pls">A<sup>+</sup></span>
+            <span class="a_mns">A<sup>-</sup></span>
+          </span>
+          <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="crs_desc_cnt">
+          <div class="desc_tmb_img">
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img src="../../../assets/images/vid_smpl.jpg" />
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="crses_lft_mn" *ngIf="active_div == 5">
-    Active div {{ active_div }}
+    <div class="crses_lft">
+      <div class="crs_desc">
+        <div class="crs_desc_hd">
+          <span class="desc_in_hd"
+            ><mat-icon>attachment</mat-icon> Attachments</span
+          >
+          <span class="spacer"></span>
+          <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <div class="crs_desc_cnt">
+          <div class="mlti_fls desc_mlti_fls">
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/ppt.png" alt="" />
+              <span class="fl_nme" matTooltip="asfsdf sd">asfsdf sd</span>
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/doc.png" alt="" />
+              <span class="fl_nme" matTooltip="asdf sd fsd">asdf sd fsd</span>
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/pdf.png" alt="" />
+              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl"
+                >hsadjkfhasjl kjlsdakfl</span
+              >
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/pdf.png" alt="" />
+              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl"
+                >hsadjkfhasjl kjlsdakfl</span
+              >
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/pdf.png" alt="" />
+              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl"
+                >hsadjkfhasjl kjlsdakfl</span
+              >
+            </div>
+            <div class="mlti_fls_dv">
+              <img src="../../../assets/images/pdf.png" alt="" />
+              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl"
+                >hsadjkfhasjl kjlsdakfl</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="crses_lft_mn" *ngIf="active_div == 6">
     Active div {{ active_div }}

@@ -1,7 +1,5 @@
 <div class="mn_dshbrd">
-  <div
-    class="cust_mdl_par cust_mdl_50p {{ modal_popup ? 'cust_mdl_opn' : '' }}"
-  >
+  <div class="cust_mdl_par cust_mdl_50p {{ modal_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         <strong>Linking To : </strong> {{ link_to_string }}
@@ -14,12 +12,8 @@
         <div class="hgt_20"></div>
         <div class="dsh_brd_crds">
           <mat-form-field appearance="outline" class="float_right">
-            <input
-              [(ngModel)]="content_search_box"
-              (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-              matInput
-              placeholder="Search"
-            />
+            <input [(ngModel)]="content_search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''" matInput
+              placeholder="Search" />
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>
         </div>
@@ -28,15 +22,11 @@
             <ng-container matColumnDef="s_no">
               <th mat-header-cell *matHeaderCellDef>Select</th>
               <td mat-cell *matCellDef="let element">
-                <mat-checkbox
-                  [value]="element['id']"
-                  [checked]="
+                <mat-checkbox [value]="element['id']" [checked]="
                     slected_content_ids[element['id']] != undefined
                       ? slected_content_ids[element['id']]['is_selected']
                       : false
-                  "
-                  (change)="selectContent($event, element['id'])"
-                ></mat-checkbox>
+                  " (change)="selectContent($event, element['id'])"></mat-checkbox>
               </td>
             </ng-container>
 
@@ -62,35 +52,22 @@
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef>Action</th>
               <td mat-cell *matCellDef="let element">
-                <a
-                  href="/admin/create-content/{{ element['id'] }}"
-                  target="_blank"
-                  >View</a
-                >
+                <a href="/admin/create-content/{{ element['id'] }}" target="_blank">View</a>
               </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td
-                style="text-align: center; margin: 20px"
-                class="mat-cell"
-                colspan="{{ displayedColumns.length }}"
-              >
+              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="{{ displayedColumns.length }}">
                 No Records Found
               </td>
             </tr>
           </table>
         </div>
-        <mat-paginator
-          *ngIf="dataSource.data.length > 0"
-          [pageSizeOptions]="page_size_options"
-          [length]="content_totalSize"
-          [pageSize]="content_pageSize"
-          showFirstLastButtons
-          (page)="contentGetServerData($event)"
-        ></mat-paginator>
+        <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="page_size_options"
+          [length]="content_totalSize" [pageSize]="content_pageSize" showFirstLastButtons
+          (page)="contentGetServerData($event)"></mat-paginator>
         <hr />
         <div class="float_right">
           <button mat-raised-button (click)="closeModal()" class="mr_1 gry_btn">
@@ -113,15 +90,9 @@
       <span>Select Course</span>
       <div class="clear_fix"></div>
       <mat-form-field appearance="outline">
-        <mat-select
-          [(ngModel)]="curriculum_id"
-          (ngModelChange)="applyFilters(0)"
-        >
-          <mat-option
-            *ngFor="let value of curriculum_list"
-            [value]="value['pk_id']"
-            >{{ value["curriculumn_name"] }}</mat-option
-          >
+        <mat-select [(ngModel)]="curriculum_id" (ngModelChange)="applyFilters(0)">
+          <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']">{{ value["curriculumn_name"] }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
       <!-- <button mat-mini-fab color="accent" class="ml_1">
@@ -129,27 +100,18 @@
       </button> -->
     </div>
     <div>
-      <div
-        class="cm_fltr_sc mr_1"
-        *ngFor="let value of curriculum_labels; let i = index"
-      >
+      <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
         <div *ngIf="i < curriculum_labels.length - 1">
           <span>{{ ucFirst(value["display_label"]) }}</span>
           <div class="clear_fix"></div>
           <mat-form-field appearance="outline">
-            <mat-select
-              placeholder="Select {{ ucFirst(value['display_label']) }}"
-              [(ngModel)]="selected_level[value['level_number']]"
-              (ngModelChange)="
+            <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+              [(ngModel)]="selected_level[value['level_number']]" (ngModelChange)="
                 applyFilters(value['level_number']);
                 getLevels(value['level_number'])
-              "
-            >
-              <mat-option
-                *ngFor="let level of level_options[value['level_number']]"
-                [value]="level['pk_id']"
-                >{{ level["level_name"] }}</mat-option
-              >
+              ">
+              <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']">{{
+                level["level_name"] }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -163,10 +125,7 @@
           <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
         </ng-container>
 
-        <ng-container
-          *ngFor="let label of curriculum_labels"
-          matColumnDef="{{ label['display_label'] }}"
-        >
+        <ng-container *ngFor="let label of curriculum_labels" matColumnDef="{{ label['display_label'] }}">
           <th mat-header-cell *matHeaderCellDef>
             {{ ucFirst(label["display_label"]) }}
           </th>
@@ -185,23 +144,13 @@
         <tr mat-header-row *matHeaderRowDef="stepsDisplayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: stepsDisplayedColumns"></tr>
         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-          <td
-            style="text-align: center; margin: 20px"
-            class="mat-cell"
-            colspan="{{ stepsDisplayedColumns.length }}"
-          >
-            No Records Found
+          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="{{ stepsDisplayedColumns.length }}">
+            No Records Found 
           </td>
         </tr>
       </table>
     </div>
-    <mat-paginator
-      *ngIf="stepsDataSource.data.length > 0"
-      [pageSizeOptions]="page_size_options"
-      [length]="totalSize"
-      [pageSize]="pageSize"
-      showFirstLastButtons
-      (page)="getServerData($event)"
-    ></mat-paginator>
+    <mat-paginator *ngIf="stepsDataSource.data.length > 0" [pageSizeOptions]="page_size_options" [length]="totalSize"
+      [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>
