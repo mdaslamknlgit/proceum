@@ -5,36 +5,74 @@
   <div class="ism_scrl">
     <ul>
       <li (click)="showDiv(0)">
-        <mat-icon class="ism_icn ism_actv_btn" matTooltip="Description">description</mat-icon>
+        <mat-icon
+          class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}"
+          matTooltip="Description"
+          >description</mat-icon
+        >
       </li>
       <li (click)="showDiv(1)">
-        <mat-icon class="ism_icn ism_actv_btn" matTooltip="Quiz">quiz</mat-icon>
+        <mat-icon
+          class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}"
+          matTooltip="Quiz"
+          >quiz</mat-icon
+        >
       </li>
       <li (click)="showDiv(2)">
-        <mat-icon class="ism_icn" matTooltip="Lecture Notes">history_edu</mat-icon>
+        <mat-icon
+          class="ism_icn {{ active_div == 2 ? 'ism_actv_btn' : '' }}"
+          matTooltip="Learning Notes"
+          >history_edu</mat-icon
+        >
       </li>
       <li (click)="showDiv(3)">
-        <mat-icon class="ism_icn" matTooltip="Learning Objectives">lightbulb</mat-icon>
+        <mat-icon
+          class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}"
+          matTooltip="Learning Objectives"
+          >lightbulb</mat-icon
+        >
       </li>
       <li (click)="showDiv(4)">
-        <mat-icon class="ism_icn" matTooltip="Wallpaper/Thumbnails"
+        <mat-icon
+          class="ism_icn {{ active_div == 4 ? 'ism_actv_btn' : '' }}"
+          matTooltip="Images"
           >wallpaper</mat-icon
         >
       </li>
       <li (click)="showDiv(5)">
-        <mat-icon class="ism_icn" matTooltip="Attachments">attachment</mat-icon>
+        <mat-icon
+          class="ism_icn {{ active_div == 5 ? 'ism_actv_btn' : '' }}"
+          matTooltip="Attachments"
+          >attachment</mat-icon
+        >
       </li>
       <li (click)="showDiv(6)">
-        <mat-icon class="ism_icn" matTooltip="High Yield Text">highlight</mat-icon>
+        <mat-icon
+          class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}"
+          matTooltip="High Yield"
+          >highlight</mat-icon
+        >
       </li>
       <li (click)="showDiv(7)">
-        <mat-icon class="ism_icn" matTooltip="Cases">description</mat-icon>
+        <mat-icon
+          class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}"
+          matTooltip="Cases"
+          >description</mat-icon
+        >
       </li>
       <li (click)="showDiv(8)">
-        <mat-icon class="ism_icn" matTooltip="External References">insert_link</mat-icon>
+        <mat-icon
+          class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}"
+          matTooltip="External References"
+          >insert_link</mat-icon
+        >
       </li>
       <li (click)="showDiv(9)">
-        <mat-icon class="ism_icn" matTooltip="Related Topics">bolt</mat-icon>
+        <mat-icon
+          class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}"
+          matTooltip="Related Topics"
+          >bolt</mat-icon
+        >
       </li>
     </ul>
   </div>
@@ -65,10 +103,12 @@
       [ngClass]="{
         dets_actv: value['content_id'] == content_id ? true : false
       }"
+      (click)="viewContent(value['content_id'])"
       >{{ value["content_title"] }}</span
     >
   </div>
-  <div class="pg_ttl">{{ title }}
+  <div class="pg_ttl">
+    {{ content["title"] }}
     <button mat-icon-button color="accent" class="mr_vrt_btn">
       <mat-icon>more_vert</mat-icon>
     </button>
@@ -87,43 +127,19 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"><mat-icon>description</mat-icon>Description</span>
+          <span class="desc_in_hd"
+            ><mat-icon>description</mat-icon>Description</span
+          >
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
             <span class="a_mns">A<sup>-</sup></span>
           </span>
-          <button mat-icon-button color="primary">
+          <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
         </div>
-        <div class="crs_desc_cnt">
-          Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
-          Quisque vehicula ultrices justo ut auctor. Integer mollis justo lacus,
-          vel ultrices odio tempor vel. Morbi ullamcorper porta augue, a posuere
-          lacus ultricies sed. In maximus augue et nibh dignissim molestie.
-          Praesent lacinia dui et lorem eleifend rhoncus. Praesent vel nibh
-          <div class="hgt_20"></div>
-          <div class="desc_cnt_imgs">
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-          </div>
-          <div class="hgt_20"></div>
-          rhoncus, ullamcorper est eleifend, ultrices dui. Vivamus ultricies
-          malesuada libero, vel ultricies erat vehicula vel. Quisque accumsan
-          orci eu sem laoreet ornare. Phasellus pulvinar vulputate mi, at luctus
-          magna scelerisque suscipit. Maecenas a odio nisl. Integer ac felis
-          tincidunt, consectetur est in, vestibulum mauris. Nullam justo leo,
-          facilisis vitae pretium sit amet, lacinia et aug
-        </div>
+        <div class="crs_desc_cnt" [innerHtml]="content['main_content']"></div>
       </div>
     </div>
   </div>
@@ -131,38 +147,55 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>quiz</mat-icon> MCQ’s
-          </span>
+          <span class="desc_in_hd"> <mat-icon>quiz</mat-icon> MCQ’s </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
             <span class="a_mns">A<sup>-</sup></span>
           </span>
-          <button mat-icon-button color="primary">
+          <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
         </div>
         <div class="crs_desc_cnt mcb_desc">
           <div class="hgt_20"></div>
           Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?
           <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
+            <mat-radio-button value="1"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam
             </mat-radio-button>
-            <mat-radio-button value="2">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam</mat-radio-button>
-            <mat-radio-button value="3">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam</mat-radio-button>
-            <mat-radio-button value="4">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam</mat-radio-button>
-            <mat-radio-button value="5">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam</mat-radio-button>
+            <mat-radio-button value="2"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam</mat-radio-button
+            >
+            <mat-radio-button value="3"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam</mat-radio-button
+            >
+            <mat-radio-button value="4"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam</mat-radio-button
+            >
+            <mat-radio-button value="5"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam</mat-radio-button
+            >
           </mat-radio-group>
           <div class="hgt_20"></div>
           <img src="../../../assets/images/vid_smpl.jpg" />
@@ -179,7 +212,9 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"><mat-icon>history_edu</mat-icon> Lecture Notes</span>
+          <span class="desc_in_hd"
+            ><mat-icon>history_edu</mat-icon> Learning Notes</span
+          >
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
@@ -189,33 +224,10 @@
             <mat-icon>close</mat-icon>
           </button>
         </div>
-        <div class="crs_desc_cnt">
-          Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
-          Quisque vehicula ultrices justo ut auctor. Integer mollis justo lacus,
-          vel ultrices odio tempor vel. Morbi ullamcorper porta augue, a posuere
-          lacus ultricies sed. In maximus augue et nibh dignissim molestie.
-          Praesent lacinia dui et lorem eleifend rhoncus. Praesent vel nibh
-          <div class="hgt_20"></div>
-          <div class="desc_cnt_imgs">
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-          </div>
-          <div class="hgt_20"></div>
-          rhoncus, ullamcorper est eleifend, ultrices dui. Vivamus ultricies
-          malesuada libero, vel ultricies erat vehicula vel. Quisque accumsan
-          orci eu sem laoreet ornare. Phasellus pulvinar vulputate mi, at luctus
-          magna scelerisque suscipit. Maecenas a odio nisl. Integer ac felis
-          tincidunt, consectetur est in, vestibulum mauris. Nullam justo leo,
-          facilisis vitae pretium sit amet, lacinia et aug
-        </div>
+        <div
+          class="crs_desc_cnt"
+          [innerHtml]="content['learning_notes_content']"
+        ></div>
       </div>
     </div>
   </div>
@@ -223,32 +235,22 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"><mat-icon>lightbulb</mat-icon> Learning Objectives</span>
+          <span class="desc_in_hd"
+            ><mat-icon>lightbulb</mat-icon> Learning Objectives</span
+          >
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
             <span class="a_mns">A<sup>-</sup></span>
           </span>
-          <button mat-icon-button color="primary">
+          <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
         </div>
-        <div class="crs_desc_cnt">
-          Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
-          Quisque vehicula ultrices justo ut auctor. Integer mollis justo lacus,
-          vel ultrices odio tempor vel. Morbi ullamcorper porta augue, a posuere
-          lacus ultricies sed. In maximus augue et nibh dignissim molestie.
-          Praesent lacinia dui et lorem eleifend rhoncus. Praesent vel nibh
-          <div class="hgt_20"></div>
-          <img src="../../../assets/images/vid_smpl.jpg" />
-          <div class="hgt_20"></div>
-          rhoncus, ullamcorper est eleifend, ultrices dui. Vivamus ultricies
-          malesuada libero, vel ultricies erat vehicula vel. Quisque accumsan
-          orci eu sem laoreet ornare. Phasellus pulvinar vulputate mi, at luctus
-          magna scelerisque suscipit. Maecenas a odio nisl. Integer ac felis
-          tincidunt, consectetur est in, vestibulum mauris. Nullam justo leo,
-          facilisis vitae pretium sit amet, lacinia et aug
-        </div>
+        <div
+          class="crs_desc_cnt"
+          [innerHtml]="content['learning_obj_content']"
+        ></div>
       </div>
     </div>
   </div>
@@ -257,25 +259,24 @@
       <div class="crs_desc">
         <div class="crs_desc_hd">
           <span class="desc_in_hd">
-            <mat-icon>wallpaper</mat-icon> Images/Thumbnails
+            <mat-icon>wallpaper</mat-icon> Images
           </span>
           <span class="spacer"></span>
-          <button mat-icon-button color="primary">
+          <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
         </div>
         <div class="crs_desc_cnt">
           <div class="desc_tmb_img">
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
-            <img src="../../../assets/images/vid_smpl.jpg" />
+            <img
+              *ngFor="let file of content['images']; let i = index"
+              [src]="file['path']"
+              [alt]="
+                file['file_path'].substring(
+                  file['file_path'].lastIndexOf('/') + 1
+                )
+              "
+            />
           </div>
         </div>
       </div>
@@ -289,42 +290,36 @@
             <mat-icon>attachment</mat-icon> Attachments
           </span>
           <span class="spacer"></span>
-          <button mat-icon-button color="primary">
+          <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
         </div>
         <div class="crs_desc_cnt">
           <div class="mlti_fls desc_mlti_fls">
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/ppt.png" alt="" />
-              <span class="fl_nme" matTooltip="asfsdf sd">asfsdf sd</span>
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/doc.png" alt="" />
-              <span class="fl_nme" matTooltip="asdf sd fsd">asdf sd fsd</span>
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf.png" alt="" />
-              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl"
-                >hsadjkfhasjl kjlsdakfl</span
-              >
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf.png" alt="" />
-              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl"
-                >hsadjkfhasjl kjlsdakfl</span
-              >
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf.png" alt="" />
-              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl"
-                >hsadjkfhasjl kjlsdakfl</span
-              >
-            </div>
-            <div class="mlti_fls_dv">
-              <img src="../../../assets/images/pdf.png" alt="" />
-              <span class="fl_nme" matTooltip="hsadjkfhasjl kjlsdakfl"
-                >hsadjkfhasjl kjlsdakfl</span
+            <div
+              class="mlti_fls_dv"
+              *ngFor="let file of content['attachments']; let i = index"
+            >
+              <img
+                [src]="file['path']"
+                [alt]="
+                  file['file_path'].substring(
+                    file['file_path'].lastIndexOf('/') + 1
+                  )
+                "
+              />
+              <span
+                class="fl_nme"
+                matTooltip="{{
+                  file['file_path'].substring(
+                    file['file_path'].lastIndexOf('/') + 1
+                  )
+                }}"
+                >{{
+                  file["file_path"].substring(
+                    file["file_path"].lastIndexOf("/") + 1
+                  )
+                }}</span
               >
             </div>
           </div>
@@ -336,32 +331,22 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"><mat-icon>highlight</mat-icon> High Yield Text</span>
+          <span class="desc_in_hd"
+            ><mat-icon>highlight</mat-icon> High Yield Text</span
+          >
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
             <span class="a_mns">A<sup>-</sup></span>
           </span>
-          <button mat-icon-button color="primary">
+          <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
         </div>
-        <div class="crs_desc_cnt">
-          Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
-          Quisque vehicula ultrices justo ut auctor. Integer mollis justo lacus,
-          vel ultrices odio tempor vel. Morbi ullamcorper porta augue, a posuere
-          lacus ultricies sed. In maximus augue et nibh dignissim molestie.
-          Praesent lacinia dui et lorem eleifend rhoncus. Praesent vel nibh
-          <div class="hgt_20"></div>
-          <img src="../../../assets/images/vid_smpl.jpg" />
-          <div class="hgt_20"></div>
-          rhoncus, ullamcorper est eleifend, ultrices dui. Vivamus ultricies
-          malesuada libero, vel ultricies erat vehicula vel. Quisque accumsan
-          orci eu sem laoreet ornare. Phasellus pulvinar vulputate mi, at luctus
-          magna scelerisque suscipit. Maecenas a odio nisl. Integer ac felis
-          tincidunt, consectetur est in, vestibulum mauris. Nullam justo leo,
-          facilisis vitae pretium sit amet, lacinia et aug
-        </div>
+        <div
+          class="crs_desc_cnt"
+          [innerHtml]="content['highyield_content']"
+        ></div>
       </div>
     </div>
   </div>
@@ -383,22 +368,41 @@
           <div class="hgt_20"></div>
           Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?
           <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
+            <mat-radio-button value="1"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam
             </mat-radio-button>
-            <mat-radio-button value="2">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam</mat-radio-button>
-            <mat-radio-button value="3">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam</mat-radio-button>
-            <mat-radio-button value="4">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam</mat-radio-button>
-            <mat-radio-button value="5">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam
-              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam aliquam</mat-radio-button>
+            <mat-radio-button value="2"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam</mat-radio-button
+            >
+            <mat-radio-button value="3"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam</mat-radio-button
+            >
+            <mat-radio-button value="4"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam</mat-radio-button
+            >
+            <mat-radio-button value="5"
+              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam</mat-radio-button
+            >
           </mat-radio-group>
           <div class="hgt_20"></div>
           <img src="../../../assets/images/vid_smpl.jpg" />
@@ -415,32 +419,22 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"><mat-icon>insert_link</mat-icon> External References</span>
+          <span class="desc_in_hd"
+            ><mat-icon>insert_link</mat-icon> External References</span
+          >
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
             <span class="a_mns">A<sup>-</sup></span>
           </span>
-          <button mat-icon-button color="primary">
+          <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
         </div>
-        <div class="crs_desc_cnt">
-          Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
-          Quisque vehicula ultrices justo ut auctor. Integer mollis justo lacus,
-          vel ultrices odio tempor vel. Morbi ullamcorper porta augue, a posuere
-          lacus ultricies sed. In maximus augue et nibh dignissim molestie.
-          Praesent lacinia dui et lorem eleifend rhoncus. Praesent vel nibh
-          <div class="hgt_20"></div>
-          <img src="../../../assets/images/vid_smpl.jpg" />
-          <div class="hgt_20"></div>
-          rhoncus, ullamcorper est eleifend, ultrices dui. Vivamus ultricies
-          malesuada libero, vel ultricies erat vehicula vel. Quisque accumsan
-          orci eu sem laoreet ornare. Phasellus pulvinar vulputate mi, at luctus
-          magna scelerisque suscipit. Maecenas a odio nisl. Integer ac felis
-          tincidunt, consectetur est in, vestibulum mauris. Nullam justo leo,
-          facilisis vitae pretium sit amet, lacinia et aug
-        </div>
+        <div
+          class="crs_desc_cnt"
+          [innerHtml]="content['external_ref_content']"
+        ></div>
       </div>
     </div>
   </div>
@@ -448,32 +442,19 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"><mat-icon>bolt</mat-icon> Related Topics</span>
+          <span class="desc_in_hd"
+            ><mat-icon>bolt</mat-icon> Related Topics</span
+          >
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
             <span class="a_mns">A<sup>-</sup></span>
           </span>
-          <button mat-icon-button color="primary">
+          <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
         </div>
-        <div class="crs_desc_cnt">
-          Donec nisl neque, tincidunt sit amet dolor at, tempor ultrices leo.
-          Quisque vehicula ultrices justo ut auctor. Integer mollis justo lacus,
-          vel ultrices odio tempor vel. Morbi ullamcorper porta augue, a posuere
-          lacus ultricies sed. In maximus augue et nibh dignissim molestie.
-          Praesent lacinia dui et lorem eleifend rhoncus. Praesent vel nibh
-          <div class="hgt_20"></div>
-          <img src="../../../assets/images/vid_smpl.jpg" />
-          <div class="hgt_20"></div>
-          rhoncus, ullamcorper est eleifend, ultrices dui. Vivamus ultricies
-          malesuada libero, vel ultricies erat vehicula vel. Quisque accumsan
-          orci eu sem laoreet ornare. Phasellus pulvinar vulputate mi, at luctus
-          magna scelerisque suscipit. Maecenas a odio nisl. Integer ac felis
-          tincidunt, consectetur est in, vestibulum mauris. Nullam justo leo,
-          facilisis vitae pretium sit amet, lacinia et aug
-        </div>
+        <div class="crs_desc_cnt" [innerHtml]="content['related_topics']"></div>
       </div>
     </div>
   </div>

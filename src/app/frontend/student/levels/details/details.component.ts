@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
@@ -17,9 +17,10 @@ export class DetailsComponent implements OnInit {
   public content_id = 0;
   public content_list = [];
   public content = [];
-  public active_div = 1;
+  public active_div = 0;
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private http: CommonService
   ) {}
 
@@ -63,5 +64,17 @@ export class DetailsComponent implements OnInit {
   }
   showDiv(div) {
     this.active_div = div;
+  }
+  viewContent(content_id) {
+    this.router.navigateByUrl(
+      '/student/curriculum/details/' +
+        this.curriculum_id +
+        '/' +
+        this.level_id +
+        '/' +
+        this.level_parent_id +
+        '/' +
+        content_id
+    );
   }
 }
