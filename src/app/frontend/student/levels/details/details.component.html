@@ -139,7 +139,16 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div class="crs_desc_cnt" [innerHtml]="content['main_content']"></div>
+        <!-- <div class="crs_desc_cnt" [innerHTML]="content['main_content']"> -->
+        <div class="crs_desc_cnt">
+          <ckeditor
+            #editor
+            [disabled]="true"
+            [editor]="Editor"
+            [config]="{}"
+            [(ngModel)]="content['main_content']"
+          ></ckeditor>
+        </div>
       </div>
     </div>
   </div>

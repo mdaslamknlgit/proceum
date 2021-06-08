@@ -6,6 +6,7 @@ import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
+import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
 @Component({
   selector: 'app-create-content',
   templateUrl: './create-content.component.html',
@@ -57,6 +58,13 @@ export class CreateContentComponent implements OnInit {
   public external_ref_content = '';
   public content_id = 0;
   onReady(eventData) {
+    eventData.ui
+      .getEditableElement()
+      .parentElement.insertBefore(
+        eventData.ui.view.toolbar.element,
+        eventData.ui.getEditableElement()
+      );
+    //this.eventData = eventData;
     let apiUrl = environment.apiUrl;
     eventData.plugins.get('FileRepository').createUploadAdapter = function (
       loader
@@ -64,6 +72,11 @@ export class CreateContentComponent implements OnInit {
       var data = new UploadAdapter(loader, apiUrl + 'upload');
       return data;
     };
+  }
+  onChange({ editor }: ChangeEvent) {
+    const data = editor.getData();
+
+    console.log(JSON.stringify(data));
   }
   constructor(
     private http: CommonService,

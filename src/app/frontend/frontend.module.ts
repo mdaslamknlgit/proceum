@@ -21,7 +21,7 @@ import { StudentComponent } from './student.component';
 import { DetailsComponent } from './student/levels/details/details.component';
 import { LevelComponent } from './student/levels/level.component';
 import { Level_listComponent } from './student/levels/levels_list/level_list.component';
-
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 const routes: Routes = [
   {
     path: '',
@@ -82,6 +82,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     MaterialModule,
     LayoutsModule,
+    CKEditorModule,
   ],
   exports: [RouterModule],
 })

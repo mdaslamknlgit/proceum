@@ -1,13 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
-
+import * as Editor from '../../../../../assets/ckeditor5';
+import {
+  DomSanitizer,
+  SafeResourceUrl,
+  SafeUrl,
+} from '@angular/platform-browser';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent implements OnInit {
+  @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   public title = '';
   public curriculum = [];
   public curriculum_id = 0;
@@ -18,10 +25,13 @@ export class DetailsComponent implements OnInit {
   public content_list = [];
   public content = [];
   public active_div = 0;
+  public main_content: any = [];
+  public Editor = Editor;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private http: CommonService
+    private http: CommonService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +61,9 @@ export class DetailsComponent implements OnInit {
         this.breadcome = res['breadcome'];
         this.content_list = data['content_list'];
         this.content = data['content'];
+        this.main_content = this.sanitizer.bypassSecurityTrustHtml(
+          this.content['main_content']
+        );
         this.content_id = data['selected_content_id'];
         if (this.breadcome.length > 0) {
           this.breadcome.forEach((val) => {
