@@ -5,8 +5,7 @@ import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
 import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute } from '@angular/router';
-import { ChangeEvent } from '@ckeditor/ckeditor5-angular/ckeditor.component';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-create-content',
   templateUrl: './create-content.component.html',
@@ -58,13 +57,6 @@ export class CreateContentComponent implements OnInit {
   public external_ref_content = '';
   public content_id = 0;
   onReady(eventData) {
-    eventData.ui
-      .getEditableElement()
-      .parentElement.insertBefore(
-        eventData.ui.view.toolbar.element,
-        eventData.ui.getEditableElement()
-      );
-    //this.eventData = eventData;
     let apiUrl = environment.apiUrl;
     eventData.plugins.get('FileRepository').createUploadAdapter = function (
       loader
@@ -73,15 +65,11 @@ export class CreateContentComponent implements OnInit {
       return data;
     };
   }
-  onChange({ editor }: ChangeEvent) {
-    const data = editor.getData();
-
-    console.log(JSON.stringify(data));
-  }
   constructor(
     private http: CommonService,
     private toster: ToastrService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
@@ -219,13 +207,14 @@ export class CreateContentComponent implements OnInit {
 
     this.http.post(params).subscribe((res) => {
       this.toster.success(res['message'], 'Success', { closeButton: true });
-      (<HTMLFormElement>document.getElementById('curriculum_form')).reset();
-      this.videos = [];
-      this.videos_files = [];
-      this.attachments = [];
-      this.attachment_files = [];
-      this.images = [];
-      this.images_files = [];
+      this.router.navigateByUrl('/admin/manage-content');
+      //   (<HTMLFormElement>document.getElementById('curriculum_form')).reset();
+      //   this.videos = [];
+      //   this.videos_files = [];
+      //   this.attachments = [];
+      //   this.attachment_files = [];
+      //   this.images = [];
+      //   this.images_files = [];
     });
   }
 }

@@ -15,6 +15,7 @@ import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 })
 export class DetailsComponent implements OnInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
+  @ViewChild('editor2', { static: false }) editor2: CKEditorComponent;
   public title = '';
   public curriculum = [];
   public curriculum_id = 0;
