@@ -5,74 +5,40 @@
   <div class="ism_scrl">
     <ul>
       <li (click)="showDiv(0)">
-        <mat-icon
-          class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Description"
-          >feed</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}" matTooltip="Description">feed</mat-icon>
       </li>
       <li (click)="showDiv(1)">
-        <mat-icon
-          class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Quiz"
-          >quiz</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}" matTooltip="Quiz">quiz</mat-icon>
       </li>
       <li (click)="showDiv(2)">
-        <mat-icon
-          class="ism_icn {{ active_div == 2 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Learning Notes"
-          >history_edu</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 2 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Notes">history_edu
+        </mat-icon>
       </li>
       <li (click)="showDiv(3)">
-        <mat-icon
-          class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Learning Objectives"
-          >lightbulb</mat-icon
-        >
+        <mat-icon class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Objectives">
+          lightbulb</mat-icon>
       </li>
       <li (click)="showDiv(4)">
-        <mat-icon
-          class="ism_icn {{ active_div == 4 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Images"
-          >wallpaper</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 4 ? 'ism_actv_btn' : '' }}" matTooltip="Images">wallpaper</mat-icon>
       </li>
       <li (click)="showDiv(5)">
-        <mat-icon
-          class="ism_icn {{ active_div == 5 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Attachments"
-          >attachment</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 5 ? 'ism_actv_btn' : '' }}" matTooltip="Attachments">attachment
+        </mat-icon>
       </li>
       <li (click)="showDiv(6)">
-        <mat-icon
-          class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}"
-          matTooltip="High Yield"
-          >highlight</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}" matTooltip="High Yield">highlight
+        </mat-icon>
       </li>
       <li (click)="showDiv(7)">
-        <mat-icon
-          class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Cases"
-          >description</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}" matTooltip="Cases">description</mat-icon>
       </li>
       <li (click)="showDiv(8)">
-        <mat-icon
-          class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}"
-          matTooltip="External References"
-          >insert_link</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}" matTooltip="External References">
+          insert_link</mat-icon>
       </li>
       <li (click)="showDiv(9)">
-        <mat-icon
-          class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Related Topics"
-          >bolt</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}" matTooltip="Related Topics">bolt
+        </mat-icon>
       </li>
     </ul>
   </div>
@@ -82,30 +48,19 @@
     <span routerLink="/student/curriculums">Curriculums / </span>
     <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
       curriculum["curriculumn_name"]
-    }}</span>
+      }}</span>
     <span *ngFor="let bread of breadcome; let i = index">
       /
-      <span
-        *ngIf="i < breadcome.length - 1"
-        routerLink="/student/curriculums/{{
+      <span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
-        }}"
-        >{{ bread["name"] }}</span
-      >
+        }}">{{ bread["name"] }}</span>
       <strong *ngIf="i == breadcome.length - 1">
-        {{ setTitle(bread["name"]) }}</strong
-      ></span
-    >
+        {{ setTitle(bread["name"]) }}</strong></span>
   </div>
   <div class="brd_crm detsbrd">
-    <span
-      *ngFor="let value of content_list"
-      [ngClass]="{
+    <span *ngFor="let value of content_list" [ngClass]="{
         dets_actv: value['content_id'] == content_id ? true : false
-      }"
-      (click)="viewContent(value['content_id'])"
-      >{{ value["content_title"] }}</span
-    >
+      }" (click)="viewContent(value['content_id'])">{{ value["content_title"] }}</span>
   </div>
   <div class="pg_ttl">
     {{ content["title"] }}
@@ -127,9 +82,9 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"
-            ><mat-icon>feed</mat-icon>Description</span
-          >
+          <span class="desc_in_hd">
+            <mat-icon>feed</mat-icon>Description
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
@@ -147,7 +102,9 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"> <mat-icon>quiz</mat-icon> MCQ’s </span>
+          <span class="desc_in_hd">
+            <mat-icon>quiz</mat-icon> MCQ’s
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
@@ -161,41 +118,32 @@
           <div class="hgt_20"></div>
           Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?
           <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+            <mat-radio-button value="1">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
               diam aliquam aliquam
             </mat-radio-button>
-            <mat-radio-button value="2"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+            <mat-radio-button value="2">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
-              diam aliquam aliquam</mat-radio-button
-            >
-            <mat-radio-button value="3"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              diam aliquam aliquam</mat-radio-button>
+            <mat-radio-button value="3">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
-              diam aliquam aliquam</mat-radio-button
-            >
-            <mat-radio-button value="4"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              diam aliquam aliquam</mat-radio-button>
+            <mat-radio-button value="4">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
-              diam aliquam aliquam</mat-radio-button
-            >
-            <mat-radio-button value="5"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              diam aliquam aliquam</mat-radio-button>
+            <mat-radio-button value="5">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
-              diam aliquam aliquam</mat-radio-button
-            >
+              diam aliquam aliquam</mat-radio-button>
           </mat-radio-group>
           <div class="hgt_20"></div>
           <img src="../../../assets/images/vid_smpl.jpg" />
@@ -212,9 +160,9 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"
-            ><mat-icon>history_edu</mat-icon> Learning Notes</span
-          >
+          <span class="desc_in_hd">
+            <mat-icon>history_edu</mat-icon> Learning Notes
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
@@ -224,10 +172,7 @@
             <mat-icon>close</mat-icon>
           </button>
         </div>
-        <div
-          class="crs_desc_cnt"
-          [innerHtml]="content['learning_notes_content']"
-        ></div>
+        <div class="crs_desc_cnt" [innerHtml]="content['learning_notes_content']"></div>
       </div>
     </div>
   </div>
@@ -235,9 +180,9 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"
-            ><mat-icon>lightbulb</mat-icon> Learning Objectives</span
-          >
+          <span class="desc_in_hd">
+            <mat-icon>lightbulb</mat-icon> Learning Objectives
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
@@ -247,10 +192,7 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div
-          class="crs_desc_cnt"
-          [innerHtml]="content['learning_obj_content']"
-        ></div>
+        <div class="crs_desc_cnt" [innerHtml]="content['learning_obj_content']"></div>
       </div>
     </div>
   </div>
@@ -268,15 +210,11 @@
         </div>
         <div class="crs_desc_cnt">
           <div class="desc_tmb_img">
-            <img
-              *ngFor="let file of content['images']; let i = index"
-              [src]="file['path']"
-              [alt]="
+            <img *ngFor="let file of content['images']; let i = index" [src]="file['path']" [alt]="
                 file['file_path'].substring(
                   file['file_path'].lastIndexOf('/') + 1
                 )
-              "
-            />
+              " />
           </div>
         </div>
       </div>
@@ -296,31 +234,21 @@
         </div>
         <div class="crs_desc_cnt">
           <div class="mlti_fls desc_mlti_fls">
-            <div
-              class="mlti_fls_dv"
-              *ngFor="let file of content['attachments']; let i = index"
-            >
-              <img
-                [src]="file['path']"
-                [alt]="
+            <div class="mlti_fls_dv" *ngFor="let file of content['attachments']; let i = index">
+              <img [src]="file['path']" [alt]="
                   file['file_path'].substring(
                     file['file_path'].lastIndexOf('/') + 1
                   )
-                "
-              />
-              <span
-                class="fl_nme"
-                matTooltip="{{
+                " />
+              <span class="fl_nme" matTooltip="{{
                   file['file_path'].substring(
                     file['file_path'].lastIndexOf('/') + 1
                   )
-                }}"
-                >{{
-                  file["file_path"].substring(
-                    file["file_path"].lastIndexOf("/") + 1
-                  )
-                }}</span
-              >
+                }}">{{
+                file["file_path"].substring(
+                file["file_path"].lastIndexOf("/") + 1
+                )
+                }}</span>
             </div>
           </div>
         </div>
@@ -331,9 +259,9 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"
-            ><mat-icon>highlight</mat-icon> High Yield Text</span
-          >
+          <span class="desc_in_hd">
+            <mat-icon>highlight</mat-icon> High Yield Text
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
@@ -343,10 +271,7 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div
-          class="crs_desc_cnt"
-          [innerHtml]="content['highyield_content']"
-        ></div>
+        <div class="crs_desc_cnt" [innerHtml]="content['highyield_content']"></div>
       </div>
     </div>
   </div>
@@ -354,7 +279,9 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"><mat-icon>description</mat-icon> Cases</span>
+          <span class="desc_in_hd">
+            <mat-icon>description</mat-icon> Cases
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
@@ -368,41 +295,32 @@
           <div class="hgt_20"></div>
           Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?
           <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+            <mat-radio-button value="1">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
               diam aliquam aliquam
             </mat-radio-button>
-            <mat-radio-button value="2"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+            <mat-radio-button value="2">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
-              diam aliquam aliquam</mat-radio-button
-            >
-            <mat-radio-button value="3"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              diam aliquam aliquam</mat-radio-button>
+            <mat-radio-button value="3">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
-              diam aliquam aliquam</mat-radio-button
-            >
-            <mat-radio-button value="4"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              diam aliquam aliquam</mat-radio-button>
+            <mat-radio-button value="4">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
-              diam aliquam aliquam</mat-radio-button
-            >
-            <mat-radio-button value="5"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              diam aliquam aliquam</mat-radio-button>
+            <mat-radio-button value="5">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
               tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
               aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
-              diam aliquam aliquam</mat-radio-button
-            >
+              diam aliquam aliquam</mat-radio-button>
           </mat-radio-group>
           <div class="hgt_20"></div>
           <img src="../../../assets/images/vid_smpl.jpg" />
@@ -419,9 +337,9 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"
-            ><mat-icon>insert_link</mat-icon> External References</span
-          >
+          <span class="desc_in_hd">
+            <mat-icon>insert_link</mat-icon> External References
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
@@ -431,10 +349,7 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div
-          class="crs_desc_cnt"
-          [innerHtml]="content['external_ref_content']"
-        ></div>
+        <div class="crs_desc_cnt" [innerHtml]="content['external_ref_content']"></div>
       </div>
     </div>
   </div>
@@ -442,9 +357,9 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"
-            ><mat-icon>bolt</mat-icon> Related Topics</span
-          >
+          <span class="desc_in_hd">
+            <mat-icon>bolt</mat-icon> Related Topics
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span class="a_pls">A<sup>+</sup></span>
@@ -475,10 +390,18 @@
     <img src="../../../assets/images/vid_smpl.jpg" />
   </div>
   <div class="intr_vd_optns">
-    <span> <mat-icon>thumb_up_off_alt</mat-icon> Like </span>
-    <span> <mat-icon>share</mat-icon> Share </span>
-    <span> <mat-icon>favorite_border</mat-icon> Favorite </span>
-    <span> <mat-icon>bookmark_border</mat-icon> Add to Bookmark </span>
+    <span>
+      <mat-icon>thumb_up_off_alt</mat-icon> Like
+    </span>
+    <span>
+      <mat-icon>share</mat-icon> Share
+    </span>
+    <span>
+      <mat-icon>favorite_border</mat-icon> Favorite
+    </span>
+    <span>
+      <mat-icon>bookmark_border</mat-icon> Add to Bookmark
+    </span>
   </div>
   <div class="intr_vd_tml">
     <mat-accordion>
@@ -491,21 +414,15 @@
         </mat-expansion-panel-header>
         <div class="tm_ln_dv">
           <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt"
-            >Sed non tortor ut diam aliquam aliquam</span
-          >
+          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
         </div>
         <div class="tm_ln_dv">
           <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt"
-            >Sed non tortor ut diam aliquam aliquam</span
-          >
+          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
         </div>
         <div class="tm_ln_dv">
           <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt"
-            >Sed non tortor ut diam aliquam aliquam</span
-          >
+          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
         </div>
       </mat-expansion-panel>
       <mat-expansion-panel>
