@@ -8,6 +8,7 @@ import {
   SafeUrl,
 } from '@angular/platform-browser';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -28,12 +29,18 @@ export class DetailsComponent implements OnInit {
   public active_div = 0;
   public main_content: any = [];
   public Editor = Editor;
+  public Editor2 = Editor;
+  main_desc = '';
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: CommonService,
     private sanitizer: DomSanitizer
-  ) {}
+  ) {
+    //this.router.routeReuseStrategy.shouldReuseRoute = function () {
+    //return false;
+    //};
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
@@ -43,6 +50,9 @@ export class DetailsComponent implements OnInit {
       this.content_id = param.content_id ? param.content_id : 0;
       this.getLevelDetails();
     });
+  }
+  onReady(eventData) {
+    this.main_desc = this.content['main_content'];
   }
   setTitle(val) {
     return val;
@@ -58,6 +68,7 @@ export class DetailsComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let data = res['data'];
+
         this.curriculum = data['curriculum'];
         this.breadcome = res['breadcome'];
         this.content_list = data['content_list'];
@@ -80,6 +91,7 @@ export class DetailsComponent implements OnInit {
     this.active_div = div;
   }
   viewContent(content_id) {
+    this.content = [];
     this.router.navigateByUrl(
       '/student/curriculum/details/' +
         this.curriculum_id +

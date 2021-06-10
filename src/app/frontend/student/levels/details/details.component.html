@@ -139,15 +139,18 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <!-- <div class="crs_desc_cnt" [innerHTML]="content['main_content']"> -->
-        <div class="crs_desc_cnt ck_editor_view">
+        <div
+          class="crs_desc_cnt ck_editor_view"
+          *ngIf="content['main_content']"
+        >
           <ckeditor
             #editor
             name="main_content"
             [disabled]="true"
             [editor]="Editor"
             [config]="{}"
-            [(ngModel)]="content['main_content']"
+            (ready)="onReady($event)"
+            [data]="content['main_content']"
           ></ckeditor>
         </div>
       </div>
@@ -230,17 +233,21 @@
             <span class="a_pls">A<sup>+</sup></span>
             <span class="a_mns">A<sup>-</sup></span>
           </span>
-          <button mat-icon-button color="primary">
+          <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
-          </button>
+          </button> -->
         </div>
-        <div class="crs_desc_cnt ck_editor_view">
+        <div
+          class="crs_desc_cnt ck_editor_view"
+          *ngIf="content['learning_notes_content']"
+        >
           <ckeditor
-            #editor
+            #editor2
             name="learning_notes_content"
             [disabled]="true"
-            [editor]="Editor"
+            [editor]="Editor2"
             [config]="{}"
+            (ready)="onReady($event)"
             [data]="content['learning_notes_content']"
           ></ckeditor>
         </div>
@@ -263,12 +270,16 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div class="crs_desc_cnt ck_editor_view">
+        <div
+          class="crs_desc_cnt ck_editor_view"
+          *ngIf="content['learning_obj_content']"
+        >
           <ckeditor
             #editor
             [disabled]="true"
             [editor]="Editor"
             [config]="{}"
+            (ready)="onReady($event)"
             [data]="content['learning_obj_content']"
           ></ckeditor>
         </div>
@@ -364,12 +375,16 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div class="crs_desc_cnt ck_editor_view">
+        <div
+          class="crs_desc_cnt ck_editor_view"
+          *ngIf="content['highyield_content']"
+        >
           <ckeditor
             #editor
             [disabled]="true"
             [editor]="Editor"
             [config]="{}"
+            (ready)="onReady($event)"
             [data]="content['highyield_content']"
           ></ckeditor>
         </div>
@@ -457,12 +472,16 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div class="crs_desc_cnt ck_editor_view">
+        <div
+          class="crs_desc_cnt ck_editor_view"
+          *ngIf="content['external_ref_content']"
+        >
           <ckeditor
             #editor
             [disabled]="true"
             [editor]="Editor"
             [config]="{}"
+            (ready)="onReady($event)"
             [data]="content['external_ref_content']"
           ></ckeditor>
         </div>
@@ -485,12 +504,16 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div class="crs_desc_cnt ck_editor_view">
+        <div
+          class="crs_desc_cnt ck_editor_view"
+          *ngIf="content['related_topics']"
+        >
           <ckeditor
             #editor
             [disabled]="true"
             [editor]="Editor"
             [config]="{}"
+            (ready)="onReady($event)"
             [data]="content['related_topics']"
           ></ckeditor>
         </div>
