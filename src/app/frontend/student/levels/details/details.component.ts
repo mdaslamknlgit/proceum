@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
 import * as Editor from '../../../../../assets/ckeditor5';
@@ -14,7 +14,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   @ViewChild('editor2', { static: false }) editor2: CKEditorComponent;
   public title = '';
@@ -30,6 +30,9 @@ export class DetailsComponent implements OnInit {
   public main_content: any = [];
   public Editor = Editor;
   public Editor2 = Editor;
+  public show_content_list = false;
+  public buzz_words = false;
+  public font_size = 16;
   main_desc = '';
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -50,6 +53,51 @@ export class DetailsComponent implements OnInit {
       this.content_id = param.content_id ? param.content_id : 0;
       this.getLevelDetails();
     });
+  }
+  setFontSize(val) {
+    let final_val = val == '+' ? this.font_size + 1 : this.font_size - 1;
+    this.font_size = final_val;
+    document.documentElement.style.setProperty(
+      '--ck-editor-font-size',
+      this.font_size + 'px'
+    );
+  }
+  showBuzzwords() {
+    this.buzz_words = true;
+    document.documentElement.style.setProperty(
+      '--ck-highlight-marker-yellow',
+      'yellow'
+    );
+    document.documentElement.style.setProperty(
+      '--ck-highlight-marker-blue',
+      'blue'
+    );
+    document.documentElement.style.setProperty(
+      '--ck-highlight-marker-pink',
+      'pink'
+    );
+  }
+  hideBuzzWords() {
+    this.buzz_words = false;
+    document.documentElement.style.setProperty(
+      '--ck-highlight-marker-yellow',
+      'white'
+    );
+    document.documentElement.style.setProperty(
+      '--ck-highlight-marker-blue',
+      'white'
+    );
+    document.documentElement.style.setProperty(
+      '--ck-highlight-marker-pink',
+      'white'
+    );
+  }
+  ngAfterViewInit() {
+    this.hideBuzzWords();
+    document.documentElement.style.setProperty(
+      '--ck-editor-font-size',
+      this.font_size + 'px'
+    );
   }
   onReady(eventData) {
     this.main_desc = this.content['main_content'];
@@ -92,6 +140,7 @@ export class DetailsComponent implements OnInit {
   }
   viewContent(content_id) {
     this.content = [];
+    this.show_content_list = !this.show_content_list;
     this.router.navigateByUrl(
       '/student/curriculum/details/' +
         this.curriculum_id +
