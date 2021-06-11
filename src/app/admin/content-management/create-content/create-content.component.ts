@@ -56,6 +56,9 @@ export class CreateContentComponent implements OnInit {
   public related_topics = '';
   public external_ref_content = '';
   public content_id = 0;
+  public show_questions = false;
+  public offset = 0;
+  public limit = environment.page_size;
   onReady(eventData) {
     let apiUrl = environment.apiUrl;
     eventData.plugins.get('FileRepository').createUploadAdapter = function (
@@ -185,6 +188,21 @@ export class CreateContentComponent implements OnInit {
         this.videos.splice(index, 1);
       }
     }
+  }
+  viewQuestions() {
+    let data = {
+      url: 'questions-list',
+      limit: this.limit,
+      offset: this.offset,
+    };
+    this.http.post(data).subscribe((res) => {
+      if (res['error'] == false) {
+        this.show_questions = true;
+      }
+    });
+  }
+  CloseQuestiosModal() {
+    this.show_questions = !this.show_questions;
   }
   createContent(is_draft) {
     let form_data = {
