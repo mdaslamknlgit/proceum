@@ -5,7 +5,7 @@ import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
 import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router'; 
 
 
 
@@ -40,6 +40,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 
 
 export class CreateContentComponent implements OnInit {
+
+
   displayedColumns: string[] = ['position', 'name'];
   dataSource = ELEMENT_DATA;
   public active_tab = 'images';
@@ -104,7 +106,12 @@ export class CreateContentComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {}
+
+ 
+
   ngOnInit(): void {
+
+ 
     this.activatedRoute.params.subscribe((param) => {
       this.content_id = param.id;
       if (this.content_id != undefined) {
@@ -113,6 +120,9 @@ export class CreateContentComponent implements OnInit {
     });
     this.getChildData();
   }
+
+ 
+
   getContent() {
     let data = { url: 'create-content/' + this.content_id };
     this.http.post(data).subscribe((res) => {
