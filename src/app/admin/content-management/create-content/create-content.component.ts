@@ -5,29 +5,21 @@ import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
 import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute, Router } from '@angular/router'; 
-
-
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  s_no: number;
+  question: number;
+  action: string;
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
+  { s_no: 1, question: 1.0079, action: 'H' },
+  { s_no: 2, question: 4.0026, action: 'He' },
+  { s_no: 3, question: 6.941, action: 'Li' },
 ];
 
 @Component({
@@ -35,18 +27,48 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './create-content.component.html',
   styleUrls: ['./create-content.component.scss'],
 })
-
- 
-
-
 export class CreateContentComponent implements OnInit {
-
-
-  displayedColumns: string[] = ['position', 'name'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['s_no', 'question', 'action'];
+  all_questions = new MatTableDataSource();
+  selected_questions = ELEMENT_DATA; // new MatTableDataSource();
   public active_tab = 'images';
-  @ViewChild('editor', { static: false }) editor: CKEditorComponent;
+  public selected_mcqs = [];
+  public selected_cases = [];
+  public selected_short_questions = [];
   public library_popup: boolean = false;
+  public title = '';
+  public videos = [];
+  public videos_files = [];
+  public main_content: string = '';
+  public library_purpose: any;
+  public attachments = [];
+  public attachment_files = [];
+  public images = [];
+  public images_files = [];
+  public learning_obj_content: string = '';
+  public learning_notes_content: string = '';
+  public highyield_content: string = '';
+  public cases = '';
+  public mcqs = '';
+  public related_topics = '';
+  public external_ref_content = '';
+  public content_id = 0;
+  public show_questions = false;
+  public active_tab_type = 'mcq';
+  public search_question = '';
+  public all_or_selected = 'all';
+  public question_tab = 0;
+  public short_answer_tab = 0;
+  public case_tab = 0;
+  public offset = 0;
+  public limit = environment.page_size;
+  public totalSize: 0;
+  public page = 0;
+  public page_size_options = environment.page_size_options;
+  @ViewChild(MatPaginator, { static: false })
+  paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   public Editor = Editor;
   editorConfig = {
     Plugins: [],
@@ -71,26 +93,6 @@ export class CreateContentComponent implements OnInit {
     },
     language: 'en',
   };
-  public title = '';
-  public videos = [];
-  public videos_files = [];
-  public main_content: string = '';
-  public library_purpose: any;
-  public attachments = [];
-  public attachment_files = [];
-  public images = [];
-  public images_files = [];
-  public learning_obj_content: string = '';
-  public learning_notes_content: string = '';
-  public highyield_content: string = '';
-  public cases = '';
-  public mcqs = '';
-  public related_topics = '';
-  public external_ref_content = '';
-  public content_id = 0;
-  public show_questions = false;
-  public offset = 0;
-  public limit = environment.page_size;
   onReady(eventData) {
     let apiUrl = environment.apiUrl;
     eventData.plugins.get('FileRepository').createUploadAdapter = function (
@@ -107,11 +109,7 @@ export class CreateContentComponent implements OnInit {
     private router: Router
   ) {}
 
- 
-
   ngOnInit(): void {
-
- 
     this.activatedRoute.params.subscribe((param) => {
       this.content_id = param.id;
       if (this.content_id != undefined) {
@@ -120,8 +118,6 @@ export class CreateContentComponent implements OnInit {
     });
     this.getChildData();
   }
-
- 
 
   getContent() {
     let data = { url: 'create-content/' + this.content_id };
@@ -155,6 +151,9 @@ export class CreateContentComponent implements OnInit {
             this.videos_files.push(file['file_path']);
           });
         }
+        this.selected_mcqs = data['selected_mcqs'];
+        this.selected_short_questions = data['selected_short_questions'];
+        this.selected_cases = data['selected_cases'];
       }
     });
   }
@@ -244,6 +243,194 @@ export class CreateContentComponent implements OnInit {
   CloseQuestiosModal() {
     this.show_questions = !this.show_questions;
   }
+  notesTab(event) {
+    let tab_index = event.index;
+    this.question_tab = 0;
+    this.short_answer_tab = 0;
+    this.case_tab = 0;
+    this.all_or_selected = 'all';
+    if (tab_index == 3) {
+      this.active_tab_type = 'mcq';
+      let data = {
+        url: 'questions-list',
+        limit: this.limit,
+        offset: this.offset,
+        type: this.active_tab_type,
+        all_or_selected: this.all_or_selected,
+      };
+      this.getAllQuestions(data);
+    }
+    if (tab_index == 4) {
+      this.active_tab_type = 'short_answer';
+      let data = {
+        url: 'questions-list',
+        limit: this.limit,
+        offset: this.offset,
+        type: this.active_tab_type,
+        all_or_selected: this.all_or_selected,
+      };
+      this.getAllQuestions(data);
+    }
+    if (tab_index == 5) {
+      this.active_tab_type = 'case';
+      let data = {
+        url: 'questions-list',
+        limit: this.limit,
+        offset: this.offset,
+        type: this.active_tab_type,
+        all_or_selected: this.all_or_selected,
+      };
+      this.getAllQuestions(data);
+    }
+  }
+
+  questionsTab(tab) {
+    let tab_index = tab.index;
+    //this.question_tab = tab_index;
+    if (tab_index == 0) {
+      this.all_or_selected = 'all';
+      let data = {
+        url: 'questions-list',
+        limit: this.limit,
+        offset: this.offset,
+        type: this.active_tab_type,
+        all_or_selected: this.all_or_selected,
+      };
+      this.getAllQuestions(data);
+    }
+    if (tab_index == 1) {
+      let question_ids = [];
+      if (this.active_tab_type == 'mcq') {
+        question_ids = this.selected_mcqs;
+      }
+      if (this.active_tab_type == 'short_answer') {
+        question_ids = this.selected_short_questions;
+      }
+      if (this.active_tab_type == 'case') {
+        question_ids = this.selected_cases;
+      }
+      this.all_or_selected = 'selected';
+      let data = {
+        url: 'questions-list',
+        limit: this.limit,
+        offset: this.offset,
+        type: this.active_tab_type,
+        all_or_selected: this.all_or_selected,
+        question_ids: question_ids,
+      };
+      if (question_ids.length > 0) {
+        this.getAllQuestions(data);
+      } else {
+        this.all_questions = new MatTableDataSource([]);
+      }
+    }
+  }
+  getAllQuestions(param) {
+    this.resetPagination();
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.all_questions = new MatTableDataSource(
+          res['data']['question_list']
+        );
+        this.totalSize = res['total_records'];
+
+        this.all_questions.paginator = this.paginator;
+      } else {
+        this.all_questions = new MatTableDataSource([]);
+      }
+    });
+  }
+  searchQuestions() {
+    this.resetPagination();
+    let param = {
+      url: 'questions-list',
+      type: this.active_tab_type,
+      offset: this.page,
+      limit: this.limit,
+      search: this.search_question,
+      all_or_selected: this.all_or_selected,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.all_questions = new MatTableDataSource(
+          res['data']['question_list']
+        );
+        this.totalSize = res['total_records'];
+      } else {
+        this.toster.info(res['message'], 'Error');
+        this.all_questions = new MatTableDataSource([]);
+      }
+    });
+  }
+  resetPagination() {
+    //console.log(this.all_questions.paginator.page);
+    if (this.paginator != undefined) {
+      this.paginator.pageIndex = 0;
+      this.paginator.firstPage();
+    }
+    this.offset = 0;
+    this.limit = environment.page_size;
+    this.totalSize = 0;
+    this.page = 0;
+  }
+  public getServerData(event?: PageEvent) {
+    this.page = event.pageSize * event.pageIndex;
+    let param = {
+      url: 'questions-list',
+      type: this.active_tab_type,
+      offset: this.page,
+      limit: event.pageSize,
+      search: this.search_question,
+      all_or_selected: this.all_or_selected,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.all_questions = new MatTableDataSource(
+          res['data']['question_list']
+        );
+        this.totalSize = res['total_records'];
+      } else {
+        this.toster.info(res['message'], 'Error');
+        this.all_questions = new MatTableDataSource([]);
+      }
+    });
+  }
+  selectQuestion(event, id) {
+    id = '' + id;
+    console.log(event);
+    console.log(id);
+    if (this.active_tab_type == 'mcq') {
+      if (event['checked'] == true) {
+        this.selected_mcqs.push(id);
+      } else {
+        const index = this.selected_mcqs.indexOf(id);
+        if (index > -1) {
+          this.selected_mcqs.splice(index, 1);
+        }
+      }
+    }
+    if (this.active_tab_type == 'short_answer') {
+      if (event['checked'] == true) {
+        this.selected_short_questions.push(id);
+      } else {
+        const index = this.selected_short_questions.indexOf(id);
+        if (index > -1) {
+          this.selected_short_questions.splice(index, 1);
+        }
+      }
+    }
+    if (this.active_tab_type == 'case') {
+      if (event['checked'] == true) {
+        this.selected_cases.push(id);
+      } else {
+        const index = this.selected_cases.indexOf(id);
+        console.log(index, id);
+        if (index > -1) {
+          this.selected_cases.splice(index, 1);
+        }
+      }
+    }
+  }
   createContent(is_draft) {
     let form_data = {
       title: this.title,
@@ -256,16 +443,21 @@ export class CreateContentComponent implements OnInit {
       learning_notes_content: this.learning_notes_content,
       highyield_content: this.highyield_content,
       external_ref_content: this.external_ref_content,
-      mcqs: this.mcqs,
-      cases: this.cases,
+      selected_mcqs: this.selected_mcqs,
+      selected_short_questions: this.selected_short_questions,
+      selected_cases: this.selected_cases,
       is_draft: is_draft,
       content_id: this.content_id,
     };
     let params = { url: 'create-content', form_data: form_data };
 
     this.http.post(params).subscribe((res) => {
-      this.toster.success(res['message'], 'Success', { closeButton: true });
-      this.router.navigateByUrl('/admin/manage-content');
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.router.navigateByUrl('/admin/manage-content');
+      } else {
+        this.toster.error(res['message'], 'Error', { closeButton: true });
+      }
       //   (<HTMLFormElement>document.getElementById('curriculum_form')).reset();
       //   this.videos = [];
       //   this.videos_files = [];
@@ -276,4 +468,3 @@ export class CreateContentComponent implements OnInit {
     });
   }
 }
-
