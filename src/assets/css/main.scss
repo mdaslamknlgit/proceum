@@ -370,7 +370,7 @@ app-index {
 
 #main_div,
 app-dashboard {
-  background-color: #f7f7f7;
+  background-color: #F5F7F9;
 }
 hr {
   flex: 0 auto;
@@ -2225,22 +2225,22 @@ div.cust_mdl_par div.mn_dshbrd {
 /* Course Menu Css*/
 
 .innr_sd_mnu {
-  position: fixed;
-  display: flex;
-  width: auto;
-  left: 0;
-  top: 90px;
-  bottom: 50px;
-  overflow-x: scroll;
-  max-width: 100%;
-  min-height: 60vh;
-  &.ism_opn {
-    width: auto;
-    z-index: 97;
-    .ism_hd {
-      display: block;
-    }
-  }
+      position: fixed;
+      display: flex;
+      width: auto;
+      left: 0;
+      top: 90px;
+      bottom: 50px;
+      overflow-x: scroll;
+      max-width: 100%;
+      min-height: 60vh;
+      &.ism_opn {
+        width: auto;
+        z-index: 97;
+        .ism_hd {
+          display: block;
+        }
+      }
 
   .ism_hd {
     margin-left: 10px;
@@ -2265,15 +2265,15 @@ div.cust_mdl_par div.mn_dshbrd {
   li {
     list-style: none;
     display: flex;
-    padding: 10px;
+    padding:4px 10px;
     align-items: center;
   }
   .ism_icn {
     border: 1px solid #41ab3c;
     border-radius: 50%;
-    padding: 4px;
+    padding:2px;
     color: #41ab3c;
-    font-size: 20px;
+    font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2319,6 +2319,44 @@ div.cust_mdl_par div.mn_dshbrd {
     }
     .crs_desc_cnt {
       padding: 0 20px 20px;
+      .desc_mlti_fls{
+        .mlti_fls_dv{
+          width: 90px;
+          min-height: 110px;
+          .dwnld_attcmnt{
+            background-color:#42ab3ce7;
+            position: absolute;
+            bottom: 0;
+            display: none;
+            width: 100%;
+            align-items: center;
+            justify-content: center;
+            left: 0;
+            z-index: 5;
+            height:30%;
+            mat-icon{color: #fff;}
+          }
+          &:hover{
+            .dwnld_attcmnt{
+              display: flex;
+              animation: dwnl_ani 0.1s;
+            }
+            @keyframes dwnl_ani {
+              0%{
+                height: 0;
+              }
+              100%{
+                height: 30%;
+              }
+            }
+          }
+          img {
+              width: auto;
+              max-height: 70px;
+              margin: 10px 0;
+          }
+        }
+      }
       mat-radio-group {
         display: flex;
         flex-direction: column;
@@ -2327,10 +2365,31 @@ div.cust_mdl_par div.mn_dshbrd {
       mat-radio-button {
         margin: 0 0 15px 0;
         flex-wrap: wrap;
+        position: relative;
+        img{
+          max-width: 200px;
+        }
+        // &::before{
+        //   content: "";
+        //   width: 10px;
+        //   height: 10px;
+        //   background: #e83535b5;
+        //   left: -22px;
+        //   position: absolute;
+        //   border-radius: 50%;
+        //   top: 6px;
+        // }
+        &.wrng_rdo{
+          color: #e83535b5;
+          pointer-events: none;
+        }
+        &.crrct_rdo{
+          pointer-events: none;
+        }
+        
       }
       .mat-radio-label {
-        white-space: normal;
-        align-items: flex-start;
+        white-space: normal; 
       }
       .desc_cnt_imgs img {
         max-width: 150px;
@@ -2445,7 +2504,8 @@ div.cust_mdl_par div.mn_dshbrd {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    padding: 0 20px;
+    padding: 0 24px;
+    overflow: auto;
     span {
       display: flex;
       align-items: center;
@@ -2790,3 +2850,38 @@ div.cust_mdl_par div.mn_dshbrd {
   padding: 10px 5px;
 }
 .px_0{padding-left:0 !important; padding-right: 0 !important;}
+.actv_txt_hglt{background-color:#41ab3c; }
+.actv_txt_hglt mat-icon{color: #fff;}
+.qstn_nms{
+  text-align: center;
+  ul{
+    padding: 0;
+    margin: 0 auto;
+    display: inline-block;
+    li{
+      list-style: none;
+      float: left;
+      background-color: #e7f4e7;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-right: 10px;
+      min-width: 42px;
+      min-height: 38px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      cursor: pointer;
+      &.wrng_qstnm{
+        background-color: #e83535b5;
+        color: #fff;
+      }
+      &:hover, &.act_qstnm{
+        background-color: #41ab3c;
+        color: #fff;
+      }
+    }
+  }
+}
+.qstn_hds{color: #41ab3c; font-weight: bold; width: 100%; margin-bottom: 5px;}
