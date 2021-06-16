@@ -1,96 +1,105 @@
 <!-- <app-topbar class="inner-header"></app-topbar> -->
 <!-- <app-sidemenu></app-sidemenu> -->
-<div class="cust_mdl_par {{ show_content_list ? 'cust_mdl_opn' : '' }}">
-  <div class="desc_otr_tpc">
-    <div class="otr_ttl">
-      Content list
-      <span class="spacer"></span>
-      <button (click)="show_content_list = !show_content_list" mat-icon-button class="float_right">
-        &#x2715;
-      </button>
-    </div>
-    <div class="otr_bdy">
-      <div *ngFor="let value of content_list" [ngClass]="{
+<!-- crses_rgt_colps || crs_dshbrd_colps -->
+<!-- "qstn_sml" for small questions || "qstn_lng" for long questions  -->
+<div class="crses_rgt_colps">
+  <div class="cust_mdl_par {{ show_content_list ? 'cust_mdl_opn' : '' }}">
+    <div class="desc_otr_tpc">
+      <div class="otr_ttl">
+        Content list
+        <span class="spacer"></span>
+        <button (click)="show_content_list = !show_content_list" mat-icon-button class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="otr_bdy">
+        <div *ngFor="let value of content_list" [ngClass]="{
           dets_actv: value['content_id'] == content_id ? true : false
         }">
-        <div *ngIf="value['content_id'] != content_id" (click)="viewContent(value['content_id'])" class="otr_bd_dv">
-          {{ value["content_title"] }}
+          <div *ngIf="value['content_id'] != content_id" (click)="viewContent(value['content_id'])" class="otr_bd_dv">
+            {{ value["content_title"] }}
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="innr_sd_mnu ism_opn">
-  <!-- ism_opn -->
-  <div class="ism_scrl">
-    <ul>
-      <li (click)="showDiv(3)">
-        <mat-icon class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Objectives">
-          lightbulb</mat-icon>
-      </li>
-      <li (click)="showDiv(0)">
-        <mat-icon class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}" matTooltip="Description">feed</mat-icon>
-      </li>
+  <div class="innr_sd_mnu ism_opn">
+    <!-- ism_opn -->
+    <div class="ism_scrl">
+      <ul>
+        <li (click)="showDiv(3)">
+          <mat-icon class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Objectives">
+            lightbulb</mat-icon>
+        </li>
+        <li (click)="showDiv(0)">
+          <mat-icon class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}" matTooltip="Description">feed</mat-icon>
+        </li>
 
-      <li (click)="showDiv(2)">
-        <mat-icon class="ism_icn {{ active_div == 2 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Notes">history_edu
-        </mat-icon>
-      </li>
-      <li (click)="showDiv(6)">
-        <mat-icon class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}" matTooltip="High Yield">highlight
-        </mat-icon>
-      </li>
-      <li (click)="showDiv(1)">
-        <mat-icon class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}" matTooltip="Quiz">quiz</mat-icon>
-      </li>
-      <li (click)="showDiv(10)">
-        <mat-icon class="ism_icn {{ active_div == 10 ? 'ism_actv_btn' : '' }}" matTooltip="Short Questions">help_outline
-        </mat-icon>
-      </li>
-      <li (click)="showDiv(7)">
-        <mat-icon class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}" matTooltip="Cases">description</mat-icon>
-      </li>
-      <li (click)="showDiv(9)">
-        <mat-icon class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}" matTooltip="Related Topics">bolt
-        </mat-icon>
-      </li>
-      <li (click)="showDiv(8)">
-        <mat-icon class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}" matTooltip="External References">
-          insert_link</mat-icon>
-      </li>
-      <li (click)="showDiv(4)">
-        <mat-icon class="ism_icn {{ active_div == 4 ? 'ism_actv_btn' : '' }}" matTooltip="Images">wallpaper</mat-icon>
-      </li>
-      <li (click)="showDiv(5)">
-        <mat-icon class="ism_icn {{ active_div == 5 ? 'ism_actv_btn' : '' }}" matTooltip="Attachments">attachment
-        </mat-icon>
-      </li>
-    </ul>
+        <li (click)="showDiv(2)">
+          <mat-icon class="ism_icn {{ active_div == 2 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Notes">history_edu
+          </mat-icon>
+        </li>
+        <li (click)="showDiv(6)">
+          <mat-icon class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}" matTooltip="High Yield">highlight
+          </mat-icon>
+        </li>
+        <li (click)="showDiv(1)">
+          <mat-icon class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}" matTooltip="Quiz">quiz</mat-icon>
+        </li>
+        <li (click)="showDiv(10)">
+          <mat-icon class="ism_icn {{ active_div == 10 ? 'ism_actv_btn' : '' }}" matTooltip="Short Questions">
+            help_outline
+          </mat-icon>
+        </li>
+        <li (click)="showDiv(7)">
+          <mat-icon class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}" matTooltip="Cases">description
+          </mat-icon>
+        </li>
+        <li (click)="showDiv(9)">
+          <mat-icon class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}" matTooltip="Related Topics">bolt
+          </mat-icon>
+        </li>
+        <li (click)="showDiv(8)">
+          <mat-icon class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}" matTooltip="External References">
+            insert_link</mat-icon>
+        </li>
+        <li (click)="showDiv(4)">
+          <mat-icon class="ism_icn {{ active_div == 4 ? 'ism_actv_btn' : '' }}" matTooltip="Images">wallpaper</mat-icon>
+        </li>
+        <li (click)="showDiv(5)">
+          <mat-icon class="ism_icn {{ active_div == 5 ? 'ism_actv_btn' : '' }}" matTooltip="Attachments">attachment
+          </mat-icon>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
-<div class="mn_dshbrd crs_dshbrd">
-  <div class="brd_crm">
-    <span routerLink="/student/curriculums">Curriculums / </span>
-    <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
-      curriculum["curriculumn_name"]
-      }}</span>
-    <span *ngFor="let bread of breadcome; let i = index">
-      /
-      <span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
+  <div class="mn_dshbrd crs_dshbrd">
+    <div class="brd_crm">
+      <span routerLink="/student/curriculums">Curriculums / </span>
+      <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
+        curriculum["curriculumn_name"]
+        }}</span>
+      <span *ngFor="let bread of breadcome; let i = index">
+        /
+        <span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
         }}">{{ bread["name"] }}</span>
-      <strong *ngIf="i == breadcome.length - 1">
-        {{ setTitle(bread["name"]) }}</strong></span>
-  </div>
-  <div class="pg_ttl">
-    {{ content["title"] }}
-    <span class="spacer"></span>
-    <button *ngIf="content_list.length > 0" matTooltip="More Content" (click)="show_content_list = !show_content_list"
-      mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs">
-      <mat-icon>menu</mat-icon>
-    </button>
-  </div>
-  <!-- <div class="crs_lft_hd">
+        <strong *ngIf="i == breadcome.length - 1">
+          {{ setTitle(bread["name"]) }}</strong></span>
+    </div>
+    <div class="pg_ttl">
+      {{ content["title"] }}
+      <span class="spacer"></span>
+      <button *ngIf="content_list.length > 0" matTooltip="More Content" (click)="show_content_list = !show_content_list"
+        mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs mr_1">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <button matTooltip="More Content" mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs">
+        <!-- <mat-icon>switch_right</mat-icon> -->
+        <mat-icon>switch_left</mat-icon>
+      </button>
+    </div>
+    <!-- <div class="crs_lft_hd">
     <span class="crs_bk_btn"
       ><mat-icon>arrow_back</mat-icon>General features of Muscle</span
     >
@@ -100,601 +109,600 @@
       tendons and aponeuroses with examples
     </span>
   </div> -->
-  <div class="crses_lft_mn" *ngIf="active_div == 0">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>feed</mat-icon>Description
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords"><button mat-icon-button
-                color="accent" class="mr_1">
-                <mat-icon>highlight_alt</mat-icon>
-              </button></span>
-            <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords"><button mat-icon-button
-                color="accent" class="actv_txt_hglt mr_1">
-                <mat-icon>highlight_alt</mat-icon>
-              </button></span>
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
+    <div class="crses_lft_mn" *ngIf="active_div == 0">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>feed</mat-icon>Description
+            </span>
+            <span class="spacer"></span>
+            <span class="fnt_sze">
+              <span *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords"><button mat-icon-button
+                  color="accent" class="mr_1">
+                  <mat-icon>highlight_alt</mat-icon>
+                </button></span>
+              <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords"><button mat-icon-button
+                  color="accent" class="actv_txt_hglt mr_1">
+                  <mat-icon>highlight_alt</mat-icon>
+                </button></span>
+              <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+              <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+            </span>
+            <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
           </button> -->
-        </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['main_content']">
-          <ckeditor #editor name="main_content" [disabled]="true" [editor]="Editor" [config]="{}"
-            (ready)="onReady($event)" [data]="content['main_content']"></ckeditor>
+          </div>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['main_content']">
+            <ckeditor #editor name="main_content" [disabled]="true" [editor]="Editor" [config]="{}"
+              (ready)="onReady($event)" [data]="content['main_content']"></ckeditor>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 1">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>quiz</mat-icon> MCQ’s
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
+    <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 1">
+     <!-- "qstn_sml" for small questions || "qstn_lng" for long questions  -->
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>quiz</mat-icon> MCQ’s
+            </span>
+            <span class="spacer"></span>
+            <span class="fnt_sze">
+              <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+              <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+            </span>
+            <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
           </button> -->
-        </div>
-        <div class="crs_desc_cnt mcb_desc">
-          <div class="qstn_hds">Questions</div>
+          </div>
           <div class="qstn_nms">
+            <div class="qstn_hds">Questions</div>
             <ul>
-              <li class="wrng_qstnm">1</li>
-              <li class="act_qstnm">2</li>
-              <li class="wrng_qstnm">3</li>
-              <li class="act_qstnm">4</li>
-              <li class="act_qstnm">5</li>
-              <li class="act_qstnm">6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li>10</li>
-              <li>11</li>
-              <li>12</li>
-              <li>14</li>
-              <li>15</li>
-              <li>16</li>
+              <li class="wrng_qstnm">1 <span class="qstn_cnt">Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?</span></li>
+              <li class="act_qstnm">2 <span class="qstn_cnt">Donec tincidunt urna at eros ultricies, m?</span></li>
+              <li class="wrng_qstnm">3 <span class="qstn_cnt">Donec tincidunt urna at eros ultricies,um?</span></li>
+              <li class="act_qstnm">4 <span class="qstn_cnt">Donec tincidunt urna at eros ultricies, m?</span></li>
+              <li class="act_qstnm">5 <span class="qstn_cnt">Donec tincidunt urna at eros ultricies, m?</span></li>
+              <li class="act_qstnm">6 <span class="qstn_cnt">Donec tincidunt urna at eros ultricies, m?</span></li>
+              <li>7 <span class="qstn_cnt">Donec tincidunt urna at eros ultriciDonec tincidunt urna at eros ultricies, m?</span></li>
+              <li>8 <span class="qstn_cnt">Donec tincidun tDonec tincidunt urna at eros ultrici urna at eros ultricies, m?</span></li>
+              <li>9 <span class="qstn_cnt">D Donec tincidunt urna at eros ultricionec tincidunt urna at eros ultricies, m?</span></li>
+              <li>10 <span class="qstn_cnt">Donec tincidunt urna at er Donec tincidunt urna at eros ultricios ultricies, m?</span></li>
             </ul>
           </div>
-          <div class="hgt_20"></div>
-          <div class="qstn_hds"> Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?</div>
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button color="warn" value="1" class="wrng_rdo">Sed non tortor ut diam aliquam
-            </mat-radio-button>
-            <mat-radio-button color="warn" checked value="2" class="wrng_rdo">Sed non tortor ut diam aliquam
-              diam aliquam aliquam</mat-radio-button>
-            <mat-radio-button color="warn" value="1" class="wrng_rdo">Sed non tortor ut diam aliqua
-              diam aliquam aliquam</mat-radio-button>
-            <mat-radio-button color="warn" value="1" class="wrng_rdo">Sed non tortor ut diam aliquam
-              diam aliquam aliquam</mat-radio-button>
-            <mat-radio-button value="2" class="crrct_rdo">Sed non tortor ut diam aliquam
-              diam aliquam aliquam</mat-radio-button>
-          </mat-radio-group>
-          <div class="hgt_20"></div>
-          <img src="../../../assets/images/vid_smpl.jpg" />
-          <div class="hgt_20"></div>
-          <div class="qstn_hds">Explanation</div>
-          <div>
-            Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-            aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
-            tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
-            aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
-            diam aliquam aliquam
-          </div>
-          <div class="hgt_20"></div>
-          <div class="pn_btns">
-            <button mat-raised-button color="accent" class="mr_1">Back</button>
-            <button mat-raised-button color="accent">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 2">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>history_edu</mat-icon> Learning Notes
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_notes_content']">
-          <ckeditor #editor2 name="learning_notes_content" [disabled]="true" [editor]="Editor2" [config]="{}"
-            (ready)="onReady($event)" [data]="content['learning_notes_content']"></ckeditor>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 3">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>lightbulb</mat-icon> Learning Objectives
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_obj_content']">
-          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
-            [data]="content['learning_obj_content']"></ckeditor>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 4">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>wallpaper</mat-icon> Images
-          </span>
-          <span class="spacer"></span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt">
-          <div class="desc_tmb_img">
-            <img *ngFor="let file of content['images']; let i = index" [src]="file['path']" [alt]="
-                file['file_path'].substring(
-                  file['file_path'].lastIndexOf('/') + 1
-                )
-              " />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 5">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>attachment</mat-icon> Attachments
-          </span>
-          <span class="spacer"></span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt">
-          <div class="mlti_fls desc_mlti_fls">
-            <div class="mlti_fls_dv" *ngFor="let file of content['attachments']; let i = index" matTooltip="{{
-              file['file_path'].substring(
-                file['file_path'].lastIndexOf('/') + 1
-              )
-            }}">
-              <div class="dwnld_attcmnt">
-                <mat-icon matTooltip="Download" matTooltipPosition="above">file_download</mat-icon>
-              </div>
-              <img [src]="file['path']" [alt]="
-                  file['file_path'].substring(
-                    file['file_path'].lastIndexOf('/') + 1
-                  )
-                " />
-              <span class="fl_nme">{{
-                file["file_path"].substring(
-                file["file_path"].lastIndexOf("/") + 1
-                )
-                }}</span>
+          <div class="crs_desc_cnt mcb_desc">
+            <div class="hgt_20"></div>
+            <div class="qstn_hds"> Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?</div>
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button color="warn" value="1" class="wrng_rdo">Sed non tortor ut diam aliquam
+              </mat-radio-button>
+              <mat-radio-button color="warn" checked value="2" class="wrng_rdo">Sed non tortor ut diam aliquam
+                diam aliquam aliquam</mat-radio-button>
+              <mat-radio-button color="warn" value="1" class="wrng_rdo">Sed non tortor ut diam aliqua
+                diam aliquam aliquam</mat-radio-button>
+              <mat-radio-button color="warn" value="1" class="wrng_rdo">Sed non tortor ut diam aliquam
+                diam aliquam aliquam</mat-radio-button>
+              <mat-radio-button value="2" class="crrct_rdo">Sed non tortor ut diam aliquam
+                diam aliquam aliquam</mat-radio-button>
+            </mat-radio-group>
+            <div class="hgt_20"></div>
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <div class="hgt_20"></div>
+            <div class="qstn_hds">Explanation</div>
+            <div>
+              Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
+              tortor ut diam aliquam aliquam Sed non tortor ut diam aliquam
+              aliquam Sed non tortor ut diam aliquam aliquam Sed non tortor ut
+              diam aliquam aliquam
+            </div>
+            <div class="hgt_20"></div>
+            <div class="pn_btns">
+              <button mat-raised-button color="accent" class="mr_1">Back</button>
+              <button mat-raised-button color="accent">Next</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 6">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>highlight</mat-icon> High Yield Text
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['highyield_content']">
-          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
-            [data]="content['highyield_content']"></ckeditor>
-        </div>
-
-        <div class="intr_vd_tml">
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>Overview</mat-panel-title>
-                <mat-panel-description> </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div class="tm_ln_dv">
-
-                The anatomic position, also referred to as the standard anatomic
-                position
-                It is the consistent position of the human body in which positional
-                reference is made for anatomical nomenclature
-                It is not reliant on whether the patient is standing, supine, prone, sitting,
-                etc
-                The three standard (orthogonal) planes are perpendicular to each other
-                and are
-                1. The axial plane (Transverse or transaxial plane)
-                Horizontal plane perpendicular to the long axis of the body
-                Edit
-                
-                
-                Lecture Notes
-                admindemo
-                6/15/2021 Proceum
-                https://drsprep.com/public/curriculum/1996/competencie 2/3
-                2. The sagittal plane
-                Vertical plane parallel to the median plane (or midsaggital plane which
-                divides the body into two halves); derives its name from the cranial
-                sagittal suture
-                3. The coronal plane
-                Vertical plane perpendicular to the median plane; derives its name from
-                the cranial coronal suture
-                Anterior: Towards the front of the body (Latin: before)
-                Posterior: Towards the back of the body (Latin: after)
-                Superior: Towards the top of the body (Latin: above)
-                Inferior: Towards the bottom of the body (Latin: below)
-                Medial: Towards the midline (Latin: middle) (compared with
-                median which is in the midline rather than towards the midline)
-                Lateral: Away from the midline (Latin: side)
-                Proximal: Towards the centre of the body (Latin: near)
-                Distal:Away from the centre of the body (Latin: far)
-                Superficial: Towards the surface of the body
-                Deep:Away from the surface of the body
-                Anatomic description (adjectives) in regards to relationships are The anatomic position, also referred
-                to as the standard anatomic
-                position
-                It is the consistent position of the human body in which positional
-                reference is made for anatomical nomenclature
-                It is not reliant on whether the patient is standing, supine, prone, sitting,
-                etc
-                The three standard (orthogonal) planes are perpendicular to each other
-                and are
-                1. The axial plane (Transverse or transaxial plane)
-                Horizontal plane perpendicular to the long axis of the body
-              </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>Overview</mat-panel-title>
-                <mat-panel-description> </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div class="tm_ln_dv">
-                Sed non tortor ut diam aliquam aliquam
-              </div>
-            </mat-expansion-panel>
-
-          </mat-accordion>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 7">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>description</mat-icon> Cases
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-        <div class="crs_desc_cnt mcb_desc">
-
-
-          <div class="qstn_hds">Questions</div>
-          <div class="qstn_nms">
-            <ul>
-              <li class="wrng_qstnm">1</li>
-              <li class="act_qstnm">2</li>
-              <li class="wrng_qstnm">3</li>
-              <li class="act_qstnm">4</li>
-              <li class="act_qstnm">5</li>
-              <li class="act_qstnm">6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li>10</li>
-              <li>11</li>
-              <li>12</li>
-              <li>14</li>
-              <li>15</li>
-              <li>16</li>
-            </ul>
-          </div>
-          <div class="hgt_20"></div>
-          <div class="qstn_hds"> Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?</div>
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
-            </mat-radio-button>
-            <mat-radio-button value="2">Sed non tortor ut diam aliquam aliquam Sed non </mat-radio-button>
-            <mat-radio-button value="3">Sed non tortor ut diam aliquam aliquam Sed</mat-radio-button>
-            <mat-radio-button value="4">Sed non tortor ut </mat-radio-button>
-            <mat-radio-button value="5">Sed non tortor ut diam aliquam</mat-radio-button>
-          </mat-radio-group>
-          <div class="hgt_20"></div>
-          <img src="../../../assets/images/vid_smpl.jpg" />
-          <div class="hgt_20"></div>
-          <div class="pn_btns">
-            <button mat-raised-button color="accent" class="mr_1">Back</button>
-            <button mat-raised-button color="accent">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 10">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>help_outline</mat-icon> Short Questions
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-        <div class="crs_desc_cnt ">
-          <div class="qstn_hds">Questions</div>
-          <div class="qstn_nms">
-            <ul>
-              <li class="wrng_qstnm">1</li>
-              <li class="act_qstnm">2</li>
-              <li class="wrng_qstnm">3</li>
-              <li class="act_qstnm">4</li>
-              <li class="act_qstnm">5</li>
-              <li class="act_qstnm">6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li>10</li>
-              <li>11</li>
-              <li>12</li>
-              <li>14</li>
-              <li>15</li>
-              <li>16</li>
-            </ul>
-          </div>
-          <div class="hgt_20"></div>
-          <div class="qstn_hds"> Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?
-            <img src="../../../assets/images/vid_smpl.jpg" />
-          </div>
-          <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1"><img src="../../../assets/images/vid_smpl.jpg" />
-            </mat-radio-button>
-            <mat-radio-button value="2"><img src="../../../assets/images/vid_smpl.jpg" /></mat-radio-button>
-            <mat-radio-button value="3"><img src="../../../assets/images/vid_smpl.jpg" /></mat-radio-button>
-          </mat-radio-group>
-          <div class="hgt_20"></div>
-          <img src="../../../assets/images/vid_smpl.jpg" />
-          <div class="hgt_20"></div>
-          <div class="pn_btns">
-            <button mat-raised-button color="accent" class="mr_1">Back</button>
-            <button mat-raised-button color="accent">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 8">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>insert_link</mat-icon> External References
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['external_ref_content']">
-          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
-            [data]="content['external_ref_content']"></ckeditor>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 9">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>bolt</mat-icon> Related Topics
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['related_topics']">
-          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
-            [data]="content['related_topics']"></ckeditor>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="crses_rgt">
-  <div class="intr_vd_hd">
-    <div>
-      <mat-icon>videocam</mat-icon>
-      Introduction video
-    </div>
-    <span class="spacer"></span>
-    <div>
-      <mat-icon>playlist_add</mat-icon>
-      Add to wishlist
-    </div>
-  </div>
-  <div class="intr_vd_sc">
-    <img src="../../../assets/images/vid_smpl.jpg" />
-  </div>
-  <div class="intr_vd_optns">
-    <span>
-      <mat-icon>thumb_up_off_alt</mat-icon> Like
-    </span>
-    <span>
-      <mat-icon>share</mat-icon> Share
-    </span>
-    <span>
-      <mat-icon>favorite_border</mat-icon> Favorite
-    </span>
-    <span>
-      <mat-icon>bookmark_border</mat-icon> Add to Bookmark
-    </span>
-  </div>
-  <div class="intr_vd_tml">
-    <mat-accordion>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>timeline</mat-icon> Timeline
-          </mat-panel-title>
-          <mat-panel-description> </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="tm_ln_dv">
-          <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-        </div>
-        <div class="tm_ln_dv">
-          <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-        </div>
-        <div class="tm_ln_dv">
-          <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>videocam</mat-icon> Videos
-          </mat-panel-title>
-          <mat-panel-description>
+    <div class="crses_lft_mn" *ngIf="active_div == 2">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>history_edu</mat-icon> Learning Notes
+            </span>
             <span class="spacer"></span>
-            15 / 30 videos watched
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="wtcd_vds wv_actv">
-          <div class="wv_img">
-            <img src="../../../assets/images/vid_smpl.jpg" />
+            <span class="fnt_sze">
+              <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+              <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+            </span>
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
           </div>
-          <div class="wv_ttl_dsc">
-            <span class="wv_tt_hd">Introduction video</span>
-            <span class="wv_ts">05:50 min</span>
-          </div>
-          <span class="spacer"></span>
-          <div class="wv_ply_icn">
-            <mat-icon>graphic_eq</mat-icon>
-          </div>
-          <div class="wv_bkmrk">
-            <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_notes_content']">
+            <ckeditor #editor2 name="learning_notes_content" [disabled]="true" [editor]="Editor2" [config]="{}"
+              (ready)="onReady($event)" [data]="content['learning_notes_content']"></ckeditor>
           </div>
         </div>
-        <div class="wtcd_vds">
-          <div class="wv_img">
-            <img src="../../../assets/images/vid_smpl.jpg" />
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 3">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>lightbulb</mat-icon> Learning Objectives
+            </span>
+            <span class="spacer"></span>
+            <span class="fnt_sze">
+              <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+              <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+            </span>
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
           </div>
-          <div class="wv_ttl_dsc">
-            <span class="wv_tt_hd">Introduction video</span>
-            <span class="wv_ts">05:50 min</span>
-          </div>
-          <span class="spacer"></span>
-          <div class="wv_ply_icn">
-            <mat-icon>graphic_eq</mat-icon>
-          </div>
-          <div class="wv_bkmrk">
-            <mat-icon>bookmark_border</mat-icon>
-          </div>
-        </div>
-        <div class="wtcd_vds">
-          <div class="wv_img">
-            <img src="../../../assets/images/vid_smpl.jpg" />
-          </div>
-          <div class="wv_ttl_dsc">
-            <span class="wv_tt_hd">Introduction video</span>
-            <span class="wv_ts">05:50 min</span>
-          </div>
-          <span class="spacer"></span>
-          <div class="wv_ply_icn">
-            <mat-icon>graphic_eq</mat-icon>
-          </div>
-          <div class="wv_bkmrk">
-            <mat-icon>bookmark_border</mat-icon>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_obj_content']">
+            <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              [data]="content['learning_obj_content']"></ckeditor>
           </div>
         </div>
-        <div class="wtcd_vds">
-          <div class="wv_img">
-            <img src="../../../assets/images/vid_smpl.jpg" />
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 4">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>wallpaper</mat-icon> Images
+            </span>
+            <span class="spacer"></span>
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
           </div>
-          <div class="wv_ttl_dsc">
-            <span class="wv_tt_hd">Introduction video</span>
-            <span class="wv_ts">05:50 min</span>
-          </div>
-          <span class="spacer"></span>
-          <div class="wv_ply_icn">
-            <mat-icon>graphic_eq</mat-icon>
-          </div>
-          <div class="wv_bkmrk">
-            <mat-icon>bookmark_border</mat-icon>
+          <div class="crs_desc_cnt">
+            <div class="desc_tmb_img">
+              <img *ngFor="let file of content['images']; let i = index" [src]="file['path']" [alt]="
+                file['file_path'].substring(
+                  file['file_path'].lastIndexOf('/') + 1
+                )
+              " />
+            </div>
           </div>
         </div>
-      </mat-expansion-panel>
-    </mat-accordion>
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 5">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>attachment</mat-icon> Attachments
+            </span>
+            <span class="spacer"></span>
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
+          </div>
+          <div class="crs_desc_cnt">
+            <div class="mlti_fls desc_mlti_fls">
+              <div class="mlti_fls_dv" *ngFor="let file of content['attachments']; let i = index" matTooltip="{{
+              file['file_path'].substring(
+                file['file_path'].lastIndexOf('/') + 1
+              )
+            }}">
+                <div class="dwnld_attcmnt">
+                  <mat-icon matTooltip="Download" matTooltipPosition="above">file_download</mat-icon>
+                </div>
+                <img [src]="file['path']" [alt]="
+                  file['file_path'].substring(
+                    file['file_path'].lastIndexOf('/') + 1
+                  )
+                " />
+                <span class="fl_nme">{{
+                  file["file_path"].substring(
+                  file["file_path"].lastIndexOf("/") + 1
+                  )
+                  }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 6">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>highlight</mat-icon> High Yield Text
+            </span>
+            <span class="spacer"></span>
+            <span class="fnt_sze">
+              <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+              <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+            </span>
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
+          </div>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['highyield_content']">
+            <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              [data]="content['highyield_content']"></ckeditor>
+            <div class="intr_vd_tml">
+              <mat-accordion>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>Overview</mat-panel-title>
+                    <mat-panel-description> </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div class="tm_ln_dv">
+
+                    The anatomic position, also referred to as the standard anatomic
+                    position
+                    It is the consistent position of the human body in which positional
+                    reference is made for anatomical nomenclature
+                    It is not reliant on whether the patient is standing, supine, prone, sitting,
+                    etc
+                    The three standard (orthogonal) planes are perpendicular to each other
+                    and are
+                    1. The axial plane (Transverse or transaxial plane)
+                    Horizontal plane perpendicular to the long axis of the body
+                    Edit
+                    
+                    
+                    Lecture Notes
+                    admindemo
+                    6/15/2021 Proceum
+                    https://drsprep.com/public/curriculum/1996/competencie 2/3
+                    2. The sagittal plane
+                    Vertical plane parallel to the median plane (or midsaggital plane which
+                    divides the body into two halves); derives its name from the cranial
+                    sagittal suture
+                    3. The coronal plane
+                    Vertical plane perpendicular to the median plane; derives its name from
+                    the cranial coronal suture
+                    Anterior: Towards the front of the body (Latin: before)
+                    Posterior: Towards the back of the body (Latin: after)
+                    Superior: Towards the top of the body (Latin: above)
+                    Inferior: Towards the bottom of the body (Latin: below)
+                    Medial: Towards the midline (Latin: middle) (compared with
+                    median which is in the midline rather than towards the midline)
+                    Lateral: Away from the midline (Latin: side)
+                    Proximal: Towards the centre of the body (Latin: near)
+                    Distal:Away from the centre of the body (Latin: far)
+                    Superficial: Towards the surface of the body
+                    Deep:Away from the surface of the body
+                    Anatomic description (adjectives) in regards to relationships are The anatomic position, also
+                    referred
+                    to as the standard anatomic
+                    position
+                    It is the consistent position of the human body in which positional
+                    reference is made for anatomical nomenclature
+                    It is not reliant on whether the patient is standing, supine, prone, sitting,
+                    etc
+                    The three standard (orthogonal) planes are perpendicular to each other
+                    and are
+                    1. The axial plane (Transverse or transaxial plane)
+                    Horizontal plane perpendicular to the long axis of the body
+                  </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>Overview</mat-panel-title>
+                    <mat-panel-description> </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <div class="tm_ln_dv">
+                    Sed non tortor ut diam aliquam aliquam
+                  </div>
+                </mat-expansion-panel>
+
+              </mat-accordion>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+    </div>
+    <div class="crses_lft_mn qstn_sml" *ngIf="active_div == 7">
+     <!-- "qstn_sml" for small questions || "qstn_lng" for long questions  -->
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>description</mat-icon> Cases
+            </span>
+            <span class="spacer"></span>
+            <span class="fnt_sze">
+              <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+              <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+            </span>
+            <button mat-icon-button color="primary">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div class="qstn_nms">
+            <div class="qstn_hds">Questions</div>
+            <ul>
+              <li class="wrng_qstnm">1</li>
+              <li class="act_qstnm">2</li>
+              <li class="wrng_qstnm">3</li>
+              <li class="act_qstnm">4</li>
+              <li class="act_qstnm">5</li>
+              <li class="act_qstnm">6</li>
+              <li>7</li>
+              <li>8</li>
+              <li>9</li>
+              <li>10</li>
+              <li>11</li>
+              <li>12</li>
+              <li>14</li>
+              <li>15</li>
+              <li>16</li>
+            </ul>
+          </div>
+          <div class="crs_desc_cnt mcb_desc">
+            <div class="hgt_20"></div>
+            <div class="qstn_hds"> Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?</div>
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button value="1">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+              </mat-radio-button>
+              <mat-radio-button value="2">Sed non tortor ut diam aliquam aliquam Sed non </mat-radio-button>
+              <mat-radio-button value="3">Sed non tortor ut diam aliquam aliquam Sed</mat-radio-button>
+              <mat-radio-button value="4">Sed non tortor ut </mat-radio-button>
+              <mat-radio-button value="5">Sed non tortor ut diam aliquam</mat-radio-button>
+            </mat-radio-group>
+            <div class="hgt_20"></div>
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <div class="hgt_20"></div>
+            <div class="pn_btns">
+              <button mat-raised-button color="accent" class="mr_1">Back</button>
+              <button mat-raised-button color="accent">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="crses_lft_mn qstn_sml" *ngIf="active_div == 10">
+      <!-- "qstn_sml" for small questions || "qstn_lng" for long questions  -->
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>help_outline</mat-icon> Short Questions
+            </span>
+            <span class="spacer"></span>
+            <span class="fnt_sze">
+              <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+              <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+            </span>
+            <button mat-icon-button color="primary">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div class="qstn_nms">
+            <div class="qstn_hds">Questions</div>
+            <ul>
+              <li class="wrng_qstnm">1</li>
+              <li class="act_qstnm">2</li>
+              <li class="wrng_qstnm">3</li>
+              <li class="act_qstnm">4</li>
+              <li class="act_qstnm">5</li>
+              <li class="act_qstnm">6</li>
+              <li>7</li>
+              <li>8</li>
+              <li>9</li>
+              <li>10</li>
+              <li>11</li>
+              <li>12</li>
+              <li>14</li>
+              <li>15</li>
+              <li>16</li>
+            </ul>
+          </div>
+          <div class="crs_desc_cnt mcb_desc">
+            <div class="hgt_20"></div>
+            <div class="qstn_hds"> Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?
+              <img src="../../../assets/images/vid_smpl.jpg" />
+            </div>
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button value="1"><img src="../../../assets/images/vid_smpl.jpg" />
+              </mat-radio-button>
+              <mat-radio-button value="2"><img src="../../../assets/images/vid_smpl.jpg" /></mat-radio-button>
+              <mat-radio-button value="3"><img src="../../../assets/images/vid_smpl.jpg" /></mat-radio-button>
+            </mat-radio-group>
+            <div class="hgt_20"></div>
+            <img src="../../../assets/images/vid_smpl.jpg" />
+            <div class="hgt_20"></div>
+            <div class="pn_btns">
+              <button mat-raised-button color="accent" class="mr_1">Back</button>
+              <button mat-raised-button color="accent">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 8">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>insert_link</mat-icon> External References
+            </span>
+            <span class="spacer"></span>
+            <span class="fnt_sze">
+              <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+              <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+            </span>
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
+          </div>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['external_ref_content']">
+            <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              [data]="content['external_ref_content']"></ckeditor>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 9">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>bolt</mat-icon> Related Topics
+            </span>
+            <span class="spacer"></span>
+            <span class="fnt_sze">
+              <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+              <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+            </span>
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
+          </div>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['related_topics']">
+            <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              [data]="content['related_topics']"></ckeditor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="crses_rgt">
+    <div class="intr_vd_hd">
+      <div>
+        <mat-icon>videocam</mat-icon>
+        Introduction video
+      </div>
+      <span class="spacer"></span>
+      <div>
+        <mat-icon>playlist_add</mat-icon>
+        Add to wishlist
+      </div>
+    </div>
+    <div class="intr_vd_sc">
+      <img src="../../../assets/images/vid_smpl.jpg" />
+    </div>
+    <div class="intr_vd_optns">
+      <span>
+        <mat-icon>thumb_up_off_alt</mat-icon> Like
+      </span>
+      <span>
+        <mat-icon>share</mat-icon> Share
+      </span>
+      <span>
+        <mat-icon>favorite_border</mat-icon> Favorite
+      </span>
+      <span>
+        <mat-icon>bookmark_border</mat-icon> Add to Bookmark
+      </span>
+    </div>
+    <div class="intr_vd_tml">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>timeline</mat-icon> Timeline
+            </mat-panel-title>
+            <mat-panel-description> </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="tm_ln_dv">
+            <span class="tm_stmp">01:30</span>
+            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
+          </div>
+          <div class="tm_ln_dv">
+            <span class="tm_stmp">01:30</span>
+            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
+          </div>
+          <div class="tm_ln_dv">
+            <span class="tm_stmp">01:30</span>
+            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>videocam</mat-icon> Videos
+            </mat-panel-title>
+            <mat-panel-description>
+              <span class="spacer"></span>
+              15 / 30 videos watched
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="wtcd_vds wv_actv">
+            <div class="wv_img">
+              <img src="../../../assets/images/vid_smpl.jpg" />
+            </div>
+            <div class="wv_ttl_dsc">
+              <span class="wv_tt_hd">Introduction video</span>
+              <span class="wv_ts">05:50 min</span>
+            </div>
+            <span class="spacer"></span>
+            <div class="wv_ply_icn">
+              <mat-icon>graphic_eq</mat-icon>
+            </div>
+            <div class="wv_bkmrk">
+              <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+            </div>
+          </div>
+          <div class="wtcd_vds">
+            <div class="wv_img">
+              <img src="../../../assets/images/vid_smpl.jpg" />
+            </div>
+            <div class="wv_ttl_dsc">
+              <span class="wv_tt_hd">Introduction video</span>
+              <span class="wv_ts">05:50 min</span>
+            </div>
+            <span class="spacer"></span>
+            <div class="wv_ply_icn">
+              <mat-icon>graphic_eq</mat-icon>
+            </div>
+            <div class="wv_bkmrk">
+              <mat-icon>bookmark_border</mat-icon>
+            </div>
+          </div>
+          <div class="wtcd_vds">
+            <div class="wv_img">
+              <img src="../../../assets/images/vid_smpl.jpg" />
+            </div>
+            <div class="wv_ttl_dsc">
+              <span class="wv_tt_hd">Introduction video</span>
+              <span class="wv_ts">05:50 min</span>
+            </div>
+            <span class="spacer"></span>
+            <div class="wv_ply_icn">
+              <mat-icon>graphic_eq</mat-icon>
+            </div>
+            <div class="wv_bkmrk">
+              <mat-icon>bookmark_border</mat-icon>
+            </div>
+          </div>
+          <div class="wtcd_vds">
+            <div class="wv_img">
+              <img src="../../../assets/images/vid_smpl.jpg" />
+            </div>
+            <div class="wv_ttl_dsc">
+              <span class="wv_tt_hd">Introduction video</span>
+              <span class="wv_ts">05:50 min</span>
+            </div>
+            <span class="spacer"></span>
+            <div class="wv_ply_icn">
+              <mat-icon>graphic_eq</mat-icon>
+            </div>
+            <div class="wv_bkmrk">
+              <mat-icon>bookmark_border</mat-icon>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
   </div>
 </div>
