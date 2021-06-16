@@ -1,10 +1,16 @@
 <div class="mn_dshbrd">
-  <div class="cust_mdl_par cust_mdl_50p {{ show_questions ? 'cust_mdl_opn' : '' }}">
+  <div
+    class="cust_mdl_par cust_mdl_50p {{ show_questions ? 'cust_mdl_opn' : '' }}"
+  >
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Questions list
         <span class="spacer"></span>
-        <button (click)="CloseQuestiosModal()" mat-icon-button class="float_right">
+        <button
+          (click)="CloseQuestiosModal()"
+          mat-icon-button
+          class="float_right"
+        >
           &#x2715;
         </button>
       </div>
@@ -274,7 +280,11 @@
         <div class="qsp_sbmt">
           <div class="spacer"></div>
           <div class="mr_1">
-            <button mat-raised-button (click)="CloseQuestiosModal()" class="gry_btn">
+            <button
+              mat-raised-button
+              (click)="CloseQuestiosModal()"
+              class="gry_btn"
+            >
               Cancel
             </button>
           </div>
@@ -285,7 +295,9 @@
     </div>
   </div>
 
-  <div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
+  <div
+    class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}"
+  >
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Proceum Library
@@ -295,14 +307,20 @@
         </button>
       </div>
       <div class="tbbd_bdy" *ngIf="library_popup">
-        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab }"></app-assets-library>
+        <app-assets-library
+          [data]="{ modal_view: true, active_tab: active_tab }"
+        ></app-assets-library>
 
         <hr />
         <button mat-raised-button color="accent" class="float_right mr_1">
           Select
         </button>
 
-        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="CloseModal()">
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="CloseModal()"
+        >
           Close
         </button>
         <div class="hgt_20"></div>
@@ -310,21 +328,38 @@
     </div>
   </div>
   <div class="pg_ttl">Create content</div>
-  <form id="content_form" #content_create_form="ngForm" name="content_create_form"
-    (ngSubmit)="content_create_form.valid && createContent(false)" novalidate>
+  <form
+    id="content_form"
+    #content_create_form="ngForm"
+    name="content_create_form"
+    (ngSubmit)="content_create_form.valid && createContent(false)"
+    novalidate
+  >
     <div class="main_content_cc">
       <!-- Left content -->
       <div class="cc_left_content dsh_brd_crds">
         <div class="cc_row err_tltp_par">
           <mat-form-field appearance="outline" class="page_title_input">
-            <input matInput trim="blur" name="title_name" maxlength="250" [(ngModel)]="title"
-              placeholder="Enter Content Title" #title_name="ngModel" required />
+            <input
+              matInput
+              trim="blur"
+              name="title_name"
+              maxlength="250"
+              [(ngModel)]="title"
+              placeholder="Enter Content Title"
+              #title_name="ngModel"
+              required
+            />
           </mat-form-field>
-          <span class="prc_tltp" *ngIf="
+          <span
+            class="prc_tltp"
+            *ngIf="
               (content_create_form.submitted || title_name.touched) &&
               title_name.invalid
-            ">
-            Content Title is required</span>
+            "
+          >
+            Content Title is required</span
+          >
         </div>
         <!-- #Row1 -->
         <div class="cc_row">
@@ -358,7 +393,10 @@
                 <label for="Intro video"> Main video</label>
               </div>
               <mat-form-field appearance="outline" class="mn_vd_inp">
-                <input matInput placeholder="Enter Content Title (max. 250 characters)" />
+                <input
+                  matInput
+                  placeholder="Enter Content Title (max. 250 characters)"
+                />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mn_vd_inp">
                 <textarea matInput placeholder="Video description"></textarea>
@@ -817,8 +855,15 @@
               </div>
               <div class="c_block_content">
                 <div class="ck_editor">
-                  <ckeditor [(ngModel)]="main_content" name="main_content_name" (ready)="onReady($event)"
-                    [editor]="Editor" #editor [config]="editorConfig" style="height: 500px"></ckeditor>
+                  <ckeditor
+                    [(ngModel)]="main_content"
+                    name="main_content_name"
+                    (ready)="onReady($event)"
+                    [editor]="Editor"
+                    #editor
+                    [config]="editorConfig"
+                    style="height: 500px"
+                  ></ckeditor>
                 </div>
               </div>
             </div>
@@ -869,7 +914,10 @@
                 <mat-icon>attachment</mat-icon>
                 <label for="Intro video"> Attachments</label>
                 <span class="spacer"></span>
-                <mat-icon (click)="openAssetsLibrary('documents', 'attachments')">add</mat-icon>
+                <mat-icon
+                  (click)="openAssetsLibrary('documents', 'attachments')"
+                  >add</mat-icon
+                >
               </div>
               <div class="c_block_content" *ngIf="attachments.length == 0">
                 <div class="upload_placeholder">
@@ -884,13 +932,16 @@
                     <img [src]="file['path']" alt="" />
                     <span class="upldd_hd">
                       {{
-                      file["file_path"].substring(
-                      file["file_path"].lastIndexOf("/") + 1
-                      )
+                        file["file_path"].substring(
+                          file["file_path"].lastIndexOf("/") + 1
+                        )
                       }}
                     </span>
                     <span class="spacer"></span>
-                    <mat-icon class="vd_dl_icn" (click)="removeFile(i, 'attachments')">remove_circle_outline
+                    <mat-icon
+                      class="vd_dl_icn"
+                      (click)="removeFile(i, 'attachments')"
+                      >remove_circle_outline
                     </mat-icon>
                   </li>
                 </ul>
@@ -904,7 +955,9 @@
                 <mat-icon>wallpaper</mat-icon>
                 <label for="Intro video"> Upload images / Thumbnails</label>
                 <span class="spacer"></span>
-                <mat-icon (click)="openAssetsLibrary('images', 'images')">add</mat-icon>
+                <mat-icon (click)="openAssetsLibrary('images', 'images')"
+                  >add</mat-icon
+                >
               </div>
               <div class="c_block_content" *ngIf="images.length == 0">
                 <div class="upload_placeholder">
@@ -916,18 +969,25 @@
               <div class="c_block_content">
                 <ul>
                   <li *ngFor="let file of images; let i = index">
-                    <img [src]="file['path']" alt="{{
+                    <img
+                      [src]="file['path']"
+                      alt="{{
                         file['file_path'].substring(
                           file['file_path'].lastIndexOf('/') + 1
                         )
-                      }}" />
+                      }}"
+                    />
                     <span class="upldd_hd">{{
                       file["file_path"].substring(
-                      file["file_path"].lastIndexOf("/") + 1
+                        file["file_path"].lastIndexOf("/") + 1
                       )
-                      }}</span>
+                    }}</span>
                     <span class="spacer"></span>
-                    <mat-icon class="vd_dl_icn" (click)="removeFile(i, 'images')">remove_circle_outline</mat-icon>
+                    <mat-icon
+                      class="vd_dl_icn"
+                      (click)="removeFile(i, 'images')"
+                      >remove_circle_outline</mat-icon
+                    >
                   </li>
                 </ul>
               </div>
@@ -944,180 +1004,139 @@
                 <mat-tab-group (selectedTabChange)="notesTab($event)">
                   <mat-tab label="Learning Objectives">
                     <div class="ck_editor">
-                      <ckeditor [(ngModel)]="learning_obj_content" name="learning_obj_content_name"
-                        (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                        style="height: 500px"></ckeditor>
+                      <ckeditor
+                        [(ngModel)]="learning_obj_content"
+                        name="learning_obj_content_name"
+                        (ready)="onReady($event)"
+                        [editor]="Editor"
+                        #editor
+                        [config]="editorConfig"
+                        style="height: 500px"
+                      ></ckeditor>
                     </div>
                   </mat-tab>
                   <mat-tab label="Learning Notes">
                     <div class="ck_editor">
-                      <ckeditor (ready)="onReady($event)" [(ngModel)]="learning_notes_content"
-                        name="learning_notes_content_name" [editor]="Editor" #editor [config]="editorConfig"
-                        style="height: 500px"></ckeditor>
+                      <ckeditor
+                        (ready)="onReady($event)"
+                        [(ngModel)]="learning_notes_content"
+                        name="learning_notes_content_name"
+                        [editor]="Editor"
+                        #editor
+                        [config]="editorConfig"
+                        style="height: 500px"
+                      ></ckeditor>
                     </div>
                   </mat-tab>
                   <mat-tab label="High Yield Text">
                     <div class="hyt_mn_dv">
                       <div class="dsh_brd_crds">
                         <mat-form-field appearance="outline" class="w_100p">
-                          <input matInput placeholder="Title" />
+                          <input
+                            matInput
+                            [(ngModel)]="highyield_title"
+                            name="highyield_title"
+                            placeholder="Title"
+                          />
                         </mat-form-field>
                       </div>
                       <div class="ck_editor">
-                        <ckeditor [(ngModel)]="highyield_content" name="highyield_content_name"
-                          (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                          style="height: 500px"></ckeditor>
+                        <ckeditor
+                          [(ngModel)]="highyield_content"
+                          name="highyield_content_name"
+                          (ready)="onReady($event)"
+                          [editor]="Editor"
+                          #editor
+                          [config]="editorConfig"
+                          style="height: 500px"
+                        ></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
-                        <button mat-raised-button color="accent">
+                        <button
+                          type="button"
+                          (click)="addHighyield()"
+                          mat-raised-button
+                          color="accent"
+                        >
                           <mat-icon>add</mat-icon> Add Notes
                         </button>
-
                       </div>
                     </div>
 
-
                     <div class="hyt_aded_nts">
                       <div class="hyt_aded_nts_hd">Added Notes</div>
-                      <div class="hyt_lst_dv">
-                        <div class="mr_1">
-                          Mcq - Collateral nerves are additional or preterminal branches arising from the brachial
-                          plexus. Choose the correct match of collateral nerve to the muscle or skin that it innervates.
-                        </div>
-                        <div>
-                          <button mat-mini-fab class="mr_1 no_bxsdw" color="accent">
-                            <mat-icon>mode_edit</mat-icon>
-                          </button>
-                        </div>
-                        <div>
-                          <button mat-mini-fab class="no_bxsdw" color="warn">
-                            <mat-icon>remove_circle_outline</mat-icon>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="hyt_lst_dv">
-                        <div class="mr_1">
-                          Mcq - Collateral nerves are additional or preterminal branches arising from the brachial
-                          plexus. Choose the correct match of collateral nerve to the muscle or skin that it innervates.
-                        </div>
-                        <div>
-                          <button mat-mini-fab class="mr_1 no_bxsdw" color="accent">
-                            <mat-icon>mode_edit</mat-icon>
-                          </button>
-                        </div>
-                        <div>
-                          <button mat-mini-fab class="no_bxsdw" color="warn">
-                            <mat-icon>remove_circle_outline</mat-icon>
-                          </button>
+                      <div
+                        *ngFor="let highyield of highyield_obj; let i = index"
+                      >
+                        <div
+                          class="hyt_lst_dv"
+                          *ngIf="highyield['status'] != 'delete'"
+                        >
+                          <div class="mr_1">{{ highyield["title"] }}</div>
+                          <div>
+                            <button
+                              type="button"
+                              (click)="editHighyield(i)"
+                              mat-mini-fab
+                              class="mr_1 no_bxsdw"
+                              color="accent"
+                            >
+                              <mat-icon>mode_edit</mat-icon>
+                            </button>
+                          </div>
+                          <div>
+                            <button
+                              type="button"
+                              (click)="removeHighyield(i)"
+                              mat-mini-fab
+                              class="no_bxsdw"
+                              color="warn"
+                            >
+                              <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </mat-tab>
-                  <!-- <mat-tab label="MCQs">
-                    <div class="cc_top_button">
-                      <label for="">Question Bank</label>
-                      <div class="spacer"></div>
-                      <button>Create New Question</button>
-                      <button>Select from Question Bank</button>
-                    </div>
-                    <div class="ck_editor">
-                      <ckeditor (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                        style="height: 500px"></ckeditor>
-                    </div>
-
-                    <div class="qtns_block">
-                      <div>
-                        <label for="">Question type</label>
-                        <div class="ans_div">
-                          <mat-form-field appearance="outline">
-                            <mat-select>
-                              <mat-option value="option1">Single selection</mat-option>
-                              <mat-option value="option2">Multiple selection</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                      </div>
-                      <div>
-                        <label for="">Answers</label>
-                        <div class="ans_div">
-                          <mat-radio-group>
-                            <mat-radio-button value="Option1">Option 1</mat-radio-button>
-                            <mat-radio-button value="Option2">Option 2</mat-radio-button>
-                            <mat-radio-button value="Option3">Option 3</mat-radio-button>
-                            <mat-radio-button value="Option4">Option 4</mat-radio-button>
-                          </mat-radio-group>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="upload_btn">
-                      <button>Insert another Question</button>
-                    </div>
-                    <hr /> 
-                    <div class="qtns_block insrtd_qtns">
-                      <div>
-                        <label for="">Question</label>
-                        <span>Lorem ipsum dummy text question ?</span>
-                      </div>
-                      <div>
-                        <label for="">Options</label>
-                        <div class="ans_div">
-                          <mat-radio-group>
-                            <mat-radio-button value="Option1">Option 1</mat-radio-button>
-                            <mat-radio-button value="Option2">Option 2</mat-radio-button>
-                            <mat-radio-button value="Option3">Option 3</mat-radio-button>
-                            <mat-radio-button value="Option4">Option 4</mat-radio-button>
-                          </mat-radio-group>
-                        </div>
-                      </div>
-                      <div class="edit_options">
-                        <mat-icon>edit</mat-icon>
-                        <mat-icon>remove_circle_outline</mat-icon>
-                      </div>
-                    </div>
-                    <hr />
-                    <div class="qtns_block insrtd_qtns">
-                      <div>
-                        <label for="">Question</label>
-                        <span>Lorem ipsum dummy text question ?</span>
-                      </div>
-                      <div>
-                        <label for="">Options</label>
-                        <div class="ans_div">
-                          <mat-radio-group>
-                            <mat-radio-button value="Option1">Option 1</mat-radio-button>
-                            <mat-radio-button value="Option2">Option 2</mat-radio-button>
-                            <mat-radio-button value="Option3">Option 3</mat-radio-button>
-                            <mat-radio-button value="Option4">Option 4</mat-radio-button>
-                          </mat-radio-group>
-                        </div>
-                      </div>
-                      <div class="edit_options">
-                        <mat-icon>edit</mat-icon>
-                        <mat-icon>remove_circle_outline</mat-icon>
-                      </div>
-                    </div>
-                  </mat-tab> -->
                   <mat-tab label="MCQs">
                     <div class="tbbd_bdy px_0">
-                      <mat-tab-group (selectedTabChange)="questionsTab($event)" [(selectedIndex)]="question_tab">
+                      <mat-tab-group
+                        (selectedTabChange)="questionsTab($event)"
+                        [(selectedIndex)]="question_tab"
+                      >
                         <mat-tab label="All Questions">
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
-                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                              <input
+                                [(ngModel)]="search_question"
+                                name="search_question"
+                                (keyup)="
                                   $event.keyCode == 13 ? searchQuestions() : ''
-                                " matInput placeholder="Search" />
+                                "
+                                matInput
+                                placeholder="Search"
+                              />
                               <mat-icon matSuffix>search</mat-icon>
                             </mat-form-field>
                           </div>
 
-                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn whtspc_nml">
+                          <table
+                            mat-table
+                            [dataSource]="all_questions"
+                            class="qsp_pp_mn whtspc_nml"
+                          >
                             <ng-container matColumnDef="s_no">
                               <td mat-cell *matCellDef="let element">
-                                <mat-checkbox [value]="element['id']" [checked]="
+                                <mat-checkbox
+                                  [value]="element['id']"
+                                  [checked]="
                                     selected_mcqs.includes(element['id'])
-                                  " (change)="
+                                  "
+                                  (change)="
                                     selectQuestion($event, element['id'])
-                                  "></mat-checkbox>
+                                  "
+                                ></mat-checkbox>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="question">
@@ -1133,35 +1152,62 @@
                               </td>
                             </ng-container>
 
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr
+                              mat-row
+                              *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
+                              <td
+                                style="text-align: center; margin: 20px"
+                                class="mat-cell"
+                                colspan="3"
+                              >
                                 No Records Found
                               </td>
                             </tr>
                           </table>
-                          <mat-paginator #paginator *ngIf="all_questions.data.length > 0"
-                            [pageSizeOptions]="page_size_options" [length]="totalSize" [pageSize]="pageSize"
-                            showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
+                          <mat-paginator
+                            #paginator
+                            *ngIf="all_questions.data.length > 0"
+                            [pageSizeOptions]="page_size_options"
+                            [length]="totalSize"
+                            [pageSize]="pageSize"
+                            showFirstLastButtons
+                            (page)="getServerData($event)"
+                          ></mat-paginator>
                         </mat-tab>
                         <mat-tab label="Selected Questions">
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
-                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                              <input
+                                [(ngModel)]="search_question"
+                                name="search_question"
+                                (keyup)="
                                   $event.keyCode == 13 ? searchQuestions() : ''
-                                " matInput placeholder="Search" />
+                                "
+                                matInput
+                                placeholder="Search"
+                              />
                               <mat-icon matSuffix>search</mat-icon>
                             </mat-form-field>
                           </div>
 
-                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn whtspc_nml">
+                          <table
+                            mat-table
+                            [dataSource]="all_questions"
+                            class="qsp_pp_mn whtspc_nml"
+                          >
                             <ng-container matColumnDef="s_no">
                               <td mat-cell *matCellDef="let element">
-                                <mat-checkbox [value]="element['id']" [checked]="
+                                <mat-checkbox
+                                  [value]="element['id']"
+                                  [checked]="
                                     selected_mcqs.includes(element['id'])
-                                  " (change)="
+                                  "
+                                  (change)="
                                     selectQuestion($event, element['id'])
-                                  "></mat-checkbox>
+                                  "
+                                ></mat-checkbox>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="question">
@@ -1177,16 +1223,29 @@
                               </td>
                             </ng-container>
 
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr
+                              mat-row
+                              *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
+                              <td
+                                style="text-align: center; margin: 20px"
+                                class="mat-cell"
+                                colspan="3"
+                              >
                                 No Records Found
                               </td>
                             </tr>
                           </table>
-                          <mat-paginator #paginator *ngIf="all_questions.data.length > 0"
-                            [pageSizeOptions]="page_size_options" [length]="totalSize" [pageSize]="pageSize"
-                            showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
+                          <mat-paginator
+                            #paginator
+                            *ngIf="all_questions.data.length > 0"
+                            [pageSizeOptions]="page_size_options"
+                            [length]="totalSize"
+                            [pageSize]="pageSize"
+                            showFirstLastButtons
+                            (page)="getServerData($event)"
+                          ></mat-paginator>
                         </mat-tab>
                       </mat-tab-group>
                     </div>
@@ -1194,27 +1253,44 @@
 
                   <mat-tab label="Short Questions">
                     <div class="tbbd_bdy px_0">
-                      <mat-tab-group (selectedTabChange)="questionsTab($event)" [(selectedIndex)]="short_answer_tab">
+                      <mat-tab-group
+                        (selectedTabChange)="questionsTab($event)"
+                        [(selectedIndex)]="short_answer_tab"
+                      >
                         <mat-tab label="All Questions">
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
-                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                              <input
+                                [(ngModel)]="search_question"
+                                name="search_question"
+                                (keyup)="
                                   $event.keyCode == 13 ? searchQuestions() : ''
-                                " matInput placeholder="Search" />
+                                "
+                                matInput
+                                placeholder="Search"
+                              />
                               <mat-icon matSuffix>search</mat-icon>
                             </mat-form-field>
                           </div>
 
-                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn whtspc_nml">
+                          <table
+                            mat-table
+                            [dataSource]="all_questions"
+                            class="qsp_pp_mn whtspc_nml"
+                          >
                             <ng-container matColumnDef="s_no">
                               <td mat-cell *matCellDef="let element">
-                                <mat-checkbox [value]="element['id']" [checked]="
+                                <mat-checkbox
+                                  [value]="element['id']"
+                                  [checked]="
                                     selected_short_questions.includes(
                                       element['id']
                                     )
-                                  " (change)="
+                                  "
+                                  (change)="
                                     selectQuestion($event, element['id'])
-                                  "></mat-checkbox>
+                                  "
+                                ></mat-checkbox>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="question">
@@ -1230,37 +1306,63 @@
                               </td>
                             </ng-container>
 
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr
+                              mat-row
+                              *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
+                              <td
+                                style="text-align: center; margin: 20px"
+                                class="mat-cell"
+                                colspan="3"
+                              >
                                 No Records Found
                               </td>
                             </tr>
                           </table>
-                          <mat-paginator *ngIf="all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
-                            [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
-                            (page)="getServerData($event)"></mat-paginator>
+                          <mat-paginator
+                            *ngIf="all_questions.data.length > 0"
+                            [pageSizeOptions]="page_size_options"
+                            [length]="totalSize"
+                            [pageSize]="pageSize"
+                            showFirstLastButtons
+                            (page)="getServerData($event)"
+                          ></mat-paginator>
                         </mat-tab>
                         <mat-tab label="Selected Questions">
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
-                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                              <input
+                                [(ngModel)]="search_question"
+                                name="search_question"
+                                (keyup)="
                                   $event.keyCode == 13 ? searchQuestions() : ''
-                                " matInput placeholder="Search" />
+                                "
+                                matInput
+                                placeholder="Search"
+                              />
                               <mat-icon matSuffix>search</mat-icon>
                             </mat-form-field>
                           </div>
 
-                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn whtspc_nml">
+                          <table
+                            mat-table
+                            [dataSource]="all_questions"
+                            class="qsp_pp_mn whtspc_nml"
+                          >
                             <ng-container matColumnDef="s_no">
                               <td mat-cell *matCellDef="let element">
-                                <mat-checkbox [value]="element['id']" [checked]="
+                                <mat-checkbox
+                                  [value]="element['id']"
+                                  [checked]="
                                     selected_short_questions.includes(
                                       element['id']
                                     )
-                                  " (change)="
+                                  "
+                                  (change)="
                                     selectQuestion($event, element['id'])
-                                  "></mat-checkbox>
+                                  "
+                                ></mat-checkbox>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="question">
@@ -1276,16 +1378,28 @@
                               </td>
                             </ng-container>
 
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr
+                              mat-row
+                              *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
+                              <td
+                                style="text-align: center; margin: 20px"
+                                class="mat-cell"
+                                colspan="3"
+                              >
                                 No Records Found
                               </td>
                             </tr>
                           </table>
-                          <mat-paginator *ngIf="all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
-                            [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
-                            (page)="getServerData($event)"></mat-paginator>
+                          <mat-paginator
+                            *ngIf="all_questions.data.length > 0"
+                            [pageSizeOptions]="page_size_options"
+                            [length]="totalSize"
+                            [pageSize]="pageSize"
+                            showFirstLastButtons
+                            (page)="getServerData($event)"
+                          ></mat-paginator>
                         </mat-tab>
                       </mat-tab-group>
                     </div>
@@ -1370,25 +1484,42 @@
                   </mat-tab>
                   <mat-tab label="Cases">
                     <div class="tbbd_bdy px_0">
-                      <mat-tab-group (selectedTabChange)="questionsTab($event)" [(selectedIndex)]="case_tab">
+                      <mat-tab-group
+                        (selectedTabChange)="questionsTab($event)"
+                        [(selectedIndex)]="case_tab"
+                      >
                         <mat-tab label="All Questions">
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
-                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                              <input
+                                [(ngModel)]="search_question"
+                                name="search_question"
+                                (keyup)="
                                   $event.keyCode == 13 ? searchQuestions() : ''
-                                " matInput placeholder="Search" />
+                                "
+                                matInput
+                                placeholder="Search"
+                              />
                               <mat-icon matSuffix>search</mat-icon>
                             </mat-form-field>
                           </div>
 
-                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn whtspc_nml">
+                          <table
+                            mat-table
+                            [dataSource]="all_questions"
+                            class="qsp_pp_mn whtspc_nml"
+                          >
                             <ng-container matColumnDef="s_no">
                               <td mat-cell *matCellDef="let element">
-                                <mat-checkbox [value]="element['id']" [checked]="
+                                <mat-checkbox
+                                  [value]="element['id']"
+                                  [checked]="
                                     selected_cases.includes(element['id'])
-                                  " (change)="
+                                  "
+                                  (change)="
                                     selectQuestion($event, element['id'])
-                                  "></mat-checkbox>
+                                  "
+                                ></mat-checkbox>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="question">
@@ -1404,35 +1535,61 @@
                               </td>
                             </ng-container>
 
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr
+                              mat-row
+                              *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
+                              <td
+                                style="text-align: center; margin: 20px"
+                                class="mat-cell"
+                                colspan="3"
+                              >
                                 No Records Found
                               </td>
                             </tr>
                           </table>
-                          <mat-paginator *ngIf="all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
-                            [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
-                            (page)="getServerData($event)"></mat-paginator>
+                          <mat-paginator
+                            *ngIf="all_questions.data.length > 0"
+                            [pageSizeOptions]="page_size_options"
+                            [length]="totalSize"
+                            [pageSize]="pageSize"
+                            showFirstLastButtons
+                            (page)="getServerData($event)"
+                          ></mat-paginator>
                         </mat-tab>
                         <mat-tab label="Selected Questions">
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
-                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                              <input
+                                [(ngModel)]="search_question"
+                                name="search_question"
+                                (keyup)="
                                   $event.keyCode == 13 ? searchQuestions() : ''
-                                " matInput placeholder="Search" />
+                                "
+                                matInput
+                                placeholder="Search"
+                              />
                               <mat-icon matSuffix>search</mat-icon>
                             </mat-form-field>
                           </div>
 
-                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn whtspc_nml">
+                          <table
+                            mat-table
+                            [dataSource]="all_questions"
+                            class="qsp_pp_mn whtspc_nml"
+                          >
                             <ng-container matColumnDef="s_no">
                               <td mat-cell *matCellDef="let element">
-                                <mat-checkbox [value]="element['id']" [checked]="
+                                <mat-checkbox
+                                  [value]="element['id']"
+                                  [checked]="
                                     selected_cases.includes(element['id'])
-                                  " (change)="
+                                  "
+                                  (change)="
                                     selectQuestion($event, element['id'])
-                                  "></mat-checkbox>
+                                  "
+                                ></mat-checkbox>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="question">
@@ -1448,16 +1605,28 @@
                               </td>
                             </ng-container>
 
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr
+                              mat-row
+                              *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
+                              <td
+                                style="text-align: center; margin: 20px"
+                                class="mat-cell"
+                                colspan="3"
+                              >
                                 No Records Found
                               </td>
                             </tr>
                           </table>
-                          <mat-paginator *ngIf="all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
-                            [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
-                            (page)="getServerData($event)"></mat-paginator>
+                          <mat-paginator
+                            *ngIf="all_questions.data.length > 0"
+                            [pageSizeOptions]="page_size_options"
+                            [length]="totalSize"
+                            [pageSize]="pageSize"
+                            showFirstLastButtons
+                            (page)="getServerData($event)"
+                          ></mat-paginator>
                         </mat-tab>
                       </mat-tab-group>
                     </div>
@@ -1543,7 +1712,10 @@
 
                   <mat-tab label="Related Topics">
                     <div class="cc_row">
-                      <mat-form-field appearance="outline" class="page_title_input">
+                      <mat-form-field
+                        appearance="outline"
+                        class="page_title_input"
+                      >
                         <input matInput placeholder="Search topics" />
                         <mat-icon matSuffix>search</mat-icon>
                       </mat-form-field>
@@ -1551,7 +1723,8 @@
                       <!-- Inserted questions -->
                       <div class="qtns_block insrtd_qtns">
                         <div>
-                          <span>It is a long established fact that a reader will be
+                          <span
+                            >It is a long established fact that a reader will be
                             distracted by the readable content of a page when
                             looking at its layout.
                           </span>
@@ -1564,7 +1737,8 @@
                       <hr />
                       <div class="qtns_block insrtd_qtns">
                         <div>
-                          <span>It is a long established fact that a reader will be
+                          <span
+                            >It is a long established fact that a reader will be
                             distracted by the readable content of a page when
                             looking at its layout.
                           </span>
@@ -1579,9 +1753,15 @@
 
                   <mat-tab label="External References">
                     <div class="ck_editor">
-                      <ckeditor [(ngModel)]="external_ref_content" name="external_ref_content_name"
-                        (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                        style="height: 500px"></ckeditor>
+                      <ckeditor
+                        [(ngModel)]="external_ref_content"
+                        name="external_ref_content_name"
+                        (ready)="onReady($event)"
+                        [editor]="Editor"
+                        #editor
+                        [config]="editorConfig"
+                        style="height: 500px"
+                      ></ckeditor>
                     </div>
                   </mat-tab>
                 </mat-tab-group>
@@ -1592,7 +1772,12 @@
 
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
-          <button class="gry_btn" mat-raised-button (click)="createContent(true)">
+          <button
+            class="gry_btn"
+            type="button"
+            mat-raised-button
+            (click)="createContent(true)"
+          >
             Save as draft
           </button>
           <button mat-raised-button color="warn" class="mx_1">Cancel</button>

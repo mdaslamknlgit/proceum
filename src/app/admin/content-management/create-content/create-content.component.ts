@@ -48,6 +48,9 @@ export class CreateContentComponent implements OnInit {
   public learning_obj_content: string = '';
   public learning_notes_content: string = '';
   public highyield_content: string = '';
+  public highyield_title: string = '';
+  public highyield_obj = [];
+  public highyield_index = '';
   public cases = '';
   public mcqs = '';
   public related_topics = '';
@@ -128,7 +131,7 @@ export class CreateContentComponent implements OnInit {
         this.main_content = data['main_content'];
         this.learning_obj_content = data['learning_obj_content'];
         this.learning_notes_content = data['learning_notes_content'];
-        this.highyield_content = data['highyield_content'];
+        this.highyield_obj = data['highyield_obj'];
         this.external_ref_content = data['external_ref_content'];
         this.attachments = data['attachments'];
         this.attachment_files = [];
@@ -242,6 +245,36 @@ export class CreateContentComponent implements OnInit {
   }
   CloseQuestiosModal() {
     this.show_questions = !this.show_questions;
+  }
+  addHighyield() {
+    let highyield = {
+      id: 0,
+      title: this.highyield_title,
+      content: this.highyield_content,
+    };
+    if (this.highyield_index != '') {
+      this.highyield_obj[Number(this.highyield_index)]['title'] =
+        this.highyield_title;
+      this.highyield_obj[Number(this.highyield_index)]['content'] =
+        this.highyield_content;
+    } else {
+      this.highyield_obj.push(highyield);
+    }
+    this.highyield_title = '';
+    this.highyield_content = '';
+    this.highyield_index = '';
+  }
+  editHighyield(index) {
+    this.highyield_index = '' + index;
+    this.highyield_title = this.highyield_obj[index]['title'];
+    this.highyield_content = this.highyield_obj[index]['content'];
+  }
+  removeHighyield(index) {
+    if (index > -1) {
+      this.highyield_obj[index]['status'] = 'delete';
+      if (this.highyield_obj[index]['id'] == 0)
+        this.highyield_obj.splice(index, 1);
+    }
   }
   notesTab(event) {
     let tab_index = event.index;
@@ -441,7 +474,7 @@ export class CreateContentComponent implements OnInit {
       images: this.images,
       learning_obj_content: this.learning_obj_content,
       learning_notes_content: this.learning_notes_content,
-      highyield_content: this.highyield_content,
+      highyield_obj: this.highyield_obj,
       external_ref_content: this.external_ref_content,
       selected_mcqs: this.selected_mcqs,
       selected_short_questions: this.selected_short_questions,
