@@ -1,30 +1,20 @@
 <!-- <app-topbar class="inner-header"></app-topbar> -->
 <!-- <app-sidemenu></app-sidemenu> -->
+<!-- act_qstnm || wrng_qstnm -->
 <div class="cust_mdl_par {{ show_content_list ? 'cust_mdl_opn' : '' }}">
   <div class="desc_otr_tpc">
     <div class="otr_ttl">
       Content list
       <span class="spacer"></span>
-      <button
-        (click)="show_content_list = !show_content_list"
-        mat-icon-button
-        class="float_right"
-      >
+      <button (click)="show_content_list = !show_content_list" mat-icon-button class="float_right">
         &#x2715;
       </button>
     </div>
     <div class="otr_bdy">
-      <div
-        *ngFor="let value of content_list"
-        [ngClass]="{
+      <div *ngFor="let value of content_list" [ngClass]="{
           dets_actv: value['content_id'] == content_id ? true : false
-        }"
-      >
-        <div
-          *ngIf="value['content_id'] != content_id"
-          (click)="viewContent(value['content_id'])"
-          class="otr_bd_dv"
-        >
+        }">
+        <div *ngIf="value['content_id'] != content_id" (click)="viewContent(value['content_id'])" class="otr_bd_dv">
           {{ value["content_title"] }}
         </div>
       </div>
@@ -36,83 +26,44 @@
   <div class="ism_scrl">
     <ul>
       <li (click)="showDiv(3)">
-        <mat-icon
-          class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Learning Objectives"
-        >
-          lightbulb</mat-icon
-        >
+        <mat-icon class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Objectives">
+          lightbulb</mat-icon>
       </li>
       <li (click)="showDiv(0)">
-        <mat-icon
-          class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Description"
-          >feed</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}" matTooltip="Description">feed</mat-icon>
       </li>
 
       <li (click)="showDiv(2)">
-        <mat-icon
-          class="ism_icn {{ active_div == 2 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Learning Notes"
-          >history_edu
+        <mat-icon class="ism_icn {{ active_div == 2 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Notes">history_edu
         </mat-icon>
       </li>
       <li (click)="showDiv(6)">
-        <mat-icon
-          class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}"
-          matTooltip="High Yield"
-          >highlight
+        <mat-icon class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}" matTooltip="High Yield">highlight
         </mat-icon>
       </li>
       <li (click)="showDiv(1)">
-        <mat-icon
-          class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Quiz"
-          >Mcqs</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}" matTooltip="Quiz">quiz</mat-icon>
       </li>
       <li (click)="showDiv(10)">
-        <mat-icon
-          class="ism_icn {{ active_div == 10 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Short Questions"
-          >help_outline
+        <mat-icon class="ism_icn {{ active_div == 10 ? 'ism_actv_btn' : '' }}" matTooltip="Short Questions">help_outline
         </mat-icon>
       </li>
       <li (click)="showDiv(7)">
-        <mat-icon
-          class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Cases"
-          >description</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}" matTooltip="Cases">description</mat-icon>
       </li>
       <li (click)="showDiv(9)">
-        <mat-icon
-          class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Related Topics"
-          >bolt
+        <mat-icon class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}" matTooltip="Related Topics">bolt
         </mat-icon>
       </li>
       <li (click)="showDiv(8)">
-        <mat-icon
-          class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}"
-          matTooltip="External References"
-        >
-          insert_link</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}" matTooltip="External References">
+          insert_link</mat-icon>
       </li>
       <li (click)="showDiv(4)">
-        <mat-icon
-          class="ism_icn {{ active_div == 4 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Images"
-          >wallpaper</mat-icon
-        >
+        <mat-icon class="ism_icn {{ active_div == 4 ? 'ism_actv_btn' : '' }}" matTooltip="Images">wallpaper</mat-icon>
       </li>
       <li (click)="showDiv(5)">
-        <mat-icon
-          class="ism_icn {{ active_div == 5 ? 'ism_actv_btn' : '' }}"
-          matTooltip="Attachments"
-          >attachment
+        <mat-icon class="ism_icn {{ active_div == 5 ? 'ism_actv_btn' : '' }}" matTooltip="Attachments">attachment
         </mat-icon>
       </li>
     </ul>
@@ -123,32 +74,20 @@
     <span routerLink="/student/curriculums">Curriculums / </span>
     <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
       curriculum["curriculumn_name"]
-    }}</span>
+      }}</span>
     <span *ngFor="let bread of breadcome; let i = index">
       /
-      <span
-        *ngIf="i < breadcome.length - 1"
-        routerLink="/student/curriculums/{{
+      <span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
-        }}"
-        >{{ bread["name"] }}</span
-      >
+        }}">{{ bread["name"] }}</span>
       <strong *ngIf="i == breadcome.length - 1">
-        {{ setTitle(bread["name"]) }}</strong
-      ></span
-    >
+        {{ setTitle(bread["name"]) }}</strong></span>
   </div>
   <div class="pg_ttl">
     {{ content["title"] }}
     <span class="spacer"></span>
-    <button
-      *ngIf="content_list.length > 0"
-      matTooltip="More Content"
-      (click)="show_content_list = !show_content_list"
-      mat-mini-fab
-      color="accent"
-      class="mr_vrt_btn algn_s_fs"
-    >
+    <button *ngIf="content_list.length > 0" matTooltip="More Content" (click)="show_content_list = !show_content_list"
+      mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
@@ -166,29 +105,19 @@
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"> <mat-icon>feed</mat-icon>Description </span>
+          <span class="desc_in_hd">
+            <mat-icon>feed</mat-icon>Description
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
-            <span
-              *ngIf="!buzz_words"
-              (click)="showBuzzwords()"
-              matTooltip="Show Buzzwords"
-              ><button mat-icon-button color="accent" class="mr_1">
+            <span *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords"><button mat-icon-button
+                color="accent" class="mr_1">
                 <mat-icon>highlight_alt</mat-icon>
-              </button></span
-            >
-            <span
-              *ngIf="buzz_words"
-              (click)="hideBuzzWords()"
-              matTooltip="Hide Buzzwords"
-              ><button
-                mat-icon-button
-                color="accent"
-                class="actv_txt_hglt mr_1"
-              >
+              </button></span>
+            <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords"><button mat-icon-button
+                color="accent" class="actv_txt_hglt mr_1">
                 <mat-icon>highlight_alt</mat-icon>
-              </button></span
-            >
+              </button></span>
             <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
             <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
           </span>
@@ -196,28 +125,20 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div
-          class="crs_desc_cnt ck_editor_view"
-          *ngIf="content['main_content']"
-        >
-          <ckeditor
-            #editor
-            name="main_content"
-            [disabled]="true"
-            [editor]="Editor"
-            [config]="{}"
-            (ready)="onReady($event)"
-            [data]="content['main_content']"
-          ></ckeditor>
+        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['main_content']">
+          <ckeditor #editor name="main_content" [disabled]="true" [editor]="Editor" [config]="{}"
+            (ready)="onReady($event)" [data]="content['main_content']"></ckeditor>
         </div>
       </div>
     </div>
   </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 1">
+  <div class="crses_lft_mn qstn_sml" *ngIf="active_div == 1">
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
-          <span class="desc_in_hd"> <mat-icon>quiz</mat-icon> MCQ’s </span>
+          <span class="desc_in_hd">
+            <mat-icon>quiz</mat-icon> MCQ’s
+          </span>
           <span class="spacer"></span>
           <span class="fnt_sze">
             <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
@@ -227,52 +148,44 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div class="crs_desc_cnt mcb_desc">
+        <div class="qstn_nms">
           <div class="qstn_hds">Questions</div>
-          <div class="qstn_nms">
-            <ul>
-              <li class="wrng_qstnm">1</li>
-              <li class="act_qstnm">2</li>
-              <li class="wrng_qstnm">3</li>
-              <li class="act_qstnm">4</li>
-              <li class="act_qstnm">5</li>
-              <li class="act_qstnm">6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li>10</li>
-              <li>11</li>
-              <li>12</li>
-              <li>14</li>
-              <li>15</li>
-              <li>16</li>
-            </ul>
-          </div>
+          <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+            <li>11</li>
+            <li>12</li>
+            <li>14</li>
+            <li>15</li>
+            <li>16</li>
+          </ul>
+        </div>
+        <div class="crs_desc_cnt mcb_desc">
           <div class="hgt_20"></div>
           <div class="qstn_hds">
             Donec tincidunt urna at eros ultricies, id pellentesque mi
             fermentum?
           </div>
           <mat-radio-group aria-label="Select an option">
-            <mat-radio-button color="warn" value="1" class="wrng_rdo"
-              >Sed non tortor ut diam aliquam
+            <mat-radio-button color="warn" value="1" class="wrng_rdo">Sed non tortor ut diam aliquam
             </mat-radio-button>
-            <mat-radio-button color="warn" checked value="2" class="wrng_rdo"
-              >Sed non tortor ut diam aliquam diam aliquam
-              aliquam</mat-radio-button
-            >
-            <mat-radio-button color="warn" value="1" class="wrng_rdo"
-              >Sed non tortor ut diam aliqua diam aliquam
-              aliquam</mat-radio-button
-            >
-            <mat-radio-button color="warn" value="1" class="wrng_rdo"
-              >Sed non tortor ut diam aliquam diam aliquam
-              aliquam</mat-radio-button
-            >
-            <mat-radio-button value="2" class="crrct_rdo"
-              >Sed non tortor ut diam aliquam diam aliquam
-              aliquam</mat-radio-button
-            >
+            <mat-radio-button color="warn" checked value="2" class="wrng_rdo">Sed non tortor ut diam aliquam diam
+              aliquam
+              aliquam</mat-radio-button>
+            <mat-radio-button color="warn" value="1" class="wrng_rdo">Sed non tortor ut diam aliqua diam aliquam
+              aliquam</mat-radio-button>
+            <mat-radio-button color="warn" value="1" class="wrng_rdo">Sed non tortor ut diam aliquam diam aliquam
+              aliquam</mat-radio-button>
+            <mat-radio-button value="2" class="crrct_rdo">Sed non tortor ut diam aliquam diam aliquam
+              aliquam</mat-radio-button>
           </mat-radio-group>
           <div class="hgt_20"></div>
           <img src="../../../assets/images/vid_smpl.jpg" />
@@ -310,19 +223,9 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div
-          class="crs_desc_cnt ck_editor_view"
-          *ngIf="content['learning_notes_content']"
-        >
-          <ckeditor
-            #editor2
-            name="learning_notes_content"
-            [disabled]="true"
-            [editor]="Editor2"
-            [config]="{}"
-            (ready)="onReady($event)"
-            [data]="content['learning_notes_content']"
-          ></ckeditor>
+        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_notes_content']">
+          <ckeditor #editor2 name="learning_notes_content" [disabled]="true" [editor]="Editor2" [config]="{}"
+            (ready)="onReady($event)" [data]="content['learning_notes_content']"></ckeditor>
         </div>
       </div>
     </div>
@@ -343,18 +246,9 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div
-          class="crs_desc_cnt ck_editor_view"
-          *ngIf="content['learning_obj_content']"
-        >
-          <ckeditor
-            #editor
-            [disabled]="true"
-            [editor]="Editor"
-            [config]="{}"
-            (ready)="onReady($event)"
-            [data]="content['learning_obj_content']"
-          ></ckeditor>
+        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_obj_content']">
+          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+            [data]="content['learning_obj_content']"></ckeditor>
         </div>
       </div>
     </div>
@@ -373,15 +267,11 @@
         </div>
         <div class="crs_desc_cnt">
           <div class="desc_tmb_img">
-            <img
-              *ngFor="let file of content['images']; let i = index"
-              [src]="file['path']"
-              [alt]="
+            <img *ngFor="let file of content['images']; let i = index" [src]="file['path']" [alt]="
                 file['file_path'].substring(
                   file['file_path'].lastIndexOf('/') + 1
                 )
-              "
-            />
+              " />
           </div>
         </div>
       </div>
@@ -401,33 +291,24 @@
         </div>
         <div class="crs_desc_cnt">
           <div class="mlti_fls desc_mlti_fls">
-            <div
-              class="mlti_fls_dv"
-              *ngFor="let file of content['attachments']; let i = index"
-              matTooltip="{{
+            <div class="mlti_fls_dv" *ngFor="let file of content['attachments']; let i = index" matTooltip="{{
                 file['file_path'].substring(
                   file['file_path'].lastIndexOf('/') + 1
                 )
-              }}"
-            >
+              }}">
               <div class="dwnld_attcmnt">
-                <mat-icon matTooltip="Download" matTooltipPosition="above"
-                  >file_download</mat-icon
-                >
+                <mat-icon matTooltip="Download" matTooltipPosition="above">file_download</mat-icon>
               </div>
-              <img
-                [src]="file['path']"
-                [alt]="
+              <img [src]="file['path']" [alt]="
                   file['file_path'].substring(
                     file['file_path'].lastIndexOf('/') + 1
                   )
-                "
-              />
+                " />
               <span class="fl_nme">{{
                 file["file_path"].substring(
-                  file["file_path"].lastIndexOf("/") + 1
+                file["file_path"].lastIndexOf("/") + 1
                 )
-              }}</span>
+                }}</span>
             </div>
           </div>
         </div>
@@ -450,18 +331,9 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div
-          class="crs_desc_cnt ck_editor_view"
-          *ngIf="content['highyield_content']"
-        >
-          <ckeditor
-            #editor
-            [disabled]="true"
-            [editor]="Editor"
-            [config]="{}"
-            (ready)="onReady($event)"
-            [data]="content['highyield_content']"
-          ></ckeditor>
+        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['highyield_content']">
+          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+            [data]="content['highyield_content']"></ckeditor>
         </div>
 
         <div class="intr_vd_tml">
@@ -519,7 +391,7 @@
       </div>
     </div>
   </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 7">
+  <div class="crses_lft_mn qstn_sml" *ngIf="active_div == 7">
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
@@ -535,46 +407,39 @@
             <mat-icon>close</mat-icon>
           </button>
         </div>
-        <div class="crs_desc_cnt mcb_desc">
+        <div class="qstn_nms">
           <div class="qstn_hds">Questions</div>
-          <div class="qstn_nms">
-            <ul>
-              <li class="wrng_qstnm">1</li>
-              <li class="act_qstnm">2</li>
-              <li class="wrng_qstnm">3</li>
-              <li class="act_qstnm">4</li>
-              <li class="act_qstnm">5</li>
-              <li class="act_qstnm">6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li>10</li>
-              <li>11</li>
-              <li>12</li>
-              <li>14</li>
-              <li>15</li>
-              <li>16</li>
-            </ul>
-          </div>
+          <ul>
+            <li class="wrng_qstnm">1</li>
+            <li class="act_qstnm">2</li>
+            <li class="wrng_qstnm">3</li>
+            <li class="act_qstnm">4</li>
+            <li class="act_qstnm">5</li>
+            <li class="act_qstnm">6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+            <li>11</li>
+            <li>12</li>
+            <li>14</li>
+            <li>15</li>
+            <li>16</li>
+          </ul>
+        </div>
+        <div class="crs_desc_cnt mcb_desc">
           <div class="hgt_20"></div>
           <div class="qstn_hds">
-            Donec tincidunt urna at eros ultricies, id pellentesque mi
-            fermentum?
+            Donec tincidunt urna at eros ultricies, id pellentesque mi fermentum?
           </div>
           <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1"
-              >Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
+            <mat-radio-button value="1">Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
             </mat-radio-button>
-            <mat-radio-button value="2"
-              >Sed non tortor ut diam aliquam aliquam Sed non
+            <mat-radio-button value="2">Sed non tortor ut diam aliquam aliquam Sed non
             </mat-radio-button>
-            <mat-radio-button value="3"
-              >Sed non tortor ut diam aliquam aliquam Sed</mat-radio-button
-            >
+            <mat-radio-button value="3">Sed non tortor ut diam aliquam aliquam Sed</mat-radio-button>
             <mat-radio-button value="4">Sed non tortor ut </mat-radio-button>
-            <mat-radio-button value="5"
-              >Sed non tortor ut diam aliquam</mat-radio-button
-            >
+            <mat-radio-button value="5">Sed non tortor ut diam aliquam</mat-radio-button>
           </mat-radio-group>
           <div class="hgt_20"></div>
           <img src="../../../assets/images/vid_smpl.jpg" />
@@ -587,7 +452,7 @@
       </div>
     </div>
   </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 10">
+  <div class="crses_lft_mn qstn_sml" *ngIf="active_div == 10">
     <div class="crses_lft">
       <div class="crs_desc">
         <div class="crs_desc_hd">
@@ -603,27 +468,27 @@
             <mat-icon>close</mat-icon>
           </button>
         </div>
-        <div class="crs_desc_cnt">
+        <div class="qstn_nms">
           <div class="qstn_hds">Questions</div>
-          <div class="qstn_nms">
-            <ul>
-              <li class="wrng_qstnm">1</li>
-              <li class="act_qstnm">2</li>
-              <li class="wrng_qstnm">3</li>
-              <li class="act_qstnm">4</li>
-              <li class="act_qstnm">5</li>
-              <li class="act_qstnm">6</li>
-              <li>7</li>
-              <li>8</li>
-              <li>9</li>
-              <li>10</li>
-              <li>11</li>
-              <li>12</li>
-              <li>14</li>
-              <li>15</li>
-              <li>16</li>
-            </ul>
-          </div>
+          <ul>
+            <li class="wrng_qstnm">1</li>
+            <li class="act_qstnm">2</li>
+            <li class="wrng_qstnm">3</li>
+            <li class="act_qstnm">4</li>
+            <li class="act_qstnm">5</li>
+            <li class="act_qstnm">6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+            <li>11</li>
+            <li>12</li>
+            <li>14</li>
+            <li>15</li>
+            <li>16</li>
+          </ul>
+        </div>
+        <div class="crs_desc_cnt mcb_desc">
           <div class="hgt_20"></div>
           <div class="qstn_hds">
             Donec tincidunt urna at eros ultricies, id pellentesque mi
@@ -631,15 +496,10 @@
             <img src="../../../assets/images/vid_smpl.jpg" />
           </div>
           <mat-radio-group aria-label="Select an option">
-            <mat-radio-button value="1"
-              ><img src="../../../assets/images/vid_smpl.jpg" />
+            <mat-radio-button value="1"><img src="../../../assets/images/vid_smpl.jpg" />
             </mat-radio-button>
-            <mat-radio-button value="2"
-              ><img src="../../../assets/images/vid_smpl.jpg"
-            /></mat-radio-button>
-            <mat-radio-button value="3"
-              ><img src="../../../assets/images/vid_smpl.jpg"
-            /></mat-radio-button>
+            <mat-radio-button value="2"><img src="../../../assets/images/vid_smpl.jpg" /></mat-radio-button>
+            <mat-radio-button value="3"><img src="../../../assets/images/vid_smpl.jpg" /></mat-radio-button>
           </mat-radio-group>
           <div class="hgt_20"></div>
           <img src="../../../assets/images/vid_smpl.jpg" />
@@ -668,18 +528,9 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div
-          class="crs_desc_cnt ck_editor_view"
-          *ngIf="content['external_ref_content']"
-        >
-          <ckeditor
-            #editor
-            [disabled]="true"
-            [editor]="Editor"
-            [config]="{}"
-            (ready)="onReady($event)"
-            [data]="content['external_ref_content']"
-          ></ckeditor>
+        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['external_ref_content']">
+          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+            [data]="content['external_ref_content']"></ckeditor>
         </div>
       </div>
     </div>
@@ -700,18 +551,9 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div
-          class="crs_desc_cnt ck_editor_view"
-          *ngIf="content['related_topics']"
-        >
-          <ckeditor
-            #editor
-            [disabled]="true"
-            [editor]="Editor"
-            [config]="{}"
-            (ready)="onReady($event)"
-            [data]="content['related_topics']"
-          ></ckeditor>
+        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['related_topics']">
+          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+            [data]="content['related_topics']"></ckeditor>
         </div>
       </div>
     </div>
@@ -733,10 +575,18 @@
     <img src="../../../assets/images/vid_smpl.jpg" />
   </div>
   <div class="intr_vd_optns">
-    <span> <mat-icon>thumb_up_off_alt</mat-icon> Like </span>
-    <span> <mat-icon>share</mat-icon> Share </span>
-    <span> <mat-icon>favorite_border</mat-icon> Favorite </span>
-    <span> <mat-icon>bookmark_border</mat-icon> Add to Bookmark </span>
+    <span>
+      <mat-icon>thumb_up_off_alt</mat-icon> Like
+    </span>
+    <span>
+      <mat-icon>share</mat-icon> Share
+    </span>
+    <span>
+      <mat-icon>favorite_border</mat-icon> Favorite
+    </span>
+    <span>
+      <mat-icon>bookmark_border</mat-icon> Add to Bookmark
+    </span>
   </div>
   <div class="intr_vd_tml">
     <mat-accordion>
@@ -749,21 +599,15 @@
         </mat-expansion-panel-header>
         <div class="tm_ln_dv">
           <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt"
-            >Sed non tortor ut diam aliquam aliquam</span
-          >
+          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
         </div>
         <div class="tm_ln_dv">
           <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt"
-            >Sed non tortor ut diam aliquam aliquam</span
-          >
+          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
         </div>
         <div class="tm_ln_dv">
           <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt"
-            >Sed non tortor ut diam aliquam aliquam</span
-          >
+          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
         </div>
       </mat-expansion-panel>
       <mat-expansion-panel>
