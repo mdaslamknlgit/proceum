@@ -41,6 +41,7 @@ import { CreateContentComponent } from './content-management/create-content/crea
 import { AssetsLibraryComponent } from './assets-library/assets-library.component';
 import { ContentManagementComponent } from './content-management/content-management.component';
 import { MapingComponent } from './content-management/maping/maping.component';
+import { WhiteboardgalleryComponent } from './whiteboardgallery/whiteboardgallery.component';
 
 const routes: Routes = [
   {
@@ -127,6 +128,7 @@ const routes: Routes = [
       { path: 'manage-content', component: ContentManagementComponent },
       { path: 'link-content', component: MapingComponent },
       { path: 'create-content', component: CreateContentComponent },
+      { path: 'whiteboardgallery', component: WhiteboardgalleryComponent },
       { path: 'create-content/:id', component: CreateContentComponent },
     ],
   },
@@ -158,6 +160,7 @@ const routes: Routes = [
     AssetsLibraryComponent,
     ContentManagementComponent,
     MapingComponent,
+    WhiteboardgalleryComponent,
   ],
   imports: [
     MaterialModule,

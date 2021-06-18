@@ -16,7 +16,7 @@ import { EmailVerifiedComponent } from './frontend/email-verified/email-verified
 import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscribe-email.component';
 import { CurriculumComponent } from './frontend/student/curriculum/curriculum.component';
 import { StaticPagesComponent } from './frontend/static-pages/static-pages.component';
-import { ResetPasswordComponent } from './frontend/reset-password/reset-password.component';
+import { ResetPasswordComponent } from './frontend/reset-password/reset-password.component'; 
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
