@@ -33,16 +33,24 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public show_content_list = false;
   public buzz_words = false;
   public font_size = 16;
-  main_desc = '';
+  public main_desc = '';
+  public mcqs = [];
+  public active_mcq_index = 0;
+  public short_answers = [];
+  public active_short_answer_index = 0;
+  public cases = [];
+  public active_case_index = 0;
+  public highyields = [];
+  public bucket_url = '';
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: CommonService,
     private sanitizer: DomSanitizer
   ) {
-    //this.router.routeReuseStrategy.shouldReuseRoute = function () {
-    //return false;
-    //};
+    this.router.routeReuseStrategy.shouldReuseRoute = function () {
+      return false;
+    };
   }
 
   ngOnInit(): void {
@@ -116,11 +124,15 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let data = res['data'];
-
+        this.bucket_url = data['bucket_url'];
         this.curriculum = data['curriculum'];
         this.breadcome = res['breadcome'];
         this.content_list = data['content_list'];
         this.content = data['content'];
+        this.highyields = data['highyields'];
+        this.mcqs = data['mcqs'];
+        this.short_answers = data['short_answers'];
+        this.cases = data['cases'];
         this.main_content = this.sanitizer.bypassSecurityTrustHtml(
           this.content['main_content']
         );
@@ -138,8 +150,45 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   showDiv(div) {
     this.active_div = div;
   }
+  nextQuestion() {
+    if (this.active_div == 1) {
+      this.active_mcq_index = this.active_mcq_index + 1;
+    }
+    if (this.active_div == 7) {
+      this.active_case_index = this.active_case_index + 1;
+    }
+    if (this.active_div == 10) {
+      this.active_short_answer_index = this.active_short_answer_index + 1;
+    }
+  }
+  prevQuestion() {
+    if (this.active_div == 1) {
+      this.active_mcq_index = this.active_mcq_index - 1;
+    }
+    if (this.active_div == 7) {
+      this.active_case_index = this.active_case_index - 1;
+    }
+    if (this.active_div == 10) {
+      this.active_short_answer_index = this.active_short_answer_index - 1;
+    }
+  }
+  selectOption(value) {
+    if (this.active_div == 1) {
+      this.mcqs[this.active_mcq_index]['selected_option'] = value;
+    }
+    if (this.active_div == 7) {
+      this.cases[this.active_case_index]['selected_option'] = value;
+    }
+    if (this.active_div == 10) {
+      this.short_answers[this.active_short_answer_index]['selected_option'] =
+        value;
+    }
+  }
   viewContent(content_id) {
     this.content = [];
+    this.mcqs = [];
+    this.short_answers = [];
+    this.cases = [];
     this.show_content_list = !this.show_content_list;
     this.router.navigateByUrl(
       '/student/curriculum/details/' +
