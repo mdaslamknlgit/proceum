@@ -125,7 +125,7 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="!content['main_content']">
+        <div class="crs_desc_cnt ck_editor_view no_desc_fnd" *ngIf="!content['main_content']">
           No Description Found
         </div>
         <div class="crs_desc_cnt ck_editor_view" *ngIf="content['main_content']">
@@ -137,7 +137,12 @@
   </div>
   <div class="crses_lft_mn qstn_sml" *ngIf="active_div == 1">
     <div class="crses_lft">
-      <div class="crs_desc" *ngIf="mcqs.length == 0">No Mcqs Found</div>
+      <div class="crs_desc_hd">
+        <span class="desc_in_hd">
+          <mat-icon>quiz</mat-icon>MCQ's
+        </span>
+      </div>
+      <div class="crs_desc no_desc_fnd" *ngIf="mcqs.length == 0">No MCQ's Found</div>
       <div class="crs_desc" *ngIf="mcqs.length > 0">
         <div class="crs_desc_hd">
           <span class="desc_in_hd">
@@ -233,7 +238,7 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div *ngIf="!content['learning_notes_content']">No Notes Found</div>
+        <div *ngIf="!content['learning_notes_content']" class="no_desc_fnd">No Notes Found</div>
         <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_notes_content']">
           <ckeditor #editor2 name="learning_notes_content" [disabled]="true" [editor]="Editor2" [config]="{}"
             (ready)="onReady($event)" [data]="content['learning_notes_content']"></ckeditor>
@@ -257,7 +262,7 @@
             <mat-icon>close</mat-icon>
           </button> -->
         </div>
-        <div *ngIf="!content['learning_obj_content']">No Notes Found</div>
+        <div *ngIf="!content['learning_obj_content']" class="no_desc_fnd">No Notes Found</div>
         <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_obj_content']">
           <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
             [data]="content['learning_obj_content']"></ckeditor>
@@ -358,7 +363,7 @@
         </div> -->
 
         <div class="intr_vd_tml">
-          <div *ngIf="highyields.length == 0">No Notes Found</div>
+          <div *ngIf="highyields.length == 0" class="no_desc_fnd">No Notes Found</div>
           <mat-accordion *ngIf="highyields.length > 0">
             <mat-expansion-panel *ngFor="let highyield of highyields">
               <mat-expansion-panel-header>
@@ -480,6 +485,7 @@
         </div>
         <div class="qstn_nms">
           <div class="qstn_hds">Questions</div>
+          <div class="qstnof_cnt">1 of 20</div>
           <ul>
             <li *ngFor="let question of short_answers; let i = index"
               class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
