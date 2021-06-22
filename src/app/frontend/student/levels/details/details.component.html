@@ -612,29 +612,34 @@
       Introduction video
     </div>
     <span class="spacer"></span>
-
   </div>
   <div class="intr_vd_sc">
     <img src="../../../assets/images/vid_smpl.jpg" />
   </div>
   <div class="intr_vd_optns">
     <span>
-      <!-- <mat-icon>thumb_up_alt</mat-icon> -->
-      <mat-icon>thumb_up_off_alt</mat-icon>
+      <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] == 1 ? true : false">thumb_up_alt
+      </mat-icon>
+      <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] != 1 ? true : false">thumb_up_off_alt
+      </mat-icon>
     </span>
     <span>
       <mat-icon>share</mat-icon>
     </span>
     <span>
-      <mat-icon>favorite_border</mat-icon>
-      <!-- <mat-icon>favorite</mat-icon> -->
+      <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] != 1 ? true : false">favorite_border
+      </mat-icon>
+      <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] == 1 ? true : false">favorite</mat-icon>
     </span>
     <span>
       <mat-icon>playlist_add</mat-icon>
     </span>
     <span>
-      <mat-icon>bookmark_border </mat-icon>
-      <!-- <mat-icon>bookmark </mat-icon> -->
+      <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false">
+        bookmark_border
+      </mat-icon>
+      <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] == 1 ? true : false">bookmark
+      </mat-icon>
     </span>
   </div>
   <div class="intr_vd_tml">
