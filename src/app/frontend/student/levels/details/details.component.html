@@ -87,8 +87,8 @@
     {{ content["title"] }}
     <span class="spacer"></span>
     <button *ngIf="content_list.length > 0" matTooltip="More Content" (click)="show_content_list = !show_content_list"
-      mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs">
-      <mat-icon>menu</mat-icon>
+      mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs no_bxsdw">
+      <mat-icon>menu_open</mat-icon>
     </button>
   </div>
   <!-- <div class="crs_lft_hd">
@@ -611,12 +611,43 @@
       <mat-icon>videocam</mat-icon>
       Introduction video
     </div>
-    <span class="spacer"></span>
+    <div class="spacer"></div>
+    <div class="vd_wthshr">
+      <button mat-fab [matMenuTriggerFor]="menu" aria-label="" class="no_bxsdw">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" class="vd_wthshr_mnu">
+        <button mat-fab class="no_bxsdw my_02">
+          <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] == 1 ? true : false">thumb_up_alt
+          </mat-icon>
+          <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] != 1 ? true : false">thumb_up_off_alt
+          </mat-icon>
+        </button>
+        <button mat-fab class="no_bxsdw my_02">
+          <mat-icon>share</mat-icon>
+        </button>
+        <button mat-fab class="no_bxsdw my_02">
+          <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] != 1 ? true : false">favorite_border
+          </mat-icon>
+          <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] == 1 ? true : false">favorite</mat-icon>
+        </button>
+        <button mat-fab class="no_bxsdw my_02">
+          <mat-icon>playlist_add</mat-icon>
+        </button>
+        <button mat-fab class="no_bxsdw my_02">
+          <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false">
+            bookmark_border
+          </mat-icon>
+          <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] == 1 ? true : false">bookmark
+          </mat-icon>
+        </button>
+      </mat-menu>
+    </div>
   </div>
   <div class="intr_vd_sc">
     <img src="../../../assets/images/vid_smpl.jpg" />
   </div>
-  <div class="intr_vd_optns">
+  <div class="intr_vd_optns d_none">
     <span>
       <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] == 1 ? true : false">thumb_up_alt
       </mat-icon>

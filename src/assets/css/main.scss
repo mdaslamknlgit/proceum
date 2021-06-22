@@ -228,7 +228,6 @@ $mat-warn: (
     ),
 );
 $theme-warn: mat-palette($mat-warn, main, lighter, darker);
-
 $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
 $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 
@@ -1644,6 +1643,9 @@ li.hs_sbmnu.active:before {
 .mx_1 {
   margin: 0 1em;
 }
+button.my_02 {
+  margin: 0.2em 0;
+}
 .mlty_fl_chld {
   display: none;
 }
@@ -2493,9 +2495,17 @@ div.cust_mdl_par div.mn_dshbrd {
     display: flex;
     align-items: center;
   }
-  .intr_vd_hd mat-icon {
-    color: #41ab3c;
-    margin-right: 10px;
+  .intr_vd_hd {
+    mat-icon {
+      color: #41ab3c;
+      margin-right: 10px;
+    }
+    .vd_wthshr{
+      mat-icon {
+        color: #fff;
+        margin-right: 0px;
+      }
+    }
   }
   .intr_vd_optns {
     display: flex;
@@ -3115,6 +3125,27 @@ div.cust_mdl_par div.mn_dshbrd {
       }
       .oldr_cmnts_dvhd{
         color: #41AB3C;
+      }
+    }
+  }
+}
+.mat-menu-panel.vd_wthshr_mnu{
+  background: transparent;
+  box-shadow: none;
+  width: 56px;
+  min-width: 56px;
+  .mat-menu-content{
+    flex-direction: column;
+    display: flex;
+    button{  
+      animation: btnhvrshw 0.2s;   
+      @keyframes btnhvrshw {
+        0%{ 
+          transform: scale(0.8);
+        }
+        100%{
+        transform: scale(1);
+        }
       }
     }
   }
