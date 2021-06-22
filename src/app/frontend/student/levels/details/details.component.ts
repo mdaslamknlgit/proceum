@@ -9,6 +9,7 @@ import {
 } from '@angular/platform-browser';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -42,11 +43,13 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public active_case_index = 0;
   public highyields = [];
   public bucket_url = '';
+  public statistics = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: CommonService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private toster: ToastrService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
@@ -124,6 +127,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let data = res['data'];
+        this.statistics = data['statistics'];
         this.bucket_url = data['bucket_url'];
         this.curriculum = data['curriculum'];
         this.breadcome = res['breadcome'];
@@ -149,6 +153,23 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
   showDiv(div) {
     this.active_div = div;
+  }
+  manageStatistics(type) {
+    let param = {
+      url: 'manage-statistics',
+      type: type,
+      source_id: this.content_id,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.statistics = res['data']['statistics'];
+        this.toster.success(res['message'], 'Info', { closeButton: true });
+      } else {
+        this.toster.info('Something went wrong. Please try again.', 'Error', {
+          closeButton: true,
+        });
+      }
+    });
   }
   nextQuestion() {
     if (this.active_div == 1) {
