@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RoutesRecognized,
+} from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { filter, pairwise } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
@@ -19,10 +27,14 @@ export class Level_listComponent implements OnInit {
   public itemsPerPage = 30;
   public offset = 0;
   public total_items = 0;
+  public tab = 'all';
+  public previousUrl = '';
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService,
-    private route: Router
+    private route: Router,
+    private toster: ToastrService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +59,7 @@ export class Level_listComponent implements OnInit {
       search: this.search,
       offset: this.offset,
       limit: this.itemsPerPage,
+      tab: this.tab,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -64,14 +77,25 @@ export class Level_listComponent implements OnInit {
         }
       } else {
         this.levels = [];
-        let url =
-          '/student/curriculum/details/' +
-          this.curriculum_id +
-          '/' +
-          this.level_id +
-          '/' +
-          this.level_parent_id;
-        this.route.navigateByUrl(url);
+        this.total_items = 0;
+        if (res['check_data'] == 0) {
+          if (res['check_content'] == 0) {
+            this.toster.error('No content Found', 'Error', {
+              closeButton: true,
+            });
+            this.location.back();
+            //this.route.navigateByUrl(this.previousUrl);
+          } else {
+            let url =
+              '/student/curriculum/details/' +
+              this.curriculum_id +
+              '/' +
+              this.level_id +
+              '/' +
+              this.level_parent_id;
+            this.route.navigateByUrl(url);
+          }
+        }
       }
     });
   }
@@ -88,6 +112,7 @@ export class Level_listComponent implements OnInit {
       search: this.search,
       offset: this.offset,
       limit: this.itemsPerPage,
+      tab: this.tab,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -98,6 +123,43 @@ export class Level_listComponent implements OnInit {
             this.levels.push(element);
           });
         }
+      }
+    });
+  }
+  switchTab(event) {
+    if (event.index == 0) {
+      this.tab = 'all';
+      this.getLevels();
+    }
+    if (event.index == 1) {
+      this.tab = 'bookmark';
+      this.getLevels();
+    }
+    if (event.index == 2) {
+      this.tab = 'fav';
+      this.getLevels();
+    }
+  }
+  manageStatistics(type, id, i) {
+    let param = {
+      url: 'manage-level-statistics',
+      type: type,
+      source_id: id,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        if (type == 'fav') {
+          this.levels[i]['is_fav'] = this.levels[i]['is_fav'] == 1 ? 0 : 1;
+        }
+        if (type == 'bookmark') {
+          this.levels[i]['is_bookmark'] =
+            this.levels[i]['is_bookmark'] == 1 ? 0 : 1;
+        }
+        this.toster.success(res['message'], 'Info', { closeButton: true });
+      } else {
+        this.toster.info('Something went wrong. Please try again.', 'Error', {
+          closeButton: true,
+        });
       }
     });
   }

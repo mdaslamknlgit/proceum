@@ -68,6 +68,9 @@ export class CreateContentComponent implements OnInit {
   public totalSize: 0;
   public page = 0;
   public page_size_options = environment.page_size_options;
+  public older_coments = [];
+  public comments_content = '';
+  public show_coments = false;
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -105,6 +108,7 @@ export class CreateContentComponent implements OnInit {
       return data;
     };
   }
+  public pgae_title = 'Create Content';
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -113,9 +117,17 @@ export class CreateContentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    let comments = {
+      name: 'Reviewer1',
+      comment:
+        '01. Fusce tincidunt dolor vel arcu vulputate, sed cursus metus pulvinar.02. Mauris vitae mi auctor, porta libero non, venenatis tellus. 03.Quisque ac nunc et ipsum hendrerit porta. 04. Pellentesque et ex egetaugue convallis faucibus. 05. Morbi condimentum tortor sit amet justolaoreet, vitae scelerisque ipsum vestibulum.',
+      date_time: '24-05-2021 13:10:10',
+    };
+    this.older_coments.push(comments);
     this.activatedRoute.params.subscribe((param) => {
       this.content_id = param.id;
       if (this.content_id != undefined) {
+        this.pgae_title = 'Edit Content';
         this.getContent();
       }
     });
@@ -281,6 +293,7 @@ export class CreateContentComponent implements OnInit {
     this.question_tab = 0;
     this.short_answer_tab = 0;
     this.case_tab = 0;
+    this.search_question = '';
     this.all_or_selected = 'all';
     if (tab_index == 3) {
       this.active_tab_type = 'mcq';
@@ -319,6 +332,7 @@ export class CreateContentComponent implements OnInit {
 
   questionsTab(tab) {
     let tab_index = tab.index;
+    this.search_question = '';
     //this.question_tab = tab_index;
     if (tab_index == 0) {
       this.all_or_selected = 'all';
@@ -499,5 +513,8 @@ export class CreateContentComponent implements OnInit {
       //   this.images = [];
       //   this.images_files = [];
     });
+  }
+  showComments() {
+    this.show_coments = !this.show_coments;
   }
 }
