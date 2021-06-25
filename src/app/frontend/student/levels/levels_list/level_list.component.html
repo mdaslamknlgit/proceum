@@ -33,10 +33,14 @@
       <mat-icon matSuffix color="accent" (click)="doFilter()">search</mat-icon>
     </mat-form-field>
   </div>
-  <mat-tab-group>
+  <mat-tab-group
+    (selectedTabChange)="switchTab($event)"
+    animationDuration="0.15s"
+  >
     <mat-tab label="All">
-      <div class="crs_tbbd_mn">
-        <div class="crs_tbbd_dv" *ngFor="let level of levels">
+      <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
+      <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
+        <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
           <span
             class="ct_hd"
             routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
@@ -59,15 +63,84 @@
           </span>
           <span class="ct_cnt">100/628</span>
           <span class="ct_fav">
-            <mat-icon>favorite_border</mat-icon>
+            <mat-icon
+              (click)="manageStatistics('fav', level['id'], i)"
+              *ngIf="level['is_fav'] != 1 ? true : false"
+              >favorite_border</mat-icon
+            >
+            <mat-icon
+              (click)="manageStatistics('fav', level['id'], i)"
+              *ngIf="level['is_fav'] == 1 ? true : false"
+              >favorite</mat-icon
+            >
           </span>
           <span class="ct_bm">
-            <mat-icon>bookmark_border</mat-icon>
+            <mat-icon
+              (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] != 1 ? true : false"
+              >bookmark_border
+            </mat-icon>
+            <mat-icon
+              (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] == 1 ? true : false"
+              >bookmark
+            </mat-icon>
           </span>
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Most Popular">
+    <mat-tab label="Bookmark">
+      <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
+      <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
+        <div class="crs_tbbd_dv" *ngFor="let level of levels">
+          <span
+            class="ct_hd"
+            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+              level['level_id']
+            }}/{{ level['id'] }}"
+            >{{ level["name"] }} - (Code : {{ level["code"] }})</span
+          >
+          <span class="spacer"></span>
+          <span class="ct_rtn">
+            <mat-icon>star</mat-icon>
+            <mat-icon>star</mat-icon>
+            <mat-icon>star</mat-icon>
+            <mat-icon>star</mat-icon>
+            <mat-icon>star</mat-icon>
+          </span>
+          <span class="ct_vw">Videos watched</span>
+          <span class="ct_br">
+            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+          </span>
+          <span class="ct_cnt">100/628</span>
+          <span class="ct_fav">
+            <mat-icon
+              (click)="manageStatistics('fav', level['id'], i)"
+              *ngIf="level['is_fav'] != 1 ? true : false"
+              >favorite_border</mat-icon
+            >
+            <mat-icon
+              (click)="manageStatistics('fav', level['id'], i)"
+              *ngIf="level['is_fav'] == 1 ? true : false"
+              >favorite</mat-icon
+            >
+          </span>
+          <span class="ct_bm">
+            <mat-icon
+              (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] != 1 ? true : false"
+              >bookmark_border
+            </mat-icon>
+            <mat-icon
+              (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] == 1 ? true : false"
+              >bookmark
+            </mat-icon>
+          </span>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Most Rated" *ngIf="false">
       <div class="crs_tbbd_mn">
         <div class="crs_tbbd_dv" *ngFor="let level of levels">
           <span
@@ -91,48 +164,35 @@
           </span>
           <span class="ct_cnt">100/628</span>
           <span class="ct_fav">
-            <mat-icon>favorite_border</mat-icon>
+            <mat-icon
+              (click)="manageStatistics('fav', level['id'], i)"
+              *ngIf="level['is_fav'] != 1 ? true : false"
+              >favorite_border</mat-icon
+            >
+            <mat-icon
+              (click)="manageStatistics('fav', level['id'], i)"
+              *ngIf="level['is_fav'] == 1 ? true : false"
+              >favorite</mat-icon
+            >
           </span>
           <span class="ct_bm">
-            <mat-icon>bookmark_border</mat-icon>
-          </span>
-        </div>
-      </div>
-    </mat-tab>
-    <mat-tab label="Most Rated">
-      <div class="crs_tbbd_mn">
-        <div class="crs_tbbd_dv" *ngFor="let level of levels">
-          <span
-            class="ct_hd"
-            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
-              level['level_id']
-            }}/{{ level['id'] }}"
-            >{{ level["name"] }} - (Code : {{ level["code"] }})</span
-          >
-          <span class="spacer"></span>
-          <span class="ct_rtn">
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-          </span>
-          <span class="ct_vw">Videos watched</span>
-          <span class="ct_br">
-            <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
-          </span>
-          <span class="ct_cnt">100/628</span>
-          <span class="ct_fav">
-            <mat-icon>favorite_border</mat-icon>
-          </span>
-          <span class="ct_bm">
-            <mat-icon>bookmark_border</mat-icon>
+            <mat-icon
+              (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] != 1 ? true : false"
+              >bookmark_border
+            </mat-icon>
+            <mat-icon
+              (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] == 1 ? true : false"
+              >bookmark
+            </mat-icon>
           </span>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="Favorite">
-      <div class="crs_tbbd_mn">
+      <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
+      <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div class="crs_tbbd_dv" *ngFor="let level of levels">
           <span
             class="ct_hd"
@@ -155,10 +215,28 @@
           </span>
           <span class="ct_cnt">100/628</span>
           <span class="ct_fav">
-            <mat-icon>favorite_border</mat-icon>
+            <mat-icon
+              (click)="manageStatistics('fav', level['id'], i)"
+              *ngIf="level['is_fav'] != 1 ? true : false"
+              >favorite_border</mat-icon
+            >
+            <mat-icon
+              (click)="manageStatistics('fav', level['id'], i)"
+              *ngIf="level['is_fav'] == 1 ? true : false"
+              >favorite</mat-icon
+            >
           </span>
           <span class="ct_bm">
-            <mat-icon>bookmark_border</mat-icon>
+            <mat-icon
+              (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] != 1 ? true : false"
+              >bookmark_border
+            </mat-icon>
+            <mat-icon
+              (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] == 1 ? true : false"
+              >bookmark
+            </mat-icon>
           </span>
         </div>
       </div>

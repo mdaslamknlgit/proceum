@@ -59,6 +59,8 @@ export class ContentManagementComponent implements OnInit {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['content_list']);
         this.totalSize = res['total_records'];
+      } else {
+        this.dataSource = new MatTableDataSource([]);
       }
     });
   }

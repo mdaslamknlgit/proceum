@@ -73,6 +73,7 @@ export class MapingComponent implements OnInit {
         this.totalSize = res['total_records'];
         this.stepsDataSource.paginator = this.paginator;
         this.stepsDataSource.sort = this.sort;
+        this.selected_level = [];
         this.level_options = [];
         this.level_options[1] = data['level_1'];
       }
@@ -98,6 +99,7 @@ export class MapingComponent implements OnInit {
             this.stepsDisplayedColumns.push(label['display_label']);
           });
           this.stepsDisplayedColumns.push('actions');
+          this.selected_level = [];
           this.level_options = [];
           this.level_options[1] = data['level_1'];
         }
@@ -122,11 +124,13 @@ export class MapingComponent implements OnInit {
       url: 'get-levels-by-level',
       step_id: this.selected_level[level_id],
     };
-    console.log(this.selected_level);
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let data = res['data'];
         this.level_options[level_id + 1] = data['steps'];
+        this.level_options.forEach((opt, index) => {
+          if (index > level_id + 1) this.level_options[index] = [];
+        });
       }
     });
   }
@@ -163,6 +167,8 @@ export class MapingComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']['content_list']);
         this.dataSource.paginator = this.content_paginator;
         this.content_totalSize = res['total_records'];
+      } else {
+        this.dataSource = new MatTableDataSource([]);
       }
     });
   }
@@ -196,6 +202,8 @@ export class MapingComponent implements OnInit {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['content_list']);
         this.content_totalSize = res['total_records'];
+      } else {
+        this.dataSource = new MatTableDataSource([]);
       }
     });
   }
