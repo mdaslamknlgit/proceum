@@ -31,6 +31,7 @@ export class CreateContentComponent implements OnInit {
   displayedColumns: string[] = ['s_no', 'question', 'action'];
   all_questions = new MatTableDataSource();
   selected_questions = ELEMENT_DATA; // new MatTableDataSource();
+  public is_submit = false;
   public active_tab = 'images';
   public selected_mcqs = [];
   public selected_cases = [];
@@ -404,7 +405,7 @@ export class CreateContentComponent implements OnInit {
         );
         this.totalSize = res['total_records'];
       } else {
-        this.toster.info(res['message'], 'Error');
+        //this.toster.info(res['message'], 'Error');
         this.all_questions = new MatTableDataSource([]);
       }
     });
@@ -437,7 +438,7 @@ export class CreateContentComponent implements OnInit {
         );
         this.totalSize = res['total_records'];
       } else {
-        this.toster.info(res['message'], 'Error');
+        //this.toster.info(res['message'], 'Error');
         this.all_questions = new MatTableDataSource([]);
       }
     });
@@ -479,6 +480,7 @@ export class CreateContentComponent implements OnInit {
     }
   }
   createContent(is_draft) {
+    this.is_submit = true;
     let form_data = {
       title: this.title,
       main_videos: this.videos,

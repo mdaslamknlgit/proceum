@@ -53,7 +53,6 @@ export class AssetsLibraryComponent implements OnInit {
       this.current_path = this.data['active_tab'];
 
       this.current_path_list.push(this.data['active_tab']);
-      console.log(this.current_path_list, this.current_path);
       this.openFolder(this.current_path);
     }
   }
