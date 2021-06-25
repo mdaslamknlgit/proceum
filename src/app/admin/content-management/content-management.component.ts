@@ -86,10 +86,15 @@ export class ContentManagementComponent implements OnInit {
   }
   sortData(event) {
     this.sort_by = event;
-    console.log(this.sort_by);
+    this.page = 0;
+    this.paginator.pageIndex = 0;
+    this.paginator.firstPage();
     if (this.sort_by.direction != '') this.getContentList();
   }
   public doFilter = () => {
+    this.page = 0;
+    this.paginator.pageIndex = 0;
+    this.paginator.firstPage();
     this.getContentList();
   };
   deleteContent(id, status) {

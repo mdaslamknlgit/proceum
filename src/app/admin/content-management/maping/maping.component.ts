@@ -156,7 +156,7 @@ export class MapingComponent implements OnInit {
   }
   getContentList() {
     let param = {
-      url: 'content-list',
+      url: 'link-content-list',
       offset: this.content_page,
       limit: this.content_pageSize,
       order_by: this.content_sort_by,
@@ -176,7 +176,7 @@ export class MapingComponent implements OnInit {
     this.content_page = event.pageSize * event.pageIndex;
     this.content_pageSize = event.pageSize;
     let param = {
-      url: 'content-list',
+      url: 'link-content-list',
       offset: this.content_page,
       limit: this.content_pageSize,
       order_by: this.content_sort_by,
@@ -192,7 +192,7 @@ export class MapingComponent implements OnInit {
   }
   doFilter() {
     let param = {
-      url: 'content-list',
+      url: 'link-content-list',
       offset: this.content_page,
       limit: this.content_pageSize,
       order_by: this.content_sort_by,
