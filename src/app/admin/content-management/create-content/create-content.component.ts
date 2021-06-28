@@ -110,6 +110,7 @@ export class CreateContentComponent implements OnInit {
     };
   }
   public pgae_title = 'Create Content';
+  public show_tabs = false;
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -134,7 +135,9 @@ export class CreateContentComponent implements OnInit {
     });
     this.getChildData();
   }
-
+  ngAfterViewInit(){
+      this.show_tabs = true;
+  }
   getContent() {
     let data = { url: 'create-content/' + this.content_id };
     this.http.post(data).subscribe((res) => {
