@@ -66,21 +66,24 @@
           >highlight
         </mat-icon>
       </li>
-      <li *ngIf="mcqs.length > 0" (click)="showDiv(1)">
+      <li *ngIf="mcqs != undefined && mcqs.length > 0" (click)="showDiv(1)">
         <mat-icon
           class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}"
           matTooltip="Mcqs"
           >quiz</mat-icon
         >
       </li>
-      <li *ngIf="short_answers.length > 0" (click)="showDiv(10)">
+      <li
+        *ngIf="short_answers != undefined && short_answers.length > 0"
+        (click)="showDiv(10)"
+      >
         <mat-icon
           class="ism_icn {{ active_div == 10 ? 'ism_actv_btn' : '' }}"
           matTooltip="Short Questions"
           >help_outline
         </mat-icon>
       </li>
-      <li *ngIf="short_answers.length > 0" (click)="showDiv(7)">
+      <li *ngIf="cases != undefined && cases.length > 0" (click)="showDiv(7)">
         <mat-icon
           class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}"
           matTooltip="Cases"
@@ -120,7 +123,7 @@
   </div>
 </div>
 <div class="mn_dshbrd crs_dshbrd">
-  <div class="brd_crm">
+  <div class="brd_crm" *ngIf="curriculum">
     <span routerLink="/student/curriculums">Curriculums / </span>
     <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
       curriculum["curriculumn_name"]
@@ -139,7 +142,7 @@
       ></span
     >
   </div>
-  <div class="pg_ttl">
+  <div class="pg_ttl" *ngIf="content != undefined">
     {{ content["title"] }}
     <span class="spacer"></span>
     <button

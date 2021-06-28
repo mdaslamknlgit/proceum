@@ -132,7 +132,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.curriculum = data['curriculum'];
         this.breadcome = res['breadcome'];
         this.content_list = data['content_list'];
-        this.content = data['content'];
+        this.content = data['content'] ? data['content'] : [];
         this.highyields = data['highyields'];
         this.mcqs = data['mcqs'];
         this.short_answers = data['short_answers'];
