@@ -43,6 +43,8 @@ import { ContentManagementComponent } from './content-management/content-managem
 import { MapingComponent } from './content-management/maping/maping.component';
 import { WhiteboardgalleryComponent } from './whiteboardgallery/whiteboardgallery.component';
 import { CreatePartnerComponent } from './create-partner/create-partner.component';
+import { CreateNewQuestionComponent } from './question-management/create-new-question/create-new-question.component';
+import { QuestionsManagementComponent } from './question-management/questions-management/questions-management.component';
 
 const routes: Routes = [
   {
@@ -130,6 +132,8 @@ const routes: Routes = [
       { path: 'link-content', component: MapingComponent },
       { path: 'create-content', component: CreateContentComponent },
       { path: 'whiteboardgallery', component: WhiteboardgalleryComponent },
+      { path: 'createnewquestion', component: CreateNewQuestionComponent },
+      { path: 'questionmanagement', component: QuestionsManagementComponent },
       { path: 'create-partner', component: CreatePartnerComponent },
       { path: 'create-content/:id', component: CreateContentComponent },
     ],
@@ -164,6 +168,8 @@ const routes: Routes = [
     MapingComponent,
     WhiteboardgalleryComponent,
     CreatePartnerComponent,
+    CreateNewQuestionComponent,
+    QuestionsManagementComponent,
   ],
   imports: [
     MaterialModule,
