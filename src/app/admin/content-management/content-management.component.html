@@ -8,7 +8,7 @@
       <mat-icon class="curserToPointer" (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button mat-raised-button color="accent" class="float_right" routerLink="/admin/create-content" type="button">
+    <button mat-raised-button color="accent" class="float_right" (click)="navigateTo('create-content')" type="button">
       Create Content
     </button>
     <div class="rsp_tbl">
@@ -48,7 +48,7 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>Acions</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button matTooltip="Click to edit" routerLink="/admin/create-content/{{ element.id }}">
+            <button mat-icon-button matTooltip="Click to edit" (click)="navigateTo('create-content/'+element.id)">
               <mat-icon>edit</mat-icon>
             </button>
             <button matTooltip="click here to {{

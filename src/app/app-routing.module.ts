@@ -57,6 +57,15 @@ const routes: Routes = [
     },
   },
   {
+    path: 'reviewer',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+    canActivate: [AuthGuard],
+    data: {
+      role: '3,4,5,6,7',
+    },
+  },
+  {
     path: 'student',
     loadChildren: () =>
       import('./frontend/frontend.module').then((m) => m.FrontendModule),

@@ -43,6 +43,7 @@ import { ContentManagementComponent } from './content-management/content-managem
 import { MapingComponent } from './content-management/maping/maping.component';
 import { WhiteboardgalleryComponent } from './whiteboardgallery/whiteboardgallery.component';
 import { CreatePartnerComponent } from './create-partner/create-partner.component';
+import { ReviewDashboardComponent } from './module_review/review-dashboard/review-dashboard.component';
 
 const routes: Routes = [
   {
@@ -164,6 +165,7 @@ const routes: Routes = [
     MapingComponent,
     WhiteboardgalleryComponent,
     CreatePartnerComponent,
+    ReviewDashboardComponent,
   ],
   imports: [
     MaterialModule,

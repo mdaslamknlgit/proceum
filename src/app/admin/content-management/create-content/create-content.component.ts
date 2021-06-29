@@ -72,6 +72,8 @@ export class CreateContentComponent implements OnInit {
   public older_coments = [];
   public comments_content = '';
   public show_coments = false;
+  public reviewer_role = '';
+  public reviewers = [];
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -134,6 +136,15 @@ export class CreateContentComponent implements OnInit {
       }
     });
     this.getChildData();
+    this.getReviewers();
+  }
+  getReviewers(){
+    let data = { url: 'get-reviewers' };
+    this.http.post(data).subscribe((res) => {
+        if (res['error'] == false) {
+            this.reviewers = res['data']['reviewers'];
+        }
+    })
   }
   ngAfterViewInit(){
       this.show_tabs = true;
@@ -448,8 +459,6 @@ export class CreateContentComponent implements OnInit {
   }
   selectQuestion(event, id) {
     id = '' + id;
-    console.log(event);
-    console.log(id);
     if (this.active_tab_type == 'mcq') {
       if (event['checked'] == true) {
         this.selected_mcqs.push(id);
@@ -484,6 +493,9 @@ export class CreateContentComponent implements OnInit {
   }
   createContent(is_draft) {
     this.is_submit = true;
+    if(this.title == ''){
+        return false;
+    }
     let form_data = {
       title: this.title,
       main_videos: this.videos,
@@ -500,6 +512,7 @@ export class CreateContentComponent implements OnInit {
       selected_cases: this.selected_cases,
       is_draft: is_draft,
       content_id: this.content_id,
+      reviewer_role: this.reviewer_role
     };
     let params = { url: 'create-content', form_data: form_data };
 
@@ -522,4 +535,14 @@ export class CreateContentComponent implements OnInit {
   showComments() {
     this.show_coments = !this.show_coments;
   }
+  navigateTo(url){
+    let user = this.http.getUser();
+    if(user['role']== '1'){
+        url = "/admin/"+url;
+    }
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/reviewer/"+url;
+  }
+    this.router.navigateByUrl(url);
+}
 }

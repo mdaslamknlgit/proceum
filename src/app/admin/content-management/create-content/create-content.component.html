@@ -1026,12 +1026,6 @@
                                 " matInput placeholder="Search" />
 
                               <mat-icon matSuffix (click)="searchQuestions()">search</mat-icon>
-
-                              <mat-icon matSuffix>search</mat-icon>
-                              ======= " matInput placeholder="Search" />
-                              <mat-icon matSuffix (click)="searchQuestions()">search</mat-icon>
-                              >>>>>>> de0af9b8b8fca7e1ae2a740f72fef7ed636e17a7
-                              >>>>>>> 40e4796ba5624641d2f4c1e2c443a4e26e4fe4d7
                             </mat-form-field>
                           </div>
 
@@ -1442,13 +1436,26 @@
             </div>
           </div>
         </div>
-
+        <span class="err_tltp_par" *ngIf="reviewers.length>0">
+            <mat-form-field appearance="outline">
+              <mat-select placeholder="Select Reviewer" #reviewer_role_name="ngModel" name="reviewer_role_name" [(ngModel)]="reviewer_role"
+                required>
+                <mat-option *ngFor="let role of reviewers" [value]="role['role_id']">{{
+                    role['title'] }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <span class="prc_tltp" *ngIf="
+                (content_create_form.submitted || reviewer_role_name.touched) &&
+                reviewer_role_name.invalid
+              ">Please Select Reviewer</span>
+          </span>
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
           <button class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
             Save as draft
           </button>
-          <button type="button" routerLink="/admin/manage-content" mat-raised-button color="warn" class="mx_1">
+          <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="mx_1">
             Cancel
           </button>
           <button mat-raised-button color="accent">Submit</button>
