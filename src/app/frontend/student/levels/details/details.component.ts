@@ -27,7 +27,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public content_id = 0;
   public content_list = [];
   public content = [];
-  public active_div = 0;
+  public active_div = 3;
   public main_content: any = [];
   public Editor = Editor;
   public Editor2 = Editor;

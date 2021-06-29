@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TopbarComponent } from './frontend/topbar/topbar.component';
 import { FooterComponent } from './frontend/footer/footer.component';
 import { SidebarComponent } from './admin/sidebar/sidebar.component';
+import { SidebarReviewerComponent } from './admin/sidebar-reviewer/sidebar-reviewer.component';
 import { AdminFooterComponent } from './admin/admin-footer/admin-footer.component';
 import { AdminTopbarComponent } from './admin/admin-topbar/admin-topbar.component';
 import { MaterialModule } from '../material/material.module';
@@ -18,6 +19,7 @@ import { StudentTopbarComponent } from './frontend/student-topbar/student-topbar
     TopbarComponent,
     FooterComponent,
     SidebarComponent,
+    SidebarReviewerComponent,
     AdminFooterComponent,
     AdminTopbarComponent,
     WhiteBoardComponent,
@@ -35,6 +37,7 @@ import { StudentTopbarComponent } from './frontend/student-topbar/student-topbar
     TopbarComponent,
     FooterComponent,
     SidebarComponent,
+    SidebarReviewerComponent,
     AdminFooterComponent,
     AdminTopbarComponent,
     SidemenuComponent,

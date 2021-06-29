@@ -45,6 +45,8 @@ import { WhiteboardgalleryComponent } from './whiteboardgallery/whiteboardgaller
 import { CreatePartnerComponent } from './create-partner/create-partner.component';
 import { CreateNewQuestionComponent } from './question-management/create-new-question/create-new-question.component';
 import { QuestionsManagementComponent } from './question-management/questions-management/questions-management.component';
+import { ReviewDashboardComponent } from './module_review/review-dashboard/review-dashboard.component';
+import { QuestionBankComponent } from './question-management/question-bank/question-bank.component';
 
 const routes: Routes = [
   {
@@ -134,6 +136,7 @@ const routes: Routes = [
       { path: 'whiteboardgallery', component: WhiteboardgalleryComponent },
       { path: 'createnewquestion', component: CreateNewQuestionComponent },
       { path: 'questionmanagement', component: QuestionsManagementComponent },
+      { path: 'questionbank', component: QuestionBankComponent },
       { path: 'create-partner', component: CreatePartnerComponent },
       { path: 'create-content/:id', component: CreateContentComponent },
     ],
@@ -170,6 +173,8 @@ const routes: Routes = [
     CreatePartnerComponent,
     CreateNewQuestionComponent,
     QuestionsManagementComponent,
+    ReviewDashboardComponent,
+    QuestionBankComponent,
   ],
   imports: [
     MaterialModule,

@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { CommonService } from '../services/common.service';
 
 @Component({
   selector: 'admin-root',
@@ -7,6 +8,10 @@ import { Router, NavigationEnd } from '@angular/router';
   styleUrls: ['./admin.component.scss'],
 })
 export class AdminComponent {
-  constructor(private router: Router) {}
-  ngOnInit() {}
+    public user = [];
+  constructor(private router: Router, private http: CommonService) {}
+  ngOnInit() {
+      this.user = this.http.getUser();
+      console.log(this.http.getUser());
+  }
 }

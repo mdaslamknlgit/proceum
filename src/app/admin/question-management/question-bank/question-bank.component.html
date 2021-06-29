@@ -1,0 +1,59 @@
+<div class="mn_dshbrd dsh_brd_crds qm_mn">
+    <div class="brd_crm">
+        <span>Question Management</span>
+    </div>
+    <div class="pg_ttl">Question Management</div>
+    <div class="qm_srchhd">
+        Search
+    </div>
+    <div class="qm_srch d-flex ">
+        <div class="w_80p mr_1">
+            <mat-form-field appearance="outline" class="w_100p">
+                <input matInput matInput placeholder="Ex: Question Bank Name" />
+                <mat-icon matSuffix>search</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="">
+            <button mat-raised-button color="accent" class="mt_6px">
+                <mat-icon>add</mat-icon>
+                Add new Question Bank
+            </button>
+        </div>
+    </div>
+    <table mat-table [dataSource]="dataSource">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>S.No </th>
+          <td mat-cell *matCellDef="let element"> 1</td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Question bank name </th>
+          <td mat-cell *matCellDef="let element"> Sed non tortor ut diam aliquam aliquam </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="weight">
+          <th mat-header-cell *matHeaderCellDef>No.of Qtns</th>
+          <td mat-cell *matCellDef="let element"> Single option selection </td>
+        </ng-container>
+      
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="symbol">
+          <th mat-header-cell *matHeaderCellDef> Description</th>
+          <td mat-cell *matCellDef="let element"> Sed non tortor ut diam aliquam aliquam </td>
+        </ng-container>
+        <ng-container matColumnDef="symbol1">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element"><button mat-icon-button color="accent" class="mr_1"><mat-icon>edit</mat-icon></button><button mat-icon-button color="warn"><mat-icon>remove_circle_outline</mat-icon></button></td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+</div>

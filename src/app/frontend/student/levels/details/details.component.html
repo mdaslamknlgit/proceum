@@ -72,7 +72,10 @@
         </mat-icon>
       </li>
       <li (click)="showDiv(6)">
-        <mat-icon class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}" matTooltip="High Yield">highlight
+        <mat-icon
+          class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}"
+          matTooltip="Highyield"
+          >highlight
         </mat-icon>
       </li>
       <li *ngIf="mcqs != undefined && mcqs.length > 0" (click)="showDiv(1)">
@@ -124,9 +127,15 @@
   <div class="pg_ttl" *ngIf="content != undefined">
     {{ content["title"] }}
     <span class="spacer"></span>
-    <button *ngIf="content_list.length > 0" matTooltip="More Content" (click)="show_content_list = !show_content_list"
-      mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs no_bxsdw">
-      <mat-icon>filter_list</mat-icon>
+    <button
+      *ngIf="content_list.length > 1"
+      matTooltip="More Content"
+      (click)="show_content_list = !show_content_list"
+      mat-mini-fab
+      color="accent"
+      class="mr_vrt_btn algn_s_fs no_bxsdw"
+    >
+      <mat-icon>menu_open</mat-icon>
     </button>
   </div>
   <!-- <div class="crs_lft_hd">
@@ -199,6 +208,7 @@
         </div>
         <div class="crs_desc_cnt mcb_desc">
           <div *ngIf="mcqs.length > 0">
+            <div class="qstnof_cnt">{{active_mcq_index + 1}} of {{mcqs.length}}</div>
             <div class="hgt_20"></div>
             <div class="qstn_hds">
               {{ active_mcq_index + 1 }}.{{
@@ -372,7 +382,7 @@
       <div class="crs_desc">
         <div class="crs_desc_hd">
           <span class="desc_in_hd">
-            <mat-icon>highlight</mat-icon> High Yield Text
+            <mat-icon>highlight</mat-icon> Highyield Text
           </span>
           <span class="spacer"></span>
           <!-- <span class="fnt_sze">
@@ -451,6 +461,7 @@
         <div class="crs_desc_cnt mcb_desc">
           <div *ngIf="cases.length > 0">
             <div class="hgt_20"></div>
+            <div class="qstnof_cnt">{{active_case_index + 1}} of {{cases.length}}</div>
             <div class="qstn_hds">
               {{ active_case_index + 1 }}.{{
               " " + cases[active_case_index]["question"]
@@ -522,7 +533,7 @@
         </div>
         <div class="qstn_nms">
           <div class="qstn_hds">Questions</div>
-          <div class="qstnof_cnt">1 of 20</div>
+          
           <ul>
             <li *ngFor="let question of short_answers; let i = index"
               class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
@@ -534,6 +545,7 @@
         <div class="crs_desc_cnt mcb_desc">
           <div *ngIf="short_answers.length > 0">
             <div class="hgt_20"></div>
+            <div class="qstnof_cnt">{{active_short_answer_index + 1}} of {{short_answers.length}}</div>
             <div class="qstn_hds">
               {{ active_short_answer_index + 1 }}.{{
               " " + short_answers[active_short_answer_index]["question"]

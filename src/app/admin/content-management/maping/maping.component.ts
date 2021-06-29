@@ -60,15 +60,21 @@ export class MapingComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        let data = res['data'];
+        let data = res['data']?res['data']:[];
         this.stepsDataSource = new MatTableDataSource(data['steps']);
         this.curriculum_id = data['curricculum_id'];
         this.curriculum_list = data['curriculums'];
+        if(!this.curriculum_list){
+            this.toster.error("No Curriculums Found", "Error" , { closeButton: true })
+        }
         this.curriculum_labels = data['curriculum_labels'];
         this.stepsDisplayedColumns = ['s_no'];
-        this.curriculum_labels.forEach((label) => {
-          this.stepsDisplayedColumns.push(label['display_label']);
-        });
+        if(this.curriculum_labels != undefined && this.curriculum_labels.length > 0)
+        {
+            this.curriculum_labels.forEach((label) => {
+            this.stepsDisplayedColumns.push(label['display_label']);
+            });
+        }
         this.stepsDisplayedColumns.push('actions');
         this.totalSize = res['total_records'];
         this.stepsDataSource.paginator = this.paginator;
@@ -151,7 +157,8 @@ export class MapingComponent implements OnInit {
       });
     }
     this.modal_popup = true;
-
+    this.content_search_box = '';
+    this.content_page = 0;
     this.getContentList();
   }
   getContentList() {

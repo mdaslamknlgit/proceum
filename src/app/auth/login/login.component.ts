@@ -151,6 +151,14 @@ export class LoginComponent implements OnInit {
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
               }
+              else if (res['data']['user']['role'] == 3 || res['data']['user']['role'] == 4 || res['data']['user']['role'] == 5 || res['data']['user']['role'] == 6 || res['data']['user']['role'] == 7) {
+                //Reviewer L1, L2,L3 Approver
+                let redirect_url = localStorage.getItem('_redirect_url')
+                  ? localStorage.getItem('_redirect_url')
+                  : '/reviewer/dashboard';
+                localStorage.removeItem('_redirect_url');
+                this.route.navigate([redirect_url]);
+              }
             }
           });
         }

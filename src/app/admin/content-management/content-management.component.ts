@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { environment } from 'src/environments/environment';
@@ -30,7 +31,7 @@ export class ContentManagementComponent implements OnInit {
   public search_box = '';
   modal_popup = false;
   page: number = 0;
-  constructor(private http: CommonService, private toster: ToastrService) {}
+  constructor(private http: CommonService, private toster: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
     let param = {
@@ -116,5 +117,15 @@ export class ContentManagementComponent implements OnInit {
         });
       }
     });
+  }
+  navigateTo(url){
+      let user = this.http.getUser();
+      if(user['role']== '1'){
+          url = "/admin/"+url;
+      }
+      if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+        url = "/reviewer/"+url;
+    }
+      this.router.navigateByUrl(url);
   }
 }
