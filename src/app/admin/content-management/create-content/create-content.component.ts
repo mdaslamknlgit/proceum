@@ -31,6 +31,7 @@ export class CreateContentComponent implements OnInit {
   displayedColumns: string[] = ['s_no', 'question', 'action'];
   all_questions = new MatTableDataSource();
   selected_questions = ELEMENT_DATA; // new MatTableDataSource();
+  public user = [];
   public is_submit = false;
   public active_tab = 'images';
   public selected_mcqs = [];
@@ -74,6 +75,7 @@ export class CreateContentComponent implements OnInit {
   public show_coments = false;
   public reviewer_role = '';
   public reviewers = [];
+  public is_published = '';
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -113,6 +115,7 @@ export class CreateContentComponent implements OnInit {
   }
   public pgae_title = 'Create Content';
   public show_tabs = false;
+  content_reviewer_role = '';
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -121,6 +124,7 @@ export class CreateContentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+      this.user = this.http.getUser();
     let comments = {
       name: 'Reviewer1',
       comment:
@@ -133,6 +137,9 @@ export class CreateContentComponent implements OnInit {
       if (this.content_id != undefined) {
         this.pgae_title = 'Edit Content';
         this.getContent();
+      }
+      else{
+          this.content_id = 0;
       }
     });
     this.getChildData();
@@ -154,6 +161,8 @@ export class CreateContentComponent implements OnInit {
     this.http.post(data).subscribe((res) => {
       if (res['error'] == false) {
         let data = res['data']['content_data'];
+        this.content_reviewer_role = data['reviewer_role'];
+        this.is_published = data['is_published'];
         this.title = data['title'];
         this.main_content = data['main_content'];
         this.learning_obj_content = data['learning_obj_content'];
@@ -484,7 +493,6 @@ export class CreateContentComponent implements OnInit {
         this.selected_cases.push(id);
       } else {
         const index = this.selected_cases.indexOf(id);
-        console.log(index, id);
         if (index > -1) {
           this.selected_cases.splice(index, 1);
         }
@@ -512,14 +520,14 @@ export class CreateContentComponent implements OnInit {
       selected_cases: this.selected_cases,
       is_draft: is_draft,
       content_id: this.content_id,
-      reviewer_role: this.reviewer_role
+      reviewer_role: is_draft?'':this.reviewer_role
     };
     let params = { url: 'create-content', form_data: form_data };
 
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.router.navigateByUrl('/admin/manage-content');
+        this.navigateTo('manage-content');
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -536,7 +544,7 @@ export class CreateContentComponent implements OnInit {
     this.show_coments = !this.show_coments;
   }
   navigateTo(url){
-    let user = this.http.getUser();
+    let user = this.user;
     if(user['role']== '1'){
         url = "/admin/"+url;
     }
@@ -545,4 +553,20 @@ export class CreateContentComponent implements OnInit {
   }
     this.router.navigateByUrl(url);
 }
+    publishContent(){
+        let param = {
+            url: 'content-publish/' + this.content_id,
+            publish: 1
+        };
+        this.http.post(param).subscribe((res) => {
+            if (res['error'] == false) {
+            this.toster.success(res['message'], 'Success', { closeButton: true });
+            this.navigateTo('manage-content');
+            } else {
+            this.toster.error(res['message'], res['message'], {
+                closeButton: true,
+            });
+            }
+        });
+    }
 }

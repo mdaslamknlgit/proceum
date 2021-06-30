@@ -1440,7 +1440,7 @@
             <mat-form-field appearance="outline">
               <mat-select placeholder="Select Reviewer" #reviewer_role_name="ngModel" name="reviewer_role_name" [(ngModel)]="reviewer_role"
                 required>
-                <mat-option *ngFor="let role of reviewers" [value]="role['role_id']">{{
+                <mat-option *ngFor="let role of reviewers"  [value]="role['role_id']">{{
                     role['title'] }}
                 </mat-option>
               </mat-select>
@@ -1452,13 +1452,19 @@
           </span>
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
-          <button class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
+          <button *ngIf="(content_id == 0 || content_reviewer_role == '0')" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
             Save as draft
           </button>
           <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="mx_1">
             Cancel
           </button>
-          <button mat-raised-button color="accent">Submit</button>
+          <button *ngIf="(content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role || user['role'] == '1')" mat-raised-button color="accent">Submit</button>
+          <button *ngIf="content_id > 0 && is_published == '0' && (user['role'] == '7' || user['role'] == '1')" type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+            'are you sure to Publish this content '
+          " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
+          cancelButtonType="outline-secondary" mat-raised-button color="accent" class="mx_1">
+            Publish
+          </button>
         </div>
       </div>
 
