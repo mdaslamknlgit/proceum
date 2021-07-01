@@ -125,13 +125,13 @@ export class CreateContentComponent implements OnInit {
 
   ngOnInit(): void {
       this.user = this.http.getUser();
-    let comments = {
-      name: 'Reviewer1',
-      comment:
-        '01. Fusce tincidunt dolor vel arcu vulputate, sed cursus metus pulvinar.02. Mauris vitae mi auctor, porta libero non, venenatis tellus. 03.Quisque ac nunc et ipsum hendrerit porta. 04. Pellentesque et ex egetaugue convallis faucibus. 05. Morbi condimentum tortor sit amet justolaoreet, vitae scelerisque ipsum vestibulum.',
-      date_time: '24-05-2021 13:10:10',
-    };
-    this.older_coments.push(comments);
+    // let comments = {
+    //   name: 'Reviewer1',
+    //   comment:
+    //     '01. Fusce tincidunt dolor vel arcu vulputate, sed cursus metus pulvinar.02. Mauris vitae mi auctor, porta libero non, venenatis tellus. 03.Quisque ac nunc et ipsum hendrerit porta. 04. Pellentesque et ex egetaugue convallis faucibus. 05. Morbi condimentum tortor sit amet justolaoreet, vitae scelerisque ipsum vestibulum.',
+    //   date_time: '24-05-2021 13:10:10',
+    // };
+    // this.older_coments.push(comments);
     this.activatedRoute.params.subscribe((param) => {
       this.content_id = param.id;
       if (this.content_id != undefined) {
@@ -541,7 +541,47 @@ export class CreateContentComponent implements OnInit {
     });
   }
   showComments() {
-    this.show_coments = !this.show_coments;
+      if(!this.show_coments){
+        this.getComents();
+      }else{
+        this.show_coments = !this.show_coments;
+      }
+    
+  }
+  getComents(){
+    let param = {
+        url: 'get-content-comments',
+        content_id : this.content_id
+    };
+    this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+        //this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.show_coments = !this.show_coments;
+        this.older_coments = res['data']['comments'];
+        } else {
+        this.toster.error(res['message'], res['message'], {
+            closeButton: true,
+        });
+        }
+    });
+  }
+  addComent(){
+    let param = {
+        url: 'add-content-comment',
+        content_id : this.content_id,
+        comment: this.comments_content
+    };
+    this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.older_coments = res['data']['comments'];
+        this.comments_content = '';
+        } else {
+        this.toster.error(res['message'], res['message'], {
+            closeButton: true,
+        });
+        }
+    });
   }
   navigateTo(url){
     let user = this.user;
