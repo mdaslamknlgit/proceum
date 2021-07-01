@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { environment } from 'src/environments/environment';
@@ -15,7 +16,9 @@ export class ContentManagementComponent implements OnInit {
   displayedColumns: string[] = [
     'sno',
     'content_title',
+    'created_by',
     'status',
+    'content_status',
     'created_at',
     'updated_at',
     'actions',
@@ -30,16 +33,22 @@ export class ContentManagementComponent implements OnInit {
   public search_box = '';
   modal_popup = false;
   page: number = 0;
-  constructor(private http: CommonService, private toster: ToastrService) {}
+  public tab_index = 0
+  constructor(private http: CommonService, private toster: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
     let param = {
       url: 'content-list',
       offset: this.page,
       limit: this.pageSize,
+      tab_index: this.tab_index
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
+        if (this.paginator != undefined) {
+            this.paginator.pageIndex = 0;
+            this.paginator.firstPage();
+          }
         this.dataSource = new MatTableDataSource(res['data']['content_list']);
         this.totalSize = res['total_records'];
         this.dataSource.paginator = this.paginator;
@@ -54,11 +63,14 @@ export class ContentManagementComponent implements OnInit {
       limit: this.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
+      tab_index: this.tab_index
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['content_list']);
         this.totalSize = res['total_records'];
+      } else {
+        this.dataSource = new MatTableDataSource([]);
       }
     });
   }
@@ -71,6 +83,7 @@ export class ContentManagementComponent implements OnInit {
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
+      tab_index: this.tab_index
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -82,12 +95,25 @@ export class ContentManagementComponent implements OnInit {
       }
     });
   }
+  switchTab(event){
+    this.tab_index = event.index;
+    this.getContentList();
+  }
   sortData(event) {
     this.sort_by = event;
-    console.log(this.sort_by);
+    this.page = 0;
+    if (this.paginator != undefined) {
+      this.paginator.pageIndex = 0;
+      this.paginator.firstPage();
+    }
     if (this.sort_by.direction != '') this.getContentList();
   }
   public doFilter = () => {
+    this.page = 0;
+    if (this.paginator != undefined) {
+      this.paginator.pageIndex = 0;
+      this.paginator.firstPage();
+    }
     this.getContentList();
   };
   deleteContent(id, status) {
@@ -105,5 +131,15 @@ export class ContentManagementComponent implements OnInit {
         });
       }
     });
+  }
+  navigateTo(url){
+      let user = this.http.getUser();
+      if(user['role']== '1'){
+          url = "/admin/"+url;
+      }
+      if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+        url = "/reviewer/"+url;
+    }
+      this.router.navigateByUrl(url);
   }
 }

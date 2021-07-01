@@ -31,6 +31,8 @@ export class CreateContentComponent implements OnInit {
   displayedColumns: string[] = ['s_no', 'question', 'action'];
   all_questions = new MatTableDataSource();
   selected_questions = ELEMENT_DATA; // new MatTableDataSource();
+  public user = [];
+  public is_submit = false;
   public active_tab = 'images';
   public selected_mcqs = [];
   public selected_cases = [];
@@ -68,6 +70,12 @@ export class CreateContentComponent implements OnInit {
   public totalSize: 0;
   public page = 0;
   public page_size_options = environment.page_size_options;
+  public older_coments = [];
+  public comments_content = '';
+  public show_coments = false;
+  public reviewer_role = '';
+  public reviewers = [];
+  public is_published = '';
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -105,6 +113,9 @@ export class CreateContentComponent implements OnInit {
       return data;
     };
   }
+  public pgae_title = 'Create Content';
+  public show_tabs = false;
+  content_reviewer_role = '';
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -113,20 +124,45 @@ export class CreateContentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+      this.user = this.http.getUser();
+    let comments = {
+      name: 'Reviewer1',
+      comment:
+        '01. Fusce tincidunt dolor vel arcu vulputate, sed cursus metus pulvinar.02. Mauris vitae mi auctor, porta libero non, venenatis tellus. 03.Quisque ac nunc et ipsum hendrerit porta. 04. Pellentesque et ex egetaugue convallis faucibus. 05. Morbi condimentum tortor sit amet justolaoreet, vitae scelerisque ipsum vestibulum.',
+      date_time: '24-05-2021 13:10:10',
+    };
+    this.older_coments.push(comments);
     this.activatedRoute.params.subscribe((param) => {
       this.content_id = param.id;
       if (this.content_id != undefined) {
+        this.pgae_title = 'Edit Content';
         this.getContent();
+      }
+      else{
+          this.content_id = 0;
       }
     });
     this.getChildData();
+    this.getReviewers();
   }
-
+  getReviewers(){
+    let data = { url: 'get-reviewers' };
+    this.http.post(data).subscribe((res) => {
+        if (res['error'] == false) {
+            this.reviewers = res['data']['reviewers'];
+        }
+    })
+  }
+  ngAfterViewInit(){
+      this.show_tabs = true;
+  }
   getContent() {
     let data = { url: 'create-content/' + this.content_id };
     this.http.post(data).subscribe((res) => {
       if (res['error'] == false) {
         let data = res['data']['content_data'];
+        this.content_reviewer_role = data['reviewer_role'];
+        this.is_published = data['is_published'];
         this.title = data['title'];
         this.main_content = data['main_content'];
         this.learning_obj_content = data['learning_obj_content'];
@@ -281,6 +317,7 @@ export class CreateContentComponent implements OnInit {
     this.question_tab = 0;
     this.short_answer_tab = 0;
     this.case_tab = 0;
+    this.search_question = '';
     this.all_or_selected = 'all';
     if (tab_index == 3) {
       this.active_tab_type = 'mcq';
@@ -319,6 +356,7 @@ export class CreateContentComponent implements OnInit {
 
   questionsTab(tab) {
     let tab_index = tab.index;
+    this.search_question = '';
     //this.question_tab = tab_index;
     if (tab_index == 0) {
       this.all_or_selected = 'all';
@@ -390,7 +428,7 @@ export class CreateContentComponent implements OnInit {
         );
         this.totalSize = res['total_records'];
       } else {
-        this.toster.info(res['message'], 'Error');
+        //this.toster.info(res['message'], 'Error');
         this.all_questions = new MatTableDataSource([]);
       }
     });
@@ -423,15 +461,13 @@ export class CreateContentComponent implements OnInit {
         );
         this.totalSize = res['total_records'];
       } else {
-        this.toster.info(res['message'], 'Error');
+        //this.toster.info(res['message'], 'Error');
         this.all_questions = new MatTableDataSource([]);
       }
     });
   }
   selectQuestion(event, id) {
     id = '' + id;
-    console.log(event);
-    console.log(id);
     if (this.active_tab_type == 'mcq') {
       if (event['checked'] == true) {
         this.selected_mcqs.push(id);
@@ -457,7 +493,6 @@ export class CreateContentComponent implements OnInit {
         this.selected_cases.push(id);
       } else {
         const index = this.selected_cases.indexOf(id);
-        console.log(index, id);
         if (index > -1) {
           this.selected_cases.splice(index, 1);
         }
@@ -465,6 +500,10 @@ export class CreateContentComponent implements OnInit {
     }
   }
   createContent(is_draft) {
+    this.is_submit = true;
+    if(this.title == ''){
+        return false;
+    }
     let form_data = {
       title: this.title,
       main_videos: this.videos,
@@ -481,13 +520,14 @@ export class CreateContentComponent implements OnInit {
       selected_cases: this.selected_cases,
       is_draft: is_draft,
       content_id: this.content_id,
+      reviewer_role: is_draft?'':this.reviewer_role
     };
     let params = { url: 'create-content', form_data: form_data };
 
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.router.navigateByUrl('/admin/manage-content');
+        this.navigateTo('manage-content');
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -500,4 +540,33 @@ export class CreateContentComponent implements OnInit {
       //   this.images_files = [];
     });
   }
+  showComments() {
+    this.show_coments = !this.show_coments;
+  }
+  navigateTo(url){
+    let user = this.user;
+    if(user['role']== '1'){
+        url = "/admin/"+url;
+    }
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/reviewer/"+url;
+  }
+    this.router.navigateByUrl(url);
+}
+    publishContent(){
+        let param = {
+            url: 'content-publish/' + this.content_id,
+            publish: 1
+        };
+        this.http.post(param).subscribe((res) => {
+            if (res['error'] == false) {
+            this.toster.success(res['message'], 'Success', { closeButton: true });
+            this.navigateTo('manage-content');
+            } else {
+            this.toster.error(res['message'], res['message'], {
+                closeButton: true,
+            });
+            }
+        });
+    }
 }

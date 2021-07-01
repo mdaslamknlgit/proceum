@@ -60,19 +60,26 @@ export class MapingComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        let data = res['data'];
+        let data = res['data']?res['data']:[];
         this.stepsDataSource = new MatTableDataSource(data['steps']);
         this.curriculum_id = data['curricculum_id'];
         this.curriculum_list = data['curriculums'];
+        if(!this.curriculum_list){
+            this.toster.error("No Curriculums Found", "Error" , { closeButton: true })
+        }
         this.curriculum_labels = data['curriculum_labels'];
         this.stepsDisplayedColumns = ['s_no'];
-        this.curriculum_labels.forEach((label) => {
-          this.stepsDisplayedColumns.push(label['display_label']);
-        });
+        if(this.curriculum_labels != undefined && this.curriculum_labels.length > 0)
+        {
+            this.curriculum_labels.forEach((label) => {
+            this.stepsDisplayedColumns.push(label['display_label']);
+            });
+        }
         this.stepsDisplayedColumns.push('actions');
         this.totalSize = res['total_records'];
         this.stepsDataSource.paginator = this.paginator;
         this.stepsDataSource.sort = this.sort;
+        this.selected_level = [];
         this.level_options = [];
         this.level_options[1] = data['level_1'];
       }
@@ -98,6 +105,7 @@ export class MapingComponent implements OnInit {
             this.stepsDisplayedColumns.push(label['display_label']);
           });
           this.stepsDisplayedColumns.push('actions');
+          this.selected_level = [];
           this.level_options = [];
           this.level_options[1] = data['level_1'];
         }
@@ -122,11 +130,13 @@ export class MapingComponent implements OnInit {
       url: 'get-levels-by-level',
       step_id: this.selected_level[level_id],
     };
-    console.log(this.selected_level);
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let data = res['data'];
         this.level_options[level_id + 1] = data['steps'];
+        this.level_options.forEach((opt, index) => {
+          if (index > level_id + 1) this.level_options[index] = [];
+        });
       }
     });
   }
@@ -147,12 +157,13 @@ export class MapingComponent implements OnInit {
       });
     }
     this.modal_popup = true;
-
+    this.content_search_box = '';
+    this.content_page = 0;
     this.getContentList();
   }
   getContentList() {
     let param = {
-      url: 'content-list',
+      url: 'link-content-list',
       offset: this.content_page,
       limit: this.content_pageSize,
       order_by: this.content_sort_by,
@@ -163,6 +174,8 @@ export class MapingComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']['content_list']);
         this.dataSource.paginator = this.content_paginator;
         this.content_totalSize = res['total_records'];
+      } else {
+        this.dataSource = new MatTableDataSource([]);
       }
     });
   }
@@ -170,7 +183,7 @@ export class MapingComponent implements OnInit {
     this.content_page = event.pageSize * event.pageIndex;
     this.content_pageSize = event.pageSize;
     let param = {
-      url: 'content-list',
+      url: 'link-content-list',
       offset: this.content_page,
       limit: this.content_pageSize,
       order_by: this.content_sort_by,
@@ -186,7 +199,7 @@ export class MapingComponent implements OnInit {
   }
   doFilter() {
     let param = {
-      url: 'content-list',
+      url: 'link-content-list',
       offset: this.content_page,
       limit: this.content_pageSize,
       order_by: this.content_sort_by,
@@ -196,6 +209,8 @@ export class MapingComponent implements OnInit {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['content_list']);
         this.content_totalSize = res['total_records'];
+      } else {
+        this.dataSource = new MatTableDataSource([]);
       }
     });
   }

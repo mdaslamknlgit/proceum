@@ -1,97 +1,156 @@
 <!-- <app-topbar class="inner-header"></app-topbar> -->
 <!-- <app-sidemenu></app-sidemenu> -->
 <!-- act_qstnm || wrng_qstnm -->
-<div class="cust_mdl_par {{ show_content_list ? 'cust_mdl_opn' : '' }}">
-  <div class="desc_otr_tpc">
-    <div class="otr_ttl">
-      Content list
-      <span class="spacer"></span>
-      <button (click)="show_content_list = !show_content_list" mat-icon-button class="float_right">
-        &#x2715;
-      </button>
-    </div>
-    <div class="otr_bdy">
-      <div *ngFor="let value of content_list" [ngClass]="{
+<!-- crses_rgt_colps || crs_dshbrd_colps -->
+<div class="crses_rgt_colps">
+  <div class="vd_wthshr">
+    <!-- <button mat-mini-fab [matMenuTriggerFor]="menu" aria-label="" class="no_bxsdw">
+    <mat-icon>more_vert</mat-icon>
+  </button> -->
+    <!-- <mat-menu #menu="matMenu" class="vd_wthshr_mnu"></mat-menu> -->
+    <button mat-icon-button class="no_bxsdw my_02">
+      <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] == 1 ? true : false"
+        matTooltip="Unlike">
+        thumb_up_alt
+      </mat-icon>
+      <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] != 1 ? true : false" matTooltip="Like">
+        thumb_up_off_alt
+      </mat-icon>
+    </button>
+    <button mat-icon-button class="no_bxsdw my_02">
+      <mat-icon matTooltip="Share">share</mat-icon>
+    </button>
+    <button mat-icon-button class="no_bxsdw my_02" matTooltip="">
+      <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] != 1 ? true : false"
+        matTooltip="Favorite">
+        favorite_border
+      </mat-icon>
+      <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] == 1 ? true : false"
+        matTooltip="Unfavorite">favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="no_bxsdw my_02">
+      <mat-icon matTooltip="Wishlist">playlist_add</mat-icon>
+    </button>
+    <button mat-icon-button class="no_bxsdw my_02">
+      <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false"
+        matTooltip="Add Bookmark">bookmark_border
+      </mat-icon>
+      <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] == 1 ? true : false"
+        matTooltip="Remove Bookmark">bookmark</mat-icon>
+    </button>
+  </div>
+  <div class="cust_mdl_par {{ show_content_list ? 'cust_mdl_opn' : '' }}">
+    <div class="desc_otr_tpc">
+      <div class="otr_ttl">
+        Content list
+        <span class="spacer"></span>
+        <button (click)="show_content_list = !show_content_list" mat-icon-button class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="otr_bdy">
+        <div *ngFor="let value of content_list" [ngClass]="{
           dets_actv: value['content_id'] == content_id ? true : false
         }">
-        <div *ngIf="value['content_id'] != content_id" (click)="viewContent(value['content_id'])" class="otr_bd_dv">
-          {{ value["content_title"] }}
+          <div *ngIf="value['content_id'] != content_id" (click)="viewContent(value['content_id'])" class="otr_bd_dv">
+            {{ value["content_title"] }}
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="innr_sd_mnu ism_opn">
-  <!-- ism_opn -->
-  <div class="ism_scrl">
-    <ul>
-      <li (click)="showDiv(3)">
-        <mat-icon class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Objectives">
-          lightbulb</mat-icon>
-      </li>
-      <li (click)="showDiv(0)">
-        <mat-icon class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}" matTooltip="Description">feed</mat-icon>
-      </li>
+  <div class="innr_sd_mnu ism_opn">
+    <!-- ism_opn -->
+    <div class="ism_scrl">
+      <ul>
+        <li (click)="showDiv(3)">
+          <mat-icon class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Objectives">
+            lightbulb</mat-icon>
+        </li>
+        <li (click)="showDiv(0)">
+          <mat-icon class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}" matTooltip="Description">feed</mat-icon>
+        </li>
 
-      <li (click)="showDiv(2)">
-        <mat-icon class="ism_icn {{ active_div == 2 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Notes">history_edu
-        </mat-icon>
-      </li>
-      <li (click)="showDiv(6)">
-        <mat-icon class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}" matTooltip="High Yield">highlight
-        </mat-icon>
-      </li>
-      <li (click)="showDiv(1)">
-        <mat-icon class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}" matTooltip="Mcqs">quiz</mat-icon>
-      </li>
-      <li (click)="showDiv(10)">
-        <mat-icon class="ism_icn {{ active_div == 10 ? 'ism_actv_btn' : '' }}" matTooltip="Short Questions">help_outline
-        </mat-icon>
-      </li>
-      <li (click)="showDiv(7)">
-        <mat-icon class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}" matTooltip="Cases">description</mat-icon>
-      </li>
-      <li (click)="showDiv(9)" *ngIf="false">
-        <mat-icon class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}" matTooltip="Related Topics">bolt
-        </mat-icon>
-      </li>
-      <li (click)="showDiv(8)">
-        <mat-icon class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}" matTooltip="External References">
-          insert_link</mat-icon>
-      </li>
-      <li (click)="showDiv(4)">
-        <mat-icon class="ism_icn {{ active_div == 4 ? 'ism_actv_btn' : '' }}" matTooltip="Images">wallpaper</mat-icon>
-      </li>
-      <li (click)="showDiv(5)">
-        <mat-icon class="ism_icn {{ active_div == 5 ? 'ism_actv_btn' : '' }}" matTooltip="Attachments">attachment
-        </mat-icon>
-      </li>
-    </ul>
+        <li (click)="showDiv(2)">
+          <mat-icon class="ism_icn {{ active_div == 2 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Notes">history_edu
+          </mat-icon>
+        </li>
+        <li (click)="showDiv(6)">
+          <mat-icon class="ism_icn {{ active_div == 6 ? 'ism_actv_btn' : '' }}" matTooltip="Highyield">highlight
+          </mat-icon>
+        </li>
+        <li *ngIf="mcqs != undefined && mcqs.length > 0" (click)="showDiv(1)">
+          <mat-icon class="ism_icn {{ active_div == 1 ? 'ism_actv_btn' : '' }}" matTooltip="Mcqs">quiz</mat-icon>
+        </li>
+        <li *ngIf="short_answers != undefined && short_answers.length > 0" (click)="showDiv(10)">
+          <mat-icon class="ism_icn {{ active_div == 10 ? 'ism_actv_btn' : '' }}" matTooltip="Short Questions">
+            help_outline
+          </mat-icon>
+        </li>
+        <li *ngIf="cases != undefined && cases.length > 0" (click)="showDiv(7)">
+          <mat-icon class="ism_icn {{ active_div == 7 ? 'ism_actv_btn' : '' }}" matTooltip="Cases">description
+          </mat-icon>
+        </li>
+        <li (click)="showDiv(9)" *ngIf="false">
+          <mat-icon class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}" matTooltip="Related Topics">bolt
+          </mat-icon>
+        </li>
+        <li (click)="showDiv(8)">
+          <mat-icon class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}" matTooltip="External References">
+            insert_link</mat-icon>
+        </li>
+        <li (click)="showDiv(4)">
+          <mat-icon class="ism_icn {{ active_div == 4 ? 'ism_actv_btn' : '' }}" matTooltip="Images">wallpaper</mat-icon>
+        </li>
+        <li (click)="showDiv(5)">
+          <mat-icon class="ism_icn {{ active_div == 5 ? 'ism_actv_btn' : '' }}" matTooltip="Attachments">attachment
+          </mat-icon>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
-<div class="mn_dshbrd crs_dshbrd">
-  <div class="brd_crm">
-    <span routerLink="/student/curriculums">Curriculums / </span>
-    <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
-      curriculum["curriculumn_name"]
-      }}</span>
-    <span *ngFor="let bread of breadcome; let i = index">
-      /
-      <span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
+  <div class="mn_dshbrd crs_dshbrd">
+  
+    <div class="brd_crm" *ngIf="curriculum">
+      <span routerLink="/student/curriculums">Curriculums / </span>
+      <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
+        curriculum["curriculumn_name"]
+        }}</span>
+      <span *ngFor="let bread of breadcome; let i = index">
+        /
+        <span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
         }}">{{ bread["name"] }}</span>
-      <strong *ngIf="i == breadcome.length - 1">
-        {{ setTitle(bread["name"]) }}</strong></span>
-  </div>
-  <div class="pg_ttl">
-    {{ content["title"] }}
-    <span class="spacer"></span>
-    <button *ngIf="content_list.length > 0" matTooltip="More Content" (click)="show_content_list = !show_content_list"
-      mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs no_bxsdw">
-      <mat-icon>menu_open</mat-icon>
-    </button>
-  </div>
-  <!-- <div class="crs_lft_hd">
+        <strong *ngIf="i == breadcome.length - 1">
+          {{ setTitle(bread["name"]) }}</strong></span>
+    </div>
+   
+    <div class="pg_ttl" *ngIf="content != undefined">
+      {{ content["title"] }}
+      <span class="spacer"></span>
+      <button *ngIf="content_list.length > 1" matTooltip="More Content" (click)="show_content_list = !show_content_list"
+        mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs no_bxsdw mr_1">
+        <mat-icon>menu_open</mat-icon>
+      </button>
+      <div class="fnt_sze text-right">
+        <span *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords">
+          <button mat-icon-button color="accent" class="mr_1">
+            <mat-icon>highlight_alt</mat-icon>
+          </button></span>
+        <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords">
+          <button mat-icon-button color="accent" class="actv_txt_hglt mr_1">
+            <mat-icon>highlight_alt</mat-icon>
+          </button>
+        </span>
+        <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+        <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+      </div>
+      <button  mat-mini-fab color="accent" class="algn_s_fs no_bxsdw">
+        <mat-icon >switch_video</mat-icon>
+      </button>
+    </div>
+    
+    <!-- <div class="crs_lft_hd">
     <span class="crs_bk_btn"
       ><mat-icon>arrow_back</mat-icon>General features of Muscle</span
     >
@@ -101,54 +160,42 @@
       tendons and aponeuroses with examples
     </span>
   </div> -->
-  <div class="crses_lft_mn" *ngIf="active_div == 0">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>feed</mat-icon>Description
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords"><button mat-icon-button
-                color="accent" class="mr_1">
-                <mat-icon>highlight_alt</mat-icon>
-              </button></span>
-            <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords"><button mat-icon-button
-                color="accent" class="actv_txt_hglt mr_1">
-                <mat-icon>highlight_alt</mat-icon>
-              </button></span>
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
+    <div class="crses_lft_mn" *ngIf="active_div == 0">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>feed</mat-icon>Description
+            </span>
+            <span class="spacer"></span>
+            <span class="fnt_sze">
+             
+            </span>
+            <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
           </button> -->
-        </div>
-        <div class="crs_desc_cnt ck_editor_view no_desc_fnd" *ngIf="!content['main_content']">
-          No Description Found
-        </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['main_content']">
-          <ckeditor #editor name="main_content" [disabled]="true" [editor]="Editor" [config]="{}"
-            (ready)="onReady($event)" [data]="content['main_content']"></ckeditor>
+          </div>
+          <div class="crs_desc_cnt ck_editor_view no_desc_fnd" *ngIf="!content['main_content']">
+            No Description Found
+          </div>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['main_content']">
+            <ckeditor #editor name="main_content" [disabled]="true" [editor]="Editor" [config]="{}"
+              (ready)="onReady($event)" [data]="content['main_content']"></ckeditor>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="crses_lft_mn qstn_sml" *ngIf="active_div == 1">
-    <div class="crses_lft">
-      <div class="crs_desc_hd">
-        <span class="desc_in_hd">
-          <mat-icon>quiz</mat-icon>MCQ's
-        </span>
-      </div>
-      <div class="crs_desc no_desc_fnd" *ngIf="mcqs.length == 0">No MCQ's Found</div>
-      <div class="crs_desc" *ngIf="mcqs.length > 0">
+    <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 1">
+      <div class="crses_lft">
         <div class="crs_desc_hd">
           <span class="desc_in_hd">
-            <mat-icon>quiz</mat-icon> MCQs
+            <mat-icon>quiz</mat-icon>MCQs
           </span>
-          <span class="spacer"></span>
+        </div>
+        <div class="crs_desc no_desc_fnd" *ngIf="mcqs.length == 0">
+          No MCQs Found
+        </div>
+        <div class="crs_desc" *ngIf="mcqs.length > 0">
           <!--<span class="fnt_sze">
             <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
             <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
@@ -156,26 +203,26 @@
            <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
           </button> -->
-        </div>
-
-        <div class="qstn_nms">
-          <div class="qstn_hds">Questions</div>
-          <ul>
-            <li *ngFor="let question of mcqs; let i = index" class="{{ i == active_mcq_index ? 'act_qstnm' : '' }}">
-              <span class="qstn_cnt" (click)="active_mcq_index = i">{{ i + 1 }}{{ " " + question["question"] }}</span>
-            </li>
-          </ul>
-        </div>
-        <div class="crs_desc_cnt mcb_desc">
-          <div *ngIf="mcqs.length > 0">
-            <div class="hgt_20"></div>
-            <div class="qstn_hds">
-              {{ active_mcq_index + 1 }}.{{
-              " " + mcqs[active_mcq_index]["question"]
-              }}
-            </div>
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="mcqs[active_mcq_index]['selected_option']">
-              <mat-radio-button *ngFor="
+          <div class="qstn_nms">
+            <div class="qstn_hds">Questions</div>
+            <ul>
+              <li *ngFor="let question of mcqs; let i = index" class="{{ i == active_mcq_index ? 'act_qstnm' : '' }}">
+                <span class="qstn_cnt" (click)="active_mcq_index = i">{{ i + 1 }}{{ " " + question["question"] }}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="crs_desc_cnt mcb_desc">
+            <div *ngIf="mcqs.length > 0">
+              <div class="hgt_20"></div>
+              <div class="qstnof_cnt">{{active_mcq_index + 1}} / {{mcqs.length}}</div>
+              <div class="hgt_20"></div>
+              <div class="qstn_hds">
+                {{ active_mcq_index + 1 }}.{{
+                " " + mcqs[active_mcq_index]["question"]
+                }}
+              </div>
+              <mat-radio-group aria-label="Select an option" [(ngModel)]="mcqs[active_mcq_index]['selected_option']">
+                <mat-radio-button *ngFor="
                   let option of mcqs[active_mcq_index]['options'];
                   let i_option = index
                 " (click)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
@@ -190,15 +237,15 @@
                     ? 'wrng_rdo'
                     : ''
                 }}">
-                {{ option["option_text"] }}
-                <img *ngIf="option['option_image']" [src]="option['option_image']" />
-              </mat-radio-button>
-            </mat-radio-group>
-            <div class="hgt_20"></div>
-            <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'image'"
-              [src]="mcqs[active_mcq_index]['q_source_value']" />
-            <div class="hgt_20"></div>
-            <!-- <div class="qstn_hds">Explanation</div>
+                  {{ option["option_text"] }}
+                  <img *ngIf="option['option_image']" [src]="option['option_image']" />
+                </mat-radio-button>
+              </mat-radio-group>
+              <div class="hgt_20"></div>
+              <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'image'"
+                [src]="mcqs[active_mcq_index]['q_source_value']" />
+              <div class="hgt_20"></div>
+              <!-- <div class="qstn_hds">Explanation</div>
             <div>
               Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
               aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
@@ -207,148 +254,152 @@
               diam aliquam aliquam
             </div>
             <div class="hgt_20"></div> -->
-          </div>
-          <div class="pn_btns">
-            <button mat-raised-button color="accent" [disabled]="!active_mcq_index > 0" (click)="prevQuestion()"
-              class="mr_1">
-              Prev
-            </button>
-            <button mat-raised-button color="accent" [disabled]="active_mcq_index + 1 >= mcqs.length"
-              (click)="nextQuestion()">
-              Next
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 2">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>history_edu</mat-icon> Learning Notes
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div *ngIf="!content['learning_notes_content']" class="no_desc_fnd">No Notes Found</div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_notes_content']">
-          <ckeditor #editor2 name="learning_notes_content" [disabled]="true" [editor]="Editor2" [config]="{}"
-            (ready)="onReady($event)" [data]="content['learning_notes_content']"></ckeditor>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 3">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>lightbulb</mat-icon> Learning Objectives
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div *ngIf="!content['learning_obj_content']" class="no_desc_fnd">No Notes Found</div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_obj_content']">
-          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
-            [data]="content['learning_obj_content']"></ckeditor>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 4">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>wallpaper</mat-icon> Images
-          </span>
-          <span class="spacer"></span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt">
-          <div class="desc_tmb_img">
-            <img *ngFor="let file of content['images']; let i = index" [src]="file['path']" [alt]="
-                file['file_path'].substring(
-                  file['file_path'].lastIndexOf('/') + 1
-                )
-              " />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 5">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>attachment</mat-icon> Attachments
-          </span>
-          <span class="spacer"></span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt">
-          <div class="mlti_fls desc_mlti_fls">
-            <div class="mlti_fls_dv" *ngFor="let file of content['attachments']; let i = index" matTooltip="{{
-                file['file_path'].substring(
-                  file['file_path'].lastIndexOf('/') + 1
-                )
-              }}">
-              <a class="dwnld_attcmnt" [href]="bucket_url + file['file_path']" target="_blank">
-                <mat-icon matTooltip="Download" matTooltipPosition="above">file_download</mat-icon>
-              </a>
-              <img [src]="file['path']" [alt]="
-                  file['file_path'].substring(
-                    file['file_path'].lastIndexOf('/') + 1
-                  )
-                " />
-              <span class="fl_nme">{{
-                file["file_path"].substring(
-                file["file_path"].lastIndexOf("/") + 1
-                )
-                }}</span>
+            </div>
+            <div class="pn_btns">
+              <button mat-raised-button color="accent" [disabled]="!active_mcq_index > 0" (click)="prevQuestion()"
+                class="mr_1">
+                Prev
+              </button>
+              <button mat-raised-button color="accent" [disabled]="active_mcq_index + 1 >= mcqs.length"
+                (click)="nextQuestion()">
+                Next
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 6">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>highlight</mat-icon> High Yield Text
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
+    <div class="crses_lft_mn" *ngIf="active_div == 2">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>history_edu</mat-icon> Learning Notes
+            </span>
+            <span class="spacer"></span>
+            <!-- <span class="fnt_sze">
             <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
             <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
+          </span> -->
+            <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
           </button> -->
+          </div>
+          <div *ngIf="!content['learning_notes_content']" class="no_desc_fnd">
+            No Notes Found
+          </div>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_notes_content']">
+            <ckeditor #editor2 name="learning_notes_content" [disabled]="true" [editor]="Editor2" [config]="{}"
+              (ready)="onReady($event)" [data]="content['learning_notes_content']"></ckeditor>
+          </div>
         </div>
-        <!-- <div
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 3">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>lightbulb</mat-icon> Learning Objectives
+            </span>
+            <span class="spacer"></span>
+            <!-- <span class="fnt_sze">
+            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+          </span> -->
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
+          </div>
+          <div *ngIf="!content['learning_obj_content']" class="no_desc_fnd">
+            No Notes Found
+          </div>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_obj_content']">
+            <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              [data]="content['learning_obj_content']"></ckeditor>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 4">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>wallpaper</mat-icon> Images
+            </span>
+            <span class="spacer"></span>
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
+          </div>
+          <div class="crs_desc_cnt">
+            <div class="desc_tmb_img">
+              <img *ngFor="let file of content['images']; let i = index" [src]="file['path']" [alt]="
+                file['file_path'].substring(
+                  file['file_path'].lastIndexOf('/') + 1
+                )
+              " />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 5">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>attachment</mat-icon> Attachments
+            </span>
+            <span class="spacer"></span>
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
+          </div>
+          <div class="crs_desc_cnt">
+            <div class="mlti_fls desc_mlti_fls">
+              <div class="mlti_fls_dv" *ngFor="let file of content['attachments']; let i = index" matTooltip="{{
+                file['file_path'].substring(
+                  file['file_path'].lastIndexOf('/') + 1
+                )
+              }}">
+                <a class="dwnld_attcmnt" [href]="bucket_url + file['file_path']" target="_blank">
+                  <mat-icon matTooltip="Download" matTooltipPosition="above">file_download</mat-icon>
+                </a>
+                <img [src]="file['path']" [alt]="
+                  file['file_path'].substring(
+                    file['file_path'].lastIndexOf('/') + 1
+                  )
+                " />
+                <span class="fl_nme">{{
+                  file["file_path"].substring(
+                  file["file_path"].lastIndexOf("/") + 1
+                  )
+                  }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 6">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>highlight</mat-icon> Highyield Text
+            </span>
+            <span class="spacer"></span>
+            <!-- <span class="fnt_sze">
+            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+          </span> -->
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
+          </div>
+          <!-- <div
           class="crs_desc_cnt ck_editor_view"
           *ngIf="content['highyield_content']"
         >
@@ -362,65 +413,69 @@
           ></ckeditor>
         </div> -->
 
-        <div class="intr_vd_tml">
-          <div *ngIf="highyields.length == 0" class="no_desc_fnd">No Notes Found</div>
-          <mat-accordion *ngIf="highyields.length > 0">
-            <mat-expansion-panel *ngFor="let highyield of highyields">
-              <mat-expansion-panel-header>
-                <mat-panel-title>{{ highyield["title"] }}</mat-panel-title>
-                <mat-panel-description> </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div class="tm_ln_dv ck_editor_view">
-                <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
-                  [data]="highyield['highyield_notes']"></ckeditor>
-              </div>
-            </mat-expansion-panel>
-            <!-- <mat-expansion-panel>
+          <div class="intr_vd_tml">
+            <div *ngIf="highyields.length == 0" class="no_desc_fnd">
+              No Notes Found
+            </div>
+            <mat-accordion *ngIf="highyields.length > 0">
+              <mat-expansion-panel *ngFor="let highyield of highyields">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>{{ highyield["title"] }}</mat-panel-title>
+                  <mat-panel-description> </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="tm_ln_dv ck_editor_view">
+                  <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+                    [data]="highyield['highyield_notes']"></ckeditor>
+                </div>
+              </mat-expansion-panel>
+              <!-- <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>Overview</mat-panel-title>
                 <mat-panel-description> </mat-panel-description>
               </mat-expansion-panel-header>
               <div class="tm_ln_dv">Sed non tortor ut diam aliquam aliquam</div>
             </mat-expansion-panel> -->
-          </mat-accordion>
+            </mat-accordion>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="crses_lft_mn qstn_sml" *ngIf="active_div == 7">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>description</mat-icon> Cases
-          </span>
-          <span class="spacer"></span>
-          <!-- <span class="fnt_sze">
+    <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 7">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>description</mat-icon> Cases
+            </span>
+            <span class="spacer"></span>
+            <!-- <span class="fnt_sze">
             <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
             <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
           </span>
           <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
           </button> -->
-        </div>
-        <div class="qstn_nms">
-          <div class="qstn_hds">Questions</div>
-          <ul>
-            <li *ngFor="let question of cases; let i = index" class="{{ i == active_case_index ? 'act_qstnm' : '' }}">
-              <span class="qstn_cnt" (click)="active_case_index = i">{{ i + 1 }}{{ " " + question["question"] }}</span>
-            </li>
-          </ul>
-        </div>
-        <div class="crs_desc_cnt mcb_desc">
-          <div *ngIf="cases.length > 0">
-            <div class="hgt_20"></div>
-            <div class="qstn_hds">
-              {{ active_case_index + 1 }}.{{
-              " " + cases[active_case_index]["question"]
-              }}
-            </div>
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="cases[active_case_index]['selected_option']">
-              <mat-radio-button *ngFor="
+          </div>
+          <div class="qstn_nms">
+            <div class="qstn_hds">Questions</div>
+            <ul>
+              <li *ngFor="let question of cases; let i = index" class="{{ i == active_case_index ? 'act_qstnm' : '' }}">
+                <span class="qstn_cnt" (click)="active_case_index = i">{{ i + 1 }}{{ " " + question["question"]
+                  }}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="crs_desc_cnt mcb_desc">
+            <div *ngIf="cases.length > 0">
+              <div class="hgt_20"></div>
+              <div class="qstnof_cnt">{{active_case_index + 1}} / {{cases.length}}</div>
+              <div class="qstn_hds">
+                {{ active_case_index + 1 }}.{{
+                " " + cases[active_case_index]["question"]
+                }}
+              </div>
+              <mat-radio-group aria-label="Select an option" [(ngModel)]="cases[active_case_index]['selected_option']">
+                <mat-radio-button *ngFor="
                   let option of cases[active_case_index]['options'];
                   let i_option = index
                 " (click)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
@@ -435,15 +490,15 @@
                     ? 'wrng_rdo'
                     : ''
                 }}">
-                {{ option["option_text"] }}
-                <img *ngIf="option['option_image']" [src]="option['option_image']" />
-              </mat-radio-button>
-            </mat-radio-group>
-            <div class="hgt_20"></div>
-            <img *ngIf="cases[active_case_index]['q_source'] == 'image'"
-              [src]="cases[active_case_index]['q_source_value']" />
-            <div class="hgt_20"></div>
-            <!-- <div class="qstn_hds">Explanation</div>
+                  {{ option["option_text"] }}
+                  <img *ngIf="option['option_image']" [src]="option['option_image']" />
+                </mat-radio-button>
+              </mat-radio-group>
+              <div class="hgt_20"></div>
+              <img *ngIf="cases[active_case_index]['q_source'] == 'image'"
+                [src]="cases[active_case_index]['q_source_value']" />
+              <div class="hgt_20"></div>
+              <!-- <div class="qstn_hds">Explanation</div>
                 <div>
                   Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
                   aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
@@ -452,60 +507,61 @@
                   diam aliquam aliquam
                 </div>
                 <div class="hgt_20"></div> -->
-          </div>
-          <div class="pn_btns">
-            <button mat-raised-button color="accent" [disabled]="!active_case_index > 0" (click)="prevQuestion()"
-              class="mr_1">
-              Prev
-            </button>
-            <button mat-raised-button color="accent" [disabled]="active_case_index + 1 >= cases.length"
-              (click)="nextQuestion()">
-              Next
-            </button>
+            </div>
+            <div class="pn_btns">
+              <button mat-raised-button color="accent" [disabled]="!active_case_index > 0" (click)="prevQuestion()"
+                class="mr_1">
+                Prev
+              </button>
+              <button mat-raised-button color="accent" [disabled]="active_case_index + 1 >= cases.length"
+                (click)="nextQuestion()">
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 10">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>help_outline</mat-icon> Short Questions
-          </span>
-          <span class="spacer"></span>
-          <!-- <span class="fnt_sze">
+    <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 10">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>help_outline</mat-icon> Short Questions
+            </span>
+            <span class="spacer"></span>
+            <!-- <span class="fnt_sze">
             <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
             <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
           </span>
           <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
           </button> -->
-        </div>
-        <div class="qstn_nms">
-          <div class="qstn_hds">Questions</div>
-          <div class="qstnof_cnt">1 of 20</div>
-          <ul>
-            <li *ngFor="let question of short_answers; let i = index"
-              class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
-              <span class="qstn_cnt" (click)="active_short_answer_index = i">{{ i + 1 }}{{ " " + question["question"]
-                }}</span>
-            </li>
-          </ul>
-        </div>
-        <div class="crs_desc_cnt mcb_desc">
-          <div *ngIf="short_answers.length > 0">
-            <div class="hgt_20"></div>
-            <div class="qstn_hds">
-              {{ active_short_answer_index + 1 }}.{{
-              " " + short_answers[active_short_answer_index]["question"]
-              }}
-            </div>
-            <mat-radio-group aria-label="Select an option" [(ngModel)]="
+          </div>
+          <div class="qstn_nms">
+            <div class="qstn_hds">Questions</div>
+
+            <ul>
+              <li *ngFor="let question of short_answers; let i = index"
+                class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
+                <span class="qstn_cnt" (click)="active_short_answer_index = i">{{ i + 1 }}{{ " " + question["question"]
+                  }}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="crs_desc_cnt mcb_desc">
+            <div *ngIf="short_answers.length > 0">
+              <div class="hgt_20"></div>
+              <div class="qstnof_cnt">{{active_short_answer_index + 1}} / {{short_answers.length}}</div>
+              <div class="qstn_hds">
+                {{ active_short_answer_index + 1 }}.{{
+                " " + short_answers[active_short_answer_index]["question"]
+                }}
+              </div>
+              <mat-radio-group aria-label="Select an option" [(ngModel)]="
                 short_answers[active_short_answer_index]['selected_option']
               ">
-              <mat-radio-button *ngFor="
+                <mat-radio-button *ngFor="
                   let option of short_answers[active_short_answer_index][
                     'options'
                   ];
@@ -525,16 +581,16 @@
                     ? 'wrng_rdo'
                     : ''
                 }}">
-                {{ option["option_text"] }}
-                <img *ngIf="option['option_image']" [src]="option['option_image']" />
-              </mat-radio-button>
-            </mat-radio-group>
-            <div class="hgt_20"></div>
-            <img *ngIf="
+                  {{ option["option_text"] }}
+                  <img *ngIf="option['option_image']" [src]="option['option_image']" />
+                </mat-radio-button>
+              </mat-radio-group>
+              <div class="hgt_20"></div>
+              <img *ngIf="
                 short_answers[active_short_answer_index]['q_source'] == 'image'
               " [src]="short_answers[active_short_answer_index]['q_source_value']" />
-            <div class="hgt_20"></div>
-            <!-- <div class="qstn_hds">Explanation</div>
+              <div class="hgt_20"></div>
+              <!-- <div class="qstn_hds">Explanation</div>
                     <div>
                       Sed non tortor ut diam aliquam aliquam Sed non tortor ut diam
                       aliquam aliquam Sed non tortor ut diam aliquam aliquam Sed non
@@ -543,231 +599,203 @@
                       diam aliquam aliquam
                     </div>
                     <div class="hgt_20"></div> -->
+            </div>
+            <div class="pn_btns">
+              <button mat-raised-button color="accent" [disabled]="!active_short_answer_index > 0"
+                (click)="prevQuestion()" class="mr_1">
+                Prev
+              </button>
+              <button mat-raised-button color="accent"
+                [disabled]="active_short_answer_index + 1 >= short_answers.length" (click)="nextQuestion()">
+                Next
+              </button>
+            </div>
           </div>
-          <div class="pn_btns">
-            <button mat-raised-button color="accent" [disabled]="!active_short_answer_index > 0"
-              (click)="prevQuestion()" class="mr_1">
-              Prev
-            </button>
-            <button mat-raised-button color="accent" [disabled]="active_short_answer_index + 1 >= short_answers.length"
-              (click)="nextQuestion()">
-              Next
-            </button>
-          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 8">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>insert_link</mat-icon> External References
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['external_ref_content']">
-          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
-            [data]="content['external_ref_content']"></ckeditor>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="crses_lft_mn" *ngIf="active_div == 9 && false">
-    <div class="crses_lft">
-      <div class="crs_desc">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>bolt</mat-icon> Related Topics
-          </span>
-          <span class="spacer"></span>
-          <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-          <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
-        </div>
-        <div class="crs_desc_cnt ck_editor_view" *ngIf="content['related_topics']">
-          <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
-            [data]="content['related_topics']"></ckeditor>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="crses_rgt">
-  <div class="intr_vd_hd">
-    <div>
-      <mat-icon>videocam</mat-icon>
-      Introduction video
-    </div>
-    <div class="spacer"></div>
-    <div class="vd_wthshr">
-      <button mat-fab [matMenuTriggerFor]="menu" aria-label="" class="no_bxsdw">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu" class="vd_wthshr_mnu">
-        <button mat-fab class="no_bxsdw my_02">
-          <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] == 1 ? true : false" matTooltip="Unlike">thumb_up_alt
-          </mat-icon>
-          <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] != 1 ? true : false" matTooltip="Like">thumb_up_off_alt
-          </mat-icon>
-        </button>
-        <button mat-fab class="no_bxsdw my_02">
-          <mat-icon matTooltip="Share">share</mat-icon>
-        </button>
-        <button mat-fab class="no_bxsdw my_02" matTooltip="">
-          <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] != 1 ? true : false" matTooltip="Favorite">favorite_border
-          </mat-icon>
-          <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] == 1 ? true : false" matTooltip="Unfavorite">favorite</mat-icon>
-        </button>
-        <button mat-fab class="no_bxsdw my_02">
-          <mat-icon matTooltip="Wishlist">playlist_add</mat-icon>
-        </button>
-        <button mat-fab class="no_bxsdw my_02">
-          <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false"  matTooltip="Add Bookmark">bookmark_border
-          </mat-icon>
-          <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] == 1 ? true : false"  matTooltip="Remove Bookmark">bookmark</mat-icon>
-        </button>
-      </mat-menu>
-    </div>
-  </div>
-  <div class="intr_vd_sc">
-    <img src="../../../assets/images/vid_smpl.jpg" />
-  </div>
-  <div class="intr_vd_optns d_none">
-    <span>
-      <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] == 1 ? true : false">thumb_up_alt
-      </mat-icon>
-      <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] != 1 ? true : false">thumb_up_off_alt
-      </mat-icon>
-    </span>
-    <span>
-      <mat-icon>share</mat-icon>
-    </span>
-    <span>
-      <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] != 1 ? true : false">favorite_border
-      </mat-icon>
-      <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] == 1 ? true : false">favorite</mat-icon>
-    </span>
-    <span>
-      <mat-icon>playlist_add</mat-icon>
-    </span>
-    <span>
-      <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false">
-        bookmark_border
-      </mat-icon>
-      <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] == 1 ? true : false">bookmark
-      </mat-icon>
-    </span>
-  </div>
-  <div class="intr_vd_tml">
-    <mat-accordion>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>timeline</mat-icon> Timeline
-          </mat-panel-title>
-          <mat-panel-description> </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="tm_ln_dv">
-          <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-        </div>
-        <div class="tm_ln_dv">
-          <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-        </div>
-        <div class="tm_ln_dv">
-          <span class="tm_stmp">01:30</span>
-          <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <mat-icon>videocam</mat-icon> Videos
-          </mat-panel-title>
-          <mat-panel-description>
+    <div class="crses_lft_mn" *ngIf="active_div == 8">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>insert_link</mat-icon> External References
+            </span>
             <span class="spacer"></span>
-            15 / 30 videos watched
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="wtcd_vds wv_actv">
-          <div class="wv_img">
-            <img src="../../../assets/images/vid_smpl.jpg" />
+            <!-- <span class="fnt_sze">
+            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+          </span> -->
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
           </div>
-          <div class="wv_ttl_dsc">
-            <span class="wv_tt_hd">Introduction video</span>
-            <span class="wv_ts">05:50 min</span>
-          </div>
-          <span class="spacer"></span>
-          <div class="wv_ply_icn">
-            <mat-icon>graphic_eq</mat-icon>
-          </div>
-          <div class="wv_bkmrk">
-            <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['external_ref_content']">
+            <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              [data]="content['external_ref_content']"></ckeditor>
           </div>
         </div>
-        <div class="wtcd_vds">
-          <div class="wv_img">
-            <img src="../../../assets/images/vid_smpl.jpg" />
+      </div>
+    </div>
+    <div class="crses_lft_mn" *ngIf="active_div == 9 && false">
+      <div class="crses_lft">
+        <div class="crs_desc">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>bolt</mat-icon> Related Topics
+            </span>
+            <span class="spacer"></span>
+            <!-- <span class="fnt_sze">
+            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+          </span> -->
+            <!-- <button mat-icon-button color="primary">
+            <mat-icon>close</mat-icon>
+          </button> -->
           </div>
-          <div class="wv_ttl_dsc">
-            <span class="wv_tt_hd">Introduction video</span>
-            <span class="wv_ts">05:50 min</span>
-          </div>
-          <span class="spacer"></span>
-          <div class="wv_ply_icn">
-            <mat-icon>graphic_eq</mat-icon>
-          </div>
-          <div class="wv_bkmrk">
-            <mat-icon>bookmark_border</mat-icon>
-          </div>
-        </div>
-        <div class="wtcd_vds">
-          <div class="wv_img">
-            <img src="../../../assets/images/vid_smpl.jpg" />
-          </div>
-          <div class="wv_ttl_dsc">
-            <span class="wv_tt_hd">Introduction video</span>
-            <span class="wv_ts">05:50 min</span>
-          </div>
-          <span class="spacer"></span>
-          <div class="wv_ply_icn">
-            <mat-icon>graphic_eq</mat-icon>
-          </div>
-          <div class="wv_bkmrk">
-            <mat-icon>bookmark_border</mat-icon>
+          <div class="crs_desc_cnt ck_editor_view" *ngIf="content['related_topics']">
+            <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              [data]="content['related_topics']"></ckeditor>
           </div>
         </div>
-        <div class="wtcd_vds">
-          <div class="wv_img">
-            <img src="../../../assets/images/vid_smpl.jpg" />
+      </div>
+    </div>
+  </div>
+  <div class="crses_rgt">
+    <div class="intr_vd_hd">
+      <div>
+        <mat-icon>videocam</mat-icon>
+        Introduction video
+      </div>
+      <div class="spacer"></div>
+    </div>
+    <div class="intr_vd_sc">
+      <img src="../../../assets/images/vid_smpl.jpg" />
+    </div>
+    <div class="intr_vd_optns d_none">
+      <span>
+        <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] == 1 ? true : false">thumb_up_alt
+        </mat-icon>
+        <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] != 1 ? true : false">thumb_up_off_alt
+        </mat-icon>
+      </span>
+      <span>
+        <mat-icon>share</mat-icon>
+      </span>
+      <span>
+        <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] != 1 ? true : false">favorite_border
+        </mat-icon>
+        <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] == 1 ? true : false">favorite</mat-icon>
+      </span>
+      <span>
+        <mat-icon>playlist_add</mat-icon>
+      </span>
+      <span>
+        <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false">
+          bookmark_border
+        </mat-icon>
+        <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] == 1 ? true : false">bookmark
+        </mat-icon>
+      </span>
+    </div>
+    <div class="intr_vd_tml">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>timeline</mat-icon> Timeline
+            </mat-panel-title>
+            <mat-panel-description> </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="tm_ln_dv">
+            <span class="tm_stmp">01:30</span>
+            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
           </div>
-          <div class="wv_ttl_dsc">
-            <span class="wv_tt_hd">Introduction video</span>
-            <span class="wv_ts">05:50 min</span>
+          <div class="tm_ln_dv">
+            <span class="tm_stmp">01:30</span>
+            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
           </div>
-          <span class="spacer"></span>
-          <div class="wv_ply_icn">
-            <mat-icon>graphic_eq</mat-icon>
+          <div class="tm_ln_dv">
+            <span class="tm_stmp">01:30</span>
+            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
           </div>
-          <div class="wv_bkmrk">
-            <mat-icon>bookmark_border</mat-icon>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>videocam</mat-icon> Videos
+            </mat-panel-title>
+            <mat-panel-description>
+              <span class="spacer"></span>
+              15 / 30 videos watched
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="wtcd_vds wv_actv">
+            <div class="wv_img">
+              <img src="../../../assets/images/vid_smpl.jpg" />
+            </div>
+            <div class="wv_ttl_dsc">
+              <span class="wv_tt_hd">Introduction video</span>
+              <span class="wv_ts">05:50 min</span>
+            </div>
+            <span class="spacer"></span>
+            <div class="wv_ply_icn">
+              <mat-icon>graphic_eq</mat-icon>
+            </div>
+            <div class="wv_bkmrk">
+              <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+            </div>
           </div>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
+          <div class="wtcd_vds">
+            <div class="wv_img">
+              <img src="../../../assets/images/vid_smpl.jpg" />
+            </div>
+            <div class="wv_ttl_dsc">
+              <span class="wv_tt_hd">Introduction video</span>
+              <span class="wv_ts">05:50 min</span>
+            </div>
+            <span class="spacer"></span>
+            <div class="wv_ply_icn">
+              <mat-icon>graphic_eq</mat-icon>
+            </div>
+            <div class="wv_bkmrk">
+              <mat-icon>bookmark_border</mat-icon>
+            </div>
+          </div>
+          <div class="wtcd_vds">
+            <div class="wv_img">
+              <img src="../../../assets/images/vid_smpl.jpg" />
+            </div>
+            <div class="wv_ttl_dsc">
+              <span class="wv_tt_hd">Introduction video</span>
+              <span class="wv_ts">05:50 min</span>
+            </div>
+            <span class="spacer"></span>
+            <div class="wv_ply_icn">
+              <mat-icon>graphic_eq</mat-icon>
+            </div>
+            <div class="wv_bkmrk">
+              <mat-icon>bookmark_border</mat-icon>
+            </div>
+          </div>
+          <div class="wtcd_vds">
+            <div class="wv_img">
+              <img src="../../../assets/images/vid_smpl.jpg" />
+            </div>
+            <div class="wv_ttl_dsc">
+              <span class="wv_tt_hd">Introduction video</span>
+              <span class="wv_ts">05:50 min</span>
+            </div>
+            <span class="spacer"></span>
+            <div class="wv_ply_icn">
+              <mat-icon>graphic_eq</mat-icon>
+            </div>
+            <div class="wv_bkmrk">
+              <mat-icon>bookmark_border</mat-icon>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
   </div>
 </div>

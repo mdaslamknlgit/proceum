@@ -19,8 +19,8 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input matInput [(ngModel)]="step_name" #step_name_name="ngModel" name="step_name_name"
-                      placeholder="Provide {{ step }} Name" required />
+                    <input matInput [(ngModel)]="step_name" #step_name_name="ngModel" maxlength="255"
+                      name="step_name_name" placeholder="Provide {{ step }} Name" required />
                   </mat-form-field>
                   <span class="prc_tltp" *ngIf="
                       (step_form.submitted || step_name_name.touched) &&
@@ -33,8 +33,8 @@
               <span> {{ step }} Code </span>
               <span>
                 <mat-form-field appearance="outline">
-                  <input matInput [(ngModel)]="step_code" #step_name_code="ngModel" name="step_name_code"
-                    placeholder="Provide {{ step }} Code" />
+                  <input matInput [(ngModel)]="step_code" #step_name_code="ngModel" maxlength="255"
+                    name="step_name_code" placeholder="Provide {{ step }} Code" />
                 </mat-form-field>
               </span>
             </div>
@@ -63,11 +63,12 @@
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''" placeholder="Search" />
+      <input matInput maxlength="255" [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+        placeholder="Search" />
       <mat-icon class="curserToPointer" (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button mat-raised-button color="accent" class="float_right" (click)="toggleModel()" type="button">
+    <button mat-raised-button color="accent" class="float_right margin-bottom_20" (click)="toggleModel()" type="button">
       New {{ step }}
     </button>
     <div class="rsp_tbl">
@@ -178,8 +179,8 @@
             <span>
               <span class="err_tltp_par">
                 <mat-form-field appearance="outline">
-                  <input matInput [(ngModel)]="step_name" #step_name_name="ngModel" name="step_name_name"
-                    placeholder="Provide Curiculum Name" required />
+                  <input matInput maxlength="255" [(ngModel)]="step_name" #step_name_name="ngModel"
+                    name="step_name_name" placeholder="Provide Curiculum Name" required />
                 </mat-form-field>
                 <span class="prc_tltp" *ngIf="
                     (edit_step_form.submitted || step_name_name.touched) &&
@@ -192,8 +193,8 @@
             <span> {{ step }} Code </span>
             <span>
               <mat-form-field appearance="outline">
-                <input matInput [(ngModel)]="step_code" #step_name_code="ngModel" name="edit_step_name_code"
-                  placeholder="Provide {{ step }} Code" />
+                <input matInput maxlength="255" [(ngModel)]="step_code" #step_name_code="ngModel"
+                  name="edit_step_name_code" placeholder="Provide {{ step }} Code" />
               </mat-form-field>
             </span>
           </div>

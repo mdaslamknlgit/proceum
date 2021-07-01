@@ -5,46 +5,32 @@
     <span routerLink="/student/curriculums">Curriculums / </span>
     <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
       curriculum["curriculumn_name"]
-    }}</span>
-    <span *ngFor="let bread of breadcome; let i = index"
-      >/<span
-        *ngIf="i < breadcome.length - 1"
-        routerLink="/student/curriculums/{{
+      }}</span>
+    <span *ngFor="let bread of breadcome; let i = index">/<span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
-        }}"
-        >{{ bread["name"] }}</span
-      >
+        }}">{{ bread["name"] }}</span>
       <strong *ngIf="i == breadcome.length - 1">
-        {{ setTitle(bread["name"]) }}</strong
-      ></span
-    >
+        {{ setTitle(bread["name"]) }}</strong></span>
   </div>
   <div class="hgt_20"></div>
   <div class="dsh_brd_crds">
     <!-- <span>Search</span> -->
     <div class="clear_fix"></div>
     <mat-form-field appearance="outline" class="xl_srch">
-      <input
-        [(ngModel)]="search"
-        matInput
-        (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-        placeholder="Search in {{ title }}"
-      />
+      <input [(ngModel)]="search" matInput (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+        placeholder="Search in {{ title }}" />
       <mat-icon matSuffix color="accent" (click)="doFilter()">search</mat-icon>
     </mat-form-field>
   </div>
-  <mat-tab-group>
+  <mat-tab-group (selectedTabChange)="switchTab($event)" animationDuration="0.15s">
     <mat-tab label="All">
-      <div class="crs_tbbd_mn">
-        <div class="crs_tbbd_dv" *ngFor="let level of levels">
-          <span
-            class="ct_hd"
-            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+      <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
+      <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
+        <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
+          <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
-            }}/{{ level['id'] }}"
-            >{{ level["name"] }} - (Code :
-            {{ level["code"] ? level["code"] : "N/A" }})</span
-          >
+            }}/{{ level['id'] }}">{{ level["name"] }} - (Code :
+            {{ level["code"] ? level["code"] : "N/A" }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn">
             <mat-icon>star</mat-icon>
@@ -59,24 +45,29 @@
           </span>
           <span class="ct_cnt">100/628</span>
           <span class="ct_fav">
-            <mat-icon>favorite_border</mat-icon>
+            <mat-icon color="accent" (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] != 1 ? true : false" matTooltip="Like">
+              favorite_border</mat-icon>
+            <mat-icon color="accent" (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] == 1 ? true : false" matTooltip="Un Like">
+              favorite</mat-icon>
           </span>
           <span class="ct_bm">
-            <mat-icon>bookmark_border</mat-icon>
+            <mat-icon color="accent" (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] != 1 ? true : false" matTooltip="Add Bookmark">bookmark_border
+            </mat-icon>
+            <mat-icon color="accent" (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] == 1 ? true : false" matTooltip="Remove Bookmark">bookmark
+            </mat-icon>
           </span>
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Most Popular">
-      <div class="crs_tbbd_mn">
+    <mat-tab label="Bookmark">
+      <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
+      <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div class="crs_tbbd_dv" *ngFor="let level of levels">
-          <span
-            class="ct_hd"
-            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+          <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
-            }}/{{ level['id'] }}"
-            >{{ level["name"] }} - (Code : {{ level["code"] }})</span
-          >
+            }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn">
             <mat-icon>star</mat-icon>
@@ -91,24 +82,28 @@
           </span>
           <span class="ct_cnt">100/628</span>
           <span class="ct_fav">
-            <mat-icon>favorite_border</mat-icon>
+            <mat-icon (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] != 1 ? true : false">
+              favorite_border</mat-icon>
+            <mat-icon (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] == 1 ? true : false">
+              favorite</mat-icon>
           </span>
           <span class="ct_bm">
-            <mat-icon>bookmark_border</mat-icon>
+            <mat-icon (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] != 1 ? true : false">bookmark_border
+            </mat-icon>
+            <mat-icon (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] == 1 ? true : false">bookmark
+            </mat-icon>
           </span>
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Most Rated">
+    <mat-tab label="Most Rated" *ngIf="false">
       <div class="crs_tbbd_mn">
         <div class="crs_tbbd_dv" *ngFor="let level of levels">
-          <span
-            class="ct_hd"
-            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+          <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
-            }}/{{ level['id'] }}"
-            >{{ level["name"] }} - (Code : {{ level["code"] }})</span
-          >
+            }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn">
             <mat-icon>star</mat-icon>
@@ -123,24 +118,29 @@
           </span>
           <span class="ct_cnt">100/628</span>
           <span class="ct_fav">
-            <mat-icon>favorite_border</mat-icon>
+            <mat-icon (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] != 1 ? true : false">
+              favorite_border</mat-icon>
+            <mat-icon (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] == 1 ? true : false">
+              favorite</mat-icon>
           </span>
           <span class="ct_bm">
-            <mat-icon>bookmark_border</mat-icon>
+            <mat-icon (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] != 1 ? true : false">bookmark_border
+            </mat-icon>
+            <mat-icon (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] == 1 ? true : false">bookmark
+            </mat-icon>
           </span>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="Favorite">
-      <div class="crs_tbbd_mn">
+      <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
+      <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div class="crs_tbbd_dv" *ngFor="let level of levels">
-          <span
-            class="ct_hd"
-            routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+          <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
-            }}/{{ level['id'] }}"
-            >{{ level["name"] }} - (Code : {{ level["code"] }})</span
-          >
+            }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn">
             <mat-icon>star</mat-icon>
@@ -155,10 +155,18 @@
           </span>
           <span class="ct_cnt">100/628</span>
           <span class="ct_fav">
-            <mat-icon>favorite_border</mat-icon>
+            <mat-icon (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] != 1 ? true : false">
+              favorite_border</mat-icon>
+            <mat-icon (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] == 1 ? true : false">
+              favorite</mat-icon>
           </span>
           <span class="ct_bm">
-            <mat-icon>bookmark_border</mat-icon>
+            <mat-icon (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] != 1 ? true : false">bookmark_border
+            </mat-icon>
+            <mat-icon (click)="manageStatistics('bookmark', level['id'], i)"
+              *ngIf="level['is_bookmark'] == 1 ? true : false">bookmark
+            </mat-icon>
           </span>
         </div>
       </div>

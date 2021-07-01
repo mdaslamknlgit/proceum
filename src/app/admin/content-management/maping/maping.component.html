@@ -1,11 +1,11 @@
 <div class="mn_dshbrd">
-  <div class="cust_mdl_par cust_mdl_50p {{ modal_popup ? 'cust_mdl_opn' : '' }}">
+  <div class="cust_mdl_par {{ modal_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
-      <div class="pg_ttl">
+      <div class="pg_ttl mpng_pp_hd">
         <strong>Linking To : </strong> {{ link_to_string }}
         <span class="spacer"></span>
-        <button mat-icon-button (click)="closeModal()" class="float_right">
-          &#x2715;
+        <button mat-icon-button (click)="closeModal()">
+          <mat-icon>close</mat-icon>
         </button>
       </div>
       <div class="tbbd_bdy">
@@ -14,7 +14,7 @@
           <mat-form-field appearance="outline" class="float_right">
             <input [(ngModel)]="content_search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''" matInput
               placeholder="Search" />
-            <mat-icon matSuffix>search</mat-icon>
+            <mat-icon matSuffix (click)="doFilter()">search</mat-icon>
           </mat-form-field>
         </div>
         <div class="rsp_tbl">
@@ -31,7 +31,7 @@
             </ng-container>
 
             <ng-container matColumnDef="title">
-              <th mat-header-cell *matHeaderCellDef>Title</th>
+              <th mat-header-cell *matHeaderCellDef>Content Title</th>
               <td mat-cell *matCellDef="let element">{{ element.title }}</td>
             </ng-container>
 
@@ -86,7 +86,10 @@
   <div class="pg_ttl">Content linking</div>
   <hr />
   <div class="dsh_brd_crds">
-    <div>
+      <div *ngIf="curriculum_list == undefined">
+          No Curriculums Found
+      </div>
+    <div *ngIf="curriculum_list != undefined">
       <span>Select Course</span>
       <div class="clear_fix"></div>
       <mat-form-field appearance="outline">
@@ -144,8 +147,8 @@
         <tr mat-header-row *matHeaderRowDef="stepsDisplayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: stepsDisplayedColumns"></tr>
         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="{{ stepsDisplayedColumns.length }}">
-            No Records Found 
+          <td style="text-align: center; margin: 20px" class="mat-cell" colspan="7">
+            No Records Found
           </td>
         </tr>
       </table>
