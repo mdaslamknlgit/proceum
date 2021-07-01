@@ -16,7 +16,9 @@ export class ContentManagementComponent implements OnInit {
   displayedColumns: string[] = [
     'sno',
     'content_title',
+    'created_by',
     'status',
+    'content_status',
     'created_at',
     'updated_at',
     'actions',
@@ -31,6 +33,7 @@ export class ContentManagementComponent implements OnInit {
   public search_box = '';
   modal_popup = false;
   page: number = 0;
+  public tab_index = 0
   constructor(private http: CommonService, private toster: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
@@ -38,9 +41,14 @@ export class ContentManagementComponent implements OnInit {
       url: 'content-list',
       offset: this.page,
       limit: this.pageSize,
+      tab_index: this.tab_index
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
+        if (this.paginator != undefined) {
+            this.paginator.pageIndex = 0;
+            this.paginator.firstPage();
+          }
         this.dataSource = new MatTableDataSource(res['data']['content_list']);
         this.totalSize = res['total_records'];
         this.dataSource.paginator = this.paginator;
@@ -55,6 +63,7 @@ export class ContentManagementComponent implements OnInit {
       limit: this.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
+      tab_index: this.tab_index
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -74,6 +83,7 @@ export class ContentManagementComponent implements OnInit {
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
+      tab_index: this.tab_index
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -84,6 +94,10 @@ export class ContentManagementComponent implements OnInit {
         this.dataSource = new MatTableDataSource([]);
       }
     });
+  }
+  switchTab(event){
+    this.tab_index = event.index;
+    this.getContentList();
   }
   sortData(event) {
     this.sort_by = event;
