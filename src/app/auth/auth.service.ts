@@ -60,6 +60,16 @@ export class AuthService {
         catchError(this.errorHandler)
       );
   }
+  public imageUpload(param: any, myFormData: any) {
+    let headers = new HttpHeaders();
+
+    return this.http
+      .post(this.apiURL + param.url, myFormData, { headers: headers })
+      .pipe(
+        map((res) => res),
+        catchError(this.errorHandler)
+      );
+  }
   errorHandler(error: Response) {
     return throwError(error);
   }
