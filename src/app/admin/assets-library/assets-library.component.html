@@ -36,24 +36,37 @@
           </ul>
         </div>
         <hr />
-        <a [href]="bucket_path + file_details['path']" target="_blank" mat-raised-button color="accent"
-          class="float_right mr_1">
-          Open
-        </a>
-        <button *ngIf="data['modal_view'] == true" mat-raised-button color="accent" class="float_right mr_1" (click)="
-            selectFile({ file_path: file_details['path'], path: preview_path })
-          ">
-          Select
-        </button>
-        <button mat-raised-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+        <div class="img_prp_btns">
+          <div>
+            <a [href]="bucket_path + file_details['path']" target="_blank" mat-raised-button color="accent"
+              class="float_right mr_1">
+              Open
+            </a>
+          </div>
+          <div>
+            <button *ngIf="data['modal_view'] == true" mat-raised-button color="accent" class="float_right mr_1"
+              (click)="
+            selectFile({ file_path: file_details['path'], path: preview_path })">Select
+            </button>
+          </div>
+          <div>
+            <button mat-raised-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
             'are you sure to delete this file? File will be deleted permanently.'
           " placement="auto" (confirm)="deleteFile(file_details['path'])" confirmButtonType="danger"
-          cancelButtonType="outline-secondary" color="warn" class="float_right mr_1">
-          Delete
-        </button>
-        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="ClosePropertisModal()">
-          Close
-        </button>
+              cancelButtonType="outline-secondary" color="warn" class="float_right mr_1">
+              Delete
+            </button>
+          </div>
+          <div>
+            <button mat-raised-button class="float_right mr_1 gry_btn" (click)="ClosePropertisModal()">
+              Close
+            </button>
+          </div>
+        </div>
+
+
+
+        
         <div class="hgt_20"></div>
       </div>
     </div>
