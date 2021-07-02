@@ -5,6 +5,7 @@ import { MaterialModule } from '../material/material.module';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
 import { LayoutsModule } from '../layouts/layouts.module';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -17,7 +18,7 @@ const routes: Routes = [
 ];
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), MaterialModule, LayoutsModule],
+  imports: [CommonModule, RouterModule.forChild(routes), MaterialModule, LayoutsModule,FormsModule],
   exports: [RouterModule],
 })
 export class AuthModule {}

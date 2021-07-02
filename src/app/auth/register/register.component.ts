@@ -2,52 +2,122 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { MatStepper } from '@angular/material/stepper';
+import { ReplaySubject } from 'rxjs';
+import {FormControl} from '@angular/forms';
 import {
   SocialAuthService,
   GoogleLoginProvider,
   SocialUser,
   FacebookLoginProvider,
 } from 'angularx-social-login';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent implements OnInit {
-  isLinear = false;
 
+export class RegisterComponent implements OnInit {
+  //variables goes here
+  myControl = new FormControl();
+  isLinear = false; //for stepper
+  is_second:boolean=false;
   socialUser: SocialUser;
-  register: Register = {
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    provider: '',
-    id: '',
-    password: '',
-    confirm_pwd: '',
-    register_type: '',
-  };
-  public message: string = 'Required data is missing';
-  public first_name: string = 'First Name is Required';
-  public last_name: string = 'Last Name is Required';
-  public email_error: string = 'Email is Required';
+  public universities: string[] = [];
+  public colleges: string[] = [];
+  public is_login: boolean = false;
+  public is_show: boolean = false;
+  public is_account_type: boolean = true;
+  public is_individual: boolean = false;
+  public is_institution: boolean = false;
+  public is_university: boolean = false;
+  public is_college: boolean = false;
+  public is_coaching_institute: boolean = false;
+  public university_college_error = 'University or College required';
   public password_error: string = 'Password is Required';
   public confirm_password_error: string = 'Confirm Password is Required';
   public email_check: boolean = true;
   public password_check: boolean = true;
   public confirm_check: boolean = true;
-  public is_login: boolean = false;
-  domain: string;
+  public domain: string;
   confirm_hide: boolean = true;
   password_hide: boolean = true;
-  is_show: boolean = false;
-  is_account_type: boolean = true;
-  is_induvidual: boolean = false;
-  is_college: boolean = false;
-  is_university: boolean = false;
-  is_institution: boolean = false;
+  public profile_pic: string = '';
+  public address_details:boolean = false;
+  //master data variables goes here
+  countrys = [];
+  states = [];
+  institutes = [];
+  all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
+
+  //idividual form bindings
+  individualRegister: IndividualRegister = {
+    first_name: '',
+    last_name: '',
+    email: '',
+    contact_number: '',
+    provider: '',
+    id: '',
+    password: '',
+    confirm_pwd: '',
+    register_type: '',
+    college: '',
+    university: '',
+    qualification : '',
+    profession : '',
+    address_line_1:'',
+    address_line_2:'',
+    country_id:0,
+    state_id:'',
+    city:'',
+    zip_code:'',
+    accepeted_terms:false,
+  };
+
+  //institution form bindings
+  institutionResgister: InstitutionResgister = {
+    university_name:'',
+    university_code:'',
+    university_primary_contact:'',
+    university_secondary_contact:'',
+    university_contact_person:'',
+    university_email:'',
+
+    college_name:'',
+    college_code:'',
+    college_primary_contact:'',
+    college_university:'',
+    college_contact_person:'',
+    college_email:'',
+
+    institute_name:'',
+    institute_primary_contact:'',
+    institute_contact_person:'',
+    institute_email:'',
+    first_name: '',
+    last_name: '',
+    email: '',
+    contact_number: '',
+    provider: '',
+    id: '',
+    password: '',
+    confirm_pwd: '',
+    register_type: '',
+    college : '',
+    qualification : '',
+    profession : '',
+    address_line_1:'',
+    address_line_2:'',
+    country_id:'',
+    state_id:'',
+    city:'',
+    zip_code:'',
+    accepeted_terms:false,
+  }
+  
   constructor(
     private http: AuthService,
     private route: Router,
@@ -57,127 +127,291 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.domain = location.origin;
+    this.getSocialAuth();
+    this.getCountries();
+    
+  }
+  
+  //Activate html form institution types
+  radioChange(institution_type: string) {
+    if (institution_type == '1') {
+      this.institutionResgister.register_type = 'university';
+      this.is_university = true;
+      this.is_college = false;
+      this.is_coaching_institute = false;
+    } else if (institution_type == '2') {
+      this.institutionResgister.register_type = 'college';
+      this.is_university = false;
+      this.is_college = true;
+      this.is_coaching_institute = false;
+    } else if(institution_type == '3'){
+      this.institutionResgister.register_type = 'institute';
+      this.is_university = false;
+      this.is_college = false;
+      this.is_coaching_institute = true;
+    }
+  }
+
+  //Activate html form based on registration type
+  registrationForm(registration_type: string) {
+    this.address_details = false;
+    if (registration_type == 'individual') {
+      this.is_account_type = false;
+      this.is_individual = true;
+      this.is_institution = false;
+    } else if (registration_type == 'institution') {
+      this.institutionResgister.register_type = 'university';
+      this.is_university = true;
+      this.is_account_type = false;
+      this.is_individual = false;
+      this.is_institution = true;
+    } else {
+      this.is_account_type = true;
+      this.is_individual = false;
+      this.is_institution = false;
+    }
+  }
+
+  //Social auth
+  getSocialAuth(){
     this.socialAuthService.authState.subscribe((user) => {
       if (user && this.is_login == false) {
         this.is_login = true;
         this.socialUser = user;
-        this.register.first_name = this.socialUser.firstName;
-        this.register.last_name = this.socialUser.lastName;
-        this.register.email = this.socialUser.email;
-        this.register.password = 'Proceum@123';
-        this.register.confirm_pwd = 'Proceum@123';
-        this.register.register_type = 'SL';
-        this.register.provider = this.socialUser.provider;
-        this.register.id = this.socialUser.id;
-        this.message = '';
+        this.individualRegister.first_name = this.socialUser.firstName;
+        this.individualRegister.last_name = this.socialUser.lastName;
+        this.individualRegister.email = this.socialUser.email;
+        this.individualRegister.password = 'Proceum@123';
+        this.individualRegister.confirm_pwd = 'Proceum@123';
+        this.individualRegister.register_type = 'SL';
+        this.individualRegister.provider = this.socialUser.provider;
+        this.individualRegister.id = this.socialUser.id;
         this.registerService();
       }
     });
   }
 
-  registrationForm(registration_type: string) {
-    if (registration_type == 'individual') {
-      this.is_account_type = false;
-      this.is_induvidual = true;
-      this.is_college = false;
-      this.is_university = false;
-      this.is_institution = false;
-    } else if (registration_type == 'college') {
-      this.is_account_type = false;
-      this.is_induvidual = false;
-      this.is_college = true;
-      this.is_university = false;
-      this.is_institution = false;
-    } else if (registration_type == 'institution') {
-      this.is_account_type = false;
-      this.is_induvidual = false;
-      this.is_college = false;
-      this.is_university = false;
-      this.is_institution = true;
-    } else if (registration_type == 'university') {
-      this.is_account_type = false;
-      this.is_induvidual = false;
-      this.is_college = false;
-      this.is_university = true;
-      this.is_institution = false;
-    } else {
-      this.is_account_type = true;
-      this.is_induvidual = false;
-      this.is_college = false;
-      this.is_university = false;
-      this.is_institution = false;
+  validateindividualsBasicDetails(stepper:MatStepper){
+    if((this.individualRegister.first_name != '' && this.individualRegister.email != '' && this.individualRegister.last_name != '' && 
+    this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.confirm_pwd != '' && this.individualRegister.qualification != '' && this.individualRegister.profession != '') && (this.individualRegister.university != '' || this.individualRegister.college != '') ){
+      stepper.next();
+      //this.individual_address_details = true;
     }
   }
 
-  doRegistration() {
-    if (
-      this.register.first_name == '' ||
-      this.register.last_name == '' ||
-      this.register.email == '' ||
-      this.register.password == '' ||
-      this.register.confirm_pwd == ''
-    ) {
-    } else {
-      if (this.register.email != '') {
-        this.email_check = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-          this.register.email
-        );
-        if (this.email_check == false) {
-          this.email_error = 'Invalid email';
-        }
+  validateInstitutionBasicDetails(stepper:MatStepper){
+    if(this.is_university){
+      if(this.institutionResgister.university_name != '' && this.institutionResgister.university_primary_contact != '' && this.institutionResgister.university_contact_person != '' && this.institutionResgister.password != '' && this.institutionResgister.university_code != '' && this.institutionResgister.university_secondary_contact != '' && this.institutionResgister.university_email != '' && this.institutionResgister.confirm_pwd != '' ){
+       stepper.next();
       }
-      if (this.register.password != '') {
-        const regex = new RegExp(
-          '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&#^()><?/:;,.])[A-Za-zd$@$!%*?&#^()><?/:;,.].{7,15}'
-        );
-        this.password_check = regex.test(this.register.password);
-        if (this.password_check == true) {
-          if (this.register.password === this.register.confirm_pwd) {
-            this.confirm_check = true;
-            if (this.register.register_type == '') {
-              this.register.register_type = 'GN';
-            }
-            this.registerService();
-          } else {
-            this.confirm_check = false;
-            this.confirm_password_error =
-              'Password and Confirm password are not matched';
-          }
-        } else {
-          this.password_error =
-            'A minimum 8 characters password contains a combination of uppercase and lowercase letter,special character and number are required.';
+    }
+    if(this.is_college){
+      if(this.is_university){
+        if(this.institutionResgister.college_name != '' && this.institutionResgister.college_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.college_code != '' && this.institutionResgister.college_contact_person != '' && this.institutionResgister.college_email != '' && this.institutionResgister.confirm_pwd != '' ){
+         stepper.next();
         }
       }
     }
+    if(this.is_coaching_institute){
+      if(this.is_university){
+        if(this.institutionResgister.institute_name != '' && this.institutionResgister.institute_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.institute_contact_person != '' && this.institutionResgister.institute_email != '' && this.institutionResgister.confirm_pwd != '' ){
+         stepper.next();
+        }
+      }
+    }
+  }
+
+  getCountries(){
+    let param = { url: 'get-countries' };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.countrys = res['data']['countries'];
+        if(this.countrys != undefined){
+          this.all_countrys.next(this.countrys.slice());
+          
+        }
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  filterCountries(event) {
+    let search = event;
+    if (!search) {
+      this.all_countrys.next(this.countrys.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_countrys.next(
+      this.countrys.filter(
+        (country) => country.country_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  getStates(selected_country_id: number) {
+    if (selected_country_id > 0) {
+      let param = {
+        url: 'get-states',
+        country_id: selected_country_id,
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.states = res['data']['states'];
+          console.log(this.states);
+          this.all_states.next(this.states.slice());
+        } else {
+          let message = res['errors']['title']
+            ? res['errors']['title']
+            : res['message'];
+          //this.toster.error(message, 'Error', { closeButton: true });
+        }
+      });
+    }
+  }
+
+  doIdividualRegistraion(){
+    if(this.individualRegister.address_line_1 == '' || this.individualRegister.country_id == '' || this.individualRegister.state_id == '' || this.individualRegister.city == '' || this.individualRegister.zip_code == ''){
+      this.address_details = true;
+      return;
+    }
+    let params = {
+      url: 'register',
+      first_name : this.individualRegister.first_name,
+      last_name : this.individualRegister.last_name,
+      email : this.individualRegister.email,
+      contact_number : this.individualRegister.contact_number,
+      university : this.individualRegister.university,
+      college : this.individualRegister.college,
+      profession : this.individualRegister.profession,
+      qualification : this.individualRegister.qualification,
+      password : this.individualRegister.password,
+      confirm_pwd : this.individualRegister.confirm_pwd,
+      address_line_1 : this.individualRegister.address_line_1,
+      address_line_2 : this.individualRegister.address_line_2,
+      country_id : this.individualRegister.country_id,
+      state_id : this.individualRegister.state_id,
+      city : this.individualRegister.city,
+      register_type : 'individual',
+      zip_code : this.individualRegister.zip_code,
+      accepeted_terms : this.individualRegister.accepeted_terms,
+      domain : this.domain,
+      profile_pic : this.profile_pic
+    }
+    this.http.register(params).subscribe((res: Response) => {
+      console.log(res);
+      if (res.error) {
+        this.is_show = false;
+        this.toastr.error(res.message, 'Error', {
+          closeButton: true,
+          timeOut: 5000,
+        });
+      }else{
+        this.is_account_type = false;
+        this.is_individual = false;
+        this.is_institution = false;
+        this.is_show = true;
+      }  
+    });
+  }
+
+  doInstitutionRegistraion(){
+    let params = {
+      url: 'register',
+      //Below are related to university registration
+      university_name: this.institutionResgister.university_name,
+      university_code: this.institutionResgister.university_code,
+      university_primary_contact: this.institutionResgister.university_primary_contact,
+      university_secondary_contact: this.institutionResgister.university_secondary_contact,
+      university_contact_person: this.institutionResgister.university_contact_person,
+      university_email: this.institutionResgister.university_email,
+      
+      //Below are related to college registration
+      college_name: this.institutionResgister.college_name,
+      college_code: this.institutionResgister.college_code,
+      college_primary_contact: this.institutionResgister.college_primary_contact,
+      college_university: this.institutionResgister.college_university,
+      college_contact_person: this.institutionResgister.college_contact_person,
+      college_email: this.institutionResgister.college_email,
+      
+      //Below are related to coaching institute registration
+      institute_name: this.institutionResgister.institute_name,
+      institute_primary_contact: this.institutionResgister.institute_primary_contact,
+      institute_contact_person: this.institutionResgister.institute_contact_person,
+      institute_email: this.institutionResgister.institute_email,
+      
+      //common fields
+      password : this.institutionResgister.password,
+      confirm_pwd : this.institutionResgister.confirm_pwd,
+      address_line_1 : this.institutionResgister.address_line_1,
+      address_line_2 : this.institutionResgister.address_line_2,
+      country_id : this.institutionResgister.country_id,
+      state_id : this.institutionResgister.state_id,
+      city : this.institutionResgister.city,
+      register_type : this.institutionResgister.register_type, //Don't remove this
+      zip_code : this.institutionResgister.zip_code,
+      accepeted_terms : this.institutionResgister.accepeted_terms,
+      domain : this.domain,
+      profile_pic : this.profile_pic
+
+    }
+    this.http.register(params).subscribe((res: Response) => {
+      if (res.error) {
+        this.is_show = false;
+        this.toastr.error(res.message, 'Error', {
+          closeButton: true,
+          timeOut: 5000,
+        });
+      }else{
+        this.is_account_type = false;
+        this.is_individual = false;
+        this.is_institution = false;
+        this.is_show = true;
+      } 
+
+    });
   }
 
   registerService() {
     let params = {
       url: 'register',
-      first_name: this.register.first_name,
-      last_name: this.register.last_name,
-      email: this.register.email,
-      password: this.register.password,
+      first_name: this.individualRegister.first_name,
+      last_name: this.individualRegister.last_name,
+      email: this.individualRegister.email,
+      password: this.individualRegister.password,
       role: 2,
-      register_type: this.register.register_type,
-      provider: this.register.provider,
-      id: this.register.id,
+      register_type: this.individualRegister.register_type,
+      provider: this.individualRegister.provider,
+      id: this.individualRegister.id,
       domain: this.domain,
     };
     this.http.register(params).subscribe((res: Response) => {
       if (res.error) {
         if (res.register_type == 'SL') {
           this.socialAuthService.signOut(true);
-          this.register = {
+          this.individualRegister = {
             first_name: '',
             last_name: '',
             email: '',
-            phone: '',
+            contact_number: '',
             provider: '',
             id: '',
             password: '',
             confirm_pwd: '',
             register_type: '',
+            university:'',
+            college: '',
+            qualification: '',
+            profession: '',
+            address_line_1:'',
+            address_line_2:'',
+            country_id:'',
+            state_id:'',
+            city:'',
+            zip_code:'',
+            accepeted_terms:false,
           };
           this.toastr.error(res.message, 'Error', {
             closeButton: true,
@@ -190,39 +424,24 @@ export class RegisterComponent implements OnInit {
             timeOut: 5000,
           });
         }
-      } else {
-        if (res.register_type == 'SL') {
-          localStorage.setItem('_token', res['data'].token);
-          let json_user = btoa(JSON.stringify(res['data'].user));
-          localStorage.setItem('user', json_user);
-          if (res['data']['user']['role'] == 1) {
-            //admin
-            let redirect_url = localStorage.getItem('_redirect_url')
-              ? localStorage.getItem('_redirect_url')
-              : '/admin/dashboard';
-            localStorage.removeItem('_redirect_url');
-            this.route.navigate([redirect_url]);
-          } else if (res['data']['user']['role'] == 2) {
-            //student
-            let redirect_url = localStorage.getItem('_redirect_url')
-              ? localStorage.getItem('_redirect_url')
-              : '/student/dashboard';
-            localStorage.removeItem('_redirect_url');
-            this.route.navigate([redirect_url]);
-          }
-        } else {
-          this.is_show = true;
-          this.register = {
-            first_name: '',
-            last_name: '',
-            email: '',
-            phone: '',
-            provider: '',
-            id: '',
-            password: '',
-            confirm_pwd: '',
-            register_type: '',
-          };
+      }else {
+        localStorage.setItem('_token', res['data'].token);
+        let json_user = btoa(JSON.stringify(res['data'].user));
+        localStorage.setItem('user', json_user);
+        if (res['data']['user']['role'] == 1) {
+          //admin
+          let redirect_url = localStorage.getItem('_redirect_url')
+            ? localStorage.getItem('_redirect_url')
+            : '/admin/dashboard';
+          localStorage.removeItem('_redirect_url');
+          this.route.navigate([redirect_url]);
+        } else if (res['data']['user']['role'] == 2) {
+          //student
+          let redirect_url = localStorage.getItem('_redirect_url')
+            ? localStorage.getItem('_redirect_url')
+            : '/student/dashboard';
+          localStorage.removeItem('_redirect_url');
+          this.route.navigate([redirect_url]);
         }
       }
     });
@@ -244,18 +463,136 @@ export class RegisterComponent implements OnInit {
     } else if (social_type == 'AP') {
     }
   }
+//To get all the Universities list
+  getUniversities(serachString: string){
+    let param = { url: 'get-universities', university_search_string : serachString};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.universities = res['data']['universities'];
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+  
+  //To get all college list
+  getColleges(searchString: string){
+    let param = { url: 'get-colleges' , college_search_string : searchString};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.colleges = res['data']['colleges'];
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  //To get all college list
+  getInstitutes(searchString: string){
+    let param = { url: 'get-institutes' , institute_search_string : searchString};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.institutes = res['data']['institutes'];
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  //Upload profile pic
+  uploadImage(event) {
+    let allowed_types = ['jpg', 'jpeg', 'bmp', 'gif', 'png'];
+    const uploadData = new FormData();
+    let files = event.target.files;
+    let file = files[0];
+    if (files.length == 0) return false;
+    let ext = file.name.split('.').pop().toLowerCase();
+    if (allowed_types.includes(ext)) {
+      uploadData.append('upload', file);
+    } else {
+      this.toastr.error(
+        ext +
+          ' Extension not allowed file (' +
+          files.name +
+          ') not uploaded'
+      );
+      return false;
+    }
+    let param = { url: 'upload-picture' };
+    this.http.imageUpload(param, uploadData).subscribe((res) => {
+      console.log(res);
+      if (res['error'] == false) {
+        //this.toastr.success('Files successfully uploaded.', 'File Uploaded');
+        this.profile_pic = res['url'];
+      }
+    });
+  }
 }
 
-export interface Register {
+export interface IndividualRegister {
   first_name: string;
   last_name: string;
   email: string;
-  phone: any;
+  contact_number: any;
   provider: any;
   id: any;
   password: any;
   confirm_pwd: any;
   register_type: any;
+  university: any;
+  college: any;
+  qualification: any;
+  profession: any;
+  address_line_1:any,
+  address_line_2:any,
+  country_id:any,
+  state_id:any,
+  city:any,
+  zip_code:any,
+  accepeted_terms: boolean,
+
+}
+
+export interface InstitutionResgister {
+  university_name: string;
+  university_code: any;
+  university_primary_contact: any;
+  university_secondary_contact: any;
+  university_contact_person: any;
+  university_email: any;
+
+  college_name: string;
+  college_code: any;
+  college_primary_contact: any;
+  college_university:any;
+  college_contact_person: any;
+  college_email:any;
+
+  institute_name: string;
+  institute_primary_contact: any;
+  institute_contact_person: any;
+  institute_email:any;
+
+  first_name: string;
+  last_name: string;
+  email: string;
+  contact_number: any;
+  provider: any;
+  id: any;
+  password: any;
+  confirm_pwd: any;
+  register_type: any;
+  college: any;
+  qualification: any;
+  profession: any;
+  address_line_1:any,
+  address_line_2:any,
+  country_id:any,
+  state_id:any,
+  city:any,
+  zip_code:any,
+  accepeted_terms: boolean,
+
 }
 
 export interface Response {
