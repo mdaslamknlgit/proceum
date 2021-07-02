@@ -20,7 +20,9 @@
       </div>
       <div class="oldr_cmnt_dsc">
         Description:<br />
-        {{ comment["comment"] }}
+        <div class="ck_editor_view" *ngIf="comment['comment']">
+        <ckeditor  [disabled]="true" [editor]="Editor" [config]="{}" [data]="comment['comment']"></ckeditor>
+    </div>
       </div>
     </div>
   </div>
@@ -31,7 +33,7 @@
           #editor [config]="editorConfig" style="height: 500px"></ckeditor>
       </div>
     </div>
-    <div class="wr_atchmts">
+    <div class="wr_atchmts" *ngIf="false">
       <ul>
         <li>
           <div><img src="../../../assets/images/doc.png" alt="" /></div>
@@ -81,17 +83,17 @@
       </ul>
     </div>
     <div class="wr_btm_ftr">
-      <button mat-raised-button class="" color="accent">
+      <button mat-raised-button class="" color="accent" *ngIf="false">
         <mat-icon>attachment</mat-icon> Attach Files
       </button>
       <div class="spacer"></div>
-      <button mat-raised-button class="mr_1" color="warn">Discard</button>
-      <button mat-raised-button color="accent">Submit Review</button>
+      <!-- <button mat-raised-button class="mr_1" color="warn">Discard</button> -->
+      <button mat-raised-button color="accent" (click)="addComent()">Submit Review</button>
     </div>
   </div>
 </div>
 <div class="mn_dshbrd rvw_tb_mn">
-  <div class="rvw_tb_fxd" (click)="showComments()">
+  <div class="rvw_tb_fxd" *ngIf="content_id>0" (click)="showComments()">
     <mat-icon>chat</mat-icon>
   </div>
 
