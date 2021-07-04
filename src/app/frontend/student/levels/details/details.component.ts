@@ -133,6 +133,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.breadcome = res['breadcome'];
         this.content_list = data['content_list'];
         this.content = data['content'] ? data['content'] : [];
+        if(!this.content['title']){
+            this.toster.error("No Contents Found", "Error", {closeButton:true});
+        }
         this.highyields = data['highyields'];
         this.mcqs = data['mcqs'];
         this.short_answers = data['short_answers'];
