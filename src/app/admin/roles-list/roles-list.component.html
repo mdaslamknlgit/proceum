@@ -1,12 +1,9 @@
 <div class="mn_dshbrd">
   <div class="brd_crm">Proceum &raquo; <strong>Roles </strong></div>
-  <div class="pg_ttl">Roles</div>
+  <div class="pg_ttl">Roles.</div>
   <hr />
   <div class="hgt_20"></div>
-  <div
-    class="cust_mdl_par cust_mdl_50p"
-    [ngClass]="{ cust_mdl_opn: model_status }"
-  >
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Create Role
@@ -15,45 +12,26 @@
           &#x2715;
         </button>
       </div>
-      <form
-        id="role_form"
-        #role_form="ngForm"
-        name="role_form"
-        (ngSubmit)="role_form.valid && createRole()"
-        novalidate
-      >
+      <form id="role_form" #role_form="ngForm" name="role_form" (ngSubmit)="role_form.valid && createRole()" novalidate>
         <div class="tbbd_bdy">
           <div class="grd_2c no_bxsdw">
             <span class="text-right w_100p rqrd_txtinfo">
               All <span class="required">( * ) </span>marked fields are
-              mandatory</span
-            >
+              mandatory</span>
             <div class="hgt_20"></div>
             <div class="frm_dvs">
               <span>Role Name <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input
-                      [(ngModel)]="role_title"
-                      #role_name="ngModel"
-                      name="role_name"
-                      matInput
-                      placeholder="Role Name"
-                      maxlength="50"
-                      pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
-                      required
-                    />
+                    <input [(ngModel)]="role_title" #role_name="ngModel" name="role_name" matInput
+                      placeholder="Role Name" maxlength="50" pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+" required />
                   </mat-form-field>
-                  <span
-                    class="prc_tltp"
-                    *ngIf="
+                  <span class="prc_tltp" *ngIf="
                       (role_form.submitted || role_name.touched) &&
                       role_name.invalid
-                    "
-                    >Role Name should be 3 charecters and special charecters not
-                    allowed</span
-                  >
+                    ">Role Name should be 3 charecters and special charecters not
+                    allowed</span>
                 </span>
               </span>
             </div>
@@ -61,13 +39,8 @@
               <span class="algn_s_fs">Role Description</span>
               <span>
                 <mat-form-field appearance="outline">
-                  <textarea
-                    [(ngModel)]="role_description"
-                    name="role_description_name"
-                    maxlength="255"
-                    matInput
-                    rows="8"
-                  ></textarea>
+                  <textarea [(ngModel)]="role_description" name="role_description_name" maxlength="255" matInput
+                    rows="8"></textarea>
                 </mat-form-field>
               </span>
             </div>
@@ -79,11 +52,7 @@
           Submit
         </button>
       </form>
-      <button
-        mat-raised-button
-        class="float_right mr_1 gry_btn"
-        (click)="toggleModel()"
-      >
+      <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">
         Close
       </button>
       <div class="hgt_20"></div>
@@ -92,22 +61,11 @@
 
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
-      <input
-        matInput
-        [(ngModel)]="search_box"
-        (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-        placeholder="Search"
-      />
+      <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''" placeholder="Search" />
       <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button
-      mat-raised-button
-      color="accent"
-      class="float_right margin-bottom_20"
-      (click)="toggleModel()"
-      type="button"
-    >
+    <button mat-raised-button color="accent" class="float_right margin-bottom_20" (click)="toggleModel()" type="button">
       Create Role
     </button>
     <div class="rsp_tbl">
@@ -127,18 +85,7 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-          <td mat-cell *matCellDef="let element">
-            <span
-              matTooltip="Current Status is {{
-                element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-              }}"
-              class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}"
-              >{{ element.status == 1 ? "Active" : "Inactive" }}</span
-            >
-          </td>
-        </ng-container>
+      
 
         <ng-container matColumnDef="created_at">
           <th mat-header-cell *matHeaderCellDef cdkDrag>Created Date</th>
@@ -152,35 +99,35 @@
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef class="text_center">Action</th>
+          <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
-            <button
-              mat-icon-button
-              (click)="editRole(element)"
-              matTooltip="Click to edit"
-            >
-              <mat-icon>edit</mat-icon>
+            <button mat-icon-button (click)="editRole(element)" matTooltip="Click to edit" color="accent">
+              <mat-icon>edit_note</mat-icon>
             </button>
-            <button
-              matTooltip="click here to {{
+            <!-- <button matTooltip="click here to {{
                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
-              }}"
-              mat-icon-button
-              mwlConfirmationPopover
-              [popoverTitle]="'Are you sure?'"
-              [popoverMessage]="
+              }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                 'are you sure to change status of <b>' +
                 element.role_name +
                 '</b> Role'
-              "
-              placement="auto"
-              (confirm)="deleteRole(element.id, element.status)"
-              confirmButtonType="danger"
-              cancelButtonType="outline-secondary"
-            >
+              " placement="auto" (confirm)="deleteRole(element.id, element.status)" confirmButtonType="danger"
+              cancelButtonType="outline-secondary">
               <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
               <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-            </button>
+            </button> -->
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <!-- <td mat-cell *matCellDef="let element">
+            <span matTooltip="Current Status is {{
+                element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+              }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+              "Inactive" }}</span>
+          </td> -->
+          <td mat-cell *matCellDef="let element">
+            <mat-slide-toggle (click)="deleteRole(element.id, element.status)" [checked]="element.status == 1 ? true : false" matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">{{ element.status == 1 ? 'Active' : 'Inactive'}}</mat-slide-toggle>
           </td>
         </ng-container>
 
@@ -191,67 +138,39 @@
         </tr>
       </table>
     </div>
-    <mat-paginator
-      [pageSizeOptions]="page_size_options"
-      showFirstLastButtons
-    ></mat-paginator>
+    <mat-paginator [pageSizeOptions]="page_size_options" showFirstLastButtons></mat-paginator>
   </div>
 </div>
-<div
-  class="cust_mdl_par cust_mdl_50p"
-  [ngClass]="{ cust_mdl_opn: edit_model_status }"
->
+<div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: edit_model_status }">
   <div class="cust_mdl_chl">
     <div class="pg_ttl">
       Role Edit
       <span class="spacer"></span>
-      <button
-        type="button"
-        mat-icon-button
-        (click)="edit_model_status = !edit_model_status"
-      >
+      <button type="button" mat-icon-button (click)="edit_model_status = !edit_model_status">
         &#x2715;
       </button>
     </div>
     <div class="tbbd_bdy">
-      <form
-        id="role_form_edit"
-        #role_form_edit="ngForm"
-        name="role_form_edit"
-        (ngSubmit)="role_form_edit.valid && updateRole()"
-        novalidate
-      >
+      <form id="role_form_edit" #role_form_edit="ngForm" name="role_form_edit"
+        (ngSubmit)="role_form_edit.valid && updateRole()" novalidate>
         <div class="grd_2c no_bxsdw">
           <span class="text-right w_100p rqrd_txtinfo">
             All <span class="required">( * ) </span>marked fields are
-            mandatory</span
-          >
+            mandatory</span>
           <div class="hgt_20"></div>
           <div class="frm_dvs">
             <span>Role Name <span class="required">*</span></span>
             <span>
               <span class="err_tltp_par">
                 <mat-form-field appearance="outline">
-                  <input
-                    [(ngModel)]="role_title_edit"
-                    #role_name_edit="ngModel"
-                    name="role_name_edit"
-                    matInput
-                    placeholder="Role Name"
-                    maxlength="50"
-                    pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
-                    required
-                  />
+                  <input [(ngModel)]="role_title_edit" #role_name_edit="ngModel" name="role_name_edit" matInput
+                    placeholder="Role Name" maxlength="50" pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+" required />
                 </mat-form-field>
-                <span
-                  class="prc_tltp"
-                  *ngIf="
+                <span class="prc_tltp" *ngIf="
                     (role_form_edit.submitted || role_name_edit.touched) &&
                     role_name_edit.invalid
-                  "
-                  >Role Name should be 3 charecters and special charecters not
-                  allowed</span
-                >
+                  ">Role Name should be 3 charecters and special charecters not
+                  allowed</span>
               </span>
             </span>
           </div>
@@ -259,13 +178,8 @@
             <span class="algn_s_fs">Role Description</span>
             <span>
               <mat-form-field appearance="outline">
-                <textarea
-                  [(ngModel)]="role_description_edit"
-                  maxlength="255"
-                  name="role_description_name_edit"
-                  matInput
-                  rows="8"
-                ></textarea>
+                <textarea [(ngModel)]="role_description_edit" maxlength="255" name="role_description_name_edit" matInput
+                  rows="8"></textarea>
               </mat-form-field>
             </span>
           </div>
@@ -275,11 +189,7 @@
         <button mat-raised-button color="accent" class="float_right mr_1">
           Submit
         </button>
-        <button
-          mat-raised-button
-          class="float_right mr_1 gry_btn"
-          (click)="edit_model_status = !edit_model_status"
-        >
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="edit_model_status = !edit_model_status">
           Close
         </button>
       </form>
