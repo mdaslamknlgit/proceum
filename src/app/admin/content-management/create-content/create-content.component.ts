@@ -28,10 +28,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./create-content.component.scss'],
 })
 export class CreateContentComponent implements OnInit {
-  displayedColumns: string[] = ['s_no', 'question', 'action'];
-  public video_types = [{name: "KPoint", value:1}, {name: "Youtube", value:2}]
-  all_questions = new MatTableDataSource();
-  selected_questions = ELEMENT_DATA; // new MatTableDataSource();
+  public displayedColumns: string[] = ['s_no', 'question', 'action'];
+  public video_types = [{name: "KPoint", value:'KPOINT'}, {name: "Youtube", value:'YOUTUBE'}]
+  public all_questions = new MatTableDataSource();
+  public selected_questions = ELEMENT_DATA; // new MatTableDataSource();
   public user = [];
   public is_submit = false;
   public active_tab = 'images';
@@ -123,12 +123,12 @@ export class CreateContentComponent implements OnInit {
   public review_docs = [];
   public review_docs_new = [];
   public content_reviewer_role = '';
-  public intro_video = {source:'', title:'', value:''};
-  public two_d_videos = [{source:'', title:'', value:''}];
-  public board_lecture_videos = [{source:'', title:'', value:''}];
-  public clinical_videos = [{source:'', title:'', value:''}];
-  public procedural_videos = [{source:'', title:'', value:''}];
-  public three_d_videos = [{source:'', title:'', value:''}];
+  public intro_video = [{pk_id:0, video_section:'INTRO', source:'', title:'', value:'', status:''}];
+  public two_d_videos = [{pk_id:0, video_section:'2D', source:'', title:'', value:'', status:''}];
+  public board_lecture_videos = [{pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:''}];
+  public clinical_videos = [{pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:''}];
+  public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''}];
+  public three_d_videos = [{pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''}];
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -170,6 +170,25 @@ export class CreateContentComponent implements OnInit {
         this.content_reviewer_role = data['reviewer_role'];
         this.is_published = data['is_published'];
         this.title = data['title'];
+        let videos = data['videos'];
+        if(videos['intro_video'].length > 0){
+            this.intro_video = videos['intro_video'];
+        }
+        if(videos['two_d_videos'].length > 0){
+            this.two_d_videos = videos['two_d_videos'];
+        }
+        if(videos['board_lecture_videos'].length > 0){
+            this.board_lecture_videos = videos['board_lecture_videos'];
+        }
+        if(videos['clinical_videos'].length > 0){
+            this.clinical_videos = videos['clinical_videos'];
+        }
+        if(videos['procedural_videos'].length > 0){
+            this.procedural_videos = videos['procedural_videos'];
+        }
+        if(videos['three_d_videos'].length > 0){
+            this.three_d_videos = videos['three_d_videos'];
+        }
         this.main_content = data['main_content'];
         this.learning_obj_content = data['learning_obj_content'];
         this.lecture_note_obj = data['learning_note_obj'];
@@ -204,36 +223,41 @@ export class CreateContentComponent implements OnInit {
   }
   addVideo(tabIndex, index){
     if(tabIndex == 1){
-      this.two_d_videos.push({source:'', title:'', value:''});
+      this.two_d_videos.push({pk_id:0, video_section:'2D', source:'', title:'', value:'', status:''});
     }
     if(tabIndex == 2){
-      this.board_lecture_videos.push({source:'', title:'', value:''});
+      this.board_lecture_videos.push({pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:''});
     }
     if(tabIndex == 3){
-      this.clinical_videos.push({source:'', title:'', value:''});
+      this.clinical_videos.push({pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:''});
     }
     if(tabIndex == 4){
-      this.procedural_videos.push({source:'', title:'', value:''});
+      this.procedural_videos.push({pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''});
     }
     if(tabIndex == 5){
-      this.three_d_videos.push({source:'', title:'', value:''});
+      this.three_d_videos.push({pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''});
     }
   }
   removeVideo(tabIndex, index){
     if(tabIndex == 1){
-      this.two_d_videos.splice(index, 1);
+        this.two_d_videos[index]['status'] = "delete";
+        //this.two_d_videos.splice(index, 1);
     }
     if(tabIndex == 2){
-      this.board_lecture_videos.splice(index, 1);
+      this.board_lecture_videos[index]['status'] = "delete";
+      //this.board_lecture_videos.splice(index, 1);
     }
     if(tabIndex == 3){
-      this.clinical_videos.splice(index, 1);
+      this.clinical_videos[index]['status'] = "delete";
+      //this.clinical_videos.splice(index, 1);
     }
     if(tabIndex == 4){
-      this.procedural_videos.splice(index, 1);
+      this.procedural_videos[index]['status'] = "delete";
+      //this.procedural_videos.splice(index, 1);
     }
     if(tabIndex == 5){
-      this.three_d_videos.splice(index, 1);
+      this.three_d_videos[index]['status'] = "delete";
+      //this.three_d_videos.splice(index, 1);
     }
   }
   getChildData() {
@@ -577,7 +601,12 @@ export class CreateContentComponent implements OnInit {
     let form_data = {
       title: this.title,
       main_videos: this.videos,
-      intro_video: '',
+      intro_video: this.intro_video,
+      two_d_videos: this.two_d_videos,
+      board_lecture_videos: this.board_lecture_videos,
+      clinical_videos: this.clinical_videos,
+      procedural_videos: this.procedural_videos,
+      three_d_videos: this.three_d_videos,
       main_content: this.main_content,
       attachments: this.attachments,
       images: this.images,

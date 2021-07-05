@@ -10,6 +10,7 @@ import { CommonService } from 'src/app/services/common.service';
 export class LevelComponent implements OnInit {
   public levels = [];
   public search = '';
+  public is_loaded = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService
@@ -19,11 +20,13 @@ export class LevelComponent implements OnInit {
     this.getCurriculums();
   }
   getCurriculums() {
+      this.is_loaded = false;
     let param = {
       url: 'curriculum-list',
       search: this.search,
     };
     this.http.post(param).subscribe((res) => {
+        this.is_loaded = true;
       if (res['error'] == false) {
         let data = res['data'];
         this.levels = data['levels'];

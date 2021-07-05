@@ -428,14 +428,14 @@
             <div class="c_block">
               <div class="c_block_title">
                 <mat-icon>videocam</mat-icon>
-                <label for="Intro video"> Main video</label>
+                <label for="Intro video"> videos</label>
               </div>
-              <mat-form-field appearance="outline" class="mn_vd_inp">
+              <!-- <mat-form-field appearance="outline" class="mn_vd_inp">
                 <input matInput placeholder="Enter Content Title (max. 250 characters)" />
               </mat-form-field>
               <mat-form-field appearance="outline" class="mn_vd_inp">
                 <textarea matInput placeholder="Video description"></textarea>
-              </mat-form-field>
+              </mat-form-field> -->
               <div class="mn_vd_tbd">
                 <mat-tab-group animationDuration="0.15s">
                   <mat-tab>
@@ -444,10 +444,10 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <div class="ulvd_inpts">
+                    <div class="ulvd_inpts" *ngFor="let intro_v of intro_video;let i=index">
                       <div>
                         <mat-form-field appearance="outline">
-                          <mat-select [(ngModel)]="intro_video['source']" name="intro_video_source">
+                          <mat-select [(ngModel)]="intro_video[i]['source']" name="intro_video_source">
                             <mat-option value="">Select Source</mat-option>
                             <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">{{video_type['name']}}</mat-option>
                           </mat-select>
@@ -455,12 +455,12 @@
                       </div>
                       <div>
                         <mat-form-field appearance="outline">
-                          <input [(ngModel)]="intro_video['title']" name="intro_video_title" matInput placeholder="Title" />
+                          <input [(ngModel)]="intro_video[i]['title']" name="intro_video_title" matInput placeholder="Title" />
                         </mat-form-field>
                       </div>
                       <div>
                         <mat-form-field appearance="outline">
-                          <input matInput [(ngModel)]="intro_video['value']" name="intro_video_value" placeholder="Video URL/ID" />
+                          <input matInput [(ngModel)]="intro_video[i]['value']" name="intro_video_value" placeholder="Video URL/ID" />
                         </mat-form-field>
                       </div>
                      <!-- <div class="spacer"></div>
@@ -477,8 +477,8 @@
                       2D Videos <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <div class="ulvd_inpts" *ngFor="let two_d_video of two_d_videos;let i=index">
-                        
+                    <div *ngFor="let two_d_video of two_d_videos;let i=index">
+                        <div class="ulvd_inpts" *ngIf="two_d_video['status'] != 'delete'">
                         <div>
                             <mat-form-field appearance="outline">
                               <mat-select [(ngModel)]="two_d_videos[i]['source']" name="two_d_video_source_{{i}}">
@@ -507,6 +507,7 @@
                           <mat-icon>add</mat-icon>
                         </button>
                       </div>
+                      </div>
                     </div>
                   </mat-tab>
                   <mat-tab>
@@ -515,7 +516,7 @@
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts" *ngFor="let board_lecture_video of board_lecture_videos;let i=index">
-                        
+                        <div *ngIf="board_lecture_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
                             <mat-form-field appearance="outline">
                               <mat-select [(ngModel)]="board_lecture_videos[i]['source']" name="board_lecture_videos_source_{{i}}">
@@ -545,6 +546,7 @@
                         </button>
                       </div>
                     </div>
+                    </div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
@@ -552,7 +554,7 @@
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts" *ngFor="let clinical_video of clinical_videos;let i=index">
-                        
+                        <div *ngIf="clinical_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
                             <mat-form-field appearance="outline">
                               <mat-select [(ngModel)]="clinical_videos[i]['source']" name="clinical_videos_source_{{i}}">
@@ -582,6 +584,7 @@
                         </button>
                       </div>
                     </div>
+                    </div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
@@ -589,7 +592,7 @@
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts" *ngFor="let procedural_video of procedural_videos;let i=index">
-                        
+                        <div *ngIf="procedural_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
                             <mat-form-field appearance="outline">
                               <mat-select [(ngModel)]="procedural_videos[i]['source']" name="procedural_videos_source_{{i}}">
@@ -619,6 +622,7 @@
                         </button>
                       </div>
                     </div>
+                    </div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
@@ -626,7 +630,7 @@
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts" *ngFor="let three_d_video of three_d_videos;let i=index">
-                        
+                        <div *ngIf="three_d_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
                             <mat-form-field appearance="outline">
                               <mat-select [(ngModel)]="three_d_videos[i]['source']" name="three_d_videos_source_{{i}}">
@@ -655,6 +659,7 @@
                           <mat-icon>add</mat-icon>
                         </button>
                       </div>
+                    </div>
                     </div>
                   </mat-tab>
                 </mat-tab-group>
