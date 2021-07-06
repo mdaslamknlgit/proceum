@@ -65,7 +65,7 @@
             </tr>
           </table>
         </div>
-        <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="page_size_options"
+        <mat-paginator [pageSizeOptions]="page_size_options" #content_paginator
           [length]="content_totalSize" [pageSize]="content_pageSize" showFirstLastButtons
           (page)="contentGetServerData($event)"></mat-paginator>
         <hr />
@@ -153,7 +153,7 @@
         </tr>
       </table>
     </div>
-    <mat-paginator *ngIf="stepsDataSource.data.length > 0" [pageSizeOptions]="page_size_options" [length]="totalSize"
+    <mat-paginator #paginator [pageSizeOptions]="page_size_options" [length]="totalSize"
       [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>

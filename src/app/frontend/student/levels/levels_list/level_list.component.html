@@ -22,9 +22,9 @@
       <mat-icon matSuffix color="accent" (click)="doFilter()">search</mat-icon>
     </mat-form-field>
   </div>
-  <mat-tab-group (selectedTabChange)="switchTab($event)" animationDuration="0.15s" *ngIf="is_loaded">
+  <mat-tab-group (selectedTabChange)="switchTab($event)" animationDuration="0.15s">
     <mat-tab label="All">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
+      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
           <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
@@ -62,9 +62,10 @@
       </div>
     </mat-tab>
     <mat-tab label="Bookmark">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
+      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
-        <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
+        <div *ngFor="let level of levels; let i = index">
+            <div class="crs_tbbd_dv" *ngIf="level['is_bookmark'] == 1">
           <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
@@ -95,10 +96,11 @@
               *ngIf="level['is_bookmark'] == 1 ? true : false" color="accent" matTooltip="Remove Bookmark">bookmark
             </mat-icon>
           </span>
+          </div>
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Most Rated" *ngIf="false">
+    <mat-tab label="Most Rated" *ngIf="false && is_loaded">
       <div class="crs_tbbd_mn">
         <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
           <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
@@ -135,9 +137,10 @@
       </div>
     </mat-tab>
     <mat-tab label="Favorite">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
+      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
-        <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
+        <div *ngFor="let level of levels; let i = index">
+            <div class="crs_tbbd_dv" *ngIf="level['is_fav'] == 1">
           <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
@@ -168,6 +171,7 @@
               *ngIf="level['is_bookmark'] == 1 ? true : false" color="accent" matTooltip="Remove Bookmark">bookmark
             </mat-icon>
           </span>
+          </div>
         </div>
       </div>
     </mat-tab>

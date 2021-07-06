@@ -96,6 +96,11 @@ export class ContentManagementComponent implements OnInit {
     });
   }
   switchTab(event){
+      this.page = 0;
+      if (this.paginator != undefined) {
+        this.paginator.pageIndex = 0;
+        this.paginator.firstPage();
+      }
     this.tab_index = event.index;
     this.getContentList();
   }
@@ -120,6 +125,23 @@ export class ContentManagementComponent implements OnInit {
     status = status == 1 ? '0' : '1';
     let param = {
       url: 'content-status/' + id + '/' + status,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.getContentList();
+      } else {
+        this.toster.error(res['message'], res['message'], {
+          closeButton: true,
+        });
+      }
+    });
+  }
+  deleteContentData(id, status) {
+    status = status == 1 ? '0' : '1';
+    let param = {
+      url: 'content-status/' + id + '/' + status,
+      delete:1
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

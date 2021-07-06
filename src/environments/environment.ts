@@ -51,7 +51,11 @@ export const environment = {
   ],
   //  apiUrl: 'http://192.168.0.12:8080/api/',
 
+<<<<<<< HEAD
   // apiUrl: 'http://192.10.250.150:8000/api/',
+=======
+  //apiUrl: 'http://192.10.250.150:8000/api/',
+>>>>>>> 4e542d3e43426b6526f83740c7e3dd6ebd011c42
   //  apiUrl: 'http://127.0.0.1:8000/api/',
   apiUrl: 'https://apiqa.proceum.com/api/',
 };
