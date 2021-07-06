@@ -1,5 +1,4 @@
 <div class="wr_rvw_dv" *ngIf="show_coments">
-  <!-- d_none -->
   <div class="wr_hd">
     <div class="d-flex mr_1 mt_3px">
       <mat-icon>rate_review</mat-icon>
@@ -10,57 +9,58 @@
       <mat-icon (click)="showComments()">close</mat-icon>
     </div>
   </div>
-
-  <div class="oldr_cmnts">
-    <div class="oldr_cmnts_hd">Older comments</div>
-    <div class="oldr_cmnts_dv" *ngFor="let comment of older_coments">
-      <div class="oldr_cmnts_sbhd">
-        <div class="oldr_cmnts_dvhd">{{ comment["name"] }}</div>
-        <div class="oldr_cmnts_dvts">{{ comment["date_time"] }}</div>
-      </div>
-      <div class="oldr_cmnt_dsc">
-        Description:<br />
-        <div class="ck_editor_view" *ngIf="comment['comment']">
-        <ckeditor  [disabled]="true" [editor]="Editor" [config]="{}" [data]="comment['comment']"></ckeditor>
-    </div>
-      </div>
-    </div>
-  </div>
-  <div class="wr_btm_sec">
-    <div style="height: 200px">
-      <div class="ck_editor">
-        <ckeditor [(ngModel)]="comments_content" name="comments_content" (ready)="onReady($event)" [editor]="Editor"
-          #editor [config]="editorConfig" style="height: 500px"></ckeditor>
+  <div class="wr_bdy_sec">
+    <div class="oldr_cmnts">
+      <div class="oldr_cmnts_hd">Older comments</div>
+      <div class="oldr_cmnts_dv" *ngFor="let comment of older_coments">
+        <div class="oldr_cmnts_sbhd">
+          <div class="oldr_cmnts_dvhd">{{ comment["name"] }}</div>
+          <div class="oldr_cmnts_dvts">{{ comment["date_time"] }}</div>
+        </div>
+        <div class="oldr_cmnt_dsc">
+          Description:<br />
+          <div class="ck_editor_view" *ngIf="comment['comment']">
+            <ckeditor [disabled]="true" [editor]="Editor" [config]="{}" [data]="comment['comment']"></ckeditor>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="wr_atchmts" *ngIf="review_docs.length>0">
-      <ul>
-        <li *ngFor="let file of review_docs;let file_index = index;">
-          <div>
-            <img src="../../../assets/images/{{
+    <div class="wr_btm_sec">
+      <div style="height: 200px">
+        <div class="ck_editor">
+          <ckeditor [(ngModel)]="comments_content" name="comments_content" (ready)="onReady($event)" [editor]="Editor"
+            #editor [config]="editorConfig" style="height: 500px"></ckeditor>
+        </div>
+      </div>
+      <div class="wr_atchmts" *ngIf="review_docs.length>0">
+        <ul>
+          <li *ngFor="let file of review_docs;let file_index = index;">
+            <div>
+              <img src="../../../assets/images/{{
                 file.split('.').pop().toLowerCase()
               }}.png" alt="{{ file.substring(file.lastIndexOf('/') + 1) }}" />
-        </div>
-          <div>{{ file.substring(file.lastIndexOf('/') + 1) }}</div>
-          <div>
-            <button mat-icon-button color="warn">
-              <mat-icon (click)="removeReviewDocument(file_index)">remove_circle_outline</mat-icon>
-            </button>
-          </div>
-        </li>
-        
-      </ul>
-    </div>
-    <div class="wr_btm_ftr">
+            </div>
+            <div>{{ file.substring(file.lastIndexOf('/') + 1) }}</div>
+            <div>
+              <button mat-icon-button color="warn">
+                <mat-icon (click)="removeReviewDocument(file_index)">remove_circle_outline</mat-icon>
+              </button>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+      <div class="wr_btm_ftr">
         <button mat-raised-button onclick="document.getElementById('fileToUpload').click()" color="accent"
-        class="float_right mr_1 mt_5px">
-        <mat-icon>upload</mat-icon>
-        Attch Files<input (change)="uploadReviewFiles($event)" multiple="true" #documents accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+          class="float_right mr_1 mt_5px">
+          <mat-icon>upload</mat-icon>
+          Attch Files<input (change)="uploadReviewFiles($event)" multiple="true" #documents accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
           text/plain, application/pdf" id="fileToUpload" type="file" style="display: none" />
-      </button>
-      <div class="spacer"></div>
-      <button mat-raised-button class="gry_btn" (click)="showComments()" class="mr_1">Cancel</button>
-      <button mat-raised-button color="accent" (click)="addComent()">Submit Review</button>
+        </button>
+        <div class="spacer"></div>
+        <button mat-raised-button class="gry_btn mr_1" color="warn" (click)="showComments()">Cancel</button>
+        <button mat-raised-button color="accent" (click)="addComent()">Submit Review</button>
+      </div>
     </div>
   </div>
 </div>
@@ -440,7 +440,7 @@
                 <mat-tab-group animationDuration="0.15s">
                   <mat-tab>
                     <ng-template mat-tab-label>
-                      Introduction 
+                      Introduction
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
@@ -449,217 +449,247 @@
                         <mat-form-field appearance="outline">
                           <mat-select [(ngModel)]="intro_video[i]['source']" name="intro_video_source">
                             <mat-option value="">Select Source</mat-option>
-                            <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">{{video_type['name']}}</mat-option>
+                            <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                              {{video_type['name']}}</mat-option>
                           </mat-select>
                         </mat-form-field>
                       </div>
                       <div>
                         <mat-form-field appearance="outline">
-                          <input [(ngModel)]="intro_video[i]['title']" name="intro_video_title" matInput placeholder="Title" />
+                          <input [(ngModel)]="intro_video[i]['title']" name="intro_video_title" matInput
+                            placeholder="Title" />
                         </mat-form-field>
                       </div>
                       <div>
                         <mat-form-field appearance="outline">
-                          <input matInput [(ngModel)]="intro_video[i]['value']" name="intro_video_value" placeholder="Video URL/ID" />
+                          <input matInput [(ngModel)]="intro_video[i]['value']" name="intro_video_value"
+                            placeholder="Video URL/ID" />
                         </mat-form-field>
                       </div>
-                     <!-- <div class="spacer"></div>
+                      <!-- <div class="spacer"></div>
                        <div>
                         <button [disabled]="true" mat-icon-button class="no_bxsdw" color="accent">
                           <mat-icon>add</mat-icon>
                         </button>
                       </div> -->
                     </div>
-                    
+
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
-                      2D Videos <!-- <span class="lbl_cnt">(5)</span> -->
+                      2D Videos
+                      <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div *ngFor="let two_d_video of two_d_videos;let i=index">
-                        <div class="ulvd_inpts" *ngIf="two_d_video['status'] != 'delete'">
+                      <div class="ulvd_inpts" *ngIf="two_d_video['status'] != 'delete'">
                         <div>
-                            <mat-form-field appearance="outline">
-                              <mat-select [(ngModel)]="two_d_videos[i]['source']" name="two_d_video_source_{{i}}">
-                                <mat-option value="">Select Source</mat-option>
-                                <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">{{video_type['name']}}</mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input [(ngModel)]="two_d_videos[i]['title']" name="two_d_video_title_{{i}}" matInput placeholder="Title" />
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input matInput [(ngModel)]="two_d_videos[i]['value']" name="two_d_video_value_{{i}}" placeholder="Video URL/ID" />
-                            </mat-form-field>
-                          </div>
-                        
-                      <div class="spacer"></div>
-                      <div>
-                        <button *ngIf="i>0" (click)="removeVideo(1,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <mat-form-field appearance="outline">
+                            <mat-select [(ngModel)]="two_d_videos[i]['source']" name="two_d_video_source_{{i}}">
+                              <mat-option value="">Select Source</mat-option>
+                              <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                {{video_type['name']}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input [(ngModel)]="two_d_videos[i]['title']" name="two_d_video_title_{{i}}" matInput
+                              placeholder="Title" />
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input matInput [(ngModel)]="two_d_videos[i]['value']" name="two_d_video_value_{{i}}"
+                              placeholder="Video URL/ID" />
+                          </mat-form-field>
+                        </div>
+
+                        <div class="spacer"></div>
+                        <div>
+                          <button *ngIf="i>0" (click)="removeVideo(1,i)" mat-icon-button class="no_bxsdw" color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                        <button *ngIf="i==(two_d_videos.length-1)" (click)="addVideo(1,i)" mat-icon-button class="no_bxsdw">
-                          <mat-icon>add</mat-icon>
-                        </button>
-                      </div>
+                          <button *ngIf="i==(two_d_videos.length-1)" (click)="addVideo(1,i)" mat-icon-button
+                            class="no_bxsdw">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
-                      Board Lectures <!-- <span class="lbl_cnt">(5)</span> -->
+                      Board Lectures
+                      <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts" *ngFor="let board_lecture_video of board_lecture_videos;let i=index">
-                        <div *ngIf="board_lecture_video['status'] != 'delete'" class="ulvd_inpts">
+                      <div *ngIf="board_lecture_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
-                            <mat-form-field appearance="outline">
-                              <mat-select [(ngModel)]="board_lecture_videos[i]['source']" name="board_lecture_videos_source_{{i}}">
-                                <mat-option value="">Select Source</mat-option>
-                                <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">{{video_type['name']}}</mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input [(ngModel)]="board_lecture_videos[i]['title']" name="board_lecture_videos_title_{{i}}" matInput placeholder="Title" />
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input matInput [(ngModel)]="board_lecture_videos[i]['value']" name="board_lecture_videos_value_{{i}}" placeholder="Video URL/ID" />
-                            </mat-form-field>
-                          </div>
-                        
-                      <div class="spacer"></div>
-                      <div>
-                        <button *ngIf="i>0" (click)="removeVideo(2,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <mat-form-field appearance="outline">
+                            <mat-select [(ngModel)]="board_lecture_videos[i]['source']"
+                              name="board_lecture_videos_source_{{i}}">
+                              <mat-option value="">Select Source</mat-option>
+                              <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                {{video_type['name']}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input [(ngModel)]="board_lecture_videos[i]['title']"
+                              name="board_lecture_videos_title_{{i}}" matInput placeholder="Title" />
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input matInput [(ngModel)]="board_lecture_videos[i]['value']"
+                              name="board_lecture_videos_value_{{i}}" placeholder="Video URL/ID" />
+                          </mat-form-field>
+                        </div>
+
+                        <div class="spacer"></div>
+                        <div>
+                          <button *ngIf="i>0" (click)="removeVideo(2,i)" mat-icon-button class="no_bxsdw" color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                        <button *ngIf="i==(board_lecture_videos.length-1)" (click)="addVideo(2,i)" mat-icon-button class="no_bxsdw">
-                          <mat-icon>add</mat-icon>
-                        </button>
+                          <button *ngIf="i==(board_lecture_videos.length-1)" (click)="addVideo(2,i)" mat-icon-button
+                            class="no_bxsdw">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
-                      Clinical Essentials <!-- <span class="lbl_cnt">(5)</span> -->
+                      Clinical Essentials
+                      <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts" *ngFor="let clinical_video of clinical_videos;let i=index">
-                        <div *ngIf="clinical_video['status'] != 'delete'" class="ulvd_inpts">
+                      <div *ngIf="clinical_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
-                            <mat-form-field appearance="outline">
-                              <mat-select [(ngModel)]="clinical_videos[i]['source']" name="clinical_videos_source_{{i}}">
-                                <mat-option value="">Select Source</mat-option>
-                                <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">{{video_type['name']}}</mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input [(ngModel)]="clinical_videos[i]['title']" name="clinical_videos_title_{{i}}" matInput placeholder="Title" />
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input matInput [(ngModel)]="clinical_videos[i]['value']" name="clinical_videos_value_{{i}}" placeholder="Video URL/ID" />
-                            </mat-form-field>
-                          </div>
-                        
-                      <div class="spacer"></div>
-                      <div>
-                        <button *ngIf="i>0" (click)="removeVideo(3,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <mat-form-field appearance="outline">
+                            <mat-select [(ngModel)]="clinical_videos[i]['source']" name="clinical_videos_source_{{i}}">
+                              <mat-option value="">Select Source</mat-option>
+                              <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                {{video_type['name']}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input [(ngModel)]="clinical_videos[i]['title']" name="clinical_videos_title_{{i}}" matInput
+                              placeholder="Title" />
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input matInput [(ngModel)]="clinical_videos[i]['value']" name="clinical_videos_value_{{i}}"
+                              placeholder="Video URL/ID" />
+                          </mat-form-field>
+                        </div>
+
+                        <div class="spacer"></div>
+                        <div>
+                          <button *ngIf="i>0" (click)="removeVideo(3,i)" mat-icon-button class="no_bxsdw" color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                        <button *ngIf="i==(clinical_videos.length-1)" (click)="addVideo(3,i)" mat-icon-button class="no_bxsdw">
-                          <mat-icon>add</mat-icon>
-                        </button>
+                          <button *ngIf="i==(clinical_videos.length-1)" (click)="addVideo(3,i)" mat-icon-button
+                            class="no_bxsdw">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
-                      Procedural Videos <!-- <span class="lbl_cnt">(5)</span> -->
+                      Procedural Videos
+                      <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts" *ngFor="let procedural_video of procedural_videos;let i=index">
-                        <div *ngIf="procedural_video['status'] != 'delete'" class="ulvd_inpts">
+                      <div *ngIf="procedural_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
-                            <mat-form-field appearance="outline">
-                              <mat-select [(ngModel)]="procedural_videos[i]['source']" name="procedural_videos_source_{{i}}">
-                                <mat-option value="">Select Source</mat-option>
-                                <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">{{video_type['name']}}</mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input [(ngModel)]="procedural_videos[i]['title']" name="procedural_videos_title_{{i}}" matInput placeholder="Title" />
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input matInput [(ngModel)]="procedural_videos[i]['value']" name="procedural_videos_value_{{i}}" placeholder="Video URL/ID" />
-                            </mat-form-field>
-                          </div>
-                        
-                      <div class="spacer"></div>
-                      <div>
-                        <button *ngIf="i>0" (click)="removeVideo(4,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <mat-form-field appearance="outline">
+                            <mat-select [(ngModel)]="procedural_videos[i]['source']"
+                              name="procedural_videos_source_{{i}}">
+                              <mat-option value="">Select Source</mat-option>
+                              <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                {{video_type['name']}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input [(ngModel)]="procedural_videos[i]['title']" name="procedural_videos_title_{{i}}"
+                              matInput placeholder="Title" />
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input matInput [(ngModel)]="procedural_videos[i]['value']"
+                              name="procedural_videos_value_{{i}}" placeholder="Video URL/ID" />
+                          </mat-form-field>
+                        </div>
+
+                        <div class="spacer"></div>
+                        <div>
+                          <button *ngIf="i>0" (click)="removeVideo(4,i)" mat-icon-button class="no_bxsdw" color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                        <button *ngIf="i==(procedural_videos.length-1)" (click)="addVideo(4,i)" mat-icon-button class="no_bxsdw">
-                          <mat-icon>add</mat-icon>
-                        </button>
+                          <button *ngIf="i==(procedural_videos.length-1)" (click)="addVideo(4,i)" mat-icon-button
+                            class="no_bxsdw">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
-                      3D Objects <!-- <span class="lbl_cnt">(5)</span> -->
+                      3D Objects
+                      <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts" *ngFor="let three_d_video of three_d_videos;let i=index">
-                        <div *ngIf="three_d_video['status'] != 'delete'" class="ulvd_inpts">
+                      <div *ngIf="three_d_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
-                            <mat-form-field appearance="outline">
-                              <mat-select [(ngModel)]="three_d_videos[i]['source']" name="three_d_videos_source_{{i}}">
-                                <mat-option value="">Select Source</mat-option>
-                                <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">{{video_type['name']}}</mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input [(ngModel)]="three_d_videos[i]['title']" name="three_d_videos_title_{{i}}" matInput placeholder="Title" />
-                            </mat-form-field>
-                          </div>
-                          <div>
-                            <mat-form-field appearance="outline">
-                              <input matInput [(ngModel)]="three_d_videos[i]['value']" name="three_d_videos_value_{{i}}" placeholder="Video URL/ID" />
-                            </mat-form-field>
-                          </div>
-                        
-                      <div class="spacer"></div>
-                      <div>
-                        <button *ngIf="i>0" (click)="removeVideo(5,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <mat-form-field appearance="outline">
+                            <mat-select [(ngModel)]="three_d_videos[i]['source']" name="three_d_videos_source_{{i}}">
+                              <mat-option value="">Select Source</mat-option>
+                              <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                {{video_type['name']}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input [(ngModel)]="three_d_videos[i]['title']" name="three_d_videos_title_{{i}}" matInput
+                              placeholder="Title" />
+                          </mat-form-field>
+                        </div>
+                        <div>
+                          <mat-form-field appearance="outline">
+                            <input matInput [(ngModel)]="three_d_videos[i]['value']" name="three_d_videos_value_{{i}}"
+                              placeholder="Video URL/ID" />
+                          </mat-form-field>
+                        </div>
+
+                        <div class="spacer"></div>
+                        <div>
+                          <button *ngIf="i>0" (click)="removeVideo(5,i)" mat-icon-button class="no_bxsdw" color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                        <button *ngIf="i==(three_d_videos.length-1)" (click)="addVideo(5,i)" mat-icon-button class="no_bxsdw">
-                          <mat-icon>add</mat-icon>
-                        </button>
+                          <button *ngIf="i==(three_d_videos.length-1)" (click)="addVideo(5,i)" mat-icon-button
+                            class="no_bxsdw">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </div>
                       </div>
-                    </div>
                     </div>
                   </mat-tab>
                 </mat-tab-group>
@@ -789,44 +819,45 @@
                   </mat-tab>
                   <mat-tab label="Lecture Notes">
                     <div class="hyt_mn_dv">
-                        <div class="dsh_brd_crds">
-                          <mat-form-field appearance="outline" class="w_100p">
-                            <input matInput [(ngModel)]="lecture_note_title" name="lecture_note_title_name" placeholder="Title" />
-                          </mat-form-field>
-                        </div>
-                        <div class="ck_editor">
-                          <ckeditor [(ngModel)]="lecture_note_content" name="lecture_note_content_name"
-                            (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
-                            style="height: 500px"></ckeditor>
-                        </div>
-                        <div class="mt_1 text_right">
-                          <button type="button" (click)="addLectureNote()" mat-raised-button color="accent">
-                            <mat-icon>add</mat-icon> Add Notes
-                          </button>
-                        </div>
+                      <div class="dsh_brd_crds">
+                        <mat-form-field appearance="outline" class="w_100p">
+                          <input matInput [(ngModel)]="lecture_note_title" name="lecture_note_title_name"
+                            placeholder="Title" />
+                        </mat-form-field>
                       </div>
-  
-                      <div class="hyt_aded_nts">
-                        <div class="hyt_aded_nts_hd">Added Notes</div>
-                        <div *ngFor="let lecture_note of lecture_note_obj; let i = index">
-                          <div class="hyt_lst_dv" *ngIf="lecture_note['status'] != 'delete'">
-                            <div class="mr_1">{{ lecture_note["title"] }}</div>
-                            <div class="spacer"></div>
-                            <div>
-                              <button type="button" (click)="editLectureNote(i)" mat-icon-button class="mr_1 no_bxsdw"
-                                color="accent">
-                                <mat-icon>mode_edit</mat-icon>
-                              </button>
-                            </div>
-                            <div>
-                              <button type="button" (click)="removeLectureNote(i)" mat-icon-button class="no_bxsdw"
-                                color="warn">
-                                <mat-icon>remove_circle_outline</mat-icon>
-                              </button>
-                            </div>
+                      <div class="ck_editor">
+                        <ckeditor [(ngModel)]="lecture_note_content" name="lecture_note_content_name"
+                          (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
+                          style="height: 500px"></ckeditor>
+                      </div>
+                      <div class="mt_1 text_right">
+                        <button type="button" (click)="addLectureNote()" mat-raised-button color="accent">
+                          <mat-icon>add</mat-icon> Add Notes
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="hyt_aded_nts">
+                      <div class="hyt_aded_nts_hd">Added Notes</div>
+                      <div *ngFor="let lecture_note of lecture_note_obj; let i = index">
+                        <div class="hyt_lst_dv" *ngIf="lecture_note['status'] != 'delete'">
+                          <div class="mr_1">{{ lecture_note["title"] }}</div>
+                          <div class="spacer"></div>
+                          <div>
+                            <button type="button" (click)="editLectureNote(i)" mat-icon-button class="mr_1 no_bxsdw"
+                              color="accent">
+                              <mat-icon>mode_edit</mat-icon>
+                            </button>
+                          </div>
+                          <div>
+                            <button type="button" (click)="removeLectureNote(i)" mat-icon-button class="no_bxsdw"
+                              color="warn">
+                              <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
                           </div>
                         </div>
                       </div>
+                    </div>
                     <!-- <div class="ck_editor">
                       <ckeditor (ready)="onReady($event)" [(ngModel)]="learning_notes_content"
                         name="learning_notes_content_name" [editor]="Editor" #editor [config]="editorConfig"
@@ -1297,38 +1328,45 @@
             </div>
           </div>
         </div>
-        <span class="err_tltp_par" *ngIf="reviewers.length>0">
-            <mat-form-field appearance="outline">
-              <mat-select placeholder="Select Reviewer" #reviewer_role_name="ngModel" name="reviewer_role_name" [(ngModel)]="reviewer_role"
-                required>
-                <mat-option value="">Select Reviewer</mat-option>
-                <mat-option *ngFor="let role of reviewers"  [value]="role['role_id']">{{
-                    role['title'] }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <span class="prc_tltp" *ngIf="
+        <div class="err_tltp_par float_right" *ngIf="reviewers.length>0">
+          <mat-form-field appearance="outline">
+            <mat-select placeholder="Select Reviewer" #reviewer_role_name="ngModel" name="reviewer_role_name"
+              [(ngModel)]="reviewer_role" required>
+              <mat-option value="">Select Reviewer</mat-option>
+              <mat-option *ngFor="let role of reviewers" [value]="role['role_id']">{{
+                role['title'] }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <span class="prc_tltp" *ngIf="
                 (content_create_form.submitted) &&
                 reviewer_role_name.invalid
               ">Please Select Reviewer</span>
-          </span>
+        </div>
+        <div class="hgt_20"></div>
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
-          <button *ngIf="reviewer_role == '' && (content_id == 0 || content_reviewer_role == '0')" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
+          <button *ngIf="reviewer_role == '' && (content_id == 0 || content_reviewer_role == '0')" class="gry_btn"
+            type="button" mat-raised-button (click)="createContent(true)">
             Save as draft
           </button>
           <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="mx_1">
             Cancel
           </button>
-          <button *ngIf="is_published == '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role || user['role'] == '1')" mat-raised-button color="accent" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+          <button
+            *ngIf="is_published == '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role || user['role'] == '1')"
+            mat-raised-button color="accent" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
           'are you sure to create a new copy of this published content '
         " placement="auto" (confirm)="createContent(false)" confirmButtonType="danger"
-        cancelButtonType="outline-secondary">Submit</button>
-          <button *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role || user['role'] == '1')" mat-raised-button color="accent">Submit</button>
-          <button *ngIf="content_id > 0 && is_published == '0' && (user['role'] == '7' || user['role'] == '1')" type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+            cancelButtonType="outline-secondary">Submit</button>
+          <button
+            *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role || user['role'] == '1')"
+            mat-raised-button color="accent">Submit</button>
+          <button *ngIf="content_id > 0 && is_published == '0' && (user['role'] == '7' || user['role'] == '1')"
+            type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
             'are you sure to Publish this content '
           " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
-          cancelButtonType="outline-secondary" mat-raised-button color="accent" class="mx_1">
+            cancelButtonType="outline-secondary" mat-raised-button color="accent" class="mx_1">
             Publish
           </button>
         </div>
