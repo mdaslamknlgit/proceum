@@ -14,9 +14,10 @@
       <mat-icon matSuffix color="accent">search</mat-icon>
     </mat-form-field>
   </div>
-  <mat-tab-group>
+  <mat-tab-group *ngIf="is_loaded">
     <mat-tab label="All">
       <div class="crs_sld_mn">
+        <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
         <div class="crs_sld_dv" *ngFor="let level of levels">
           <span class="cs_hd">{{ level["name"] }}</span>
           <span class="cs_rtn">
@@ -51,6 +52,7 @@
     </mat-tab>
     <mat-tab label="Most Popular" *ngIf="false">
       <div class="crs_sld_mn">
+        <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
         <div class="crs_sld_dv" *ngFor="let level of levels">
           <span class="cs_hd">{{ level["name"] }}</span>
           <span class="cs_rtn">
@@ -84,6 +86,7 @@
     </mat-tab>
     <mat-tab label="Most Rated" *ngIf="false">
       <div class="crs_sld_mn">
+        <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
         <div class="crs_sld_dv" *ngFor="let level of levels">
           <span class="cs_hd">{{ level["name"] }}</span>
           <span class="cs_rtn">
@@ -117,6 +120,7 @@
     </mat-tab>
     <mat-tab label="Favorite" *ngIf="false">
       <div class="crs_sld_mn">
+        <div class="crs_tbbd_mn" *ngIf="levels.length == 0">No Records Found</div>
         <div class="crs_sld_dv" *ngFor="let level of levels">
           <span class="cs_hd">{{ level["name"] }}</span>
           <span class="cs_rtn">

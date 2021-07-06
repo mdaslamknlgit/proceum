@@ -42,6 +42,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public cases = [];
   public active_case_index = 0;
   public highyields = [];
+  public learning_notes = [];
   public bucket_url = '';
   public statistics = [];
   constructor(
@@ -137,6 +138,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.toster.error("No Contents Found", "Error", {closeButton:true});
         }
         this.highyields = data['highyields'];
+        this.learning_notes = data['learning_notes'];
         this.mcqs = data['mcqs'];
         this.short_answers = data['short_answers'];
         this.cases = data['cases'];

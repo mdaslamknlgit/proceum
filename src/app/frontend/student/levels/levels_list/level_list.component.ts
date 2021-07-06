@@ -30,6 +30,7 @@ export class Level_listComponent implements OnInit {
   public tab = 'all';
   public previousUrl = '';
   public rating = [];
+  public is_loaded = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService,
@@ -51,6 +52,7 @@ export class Level_listComponent implements OnInit {
     return val;
   }
   getLevels() {
+      this.is_loaded = false;
     this.offset = 0;
     let param = {
       url: 'curriculum-levels',
@@ -63,6 +65,7 @@ export class Level_listComponent implements OnInit {
       tab: this.tab,
     };
     this.http.post(param).subscribe((res) => {
+        this.is_loaded = true;
       if (res['error'] == false) {
         let data = res['data'];
         this.curriculum = data['curriculum'];
