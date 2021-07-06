@@ -1,6 +1,6 @@
 <div class="mn_dshbrd">
-  <div class="brd_crm">Proceum &raquo; <strong>Content list</strong></div>
-  <div class="pg_ttl">Content List</div>
+  <div class="brd_crm">Proceum &raquo; <strong>Manage Content</strong></div>
+  <div class="pg_ttl">Manage Content</div>
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
@@ -47,6 +47,7 @@
               <span>{{ element.content_status == 'PUBLISHED' ? "Published" :
                 "" }}{{ element.content_status == 'DRAFT' ? "Draft" :
                 "" }}{{ element.content_status == 'REVIEW' ? "Reviewing" :
+                "" }}{{ element.content_status == null ? "Copy" :
                 "" }}</span>
             </td>
           </ng-container>
@@ -64,7 +65,7 @@
               <button mat-icon-button color="accent" matTooltip="Click to edit" (click)="navigateTo('create-content/'+element.id)">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button matTooltip="click here to {{
+              <!-- <button matTooltip="click here to {{
                   element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                 }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                   'are you sure to change status of <b>' + element.title + '</b> '
@@ -72,8 +73,11 @@
                 cancelButtonType="outline-secondary">
                 <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
                 <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" matTooltip="Delete">
+              </button> -->
+              <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+              'are you sure to delete <b>' + element.title + '</b> '
+            " placement="auto" (confirm)="deleteContentData(element.id, element.status)" confirmButtonType="danger"
+            cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
                 <mat-icon>remove_circle_outline</mat-icon>
               </button>
             </td>
@@ -127,6 +131,7 @@
               <span>{{ element.content_status == 'PUBLISHED' ? "Published" :
                 "" }}{{ element.content_status == 'DRAFT' ? "Draft" :
                 "" }}{{ element.content_status == 'REVIEW' ? "Reviewing" :
+                "" }}{{ element.content_status == null ? "Copy" :
                 "" }}</span>
             </td>
           </ng-container>
@@ -145,7 +150,7 @@
               <button mat-icon-button color="accent" matTooltip="Click to edit" (click)="navigateTo('create-content/'+element.id)">
                 <mat-icon>edit</mat-icon>
               </button>
-              <button matTooltip="click here to {{
+              <!-- <button matTooltip="click here to {{
                   element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                 }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                   'are you sure to change status of <b>' + element.title + '</b> '
@@ -153,8 +158,11 @@
                 cancelButtonType="outline-secondary">
                 <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
                 <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-              </button>
-              <button mat-icon-button color="warn" matTooltip="Delete">
+              </button> -->
+              <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+              'are you sure to delete <b>' + element.title + '</b> '
+            " placement="auto" (confirm)="deleteContentData(element.id, element.status)" confirmButtonType="danger"
+            cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
                 <mat-icon>remove_circle_outline</mat-icon>
               </button>
             </td>
@@ -209,6 +217,7 @@
                   <span>{{ element.content_status == 'PUBLISHED' ? "Published" :
                     "" }}{{ element.content_status == 'DRAFT' ? "Draft" :
                     "" }}{{ element.content_status == 'REVIEW' ? "Reviewing" :
+                    "" }}{{ element.content_status == null ? "Copy" :
                     "" }}</span>
                 </td>
               </ng-container>
@@ -227,7 +236,7 @@
                   <button mat-icon-button color="accent" matTooltip="Click to edit" (click)="navigateTo('create-content/'+element.id)">
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <button matTooltip="click here to {{
+                  <!-- <button matTooltip="click here to {{
                       element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                     }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                       'are you sure to change status of <b>' + element.title + '</b> '
@@ -235,10 +244,13 @@
                     cancelButtonType="outline-secondary">
                     <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
                     <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" matTooltip="Delete">
-                    <mat-icon>remove_circle_outline</mat-icon>
-                  </button>
+                  </button> -->
+                  <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+              'are you sure to delete <b>' + element.title + '</b> '
+            " placement="auto" (confirm)="deleteContentData(element.id, element.status)" confirmButtonType="danger"
+            cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                <mat-icon>remove_circle_outline</mat-icon>
+              </button>
                 </td>
               </ng-container>
       
@@ -291,6 +303,8 @@
                   <span>{{ element.content_status == 'PUBLISHED' ? "Published" :
                     "" }}{{ element.content_status == 'DRAFT' ? "Draft" :
                     "" }}{{ element.content_status == 'REVIEW' ? "Reviewing" :
+                    "" }}
+                    {{ element.content_status == null ? "Copy" :
                     "" }}</span>
                 </td>
               </ng-container>
@@ -317,9 +331,6 @@
                     cancelButtonType="outline-secondary">
                     <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
                     <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-                  </button>
-                  <button mat-icon-button color="warn" matTooltip="Delete">
-                    <mat-icon>remove_circle_outline</mat-icon>
                   </button>
                 </td>
               </ng-container>
