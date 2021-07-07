@@ -633,7 +633,6 @@ export class CreateContentComponent implements OnInit {
       }else{
         this.show_coments = !this.show_coments;
       }
-    
   }
   getComents(){
     let param = {

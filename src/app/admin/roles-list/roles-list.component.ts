@@ -23,10 +23,10 @@ export class RolesListComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'role_name',
-    'status',
     'created_at',
     'updated_at',
     'actions',
+    'status',
   ];
   role_id: any;
   dataSource = new MatTableDataSource();
