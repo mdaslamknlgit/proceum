@@ -36,128 +36,107 @@
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
         <form #individual_signup_form="ngForm" name="individual_signup_form" novalidate>
           <mat-horizontal-stepper [linear]="isLinear" #stepper>
-            <mat-step [stepControl]="firstFormGroup" label="Basic details">
-              <div class="hgt_20"></div>
-              <div class="reg_container">
-                <div class="left_block_reg">
-                  <div class="fir_name {{ individualRegister.first_name == '' ? 'err_tltp_par' : ''}}">
-                    <mat-form-field appearance="legacy">
-                      <input matInput placeholder="First Name" [(ngModel)]="individualRegister.first_name"
-                        name="first_name" required>
-                      <span class="prc_tltp" *ngIf="individualRegister.first_name == ''">First Name is required</span>
-                    </mat-form-field>
-                  </div>
-                  <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy">
-                      <input matInput placeholder="Email" [(ngModel)]="individualRegister.email" name="email" ngModel
-                        #email="ngModel" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
-                      <span class="prc_tltp" *ngIf="individualRegister.email == ''">Email is required</span>
-                      <span class="prc_tltp" *ngIf="email.errors?.pattern">This is not a valid Email!!!</span>
-                    </mat-form-field>
-                  </div>
-                  <div
-                    class="fir_name {{ (individualRegister.password == ''  || individualRegister.password.length <= 5) ? 'err_tltp_par' : ''}}">
-                    <mat-form-field appearance="legacy">
-                      <input matInput placeholder="Password" [(ngModel)]="individualRegister.password" name="password"
-                        type="password" minlength="6" maxlength="16" ngModel #password="ngModel" required>
-                      <span class="prc_tltp" *ngIf="individualRegister.password == '' || !password_check ">Password is
-                        required</span>
-                      <span class="prc_tltp"
-                        *ngIf="individualRegister.password != '' && individualRegister.password.length <= 5">A minimum
-                        of 6 characters password required</span>
-                    </mat-form-field>
-                  </div>
-                  <div
-                    class="fir_name {{ (individualRegister.university == '' && individualRegister.college == '') ? 'err_tltp_par' : ''}}">
-                    <mat-form-field appearance="legacy">
-                      <input matInput placeholder="University" [(ngModel)]="individualRegister.university"
-                        (ngModelChange)="getUniversities(individualRegister.university)" name="university"
-                        [required]="individualRegister.college == ''" [matAutocomplete]="auto">
 
-                      <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let university of universities" [value]="university.name">
-                          {{university.name}}
-                        </mat-option>
-                      </mat-autocomplete>
-
-                      <span class="prc_tltp"
-                        *ngIf="individualRegister.university == '' && individualRegister.college == ''">{{
-                        university_college_error }}</span>
-                    </mat-form-field>
-                  </div>
-                  <div class="fir_name {{ individualRegister.qualification == '' ? 'err_tltp_par' : ''}}">
-                    <mat-form-field appearance="legacy">
-                      <input matInput placeholder="Qualification" [(ngModel)]="individualRegister.qualification"
-                        name="qualification" required>
-                      <span class="prc_tltp" *ngIf="individualRegister.qualification == ''">Qualification is
-                        required</span>
-                    </mat-form-field>
-                  </div>
+          <mat-step [stepControl]="firstFormGroup" label="Basic details">
+            <div class="hgt_20"></div>
+            <div class="reg_container">
+              <div class="left_block_reg">
+                <div class="fir_name {{ individualRegister.first_name == '' ? 'err_tltp_par' : ''}}">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="First Name" [(ngModel)]="individualRegister.first_name" name="first_name" required>
+                    <span class="prc_tltp" *ngIf="individualRegister.first_name == ''">First Name is required</span>
+                  </mat-form-field>
+                </div>
+                <div class="fir_name err_tltp_par">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Email" [(ngModel)]="individualRegister.email" name="email" ngModel #email="ngModel" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
+                    <span class="prc_tltp" *ngIf="individualRegister.email == ''">Email is required</span>
+                    <span class="prc_tltp" *ngIf="email.errors?.pattern">This is not a valid Email!!!</span>
+                  </mat-form-field>
+                </div>
+                <div class="fir_name {{ (individualRegister.password == ''  || individualRegister.password.length <= 5) ? 'err_tltp_par' : ''}}">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Password" [(ngModel)]="individualRegister.password" name="password" type="password"  minlength="6" maxlength="16" ngModel #password="ngModel" required>
+                    <span class="prc_tltp" *ngIf="individualRegister.password == '' || !password_check ">Password is required</span>
+                    <span class="prc_tltp" *ngIf="individualRegister.password != '' && individualRegister.password.length <= 5">A minimum of 6 characters password  required</span>
+                  </mat-form-field>
+                </div>
+                <div class="fir_name err_tltp_par">   
+                  <mat-form-field appearance="legacy">
+                    <mat-select placeholder="Select University" name="university" #university="ngModel"
+                      [(ngModel)]="individualRegister.university"  [required]="individualRegister.college == ''" >
+                      <mat-option>
+                        <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
+                          [placeholderLabel]="'Search University'" name="search_university" ngModel
+                          (ngModelChange)="filterPartnersListForUniversity($event)"></ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let university of all_universities | async" [value]="university['pk_id']">{{
+                        university["name"] }}</mat-option>
+                    </mat-select>
+                    <span *ngIf="individualRegister.university == ''" class="prc_tltp">{{ university_college_error }}</span>
+                  </mat-form-field>
                 </div>
 
-                <div class="right_block_reg">
-                  <div class="fir_name {{ individualRegister.last_name == '' ? 'err_tltp_par' : ''}}">
-                    <mat-form-field appearance="legacy">
-                      <input matInput placeholder="Last Name" [(ngModel)]="individualRegister.last_name"
-                        name="last_name" required>
-                      <span class="prc_tltp" *ngIf="individualRegister.last_name == ''">Last Name is required</span>
-                    </mat-form-field>
-                  </div>
-                  <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy">
-                      <input matInput placeholder="Contact Number" [(ngModel)]="individualRegister.contact_number"
-                        name="contact_number" ngModel #contact_number="ngModel"
-                        pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
-                        required>
-                      <span class="prc_tltp" *ngIf="individualRegister.contact_number == ''">Contact number is
-                        required</span>
-                      <span class="prc_tltp" *ngIf="contact_number.errors?.pattern">This is not a valid contact
-                        number!!!</span>
-                    </mat-form-field>
-                  </div>
-                  <div
-                    class="last_name {{ individualRegister.confirm_pwd == '' || (individualRegister.confirm_pwd != individualRegister.password) ? 'err_tltp_par' : ''}}">
-                    <mat-form-field appearance="legacy"
-                      class="{{ individualRegister.confirm_pwd != '' && (individualRegister.confirm_pwd != individualRegister.password) ? 'mat-form-field-invalid' : ''}}">
-                      <input matInput [type]="confirm_hide ? 'password' : 'text'" required
-                        [(ngModel)]="individualRegister.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd"
-                        onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" placeholder="Confirm Password"
-                        ngModel />
-                      <span class="prc_tltp" *ngIf="individualRegister.confirm_pwd == ''">Confirm Password
-                        required!</span>
-                      <span class="prc_tltp"
-                        *ngIf="individualRegister.confirm_pwd != '' && individualRegister.confirm_pwd != individualRegister.password">Password
-                        and Confirm Password must be match.</span>
-                    </mat-form-field>
-                  </div>
-                  <div
-                    class="fir_name {{ (individualRegister.university == '' && individualRegister.college == '') ? 'err_tltp_par' : ''}}">
-                    <mat-form-field appearance="legacy">
-                      <input matInput [matAutocomplete]="auto1" placeholder="College"
-                        [(ngModel)]="individualRegister.college" name="college"
-                        (ngModelChange)="getColleges(individualRegister.college)"
-                        [required]="individualRegister.university == ''">
-                      <mat-autocomplete #auto1="matAutocomplete">
-                        <mat-option *ngFor="let college of colleges" [value]="college.name">
-                          {{college.name}}
-                        </mat-option>
-                      </mat-autocomplete>
-                      <span class="prc_tltp"
-                        *ngIf="individualRegister.university == '' && individualRegister.college == ''">{{
-                        university_college_error }}</span>
-                    </mat-form-field>
-                  </div>
-                  <div class="fir_name {{ individualRegister.profession == '' ? 'err_tltp_par' : ''}}">
-                    <mat-form-field appearance="legacy">
-                      <mat-select placeholder="Select Profession" name="profession" #profession="ngModel"
-                        [(ngModel)]="individualRegister.profession" required>
-                        <mat-option value="Doctor">Doctor</mat-option>
-                        <mat-option value="Professor">Professor</mat-option>
-                        <mat-option value="Student">Student</mat-option>
-                      </mat-select>
-                      <span class="prc_tltp" *ngIf="individualRegister.profession == ''">Profession is required</span>
-                    </mat-form-field>
-                  </div>
+                <div class="fir_name {{ individualRegister.qualification == '' ? 'err_tltp_par' : ''}}">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Qualification" [(ngModel)]="individualRegister.qualification" name="qualification" required>
+                    <span class="prc_tltp" *ngIf="individualRegister.qualification == ''">Qualification is required</span>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+
+              <div class="right_block_reg">
+                <div class="fir_name {{ individualRegister.last_name == '' ? 'err_tltp_par' : ''}}">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Last Name" [(ngModel)]="individualRegister.last_name" name="last_name" required>
+                    <span class="prc_tltp" *ngIf="individualRegister.last_name == ''">Last Name is required</span>
+                  </mat-form-field>
+                </div>
+                <div class="fir_name err_tltp_par">
+                  <mat-form-field appearance="legacy">
+                    <input matInput placeholder="Contact Number" [(ngModel)]="individualRegister.contact_number" name="contact_number" ngModel #contact_number="ngModel" pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$" required>
+                    <span class="prc_tltp" *ngIf="individualRegister.contact_number == ''">Contact number is required</span>
+                    <span class="prc_tltp" *ngIf="contact_number.errors?.pattern">This is not a valid contact number!!!</span>
+                  </mat-form-field>
+                </div>
+                <div class="last_name {{ individualRegister.confirm_pwd == '' || (individualRegister.confirm_pwd != individualRegister.password) ? 'err_tltp_par' : ''}}">
+                  <mat-form-field appearance="legacy" class="{{ individualRegister.confirm_pwd != '' && (individualRegister.confirm_pwd != individualRegister.password) ? 'mat-form-field-invalid' : ''}}">
+                    <input matInput [type]="confirm_hide ? 'password' : 'text'" required [(ngModel)]="individualRegister.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd" onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" placeholder="Confirm Password" ngModel/>
+                    <span class="prc_tltp" *ngIf="individualRegister.confirm_pwd == ''">Confirm Password required!</span>
+                    <span class="prc_tltp" *ngIf="individualRegister.confirm_pwd != '' && individualRegister.confirm_pwd != individualRegister.password">Password and Confirm Password must be match.</span>
+                  </mat-form-field>
+                </div>
+
+                <div class="fir_name err_tltp_par">   
+                  <mat-form-field appearance="legacy">
+                    <mat-select placeholder="Select College" name="college" #college="ngModel"
+                      [(ngModel)]="individualRegister.college"  [required]="individualRegister.university == ''" >
+                      <mat-option>
+                        <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
+                          [placeholderLabel]="'Search College'" name="search_college" ngModel
+                          (ngModelChange)="filterPartnersListForCollege($event)"></ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let college of all_colleges | async" [value]="college['pk_id']">{{
+                        college["name"] }}</mat-option>
+                    </mat-select>
+                    <span *ngIf="individualRegister.university == '' && individualRegister.college == ''" class="prc_tltp">{{ university_college_error }}</span>
+                  </mat-form-field>
+                </div>
+
+                <div class="fir_name {{ individualRegister.profession == '' ? 'err_tltp_par' : ''}}">
+                  <mat-form-field appearance="legacy">
+                    <mat-select placeholder="Select Profession" name="profession" #profession="ngModel"
+                      [(ngModel)]="individualRegister.profession" required>
+                      <mat-option value="Doctor">Doctor</mat-option>
+                      <mat-option value="Professor">Professor</mat-option>
+                      <mat-option value="Student">Student</mat-option>
+                    </mat-select>
+                    <span class="prc_tltp" *ngIf="individualRegister.profession == ''">Profession is required</span>
+                  </mat-form-field>
+                </div>
+
                 </div>
               </div>
               <div class="login_btns">
@@ -250,7 +229,7 @@
               <div class="login_btns">
                 <button matStepperPrevious class="teal_btn sign_btn-2 lgn_btn">Back</button>
                 <button (click)="individual_signup_form.valid && doIdividualRegistraion()"
-                  class="teal_btn sign_btn lgn_btn">Done</button>
+                  class="teal_btn sign_btn lgn_btn">Register</button>
               </div>
 
               <!-- <div>
@@ -287,8 +266,7 @@
         <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back <mat-icon>arrow_back</mat-icon>
           </span> Institution</p>
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
-        <form #institution_signup_form="ngForm" name="institution_signup_form"
-          (ngSubmit)="institution_signup_form.valid && doInstitutionRegistraion()" novalidate>
+        <form #institution_signup_form="ngForm" name="institution_signup_form" novalidate>
           <mat-horizontal-stepper [linear]="isLinear" #stepper>
             <mat-step [stepControl]="firstFormGroup" label="Basic details">
               <div class="hgt_20"></div>
@@ -306,14 +284,14 @@
                   <div class="fir_name {{ (institutionResgister.university_name == '') ? 'err_tltp_par' : ''}}">
                     <mat-form-field appearance="legacy">
                       <input matInput placeholder="University Name" [(ngModel)]="institutionResgister.university_name"
-                        (ngModelChange)="getUniversities(institutionResgister.university_name)" name="university_name"
-                        required [matAutocomplete]="auto">
+                         name="university_name"
+                        required >
 
-                      <mat-autocomplete #auto="matAutocomplete">
+                      <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let university of universities" [value]="university.name">
                           {{university.name}}
                         </mat-option>
-                      </mat-autocomplete>
+                      </mat-autocomplete> -->
                       <span class="prc_tltp" *ngIf="institutionResgister.university_name == '' ">University Name is
                         required</span>
                     </mat-form-field>
@@ -412,12 +390,15 @@
                       </div> -->
                     <div class="unilogup w_100p">
                       <!-- <img src="../../../assets/images/ProceumLogo.png" /> -->
-                      <mat-icon>insert_photo</mat-icon>
+                      <div *ngIf="profile_pic != ''">
+                        <img src="{{ profile_pic }}" alt="">
+                      </div>
+                      <mat-icon *ngIf="profile_pic == ''">insert_photo</mat-icon>
                       <div class="unilogup_btns">
-                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo">
+                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo" type="button" (click)="profile_pic = ''">
                           <mat-icon>delete_outline</mat-icon>
                         </button>
-                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" color="accent"
+                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" type="button" color="accent"
                           class="mt_5px no_bxsdw" matTooltip="Upload Logo">
                           <mat-icon>upload</mat-icon>
                           <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
@@ -434,13 +415,13 @@
                   <div class="fir_name {{ (institutionResgister.college_name == '') ? 'err_tltp_par' : ''}}">
                     <mat-form-field appearance="legacy">
                       <input matInput placeholder="College Name" [(ngModel)]="institutionResgister.college_name"
-                        (ngModelChange)="getColleges(institutionResgister.college_name)" name="college_name" required
-                        [matAutocomplete]="auto">
-                      <mat-autocomplete #auto="matAutocomplete">
+                         name="college_name" required
+                        >
+                      <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let college of colleges" [value]="college.name">
                           {{college.name}}
                         </mat-option>
-                      </mat-autocomplete>
+                      </mat-autocomplete> -->
                       <span class="prc_tltp" *ngIf="institutionResgister.college_name == ''">College Name is
                         required</span>
                     </mat-form-field>
@@ -475,17 +456,19 @@
                         Contact Number!</span>
                     </mat-form-field>
                   </div>
-                  <div class="fir_name {{ (institutionResgister.college_university == '') ? 'err_tltp_par' : ''}}">
+                  <div class="fir_name err_tltp_par">   
                     <mat-form-field appearance="legacy">
-                      <input matInput placeholder="University Name"
-                        [(ngModel)]="institutionResgister.college_university"
-                        (ngModelChange)="getUniversities(institutionResgister.college_university)"
-                        name="college_university" [matAutocomplete]="auto">
-                      <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let university of universities" [value]="university.name">
-                          {{university.name}}
+                      <mat-select placeholder="Select University" name="college_university" #college_university="ngModel"
+                        [(ngModel)]="individualRegister.college_university" >
+                        <mat-option>
+                          <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
+                            [placeholderLabel]="'Search University'" name="search_university" ngModel
+                            (ngModelChange)="filterPartnersListForUniversity($event)"></ngx-mat-select-search>
                         </mat-option>
-                      </mat-autocomplete>
+                        <mat-option *ngFor="let university of all_universities | async" [value]="university['pk_id']">{{
+                          university["name"] }}</mat-option>
+                      </mat-select>
+                      <span *ngIf="individualRegister.college_university == ''" class="prc_tltp">Select University</span>
                     </mat-form-field>
                   </div>
 
@@ -539,12 +522,15 @@
                       </div> -->
                     <div class="unilogup w_100p">
                       <!-- <img src="../../../assets/images/ProceumLogo.png" /> -->
-                      <mat-icon>insert_photo</mat-icon>
+                      <div *ngIf="profile_pic != ''">
+                        <img src="{{ profile_pic }}" alt="">
+                      </div>
+                      <mat-icon *ngIf="profile_pic == ''">insert_photo</mat-icon>
                       <div class="unilogup_btns">
-                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo">
+                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo" type="button" (click)="profile_pic = ''">
                           <mat-icon>delete_outline</mat-icon>
                         </button>
-                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" color="accent"
+                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" type="button" color="accent"
                           class="mt_5px no_bxsdw" matTooltip="Upload Logo">
                           <mat-icon>upload</mat-icon>
                           <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
@@ -563,13 +549,13 @@
                   <div class="fir_name {{ (institutionResgister.institute_name == '') ? 'err_tltp_par' : ''}}">
                     <mat-form-field appearance="legacy">
                       <input matInput placeholder="Institute Name" [(ngModel)]="institutionResgister.institute_name"
-                        (ngModelChange)="getInstitutes(institutionResgister.institute_name)" name="institute_name"
-                        [matAutocomplete]="auto">
-                      <mat-autocomplete #auto="matAutocomplete">
+                         name="institute_name"
+                        >
+                      <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let institute of institutes" [value]="institute.name">
                           {{institute.name}}
                         </mat-option>
-                      </mat-autocomplete>
+                      </mat-autocomplete> -->
                     </mat-form-field>
                   </div>
                   <div class="fir_name {{ institutionResgister.institute_contact_person == '' ? 'err_tltp_par' : ''}}">
@@ -642,12 +628,15 @@
                       </div> -->
                     <div class="unilogup w_100p">
                       <!-- <img src="../../../assets/images/ProceumLogo.png" /> -->
-                      <mat-icon>insert_photo</mat-icon>
+                      <div *ngIf="profile_pic != ''">
+                        <img src="{{ profile_pic }}" alt="">
+                      </div>
+                      <mat-icon *ngIf="profile_pic == ''">insert_photo</mat-icon>
                       <div class="unilogup_btns">
-                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo">
+                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo" type="button" (click)="profile_pic = ''">
                           <mat-icon>delete_outline</mat-icon>
                         </button>
-                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" color="accent"
+                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" type="button" color="accent"
                           class="mt_5px no_bxsdw" matTooltip="Upload Logo">
                           <mat-icon>upload</mat-icon>
                           <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
@@ -752,7 +741,8 @@
 
               <div class="login_btns">
                 <button matStepperPrevious class="teal_btn sign_btn-2 lgn_btn">Back</button>
-                <button class="teal_btn sign_btn lgn_btn">Register</button>
+                <button class="teal_btn sign_btn lgn_btn" 
+                (click)="institution_signup_form.valid && doInstitutionRegistraion()">Register</button>
               </div>
 
               <!-- <div>

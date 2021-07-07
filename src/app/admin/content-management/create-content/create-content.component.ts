@@ -63,7 +63,6 @@ export class CreateContentComponent implements OnInit {
   public related_topics = '';
   public external_ref_content = '';
   public content_id = 0;
-  public show_questions = false;
   public active_tab_type = 'mcq';
   public search_question = '';
   public all_or_selected = 'all';
@@ -81,6 +80,7 @@ export class CreateContentComponent implements OnInit {
   public reviewer_role = '';
   public reviewers = [];
   public is_published = '';
+  public showReviewers = false;
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -129,6 +129,7 @@ export class CreateContentComponent implements OnInit {
   public clinical_videos = [{pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:''}];
   public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''}];
   public three_d_videos = [{pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''}];
+  public publsh_content = false;
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -331,20 +332,11 @@ export class CreateContentComponent implements OnInit {
       }
     }
   }
-  viewQuestions() {
-    let data = {
-      url: 'questions-list',
-      limit: this.limit,
-      offset: this.offset,
-    };
-    this.http.post(data).subscribe((res) => {
-      if (res['error'] == false) {
-        this.show_questions = true;
-      }
-    });
+  selectReviewer() {
+    this.showReviewers = true;
   }
-  CloseQuestiosModal() {
-    this.show_questions = !this.show_questions;
+  CloseSelectReviewer() {
+    this.showReviewers = !this.showReviewers;
   }
   addLectureNote() {
     let lecture_note = {
@@ -620,7 +612,8 @@ export class CreateContentComponent implements OnInit {
       selected_cases: this.selected_cases,
       is_draft: is_draft,
       content_id: this.content_id,
-      reviewer_role: is_draft?'':this.reviewer_role
+      reviewer_role: is_draft?'':this.reviewer_role,
+      publsh_content: this.publsh_content
     };
     let params = { url: 'create-content', form_data: form_data };
 
@@ -629,15 +622,9 @@ export class CreateContentComponent implements OnInit {
         this.toster.success(res['message'], 'Success', { closeButton: true });
         this.navigateTo('manage-content');
       } else {
+          this.publsh_content = false;
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
-      //   (<HTMLFormElement>document.getElementById('curriculum_form')).reset();
-      //   this.videos = [];
-      //   this.videos_files = [];
-      //   this.attachments = [];
-      //   this.attachment_files = [];
-      //   this.images = [];
-      //   this.images_files = [];
     });
   }
   showComments() {
@@ -749,19 +736,21 @@ export class CreateContentComponent implements OnInit {
     this.router.navigateByUrl(url);
 }
     publishContent(){
-        let param = {
-            url: 'content-publish/' + this.content_id,
-            publish: 1
-        };
-        this.http.post(param).subscribe((res) => {
-            if (res['error'] == false) {
-            this.toster.success(res['message'], 'Success', { closeButton: true });
-            this.navigateTo('manage-content');
-            } else {
-            this.toster.error(res['message'], res['message'], {
-                closeButton: true,
-            });
-            }
-        });
+        this.publsh_content = true;
+        this.createContent(true);
+        // let param = {
+        //     url: 'content-publish/' + this.content_id,
+        //     publish: 1
+        // };
+        // this.http.post(param).subscribe((res) => {
+        //     if (res['error'] == false) {
+        //     this.toster.success(res['message'], 'Success', { closeButton: true });
+        //     this.navigateTo('manage-content');
+        //     } else {
+        //     this.toster.error(res['message'], res['message'], {
+        //         closeButton: true,
+        //     });
+        //     }
+        // });
     }
 }
