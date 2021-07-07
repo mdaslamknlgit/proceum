@@ -47,6 +47,7 @@ import { CreateNewQuestionComponent } from './question-management/create-new-que
 import { QuestionsManagementComponent } from './question-management/questions-management/questions-management.component';
 import { ReviewDashboardComponent } from './module_review/review-dashboard/review-dashboard.component';
 import { QuestionBankComponent } from './question-management/question-bank/question-bank.component';
+import { CoursePackageManagementComponent } from './course-package/course-package-management/course-package-management.component';
 
 const routes: Routes = [
   {
@@ -136,6 +137,7 @@ const routes: Routes = [
       { path: 'whiteboardgallery', component: WhiteboardgalleryComponent },
       { path: 'createnewquestion', component: CreateNewQuestionComponent },
       { path: 'questionmanagement', component: QuestionsManagementComponent },
+      { path: 'course-package-management', component: CoursePackageManagementComponent },
       { path: 'questionbank', component: QuestionBankComponent },
       { path: 'create-partner', component: CreatePartnerComponent },
       { path: 'create-content/:id', component: CreateContentComponent },
@@ -175,6 +177,7 @@ const routes: Routes = [
     QuestionsManagementComponent,
     ReviewDashboardComponent,
     QuestionBankComponent,
+    CoursePackageManagementComponent,
   ],
   imports: [
     MaterialModule,

@@ -2,7 +2,7 @@
 <!-- <app-sidemenu></app-sidemenu> -->
 <!-- act_qstnm || wrng_qstnm -->
 <!-- crses_rgt_colps || crs_dshbrd_colps -->
-<div class="crses_rgt_colps">
+<div class="">
   <div class="vd_wthshr">
     <!-- <button mat-mini-fab [matMenuTriggerFor]="menu" aria-label="" class="no_bxsdw">
     <mat-icon>more_vert</mat-icon>
@@ -110,7 +110,7 @@
     </div>
   </div>
   <div class="mn_dshbrd crs_dshbrd">
-  
+
     <div class="brd_crm" *ngIf="curriculum">
       <span routerLink="/student/curriculums">Curriculums / </span>
       <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
@@ -124,34 +124,34 @@
         <strong *ngIf="i == breadcome.length - 1">
           {{ setTitle(bread["name"]) }}</strong></span>
     </div>
-   
+
     <div class="pg_ttl" *ngIf="content != undefined">
       <div>{{ content["title"] }}</div>
       <div class="spacer"></div>
       <div class="d-flex">
-      <button *ngIf="content_list.length > 1" matTooltip="More Content" (click)="show_content_list = !show_content_list"
-        mat-mini-fab color="accent" class="mr_vrt_btn algn_s_fs no_bxsdw mr_1">
-        <mat-icon>menu_open</mat-icon>
-      </button>
-      <div class="fnt_sze text-right">
-        <span *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords">
-          <button mat-icon-button color="accent" class="mr_1 buzz_btn">
-            <mat-icon>highlight_alt</mat-icon>
-          </button></span>
-        <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords">
-          <button mat-icon-button color="accent" class="actv_txt_hglt mr_1">
-            <mat-icon>highlight_alt</mat-icon>
-          </button>
-        </span>
-        <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-        <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+        <button *ngIf="content_list.length > 1" matTooltip="More Content"
+          (click)="show_content_list = !show_content_list" mat-mini-fab color="accent"
+          class="mr_vrt_btn algn_s_fs no_bxsdw mr_1">
+          <mat-icon>menu_open</mat-icon>
+        </button>
+        <div class="fnt_sze text-right">
+          <span *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords">
+            <button mat-icon-button color="accent" class="mr_1 buzz_btn">
+              <mat-icon>highlight_alt</mat-icon>
+            </button></span>
+          <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords">
+            <button mat-icon-button color="accent" class="actv_txt_hglt mr_1">
+              <mat-icon>highlight_alt</mat-icon>
+            </button>
+          </span>
+          <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+          <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+        </div>
+        <button mat-icon-button color="accent" class="algn_s_fs no_bxsdw buzz_btn">
+          <mat-icon>switch_video</mat-icon>
+        </button>
       </div>
-      <button  mat-mini-fab color="accent" class="algn_s_fs no_bxsdw">
-        <mat-icon >switch_video</mat-icon>
-      </button>
     </div>
-    </div>
-    
     <!-- <div class="crs_lft_hd">
     <span class="crs_bk_btn"
       ><mat-icon>arrow_back</mat-icon>General features of Muscle</span
@@ -171,7 +171,7 @@
             </span>
             <span class="spacer"></span>
             <span class="fnt_sze">
-             
+
             </span>
             <!-- <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
@@ -259,7 +259,9 @@
             </div>
             <div class="pn_btns" *ngIf="mcqs.length>1">
               <button mat-raised-button color="accent" [disabled]="!active_mcq_index > 0" (click)="prevQuestion()"
-                class="mr_1"><mat-icon>navigate_before</mat-icon> Prev</button>
+                class="mr_1">
+                <mat-icon>navigate_before</mat-icon> Prev
+              </button>
               <button mat-raised-button color="accent" [disabled]="active_mcq_index + 1 >= mcqs.length"
                 (click)="nextQuestion()">Next <mat-icon>navigate_next</mat-icon>
               </button>
@@ -681,12 +683,8 @@
   </div>
   <div class="crses_rgt">
     <div class="intr_vd_hd">
-      <div>
-        <button  mat-mini-fab color="accent" class="no_bxsdw mr_1">
-          <mat-icon >switch_video</mat-icon>
-        </button>
-      </div>
-      <div>
+      
+      <div><mat-icon>switch_video</mat-icon>
         <mat-icon>videocam</mat-icon>
         Introduction video
       </div>
@@ -753,76 +751,79 @@
               15 / 30 videos watched
             </mat-panel-description>
           </mat-expansion-panel-header>
-          <!-- <div class="mtvd_hds">
-            <span>Introduction</span>
+          <div class="mtvd_hds">
+            <span class="mtvd_actv">Introduction</span>
             <span>2D Videos <span>(5)</span></span>
             <span>Board Lectures <span>(5)</span></span>
             <span>Clinical Essentials <span>(5)</span></span>
             <span>Procedural Videos <span>(5)</span></span>
             <span>3D Objects <span>(5)</span></span>
-          </div> -->
-          <div class="wtcd_vds wv_actv">
-            <div class="wv_img">
-              <img src="../../../assets/images/vid_smpl.jpg" />
-            </div>
-            <div class="wv_ttl_dsc">
-              <span class="wv_tt_hd">Introduction video</span>
-              <span class="wv_ts">05:50 min</span>
-            </div>
-            <span class="spacer"></span>
-            <div class="wv_ply_icn">
-              <mat-icon>graphic_eq</mat-icon>
-            </div>
-            <div class="wv_bkmrk">
-              <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
-            </div>
           </div>
-          <div class="wtcd_vds">
-            <div class="wv_img">
-              <img src="../../../assets/images/vid_smpl.jpg" />
+          <div class="hgt_20"></div>
+          <div>
+            <div class="wtcd_vds wv_actv">
+              <div class="wv_img">
+                <img src="../../../assets/images/vid_smpl.jpg" />
+              </div>
+              <div class="wv_ttl_dsc">
+                <span class="wv_tt_hd">Introduction video</span>
+                <span class="wv_ts">05:50 min</span>
+              </div>
+              <span class="spacer"></span>
+              <div class="wv_ply_icn">
+                <mat-icon>graphic_eq</mat-icon>
+              </div>
+              <div class="wv_bkmrk">
+                <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+              </div>
             </div>
-            <div class="wv_ttl_dsc">
-              <span class="wv_tt_hd">Introduction video</span>
-              <span class="wv_ts">05:50 min</span>
+            <div class="wtcd_vds">
+              <div class="wv_img">
+                <img src="../../../assets/images/vid_smpl.jpg" />
+              </div>
+              <div class="wv_ttl_dsc">
+                <span class="wv_tt_hd">Introduction video</span>
+                <span class="wv_ts">05:50 min</span>
+              </div>
+              <span class="spacer"></span>
+              <div class="wv_ply_icn">
+                <mat-icon>graphic_eq</mat-icon>
+              </div>
+              <div class="wv_bkmrk">
+                <mat-icon>bookmark_border</mat-icon>
+              </div>
             </div>
-            <span class="spacer"></span>
-            <div class="wv_ply_icn">
-              <mat-icon>graphic_eq</mat-icon>
+            <div class="wtcd_vds">
+              <div class="wv_img">
+                <img src="../../../assets/images/vid_smpl.jpg" />
+              </div>
+              <div class="wv_ttl_dsc">
+                <span class="wv_tt_hd">Introduction video</span>
+                <span class="wv_ts">05:50 min</span>
+              </div>
+              <span class="spacer"></span>
+              <div class="wv_ply_icn">
+                <mat-icon>graphic_eq</mat-icon>
+              </div>
+              <div class="wv_bkmrk">
+                <mat-icon>bookmark_border</mat-icon>
+              </div>
             </div>
-            <div class="wv_bkmrk">
-              <mat-icon>bookmark_border</mat-icon>
-            </div>
-          </div>
-          <div class="wtcd_vds">
-            <div class="wv_img">
-              <img src="../../../assets/images/vid_smpl.jpg" />
-            </div>
-            <div class="wv_ttl_dsc">
-              <span class="wv_tt_hd">Introduction video</span>
-              <span class="wv_ts">05:50 min</span>
-            </div>
-            <span class="spacer"></span>
-            <div class="wv_ply_icn">
-              <mat-icon>graphic_eq</mat-icon>
-            </div>
-            <div class="wv_bkmrk">
-              <mat-icon>bookmark_border</mat-icon>
-            </div>
-          </div>
-          <div class="wtcd_vds">
-            <div class="wv_img">
-              <img src="../../../assets/images/vid_smpl.jpg" />
-            </div>
-            <div class="wv_ttl_dsc">
-              <span class="wv_tt_hd">Introduction video</span>
-              <span class="wv_ts">05:50 min</span>
-            </div>
-            <span class="spacer"></span>
-            <div class="wv_ply_icn">
-              <mat-icon>graphic_eq</mat-icon>
-            </div>
-            <div class="wv_bkmrk">
-              <mat-icon>bookmark_border</mat-icon>
+            <div class="wtcd_vds">
+              <div class="wv_img">
+                <img src="../../../assets/images/vid_smpl.jpg" />
+              </div>
+              <div class="wv_ttl_dsc">
+                <span class="wv_tt_hd">Introduction video</span>
+                <span class="wv_ts">05:50 min</span>
+              </div>
+              <span class="spacer"></span>
+              <div class="wv_ply_icn">
+                <mat-icon>graphic_eq</mat-icon>
+              </div>
+              <div class="wv_bkmrk">
+                <mat-icon>bookmark_border</mat-icon>
+              </div>
             </div>
           </div>
         </mat-expansion-panel>
