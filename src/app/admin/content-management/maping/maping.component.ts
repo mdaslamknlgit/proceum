@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { environment } from 'src/environments/environment';
@@ -50,9 +51,11 @@ export class MapingComponent implements OnInit {
   public current_level_id = 0;
   public slected_content_ids = [];
   public topic_id = 0;
-  constructor(private http: CommonService, private toster: ToastrService) {}
+  public user = [];
+  constructor(private http: CommonService, private toster: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
+      this.user = this.http.getUser();
     let param = {
       url: 'content-map-list',
       offset: this.page,
@@ -292,4 +295,14 @@ export class MapingComponent implements OnInit {
     this.topic_id = 0;
     this.slected_content_ids = [];
   }
+  navigateTo(url){
+    let user = this.user;
+    if(user['role']== '1'){
+        url = "/admin/"+url;
+    }
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/reviewer/"+url;
+  }
+    this.router.navigateByUrl(url);
+}
 }

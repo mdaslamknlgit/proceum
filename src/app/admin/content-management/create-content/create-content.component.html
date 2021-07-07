@@ -574,7 +574,7 @@
                     <div class="hyt_mn_dv">
                       <div class="dsh_brd_crds">
                         <mat-form-field appearance="outline" class="w_100p">
-                          <input matInput [(ngModel)]="lecture_note_title" name="lecture_note_title_name"
+                          <input matInput [(ngModel)]="lecture_note_title" (blur)="checkLectureNoteDuplicate()" name="lecture_note_title_name"
                             placeholder="Title" />
                         </mat-form-field>
                       </div>
@@ -584,7 +584,7 @@
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
-                        <button type="button" (click)="addLectureNote()" mat-raised-button color="accent">
+                        <button type="button" [disabled]="lecture_note_title == '' || lecture_note_content == '' || lecture_note_title_duplicate" (click)="addLectureNote()" mat-raised-button color="accent">
                           <mat-icon>add</mat-icon> Add Notes
                         </button>
                       </div>
@@ -621,7 +621,7 @@
                     <div class="hyt_mn_dv">
                       <div class="dsh_brd_crds">
                         <mat-form-field appearance="outline" class="w_100p">
-                          <input matInput [(ngModel)]="highyield_title" name="highyield_title" placeholder="Title" />
+                          <input matInput [(ngModel)]="highyield_title" name="highyield_title" placeholder="Title" (blur)="checkHighyieldDuplicate()" />
                         </mat-form-field>
                       </div>
                       <div class="ck_editor">
@@ -630,7 +630,7 @@
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
-                        <button type="button" (click)="addHighyield()" mat-raised-button color="accent">
+                        <button type="button" [disabled]="highyield_title == '' || highyield_content == '' || highyield_title_duplicate" (click)="addHighyield()" mat-raised-button color="accent">
                           <mat-icon>add</mat-icon> Add Notes
                         </button>
                       </div>

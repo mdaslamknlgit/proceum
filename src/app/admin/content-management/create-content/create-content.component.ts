@@ -53,10 +53,12 @@ export class CreateContentComponent implements OnInit {
   public learning_notes_content: string = '';
   public lecture_note_content: string = '';
   public lecture_note_title: string = '';
+  public lecture_note_title_duplicate = false;
   public lecture_note_obj = [];
   public lecture_note_index = '';
   public highyield_content: string = '';
   public highyield_title: string = '';
+  public highyield_title_duplicate = false;
   public highyield_obj = [];
   public highyield_index = '';
   public cases = '';
@@ -344,6 +346,9 @@ export class CreateContentComponent implements OnInit {
     this.showReviewers = !this.showReviewers;
   }
   addLectureNote() {
+      if(this.lecture_note_title_duplicate){
+          return false;
+      }
     let lecture_note = {
       id: 0,
       title: this.lecture_note_title,
@@ -355,11 +360,36 @@ export class CreateContentComponent implements OnInit {
       this.lecture_note_obj[Number(this.lecture_note_index)]['content'] =
         this.lecture_note_content;
     } else {
-      this.lecture_note_obj.push(lecture_note);
+        if(this.lecture_note_obj.length == 0){
+            this.lecture_note_obj.push(lecture_note);
+        }else{
+            this.lecture_note_obj.forEach((res, index)=>{
+            if(res['title'] == this.lecture_note_title && res['status'] != 'delete'){
+                this.toster.error("Title has been taken");
+                return false;
+            }
+            if(this.lecture_note_obj.length == (index+1)){
+                this.lecture_note_obj.push(lecture_note);
+            }
+        })
     }
+        //this.lecture_note_obj.push(lecture_note);
+        }
     this.lecture_note_title = '';
     this.lecture_note_content = '';
     this.lecture_note_index = '';
+  }
+  checkLectureNoteDuplicate(){
+    this.lecture_note_obj.forEach((res, index)=>{
+        if(res['title'] == this.lecture_note_title && res['status'] != 'delete' && ''+index != this.highyield_index){
+            this.lecture_note_title_duplicate = true;
+            this.toster.error("Title has been taken");
+            return false;
+        }
+        if(this.lecture_note_obj.length == (index+1)){
+            this.lecture_note_title_duplicate = false;
+        }
+    })
   }
   editLectureNote(index) {
     this.lecture_note_index = '' + index;
@@ -374,6 +404,9 @@ export class CreateContentComponent implements OnInit {
     }
   }
   addHighyield() {
+      if(this.highyield_title_duplicate){
+          return false;
+      }
     let highyield = {
       id: 0,
       title: this.highyield_title,
@@ -385,11 +418,36 @@ export class CreateContentComponent implements OnInit {
       this.highyield_obj[Number(this.highyield_index)]['content'] =
         this.highyield_content;
     } else {
-      this.highyield_obj.push(highyield);
+        if(this.highyield_obj.length == 0){
+            this.highyield_obj.push(highyield);
+        }else{
+        this.highyield_obj.forEach((res, index)=>{
+            if(res['title'] == this.highyield_title && res['status'] != 'delete'){
+                this.toster.error("Title has been taken");
+                return false;
+            }
+            if(this.highyield_obj.length == (index+1)){
+                this.highyield_obj.push(highyield);
+            }
+        })
+    }
+      
     }
     this.highyield_title = '';
     this.highyield_content = '';
     this.highyield_index = '';
+  }
+  checkHighyieldDuplicate(){
+    this.highyield_obj.forEach((res, index)=>{
+        if(res['title'] == this.highyield_title && res['status'] != 'delete' && ''+index != this.highyield_index){
+            this.highyield_title_duplicate = true;
+            this.toster.error("Title has been taken");
+            return false;
+        }
+        if(this.highyield_obj.length == (index+1)){
+            this.highyield_title_duplicate = false;
+        }
+    })
   }
   editHighyield(index) {
     this.highyield_index = '' + index;
