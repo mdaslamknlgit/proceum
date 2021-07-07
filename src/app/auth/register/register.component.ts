@@ -25,8 +25,6 @@ export class RegisterComponent implements OnInit {
   isLinear = false; //for stepper
   is_second:boolean=false;
   socialUser: SocialUser;
-  public universities: string[] = [];
-  public colleges: string[] = [];
   public is_login: boolean = false;
   public is_show: boolean = false;
   public is_account_type: boolean = true;
@@ -47,9 +45,14 @@ export class RegisterComponent implements OnInit {
   public profile_pic: string = '';
   public address_details:boolean = false;
   //master data variables goes here
+  universities = [];
+  colleges = [];
+  institutes = [];
   countrys = [];
   states = [];
-  institutes = [];
+  all_universities: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_colleges: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_institutes: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
 
@@ -129,6 +132,8 @@ export class RegisterComponent implements OnInit {
     this.domain = location.origin;
     this.getSocialAuth();
     this.getCountries();
+    this.getPartnersListForUniversity();
+    this.getPartnersListForColleges();
     
   }
   
@@ -463,33 +468,70 @@ export class RegisterComponent implements OnInit {
     } else if (social_type == 'AP') {
     }
   }
-//To get all the Universities list
-  getUniversities(serachString: string){
-    let param = { url: 'get-universities', university_search_string : serachString};
+
+  //To get all the Universities list
+  getPartnersListForUniversity(){
+    let param = { url: 'get-partners-list',partner_type_id : 1 };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.universities = res['data']['universities'];
-      } else {
-        //this.toster.error(res['message'], 'Error');
-      }
-    });
-  }
-  
-  //To get all college list
-  getColleges(searchString: string){
-    let param = { url: 'get-colleges' , college_search_string : searchString};
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-        this.colleges = res['data']['colleges'];
+        this.universities = res['data']['partners'];
+        if(this.universities != undefined){
+          this.all_universities.next(this.universities.slice()); 
+        }
       } else {
         //this.toster.error(res['message'], 'Error');
       }
     });
   }
 
+  filterPartnersListForUniversity(event) {
+    let search = event;
+    if (!search) {
+      this.all_universities.next(this.universities.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_universities.next(
+      this.universities.filter(
+        (university) => university.name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+  
   //To get all college list
-  getInstitutes(searchString: string){
-    let param = { url: 'get-institutes' , institute_search_string : searchString};
+  getPartnersListForColleges(){
+    let param = { url: 'get-partners-list',partner_type_id : 2 };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.colleges = res['data']['partners'];
+        if(this.colleges != undefined){
+          this.all_colleges.next(this.colleges.slice()); 
+        }
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  filterPartnersListForCollege(event) {
+    let search = event;
+    if (!search) {
+      this.all_colleges.next(this.colleges.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_colleges.next(
+      this.colleges.filter(
+        (college) => college.name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  //To get all college list
+  getInstitutes(){
+    let param = { url: 'get-partners-list',partner_type_id : 3 };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.institutes = res['data']['institutes'];

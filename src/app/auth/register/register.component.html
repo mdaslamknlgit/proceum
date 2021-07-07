@@ -60,19 +60,22 @@
                     <span class="prc_tltp" *ngIf="individualRegister.password != '' && individualRegister.password.length <= 5">A minimum of 6 characters password  required</span>
                   </mat-form-field>
                 </div>
-                <div class="fir_name {{ (individualRegister.university == '' && individualRegister.college == '') ? 'err_tltp_par' : ''}}">
+                <div class="fir_name err_tltp_par">   
                   <mat-form-field appearance="legacy">
-                    <input matInput  placeholder="University" [(ngModel)]="individualRegister.university" (ngModelChange)="getUniversities(individualRegister.university)" name="university" [required]="individualRegister.college == ''" [matAutocomplete]="auto">
-
-                    <mat-autocomplete #auto="matAutocomplete">
-                      <mat-option *ngFor="let university of universities" [value]="university.name">
-                        {{university.name}}
+                    <mat-select placeholder="Select University" name="university" #university="ngModel"
+                      [(ngModel)]="individualRegister.university"  [required]="individualRegister.college == ''" >
+                      <mat-option>
+                        <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
+                          [placeholderLabel]="'Search University'" name="search_university" ngModel
+                          (ngModelChange)="filterPartnersListForUniversity($event)"></ngx-mat-select-search>
                       </mat-option>
-                    </mat-autocomplete>
-
-                    <span class="prc_tltp" *ngIf="individualRegister.university == '' && individualRegister.college == ''">{{ university_college_error }}</span>
+                      <mat-option *ngFor="let university of all_universities | async" [value]="university['pk_id']">{{
+                        university["name"] }}</mat-option>
+                    </mat-select>
+                    <span *ngIf="individualRegister.university == ''" class="prc_tltp">{{ university_college_error }}</span>
                   </mat-form-field>
                 </div>
+
                 <div class="fir_name {{ individualRegister.qualification == '' ? 'err_tltp_par' : ''}}">
                   <mat-form-field appearance="legacy">
                     <input matInput placeholder="Qualification" [(ngModel)]="individualRegister.qualification" name="qualification" required>
@@ -102,17 +105,23 @@
                     <span class="prc_tltp" *ngIf="individualRegister.confirm_pwd != '' && individualRegister.confirm_pwd != individualRegister.password">Password and Confirm Password must be match.</span>
                   </mat-form-field>
                 </div>
-                <div class="fir_name {{ (individualRegister.university == '' && individualRegister.college == '') ? 'err_tltp_par' : ''}}">
+
+                <div class="fir_name err_tltp_par">   
                   <mat-form-field appearance="legacy">
-                    <input matInput [matAutocomplete]="auto1" placeholder="College" [(ngModel)]="individualRegister.college" name="college" (ngModelChange)="getColleges(individualRegister.college)" [required]="individualRegister.university == ''">
-                    <mat-autocomplete #auto1="matAutocomplete">
-                      <mat-option *ngFor="let college of colleges" [value]="college.name">
-                        {{college.name}}
+                    <mat-select placeholder="Select College" name="college" #college="ngModel"
+                      [(ngModel)]="individualRegister.college"  [required]="individualRegister.university == ''" >
+                      <mat-option>
+                        <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
+                          [placeholderLabel]="'Search College'" name="search_college" ngModel
+                          (ngModelChange)="filterPartnersListForCollege($event)"></ngx-mat-select-search>
                       </mat-option>
-                    </mat-autocomplete>
-                    <span class="prc_tltp" *ngIf="individualRegister.university == '' && individualRegister.college == ''">{{ university_college_error }}</span>
+                      <mat-option *ngFor="let college of all_colleges | async" [value]="college['pk_id']">{{
+                        college["name"] }}</mat-option>
+                    </mat-select>
+                    <span *ngIf="individualRegister.university == '' && individualRegister.college == ''" class="prc_tltp">{{ university_college_error }}</span>
                   </mat-form-field>
                 </div>
+
                 <div class="fir_name {{ individualRegister.profession == '' ? 'err_tltp_par' : ''}}">
                   <mat-form-field appearance="legacy">
                     <mat-select placeholder="Select Profession" name="profession" #profession="ngModel"
