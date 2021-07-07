@@ -29,6 +29,8 @@ export class Level_listComponent implements OnInit {
   public total_items = 0;
   public tab = 'all';
   public previousUrl = '';
+  public rating = [];
+  public is_loaded = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService,
@@ -50,6 +52,7 @@ export class Level_listComponent implements OnInit {
     return val;
   }
   getLevels() {
+      this.is_loaded = false;
     this.offset = 0;
     let param = {
       url: 'curriculum-levels',
@@ -62,6 +65,7 @@ export class Level_listComponent implements OnInit {
       tab: this.tab,
     };
     this.http.post(param).subscribe((res) => {
+        this.is_loaded = true;
       if (res['error'] == false) {
         let data = res['data'];
         this.curriculum = data['curriculum'];
@@ -98,6 +102,12 @@ export class Level_listComponent implements OnInit {
         }
       }
     });
+  }
+  setHoverRating(value, level_id){
+    this.rating[level_id] = value;
+  }
+  resetHoverRating(value, level_id){
+    this.rating[level_id] = value;
   }
   doFilter() {
     this.getLevels();
@@ -140,11 +150,12 @@ export class Level_listComponent implements OnInit {
       this.getLevels();
     }
   }
-  manageStatistics(type, id, i) {
+  manageStatistics(type, id, i, rating=0) {
     let param = {
       url: 'manage-level-statistics',
       type: type,
       source_id: id,
+      rating: this.rating[id]
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -155,6 +166,9 @@ export class Level_listComponent implements OnInit {
           this.levels[i]['is_bookmark'] =
             this.levels[i]['is_bookmark'] == 1 ? 0 : 1;
         }
+        if (type == 'rating') {
+            this.levels[i]['rating'] =rating;
+          }
         this.toster.success(res['message'], 'Info', { closeButton: true });
       } else {
         this.toster.info('Something went wrong. Please try again.', 'Error', {

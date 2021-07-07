@@ -28,9 +28,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./create-content.component.scss'],
 })
 export class CreateContentComponent implements OnInit {
-  displayedColumns: string[] = ['s_no', 'question', 'action'];
-  all_questions = new MatTableDataSource();
-  selected_questions = ELEMENT_DATA; // new MatTableDataSource();
+  public displayedColumns: string[] = ['s_no', 'question', 'action'];
+  public video_types = [{name: "KPoint", value:'KPOINT'}, {name: "Youtube", value:'YOUTUBE'}]
+  public all_questions = new MatTableDataSource();
+  public selected_questions = ELEMENT_DATA; // new MatTableDataSource();
   public user = [];
   public is_submit = false;
   public active_tab = 'images';
@@ -49,6 +50,10 @@ export class CreateContentComponent implements OnInit {
   public images_files = [];
   public learning_obj_content: string = '';
   public learning_notes_content: string = '';
+  public lecture_note_content: string = '';
+  public lecture_note_title: string = '';
+  public lecture_note_obj = [];
+  public lecture_note_index = '';
   public highyield_content: string = '';
   public highyield_title: string = '';
   public highyield_obj = [];
@@ -58,7 +63,6 @@ export class CreateContentComponent implements OnInit {
   public related_topics = '';
   public external_ref_content = '';
   public content_id = 0;
-  public show_questions = false;
   public active_tab_type = 'mcq';
   public search_question = '';
   public all_or_selected = 'all';
@@ -76,6 +80,7 @@ export class CreateContentComponent implements OnInit {
   public reviewer_role = '';
   public reviewers = [];
   public is_published = '';
+  public showReviewers = false;
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -115,7 +120,16 @@ export class CreateContentComponent implements OnInit {
   }
   public pgae_title = 'Create Content';
   public show_tabs = false;
-  content_reviewer_role = '';
+  public review_docs = [];
+  public review_docs_new = [];
+  public content_reviewer_role = '';
+  public intro_video = [{pk_id:0, video_section:'INTRO', source:'', title:'', value:'', status:''}];
+  public two_d_videos = [{pk_id:0, video_section:'2D', source:'', title:'', value:'', status:''}];
+  public board_lecture_videos = [{pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:''}];
+  public clinical_videos = [{pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:''}];
+  public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''}];
+  public three_d_videos = [{pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''}];
+  public publsh_content = false;
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -125,14 +139,7 @@ export class CreateContentComponent implements OnInit {
 
   ngOnInit(): void {
       this.user = this.http.getUser();
-    let comments = {
-      name: 'Reviewer1',
-      comment:
-        '01. Fusce tincidunt dolor vel arcu vulputate, sed cursus metus pulvinar.02. Mauris vitae mi auctor, porta libero non, venenatis tellus. 03.Quisque ac nunc et ipsum hendrerit porta. 04. Pellentesque et ex egetaugue convallis faucibus. 05. Morbi condimentum tortor sit amet justolaoreet, vitae scelerisque ipsum vestibulum.',
-      date_time: '24-05-2021 13:10:10',
-    };
-    this.older_coments.push(comments);
-    this.activatedRoute.params.subscribe((param) => {
+      this.activatedRoute.params.subscribe((param) => {
       this.content_id = param.id;
       if (this.content_id != undefined) {
         this.pgae_title = 'Edit Content';
@@ -164,9 +171,28 @@ export class CreateContentComponent implements OnInit {
         this.content_reviewer_role = data['reviewer_role'];
         this.is_published = data['is_published'];
         this.title = data['title'];
+        let videos = data['videos'];
+        if(videos['intro_video'].length > 0){
+            this.intro_video = videos['intro_video'];
+        }
+        if(videos['two_d_videos'].length > 0){
+            this.two_d_videos = videos['two_d_videos'];
+        }
+        if(videos['board_lecture_videos'].length > 0){
+            this.board_lecture_videos = videos['board_lecture_videos'];
+        }
+        if(videos['clinical_videos'].length > 0){
+            this.clinical_videos = videos['clinical_videos'];
+        }
+        if(videos['procedural_videos'].length > 0){
+            this.procedural_videos = videos['procedural_videos'];
+        }
+        if(videos['three_d_videos'].length > 0){
+            this.three_d_videos = videos['three_d_videos'];
+        }
         this.main_content = data['main_content'];
         this.learning_obj_content = data['learning_obj_content'];
-        this.learning_notes_content = data['learning_notes_content'];
+        this.lecture_note_obj = data['learning_note_obj'];
         this.highyield_obj = data['highyield_obj'];
         this.external_ref_content = data['external_ref_content'];
         this.attachments = data['attachments'];
@@ -195,6 +221,45 @@ export class CreateContentComponent implements OnInit {
         this.selected_cases = data['selected_cases'];
       }
     });
+  }
+  addVideo(tabIndex, index){
+    if(tabIndex == 1){
+      this.two_d_videos.push({pk_id:0, video_section:'2D', source:'', title:'', value:'', status:''});
+    }
+    if(tabIndex == 2){
+      this.board_lecture_videos.push({pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:''});
+    }
+    if(tabIndex == 3){
+      this.clinical_videos.push({pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:''});
+    }
+    if(tabIndex == 4){
+      this.procedural_videos.push({pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''});
+    }
+    if(tabIndex == 5){
+      this.three_d_videos.push({pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''});
+    }
+  }
+  removeVideo(tabIndex, index){
+    if(tabIndex == 1){
+        this.two_d_videos[index]['status'] = "delete";
+        //this.two_d_videos.splice(index, 1);
+    }
+    if(tabIndex == 2){
+      this.board_lecture_videos[index]['status'] = "delete";
+      //this.board_lecture_videos.splice(index, 1);
+    }
+    if(tabIndex == 3){
+      this.clinical_videos[index]['status'] = "delete";
+      //this.clinical_videos.splice(index, 1);
+    }
+    if(tabIndex == 4){
+      this.procedural_videos[index]['status'] = "delete";
+      //this.procedural_videos.splice(index, 1);
+    }
+    if(tabIndex == 5){
+      this.three_d_videos[index]['status'] = "delete";
+      //this.three_d_videos.splice(index, 1);
+    }
   }
   getChildData() {
     this.http.child_data.subscribe((res) => {
@@ -267,20 +332,41 @@ export class CreateContentComponent implements OnInit {
       }
     }
   }
-  viewQuestions() {
-    let data = {
-      url: 'questions-list',
-      limit: this.limit,
-      offset: this.offset,
-    };
-    this.http.post(data).subscribe((res) => {
-      if (res['error'] == false) {
-        this.show_questions = true;
-      }
-    });
+  selectReviewer() {
+    this.showReviewers = true;
   }
-  CloseQuestiosModal() {
-    this.show_questions = !this.show_questions;
+  CloseSelectReviewer() {
+    this.showReviewers = !this.showReviewers;
+  }
+  addLectureNote() {
+    let lecture_note = {
+      id: 0,
+      title: this.lecture_note_title,
+      content: this.lecture_note_content,
+    };
+    if (this.lecture_note_index != '' && this.lecture_note_obj[Number(this.lecture_note_index)] != undefined) {
+      this.lecture_note_obj[Number(this.lecture_note_index)]['title'] =
+        this.lecture_note_title;
+      this.lecture_note_obj[Number(this.lecture_note_index)]['content'] =
+        this.lecture_note_content;
+    } else {
+      this.lecture_note_obj.push(lecture_note);
+    }
+    this.lecture_note_title = '';
+    this.lecture_note_content = '';
+    this.lecture_note_index = '';
+  }
+  editLectureNote(index) {
+    this.lecture_note_index = '' + index;
+    this.lecture_note_title = this.lecture_note_obj[index]['title'];
+    this.lecture_note_content = this.lecture_note_obj[index]['content'];
+  }
+  removeLectureNote(index) {
+    if (index > -1) {
+      this.lecture_note_obj[index]['status'] = 'delete';
+      if (this.lecture_note_obj[index]['id'] == 0)
+        this.lecture_note_obj.splice(index, 1);
+    }
   }
   addHighyield() {
     let highyield = {
@@ -507,12 +593,18 @@ export class CreateContentComponent implements OnInit {
     let form_data = {
       title: this.title,
       main_videos: this.videos,
-      intro_video: '',
+      intro_video: this.intro_video,
+      two_d_videos: this.two_d_videos,
+      board_lecture_videos: this.board_lecture_videos,
+      clinical_videos: this.clinical_videos,
+      procedural_videos: this.procedural_videos,
+      three_d_videos: this.three_d_videos,
       main_content: this.main_content,
       attachments: this.attachments,
       images: this.images,
       learning_obj_content: this.learning_obj_content,
       learning_notes_content: this.learning_notes_content,
+      learning_note_obj: this.lecture_note_obj,
       highyield_obj: this.highyield_obj,
       external_ref_content: this.external_ref_content,
       selected_mcqs: this.selected_mcqs,
@@ -520,7 +612,8 @@ export class CreateContentComponent implements OnInit {
       selected_cases: this.selected_cases,
       is_draft: is_draft,
       content_id: this.content_id,
-      reviewer_role: is_draft?'':this.reviewer_role
+      reviewer_role: is_draft?'':this.reviewer_role,
+      publsh_content: this.publsh_content
     };
     let params = { url: 'create-content', form_data: form_data };
 
@@ -529,19 +622,109 @@ export class CreateContentComponent implements OnInit {
         this.toster.success(res['message'], 'Success', { closeButton: true });
         this.navigateTo('manage-content');
       } else {
+          this.publsh_content = false;
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
-      //   (<HTMLFormElement>document.getElementById('curriculum_form')).reset();
-      //   this.videos = [];
-      //   this.videos_files = [];
-      //   this.attachments = [];
-      //   this.attachment_files = [];
-      //   this.images = [];
-      //   this.images_files = [];
     });
   }
   showComments() {
-    this.show_coments = !this.show_coments;
+      if(!this.show_coments){
+        this.getComents();
+      }else{
+        this.show_coments = !this.show_coments;
+      }
+    
+  }
+  getComents(){
+    let param = {
+        url: 'get-content-comments',
+        content_id : this.content_id
+    };
+    this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+        //this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.show_coments = !this.show_coments;
+        this.older_coments = res['data']['comments'];
+        this.review_docs = res['data']['review_docs'];
+        } else {
+        this.toster.error(res['message'], res['message'], {
+            closeButton: true,
+        });
+        }
+    });
+  }
+  uploadReviewFiles(event) {
+    let allowed_types = [];
+    allowed_types = [
+        'doc',
+        'docx',
+        'pdf',
+        'odt',
+        'xls',
+        'xlsx',
+        'ppt',
+        'csv',
+      ];
+    const uploadData = new FormData();
+    let files = event.target.files;
+    if (files.length == 0) return false;
+    let valid_files = [];
+    for (var i = 0; i < files.length; i++) {
+      let ext = files[i].name.split('.').pop().toLowerCase();
+      if (allowed_types.includes(ext)) {
+        valid_files.push(files[i]);
+        uploadData.append('file' + i, files[i]);
+      } else {
+        this.toster.error(
+          ext +
+            ' Extension not allowed file (' +
+            files[i].name +
+            ') not uploaded'
+        );
+      }
+    }
+    if (valid_files.length == 0) {
+      //this.documents_input.nativeElement.value = '';
+      return false;
+    }
+    uploadData.append('path', 'documents/review_docs');
+    uploadData.append('number_files', files.length);
+    let param = { url: 'upload-files' };
+    this.http.imageUpload(param, uploadData).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success('Files successfully uploaded.', 'File Uploaded');
+      }
+      //this.review_docs_new.push(res['url']);
+      this.review_docs.push(res['url']);
+    });
+  }
+  removeReviewDocument(index){
+    if (index > -1) {
+      this.review_docs.splice(index, 1);
+    }
+  }
+  addComent(){
+      if(this.comments_content == ''){
+          return false;
+      }
+    let param = {
+        url: 'add-content-comment',
+        content_id : this.content_id,
+        comment: this.comments_content,
+        review_docs: this.review_docs
+    };
+    this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.older_coments = res['data']['comments'];
+        this.review_docs = res['data']['review_docs'];
+        this.comments_content = '';
+        } else {
+        this.toster.error(res['message'], res['message'], {
+            closeButton: true,
+        });
+        }
+    });
   }
   navigateTo(url){
     let user = this.user;
@@ -554,19 +737,21 @@ export class CreateContentComponent implements OnInit {
     this.router.navigateByUrl(url);
 }
     publishContent(){
-        let param = {
-            url: 'content-publish/' + this.content_id,
-            publish: 1
-        };
-        this.http.post(param).subscribe((res) => {
-            if (res['error'] == false) {
-            this.toster.success(res['message'], 'Success', { closeButton: true });
-            this.navigateTo('manage-content');
-            } else {
-            this.toster.error(res['message'], res['message'], {
-                closeButton: true,
-            });
-            }
-        });
+        this.publsh_content = true;
+        this.createContent(true);
+        // let param = {
+        //     url: 'content-publish/' + this.content_id,
+        //     publish: 1
+        // };
+        // this.http.post(param).subscribe((res) => {
+        //     if (res['error'] == false) {
+        //     this.toster.success(res['message'], 'Success', { closeButton: true });
+        //     this.navigateTo('manage-content');
+        //     } else {
+        //     this.toster.error(res['message'], res['message'], {
+        //         closeButton: true,
+        //     });
+        //     }
+        // });
     }
 }
