@@ -1046,13 +1046,13 @@
         
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
-            <button *ngIf="(content_id == 0 || content_reviewer_role == '0')" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
+            <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
                 Save as draft
               </button>
               <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="mx_1">
                 Cancel
               </button>
-              <button class="gry_btn" *ngIf="is_published != '1'" type="button" mat-raised-button (click)="selectReviewer()">
+              <button class="gry_btn" *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)" type="button" mat-raised-button (click)="selectReviewer()">
                 Send To Review
               </button>
               <button class="gry_btn" *ngIf="is_published == '1'"  mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
@@ -1061,7 +1061,7 @@
             cancelButtonType="outline-secondary" type="button" mat-raised-button>
                 Make a Copy
               </button>
-              <button *ngIf="content_id > 0 && is_published == '0' && (user['role'] == '7' || user['role'] == '1')" type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+              <button *ngIf="((user['role'] == '7' && user['role'] == content_reviewer_role) || user['role'] == '1')" type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                 'are you sure to Publish this content '
               " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
               cancelButtonType="outline-secondary" mat-raised-button color="accent" class="mx_1">
