@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 export interface PeriodicElement {
   s_no: number;
@@ -130,6 +131,7 @@ export class CreateContentComponent implements OnInit {
   public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''}];
   public three_d_videos = [{pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''}];
   public publsh_content = false;
+  private subscription:Subscription;
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -152,6 +154,9 @@ export class CreateContentComponent implements OnInit {
     this.getChildData();
     this.getReviewers();
   }
+  ngOnDestroy() { 
+    this.subscription.unsubscribe();
+}
   getReviewers(){
     let data = { url: 'get-reviewers' };
     this.http.post(data).subscribe((res) => {
@@ -262,7 +267,7 @@ export class CreateContentComponent implements OnInit {
     }
   }
   getChildData() {
-    this.http.child_data.subscribe((res) => {
+    this.subscription = this.http.child_data.subscribe((res) => {
       if (this.library_purpose == 'attachments') {
         let obj = { file_path: res['file_path'], path: res['path'] };
         if (this.attachment_files.includes(obj['file_path'])) {
