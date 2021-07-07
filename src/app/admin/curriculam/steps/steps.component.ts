@@ -215,6 +215,9 @@ export class StepsComponent implements OnInit {
             param['id']
         );
       }
+      else{
+          this.toster.error("No Levels Found", "Not Found", {closeButton:true});
+      }
     });
   }
 }

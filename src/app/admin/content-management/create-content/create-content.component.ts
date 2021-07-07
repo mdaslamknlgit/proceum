@@ -222,7 +222,7 @@ export class CreateContentComponent implements OnInit {
       }
     });
   }
-  addVideo(tabIndex, index){
+  addVideo(tabIndex){
     if(tabIndex == 1){
       this.two_d_videos.push({pk_id:0, video_section:'2D', source:'', title:'', value:'', status:''});
     }
