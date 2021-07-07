@@ -31,12 +31,14 @@ export class ContentManagementComponent implements OnInit {
   public totalSize = 0;
   public sort_by: any;
   public search_box = '';
+  public user = [];
   modal_popup = false;
   page: number = 0;
   public tab_index = 0
   constructor(private http: CommonService, private toster: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
+      this.user = this.http.getUser();
     let param = {
       url: 'content-list',
       offset: this.page,
