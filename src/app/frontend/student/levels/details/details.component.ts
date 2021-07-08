@@ -168,7 +168,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.statistics = res['data']['statistics'];
-        this.toster.success(res['message'], 'Info', { closeButton: true });
+        // this.toster.success(res['message'], 'Info', { closeButton: true });
       } else {
         this.toster.info('Something went wrong. Please try again.', 'Error', {
           closeButton: true,
