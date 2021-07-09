@@ -283,15 +283,32 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
   color: #606672;
   font-size: 14px;
   margin: 15px 1% 0 0%;
-}
-.brd_crm span {
-  // margin: 0 3px;
-  outline: none;
-  cursor: pointer;
-}
-.brd_crm span:hover,
-.brd_crm strong {
-  color: #41ab3c;
+  span {
+    outline: none;
+    cursor: pointer;
+    strong, &:hover{
+      color: #41ab3c;
+    }
+  }
+  > span{
+    font-size: 0;
+    position: relative;
+    width: 50px;
+    &::before{
+      content: "... /";
+      left: 0;
+      top: 0;
+      font-size: 14px;
+      position: relative;
+      width: 50px;
+    }
+    &:first-child, &:last-child, &:nth-last-child(2){
+      font-size: 12px;
+    }
+    &:first-child::before, &:last-child::before, &:nth-last-child(2)::before{
+      content: "";
+    }
+  }
 }
 
 .mat-raised-button,
@@ -2617,6 +2634,11 @@ div.cust_mdl_par div.mn_dshbrd {
   .ct_rtn {
     color: #d3d3d3;
     display: flex;
+    &:hover{
+      mat-icon{
+        color: #ffc107;
+      }
+    }
     mat-icon {
       display: flex;
       align-items: center;
@@ -2624,6 +2646,25 @@ div.cust_mdl_par div.mn_dshbrd {
     }
     .ct_slctd, mat-icon:hover {
       color: #ffc107;
+    }
+    mat-icon:hover ~ mat-icon {
+      color: #d3d3d3;
+    }
+    &.str_slctd{
+      mat-icon{
+        color: #ffc107;
+      }
+      .ct_slctd ~ mat-icon{
+        color: #d3d3d3;
+      }
+      &:hover{
+        mat-icon{
+          color: #ffc107;
+        }
+        mat-icon:hover ~ mat-icon {
+          color: #d3d3d3;
+        }
+      }
     }
   }
 }
@@ -3019,6 +3060,7 @@ div.cust_mdl_par div.mn_dshbrd {
     .crt_pr_dv{
       width: 49%;
       margin-bottom: 1em;
+      .crt_pr_sbhd{font-size: 18px; color: #41ab3c;}
       .crt_prt_txt{height: 90px; resize: none;}
       .brnd_info_mn{
         .brnd_info_upld{
@@ -3135,27 +3177,6 @@ div.cust_mdl_par div.mn_dshbrd {
     }
   }
 }
-.mat-menu-panel.vd_wthshr_mnu{
-  background: transparent;
-  box-shadow: none;
-  width: 56px;
-  min-width: 56px;
-  .mat-menu-content{
-    flex-direction: column;
-    display: flex;
-    button{  
-      animation: btnhvrshw 0.2s;   
-      @keyframes btnhvrshw {
-        0%{ 
-          transform: scale(0.8);
-        }
-        100%{
-        transform: scale(1);
-        }
-      }
-    }
-  }
-}
 .c_block_content{
   .mat-tab-body-content{
     overflow-x: hidden !important;
@@ -3174,7 +3195,7 @@ div.cust_mdl_par div.mn_dshbrd {
 
 .vd_wthshr{
   position: fixed;
-  right: 0;
+  right: -60px;
   top: 100px;
   display: flex;
   flex-direction: column;
@@ -3183,10 +3204,29 @@ div.cust_mdl_par div.mn_dshbrd {
   padding: 10px;
   border-radius: 8px 0 0 8px;
   box-shadow: 0 0 7px -3px #000;
+
   .mat-icon-button{background-color: #fff; border: 1px solid #41AB3C;}
+  .swtc_lft{position: absolute; right: 60px; background-color: #fff; width: 50px; height: 50px; border-radius: 8px 0 0 8px;
+   &.mat-icon-button{
+      border-right:0;
+    }
+  }
   mat-icon {
     color: #41AB3C;
     margin-right: 0px;
+  }
+  &:hover{
+    right: 0;
+    transition-duration: 0.2s;
+    transition-delay: 0.1s;
+    .swtc_lft{
+      &.mat-icon-button{
+        transform: rotate(180deg);
+        border-radius: 0 8px 8px 0;
+        border-left: 0;
+        border-right: 1px solid #41AB3C;
+      }
+    }
   }
 }
 .fnt_sze {
@@ -3249,3 +3289,46 @@ sup {
     max-width: 700px;
     margin: auto;}
     .material-icons {font-family: 'Material Icons' !important;}
+.cpm_pg{
+  display: flex;
+  justify-content: space-between; 
+  flex-wrap: wrap;
+  .cpm_pg_mn{
+    width: 49%;
+    .cpm_pg_hd{
+      font-size: 18px;
+      color: #41ab3c;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+    .cpm_pg_cnt{
+      .pkg_chkbx{
+        display: flex;
+        .mat-form-field-prefix{
+          top: 0;
+          margin-right: 0.5em;
+          color: #41ab3c;
+        }
+      }
+      .mat-form-field{
+        width: 100%;
+      }
+      mat-radio-group{
+        margin: 10px 0 20px 0;
+        display: inline-block;
+        .mat-radio-button{
+          margin-right: 1em;
+        }
+      }
+      .brnd_info_upld{
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+      .crt_prt_txt{
+        height: 200px;
+      }
+    }
+  }
+}
+.jc_sb{justify-content: space-between;}
