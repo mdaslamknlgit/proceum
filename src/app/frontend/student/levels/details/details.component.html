@@ -109,7 +109,7 @@
       </ul>
     </div>
   </div>
-  <div class="mn_dshbrd crs_dshbrd">
+  <div class="mn_dshbrd crs_dshbrd {{view_type==1?'view_1':'view_2'}}">
 
     <div class="brd_crm" *ngIf="curriculum">
       <span routerLink="/student/curriculums">Curriculums / </span>
@@ -147,7 +147,7 @@
           <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
           <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
         </div>
-        <button mat-icon-button color="accent" class="algn_s_fs no_bxsdw buzz_btn">
+        <button (click)="switchView()" mat-icon-button color="accent" class="algn_s_fs no_bxsdw buzz_btn">
           <mat-icon>switch_video</mat-icon>
         </button>
       </div>
@@ -162,6 +162,7 @@
       tendons and aponeuroses with examples
     </span>
   </div> -->
+  <div class="d-flex con_view">
     <div class="crses_lft_mn" *ngIf="active_div == 0">
       <div class="crses_lft">
         <div class="crs_desc">
@@ -680,18 +681,26 @@
         </div>
       </div>
     </div>
-  </div>
+  
   <div class="crses_rgt">
     <div class="intr_vd_hd">
       
-      <div><mat-icon>switch_video</mat-icon>
+      <div>
+        <!-- <mat-icon>switch_video</mat-icon> -->
         <mat-icon>videocam</mat-icon>
         Introduction video
       </div>
       <div class="spacer"></div>
     </div>
-    <div class="intr_vd_sc">
-      <img src="../../../assets/images/vid_smpl.jpg" />
+        <div class="intr_vd_sc" >
+            <div [hidden]="video_type!='KPOINT'" id="player-container" ></div>
+            <div [hidden]="video_type!='YOUTUBE'" [innerHtml]="youtube_iframe"></div>
+            <!-- Approach2
+        <div *ngIf="false" [hidden]="this.video_id !='gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-kvideo-id]="'gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-video-host]="'proceum.kpoint.com'"
+        [attr.data-video-params]='{"offset": 12000, "resume": true}' style='width:640px; height:360px'></div>
+        <div *ngIf="false" [hidden]="this.video_id !='gcc-e4cf940c-741d-4342-b473-24132269fa30'" [attr.data-kvideo-id]="'gcc-e4cf940c-741d-4342-b473-24132269fa30'" [attr.data-video-host]="'proceum.kpoint.com'"
+        [attr.data-video-params]='{"offset": 12000, "resume": true}' style='width:640px; height:360px'></div> -->
+      
     </div>
     <div class="intr_vd_optns d_none">
       <span>
@@ -752,22 +761,23 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
           <div class="mtvd_hds">
-            <span class="mtvd_actv">Introduction</span>
-            <span>2D Videos <span>(5)</span></span>
-            <span>Board Lectures <span>(5)</span></span>
-            <span>Clinical Essentials <span>(5)</span></span>
-            <span>Procedural Videos <span>(5)</span></span>
-            <span>3D Objects <span>(5)</span></span>
+            <span class="{{display_videos=='INTRO'?'mtvd_actv':''}}" (click)="display_videos='INTRO'">Introduction</span>
+            <span class="{{display_videos=='2D'?'mtvd_actv':''}}" (click)="display_videos='2D'">2D Videos <span>({{two_d_videos.length}})</span></span>
+            <span class="{{display_videos=='BOARD_LECTURES'?'mtvd_actv':''}}" (click)="display_videos='BOARD_LECTURES'">Board Lectures <span>({{board_lecture_videos.length}})</span></span>
+            <span class="{{display_videos=='CLINICAL_ESSENTIALS'?'mtvd_actv':''}}" (click)="display_videos='CLINICAL_ESSENTIALS'">Clinical Essentials <span>({{clinical_videos.length}})</span></span>
+            <span class="{{display_videos=='PROCEDURAL'?'mtvd_actv':''}}" (click)="display_videos='PROCEDURAL'">Procedural Videos <span>({{procedural_videos.length}})</span></span>
+            <span class="{{display_videos=='3D'?'mtvd_actv':''}}" (click)="display_videos='3D'">3D Objects <span>({{three_d_videos.length}})</span></span>
           </div>
           <div class="hgt_20"></div>
           <div>
-            <div class="wtcd_vds wv_actv">
+              <div *ngFor="let video of videos">
+            <div class="wtcd_vds wv_actv" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
               <div class="wv_img">
                 <img src="../../../assets/images/vid_smpl.jpg" />
               </div>
               <div class="wv_ttl_dsc">
-                <span class="wv_tt_hd">Introduction video</span>
-                <span class="wv_ts">05:50 min</span>
+                <span class="wv_tt_hd">{{video['module_title']}}</span>
+                <!-- <span class="wv_ts">05:50 min</span> -->
               </div>
               <span class="spacer"></span>
               <div class="wv_ply_icn">
@@ -777,57 +787,12 @@
                 <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
               </div>
             </div>
-            <div class="wtcd_vds">
-              <div class="wv_img">
-                <img src="../../../assets/images/vid_smpl.jpg" />
-              </div>
-              <div class="wv_ttl_dsc">
-                <span class="wv_tt_hd">Introduction video</span>
-                <span class="wv_ts">05:50 min</span>
-              </div>
-              <span class="spacer"></span>
-              <div class="wv_ply_icn">
-                <mat-icon>graphic_eq</mat-icon>
-              </div>
-              <div class="wv_bkmrk">
-                <mat-icon>bookmark_border</mat-icon>
-              </div>
-            </div>
-            <div class="wtcd_vds">
-              <div class="wv_img">
-                <img src="../../../assets/images/vid_smpl.jpg" />
-              </div>
-              <div class="wv_ttl_dsc">
-                <span class="wv_tt_hd">Introduction video</span>
-                <span class="wv_ts">05:50 min</span>
-              </div>
-              <span class="spacer"></span>
-              <div class="wv_ply_icn">
-                <mat-icon>graphic_eq</mat-icon>
-              </div>
-              <div class="wv_bkmrk">
-                <mat-icon>bookmark_border</mat-icon>
-              </div>
-            </div>
-            <div class="wtcd_vds">
-              <div class="wv_img">
-                <img src="../../../assets/images/vid_smpl.jpg" />
-              </div>
-              <div class="wv_ttl_dsc">
-                <span class="wv_tt_hd">Introduction video</span>
-                <span class="wv_ts">05:50 min</span>
-              </div>
-              <span class="spacer"></span>
-              <div class="wv_ply_icn">
-                <mat-icon>graphic_eq</mat-icon>
-              </div>
-              <div class="wv_bkmrk">
-                <mat-icon>bookmark_border</mat-icon>
-              </div>
             </div>
           </div>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
   </div>
+  </div>
+</div>
 </div>

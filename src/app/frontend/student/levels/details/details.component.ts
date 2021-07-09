@@ -10,6 +10,7 @@ import {
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
+declare var kPoint: any;
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -18,6 +19,7 @@ import { ToastrService } from 'ngx-toastr';
 export class DetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   @ViewChild('editor2', { static: false }) editor2: CKEditorComponent;
+  public view_type = 1;
   public title = '';
   public curriculum = [];
   public curriculum_id = 0;
@@ -45,6 +47,18 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public learning_notes = [];
   public bucket_url = '';
   public statistics = [];
+  public videos = [];
+  public intro_video = [];
+  public two_d_videos = [];
+  public board_lecture_videos = [];
+  public clinical_videos = [];
+  public procedural_videos = [];
+  public three_d_videos = [];
+  public video_id = 'gcc-e4cf940c-741d-4342-b473-24132269fa30';
+  public player:any;
+  public display_videos = "INTRO";
+  public video_type = 'KPOINT';
+  public youtube_iframe:any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -65,8 +79,68 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       this.content_id = param.content_id ? param.content_id : 0;
       this.getLevelDetails();
     });
+    
+  }
+  ngAfterViewInit() {
+    setTimeout(()=>{
+        //window.onload = function() {
+    this.player = kPoint.Player(document.getElementById("player-container"), {
+        "kvideoId"  : this.video_id,
+        "videoHost" : "proceum.kpoint.com",
+        "params"    : {"autoplay" : true}
+      });
+      this.player.addEventListener(this.player.events.ready, () =>{
+        console.log("player ready");
+        //this.player.startVideo();
+      });
+      console.log(this.player);
+    //}
+    },1000)
+    this.hideBuzzWords();
+    document.documentElement.style.setProperty(
+      '--ck-editor-font-size',
+      this.font_size + 'px'
+    );
+  }
+  switchView(){
+      this.view_type = this.view_type == 1?2:1;
+      if(this.view_type == 2){
+          
+      }
+      else{
+          this.player.loadVideoById(this.video_id);
+      }
+  }
+  playVideo(video){
+      console.log(video);
+    if(video['video_type'] == "KPOINT"){
+        this.video_type = "KPOINT";
+        if(this.player == undefined){
+            this.player = kPoint.Player(document.getElementById("player-container"), {
+                "kvideoId"  : this.video_id,
+                "videoHost" : "proceum.kpoint.com",
+                "params"    : {"autoplay" : true}
+              });
+              this.player.addEventListener(this.player.events.ready, () =>{
+                console.log("player ready");
+                //this.player.startVideo();
+              });
+              console.log(this.player);
+        }
+        else{
+            this.player.loadVideoById(video['video_source']);
+        }
+    }
+    if(video['video_type'] == "YOUTUBE"){
+        this.video_type = "YOUTUBE";
+        let embed_link = video['video_source'].replace("/watch?v=","/embed/");
+        this.youtube_iframe = this.sanitizer.bypassSecurityTrustHtml('<iframe width="420" height="315" src="'+embed_link+'"></iframe>');
+    }
   }
   setFontSize(val) {
+      if(val<1){
+          return false;
+      }
     let final_val = val == '+' ? this.font_size + 1 : this.font_size - 1;
     this.font_size = final_val;
     document.documentElement.style.setProperty(
@@ -102,13 +176,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     document.documentElement.style.setProperty(
       '--ck-highlight-marker-pink',
       'white'
-    );
-  }
-  ngAfterViewInit() {
-    this.hideBuzzWords();
-    document.documentElement.style.setProperty(
-      '--ck-editor-font-size',
-      this.font_size + 'px'
     );
   }
   onReady(eventData) {
@@ -151,6 +218,27 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.title = val['name'];
           });
         }
+        this.videos = data['videos'];
+        this.videos.forEach(video => {
+            if(video['video_section'] == "INTRO") {
+                    this.intro_video.push(video);
+                }
+                if(video['video_section'] == "2D") {
+                    this.two_d_videos.push(video);
+                }
+                if(video['video_section'] == "3D") {
+                    this.three_d_videos.push(video);
+                }
+                if(video['video_section'] == "CLINICAL_ESSENTIALS") {
+                    this.clinical_videos.push(video);
+                }
+                if(video['video_section'] == "PROCEDURAL") {
+                    this.procedural_videos.push(video);
+                }
+                if(video['video_section'] == "BOARD_LECTURES") {
+                    this.board_lecture_videos.push(video);
+                }
+        })
       } else {
         this.breadcome = res['data']['breadcome'];
       }

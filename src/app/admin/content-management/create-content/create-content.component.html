@@ -584,7 +584,7 @@
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
-                        <button type="button" [disabled]="lecture_note_title == '' || lecture_note_content == '' || lecture_note_title_duplicate" (click)="addLectureNote()" mat-raised-button color="accent">
+                        <button type="button" [disabled]="lecture_note_title.trim() == '' || lecture_note_content.trim() == '' || lecture_note_title_duplicate" (click)="addLectureNote()" mat-raised-button color="accent">
                           <mat-icon>add</mat-icon> Add Notes
                         </button>
                       </div>
@@ -630,7 +630,7 @@
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
-                        <button type="button" [disabled]="highyield_title == '' || highyield_content == '' || highyield_title_duplicate" (click)="addHighyield()" mat-raised-button color="accent">
+                        <button type="button" [disabled]="highyield_title.trim() == '' || highyield_content.trim() == '' || highyield_title_duplicate" (click)="addHighyield()" mat-raised-button color="accent">
                           <mat-icon>add</mat-icon> Add Notes
                         </button>
                       </div>
@@ -1084,7 +1084,10 @@
 
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
-            <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
+            <a target="_blank" href="student/curriculum/details/00/00/00/{{content_id}}" *ngIf="((user['role'] == '7' || user['role'] == '1') && content_id >0)" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
+                Preview
+            </a>
+              <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
                 Save as draft
               </button>
               <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="mx_1">
@@ -1105,55 +1108,8 @@
             cancelButtonType="outline-secondary" mat-raised-button color="accent" class="mx_1">
             Save & Publish
           </button>
-          <!-- <button *ngIf="reviewer_role == '' && (content_id == 0 || content_reviewer_role == '0')" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
-            Save as draft
-          </button>
-          <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="mx_1">
-            Cancel
-          </button>
-          <button
-            *ngIf="is_published == '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role || user['role'] == '1')"
-            mat-raised-button color="accent" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-          'are you sure to create a new copy of this published content '
-        " placement="auto" (confirm)="createContent(false)" confirmButtonType="danger"
-            cancelButtonType="outline-secondary">Submit</button>
-          <button
-            *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role || user['role'] == '1')"
-            mat-raised-button color="accent">Submit</button>
-          <button *ngIf="content_id > 0 && is_published == '0' && (user['role'] == '7' || user['role'] == '1')"
-            type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-            'are you sure to Publish this content '
-          " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
-            cancelButtonType="outline-secondary" mat-raised-button color="accent" class="mx_1">
-            Publish
-          </button> -->
         </div>
       </div>
-      <!-- Right content -->
-      <!-- <div class="cc_right_content">
-      <div class="tools_block">
-        <div class="c_block">
-          <div class="c_block_title">
-            <mat-icon>home_repair_service</mat-icon>
-            <label for="Intro video"> Tools</label>
-          </div>
-          <div class="c_block_content tools_list">
-            <div class="tool_div">
-              <img src="../../../assets/images/equation_icon.svg" alt="" />
-              Insert new equation
-            </div>
-            <div class="tool_div">
-              <mat-icon>calculate</mat-icon>
-              Medical calculator
-            </div>
-            <div class="tool_div">
-              <mat-icon>drive_file_rename_outline</mat-icon>
-              Highlight selected text
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
     </div>
   </form>
 </div>

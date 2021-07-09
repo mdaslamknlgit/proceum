@@ -12,6 +12,5 @@ export class AdminComponent {
   constructor(private router: Router, private http: CommonService) {}
   ngOnInit() {
       this.user = this.http.getUser();
-      console.log(this.http.getUser());
   }
 }
