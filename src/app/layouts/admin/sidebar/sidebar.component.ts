@@ -33,10 +33,5 @@ export class SidebarComponent implements OnInit {
   activeMenu(num, menu_active) {
     if (num != menu_active) this.menu_active = num;
     else this.menu_active = 0;
-    // if (!this.is_open && this.menu_active != num) this.menu_active = num;
-    // else {
-    //   this.menu_active = 0;
-    //   this.active_route = '';
-    // }
   }
 }

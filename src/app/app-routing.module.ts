@@ -71,7 +71,7 @@ const routes: Routes = [
       import('./frontend/frontend.module').then((m) => m.FrontendModule),
     canActivate: [AuthGuard],
     data: {
-      role: '2',
+      role: '2,1',
     },
   },
   { path: 'student-curriculum', component: CurriculumComponent },

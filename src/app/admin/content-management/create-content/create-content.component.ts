@@ -381,7 +381,7 @@ export class CreateContentComponent implements OnInit {
   }
   checkLectureNoteDuplicate(){
     this.lecture_note_obj.forEach((res, index)=>{
-        if(res['title'] == this.lecture_note_title && res['status'] != 'delete' && ''+index != this.highyield_index){
+        if(res['title'].trim() == this.lecture_note_title.trim() && res['status'] != 'delete' && ''+index != this.highyield_index){
             this.lecture_note_title_duplicate = true;
             this.toster.error("Title has been taken");
             return false;
@@ -409,14 +409,12 @@ export class CreateContentComponent implements OnInit {
       }
     let highyield = {
       id: 0,
-      title: this.highyield_title,
-      content: this.highyield_content,
+      title: this.highyield_title.trim(),
+      content: this.highyield_content.trim(),
     };
     if (this.highyield_index != '') {
-      this.highyield_obj[Number(this.highyield_index)]['title'] =
-        this.highyield_title;
-      this.highyield_obj[Number(this.highyield_index)]['content'] =
-        this.highyield_content;
+      this.highyield_obj[Number(this.highyield_index)]['title'] = this.highyield_title.trim();
+      this.highyield_obj[Number(this.highyield_index)]['content'] = this.highyield_content.trim();
     } else {
         if(this.highyield_obj.length == 0){
             this.highyield_obj.push(highyield);
@@ -439,7 +437,7 @@ export class CreateContentComponent implements OnInit {
   }
   checkHighyieldDuplicate(){
     this.highyield_obj.forEach((res, index)=>{
-        if(res['title'] == this.highyield_title && res['status'] != 'delete' && ''+index != this.highyield_index){
+        if(res['title'].trim() == this.highyield_title.trim() && res['status'] != 'delete' && ''+index != this.highyield_index){
             this.highyield_title_duplicate = true;
             this.toster.error("Title has been taken");
             return false;
