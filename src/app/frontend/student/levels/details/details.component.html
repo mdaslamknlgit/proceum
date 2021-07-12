@@ -677,8 +677,9 @@
       <div class="spacer"></div>
     </div>
         <div class="intr_vd_sc" >
-            <div [hidden]="video_type!='KPOINT'" id="player-container" ></div>
-            <div [hidden]="video_type!='YOUTUBE'" [innerHtml]="youtube_iframe"></div>
+            <div id="kpoint_div"><div [hidden]="video_type!='KPOINT'" id="player-container" ></div></div>
+            
+            <div id="youtube_div"><div *ngIf="video_type=='YOUTUBE'" [innerHtml]="youtube_iframe"></div></div>
             <!-- Approach2
         <div *ngIf="false" [hidden]="this.video_id !='gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-kvideo-id]="'gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-video-host]="'proceum.kpoint.com'"
         [attr.data-video-params]='{"offset": 12000, "resume": true}' style='width:640px; height:360px'></div>
