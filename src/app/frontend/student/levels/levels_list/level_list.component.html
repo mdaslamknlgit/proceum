@@ -24,7 +24,7 @@
   </div>
   <mat-tab-group (selectedTabChange)="switchTab($event)" animationDuration="0.15s">
     <mat-tab label="All">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
+      <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
           <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
@@ -149,7 +149,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Favorite">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
+      <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div *ngFor="let level of levels; let i = index">
             <div class="crs_tbbd_dv" *ngIf="level['is_fav'] == 1">
