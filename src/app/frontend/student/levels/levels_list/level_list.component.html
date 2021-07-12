@@ -32,7 +32,7 @@
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code :
             {{ level["code"] ? level["code"] : "N/A" }})</span>
           <span class="spacer"></span>
-          <span class="ct_rtn "> 
+          <span class="ct_rtn str_slctd"> 
             <!-- str_slctd || add this class if any star selected -->
             <!-- <mat-icon (mouseover)='setHoverRating(1, level["id"])' (click)="manageStatistics('rating', level['id'], i,1)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 1 || level['rating'] >=1?'ct_slctd':''}}">star</mat-icon>
             <mat-icon (mouseover)='setHoverRating(2, level["id"])' (click)="manageStatistics('rating', level['id'], i,2)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 2 || level['rating'] >=2?'ct_slctd':''}}">star</mat-icon>
@@ -40,10 +40,15 @@
             <mat-icon (mouseover)='setHoverRating(4, level["id"])' (click)="manageStatistics('rating', level['id'], i,4)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 4 || level['rating'] >=4?'ct_slctd':''}}">star</mat-icon>
             <mat-icon (mouseover)='setHoverRating(5, level["id"])' (click)="manageStatistics('rating', level['id'], i,5)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 5 || level['rating'] >=5?'ct_slctd':''}}">star</mat-icon> -->
             <mat-icon class="">star</mat-icon>
+            <mat-icon class="hlf_str1">star</mat-icon>
             <mat-icon class="">star</mat-icon>
+            <mat-icon class="hlf_str2">star</mat-icon>
             <mat-icon class="">star</mat-icon>
+            <mat-icon class="hlf_str3">star</mat-icon>
+            <mat-icon class="ct_slctd">star</mat-icon>
+            <mat-icon class="hlf_str4 ">star</mat-icon>
             <mat-icon class="">star</mat-icon>
-            <mat-icon class="">star</mat-icon>
+            <mat-icon class="hlf_str5">star</mat-icon>
             <!-- ct_slctd || add this class to the selected single star -->
           </span>
           <span class="ct_vw">Videos watched</span>
@@ -69,7 +74,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Bookmark">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
+      <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div *ngFor="let level of levels; let i = index">
             <div class="crs_tbbd_dv" *ngIf="level['is_bookmark'] == 1">
