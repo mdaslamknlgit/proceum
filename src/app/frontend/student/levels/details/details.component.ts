@@ -54,7 +54,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public clinical_videos = [];
   public procedural_videos = [];
   public three_d_videos = [];
-  public video_id = 'gcc-e4cf940c-741d-4342-b473-24132269fa30';
+  public video_id = 'gcc-19093804-513e-4e4e-ab67-3716a6422f4b';
   public player:any;
   public display_videos = "INTRO";
   public video_type = 'KPOINT';
@@ -82,20 +82,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     
   }
   ngAfterViewInit() {
-    setTimeout(()=>{
-        //window.onload = function() {
-    this.player = kPoint.Player(document.getElementById("player-container"), {
-        "kvideoId"  : this.video_id,
-        "videoHost" : "proceum.kpoint.com",
-        "params"    : {"autoplay" : true}
-      });
-      this.player.addEventListener(this.player.events.ready, () =>{
-        console.log("player ready");
-        //this.player.startVideo();
-      });
-      console.log(this.player);
-    //}
-    },1000)
     this.hideBuzzWords();
     document.documentElement.style.setProperty(
       '--ck-editor-font-size',
@@ -104,13 +90,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
   switchView(){
       this.view_type = this.view_type == 1?2:1;
-      if(this.view_type == 2){
-          
-      }
-      else{
-          this.player.loadVideoById(this.video_id);
-      }
   }
+  
   playVideo(video){
       console.log(video);
     if(video['video_type'] == "KPOINT"){
@@ -119,7 +100,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.player = kPoint.Player(document.getElementById("player-container"), {
                 "kvideoId"  : this.video_id,
                 "videoHost" : "proceum.kpoint.com",
-                "params"    : {"autoplay" : true}
+                "params"    : {"autoplay" : true, "hide": "search, share, like"}
               });
               this.player.addEventListener(this.player.events.ready, () =>{
                 console.log("player ready");
@@ -132,6 +113,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }
     }
     if(video['video_type'] == "YOUTUBE"){
+        if(this.player != undefined){
+            this.player.pauseVideo();
+        }
         this.video_type = "YOUTUBE";
         let embed_link = video['video_source'].replace("/watch?v=","/embed/");
         this.youtube_iframe = this.sanitizer.bypassSecurityTrustHtml('<iframe width="420" height="315" src="'+embed_link+'"></iframe>');
@@ -221,28 +205,79 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.videos = data['videos'];
         this.videos.forEach(video => {
             if(video['video_section'] == "INTRO") {
-                    this.intro_video.push(video);
+                this.intro_video.push(video);
+                if(this.player == undefined && this.video_type == 'KPOINT'){
+                    this.initPlayer(video);
                 }
-                if(video['video_section'] == "2D") {
-                    this.two_d_videos.push(video);
+                else{
+                    this.playVideo(video);
                 }
-                if(video['video_section'] == "3D") {
-                    this.three_d_videos.push(video);
+            }
+            if(video['video_section'] == "2D") {
+                this.two_d_videos.push(video);
+                if(this.player == undefined && this.video_type == 'KPOINT'){
+                    this.initPlayer(video);
                 }
-                if(video['video_section'] == "CLINICAL_ESSENTIALS") {
-                    this.clinical_videos.push(video);
+                else{
+                    this.playVideo(video);
                 }
-                if(video['video_section'] == "PROCEDURAL") {
-                    this.procedural_videos.push(video);
+            }
+            if(video['video_section'] == "3D") {
+                this.three_d_videos.push(video);
+                if(this.player == undefined && this.video_type == 'KPOINT'){
+                    this.initPlayer(video);
                 }
-                if(video['video_section'] == "BOARD_LECTURES") {
-                    this.board_lecture_videos.push(video);
+                else{
+                    this.playVideo(video);
                 }
+            }
+            if(video['video_section'] == "CLINICAL_ESSENTIALS") {
+                this.clinical_videos.push(video);
+                if(this.player == undefined && this.video_type == 'KPOINT'){
+                    this.initPlayer(video);
+                }
+                else{
+                    this.playVideo(video);
+                }
+            }
+            if(video['video_section'] == "PROCEDURAL") {
+                this.procedural_videos.push(video);
+                if(this.player == undefined && this.video_type == 'KPOINT'){
+                    this.initPlayer(video);
+                }
+                else{
+                    this.playVideo(video);
+                }
+            }
+            if(video['video_section'] == "BOARD_LECTURES") {
+                this.board_lecture_videos.push(video);
+                if(this.player == undefined && this.video_type == 'KPOINT'){
+                    this.initPlayer(video);
+                }
+                else{
+                    this.playVideo(video);
+                }
+            }
         })
       } else {
         this.breadcome = res['data']['breadcome'];
       }
     });
+  }
+  initPlayer(param){
+    setTimeout(()=>{
+        if(this.player == undefined){
+            this.player = kPoint.Player(document.getElementById("player-container"), {
+                "kvideoId"  : 'gcc-19093804-513e-4e4e-ab67-3716a6422f4b',
+                "videoHost" : "proceum.kpoint.com",
+                "params"    : {"autoplay" : true,"hide": "search, share, like"}
+              });
+              this.player.addEventListener(this.player.events.ready, () =>{
+                this.player.pauseVideo();
+              });
+              console.log(this.player);
+        }
+        },1000);
   }
   showDiv(div) {
     this.active_div = div;
