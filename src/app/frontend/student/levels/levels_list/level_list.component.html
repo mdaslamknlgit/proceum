@@ -40,6 +40,7 @@
             <mat-icon (mouseover)='setHoverRating(4, level["id"])' (click)="manageStatistics('rating', level['id'], i,4)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 4 || level['rating'] >=4?'ct_slctd':''}}">star</mat-icon>
             <mat-icon (mouseover)='setHoverRating(5, level["id"])' (click)="manageStatistics('rating', level['id'], i,5)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 5 || level['rating'] >=5?'ct_slctd':''}}">star</mat-icon> -->
             <mat-icon class="">star</mat-icon>
+            <mat-icon class="hlf_str">star</mat-icon>
             <mat-icon class="">star</mat-icon>
             <mat-icon class="">star</mat-icon>
             <mat-icon class="">star</mat-icon>
@@ -69,7 +70,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Bookmark">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
+      <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div *ngFor="let level of levels; let i = index">
             <div class="crs_tbbd_dv" *ngIf="level['is_bookmark'] == 1">
