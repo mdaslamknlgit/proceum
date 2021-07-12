@@ -415,27 +415,8 @@
               <mat-icon>highlight</mat-icon> High Yield Text
             </span>
             <span class="spacer"></span>
-            <!-- <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span> -->
-            <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
           </div>
-          <!-- <div
-          class="crs_desc_cnt ck_editor_view"
-          *ngIf="content['highyield_content']"
-        >
-          <ckeditor
-            #editor
-            [disabled]="true"
-            [editor]="Editor"
-            [config]="{}"
-            (ready)="onReady($event)"
-            [data]="content['highyield_content']"
-          ></ckeditor>
-        </div> -->
+          
 
           <div class="intr_vd_tml">
             <div *ngIf="highyields.length == 0" class="no_desc_fnd">
@@ -694,8 +675,9 @@
       <div class="spacer"></div>
     </div>
         <div class="intr_vd_sc" >
-            <div [hidden]="video_type!='KPOINT'" id="player-container" ></div>
-            <div [hidden]="video_type!='YOUTUBE'" [innerHtml]="youtube_iframe"></div>
+            <div id="kpoint_div"><div [hidden]="video_type!='KPOINT'" id="player-container" ></div></div>
+            
+            <div id="youtube_div"><div *ngIf="video_type=='YOUTUBE'" [innerHtml]="youtube_iframe"></div></div>
             <!-- Approach2
         <div *ngIf="false" [hidden]="this.video_id !='gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-kvideo-id]="'gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-video-host]="'proceum.kpoint.com'"
         [attr.data-video-params]='{"offset": 12000, "resume": true}' style='width:640px; height:360px'></div>

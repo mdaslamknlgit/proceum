@@ -151,6 +151,7 @@ export class Level_listComponent implements OnInit {
     }
   }
   manageStatistics(type, id, i, rating=0) {
+      this.rating[id]=rating;
     let param = {
       url: 'manage-level-statistics',
       type: type,
@@ -167,7 +168,10 @@ export class Level_listComponent implements OnInit {
             this.levels[i]['is_bookmark'] == 1 ? 0 : 1;
         }
         if (type == 'rating') {
-            this.levels[i]['rating'] =rating;
+            this.levels[i]['rating'] =this.rating[id];
+          }
+          if(this.tab != 'all' && type != 'rating'){
+            this.levels.splice(i, 1);
           }
         this.toster.success(res['message'], 'Info', { closeButton: true });
       } else {

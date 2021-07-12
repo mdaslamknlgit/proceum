@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
 import * as Editor from '../../../../../assets/ckeditor5';
@@ -54,17 +54,19 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public clinical_videos = [];
   public procedural_videos = [];
   public three_d_videos = [];
-  public video_id = 'gcc-e4cf940c-741d-4342-b473-24132269fa30';
+  public video_id = 'gcc-19093804-513e-4e4e-ab67-3716a6422f4b';
   public player:any;
   public display_videos = "INTRO";
   public video_type = 'KPOINT';
   public youtube_iframe:any;
+  public xt = '';
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: CommonService,
     private sanitizer: DomSanitizer,
-    private toster: ToastrService
+    private toster: ToastrService,
+    private renderer: Renderer2
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
@@ -82,56 +84,55 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     
   }
   ngAfterViewInit() {
-    setTimeout(()=>{
-        //window.onload = function() {
-    this.player = kPoint.Player(document.getElementById("player-container"), {
-        "kvideoId"  : this.video_id,
-        "videoHost" : "proceum.kpoint.com",
-        "params"    : {"autoplay" : true}
-      });
-      this.player.addEventListener(this.player.events.ready, () =>{
-        console.log("player ready");
-        //this.player.startVideo();
-      });
-      console.log(this.player);
-    //}
-    },1000)
     this.hideBuzzWords();
     document.documentElement.style.setProperty(
       '--ck-editor-font-size',
       this.font_size + 'px'
     );
   }
+  //not using function
+  initPlayer(param){
+  setTimeout(()=>{
+      if(this.player == undefined){
+          this.player = kPoint.Player(document.getElementById("player-container"), {
+              "kvideoId"  : this.video_id,
+              "videoHost" : "proceum.kpoint.com",
+              "params"    : {"autoplay" : false,"hide": "search, share, like", "xt" : this.xt}
+            });
+            this.player.addEventListener(this.player.events.ready, () =>{
+              this.player.pauseVideo();
+            });
+            console.log(this.player);
+      }
+      },1000);
+}
   switchView(){
       this.view_type = this.view_type == 1?2:1;
-      if(this.view_type == 2){
-          
-      }
-      else{
-          this.player.loadVideoById(this.video_id);
-      }
   }
+  
   playVideo(video){
-      console.log(video);
     if(video['video_type'] == "KPOINT"){
-        this.video_type = "KPOINT";
+        this.video_type = "KPOINT";        
         if(this.player == undefined){
+            console.log(video, 'kpoint-ini');
+            setTimeout(()=>{
             this.player = kPoint.Player(document.getElementById("player-container"), {
-                "kvideoId"  : this.video_id,
+                "kvideoId"  : video['video_source'],
                 "videoHost" : "proceum.kpoint.com",
-                "params"    : {"autoplay" : true}
+                "params"    : {"autoplay" : true, "hide": "search, share, like", "xt" : this.xt}
               });
-              this.player.addEventListener(this.player.events.ready, () =>{
-                console.log("player ready");
-                //this.player.startVideo();
-              });
-              console.log(this.player);
+            },1000);
         }
         else{
+            console.log(video, 'kpoint');
             this.player.loadVideoById(video['video_source']);
         }
     }
     if(video['video_type'] == "YOUTUBE"){
+        console.log(video, "youtube");
+        if(this.player != undefined){
+            this.player.pauseVideo();
+        }
         this.video_type = "YOUTUBE";
         let embed_link = video['video_source'].replace("/watch?v=","/embed/");
         this.youtube_iframe = this.sanitizer.bypassSecurityTrustHtml('<iframe width="420" height="315" src="'+embed_link+'"></iframe>');
@@ -219,25 +220,33 @@ export class DetailsComponent implements OnInit, AfterViewInit {
           });
         }
         this.videos = data['videos'];
+        this.xt = data['xt'];
         this.videos.forEach(video => {
             if(video['video_section'] == "INTRO") {
-                    this.intro_video.push(video);
+                this.intro_video.push(video);
+                this.video_id = video['video_source'];
+                if(this.player == undefined && video['video_type'] == 'KPOINT'){
+                    this.playVideo(video);
                 }
-                if(video['video_section'] == "2D") {
-                    this.two_d_videos.push(video);
+                else{
+                    this.playVideo(video);
                 }
-                if(video['video_section'] == "3D") {
-                    this.three_d_videos.push(video);
-                }
-                if(video['video_section'] == "CLINICAL_ESSENTIALS") {
-                    this.clinical_videos.push(video);
-                }
-                if(video['video_section'] == "PROCEDURAL") {
-                    this.procedural_videos.push(video);
-                }
-                if(video['video_section'] == "BOARD_LECTURES") {
-                    this.board_lecture_videos.push(video);
-                }
+            }
+            if(video['video_section'] == "2D") {
+                this.two_d_videos.push(video);
+            }
+            if(video['video_section'] == "3D") {
+                this.three_d_videos.push(video);
+            }
+            if(video['video_section'] == "CLINICAL_ESSENTIALS") {
+                this.clinical_videos.push(video);
+            }
+            if(video['video_section'] == "PROCEDURAL") {
+                this.procedural_videos.push(video);
+             }
+            if(video['video_section'] == "BOARD_LECTURES") {
+                this.board_lecture_videos.push(video);
+            }
         })
       } else {
         this.breadcome = res['data']['breadcome'];
