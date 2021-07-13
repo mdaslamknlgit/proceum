@@ -708,25 +708,27 @@
     </div>
     <div class="intr_vd_tml">
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel *ngIf="timeline!=undefined && timeline.length>0">
           <mat-expansion-panel-header>
             <mat-panel-title>
               <mat-icon>timeline</mat-icon> Timeline
             </mat-panel-title>
             <mat-panel-description> </mat-panel-description>
           </mat-expansion-panel-header>
-          <div class="tm_ln_dv">
+          <div class="tm_ln_dv" *ngFor="let time of timeline">
+            <div (click)="seekTo(time['rel_offset'])">
+            <span class="tm_stmp">{{millisToMinutesAndSeconds(time['rel_offset'])}}</span>
+            <span class="tm_stmp_txt">{{time['text']}}</span>
+            </div>
+          </div>
+          <!-- <div class="tm_ln_dv">
             <span class="tm_stmp">01:30</span>
             <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
           </div>
           <div class="tm_ln_dv">
             <span class="tm_stmp">01:30</span>
             <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-          </div>
-          <div class="tm_ln_dv">
-            <span class="tm_stmp">01:30</span>
-            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-          </div>
+          </div> -->
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
