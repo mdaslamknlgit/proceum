@@ -1,0 +1,170 @@
+<div class="mn_dshbrd">
+    <div class="brd_crm">Proceum &raquo; <strong>Courses &amp; Package Management</strong> &raquo; <strong>Edit Package</strong></div>
+    <div class="pg_ttl">Edit Package</div>
+    <hr />
+    <form #edit_package_form="ngForm" name="edit_package_form" (ngSubmit)="edit_package_form.valid && updatePackageService()" novalidate>
+    <div class="dsh_brd_crds cpm_pg">
+        <div class="cpm_pg_mn">
+            <div class="cpm_pg_hd">
+                Package details
+            </div>
+            <div class="cpm_pg_cnt">
+                <div>Package Name</div>
+                <div class="err_tltp_par">
+                    <mat-form-field appearance="outline">
+                        <input matInput placeholder="Enter package name" [(ngModel)]="package_name" name="package_name" required/>
+                        <span class="prc_tltp" *ngIf="package_name == ''">Package name is required</span>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="cpm_pg_cnt">
+                <div>Package image</div>
+                <div class="brnd_info_upld">
+                    <div *ngIf="package_img != ''">
+                        <img src="{{ package_img }}" alt="">
+                    </div>
+                    <mat-icon *ngIf="package_img == ''">insert_photo</mat-icon>
+                    <button type="button" mat-raised-button class="no_bxsdw w_19p mt_6px" color="accent" onclick="document.getElementById('imageToUpload').click()" >Browse
+                        <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
+                        id="imageToUpload" type="file"  style="display: none" />
+                    </button>
+                    <input type="hidden" name="package_img" [(ngModel)]="package_img">
+                </div>
+            </div>
+            <div class="cpm_pg_cnt">
+                <div>Package description</div>
+                <div class="err_tltp_par">
+                    <mat-form-field appearance="outline">
+                        <textarea matInput class="crt_prt_txt" placeholder="Enter package description" [(ngModel)]="package_desc" name="package_desc" required></textarea>
+                        <span class="prc_tltp" *ngIf="package_desc == ''">Package description is required</span>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="cpm_pg_mn">
+            <div class="cpm_pg_hd">
+                Price configuration
+            </div>
+            <div class="cpm_pg_cnt">
+                <div>Pricing model</div>
+                <div>
+                    <mat-radio-group  name="pricing_model" [(ngModel)]="pricing_model" required>
+                        <mat-radio-button name="pricing_model" value="per_student">Per student</mat-radio-button>
+                        <mat-radio-button name="pricing_model" value="fixed">Fixed</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="cpm_pg_cnt">
+                <div>Set Package Price Country Wise</div>
+                <div *ngFor="let price of package_prices;let i = index">
+                    <div class="pkg_chkbx" *ngIf="price['status'] != 'delete'">
+                        <div class="w_50p mr_1">
+                            <!-- <div>
+                                <mat-checkbox class="mr_1"></mat-checkbox>Package price in INR
+                            </div> -->
+                            <div class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="mt_05">
+                                    <mat-select [(ngModel)]="package_prices[i]['country_id']" name="package_price_country_{{i}}"  required>
+                                        <mat-option value="">Select Country</mat-option>
+                                        <mat-option *ngFor="let country of all_countries | async" [value]="country['id']" (click)="addCurrencyToField(country['currency_text'],i)">
+                                          {{country['country_name']}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="w_50p">
+                            <div class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="mt_05">
+                                    <input  [(ngModel)]="package_prices[i]['price_amount']" name="package_price_price_amount_{{i}}" matInput placeholder="{{ package_prices[i]['placeholder'] }}" required/>
+                                    <span matPrefix></span>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="w_50p">
+                            <button type="button" (click)="removePackagePrice(i)" mat-icon-button class="no_bxsdw" color="warn">
+                                <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                        </div>
+                                
+                    </div>
+                </div>
+                <!-- <input type="hidden" name="package_inputs_count" [(ngModel)]="package_inputs_count" />  -->
+                <mat-icon (click)="addPackagePriceField()">add</mat-icon>
+            </div>
+
+            <div class="hgt_20"></div>
+            <div class="cpm_pg_hd">
+                Courses &amp; Addons
+            </div>
+            <div class="cpm_pg_cnt">
+                <div>Courses</div>
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-select>
+                            <mat-option value="Courses">Select Courses</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="cpm_pg_cnt">
+                <div>Addons</div>
+                <div>
+                    <mat-form-field appearance="outline">
+                        <mat-select>
+                            <mat-option value="Courses">Select Addons</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="hgt_20"></div>
+            <div class="cpm_pg_hd">
+                Package access
+            </div>
+            <div class="cpm_pg_cnt">
+                <div>Applicable to</div>
+                <div class="d-flex mt_05">
+                    <div class="mr_1">
+                        <mat-checkbox class="mr_1" name="applicable_to_university" [(ngModel)]="applicable_to_university"></mat-checkbox>University
+                    </div>
+                    <div class="mr_1">
+                        <mat-checkbox class="mr_1" name="applicable_to_college" [(ngModel)]="applicable_to_college" ></mat-checkbox>Individual
+                    </div>
+                    <div class="mr_1">
+                        <mat-checkbox class="mr_1" name="applicable_to_institute" [(ngModel)]="applicable_to_institute" ></mat-checkbox>Institution
+                    </div>
+                </div>
+                <div class="hgt_20"></div>
+            </div>
+            <div class="cpm_pg_cnt">
+                <div class="pkg_chkbx">
+                    <div class="w_50p mr_1">
+                        <div>Package validity till</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline">
+                                <input matInput [matDatepicker]="picker" [(ngModel)]="valid_up_to"  name="valid_up_to" [min]="today_date" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+                                <mat-datepicker #picker color="accent"></mat-datepicker>
+                                <span class="prc_tltp" *ngIf="valid_up_to == ''">Package validity till required</span>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cpm_pg_cnt">
+                <div>Billing frequency</div>
+                <div>
+                    <mat-radio-group name="billing_frequency" [(ngModel)]="billing_frequency" required>
+                        <mat-radio-button name="billing_frequency" value="monthly">Monthly</mat-radio-button>
+                        <mat-radio-button name="billing_frequency" value="quarterly">Quarterly</mat-radio-button>
+                        <mat-radio-button name="billing_frequency" value="half-yearly">Half yearly</mat-radio-button>
+                        <mat-radio-button name="billing_frequency" value="yearly">Yearly</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+        </div>
+        <div class="w_100p text_right">
+            <button mat-raised-button color="accent">Submit</button>
+        </div>
+    </div>
+    </form>
+</div>
