@@ -54,7 +54,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public clinical_videos = [];
   public procedural_videos = [];
   public three_d_videos = [];
-  public video_id = 'gcc-19093804-513e-4e4e-ab67-3716a6422f4b';
+  public video_title = 'Introduction video';
+  //public video_id = 'gcc-19093804-513e-4e4e-ab67-3716a6422f4b';
   public player:any;
   public display_videos = "INTRO";
   public video_type = 'KPOINT';
@@ -95,7 +96,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   setTimeout(()=>{
       if(this.player == undefined){
           this.player = kPoint.Player(document.getElementById("player-container"), {
-              "kvideoId"  : this.video_id,
+             // "kvideoId"  : this.video_id,
               "videoHost" : "proceum.kpoint.com",
               "params"    : {"autoplay" : false,"hide": "search, share, like", "xt" : this.xt}
             });
@@ -111,6 +112,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
   
   playVideo(video){
+      this.video_title = video['module_title'];
     if(video['video_type'] == "KPOINT"){
         this.video_type = "KPOINT";        
         if(this.player == undefined){
@@ -224,7 +226,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.videos.forEach(video => {
             if(video['video_section'] == "INTRO") {
                 this.intro_video.push(video);
-                this.video_id = video['video_source'];
+                //this.video_id = video['video_source'];
                 if(this.player == undefined && video['video_type'] == 'KPOINT'){
                     this.playVideo(video);
                 }
