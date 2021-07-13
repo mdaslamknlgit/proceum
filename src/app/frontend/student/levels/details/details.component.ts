@@ -121,8 +121,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.player = kPoint.Player(document.getElementById("player-container"), {
                 "kvideoId"  : video['video_source'],
                 "videoHost" : "proceum.kpoint.com",
-                "params"    : {"autoplay" : true, "hide": "search, share, like", "xt" : this.xt}
-              });
+                "params"    : {"autoplay" : true, "hide": "search, share, like", "xt" : this.xt}//toc
+              });console.log(this.player)
+             // this.player.seekTo(10000)
             },1000);
         }
         else{
