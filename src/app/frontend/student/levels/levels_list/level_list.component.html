@@ -24,7 +24,7 @@
   </div>
   <mat-tab-group (selectedTabChange)="switchTab($event)" animationDuration="0.15s">
     <mat-tab label="All">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
+      <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
           <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
@@ -32,18 +32,17 @@
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code :
             {{ level["code"] ? level["code"] : "N/A" }})</span>
           <span class="spacer"></span>
-          <span class="ct_rtn "> 
-            <!-- str_slctd || add this class if any star selected -->
-            <!-- <mat-icon (mouseover)='setHoverRating(1, level["id"])' (click)="manageStatistics('rating', level['id'], i,1)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 1 || level['rating'] >=1?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(2, level["id"])' (click)="manageStatistics('rating', level['id'], i,2)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 2 || level['rating'] >=2?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(3, level["id"])' (click)="manageStatistics('rating', level['id'], i,3)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 3 || level['rating'] >=3?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(4, level["id"])' (click)="manageStatistics('rating', level['id'], i,4)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 4 || level['rating'] >=4?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(5, level["id"])' (click)="manageStatistics('rating', level['id'], i,5)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 5 || level['rating'] >=5?'ct_slctd':''}}">star</mat-icon> -->
-            <mat-icon class="">star</mat-icon>
-            <mat-icon class="">star</mat-icon>
-            <mat-icon class="">star</mat-icon>
-            <mat-icon class="">star</mat-icon>
-            <mat-icon class="">star</mat-icon>
+          <span class="ct_rtn"> 
+            <mat-icon class="{{level['rating'] >= 0 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,0.5)">star</mat-icon>
+            <mat-icon class="hlf_str1 {{level['rating'] > 0.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 1 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1.5)">star</mat-icon>
+            <mat-icon class="hlf_str2 {{level['rating'] > 1.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 2?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2.5)">star</mat-icon>
+            <mat-icon class="hlf_str3 {{level['rating'] > 2.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 3 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3.5)">star</mat-icon>
+            <mat-icon class="hlf_str4 {{level['rating'] > 3.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 4 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4.5)">star</mat-icon>
+            <mat-icon class="hlf_str5 {{level['rating'] > 4.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,5)">star</mat-icon>
             <!-- ct_slctd || add this class to the selected single star -->
           </span>
           <span class="ct_vw">Videos watched</span>
@@ -69,7 +68,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Bookmark">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
+      <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div *ngFor="let level of levels; let i = index">
             <div class="crs_tbbd_dv" *ngIf="level['is_bookmark'] == 1">
@@ -78,23 +77,28 @@
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn"> 
-            <mat-icon (mouseover)='setHoverRating(1, level["id"])' (click)="manageStatistics('rating', level['id'], i,1)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 1 || level['rating'] >=1?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(2, level["id"])' (click)="manageStatistics('rating', level['id'], i,2)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 2 || level['rating'] >=2?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(3, level["id"])' (click)="manageStatistics('rating', level['id'], i,3)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 3 || level['rating'] >=3?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(4, level["id"])' (click)="manageStatistics('rating', level['id'], i,4)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 4 || level['rating'] >=4?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(5, level["id"])' (click)="manageStatistics('rating', level['id'], i,5)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 5 || level['rating'] >=5?'ct_slctd':''}}">star</mat-icon>
+            <mat-icon class="{{level['rating'] >= 0 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,0.5)">star</mat-icon>
+            <mat-icon class="hlf_str1 {{level['rating'] > 0.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 1 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1.5)">star</mat-icon>
+            <mat-icon class="hlf_str2 {{level['rating'] > 1.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 2?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2.5)">star</mat-icon>
+            <mat-icon class="hlf_str3 {{level['rating'] > 2.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 3 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3.5)">star</mat-icon>
+            <mat-icon class="hlf_str4 {{level['rating'] > 3.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 4 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4.5)">star</mat-icon>
+            <mat-icon class="hlf_str5 {{level['rating'] > 4.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,5)">star</mat-icon>
           </span>
           <span class="ct_vw">Videos watched</span>
           <span class="ct_br">
             <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
           </span>
           <span class="ct_cnt">100/628</span>
-          <span class="ct_fav">
+          <!-- <span class="ct_fav">
             <mat-icon (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] != 1 ? true : false" matTooltip="Make Favorite" color="accent">
               favorite_border</mat-icon>
             <mat-icon (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] == 1 ? true : false" matTooltip="Unfavorite" color="accent">
               favorite</mat-icon>
-          </span>
+          </span> -->
           <span class="ct_bm">
             <mat-icon (click)="manageStatistics('bookmark', level['id'], i)"
               *ngIf="level['is_bookmark'] != 1 ? true : false" color="accent" matTooltip="Add Bookmark">bookmark_border
@@ -115,11 +119,16 @@
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn"> 
-            <mat-icon (mouseover)='setHoverRating(1, level["id"])' (click)="manageStatistics('rating', level['id'], i,1)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 1 || level['rating'] >=1?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(2, level["id"])' (click)="manageStatistics('rating', level['id'], i,2)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 2 || level['rating'] >=2?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(3, level["id"])' (click)="manageStatistics('rating', level['id'], i,3)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 3 || level['rating'] >=3?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(4, level["id"])' (click)="manageStatistics('rating', level['id'], i,4)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 4 || level['rating'] >=4?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(5, level["id"])' (click)="manageStatistics('rating', level['id'], i,5)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 5 || level['rating'] >=5?'ct_slctd':''}}">star</mat-icon>
+            <mat-icon class="{{level['rating'] >= 0 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,0.5)">star</mat-icon>
+            <mat-icon class="hlf_str1 {{level['rating'] > 0.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 1 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1.5)">star</mat-icon>
+            <mat-icon class="hlf_str2 {{level['rating'] > 1.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 2?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2.5)">star</mat-icon>
+            <mat-icon class="hlf_str3 {{level['rating'] > 2.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 3 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3.5)">star</mat-icon>
+            <mat-icon class="hlf_str4 {{level['rating'] > 3.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 4 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4.5)">star</mat-icon>
+            <mat-icon class="hlf_str5 {{level['rating'] > 4.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,5)">star</mat-icon>
           </span>
           <span class="ct_vw">Videos watched</span>
           <span class="ct_br">
@@ -144,7 +153,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Favorite">
-      <div class="crs_tbbd_mn" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
+      <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div *ngFor="let level of levels; let i = index">
             <div class="crs_tbbd_dv" *ngIf="level['is_fav'] == 1">
@@ -153,11 +162,16 @@
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
           <span class="spacer"></span>
           <span class="ct_rtn"> 
-            <mat-icon (mouseover)='setHoverRating(1, level["id"])' (click)="manageStatistics('rating', level['id'], i,1)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 1 || level['rating'] >=1?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(2, level["id"])' (click)="manageStatistics('rating', level['id'], i,2)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 2 || level['rating'] >=2?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(3, level["id"])' (click)="manageStatistics('rating', level['id'], i,3)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 3 || level['rating'] >=3?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(4, level["id"])' (click)="manageStatistics('rating', level['id'], i,4)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 4 || level['rating'] >=4?'ct_slctd':''}}">star</mat-icon>
-            <mat-icon (mouseover)='setHoverRating(5, level["id"])' (click)="manageStatistics('rating', level['id'], i,5)" (mouseout)='resetHoverRating(level["rating"], level["id"])' class="{{rating[level['id']] >= 5 || level['rating'] >=5?'ct_slctd':''}}">star</mat-icon>
+            <mat-icon class="{{level['rating'] >= 0 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,0.5)">star</mat-icon>
+            <mat-icon class="hlf_str1 {{level['rating'] > 0.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 1 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1.5)">star</mat-icon>
+            <mat-icon class="hlf_str2 {{level['rating'] > 1.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 2?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2.5)">star</mat-icon>
+            <mat-icon class="hlf_str3 {{level['rating'] > 2.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 3 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3.5)">star</mat-icon>
+            <mat-icon class="hlf_str4 {{level['rating'] > 3.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 4 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4.5)">star</mat-icon>
+            <mat-icon class="hlf_str5 {{level['rating'] > 4.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,5)">star</mat-icon>
           </span>
           <span class="ct_vw">Videos watched</span>
           <span class="ct_br">
@@ -170,21 +184,21 @@
             <mat-icon (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] == 1 ? true : false" color="accent" matTooltip="Unfavorite">
               favorite</mat-icon>
           </span>
-          <span class="ct_bm">
+          <!-- <span class="ct_bm">
             <mat-icon (click)="manageStatistics('bookmark', level['id'], i)"
               *ngIf="level['is_bookmark'] != 1 ? true : false" color="accent" matTooltip="Add Bookmark">bookmark_border
             </mat-icon>
             <mat-icon (click)="manageStatistics('bookmark', level['id'], i)"
               *ngIf="level['is_bookmark'] == 1 ? true : false" color="accent" matTooltip="Remove Bookmark">bookmark
             </mat-icon>
-          </span>
+          </span> -->
           </div>
         </div>
       </div>
     </mat-tab>
   </mat-tab-group>
   <div class="hgt_20"></div>
-  <div class="hgt_20 text_right" *ngIf="levels.length < total_items">
+  <div class="hgt_20 text_right" *ngIf="levels.length > 0 &&levels.length < total_items">
     <button mat-raised-button (click)="loadMore()" color="accent">
       Load More
     </button>
