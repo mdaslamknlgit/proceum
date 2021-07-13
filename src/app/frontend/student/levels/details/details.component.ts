@@ -122,7 +122,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.player = kPoint.Player(document.getElementById("player-container"), {
                 "kvideoId"  : video['video_source'],
                 "videoHost" : "proceum.kpoint.com",
-                "params"    : {"autoplay" : true, "hide": "search, share, like", "xt" : this.xt}//toc
+                "params"    : {"autoplay" : true, "hide": "search, share, like, toc", "xt" : this.xt}
               });console.log(this.player)
              this.getTimeline();
             },1000);
@@ -134,6 +134,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }
     }
     if(video['video_type'] == "YOUTUBE"){
+        this.timeline = undefined;
         console.log(video, "youtube");
         if(this.player != undefined){
             this.player.pauseVideo();
