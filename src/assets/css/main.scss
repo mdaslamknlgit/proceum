@@ -1680,6 +1680,9 @@ li.hs_sbmnu.active:before {
 button.my_02 {
   margin: 0.2em 0;
 }
+button.my_05 {
+  margin: 0.5em 0;
+}
 .mlty_fl_chld {
   display: none;
 }
@@ -3227,19 +3230,25 @@ div.cust_mdl_par div.mn_dshbrd {
   flex-direction: column;
   z-index: 999;
   background-color: #fff;
+  border-left: 2px solid #41ab3c;
   padding: 10px;
-  border-radius: 8px 0 0 8px;
   box-shadow: 0 0 7px -3px #000;
   .mat-icon-button{background-color: #fff; border: 1px solid #41AB3C;}
   .swtc_lft{
     position: absolute;
     right: 44px;
-    background-color: #fff;
+    top: 50px;
+    background-color: #41ab3c;
     width: 50px;
     height: 50px;
     border-radius: 50% 0 0 50%;
+    transition-duration: 0.4s;
     &.mat-icon-button{
       border-right:0;
+      img{
+        width: 20px;
+        margin-right: 12px;
+      }
     }
   }
   mat-icon {
@@ -3248,14 +3257,17 @@ div.cust_mdl_par div.mn_dshbrd {
   }
   &:hover{
     right: 0;
-    transition-duration: 0.2s;
-    transition-delay: 0.1s;
+    transition-duration: 0.4s;
+    transition-timing-function: ease;
     .swtc_lft{
-      &.mat-icon-button{
-        transform: rotate(180deg);
-        border-radius: 0 8px 8px 0;
-        border-left: 0;
-        border-right: 1px solid #41AB3C;
+      right: 60px;
+      &.mat-icon-button{ 
+        img{
+          transform: scaleX(-1);
+          transition-duration: 0.4s;
+          transition-timing-function: ease;
+          margin-right: 0;
+        }
       }
     }
   }
