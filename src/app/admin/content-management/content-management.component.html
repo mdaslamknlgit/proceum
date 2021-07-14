@@ -4,6 +4,27 @@
   <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
+        <mat-select placeholder="Users" [(ngModel)]="dataentry_uid" (ngModelChange)="doFilter()" name="user_name">
+          <mat-option value="0">Select User</mat-option>
+          <mat-option *ngFor="let user of users" [value]="user['id']">{{
+            user['first_name'] }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+        <input placeholder="From Date" required name="valid_from_name" #valid_from_name="ngModel"
+          [(ngModel)]="from_date" matInput [matDatepicker]="picker" autocomplete="off"
+          [max]="today_date" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+        <input placeholder="To Date" required name="valid_to_name" #valid_to_name="ngModel"
+          [(ngModel)]="to_date" matInput [matDatepicker]="picker2" autocomplete="off" [min]="from_date" />
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    <mat-form-field appearance="outline">
       <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''" placeholder="Search" />
       <mat-icon class="curserToPointer" (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
