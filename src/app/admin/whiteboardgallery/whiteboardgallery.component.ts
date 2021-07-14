@@ -49,21 +49,20 @@ export class WhiteboardgalleryComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.getWhiteboardGallery();
     this.changeView('list');
   }
 
   changeView(parm){
     if(parm == 'list'){
-      this.page = 0;
-      this.pageSize = environment.page_size;
+      //this.page = 0;
+      //this.pageSize = environment.page_size;
       this.show_list_view = true;
       console.log('Page => '+this.page+', limit => '+this.pageSize)
       let param = { url: 'get-whiteboard-gallery',"parmType":"list","offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by, "search":this.whiteboard.search_text.trim()};
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.dataSource = new MatTableDataSource(res['whiteboard']);
-          this.dataSource.paginator = this.paginator;
+          //this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.num_rows = res['whiteboard_count'];
         } else {
@@ -130,20 +129,7 @@ export class WhiteboardgalleryComponent implements OnInit {
   }
 
   public doFilter(){
-    //console.log('okkk'+this.whiteboard.search_text.trim());
-    //console.log('Page => '+this.page+', limit => '+this.pageSize)
     this.changeView('list');
-    /*let param = { url: 'get-whiteboard-gallery',"parmType":"list","offset": this.page, "limit": this.pageSize, "search":this.whiteboard.search_text.trim()};
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['whiteboard']);
-        //this.dataSource.paginator = this.paginator;
-        this.num_rows = res['whiteboard_count'];
-      } else {
-        this.toster.info(res['message'], 'Info');
-      }
-      
-    });*/
   }
 
   showPropertisModal(image_path,title,tname,created_at) {

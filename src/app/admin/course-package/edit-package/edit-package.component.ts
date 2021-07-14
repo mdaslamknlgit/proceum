@@ -158,7 +158,6 @@ export class EditPackageComponent implements OnInit {
 
   addCurrencyToField(currency,index){
     this.package_prices[index]['placeholder'] = currency.toUpperCase();
-    ;
   }
 
 }
