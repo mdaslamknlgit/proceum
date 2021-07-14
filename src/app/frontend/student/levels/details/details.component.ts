@@ -113,7 +113,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
   
   playVideo(video){
-      this.video_title = video['module_title'];
+      if(!this.http.getUser())
+        this.router.navigateByUrl("/login");
+    this.video_title = video['module_title'];
     if(video['video_type'] == "KPOINT"){
         this.video_type = "KPOINT";        
         if(this.player == undefined){
@@ -145,13 +147,18 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     }
   }
   getTimeline(){
-    let param = {video_id: this.player.info.kvideoId, xt:this.xt};
-    this.http.kpointGet(param).subscribe(res=>{
+    this.timeline = undefined;
+    let param1 = {"url": "get-kpoint-token"};
+    this.http.post(param1).subscribe(res=>{
+        this.xt = res['data']['xt'];
+        let param = {video_id: this.player.info.kvideoId, xt:this.xt};
+        this.http.kpointGet(param).subscribe(res=>{
         this.timeline = res;
     });
+    })
   }
   seekTo(time){
-      this.player.seekTo(time);console.log("called")
+      this.player.seekTo(time);
   }
    millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000);

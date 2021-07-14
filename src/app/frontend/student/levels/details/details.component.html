@@ -202,18 +202,11 @@
           No MCQs Found
         </div>
         <div class="crs_desc" *ngIf="mcqs.length > 0">
-          <!--<span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span>
-           <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
           <div class="qstn_nms">
             <div class="qstn_hds">Questions</div>
             <ul>
               <li *ngFor="let question of mcqs; let i = index" class="{{ i == active_mcq_index ? 'act_qstnm' : '' }}">
-                <span class="qstn_cnt" (click)="active_mcq_index = i">{{ i + 1 }}{{ " " + question["question"] }}</span>
+                <span class="qstn_cnt" (click)="active_mcq_index = i" matTooltip='{{question["question"]}}'>{{ i + 1 }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...': question["question"]}}</span>
               </li>
             </ul>
           </div>
@@ -458,8 +451,7 @@
             <div class="qstn_hds">Questions</div>
             <ul>
               <li *ngFor="let question of cases; let i = index" class="{{ i == active_case_index ? 'act_qstnm' : '' }}">
-                <span class="qstn_cnt" (click)="active_case_index = i">{{ i + 1 }}{{ " " + question["question"]
-                  }}</span>
+                <span class="qstn_cnt" (click)="active_case_index = i" matTooltip='{{question["question"]}}'>{{ i + 1 }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...': question["question"]}}</span>
               </li>
             </ul>
           </div>
@@ -542,8 +534,7 @@
             <ul>
               <li *ngFor="let question of short_answers; let i = index"
                 class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
-                <span class="qstn_cnt" (click)="active_short_answer_index = i">{{ i + 1 }}{{ " " + question["question"]
-                  }}</span>
+                <span class="qstn_cnt" (click)="active_short_answer_index = i" matTooltip='{{question["question"]}}'>{{ i + 1 }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...': question["question"]}}</span>
               </li>
             </ul>
           </div>
