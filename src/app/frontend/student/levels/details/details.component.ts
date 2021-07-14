@@ -61,6 +61,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public video_type = 'KPOINT';
   public youtube_iframe:any;
   public xt = '';
+  public timeline:any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -121,17 +122,19 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.player = kPoint.Player(document.getElementById("player-container"), {
                 "kvideoId"  : video['video_source'],
                 "videoHost" : "proceum.kpoint.com",
-                "params"    : {"autoplay" : true, "hide": "search, share, like", "xt" : this.xt}//toc
+                "params"    : {"autoplay" : true, "hide": "search, share, like, toc", "xt" : this.xt}
               });console.log(this.player)
-             // this.player.seekTo(10000)
+             this.getTimeline();
             },1000);
         }
         else{
             console.log(video, 'kpoint');
             this.player.loadVideoById(video['video_source']);
+            this.getTimeline();
         }
     }
     if(video['video_type'] == "YOUTUBE"){
+        this.timeline = undefined;
         console.log(video, "youtube");
         if(this.player != undefined){
             this.player.pauseVideo();
@@ -140,6 +143,20 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         let embed_link = video['video_source'].replace("/watch?v=","/embed/");
         this.youtube_iframe = this.sanitizer.bypassSecurityTrustHtml('<iframe width="420" height="315" src="'+embed_link+'"></iframe>');
     }
+  }
+  getTimeline(){
+    let param = {video_id: this.player.info.kvideoId, xt:this.xt};
+    this.http.kpointGet(param).subscribe(res=>{
+        this.timeline = res;
+    });
+  }
+  seekTo(time){
+      this.player.seekTo(time);console.log("called")
+  }
+   millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (Number(seconds) < 10 ? '0' : '') + seconds;
   }
   setFontSize(val) {
       if(val<1){

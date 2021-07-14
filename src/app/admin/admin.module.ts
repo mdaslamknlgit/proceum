@@ -136,7 +136,7 @@ const routes: Routes = [
       { path: 'manage-content', component: ContentManagementComponent },
       { path: 'link-content', component: MapingComponent },
       { path: 'create-content', component: CreateContentComponent },
-      { path: 'whiteboardgallery', component: WhiteboardgalleryComponent },
+      { path: 'whiteboard-gallery', component: WhiteboardgalleryComponent },
       { path: 'createnewquestion', component: CreateNewQuestionComponent },
       { path: 'questionmanagement', component: QuestionsManagementComponent },
       { path: 'questionbank', component: QuestionBankComponent },
