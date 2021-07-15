@@ -198,31 +198,28 @@ export class RegisterComponent implements OnInit {
 
   validateindividualsBasicDetails(stepper:MatStepper){
     if((this.individualRegister.first_name != '' && this.individualRegister.email != '' && this.individualRegister.last_name != '' && 
-    this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.confirm_pwd != '' && this.individualRegister.qualification != '' && this.individualRegister.profession != '') && (this.individualRegister.university != '' || this.individualRegister.college != '') ){
+    this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.password.length > 5 && this.individualRegister.confirm_pwd != '' && this.individualRegister.qualification != '' && this.individualRegister.profession != '') && (this.individualRegister.university != '' || this.individualRegister.college != '') ){
       stepper.next();
       //this.individual_address_details = true;
     }
   }
 
   validateInstitutionBasicDetails(stepper:MatStepper){
+    
     if(this.is_university){
       if(this.institutionResgister.university_name != '' && this.institutionResgister.university_primary_contact != '' && this.institutionResgister.university_contact_person != '' && this.institutionResgister.password != '' && this.institutionResgister.university_code != '' && this.institutionResgister.university_secondary_contact != '' && this.institutionResgister.university_email != '' && this.institutionResgister.confirm_pwd != '' ){
        stepper.next();
       }
     }
     if(this.is_college){
-      if(this.is_university){
-        if(this.institutionResgister.college_name != '' && this.institutionResgister.college_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.college_code != '' && this.institutionResgister.college_contact_person != '' && this.institutionResgister.college_email != '' && this.institutionResgister.confirm_pwd != '' ){
-         stepper.next();
-        }
+      if(this.institutionResgister.college_name != '' && this.institutionResgister.college_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.college_code != '' && this.institutionResgister.college_contact_person != '' && this.institutionResgister.college_email != '' && this.institutionResgister.confirm_pwd != '' ){
+        stepper.next();
       }
     }
     if(this.is_coaching_institute){
-      if(this.is_university){
-        if(this.institutionResgister.institute_name != '' && this.institutionResgister.institute_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.institute_contact_person != '' && this.institutionResgister.institute_email != '' && this.institutionResgister.confirm_pwd != '' ){
-         stepper.next();
-        }
-      }
+      if(this.institutionResgister.institute_name != '' && this.institutionResgister.institute_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.institute_contact_person != '' && this.institutionResgister.institute_email != '' && this.institutionResgister.confirm_pwd != '' ){
+        stepper.next();
+       }
     }
   }
 

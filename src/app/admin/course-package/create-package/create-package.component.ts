@@ -1,120 +1,35 @@
-import { Component, OnInit ,Injectable} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ReplaySubject,BehaviorSubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
-import {FlatTreeControl} from '@angular/cdk/tree';
-import {SelectionModel} from '@angular/cdk/collections';
-import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+import {NestedTreeControl} from '@angular/cdk/tree';
+import { ActivatedRoute, Router } from '@angular/router';
 
-/**
- * Node for to-do item
- */
- export class TodoItemNode {
-  children: TodoItemNode[];
+interface CurriculumNode {
+  id?: number;
   name: string;
-  id:number;
-  isChecked:boolean;
-  curriculum_id: number;
-  parentid: number;
-  is_curriculum_root: boolean;
+  curriculum_id?: number;
+  selected?: boolean;
+  indeterminate?: boolean;
+  parentid?: number;
+  is_curriculum_root?: boolean;
+  children?: CurriculumNode[];
+  has_children?: boolean;
+  ok?: boolean;
 }
-
-/** Flat to-do item node with expandable and level information */
-export class TodoItemFlatNode {
-  children: TodoItemNode[];
-  level: number;
-  name: string;
-  id:number;
-  isChecked:boolean;
-  curriculum_id: number;
-  parentid: number;
-  is_curriculum_root: boolean;
-  expandable: boolean;
-}
-
-const TREE_DATA = [
-  
-];
-
-/**
- * Checklist database, it can build a tree structured Json object.
- * Each node in Json object represents a to-do item or a category.
- * If a node is a category, it has children items and new items can be added under the category.
- */
-@Injectable()
-export class ChecklistDatabase {
-  dataChange = new BehaviorSubject<TodoItemNode[]>([]);
-
-  get data(): TodoItemNode[] { return this.dataChange.value; }
-
-  constructor() {
-    this.initialize();
-  }
-
-  initialize() {
-    // Build the tree nodes from Json object. The result is a list of `TodoItemNode` with nested
-    //     file node as children.
-    const data = this.buildFileTree(TREE_DATA, 0);
-
-    // Notify the change.
-    this.dataChange.next(data);
-  }
-
-  /**
-   * Build the file structure tree. The `value` is the Json object, or a sub-tree of a Json object.
-   * The return value is the list of `TodoItemNode`.
-   */
-  buildFileTree(obj: {[key: string]: any}, level: number): TodoItemNode[] {
-    return Object.keys(obj).reduce<TodoItemNode[]>((accumulator, key) => {
-      const item = obj[key];
-      const node = new TodoItemNode();
-      node.name = obj[key].name;
-      node.id = obj[key].id;
-      node.isChecked=  obj[key].isChecked;
-      node.curriculum_id=  obj[key].claimId;
-      node.parentid=  obj[key].parentid;
-
-      if (item != null) {
-        if (typeof item === 'object'  && item.children!= undefined) { 
-       
-
-          node.children = this.buildFileTree(item.children, level + 1);
-        } else {
-          node.name = item.name;
-        }
-      }
-
-      return accumulator.concat(node);
-    }, []);
-  }
-
-  /** Add an item to to-do list */
-  insertItem(parent: TodoItemNode, name: string) {
-    if (parent.children) {
-      parent.children.push({name: name} as TodoItemNode);
-      this.dataChange.next(this.data);
-    }
-  }
-
-  updateItem(node: TodoItemNode, name: string) {
-    node.name = name;
-    this.dataChange.next(this.data);
-  }
-}
+//const TREE_DATA: CurriculumNode[]= [];
 
 @Component({
   selector: 'app-create-package',
   templateUrl: './create-package.component.html',
-  styleUrls: ['./create-package.component.scss'],
-  providers: [ChecklistDatabase]
+  styleUrls: ['./create-package.component.scss']
 })
 export class CreatePackageComponent implements OnInit {
 
   public user = [];
   public package_id = 0;
-  public package_prices = [{pk_id:0, country_id:'', price_amount:'', status:''}];
+  public package_prices = [{pk_id:0, country_id:'', price_amount:'', status:'', placeholder:'0.00'}];
   public countries = [];
   public package_name = '';
   public package_img = '';
@@ -127,200 +42,123 @@ export class CreatePackageComponent implements OnInit {
   public valid_up_to : any = '';
   public billing_frequency = 'monthly';
   public today_date = new Date();
-  public edit_model_status = false;;
+  public edit_model_status = false;
+  public courses_arr = [];
+  public courses_div = false;
+  public selected_courses = [];
   all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
   
-
-  /** Map from flat node to nested node. This helps us finding the nested node to be modified */
-  flatNodeMap = new Map<TodoItemFlatNode, TodoItemNode>();
-
-  /** Map from nested node to flattened node. This helps us to keep the same object for selection */
-  nestedNodeMap = new Map<TodoItemNode, TodoItemFlatNode>();
-
-  /** A selected parent node to be inserted */
-  selectedParent: TodoItemFlatNode | null = null;
-
-  /** The new item's name */
-  newItemName = '';
-
-  treeControl: FlatTreeControl<TodoItemFlatNode>;
-
-  treeFlattener: MatTreeFlattener<TodoItemNode, TodoItemFlatNode>;
-
-  dataSource: MatTreeFlatDataSource<TodoItemNode, TodoItemFlatNode>;
-
-  /** The selection for checklist */
-  checklistSelection = new SelectionModel<TodoItemFlatNode>(true /* multiple */);
-
+  //Code starts here for course selection
+  treeControl = new NestedTreeControl<CurriculumNode>(node => node.children);
+  dataSource = new MatTreeNestedDataSource<CurriculumNode>();
 
   constructor(
     private http: CommonService,
     private toster: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private database: ChecklistDatabase
-  ) {
-      this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
-        this.isExpandable, this.getChildren);
-      this.treeControl = new FlatTreeControl<TodoItemFlatNode>(this.getLevel, this.isExpandable);
-      this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+    private router: Router
+  ) { }
 
-      database.dataChange.subscribe(data => {
-        this.dataSource.data = data;
+  hasChild = (_: number, node: CurriculumNode) =>
+    !!node.children && node.children.length > 0;
+
+  setParent(data, parent) {
+   
+    if(data.children === undefined){
+      data.has_children = false;
+    }else{
+      data.has_children = true;
+    }
+    data.parent = parent;
+    if (data.children) {
+      data.children.forEach(x => {
+        this.setParent(x, data);
+      });
+    }
+  }
+
+  checkAllParents(node) {
+    if (node.parent) {
+      const descendants = this.treeControl.getDescendants(node.parent);
+      node.parent.selected = descendants.every(child => child.selected);
+      node.parent.indeterminate = descendants.some(child => child.selected);
+      this.checkAllParents(node.parent);
+    }
+  }
+
+  todoItemSelectionToggle(checked, node) {
+    node.selected = checked;
+    if (node.children) {
+      node.children.forEach(x => {
+        this.todoItemSelectionToggle(checked, x);
+      });
+    }
+    this.checkAllParents(node);
+  }
+
+  setChildOk(text: string, node: any) {
+    node.forEach(x => {
+      x.ok = x.name.indexOf(text) >= 0;
+      if (x.parent) this.setParentOk(text, x.parent, x.ok);
+      if (x.children) this.setChildOk(text, x.children);
     });
-   }
-
-   checkAll(){
-    for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
-
-    if(this.treeControl.dataNodes[i].isChecked)
-        this.checklistSelection.toggle(this.treeControl.dataNodes[i]);
-      this.treeControl.expand(this.treeControl.dataNodes[i])
-    }
   }
-
-   GetCheckAll(){
-
-    console.log( this.dataSource.data );
-      // if( this.treeFlattener.flattenNodes[0].check) console.log(this.treeControl.dataNodes[i].id);
- 
-     
-    // for (let i = 0; i < this.treeControl.dataNodes.length; i++) {
-     
-    //   if(this.treeControl.dataNodes[i].isChecked) console.log(this.treeControl.dataNodes[i].id);
-
-    // if(this.treeControl.dataNodes[i].isChecked){
-    //   console.log('---------------------------------------------');
-    //     console.log(this.treeControl.dataNodes[i].id);
-    //     console.log(this.treeControl.dataNodes[i].claimId);
-
-    // }
-   // }
-  }
-
-  getLevel = (node: TodoItemFlatNode) => node.level;
-
-  isExpandable = (node: TodoItemFlatNode) => node.expandable;
-
-  getChildren = (node: TodoItemNode): TodoItemNode[] => node.children;
-
-  hasChild = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.expandable;
-
-  hasNoContent = (_: number, _nodeData: TodoItemFlatNode) => _nodeData.name === '';
-
-  /**
-   * Transformer to convert nested node to flat node. Record the nodes in maps for later use.
-   */
-  transformer = (node: TodoItemNode, level: number) => {
-    const existingNode = this.nestedNodeMap.get(node);
-    const flatNode = existingNode && existingNode.name === node.name
-        ? existingNode
-        : new TodoItemFlatNode();
-    flatNode.name = node.name;
-    flatNode.level = level;
-    flatNode.id=node.id;
-     flatNode.isChecked = node.isChecked;
-     flatNode.parentid = node.parentid;
-     flatNode.curriculum_id = node.curriculum_id;
-     flatNode.is_curriculum_root = node.is_curriculum_root;
-    flatNode.expandable = !!node.children;
-    this.flatNodeMap.set(flatNode, node);
-    this.nestedNodeMap.set(node, flatNode);
-    return flatNode;
-  }
-
-  /** Whether all the descendants of the node are selected. */
-  descendantsAllSelected(node: TodoItemFlatNode): boolean {
-    const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.every(child =>
-     this.checklistSelection.isSelected(child))
-    return descAllSelected;
-  }
-
-  /** Whether part of the descendants are selected */
-  descendantsPartiallySelected(node: TodoItemFlatNode): boolean {
-    const descendants = this.treeControl.getDescendants(node);
-    const result = descendants.some(child => this.checklistSelection.isSelected(child));
-    return result && !this.descendantsAllSelected(node);
-  }
-
-  /** Toggle the to-do item selection. Select/deselect all the descendants node */
-  todoItemSelectionToggle(node: TodoItemFlatNode): void {
   
-    this.checklistSelection.toggle(node);
-    const descendants = this.treeControl.getDescendants(node);
-    this.checklistSelection.isSelected(node)
-      ? this.checklistSelection.select(...descendants)
-      : this.checklistSelection.deselect(...descendants);
-
-    // Force update for the parent
-    descendants.every(child =>
-      this.checklistSelection.isSelected(child)
-    );
-    this.checkAllParentsSelection(node);
+  setParentOk(text, node, ok) {
+    node.ok = ok || node.ok || node.name.indexOf(text) >= 0;
+    if (node.parent) this.setParentOk(text, node.parent, node.ok);
   }
 
-  /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
-  todoLeafItemSelectionToggle(node: TodoItemFlatNode): void {
-    this.checklistSelection.toggle(node);
-    node.isChecked ?  node.isChecked=false:node.isChecked=true; 
-    this.checkAllParentsSelection(node);
+  //For check the values
+  getList2(node: any, result: any = null) {
+    result = result || {};
+    node.forEach(x => {
+      result[x.name] = {};
+      result[x.name].ok = x.ok;
+      if (x.children) result[x.name].children = this.getList2(x.children);
+    });
+    return result;
+  }
+  //Another way to check the values, we can not use {{datasource.node}}
+  getList(node: any) {
+    return node.map(x => {
+      const r: any = {
+        name: x.name + ' - ' + x.ok,
+        children: x.children ? this.getList(x.children) : null
+      };
+      if (!r.children) delete r.children;
+      return r;
+    });
   }
 
-  /* Checks all the parents when a leaf node is selected/unselected */
-  checkAllParentsSelection(node: TodoItemFlatNode): void {
-    let parent: TodoItemFlatNode | null = this.getParentNode(node);
-    while (parent) {
-      this.checkRootNodeSelection(parent);
-      parent = this.getParentNode(parent);
+  submitCourses() {
+    let result = [];
+    this.dataSource.data.forEach(node => {
+      result = result.concat(
+        this.treeControl
+          .getDescendants(node)
+          .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children])
+      );
+    });
+    this.courses_arr = result;
+    if(this.courses_arr){
+      let params = { url: 'get-selected-courses','courses_arr': this.courses_arr};
+      this.http.post(params).subscribe((res) => {
+        if (res['error'] == false) {
+          //console.log(res['data']);
+          this.courses_div = true;
+          this.selected_courses = res['data']['selected_courses'];
+          this.edit_model_status = false;
+          this.courses_ids_csv = res['data']['course_ids_csv'];
+          //console.log(this.courses_ids_csv);
+        }else{
+          this.courses_div = false;
+          this.selected_courses = [];
+          this.edit_model_status = false;
+          this.courses_ids_csv = '';
+        }
+      });
     }
-  }
-
-  /** Check root node checked state and change it accordingly */
-  checkRootNodeSelection(node: TodoItemFlatNode): void {
-    const nodeSelected = this.checklistSelection.isSelected(node);
-    const descendants = this.treeControl.getDescendants(node);
-    const descAllSelected = descendants.every(child =>
-      this.checklistSelection.isSelected(child)
-    );
-    if (nodeSelected && !descAllSelected) {
-      this.checklistSelection.deselect(node);
-    } else if (!nodeSelected && descAllSelected) {
-      this.checklistSelection.select(node);
-    }
-  }
-
-  /* Get the parent node of a node */
-  getParentNode(node: TodoItemFlatNode): TodoItemFlatNode | null {
-    const currentLevel = this.getLevel(node);
-
-    if (currentLevel < 1) {
-      return null;
-    }
-
-    const startIndex = this.treeControl.dataNodes.indexOf(node) - 1;
-
-    for (let i = startIndex; i >= 0; i--) {
-      const currentNode = this.treeControl.dataNodes[i];
-
-      if (this.getLevel(currentNode) < currentLevel) {
-        return currentNode;
-      }
-    }
-    return null;
-  }
-
-  /** Select the category so we can insert the new item. */
-  addNewItem(node: TodoItemFlatNode) {
-    const parentNode = this.flatNodeMap.get(node);
-    this.database.insertItem(parentNode!, '');
-    this.treeControl.expand(node);
-  }
-
-  /** Save the node to database */
-  saveNode(node: TodoItemFlatNode, itemValue: string) {
-    const nestedNode = this.flatNodeMap.get(node);
-    this.database.updateItem(nestedNode!, itemValue);
   }
 
   ngOnInit(): void {
@@ -402,15 +240,20 @@ export class CreatePackageComponent implements OnInit {
     });
   }
 
-
   addPackagePriceField(){
-    this.package_prices.push({pk_id:0, country_id:'', price_amount:'', status:''});
+    this.package_prices.push({pk_id:0, country_id:'', price_amount:'', status:'', placeholder:'0.00'});
   }
+
   removePackagePrice(index){
     this.package_prices[index]['status'] = "delete";
   }
 
   createPackageService(){
+    if(this.applicable_to_university == '' || this.applicable_to_college == '' || this.applicable_to_institute == ''){
+      this.toster.error("Applicable to is required", 'Required!', { closeButton: true });
+      return;
+    }
+
     let form_data = {
       package_id : this.package_id,
       package_name : this.package_name,
@@ -438,16 +281,21 @@ export class CreatePackageComponent implements OnInit {
 
   getCurriculumnHierarchy(){
     let params = { url: 'get-curriculumn-hierarchy'};
-    this.http.post(params).subscribe((res) => {
-      console.log(res);
-      //this.tree_items = res['data'];
-      this.dataSource.data = res['data'];
+    this.http.post(params).subscribe((res) => {      
       if (res['error'] == false) {
-        //this.toster.success(res['message'], 'Success', { closeButton: true });
-        //this.navigateTo('manage-content');
+        this.dataSource.data = res['data'];
+        Object.keys(this.dataSource.data).forEach(x => {
+          this.setParent(this.dataSource.data[x], null);
+        });
       } else {
-          //this.toster.error(res['message'], 'Error', { closeButton: true });
+          this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
+
+  addCurrencyToField(currency,index){
+    this.package_prices[index]['placeholder'] = currency.toUpperCase();
+  }
+
+  
 }

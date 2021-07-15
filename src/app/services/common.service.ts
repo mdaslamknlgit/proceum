@@ -29,6 +29,12 @@ export class CommonService {
     localStorage.removeItem('_token');
     localStorage.removeItem('user');
   }
+  public kpointGet(param){
+    return this.http.get("https://proceum.kpoint.com/api/v1/xapi/kapsule/"+param['video_id']+"/bookmarks?xt="+param['xt']).pipe(
+      map((res) => res),
+      catchError(this.errorHandler)
+    );
+  }
   public get(param) {
     let user = this.getUser();
     let headers = new HttpHeaders();

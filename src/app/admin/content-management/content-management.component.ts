@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./content-management.component.scss'],
 })
 export class ContentManagementComponent implements OnInit {
-  displayedColumns: string[] = [
+  public displayedColumns: string[] = [
     'sno',
     'content_title',
     'created_by',
@@ -23,7 +23,7 @@ export class ContentManagementComponent implements OnInit {
     'updated_at',
     'actions',
   ];
-  dataSource = new MatTableDataSource();
+  public dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public pageSize = environment.page_size;
@@ -32,9 +32,14 @@ export class ContentManagementComponent implements OnInit {
   public sort_by: any;
   public search_box = '';
   public user = [];
-  modal_popup = false;
-  page: number = 0;
-  public tab_index = 0
+  public modal_popup = false;
+  public page: number = 0;
+  public tab_index = 0;
+  public users = [];
+  public dataentry_uid = 0;
+  from_date = '';
+  to_date = '';
+  public today_date = new Date();
   constructor(private http: CommonService, private toster: ToastrService, private router: Router) {}
 
   ngOnInit(): void {
@@ -46,6 +51,7 @@ export class ContentManagementComponent implements OnInit {
       tab_index: this.tab_index
     };
     this.http.post(param).subscribe((res) => {
+        this.users = res['data']['users'];
       if (res['error'] == false) {
         if (this.paginator != undefined) {
             this.paginator.pageIndex = 0;
@@ -65,7 +71,10 @@ export class ContentManagementComponent implements OnInit {
       limit: this.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
-      tab_index: this.tab_index
+      tab_index: this.tab_index,
+      dataentry_uid: this.dataentry_uid,
+      from_date: this.from_date,
+      to_date: this.to_date
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

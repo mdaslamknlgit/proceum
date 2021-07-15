@@ -218,11 +218,11 @@ export class CreateContentComponent implements OnInit {
         }
         this.videos = data['main_videos'];
         this.videos_files = [];
-        if (data['main_videos'].length > 0) {
-          data['main_videos'].forEach((file) => {
-            this.videos_files.push(file['file_path']);
-          });
-        }
+        // if (data['main_videos'].length > 0) {
+        //   data['main_videos'].forEach((file) => {
+        //     this.videos_files.push(file['file_path']);
+        //   });
+        // }
         this.selected_mcqs = data['selected_mcqs'];
         this.selected_short_questions = data['selected_short_questions'];
         this.selected_cases = data['selected_cases'];

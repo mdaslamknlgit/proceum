@@ -1,132 +1,171 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">
-        Proceum &raquo; <strong>White Board Gallery</strong>
+
+    <div class="cust_mdl_par cust_mdl_50p {{
+        properties_popup ? 'cust_mdl_opn' : ''
+      }}">
+      <div class="cust_mdl_chl">
+        <div class="pg_ttl">
+          Properties
+          <span class="spacer"></span>
+          <button (click)="ClosePropertisModal()" mat-icon-button class="float_right">
+            &#x2715;
+          </button>
+        </div>
+        <div class="tbbd_bdy">
+          <div class="hgt_20"></div>
+          <div class="img_prp">
+            <img [src]="preview_path" alt="" />
+          </div>
+          <div class="img_prp_dets">
+            <ul>
+              <li>
+                <span class="img_info_hd">Title</span>
+                <span class="img_info_dets">{{ title }}</span>
+              </li>
+              <li>
+                <span class="img_info_hd">Created By</span>
+                <span class="img_info_dets">{{ tname }}</span>
+              </li>
+              <li>
+                <span class="img_info_hd">Created Date</span>
+                <span class="img_info_dets">{{ created_at }}</span>
+              </li>
+            </ul>
+          </div>
+          <hr />
+          <div class="img_prp_btns">
+            <div>
+              
+            </div>
+            <div>
+              <button mat-raised-button class="float_right mr_1 gry_btn" (click)="ClosePropertisModal()">
+                Close
+              </button>
+            </div>
+          </div>        
+          <div class="hgt_20"></div>
+        </div>
+      </div>
     </div>
-    <div class="pg_ttl">White Board Gallery</div>
+
+    <div class="brd_crm">
+        Proceum &raquo; <strong>Whiteboard Gallery</strong>
+    </div>
+    <div class="pg_ttl">Whiteboard Gallery</div>
     <hr />
     <div class="dsh_brd_crds wbg_mn">
         <div class="wbg_srch">
             <mat-form-field appearance="outline" class="xl_srch">
-                <input matInput placeholder="Search" />
-                <mat-icon matSuffix>search</mat-icon>
+                <input matInput placeholder="Search" #search_text="ngModel" [(ngModel)]="whiteboard.search_text" (keyup)="$event.keyCode == 13 ? doFilter() : ''" />
+                <mat-icon matSuffix (click)="doFilter()">search</mat-icon>
             </mat-form-field>
             <div class="spacer"></div>
-            <button mat-mini-fab class="no_bxsdw mr_1 wbg_actv_btn" matTooltip="List View">
+            <button mat-mini-fab class="no_bxsdw mr_1 {{show_list_view == true? 'wbg_actv_btn' : ''}} " matTooltip="List View" (click)="changeView('list')">
                 <mat-icon>format_list_bulleted</mat-icon>
             </button>
-            <button mat-mini-fab class="no_bxsdw" matTooltip="Grid View">
+            <button mat-mini-fab class="no_bxsdw {{show_list_view == false? 'wbg_actv_btn' : ''}}" matTooltip="Grid View" (click)="changeView('grid')">
                 <mat-icon>grid_view</mat-icon>
             </button>
         </div>
-        <div class="wbg_cnt wbg_grd_vw">
-            <div class="wbg_dv">
-                <div class="wbg_hd" matTooltip="Human anatomy classHuman anatomy class">Human anatomy class</div>
+        <div class="wbg_cnt wbg_grd_vw" *ngIf="!show_list_view">
+            
+            <div class="wbg_dv" *ngFor="let images of dataSource">
+                <div (click)="
+                showPropertisModal(
+                    images.image_path,
+                    images.title,
+                    images.tname,
+                    images.created_at
+                )
+              ">
+                <div class="wbg_hd" matTooltip="{{ images.title }}">{{ images.title }}</div>
                 <div class="wbg_img">
-                    <img src="../../../assets/images/wbg_img1.png" alt="">
+                    <img src="{{ images.image_path }}" alt="{{ images.title }}">
                 </div>
+            </div>
                 <div class="wbg_ftr">
-                    <div>14/06/2021 6:00 PM</div>
+                    <div>{{ images.created_at }}</div>
                     <div class="spacer"></div>
                     <div>
-                        <button mat-mini-fab color="warn" class="no_bxsdw" matTooltip="Delete">
+                        <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                            'are you sure to delete <b>' +  images.title + '</b> '
+                            " placement="auto" (confirm)="deleteContentData(  images.id , 'grid' )" confirmButtonType="danger"
+                            cancelButtonType="outline-secondary"  mat-mini-fab color="warn" class="no_bxsdw" matTooltip="Delete">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>
                 </div>
             </div>
-            <div class="wbg_dv">
-                <div class="wbg_hd" matTooltip="Human anatomy classHuman anatomy class">Human anatomy class</div>
-                <div class="wbg_img">
-                    <img src="../../../assets/images/wbg_img1.png" alt="">
-                </div>
-                <div class="wbg_ftr">
-                    <div>14/06/2021 6:00 PM</div>
-                    <div class="spacer"></div>
-                    <div>
-                        <button mat-mini-fab color="warn" class="no_bxsdw" matTooltip="Delete">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="wbg_dv">
-                <div class="wbg_hd" matTooltip="Human anatomy classHuman anatomy class">Human anatomy class</div>
-                <div class="wbg_img">
-                    <img src="../../../assets/images/wbg_img1.png" alt="">
-                </div>
-                <div class="wbg_ftr">
-                    <div>14/06/2021 6:00 PM</div>
-                    <div class="spacer"></div>
-                    <div>
-                        <button mat-mini-fab color="warn" class="no_bxsdw" matTooltip="Delete">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="wbg_dv">
-                <div class="wbg_hd" matTooltip="Human anatomy classHuman anatomy class">Human anatomy class</div>
-                <div class="wbg_img">
-                    <img src="../../../assets/images/wbg_img1.png" alt="">
-                </div>
-                <div class="wbg_ftr">
-                    <div>14/06/2021 6:00 PM</div>
-                    <div class="spacer"></div>
-                    <div>
-                        <button mat-mini-fab color="warn" class="no_bxsdw" matTooltip="Delete">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="wbg_dv">
-                <div class="wbg_hd" matTooltip="Human anatomy classHuman anatomy class">Human anatomy class</div>
-                <div class="wbg_img">
-                    <img src="../../../assets/images/wbg_img1.png" alt="">
-                </div>
-                <div class="wbg_ftr">
-                    <div>14/06/2021 6:00 PM</div>
-                    <div class="spacer"></div>
-                    <div>
-                        <button mat-mini-fab color="warn" class="no_bxsdw" matTooltip="Delete">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            
         </div>
-        <div class="wbg_cnt wbg_lst_vw">
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                <!--- Note that these columns can be defined in any order.
-                      The actual rendered columns are set as a property on the row definition" -->
-                <!-- Position Column -->
-                <ng-container matColumnDef="position">
-                  <th mat-header-cell *matHeaderCellDef> S. No</th>
-                  <td mat-cell *matCellDef="let element"> 1 </td>
-                </ng-container>
-              
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                  <th mat-header-cell *matHeaderCellDef> Image title </th>
-                  <td mat-cell *matCellDef="let element"> Sed non tortor ut diam aliquam aliquam </td>
-                </ng-container>
-              
-                <!-- Weight Column -->
-                <ng-container matColumnDef="weight">
-                  <th mat-header-cell *matHeaderCellDef> Created date </th>
-                  <td mat-cell *matCellDef="let element"> 11/05/2021 </td>
-                </ng-container>
-              
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="symbol">
-                  <th mat-header-cell *matHeaderCellDef> Actions </th>
-                  <td mat-cell *matCellDef="let element"> <button mat-icon-button class="mr_1"><mat-icon color="accent">visibility</mat-icon></button><button mat-icon-button class="mr_1"><mat-icon color="warn">remove_circle_outline</mat-icon></button></td>
-                </ng-container>
-              
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
+        <div *ngIf="show_list_view">
+            <div class="wbg_cnt wbg_lst_vw" >
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" (matSortChange)="sortData($event)"  matSort>
+
+                    <!--- Note that these columns can be defined in any order.
+                        The actual rendered columns are set as a property on the row definition" -->
+                
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> S. No</th>
+                    <td mat-cell *matCellDef="let element"> {{ element.s_no }} </td>
+                    </ng-container>
+                
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef> Image Title </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.title }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="created_by">
+                        <th mat-header-cell *matHeaderCellDef> Created By </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.tname }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="created_at">
+                    <th mat-header-cell *matHeaderCellDef> Created Date </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.created_at }} </td>
+                    </ng-container>
+                
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        <button mat-icon-button class="mr_1" (click)="
+                          showPropertisModal(
+                            element.image_path,
+                            element.title,
+                            element.tname,
+                            element.created_at
+                          )
+                        ">
+                          <mat-icon color="accent">visibility</mat-icon>
+                        </button>
+                        
+                        <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                            'are you sure to delete <b>' + element.title + '</b> '
+                            " placement="auto" (confirm)="deleteContentData(element.id, 'list')" confirmButtonType="danger"
+                            cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                        </button>
+                    </td>
+                    </ng-container>
+                
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                      <td class="mat-cell" colspan="13">No Records Found</td>
+                    </tr>
+                </table>
+            </div>        
+            <mat-paginator
+              #paginator
+              [pageSize]="pageSize"
+              [length]="num_rows"
+              [pageSizeOptions]="page_size_options"
+              [showFirstLastButtons]="true"
+              (page)="getServerData($event)"
+            ></mat-paginator>
         </div>
-        
     </div>
 </div>

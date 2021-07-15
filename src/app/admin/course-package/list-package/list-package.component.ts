@@ -80,7 +80,7 @@ export class ListPackageComponent implements OnInit {
       search: this.search_box,
     };
     this.http.post(param).subscribe((res) => {
-      console.log(res['data']['packages']);
+      //console.log(res['data']['packages']);
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['packages']);
         this.totalSize = res['total_records'];
@@ -96,6 +96,21 @@ export class ListPackageComponent implements OnInit {
   }
 
   public deletePackage(package_id, status){
+    let param = {
+      url: 'package-status',
+      id: package_id,
+      status: status,
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.getPackages();
+      } else {
+        this.toster.error(res['message'], res['message'], {
+          closeButton: true,
+        });
+      }
+    });
     
   }
 
