@@ -198,7 +198,7 @@ export class RegisterComponent implements OnInit {
 
   validateindividualsBasicDetails(stepper:MatStepper){
     if((this.individualRegister.first_name != '' && this.individualRegister.email != '' && this.individualRegister.last_name != '' && 
-    this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.confirm_pwd != '' && this.individualRegister.qualification != '' && this.individualRegister.profession != '') && (this.individualRegister.university != '' || this.individualRegister.college != '') ){
+    this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.password.length > 5 && this.individualRegister.confirm_pwd != '' && this.individualRegister.qualification != '' && this.individualRegister.profession != '') && (this.individualRegister.university != '' || this.individualRegister.college != '') ){
       stepper.next();
       //this.individual_address_details = true;
     }
