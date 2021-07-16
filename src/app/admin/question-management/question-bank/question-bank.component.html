@@ -1,95 +1,214 @@
 <div class="mn_dshbrd dsh_brd_crds qm_mn">
-
-    <div class="cust_mdl_par cust_mdl_50p cust_mdl_opn">
+    <div class="brd_crm">Proceum &raquo; <strong>Question Banks </strong></div>
+    <div class="pg_ttl">Question Banks</div>
+    <hr />
+    <div class="hgt_20"></div>
+    <div class="cust_mdl_par cust_mdl_50p cust_mdl_opn" [ngClass]="{ cust_mdl_opn: model_status }">
         <div class="cust_mdl_chl">
             <div class="pg_ttl">
                 Create Question Bank
                 <span class="spacer"></span>
-                <button mat-icon-button class="float_right">
+                <button mat-icon-button class="float_right" (click)="toggleModel()">
                     &#x2715;
                 </button>
             </div>
-            <div class="tbbd_bdy">
-                <div class="hgt_20"></div>
-                <div>
-                    <mat-form-field appearance="outline" class="w_100p">
-                        <input matInput matInput placeholder="Name of the Question Bank" />
-                    </mat-form-field>
+            <form id="q_bank_form" #q_bank_form="ngForm" name="q_bank_form"
+                (ngSubmit)="q_bank_form.valid && createQBank()" novalidate>
+                <div class="tbbd_bdy">
+                    <div class="hgt_20"></div>
+                    <div>
+                        <span>Question Bank Name <span class="required">*</span></span>
+                        <span>
+                            <span class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="w_100p">
+                                    <input [(ngModel)]="q_bank_type" #qbank_name="ngModel" name="q_bank_type" matInput
+                                        placeholder="Ex: MCAT" maxlength="255" required />
+                                    <span class="prc_tltp" *ngIf=" (qbank_name.submitted || qbank_name.touched) &&
+                      qbank_name.invalid">QBank Name is Required</span>
+                                </mat-form-field>
+                            </span>
+                        </span>
+
+                    </div>
+                    <div>
+                        <span>Description <span class="required">*</span></span>
+                        <span>
+                            <span class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="w_100p">
+                                    <textarea [(ngModel)]="description" #desc="ngModel" name="description"
+                                        maxlength="255" matInput placeholder="Enter Description" class="crt_prt_txt"
+                                        required rows="10"></textarea>
+                                    <span class="prc_tltp" *ngIf=" (desc.submitted || desc.touched) &&
+                                desc.invalid">Description is Required</span>
+                                </mat-form-field>
+                            </span>
+                        </span>
+
+                    </div>
+
                 </div>
-                <div>
-                    <mat-form-field appearance="outline" class="w_100p">
-                        <textarea matInput placeholder="Enter Description" class="crt_prt_txt"></textarea>
-                    </mat-form-field>
-                </div>
-                <div class="text_right w_100p">
-                    <button class="gry_btn mr_1" mat-raised-button>Cancel</button>
-                    <button color="accent" mat-raised-button>Submit</button>
-                </div>
-                <div class="hgt_20"></div>
-            </div>
+                <hr />
+                <button mat-raised-button color="accent" class="float_right mr_1">
+                    Submit
+                </button>
+            </form>
+            <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">
+                Close
+            </button>
+            <div class="hgt_20"></div>
 
         </div>
     </div>
 
-    <div class="brd_crm">
+    <!-- <div class="brd_crm">
         <span>Question banks</span>
     </div>
-    <div class="pg_ttl">Question banks</div>
+    <div class="pg_ttl">Question banks</div> -->
     <div class="qm_srchhd">
-        Search
+        Question Bank Name
     </div>
     <div class="qm_srch d-flex ">
         <div class="w_80p mr_1">
             <mat-form-field appearance="outline" class="w_100p">
-                <input matInput matInput placeholder="Ex: Question Bank Name" />
-                <mat-icon matSuffix>search</mat-icon>
+                <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                    placeholder="Search" placeholder="Ex: MCAT" />
+                <mat-icon matSuffix (click)="doFilter()">search</mat-icon>
             </mat-form-field>
         </div>
         <div class="">
-            <button mat-raised-button color="accent" class="mt_6px">
+            <button mat-raised-button color="accent" class="mt_6px" (click)="toggleModel()">
                 <mat-icon>add</mat-icon>
-                Add new Question Bank
+                Add New
             </button>
         </div>
     </div>
-    <table mat-table [dataSource]="dataSource">
+    <div class="rsp_tbl">
+        <table mat-table [dataSource]="dataSource" matSort>
 
-        <!--- Note that these columns can be defined in any order.
+            <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
 
-        <!-- Position Column -->
-        <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef>S.No </th>
-            <td mat-cell *matCellDef="let element"> 1</td>
-        </ng-container>
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>S.No </th>
+                <td mat-cell *matCellDef="let element"> {{ element.id }}</td>
+            </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Question bank name </th>
-            <td mat-cell *matCellDef="let element"> Sed non tortor ut diam aliquam aliquam </td>
-        </ng-container>
+            <ng-container matColumnDef="q_bank_type">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Question bank name </th>
+                <td mat-cell *matCellDef="let element"> {{ element.q_bank_type }} </td>
+            </ng-container>
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="weight">
-            <th mat-header-cell *matHeaderCellDef>No.of Qtns</th>
-            <td mat-cell *matCellDef="let element"> Single option selection </td>
-        </ng-container>
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Description</th>
+                <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+            </ng-container>
 
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef> Description</th>
-            <td mat-cell *matCellDef="let element"> Sed non tortor ut diam aliquam aliquam </td>
-        </ng-container>
-        <ng-container matColumnDef="symbol1">
-            <th mat-header-cell *matHeaderCellDef> Actions </th>
-            <td mat-cell *matCellDef="let element"><button mat-icon-button color="accent" class="mr_1">
-                    <mat-icon>edit</mat-icon>
-                </button><button mat-icon-button color="warn">
-                    <mat-icon>remove_circle_outline</mat-icon>
-                </button></td>
-        </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button color="accent" matTooltip="Click to edit">
+                        <mat-icon (click)="editQBank(element)">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" matTooltip="Click to delete" mwlConfirmationPopover
+                        [popoverTitle]="'Delete QBank ?'"
+                        [popoverMessage]="'Are you sure, do you want to delete QBank ?<br>Please confirm.'"
+                        placement="text_center" (confirm)="deleteQBank(element.id)" confirmButtonType="danger"
+                        cancelButtonType="outline-secondary">
+                        <mat-icon>remove_circle_outline</mat-icon>
+                    </button>
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="no_of_questions">
+                <th mat-header-cell *matHeaderCellDef> No of questions</th>
+                <td mat-cell *matCellDef="let element"> {{ element.no_of_questions }} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                <td mat-cell *matCellDef="let element">
+                    <span matTooltip="Current Status is {{
+                  element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+                }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+                        "Inactive" }}</span>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                <td class="mat-cell" colspan="9">No Records Found</td>
+            </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="page_size_options" showFirstLastButtons></mat-paginator>
+    </div>
+</div>
+
+
+<div class="cust_mdl_par cust_mdl_50p cust_mdl_opn" [ngClass]="{ cust_mdl_opn: edit_model_status }">
+    <div class="cust_mdl_chl">
+        <div class="pg_ttl">
+            Update QBank
+            <span class="spacer"></span>
+            <button mat-icon-button class="float_right" (click)="edit_model_status = !edit_model_status">
+                &#x2715;
+            </button>
+        </div>
+        <div class="tbbd_bdy">
+            <form id="q_bank_form_edit" #q_bank_form_edit="ngForm" name="q_bank_form_edit"
+                (ngSubmit)="q_bank_form_edit.valid && updateQBank()" novalidate>
+                <div class="tbbd_bdy">
+                    <div class="hgt_20"></div>
+                    <div>
+                        <span>Question Bank Name <span class="required">*</span></span>
+                        <span>
+                            <span class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="w_100p">
+                                    <input [(ngModel)]="q_bank_type" #qbank_name_edit="ngModel" name="q_bank_type"
+                                        matInput placeholder="Ex: MCAT" maxlength="255" required />
+                                    <span class="prc_tltp" *ngIf=" (qbank_name_edit.submitted || qbank_name_edit.touched) &&
+                                    qbank_name_edit.invalid">QBank Name is Required</span>
+                                </mat-form-field>
+                            </span>
+                        </span>
+                    </div>
+                    <div>
+                        <span>Description <span class="required">*</span></span>
+                        <span>
+                            <span class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="w_100p">
+                                    <textarea [(ngModel)]="description" #desc_edit="ngModel" name="description" matInput
+                                        placeholder="Enter Description" class="crt_prt_txt" rows="10"
+                                        required></textarea>
+                                    <span class="prc_tltp" *ngIf=" (desc_edit.submitted || desc_edit.touched) &&
+                                    desc_edit.invalid">Description is Required</span>
+                                </mat-form-field>
+                            </span>
+                        </span>
+                    </div>
+
+                    <div class="frm_dvs">
+                        <span>Status &nbsp;&nbsp;</span>
+                        <span>
+                            <mat-slide-toggle class="ml_10" (change)="openModel($event)" [checked]="status === '1'">
+                            </mat-slide-toggle>
+                        </span>
+                    </div>
+                </div>
+                <hr />
+                <button mat-raised-button color="accent" class="float_right mr_1">
+                    Submit
+                </button>
+            </form>
+            <button mat-raised-button class="float_right mr_1 gry_btn" (click)="edit_model_status = !edit_model_status">
+                Close
+            </button>
+            <div class="hgt_20"></div>
+
+        </div>
+    </div>
 </div>
