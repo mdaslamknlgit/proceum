@@ -22,7 +22,7 @@ import { DetailsComponent } from './student/levels/details/details.component';
 import { LevelComponent } from './student/levels/level.component';
 import { Level_listComponent } from './student/levels/levels_list/level_list.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-//import { StlModelViewerModule } from 'angular-stl-model-viewer';
+import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
 const routes: Routes = [
   {
@@ -85,7 +85,7 @@ const routes: Routes = [
     MaterialModule,
     LayoutsModule,
     CKEditorModule,
-    //StlModelViewerModule
+    StlModelViewerModule
   ],
   exports: [RouterModule],
 })
