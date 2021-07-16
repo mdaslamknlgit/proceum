@@ -13,7 +13,7 @@
                 <div class="err_tltp_par">
                     <mat-form-field appearance="outline">
                         <input matInput placeholder="Enter package name" [(ngModel)]="package_name" name="package_name" required/>
-                        <span class="prc_tltp" *ngIf="package_name == ''">Package name is required</span>
+                        <span class="prc_tltp" *ngIf="create_package_form.submitted && package_name == ''">Package name is required</span>
                     </mat-form-field>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="err_tltp_par">
                     <mat-form-field appearance="outline">
                         <textarea matInput class="crt_prt_txt" placeholder="Enter package description" [(ngModel)]="package_desc" name="package_desc" required></textarea>
-                        <span class="prc_tltp" *ngIf="package_desc == ''">Package description is required</span>
+                        <span class="prc_tltp" *ngIf="create_package_form.submitted && package_desc == ''">Package description is required</span>
                     </mat-form-field>
                 </div>
             </div>
@@ -97,20 +97,18 @@
 
             <div class="hgt_20"></div>
             <div class="cpm_pg_hd">
-                Courses &amp; Addons
+                Courses
             </div>
             <div class="cpm_pg_cnt">
                 <div>Courses</div>
                 <mat-icon (click)="edit_model_status = true">add</mat-icon>
-                <div>
-                    <mat-form-field appearance="outline">
-                        <mat-select>
-                            <mat-option value="Courses">Select Courses</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <div class="mt_grd_dv" *ngIf="courses_div">
+                    <div *ngFor="let course of selected_courses;let i = index">
+                        <span>{{course.title}}</span>
+                    </div>
                 </div>
             </div>
-            <div class="cpm_pg_cnt">
+            <!-- <div class="cpm_pg_cnt">
                 <div>Addons</div>
                 <div>
                     <mat-form-field appearance="outline">
@@ -119,7 +117,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-            </div>
+            </div> -->
             <div class="hgt_20"></div>
             <div class="cpm_pg_hd">
                 Package access
@@ -145,10 +143,10 @@
                         <div>Package validity till</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline">
-                                <input matInput [matDatepicker]="picker" [(ngModel)]="valid_up_to"  name="valid_up_to" [min]="today_date" required>
+                                <input matInput [matDatepicker]="picker" [(ngModel)]="valid_up_to"  name="valid_up_to"  [min]="today_date" required>
                                 <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
                                 <mat-datepicker #picker color="accent"></mat-datepicker>
-                                <span class="prc_tltp" *ngIf="valid_up_to == ''">Package validity till required</span>
+                                <span class="prc_tltp" *ngIf="create_package_form.submitted && valid_up_to == ''">Package validity till required</span>
                               </mat-form-field>
                         </div>
                     </div>
@@ -187,8 +185,7 @@
                     <!-- use a disabled button to provide padding for tree leaf -->
                     <button type="button" mat-icon-button disabled></button>
                     <mat-checkbox class="checklist-leaf-node" (change)="todoItemSelectionToggle($event.checked,node)"
-                      [checked]="node.selected">{{node.name}}</mat-checkbox>
-              
+                      [checked]="node.selected">{{node.name}}</mat-checkbox>           
               
                   </li>
                 </mat-tree-node>
@@ -211,12 +208,12 @@
                   </li>
                 </mat-nested-tree-node>
               </mat-tree>
-              <div class="w_100p text_right">
-                <button type="button" mat-raised-button color="accent" (click)="submit()">Submit</button><br/>
+                <div class="w_100p text_right">
+                <button type="button" mat-raised-button color="accent" (click)="submitCourses()">Submit</button><br/>
+                </div>
+                <div class="hgt_20"></div>
             </div>
-              
-          </div>
         </div>
-      </div>
+    </div>
     </form>
 </div>
