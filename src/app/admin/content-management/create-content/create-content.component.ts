@@ -41,6 +41,7 @@ export class CreateContentComponent implements OnInit {
   public selected_short_questions = [];
   public library_popup: boolean = false;
   public title = '';
+  public is_paid = 0;
   public videos = [];
   public videos_files = [];
   public main_content: string = '';
@@ -178,6 +179,7 @@ export class CreateContentComponent implements OnInit {
         this.content_reviewer_role = data['reviewer_role'];
         this.is_published = data['is_published'];
         this.title = data['title'];
+        this.is_paid = data['is_paid'];
         let videos = data['videos'];
         if(videos['intro_video'].length > 0){
             this.intro_video = videos['intro_video'];
@@ -653,6 +655,7 @@ export class CreateContentComponent implements OnInit {
     }
     let form_data = {
       title: this.title,
+      is_paid:this.is_paid,
       main_videos: this.videos,
       intro_video: this.intro_video,
       two_d_videos: this.two_d_videos,
