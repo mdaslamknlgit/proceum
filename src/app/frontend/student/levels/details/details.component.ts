@@ -11,7 +11,7 @@ import {
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
-//import modelPlayer from 'js-3d-model-viewer/src';
+import * as modelPlayer from 'js-3d-model-viewer';
 declare var kPoint: any;
 @Component({
   selector: 'app-details',
@@ -122,9 +122,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.video_title = video['module_title'];
     if(video['video_type'] == "3D_OBJECT"){
         this.video_type = "3D_OBJECT";
-        // const viewerElement = document.getElementById('viewer')
-        // const scene = modelPlayer.prepareScene(viewerElement)
-        // modelPlayer.loadObject(scene, './assets/sample.obj')
+        //const viewerElement = document.getElementById('threed_obj_dev');
+        //const scene = modelPlayer.prepareScene(viewerElement);
+        //modelPlayer.loadObject(scene, '../../../../../assets/sample.obj');
+        //modelPlayer.loadObject(scene, this.bucket_url+this.active_video_obj['video_source']);
     }
     if(video['video_type'] == "KPOINT"){
         this.video_type = "KPOINT";        
