@@ -47,5 +47,5 @@ export const environment = {
   ],
   // apiUrl: 'https://apidev.proceum.com/api/',
   //apiUrl: 'https://apiuat.proceum.com/api/',
-  apiUrl: 'https://apiqa.proceum.com/api/',
+  apiUrl: 'https://apiuat.proceum.com/api/',
 };
