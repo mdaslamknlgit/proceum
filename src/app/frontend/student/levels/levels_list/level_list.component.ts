@@ -162,10 +162,12 @@ export class Level_listComponent implements OnInit {
       if (res['error'] == false) {
         if (type == 'fav') {
           this.levels[i]['is_fav'] = this.levels[i]['is_fav'] == 1 ? 0 : 1;
+          this.total_items = this.total_items-1;
         }
         if (type == 'bookmark') {
           this.levels[i]['is_bookmark'] =
             this.levels[i]['is_bookmark'] == 1 ? 0 : 1;
+            this.total_items = this.total_items-1;
         }
         if (type == 'rating') {
             this.levels[i]['rating'] =this.rating[id];
