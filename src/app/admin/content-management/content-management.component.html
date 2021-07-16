@@ -77,12 +77,15 @@
             <ng-container matColumnDef="content_status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Status</th>
               <td mat-cell *matCellDef="let element">
-                <span>{{ element.content_status == 'PUBLISHED' ? "Published" :
-                  "" }}{{ element.content_status == 'DRAFT' ? "Draft" :
-                  "" }}{{ element.content_status == 'REVIEW' ? "Reviewing" :
-                  "" }}{{ element.content_status == null ? "Copy" :
-                  "" }}
-                  {{element.role?'('+element.role+')':''}}</span>
+                <span>
+                    <span *ngIf="element.content_status == null">Copy</span>
+                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
+                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
+                    {{element.role?'('+element.role+')':''}}
+                </span>
               </td>
             </ng-container>
             <ng-container matColumnDef="created_at">
@@ -94,7 +97,7 @@
               <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Acions</th>
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let element">
                 <button mat-icon-button color="accent" matTooltip="Click to edit"
                   (click)="navigateTo('create-content/'+element.id)">
@@ -165,12 +168,14 @@
             <ng-container matColumnDef="content_status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Status</th>
               <td mat-cell *matCellDef="let element">
-                <span>{{ element.content_status == 'PUBLISHED' ? "Published" :
-                  "" }}{{ element.content_status == 'DRAFT' ? "Draft" :
-                  "" }}{{ element.content_status == 'REVIEW' ? "Reviewing" :
-                  "" }}{{ element.content_status == null ? "Copy" :
-                  "" }}
-                  {{element.role?'('+element.role+')':''}}
+                <span>
+                    <span *ngIf="element.content_status == null">Copy</span>
+                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
+                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
+                    {{element.role?'('+element.role+')':''}}
                 </span>
               </td>
             </ng-container>
@@ -184,7 +189,7 @@
               <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Acions</th>
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let element">
                 <button mat-icon-button color="accent" matTooltip="Click to edit"
                   (click)="navigateTo('create-content/'+element.id)">
@@ -255,12 +260,15 @@
             <ng-container matColumnDef="content_status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Status</th>
               <td mat-cell *matCellDef="let element">
-                <span>{{ element.content_status == 'PUBLISHED' ? "Published" :
-                  "" }}{{ element.content_status == 'DRAFT' ? "Draft" :
-                  "" }}{{ element.content_status == 'REVIEW' ? "Reviewing" :
-                  "" }}{{ element.content_status == null ? "Copy" :
-                  "" }}
-                  {{element.role?'('+element.role+')':''}}</span>
+                <span>
+                    <span *ngIf="element.content_status == null">Copy</span>
+                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
+                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
+                    {{element.role?'('+element.role+')':''}}
+                </span>
               </td>
             </ng-container>
             <ng-container matColumnDef="created_at">
@@ -273,7 +281,7 @@
               <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Acions</th>
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let element">
                 <button mat-icon-button color="accent" matTooltip="Click to edit"
                   (click)="navigateTo('create-content/'+element.id)">
@@ -344,12 +352,15 @@
             <ng-container matColumnDef="content_status">
               <th mat-header-cell *matHeaderCellDef>Content Status</th>
               <td mat-cell *matCellDef="let element">
-                <span>{{ element.content_status == 'PUBLISHED' ? "Published" :
-                  "" }}{{ element.content_status == 'DRAFT' ? "Draft" :
-                  "" }}{{ element.content_status == 'REVIEW' ? "Reviewing" :
-                  "" }}
-                  {{ element.content_status == null ? "Copy" :
-                  "" }}</span>
+                <span>
+                    <span *ngIf="element.content_status == null">Copy</span>
+                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
+                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
+                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
+                    {{element.role?'('+element.role+')':''}}
+                </span>
               </td>
             </ng-container>
             <ng-container matColumnDef="created_at">
@@ -362,7 +373,7 @@
               <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Acions</th>
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let element">
                 <button mat-icon-button color="accent" matTooltip="Click to edit"
                   (click)="navigateTo('create-content/'+element.id)">

@@ -54,8 +54,9 @@
           dets_actv: value['content_id'] == content_id ? true : false
         }">
           <div *ngIf="value['content_id'] != content_id" (click)="viewContent(value['content_id'])" class="otr_bd_dv">
-            {{ value["content_title"] }}
+            {{ value["content_title"] }}<span style="float: right;">{{value['is_paid'] == 1?"Paid":"Free"}}</span>
           </div>
+          
         </div>
       </div>
     </div>
@@ -191,7 +192,7 @@
           </div>
         </div>
       </div>
-    </div>
+    
     <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 1">
       <div class="crses_lft">
         <div class="crs_desc_hd">
@@ -400,7 +401,7 @@
           <div class="crs_desc">
             <div class="crs_desc_hd">
               <span class="desc_in_hd">
-                <mat-icon>highlight</mat-icon> High Yield Text
+                <mat-icon>highlight</mat-icon> Highyield
               </span>
               <span class="spacer"></span>
             </div>
@@ -636,13 +637,16 @@
                 <mat-icon>bolt</mat-icon> Related Topics
               </span>
               <span class="spacer"></span>
-              <!-- <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span> -->
-              <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
+                <!-- 
+                  <span class="fnt_sze">
+                    <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+                    <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+                  </span> -->
+                <!-- 
+                  <button mat-icon-button color="primary">
+                    <mat-icon>close</mat-icon>
+                  </button> 
+                -->
             </div>
             <div class="crs_desc_cnt ck_editor_view" *ngIf="content['related_topics']">
               <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
@@ -784,5 +788,6 @@
           </mat-accordion>
         </div>
       </div>
+    </div>
     </div>
   </div>
