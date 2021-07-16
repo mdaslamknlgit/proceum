@@ -147,6 +147,13 @@
             ">
             Content Title is required</span>
         </div>
+        <div class="al_asts">
+            <section>
+                <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free</mat-radio-button>
+                <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Paid</mat-radio-button>
+              
+            </section>
+          </div>
         <!-- #Row1 -->
         <div class="cc_row">
           <!-- Intro video -->
@@ -1091,8 +1098,8 @@
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
           <a target="_blank" href="student/curriculum/details/00/00/00/{{content_id}}"
-            *ngIf="((user['role'] == '7' || user['role'] == '1') && content_id >0)" class="gry_btn" type="button"
-            mat-raised-button (click)="createContent(true)">
+            *ngIf="content_id >0" class="gry_btn" type="button"
+            mat-raised-button>
             Preview
           </a>
           <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'" class="gry_btn"
