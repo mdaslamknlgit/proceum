@@ -122,6 +122,7 @@
       </li>
     </ul> 
   </div>-->
+  
   <div *ngIf="data['modal_view']" class="hgt_20"></div>
   <div class="explr_nav">
     <mat-icon class="mr_5px">dns</mat-icon> /&nbsp;<span *ngFor="let path of current_path_list">{{ path + " / "
@@ -133,27 +134,27 @@
         (data['modal_view'] && activeTab == 'documents') || !data['modal_view']
       ">
       <div class="hgt_20"></div>
-      <div class="fl_frmt_info">
-        System will accept only doc, .docx, .pdf, .odt, .xls, .xlsx, .ppt &amp;
-        open office formats
-      </div>
-      <div class="hgt_20"></div>
+      
+      <!-- <div class="hgt_20"></div> -->
 
       <div class="dsh_brd_crds">
-        <mat-form-field appearance="outline" class="float_right">
+        <mat-form-field appearance="outline" class="mr_1">
           <input matInput [(ngModel)]="search_images" (keyup)="filterFiles()" matInput placeholder="Search" />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-        <button mat-raised-button matTooltip="Refresh" color="accent" class="float_right mr_1 mt_5px"
+        <button mat-raised-button matTooltip="Refresh" color="accent" class="mr_1 mt_5px"
           (click)="openFolder(current_path)" type="button" color="accent">
           <mat-icon>autorenew</mat-icon>
         </button>
         <button mat-raised-button onclick="document.getElementById('fileToUpload').click()" color="accent"
-          class="float_right mr_1 mt_5px">
+          class=" mr_1 mt_5px">
           <mat-icon>upload</mat-icon>
           Upload Files<input (change)="uploadFiles($event)" multiple="true" #documents accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
             text/plain, application/pdf" id="fileToUpload" type="file" style="display: none" />
         </button>
+        <span class="fl_frmt_info">
+          (doc, .docx, .pdf, .odt, .xls, .xlsx, .ppt &amp; open office formats only)
+        </span>
       </div>
       <div class="hgt_20"></div>
       <div class="mlti_fls">
@@ -187,25 +188,26 @@
         (data['modal_view'] && activeTab == 'images') || !data['modal_view']
       ">
       <div class="hgt_20"></div>
-      <div class="fl_frmt_info">
-        System will accept only .jpg, .jpeg, .bmp, .gif, .png formats
-      </div>
-      <div class="hgt_20"></div>
+      
+      <!-- <div class="hgt_20"></div> -->
       <div class="dsh_brd_crds">
-        <mat-form-field appearance="outline" class="float_right">
+        <mat-form-field appearance="outline" class="">
           <input [(ngModel)]="search_images" (keyup)="filterFiles()" matInput placeholder="Search" />
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
-        <button mat-raised-button matTooltip="Refresh" color="accent" class="float_right mr_1 mt_5px"
+        <button mat-raised-button matTooltip="Refresh" color="accent" class=" mr_1 mt_5px"
           (click)="openFolder(current_path)" type="button" color="accent">
           <mat-icon>autorenew</mat-icon>
         </button>
         <button mat-raised-button onclick="document.getElementById('imageToUpload').click()" color="accent"
-          class="float_right mr_1 mt_5px">
+          class=" mr_1 mt_5px">
           <mat-icon>upload</mat-icon>
           Upload Files<input (change)="uploadFiles($event)" multiple="true" accept="image/x-png,image/gif,image/jpeg"
             id="imageToUpload" type="file" style="display: none" />
         </button>
+        <span class="fl_frmt_info">
+          System will accept only .jpg, .jpeg, .bmp, .gif, .png formats
+        </span>
       </div>
       <div class="hgt_20"></div>
       <div class="mlti_fls">
