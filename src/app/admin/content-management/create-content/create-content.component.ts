@@ -133,7 +133,7 @@ export class CreateContentComponent implements OnInit {
   public board_lecture_videos = [{pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:''}];
   public clinical_videos = [{pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:''}];
   public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''}];
-  public three_d_videos = [{pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''}];
+  public three_d_videos = [{pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:''}];
   public publsh_content = false;
   public publish_message = "";
   private subscription:Subscription;
@@ -252,8 +252,42 @@ export class CreateContentComponent implements OnInit {
       this.procedural_videos.push({pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''});
     }
     if(tabIndex == 5){
-      this.three_d_videos.push({pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''});
+      this.three_d_videos.push({pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:''});
     }
+  }
+  upload3dObject(event,index){
+    let allowed_types = [];
+    allowed_types = ["obj"];
+    const uploadData = new FormData();
+    let files = event.target.files;
+    if (files.length == 0) return false;
+    let valid_files = [];
+    for (var i = 0; i < files.length; i++) {
+      let ext = files[i].name.split('.').pop().toLowerCase();
+      if (allowed_types.includes(ext)) {
+        valid_files.push(files[i]);
+        uploadData.append('file' + i, files[i]);
+      } else {
+        this.toster.error(
+          ext +
+            ' Extension not allowed file (' +
+            files[i].name +
+            ') not uploaded'
+        );
+      }
+    }
+    if (valid_files.length == 0) {
+      return false;
+    }
+    uploadData.append('path', 'images/threed_objects');
+    uploadData.append('number_files', files.length);
+    let param = { url: 'upload-files' };
+    this.http.imageUpload(param, uploadData).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success('Files successfully uploaded.', 'File Uploaded');
+        this.three_d_videos[index]['value'] = res['url'];
+      }
+    });
   }
   removeVideo(tabIndex, index){
     if(tabIndex == 1){
@@ -754,7 +788,6 @@ export class CreateContentComponent implements OnInit {
       }
     }
     if (valid_files.length == 0) {
-      //this.documents_input.nativeElement.value = '';
       return false;
     }
     uploadData.append('path', 'documents/review_docs');
@@ -764,7 +797,6 @@ export class CreateContentComponent implements OnInit {
       if (res['error'] == false) {
         this.toster.success('Files successfully uploaded.', 'File Uploaded');
       }
-      //this.review_docs_new.push(res['url']);
       this.review_docs.push(res['url']);
     });
   }
