@@ -50,6 +50,7 @@ import { QuestionBankComponent } from './question-management/question-bank/quest
 import { CreatePackageComponent } from './course-package/create-package/create-package.component';
 import { EditPackageComponent } from './course-package/edit-package/edit-package.component';
 import { ListPackageComponent } from './course-package/list-package/list-package.component';
+import { EditNewQuestionComponent } from './question-management/edit-new-question/edit-new-question.component';
 
 const routes: Routes = [
   {
@@ -145,6 +146,10 @@ const routes: Routes = [
       { path: 'course-package-management', component: ListPackageComponent },
       { path: 'create-package', component: CreatePackageComponent },
       { path: 'edit-package/:id', component: EditPackageComponent },
+      { path: 'questions-mgt/qbank', component: QuestionBankComponent },
+      { path: 'questions-mgt/questions-list', component: QuestionsManagementComponent },
+      { path: 'questions-mgt/create-question', component: CreateNewQuestionComponent },
+      { path: 'questions-mgt/edit-question/:id', component: EditNewQuestionComponent },
     ],
   },
 ];
@@ -184,6 +189,10 @@ const routes: Routes = [
     CreatePackageComponent,
     EditPackageComponent,
     ListPackageComponent,
+    CreateNewQuestionComponent,
+    QuestionsManagementComponent,
+    QuestionBankComponent,
+    EditNewQuestionComponent
   ],
   imports: [
     MaterialModule,
