@@ -85,6 +85,7 @@ export class CreateContentComponent implements OnInit {
   public reviewers = [];
   public is_published = '';
   public showReviewers = false;
+  public content_parent_id = 0;
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -134,6 +135,7 @@ export class CreateContentComponent implements OnInit {
   public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''}];
   public three_d_videos = [{pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''}];
   public publsh_content = false;
+  public publish_message = "";
   private subscription:Subscription;
   constructor(
     private http: CommonService,
@@ -177,6 +179,11 @@ export class CreateContentComponent implements OnInit {
       if (res['error'] == false) {
         let data = res['data']['content_data'];
         this.content_reviewer_role = data['reviewer_role'];
+        this.content_parent_id = data['content_parent_id'];
+        if(this.content_parent_id > 0){
+            this.publish_message = "Changes will be updated to old content.";
+        }
+        
         this.is_published = data['is_published'];
         this.title = data['title'];
         this.is_paid = data['is_paid'];
@@ -218,8 +225,8 @@ export class CreateContentComponent implements OnInit {
             this.images_files.push(file['file_path']);
           });
         }
-        this.videos = data['main_videos'];
-        this.videos_files = [];
+        //this.videos = data['main_videos'];
+        //this.videos_files = [];
         // if (data['main_videos'].length > 0) {
         //   data['main_videos'].forEach((file) => {
         //     this.videos_files.push(file['file_path']);
