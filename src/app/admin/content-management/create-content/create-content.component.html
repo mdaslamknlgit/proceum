@@ -55,8 +55,8 @@
         <button mat-raised-button onclick="document.getElementById('fileToUpload').click()" color="accent"
           class="float_right mr_1 mt_5px">
           <mat-icon>upload</mat-icon>
-          Attch Files<input (change)="uploadReviewFiles($event)" multiple="true" #documents accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-          text/plain, application/pdf" id="fileToUpload" type="file" style="display: none" />
+          Attch Files<input (change)="uploadReviewFiles($event)" multiple="true" #documents accept="image/x-png,image/gif,image/jpeg,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,
+          text/plain,application/pdf" id="fileToUpload" type="file" style="display: none" />
         </button>
         <div class="spacer"></div>
         <button mat-raised-button class="gry_btn mr_1" (click)="showComments()">Cancel</button>
@@ -147,6 +147,13 @@
             ">
             Content Title is required</span>
         </div>
+        <div class="al_asts">
+            <section>
+                <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free</mat-radio-button>
+                <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Paid</mat-radio-button>
+              
+            </section>
+          </div>
         <!-- #Row1 -->
         <div class="cc_row">
           <!-- Intro video -->
@@ -229,10 +236,7 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <button type="button" (click)="addVideo(1)" mat-icon-button
-                            class="no_bxsdw">
-                            Add New Video <mat-icon>add</mat-icon>
-                          </button>
+
                     <div *ngFor="let two_d_video of two_d_videos;let i=index">
                       <div class="ulvd_inpts" *ngIf="two_d_video['status'] != 'delete'">
                         <div>
@@ -259,10 +263,14 @@
 
                         <div class="spacer"></div>
                         <div>
-                          <button type="button" (click)="removeVideo(1,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <button type="button" (click)="addVideo(1)" mat-icon-button class="no_bxsdw" color="accent">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                          <button type="button" (click)="removeVideo(1,i)" mat-icon-button class="no_bxsdw"
+                            color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                          
+
                         </div>
                       </div>
                     </div>
@@ -273,10 +281,9 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <button type="button" (click)="addVideo(2)" mat-icon-button
-                            class="no_bxsdw">
-                            Add New Video<mat-icon>add</mat-icon>
-                          </button>
+                    <button type="button" (click)="addVideo(2)" mat-icon-button class="no_bxsdw">
+                      Add New Video<mat-icon>add</mat-icon>
+                    </button>
                     <div class="ulvd_inpts" *ngFor="let board_lecture_video of board_lecture_videos;let i=index">
                       <div *ngIf="board_lecture_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
@@ -304,10 +311,11 @@
 
                         <div class="spacer"></div>
                         <div>
-                          <button type="button" (click)="removeVideo(2,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <button type="button" (click)="removeVideo(2,i)" mat-icon-button class="no_bxsdw"
+                            color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                          
+
                         </div>
                       </div>
                     </div>
@@ -318,10 +326,9 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <button type="button" (click)="addVideo(3)" mat-icon-button
-                            class="no_bxsdw">
-                            Add New Video<mat-icon>add</mat-icon>
-                          </button>
+                    <button type="button" (click)="addVideo(3)" mat-icon-button class="no_bxsdw">
+                      Add New Video<mat-icon>add</mat-icon>
+                    </button>
                     <div class="ulvd_inpts" *ngFor="let clinical_video of clinical_videos;let i=index">
                       <div *ngIf="clinical_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
@@ -348,10 +355,11 @@
 
                         <div class="spacer"></div>
                         <div>
-                          <button type="button" (click)="removeVideo(3,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <button type="button" (click)="removeVideo(3,i)" mat-icon-button class="no_bxsdw"
+                            color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                          
+
                         </div>
                       </div>
                     </div>
@@ -362,10 +370,9 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <button (click)="addVideo(4)" type="button" mat-icon-button
-                            class="no_bxsdw">
-                            <mat-icon>add</mat-icon>
-                          </button>
+                    <button (click)="addVideo(4)" type="button" mat-icon-button class="no_bxsdw">
+                      <mat-icon>add</mat-icon>
+                    </button>
                     <div class="ulvd_inpts" *ngFor="let procedural_video of procedural_videos;let i=index">
                       <div *ngIf="procedural_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
@@ -393,10 +400,11 @@
 
                         <div class="spacer"></div>
                         <div>
-                          <button type="button" (click)="removeVideo(4,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <button type="button" (click)="removeVideo(4,i)" mat-icon-button class="no_bxsdw"
+                            color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                          
+
                         </div>
                       </div>
                     </div>
@@ -407,10 +415,9 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <button type="button" (click)="addVideo(5)" mat-icon-button
-                            class="no_bxsdw">
-                            <mat-icon>add</mat-icon>
-                          </button>
+                    <button type="button" (click)="addVideo(5)" mat-icon-button class="no_bxsdw">
+                      <mat-icon>add</mat-icon>
+                    </button>
                     <div class="ulvd_inpts" *ngFor="let three_d_video of three_d_videos;let i=index">
                       <div *ngIf="three_d_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
@@ -437,10 +444,11 @@
 
                         <div class="spacer"></div>
                         <div>
-                          <button type="button" (click)="removeVideo(5,i)" mat-icon-button class="no_bxsdw" color="warn">
+                          <button type="button" (click)="removeVideo(5,i)" mat-icon-button class="no_bxsdw"
+                            color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-                          
+
                         </div>
                       </div>
                     </div>
@@ -574,8 +582,8 @@
                     <div class="hyt_mn_dv">
                       <div class="dsh_brd_crds">
                         <mat-form-field appearance="outline" class="w_100p">
-                          <input matInput [(ngModel)]="lecture_note_title" (blur)="checkLectureNoteDuplicate()" name="lecture_note_title_name"
-                            placeholder="Title" />
+                          <input matInput [(ngModel)]="lecture_note_title" (blur)="checkLectureNoteDuplicate()"
+                            name="lecture_note_title_name" placeholder="Title" />
                         </mat-form-field>
                       </div>
                       <div class="ck_editor">
@@ -584,7 +592,9 @@
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
-                        <button type="button" [disabled]="lecture_note_title.trim() == '' || lecture_note_content.trim() == '' || lecture_note_title_duplicate" (click)="addLectureNote()" mat-raised-button color="accent">
+                        <button type="button"
+                          [disabled]="lecture_note_title.trim() == '' || lecture_note_content.trim() == '' || lecture_note_title_duplicate"
+                          (click)="addLectureNote()" mat-raised-button color="accent">
                           <mat-icon>add</mat-icon> Add Notes
                         </button>
                       </div>
@@ -621,7 +631,8 @@
                     <div class="hyt_mn_dv">
                       <div class="dsh_brd_crds">
                         <mat-form-field appearance="outline" class="w_100p">
-                          <input matInput [(ngModel)]="highyield_title" name="highyield_title" placeholder="Title" (blur)="checkHighyieldDuplicate()" />
+                          <input matInput [(ngModel)]="highyield_title" name="highyield_title" placeholder="Title"
+                            (blur)="checkHighyieldDuplicate()" />
                         </mat-form-field>
                       </div>
                       <div class="ck_editor">
@@ -630,7 +641,9 @@
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
-                        <button type="button" [disabled]="highyield_title.trim() == '' || highyield_content.trim() == '' || highyield_title_duplicate" (click)="addHighyield()" mat-raised-button color="accent">
+                        <button type="button"
+                          [disabled]="highyield_title.trim() == '' || highyield_content.trim() == '' || highyield_title_duplicate"
+                          (click)="addHighyield()" mat-raised-button color="accent">
                           <mat-icon>add</mat-icon> Add Notes
                         </button>
                       </div>
@@ -1084,26 +1097,33 @@
 
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
-            <a target="_blank" href="student/curriculum/details/00/00/00/{{content_id}}" *ngIf="((user['role'] == '7' || user['role'] == '1') && content_id >0)" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
-                Preview
-            </a>
-              <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'" class="gry_btn" type="button" mat-raised-button (click)="createContent(true)">
-                Save as draft
-              </button>
-              <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="mx_1">
-                Cancel
-              </button>
-              <button class="gry_btn" *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)" type="button" mat-raised-button (click)="selectReviewer()">
-                Send To Review
-              </button>
-              <button class="gry_btn" *ngIf="is_published == '1'"  mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+          <a target="_blank" href="student/curriculum/details/00/00/00/{{content_id}}"
+            *ngIf="content_id >0" class="gry_btn" type="button"
+            mat-raised-button>
+            Preview
+          </a>
+          <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'" class="gry_btn"
+            type="button" mat-raised-button (click)="createContent(true)">
+            Save as draft
+          </button>
+          <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="mx_1">
+            Cancel
+          </button>
+          <button class="gry_btn"
+            *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
+            type="button" color="accent" mat-raised-button (click)="selectReviewer()">
+            Send To Review
+          </button>
+          <button class="gry_btn" *ngIf="is_published == '1' && content_parent_id == 0" mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
+            [popoverMessage]="
               'are you sure to create a new copy of this published content '
             " placement="auto" (confirm)="createContent(false)" confirmButtonType="danger"
             cancelButtonType="outline-secondary" type="button" mat-raised-button>
-                Make a Copy
-              </button>
-              <button *ngIf="((user['role'] == '7' && user['role'] == content_reviewer_role) || user['role'] == '1')" type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                'are you sure to Publish this content '
+            Make a Copy
+          </button>
+          <button *ngIf="((user['role'] == '7' && user['role'] == content_reviewer_role) || user['role'] == '1')"
+            type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                'are you sure to Publish this content '+ publish_message
               " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
             cancelButtonType="outline-secondary" mat-raised-button color="accent" class="mx_1">
             Save & Publish

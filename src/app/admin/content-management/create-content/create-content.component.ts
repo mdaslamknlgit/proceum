@@ -41,6 +41,7 @@ export class CreateContentComponent implements OnInit {
   public selected_short_questions = [];
   public library_popup: boolean = false;
   public title = '';
+  public is_paid = 0;
   public videos = [];
   public videos_files = [];
   public main_content: string = '';
@@ -84,6 +85,7 @@ export class CreateContentComponent implements OnInit {
   public reviewers = [];
   public is_published = '';
   public showReviewers = false;
+  public content_parent_id = 0;
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -133,6 +135,7 @@ export class CreateContentComponent implements OnInit {
   public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''}];
   public three_d_videos = [{pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''}];
   public publsh_content = false;
+  public publish_message = "";
   private subscription:Subscription;
   constructor(
     private http: CommonService,
@@ -176,8 +179,14 @@ export class CreateContentComponent implements OnInit {
       if (res['error'] == false) {
         let data = res['data']['content_data'];
         this.content_reviewer_role = data['reviewer_role'];
+        this.content_parent_id = data['content_parent_id'];
+        if(this.content_parent_id > 0){
+            this.publish_message = "Changes will be updated to old content.";
+        }
+        
         this.is_published = data['is_published'];
         this.title = data['title'];
+        this.is_paid = data['is_paid'];
         let videos = data['videos'];
         if(videos['intro_video'].length > 0){
             this.intro_video = videos['intro_video'];
@@ -216,13 +225,13 @@ export class CreateContentComponent implements OnInit {
             this.images_files.push(file['file_path']);
           });
         }
-        this.videos = data['main_videos'];
-        this.videos_files = [];
-        if (data['main_videos'].length > 0) {
-          data['main_videos'].forEach((file) => {
-            this.videos_files.push(file['file_path']);
-          });
-        }
+        //this.videos = data['main_videos'];
+        //this.videos_files = [];
+        // if (data['main_videos'].length > 0) {
+        //   data['main_videos'].forEach((file) => {
+        //     this.videos_files.push(file['file_path']);
+        //   });
+        // }
         this.selected_mcqs = data['selected_mcqs'];
         this.selected_short_questions = data['selected_short_questions'];
         this.selected_cases = data['selected_cases'];
@@ -653,6 +662,7 @@ export class CreateContentComponent implements OnInit {
     }
     let form_data = {
       title: this.title,
+      is_paid:this.is_paid,
       main_videos: this.videos,
       intro_video: this.intro_video,
       two_d_videos: this.two_d_videos,
