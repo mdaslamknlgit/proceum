@@ -118,92 +118,6 @@ export class CreateNewQuestionComponent implements OnInit {
   ngOnInit(): void {
     this.getQTypes()
     this.getQBanks()
-    this.getTopics()
-  }
-
-  setParent(data, parent) {
-   
-    if(data.children === undefined){
-      data.has_children = false;
-    }else{
-      data.has_children = true;
-    }
-    data.parent = parent;
-    if (data.children) {
-      data.children.forEach(x => {
-        this.setParent(x, data);
-      });
-    }
-  }
-
-
-  getTopics() {
-    let params = { url: 'qlists/topics'};
-    this.http.post(params).subscribe((res) => {      
-      if (res['error'] == false) {
-        this.dataSource1.data = res['data'];
-        Object.keys(this.dataSource1.data).forEach(x => {
-          this.setParent(this.dataSource1.data[x], null);
-        });
-//        console.log(this.dataSource1.data)
-      } else {
-          this.toster.error(res['message'], 'Error', { closeButton: true });
-      }
-    });
-  }
-
-  checkAllParents(node) {
-    if (node.parent) {
-      const descendants = this.treeControl.getDescendants(node.parent);
-      node.parent.selected = descendants.every(child => child.selected);
-      node.parent.indeterminate = descendants.some(child => child.selected);
-      this.checkAllParents(node.parent);
-    }
-  }
-
-  todoItemSelectionToggle(checked, node) {
-    node.selected = checked;
-    if (node.children) {
-      node.children.forEach(x => {
-        this.todoItemSelectionToggle(checked, x);
-      });
-    }
-    this.checkAllParents(node);
-  }
-
-  setChildOk(text: string, node: any) {
-    node.forEach(x => {
-      x.ok = x.name.indexOf(text) >= 0;
-      if (x.parent) this.setParentOk(text, x.parent, x.ok);
-      if (x.children) this.setChildOk(text, x.children);
-    });
-  }
-  
-  setParentOk(text, node, ok) {
-    node.ok = ok || node.ok || node.name.indexOf(text) >= 0;
-    if (node.parent) this.setParentOk(text, node.parent, node.ok);
-  }
-
-  //For check the values
-  getList2(node: any, result: any = null) {
-    result = result || {};
-    node.forEach(x => {
-      result[x.name] = {};
-      result[x.name].ok = x.ok;
-      if (x.children) result[x.name].children = this.getList2(x.children);
-    });
-    return result;
-  }
-  //Another way to check the values, we can not use {{datasource.node}}
-  getList(node: any) {
-    return node.map(x => {
-      const r: any = {
-        name: x.name + ' - ' + x.ok,
-        children: x.children ? this.getList(x.children) : null
-      };
-      if (!r.children) delete r.children;
-      return r;
-    });
   }
 
   getQLists() {
@@ -213,7 +127,6 @@ export class CreateNewQuestionComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']['qbanks']);
         if (this.is_loaded == true || true) {
           this.is_loaded = false;
-          //alert();
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
