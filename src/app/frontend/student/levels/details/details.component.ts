@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, Renderer2 } from '@angular
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
 import * as Editor from '../../../../../assets/ckeditor5';
+
 import {
   DomSanitizer,
   SafeResourceUrl,
@@ -10,6 +11,7 @@ import {
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
+//import modelPlayer from 'js-3d-model-viewer/src';
 declare var kPoint: any;
 @Component({
   selector: 'app-details',
@@ -55,7 +57,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public procedural_videos = [];
   public three_d_videos = [];
   public video_title = 'Introduction video';
-  //public video_id = 'gcc-19093804-513e-4e4e-ab67-3716a6422f4b';
+  public active_video_obj = [];
   public player:any;
   public display_videos = "INTRO";
   public video_type = 'KPOINT';
@@ -113,9 +115,17 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
   
   playVideo(video){
-      if(!this.http.getUser())
-        this.router.navigateByUrl("/login");
+      this.active_video_obj = video;
+      if(!this.http.getUser()){
+          this.router.navigateByUrl("/login");
+        }
     this.video_title = video['module_title'];
+    if(video['video_type'] == "3D_OBJECT"){
+        this.video_type = "3D_OBJECT";
+        // const viewerElement = document.getElementById('viewer')
+        // const scene = modelPlayer.prepareScene(viewerElement)
+        // modelPlayer.loadObject(scene, './assets/sample.obj')
+    }
     if(video['video_type'] == "KPOINT"){
         this.video_type = "KPOINT";        
         if(this.player == undefined){
