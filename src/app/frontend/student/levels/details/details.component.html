@@ -192,7 +192,7 @@
           </div>
         </div>
       </div>
-    </div>
+    
     <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 1">
       <div class="crses_lft">
         <div class="crs_desc_hd">
@@ -401,7 +401,7 @@
           <div class="crs_desc">
             <div class="crs_desc_hd">
               <span class="desc_in_hd">
-                <mat-icon>highlight</mat-icon> High Yield Text
+                <mat-icon>highlight</mat-icon> Highyield
               </span>
               <span class="spacer"></span>
             </div>
@@ -637,13 +637,16 @@
                 <mat-icon>bolt</mat-icon> Related Topics
               </span>
               <span class="spacer"></span>
-              <!-- <span class="fnt_sze">
-            <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
-            <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
-          </span> -->
-              <!-- <button mat-icon-button color="primary">
-            <mat-icon>close</mat-icon>
-          </button> -->
+                <!-- 
+                  <span class="fnt_sze">
+                    <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
+                    <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
+                  </span> -->
+                <!-- 
+                  <button mat-icon-button color="primary">
+                    <mat-icon>close</mat-icon>
+                  </button> 
+                -->
             </div>
             <div class="crs_desc_cnt ck_editor_view" *ngIf="content['related_topics']">
               <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
@@ -743,20 +746,20 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <div class="mtvd_hds">
-                <span class="{{display_videos=='INTRO'?'mtvd_actv':''}}"
+                <span *ngIf="intro_video.length>0" class="{{display_videos=='INTRO'?'mtvd_actv':''}}"
                   (click)="display_videos='INTRO'">Introduction</span>
-                <span class="{{display_videos=='2D'?'mtvd_actv':''}}" (click)="display_videos='2D'">2D Videos
+                <span *ngIf="two_d_videos.length>0" class="{{display_videos=='2D'?'mtvd_actv':''}}" (click)="display_videos='2D'">2D Videos
                   <span>({{two_d_videos.length}})</span></span>
-                <span class="{{display_videos=='BOARD_LECTURES'?'mtvd_actv':''}}"
+                <span *ngIf="board_lecture_videos.length>0" class="{{display_videos=='BOARD_LECTURES'?'mtvd_actv':''}}"
                   (click)="display_videos='BOARD_LECTURES'">Board Lectures
                   <span>({{board_lecture_videos.length}})</span></span>
-                <span class="{{display_videos=='CLINICAL_ESSENTIALS'?'mtvd_actv':''}}"
+                <span *ngIf="clinical_videos.length>0" class="{{display_videos=='CLINICAL_ESSENTIALS'?'mtvd_actv':''}}"
                   (click)="display_videos='CLINICAL_ESSENTIALS'">Clinical Essentials
                   <span>({{clinical_videos.length}})</span></span>
-                <span class="{{display_videos=='PROCEDURAL'?'mtvd_actv':''}}"
+                <span *ngIf="procedural_videos.length>0" class="{{display_videos=='PROCEDURAL'?'mtvd_actv':''}}"
                   (click)="display_videos='PROCEDURAL'">Procedural Videos
                   <span>({{procedural_videos.length}})</span></span>
-                <span class="{{display_videos=='3D'?'mtvd_actv':''}}" (click)="display_videos='3D'">3D Objects
+                <span *ngIf="three_d_videos.length>0" class="{{display_videos=='3D'?'mtvd_actv':''}}" (click)="display_videos='3D'">3D Objects
                   <span>({{three_d_videos.length}})</span></span>
               </div>
               <div class="hgt_20"></div>
@@ -785,5 +788,6 @@
           </mat-accordion>
         </div>
       </div>
+    </div>
     </div>
   </div>

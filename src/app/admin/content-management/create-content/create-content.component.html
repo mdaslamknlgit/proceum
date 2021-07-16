@@ -55,8 +55,8 @@
         <button mat-raised-button onclick="document.getElementById('fileToUpload').click()" color="accent"
           class="float_right mr_1 mt_5px">
           <mat-icon>upload</mat-icon>
-          Attch Files<input (change)="uploadReviewFiles($event)" multiple="true" #documents accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
-          text/plain, application/pdf" id="fileToUpload" type="file" style="display: none" />
+          Attch Files<input (change)="uploadReviewFiles($event)" multiple="true" #documents accept="image/x-png,image/gif,image/jpeg,application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,
+          text/plain,application/pdf" id="fileToUpload" type="file" style="display: none" />
         </button>
         <div class="spacer"></div>
         <button mat-raised-button class="gry_btn mr_1" (click)="showComments()">Cancel</button>
@@ -1114,7 +1114,7 @@
             type="button" color="accent" mat-raised-button (click)="selectReviewer()">
             Send To Review
           </button>
-          <button class="gry_btn" *ngIf="is_published == '1'" mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
+          <button class="gry_btn" *ngIf="is_published == '1' && content_parent_id == 0" mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
             [popoverMessage]="
               'are you sure to create a new copy of this published content '
             " placement="auto" (confirm)="createContent(false)" confirmButtonType="danger"
@@ -1123,7 +1123,7 @@
           </button>
           <button *ngIf="((user['role'] == '7' && user['role'] == content_reviewer_role) || user['role'] == '1')"
             type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                'are you sure to Publish this content '
+                'are you sure to Publish this content '+ publish_message
               " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
             cancelButtonType="outline-secondary" mat-raised-button color="accent" class="mx_1">
             Save & Publish
