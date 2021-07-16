@@ -8,17 +8,36 @@ import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import {NestedTreeControl} from '@angular/cdk/tree';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
 
+interface CurriculumNode {
+  id?: number;
+  name: string;
+  curriculum_id?: number;
+  selected?: boolean;
+  indeterminate?: boolean;
+  parentid?: number;
+  is_curriculum_root?: boolean;
+  children?: CurriculumNode[];
+  has_children?: boolean;
+  ok?: boolean;
+}
 @Component({
   selector: 'app-create-new-question',
   templateUrl: './create-new-question.component.html',
   styleUrls: ['./create-new-question.component.scss']
 })
+
+
 export class CreateNewQuestionComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('documents') documents_input: ElementRef;
+    //Code starts here for course selection
+    treeControl = new NestedTreeControl<CurriculumNode>(node => node.children);
+    dataSource1 = new MatTreeNestedDataSource<CurriculumNode>();
   page_size_options = environment.page_size_options;
 
   public Editor = Editor;
@@ -92,6 +111,9 @@ export class CreateNewQuestionComponent implements OnInit {
   constructor(private http: CommonService,
     private toster: ToastrService
   ) { }
+
+  hasChild = (_: number, node: CurriculumNode) =>
+  !!node.children && node.children.length > 0;
   qtype: any;
   ngOnInit(): void {
     this.getQTypes()
@@ -99,16 +121,88 @@ export class CreateNewQuestionComponent implements OnInit {
     this.getTopics()
   }
 
-  getTopics() {
-    this.QTypes = [];
-    let params = {
-      url: 'qlists/topics',
+  setParent(data, parent) {
+   
+    if(data.children === undefined){
+      data.has_children = false;
+    }else{
+      data.has_children = true;
+    }
+    data.parent = parent;
+    if (data.children) {
+      data.children.forEach(x => {
+        this.setParent(x, data);
+      });
+    }
+  }
 
-    };
-    this.http.post(params).subscribe((res) => {
+
+  getTopics() {
+    let params = { url: 'qlists/topics'};
+    this.http.post(params).subscribe((res) => {      
       if (res['error'] == false) {
-       console.log(res)
+        this.dataSource1.data = res['data'];
+        Object.keys(this.dataSource1.data).forEach(x => {
+          this.setParent(this.dataSource1.data[x], null);
+        });
+//        console.log(this.dataSource1.data)
+      } else {
+          this.toster.error(res['message'], 'Error', { closeButton: true });
       }
+    });
+  }
+
+  checkAllParents(node) {
+    if (node.parent) {
+      const descendants = this.treeControl.getDescendants(node.parent);
+      node.parent.selected = descendants.every(child => child.selected);
+      node.parent.indeterminate = descendants.some(child => child.selected);
+      this.checkAllParents(node.parent);
+    }
+  }
+
+  todoItemSelectionToggle(checked, node) {
+    node.selected = checked;
+    if (node.children) {
+      node.children.forEach(x => {
+        this.todoItemSelectionToggle(checked, x);
+      });
+    }
+    this.checkAllParents(node);
+  }
+
+  setChildOk(text: string, node: any) {
+    node.forEach(x => {
+      x.ok = x.name.indexOf(text) >= 0;
+      if (x.parent) this.setParentOk(text, x.parent, x.ok);
+      if (x.children) this.setChildOk(text, x.children);
+    });
+  }
+  
+  setParentOk(text, node, ok) {
+    node.ok = ok || node.ok || node.name.indexOf(text) >= 0;
+    if (node.parent) this.setParentOk(text, node.parent, node.ok);
+  }
+
+  //For check the values
+  getList2(node: any, result: any = null) {
+    result = result || {};
+    node.forEach(x => {
+      result[x.name] = {};
+      result[x.name].ok = x.ok;
+      if (x.children) result[x.name].children = this.getList2(x.children);
+    });
+    return result;
+  }
+  //Another way to check the values, we can not use {{datasource.node}}
+  getList(node: any) {
+    return node.map(x => {
+      const r: any = {
+        name: x.name + ' - ' + x.ok,
+        children: x.children ? this.getList(x.children) : null
+      };
+      if (!r.children) delete r.children;
+      return r;
     });
   }
 
