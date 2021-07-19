@@ -99,17 +99,21 @@ export class DrawingBoardComponent implements OnInit {
     this.isActive = false;
   }
   save() {
-    this.whiteboardService.save("test", "png");
+    this.whiteboardService.save("board", "png");
     setTimeout(res=>{
         var links=document.getElementsByTagName('a'), hrefs = [];
     for (var i = 0; i<links.length; i++)
     {   
         let param = {url: 'upload-drawing', base64_string: links[i].href}
         this.http.post(param).subscribe(res=>{
-            //window.location.reload();
+          setTimeout(()=>{
+            this.toastr.success(res['message'], 'Success', { closeButton: true });
+            window.location.reload();
+          }, 3000)
+            
         })
     }
-    }, 2000)
+    }, 3000)
   }
   undo() {
     this.whiteboardService.undo();

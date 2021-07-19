@@ -99,9 +99,9 @@
         <mat-icon>corporate_fare</mat-icon> Assets Library
       </div>
       <ul class="sdmn_sub">
-        <li routerLinkActive="active" routerLink="/admin/assets-library/videos">
+        <!--<li routerLinkActive="active" routerLink="/admin/assets-library/videos">
           <mat-icon>play_circle_outline</mat-icon>Videos
-        </li>
+        </li>-->
         <li routerLinkActive="active" routerLink="/admin/assets-library/images">
           <mat-icon>wallpaper</mat-icon>Images
         </li>
@@ -115,11 +115,39 @@
         <mat-icon>today</mat-icon> Study Planner
       </div>
     </li>
-    <li routerLinkActive="active" (click)="menu_active = 0">
+    <li
+    class="hs_sbmnu {{
+      menu_active == 9 ||
+      active_route == '/admin/questions-mgt/qbank' ||
+      active_route == '/admin/questions-mgt/questions-list'
+        ? 'active'
+        : ''
+    }}"
+    (click)="activeMenu(9, menu_active)"
+  >
+    <div class="sd_mnuhd">
+      <mat-icon>quiz</mat-icon>Questions Management
+    </div>
+    <ul class="sdmn_sub">
+      <li
+        routerLink="/admin/questions-mgt/qbank"
+        [ngClass]="{ active: active_route == '/admin/questions-mgt/qbank' }"
+      >
+        <mat-icon>quiz</mat-icon>Question Banks
+      </li>
+      <li
+      routerLink="/admin/questions-mgt/questions-list"
+        [ngClass]="{ active: active_route == '/admin/questions-mgt/questions-list' }"
+      >
+        <mat-icon>quiz</mat-icon>Questions List
+      </li>
+    </ul>
+  </li>
+    <!-- <li routerLinkActive="active" (click)="menu_active = 0">
       <div class="sd_mnuhd">
         <mat-icon>quiz</mat-icon> Question Bank
       </div>
-    </li>
+    </li> -->
     <li routerLinkActive="active" (click)="menu_active = 0">
       <div class="sd_mnuhd">
         <mat-icon>description</mat-icon> Exam Modes
@@ -257,6 +285,15 @@
         }" target="_blank">
         <div class="sd_mnuhd">
           <mat-icon>auto_awesome_mosaic</mat-icon> White Board
+        </div>
+      </a>
+    </li>
+    <li>
+      <a (click)="menu_active = 0" routerLink="/admin/whiteboard-gallery" [ngClass]="{
+          active: active_route == '/admin/whiteboard-gallery'
+        }">
+        <div class="sd_mnuhd">
+          <mat-icon>auto_awesome_mosaic</mat-icon> White Board Gallery
         </div>
       </a>
     </li>

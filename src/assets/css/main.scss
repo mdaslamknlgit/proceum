@@ -238,6 +238,7 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
   @include angular-material-theme($altTheme);
 }
 
+.d-none{ display:none;}
 // Form fields customization
 
 .mat-form-field-flex > .mat-form-field-infix {
@@ -339,6 +340,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
+  font-size: 14px;
 }
 ::-webkit-scrollbar {
   width: 5px;
@@ -469,7 +471,6 @@ li {
   position: fixed;
   z-index: 98;
   top: 0;
-  box-shadow: 0px 1px 3px 0px rgb(0 0 0 / 10%);
 }
 .clr_grn {
   color: #385e3b;
@@ -635,8 +636,8 @@ img {
   background-color: #f3f3f3;
 }
 .mn_dshbrd {
-  margin: 64px auto 64px auto;
-  width: 78%;
+  margin: 64px 15px 64px 72px;
+  // width: 78%;
   min-height: calc(100vh - 174px);
   display: flex;
   flex-direction: column;
@@ -650,9 +651,9 @@ img {
   position: relative;
   // animation-name: dsh_sld_ani;
   animation-duration: 0.2s;
-  width: 78%;
+  // width: 78%;
   animation-timing-function: linear;
-  margin-left: auto;
+  // margin-left: auto;
   margin-right: 1%;
 }
 .mn_sdcls div.mn_dshbrd {
@@ -660,8 +661,8 @@ img {
   // animation-name: dsh_sldcls_ani;
   animation-duration: 0.1s;
   animation-timing-function: linear;
-  width: 78%;
-  margin-right: auto;
+  // width: 78%;
+  // margin-right: auto;
 }
 @media screen and (min-width: 1025px) {
   @keyframes dsh_sld_ani {
@@ -1103,6 +1104,9 @@ app-topbar.inner-header mat-toolbar {
   height: 100%;
   box-sizing: border-box;
 }
+.dsh_brd_crds > mat-form-field.mat-form-field {
+  width: 500px;
+}
 .dsh_brd_crds,
 .grd_2c {
   .mat-form-field-infix {
@@ -1123,9 +1127,34 @@ app-topbar.inner-header mat-toolbar {
 .algn_s_fs {
   align-self: flex-start !important;
 }
+mat-form-field.date_picker {
+  max-width: 140px;
+}
+span.download_icons mat-icon {
+  font-size: 36px;
+  position: relative;
+  top: -5px;
+}
 .mat-table {
   text-align: left;
   width: 100%;
+  td{
+    white-space: nowrap;
+  }
+  .s_no {
+    width: 6%;
+    text-align: center !important;
+    padding-left: 0 !important;
+  }
+  .status_tdh {
+      width: 11%;
+  }
+  .actions_tdh{
+      width: 10%;
+  }
+  .date_tdh{
+    width: 10%;
+  }
 }
 .v_top {
   vertical-align: top;
@@ -1302,6 +1331,9 @@ app-topbar.inner-header mat-toolbar {
   .dsh_brd_crds {
     width: 100%;
   }
+  
+  
+
   .crds_ul {
     margin: 0;
     padding: 0;
@@ -1463,26 +1495,27 @@ input:-webkit-autofill:active {
 .sdmn_cntul li {
   list-style: none;
   width: 100%;
-  padding: 15px 0px 15px 20px;
+  padding: 10px 0px 10px 20px;
   font-size: 0px;
   box-sizing: border-box;
   cursor: pointer;
-  border-bottom: 1px solid #dadada;
+  border-bottom: 1px solid #f3eeeeb8;
   display: flex;
   flex-direction: column;
   position: relative;
   white-space: nowrap;
-  opacity: 0.6;
+  // opacity: 0.9;
 }
 .sd_br:hover .sdmn_cntul li,
 .sd_opn .sdmn_cntul li {
-  font-size: 16px;
+  font-size: 14px;
 }
 .sdmn_cntul mat-icon {
   margin-right: 15px;
   align-self: baseline;
   line-height: 24px;
   font-size: 18px;
+  color: #448c40;
 }
 .sdmn_cntul li:hover{
   background-color: #42ab3c36;
@@ -1613,13 +1646,15 @@ li.hs_sbmnu.active:before {
 .mat-table {
   text-align: left;
   width: 100%;
+  border: 2px solid #0c8a074d;
 }
 .mat-table {
   th.mat-header-cell,
   td.mat-cell,
   td.mat-footer-cell {
-    padding:8px 5px;
+    padding:3px;
     white-space: normal;
+    font-size: 13px;
   }
 }
 .mat-table tr:nth-child(odd) {
@@ -1628,7 +1663,7 @@ li.hs_sbmnu.active:before {
 .mat-table th.mat-header-cell {
   background: #fff;
   color: #41ab3c;
-  border-top: 1px solid #ccc;
+  // border-top: 1px solid #ccc;
 }
 .mn_sdopn .sd_br {
   width: 20%;
@@ -2101,6 +2136,9 @@ mat-dialog-container .pg_ttl {
 .mlti_fls {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  max-height: 50vh;
+  overflow-x: auto;
 }
 .mlti_fls_dv {
   width: 9%;
@@ -2151,6 +2189,12 @@ button.mt_6px {
 .explr_nav {
   display: flex;
   align-items: center;
+  font-size: 14px;
+  mat-icon{
+    width: 15px;
+    height: 15px;
+    font-size: 16px;
+  }
 }
 .mail,
 .fir_name,
@@ -2252,12 +2296,9 @@ div.cust_mdl_par div.mn_dshbrd {
   word-break: break-word;
 }
 .fl_frmt_info {
-  background-color: #65bb61;
-  color: #fff;
-  padding: 3px 15px;
-  border-radius: 6px;
-  font-size: 14px;
-  float: left;
+  font-size: 12px;
+  display: inline;
+  opacity: 0.4;
 }
 /* Course Menu Css*/
 
@@ -3388,3 +3429,8 @@ sup {
   }
 }
 .jc_sb{justify-content: space-between;}
+stl-model-viewer {
+    display: block;
+    height: 500px;
+    width: 500px;
+  }

@@ -44,6 +44,7 @@ export class RegisterComponent implements OnInit {
   password_hide: boolean = true;
   public profile_pic: string = '';
   public address_details:boolean = false;
+  public disabled:boolean = true;
   //master data variables goes here
   universities = [];
   colleges = [];
@@ -77,7 +78,7 @@ export class RegisterComponent implements OnInit {
     state_id:'',
     city:'',
     zip_code:'',
-    accepeted_terms:false,
+    accepeted_terms:true,
   };
 
   //institution form bindings
@@ -118,7 +119,7 @@ export class RegisterComponent implements OnInit {
     state_id:'',
     city:'',
     zip_code:'',
-    accepeted_terms:false,
+    accepeted_terms:true,
   }
   
   constructor(
@@ -138,7 +139,11 @@ export class RegisterComponent implements OnInit {
   }
   
   //Activate html form institution types
-  radioChange(institution_type: string) {
+  radioChange(institution_type: string, form) {
+    form.resetForm();
+    this.profile_pic = '';
+    this.individualRegister.accepeted_terms = true;
+    this.institutionResgister.accepeted_terms = true;
     if (institution_type == '1') {
       this.institutionResgister.register_type = 'university';
       this.is_university = true;
@@ -159,7 +164,11 @@ export class RegisterComponent implements OnInit {
 
   //Activate html form based on registration type
   registrationForm(registration_type: string) {
+    this.profile_pic = '';
     this.address_details = false;
+    this.is_university = false;
+    this.is_college = false;
+    this.is_coaching_institute = false;
     if (registration_type == 'individual') {
       this.is_account_type = false;
       this.is_individual = true;
@@ -197,8 +206,28 @@ export class RegisterComponent implements OnInit {
   }
 
   validateindividualsBasicDetails(stepper:MatStepper){
+    //Contact number validation
+    if(!Number(this.individualRegister.contact_number) || (this.individualRegister.contact_number.length < 10 || this.individualRegister.contact_number.length > 13)){
+      return;
+    }
+
+    //email
+    if(!this.validateEmail(this.individualRegister.email)){
+      return false;
+    }
+
+    //Password validation
+    if(this.individualRegister.password.length < 6){
+      return;
+    }
+
+    //Password validation
+    if(this.individualRegister.password !== this.individualRegister.confirm_pwd){
+      return;
+    }
+
     if((this.individualRegister.first_name != '' && this.individualRegister.email != '' && this.individualRegister.last_name != '' && 
-    this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.confirm_pwd != '' && this.individualRegister.qualification != '' && this.individualRegister.profession != '') && (this.individualRegister.university != '' || this.individualRegister.college != '') ){
+    this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.password.length > 5 && this.individualRegister.confirm_pwd != '' && this.individualRegister.qualification != '' && this.individualRegister.profession != '') && (this.individualRegister.university != '' || this.individualRegister.college != '') ){
       stepper.next();
       //this.individual_address_details = true;
     }
@@ -207,16 +236,82 @@ export class RegisterComponent implements OnInit {
   validateInstitutionBasicDetails(stepper:MatStepper){
     
     if(this.is_university){
+      //Contact number validation
+      if(!Number(this.institutionResgister.university_primary_contact) || (this.institutionResgister.university_primary_contact.length < 10 || this.institutionResgister.university_primary_contact.length > 13)){
+        return;
+      }
+      if(!Number(this.institutionResgister.university_secondary_contact) || (this.institutionResgister.university_secondary_contact.length < 10 || this.institutionResgister.university_secondary_contact.length > 13)){
+        return;
+      }
+      
+      //Password validation
+      if(this.institutionResgister.password.length < 6){
+        return;
+      }
+
+      //email
+      if(!this.validateEmail(this.institutionResgister.university_email)){
+        return false;
+      }
+
+      //Password validation
+      if(this.institutionResgister.password !== this.institutionResgister.confirm_pwd){
+        return;
+      }
+
       if(this.institutionResgister.university_name != '' && this.institutionResgister.university_primary_contact != '' && this.institutionResgister.university_contact_person != '' && this.institutionResgister.password != '' && this.institutionResgister.university_code != '' && this.institutionResgister.university_secondary_contact != '' && this.institutionResgister.university_email != '' && this.institutionResgister.confirm_pwd != '' ){
        stepper.next();
       }
     }
+
+
     if(this.is_college){
+      //Contact number validation
+      if(!Number(this.institutionResgister.college_primary_contact) || (this.institutionResgister.college_primary_contact.length < 10 || this.institutionResgister.college_primary_contact.length > 13)){
+        return;
+      }
+      
+      //Password validation
+      if(this.institutionResgister.password.length < 6){
+        return;
+      }
+
+      //email
+      if(!this.validateEmail(this.institutionResgister.college_email)){
+        return false;
+      }
+
+      //Password validation
+      if(this.institutionResgister.password !== this.institutionResgister.confirm_pwd){
+        return;
+      }
+
       if(this.institutionResgister.college_name != '' && this.institutionResgister.college_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.college_code != '' && this.institutionResgister.college_contact_person != '' && this.institutionResgister.college_email != '' && this.institutionResgister.confirm_pwd != '' ){
         stepper.next();
       }
     }
+
     if(this.is_coaching_institute){
+      //Contact number validation
+      if(!Number(this.institutionResgister.institute_primary_contact) || (this.institutionResgister.institute_primary_contact.length < 10 || this.institutionResgister.institute_primary_contact.length > 13)){
+        return;
+      }
+      
+      //email
+      if(!this.validateEmail(this.institutionResgister.institute_email)){
+        return false;
+      }
+
+      //Password validation
+      if(this.institutionResgister.password.length < 6){
+        return;
+      }
+
+      //Password validation
+      if(this.institutionResgister.password !== this.institutionResgister.confirm_pwd){
+        return;
+      }
+
       if(this.institutionResgister.institute_name != '' && this.institutionResgister.institute_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.institute_contact_person != '' && this.institutionResgister.institute_email != '' && this.institutionResgister.confirm_pwd != '' ){
         stepper.next();
        }
@@ -274,11 +369,35 @@ export class RegisterComponent implements OnInit {
     }
   }
 
+  filterStates(event) {
+    let search = event;
+    if (!search) {
+      this.all_states.next(this.states.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_states.next(
+      this.states.filter(
+        (state) => state.state_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
   doIdividualRegistraion(){
     if(this.individualRegister.address_line_1 == '' || this.individualRegister.country_id == '' || this.individualRegister.state_id == '' || this.individualRegister.city == '' || this.individualRegister.zip_code == ''){
       this.address_details = true;
       return;
     }
+
+    if(!this.individualRegister.accepeted_terms){
+      this.toastr.error("Please accept terms & conditions", 'Error', {
+        closeButton: true,
+        timeOut: 5000,
+      });
+      return;
+    }
+
     let params = {
       url: 'register',
       first_name : this.individualRegister.first_name,
@@ -303,7 +422,7 @@ export class RegisterComponent implements OnInit {
       profile_pic : this.profile_pic
     }
     this.http.register(params).subscribe((res: Response) => {
-      console.log(res);
+      //console.log(res);
       if (res.error) {
         this.is_show = false;
         this.toastr.error(res.message, 'Error', {
@@ -320,6 +439,24 @@ export class RegisterComponent implements OnInit {
   }
 
   doInstitutionRegistraion(){
+    if(this.institutionResgister.address_line_1 == '' || this.institutionResgister.country_id == '' || this.institutionResgister.state_id == '' || this.institutionResgister.city == '' || this.institutionResgister.zip_code == ''){
+      this.address_details = true;
+      return;
+    }
+
+    if(this.institutionResgister.address_line_1 == null || this.institutionResgister.country_id == null || this.institutionResgister.state_id == null || this.institutionResgister.city == null || this.institutionResgister.zip_code == null){
+      this.address_details = true;
+      return;
+    }
+
+    if(!this.institutionResgister.accepeted_terms){
+      this.toastr.error("Please accept terms & conditions", 'Error', {
+        closeButton: true,
+        timeOut: 5000,
+      });
+      return;
+    }
+
     let params = {
       url: 'register',
       //Below are related to university registration
@@ -437,8 +574,15 @@ export class RegisterComponent implements OnInit {
             : '/admin/dashboard';
           localStorage.removeItem('_redirect_url');
           this.route.navigate([redirect_url]);
-        } else if (res['data']['user']['role'] == 2) {
-          //student
+        } else if (res['data']['user']['role'] == 3 || res['data']['user']['role'] == 4 || res['data']['user']['role'] == 5 || res['data']['user']['role'] == 6 || res['data']['user']['role'] == 7) {
+          //Reviewer L1, L2,L3 Approver
+          let redirect_url = localStorage.getItem('_redirect_url')
+            ? localStorage.getItem('_redirect_url')
+            : '/reviewer/dashboard';
+          localStorage.removeItem('_redirect_url');
+          this.route.navigate([redirect_url]);
+        } else {
+          //student or others
           let redirect_url = localStorage.getItem('_redirect_url')
             ? localStorage.getItem('_redirect_url')
             : '/student/dashboard';
@@ -566,6 +710,11 @@ export class RegisterComponent implements OnInit {
       }
     });
   }
+
+  validateEmail(email) {
+    const regularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regularExpression.test(String(email).toLowerCase());
+   }
 }
 
 export interface IndividualRegister {

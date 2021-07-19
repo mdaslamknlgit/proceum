@@ -41,6 +41,7 @@ export class CreateContentComponent implements OnInit {
   public selected_short_questions = [];
   public library_popup: boolean = false;
   public title = '';
+  public is_paid = 0;
   public videos = [];
   public videos_files = [];
   public main_content: string = '';
@@ -84,6 +85,7 @@ export class CreateContentComponent implements OnInit {
   public reviewers = [];
   public is_published = '';
   public showReviewers = false;
+  public content_parent_id = 0;
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -131,8 +133,9 @@ export class CreateContentComponent implements OnInit {
   public board_lecture_videos = [{pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:''}];
   public clinical_videos = [{pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:''}];
   public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''}];
-  public three_d_videos = [{pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''}];
+  public three_d_videos = [{pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:''}];
   public publsh_content = false;
+  public publish_message = "";
   private subscription:Subscription;
   constructor(
     private http: CommonService,
@@ -176,8 +179,14 @@ export class CreateContentComponent implements OnInit {
       if (res['error'] == false) {
         let data = res['data']['content_data'];
         this.content_reviewer_role = data['reviewer_role'];
+        this.content_parent_id = data['content_parent_id'];
+        if(this.content_parent_id > 0){
+            this.publish_message = "Changes will be updated to old content.";
+        }
+        
         this.is_published = data['is_published'];
         this.title = data['title'];
+        this.is_paid = data['is_paid'];
         let videos = data['videos'];
         if(videos['intro_video'].length > 0){
             this.intro_video = videos['intro_video'];
@@ -216,8 +225,8 @@ export class CreateContentComponent implements OnInit {
             this.images_files.push(file['file_path']);
           });
         }
-        this.videos = data['main_videos'];
-        this.videos_files = [];
+        //this.videos = data['main_videos'];
+        //this.videos_files = [];
         // if (data['main_videos'].length > 0) {
         //   data['main_videos'].forEach((file) => {
         //     this.videos_files.push(file['file_path']);
@@ -243,8 +252,42 @@ export class CreateContentComponent implements OnInit {
       this.procedural_videos.push({pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''});
     }
     if(tabIndex == 5){
-      this.three_d_videos.push({pk_id:0, video_section:'3D', source:'', title:'', value:'', status:''});
+      this.three_d_videos.push({pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:''});
     }
+  }
+  upload3dObject(event,index){
+    let allowed_types = [];
+    allowed_types = ["obj"];
+    const uploadData = new FormData();
+    let files = event.target.files;
+    if (files.length == 0) return false;
+    let valid_files = [];
+    for (var i = 0; i < files.length; i++) {
+      let ext = files[i].name.split('.').pop().toLowerCase();
+      if (allowed_types.includes(ext)) {
+        valid_files.push(files[i]);
+        uploadData.append('file' + i, files[i]);
+      } else {
+        this.toster.error(
+          ext +
+            ' Extension not allowed file (' +
+            files[i].name +
+            ') not uploaded'
+        );
+      }
+    }
+    if (valid_files.length == 0) {
+      return false;
+    }
+    uploadData.append('path', 'images/threed_objects');
+    uploadData.append('number_files', files.length);
+    let param = { url: 'upload-files' };
+    this.http.imageUpload(param, uploadData).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success('Files successfully uploaded.', 'File Uploaded');
+        this.three_d_videos[index]['value'] = res['url'];
+      }
+    });
   }
   removeVideo(tabIndex, index){
     if(tabIndex == 1){
@@ -653,6 +696,7 @@ export class CreateContentComponent implements OnInit {
     }
     let form_data = {
       title: this.title,
+      is_paid:this.is_paid,
       main_videos: this.videos,
       intro_video: this.intro_video,
       two_d_videos: this.two_d_videos,
@@ -744,7 +788,6 @@ export class CreateContentComponent implements OnInit {
       }
     }
     if (valid_files.length == 0) {
-      //this.documents_input.nativeElement.value = '';
       return false;
     }
     uploadData.append('path', 'documents/review_docs');
@@ -754,7 +797,6 @@ export class CreateContentComponent implements OnInit {
       if (res['error'] == false) {
         this.toster.success('Files successfully uploaded.', 'File Uploaded');
       }
-      //this.review_docs_new.push(res['url']);
       this.review_docs.push(res['url']);
     });
   }

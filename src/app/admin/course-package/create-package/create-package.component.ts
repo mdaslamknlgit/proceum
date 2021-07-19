@@ -1,16 +1,10 @@
-import { Component, OnInit ,Injectable} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { ReplaySubject,BehaviorSubject } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {NestedTreeControl} from '@angular/cdk/tree';
-import {SelectionModel} from '@angular/cdk/collections';
-import { FlatTreeControl } from '@angular/cdk/tree';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  MatTreeFlatDataSource,
-  MatTreeFlattener
-} from '@angular/material/tree';
 
 interface CurriculumNode {
   id?: number;
@@ -24,11 +18,7 @@ interface CurriculumNode {
   has_children?: boolean;
   ok?: boolean;
 }
-
-const TREE_DATA: CurriculumNode[]= [
-  
-];
-
+//const TREE_DATA: CurriculumNode[]= [];
 
 @Component({
   selector: 'app-create-package',
@@ -54,6 +44,8 @@ export class CreatePackageComponent implements OnInit {
   public today_date = new Date();
   public edit_model_status = false;
   public courses_arr = [];
+  public courses_div = false;
+  public selected_courses = [];
   all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
   
   //Code starts here for course selection
@@ -93,6 +85,7 @@ export class CreatePackageComponent implements OnInit {
       this.checkAllParents(node.parent);
     }
   }
+
   todoItemSelectionToggle(checked, node) {
     node.selected = checked;
     if (node.children) {
@@ -110,30 +103,12 @@ export class CreatePackageComponent implements OnInit {
       if (x.children) this.setChildOk(text, x.children);
     });
   }
+  
   setParentOk(text, node, ok) {
     node.ok = ok || node.ok || node.name.indexOf(text) >= 0;
     if (node.parent) this.setParentOk(text, node.parent, node.ok);
   }
 
-  submit() {
-    let result = [];
-    this.dataSource.data.forEach(node => {
-      result = result.concat(
-        this.treeControl
-          .getDescendants(node)
-          .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children])
-      );
-    });
-    this.courses_arr = result;
-    if(this.courses_arr){
-      let params = { url: 'get-selected-courses','courses_arr': this.courses_arr};
-      this.http.post(params).subscribe((res) => {
-        if (res['error'] == false) {
-          console.log(res['data']);
-        }
-      });
-    }
-  }
   //For check the values
   getList2(node: any, result: any = null) {
     result = result || {};
@@ -154,6 +129,36 @@ export class CreatePackageComponent implements OnInit {
       if (!r.children) delete r.children;
       return r;
     });
+  }
+
+  submitCourses() {
+    let result = [];
+    this.dataSource.data.forEach(node => {
+      result = result.concat(
+        this.treeControl
+          .getDescendants(node)
+          .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children])
+      );
+    });
+    this.courses_arr = result;
+    if(this.courses_arr){
+      let params = { url: 'get-selected-courses','courses_arr': this.courses_arr};
+      this.http.post(params).subscribe((res) => {
+        if (res['error'] == false) {
+          //console.log(res['data']);
+          this.courses_div = true;
+          this.selected_courses = res['data']['selected_courses'];
+          this.edit_model_status = false;
+          this.courses_ids_csv = res['data']['course_ids_csv'];
+          //console.log(this.courses_ids_csv);
+        }else{
+          this.courses_div = false;
+          this.selected_courses = [];
+          this.edit_model_status = false;
+          this.courses_ids_csv = '';
+        }
+      });
+    }
   }
 
   ngOnInit(): void {
@@ -235,15 +240,20 @@ export class CreatePackageComponent implements OnInit {
     });
   }
 
-
   addPackagePriceField(){
     this.package_prices.push({pk_id:0, country_id:'', price_amount:'', status:'', placeholder:'0.00'});
   }
+
   removePackagePrice(index){
     this.package_prices[index]['status'] = "delete";
   }
 
   createPackageService(){
+    if(this.applicable_to_university == '' || this.applicable_to_college == '' || this.applicable_to_institute == ''){
+      this.toster.error("Applicable to is required", 'Required!', { closeButton: true });
+      return;
+    }
+
     let form_data = {
       package_id : this.package_id,
       package_name : this.package_name,
@@ -271,16 +281,14 @@ export class CreatePackageComponent implements OnInit {
 
   getCurriculumnHierarchy(){
     let params = { url: 'get-curriculumn-hierarchy'};
-    this.http.post(params).subscribe((res) => {
-      console.log(res);
-      
+    this.http.post(params).subscribe((res) => {      
       if (res['error'] == false) {
         this.dataSource.data = res['data'];
         Object.keys(this.dataSource.data).forEach(x => {
           this.setParent(this.dataSource.data[x], null);
         });
       } else {
-          //this.toster.error(res['message'], 'Error', { closeButton: true });
+          this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
@@ -288,4 +296,6 @@ export class CreatePackageComponent implements OnInit {
   addCurrencyToField(currency,index){
     this.package_prices[index]['placeholder'] = currency.toUpperCase();
   }
+
+  
 }

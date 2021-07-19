@@ -60,7 +60,6 @@
     <strong>&nbsp;{{ step }}</strong>
   </div>
   <div class="pg_ttl">{{ step }}</div>
-  <hr />
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
       <input matInput maxlength="255" [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
@@ -74,8 +73,8 @@
     <div class="rsp_tbl">
       <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
         <ng-container matColumnDef="pk_id">
-          <th mat-header-cell *matHeaderCellDef>S.No</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef class="s_no">S.No</th>
+          <td mat-cell *matCellDef="let element" class="s_no">
             {{ element.s_no }}
           </td>
         </ng-container>
@@ -92,8 +91,8 @@
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-          <td mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header  class="status_tdh">Status</th>
+          <td mat-cell *matCellDef="let element" class="status_tdh">
             <span matTooltip="Current Status is {{
                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
               }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
@@ -102,25 +101,25 @@
         </ng-container>
 
         <ng-container matColumnDef="created_at">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="date_tdh">
             Created Date
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+          <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
         </ng-container>
 
         <!-- Symbol Column -->
         <ng-container matColumnDef="updated_at">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="date_tdh">
             Updated Date
           </th>
-          <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
+          <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef class="text_center">Action</th>
-          <td mat-cell *matCellDef="let element">
-            <button mat-icon-button matTooltip="Click to edit" (click)="editStep(element)">
-              <mat-icon>edit</mat-icon>
+          <th mat-header-cell *matHeaderCellDef class="text_center actions_tdh">Actions</th>
+          <td mat-cell *matCellDef="let element" class="actions_tdh">
+            <button mat-icon-button matTooltip="Click to edit" (click)="editStep(element)" color="accent">
+              <mat-icon>edit_note</mat-icon>
             </button>
             <button matTooltip="click here to {{
                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
