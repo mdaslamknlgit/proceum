@@ -122,9 +122,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.video_title = video['module_title'];
     if(video['video_type'] == "3D_OBJECT"){
         this.video_type = "3D_OBJECT";
-        //const viewerElement = document.getElementById('threed_obj_dev');
-        //const scene = modelPlayer.prepareScene(viewerElement);
-        //modelPlayer.loadObject(scene, '../../../../../assets/sample.obj');
+        // setTimeout(()=>{
+        //     const viewerElement = document.getElementById('threed_obj_dev');
+        // const scene = modelPlayer.prepareScene(viewerElement);
+        // modelPlayer.loadObject(scene, 'http://192.10.250.150:4200/assets/sample.obj');
+        // },3000);
         //modelPlayer.loadObject(scene, this.bucket_url+this.active_video_obj['video_source']);
     }
     if(video['video_type'] == "KPOINT"){
