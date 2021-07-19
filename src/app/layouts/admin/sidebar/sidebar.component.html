@@ -115,11 +115,39 @@
         <mat-icon>today</mat-icon> Study Planner
       </div>
     </li>
-    <li routerLinkActive="active" (click)="menu_active = 0">
+    <li
+    class="hs_sbmnu {{
+      menu_active == 9 ||
+      active_route == '/admin/questions-mgt/qbank' ||
+      active_route == '/admin/questions-mgt/questions-list'
+        ? 'active'
+        : ''
+    }}"
+    (click)="activeMenu(9, menu_active)"
+  >
+    <div class="sd_mnuhd">
+      <mat-icon>quiz</mat-icon>Questions Management
+    </div>
+    <ul class="sdmn_sub">
+      <li
+        routerLink="/admin/questions-mgt/qbank"
+        [ngClass]="{ active: active_route == '/admin/questions-mgt/qbank' }"
+      >
+        <mat-icon>quiz</mat-icon>Question Banks
+      </li>
+      <li
+      routerLink="/admin/questions-mgt/questions-list"
+        [ngClass]="{ active: active_route == '/admin/questions-mgt/questions-list' }"
+      >
+        <mat-icon>quiz</mat-icon>Questions List
+      </li>
+    </ul>
+  </li>
+    <!-- <li routerLinkActive="active" (click)="menu_active = 0">
       <div class="sd_mnuhd">
         <mat-icon>quiz</mat-icon> Question Bank
       </div>
-    </li>
+    </li> -->
     <li routerLinkActive="active" (click)="menu_active = 0">
       <div class="sd_mnuhd">
         <mat-icon>description</mat-icon> Exam Modes

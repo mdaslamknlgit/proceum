@@ -61,6 +61,25 @@
       </div>
     </div>
   </div>
+  <div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        Images
+        <span class="spacer"></span>
+        <button (click)="library_popup=false" mat-icon-button class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy" *ngIf="library_popup && this.images.length>0">
+        <ngx-image-viewer [config]="image_config"  [src]="images" [(index)]="image_index"></ngx-image-viewer>
+        <hr />
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="library_popup=false">
+          Close
+        </button>
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div>
   <div class="innr_sd_mnu ism_opn">
     <!-- ism_opn -->
     <div class="ism_scrl">
@@ -347,12 +366,13 @@
           </button> -->
             </div>
             <div class="crs_desc_cnt">
+                
               <div class="desc_tmb_img">
                 <img *ngFor="let file of content['images']; let i = index" [src]="file['path']" [alt]="
                 file['file_path'].substring(
                   file['file_path'].lastIndexOf('/') + 1
                 )
-              " />
+              " (click)="openLibrary(i)" />
               </div>
             </div>
           </div>
@@ -674,6 +694,11 @@
           <div id="youtube_div">
             <div *ngIf="video_type=='YOUTUBE'" [innerHtml]="youtube_iframe"></div>
           </div>
+          <div id="threed_obj_dev">
+            <div *ngIf="video_type=='3D_OBJECT'">
+                <!-- <stl-model-viewer stlModel="{{bucket_url+active_video_obj['video_source']}}"></stl-model-viewer> -->
+            </div>
+          </div>
           <!-- Approach2
         <div *ngIf="false" [hidden]="this.video_id !='gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-kvideo-id]="'gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-video-host]="'proceum.kpoint.com'"
         [attr.data-video-params]='{"offset": 12000, "resume": true}' style='width:640px; height:360px'></div>
@@ -768,19 +793,20 @@
                   <!-- wv_actv -->
                   <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
-                      <img src="../../../assets/images/vid_smpl.jpg" />
+                        <mat-icon>videocam</mat-icon>
+                      <!-- <img src="../../../assets/images/vid_smpl.jpg" /> -->
                     </div>
                     <div class="wv_ttl_dsc">
                       <span class="wv_tt_hd">{{video['module_title']}}</span>
                       <!-- <span class="wv_ts">05:50 min</span> -->
                     </div>
-                    <span class="spacer"></span>
+                    <!-- <span class="spacer"></span>
                     <div class="wv_ply_icn">
                       <mat-icon>graphic_eq</mat-icon>
-                    </div>
-                    <div class="wv_bkmrk">
+                    </div> -->
+                    <!-- <div class="wv_bkmrk">
                       <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
