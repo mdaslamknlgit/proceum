@@ -38,7 +38,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public Editor2 = Editor;
   public show_content_list = false;
   public buzz_words = false;
-  public font_size = 16;
+  public font_size = 14;
   public main_desc = '';
   public mcqs = [];
   public active_mcq_index = 0;

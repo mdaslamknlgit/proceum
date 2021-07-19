@@ -132,24 +132,30 @@
     </div>
   </div>
   <div class="mn_dshbrd crs_dshbrd {{view_type==1 && videos.length > 0?'view_1':'view_2'}}">
+    <div class="d-flex">
+      <div class="page-title-part">
+        <div class="brd_crm" *ngIf="curriculum">
+          <span routerLink="/student/curriculums">Curriculums / </span>
+          <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
+            curriculum["curriculumn_name"]
+            }}</span>
+          <span *ngFor="let bread of breadcome; let i = index">
+            /
+            <span matTooltip='{{bread["name"]}}' *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
+              curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
+            }}">{{ bread["name"].length>10?bread["name"].substring(0,9)+'...': bread["name"]}}</span>
+            <strong *ngIf="i == breadcome.length - 1">
+              {{ setTitle(bread["name"]) }}</strong></span>
+        </div>
 
-    <div class="brd_crm" *ngIf="curriculum">
-      <span routerLink="/student/curriculums">Curriculums / </span>
-      <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
-        curriculum["curriculumn_name"]
-        }}</span>
-      <span *ngFor="let bread of breadcome; let i = index">
-        /
-        <span matTooltip='{{bread["name"]}}' *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
-          curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
-        }}">{{ bread["name"].length>10?bread["name"].substring(0,9)+'...': bread["name"]}}</span>
-        <strong *ngIf="i == breadcome.length - 1">
-          {{ setTitle(bread["name"]) }}</strong></span>
-    </div>
+        <div class="pg_ttl" *ngIf="content != undefined">
+          <div>{{ content["title"] }}</div>
+          <!-- <div class="spacer"></div> -->
+        </div>
+      </div>
+    
 
-    <div class="pg_ttl" *ngIf="content != undefined">
-      <div>{{ content["title"] }}</div>
-      <div class="spacer"></div>
+    <div  *ngIf="content != undefined">
       <div class="d-flex">
         <button *ngIf="content_list.length > 1" matTooltip="More Content"
           (click)="show_content_list = !show_content_list" mat-mini-fab color="accent"
@@ -175,6 +181,7 @@
         </button>
       </div>
     </div>
+  </div>
     <!-- <div class="crs_lft_hd">
     <span class="crs_bk_btn"
       ><mat-icon>arrow_back</mat-icon>General features of Muscle</span
