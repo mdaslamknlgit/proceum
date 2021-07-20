@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 export interface PeriodicElement {
   s_no: number;
@@ -141,7 +142,8 @@ export class CreateContentComponent implements OnInit {
     private http: CommonService,
     private toster: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private fs: FirebaseService
   ) {}
 
   ngOnInit(): void {
@@ -725,7 +727,23 @@ export class CreateContentComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.navigateTo('manage-content');
+        if(res['data']['content_status'] == "REVIEW"){
+            let doc = {
+                "role_id" : res['data']['reviewer_role'],
+                "first_name" : res['data']['first_name'],
+                "order_by" : res['data']['order_by'],
+                "content_id" : res['data']['id']
+            }
+            let param = {path: "content_notifications", content_id: ''+res['data']['id'], data:doc};
+            this.fs.addNotification(param);
+        }
+        if(res['data']['content_status'] == "PUBLISHED"){
+            let content_id = this.content_id>0?this.content_id:res['data']['id'];
+            this.fs.deleteNotification({path: "content_notifications/"+content_id});
+        }
+        setTimeout(res=>{
+            this.navigateTo('manage-content');
+        }, 1000)
       } else {
           this.publsh_content = false;
         this.toster.error(res['message'], 'Error', { closeButton: true });
@@ -840,7 +858,7 @@ export class CreateContentComponent implements OnInit {
 }
     publishContent(){
         this.publsh_content = true;
-        this.createContent(true);
+        this.createContent(false);
         // let param = {
         //     url: 'content-publish/' + this.content_id,
         //     publish: 1

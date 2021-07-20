@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { NavigationEnd, Router } from '@angular/router';
+import { FirebaseService } from 'src/app/services/firebase.service';
+import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
   selector: 'app-admin-topbar',
   templateUrl: './admin-topbar.component.html',
@@ -9,13 +11,14 @@ import { NavigationEnd, Router } from '@angular/router';
 export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: string = localStorage.getItem('sidemenu');
   public user;
+  private subscription:Subscription;
   width: any;
   @HostListener('window:load', ['$event'])
   @HostListener('window:resize', ['$event'])
   onEvent(event) {
     this.width = window.innerWidth;
   }
-  constructor(private http: CommonService, private route: Router) {
+  constructor(private http: CommonService, private route: Router, private fs: FirebaseService) {
     this.http.menu_status = localStorage.getItem('sidemenu');
   }
   ngOnInit(): void {
@@ -27,8 +30,15 @@ export class AdminTopbarComponent implements OnInit {
         }
       }
     });
+    
+    
   }
-
+  ngAfterViewInit(){
+    let param = {path: "content_notifications", role_id: Number(this.user['role'])};
+    this.subscription = this.fs.getNotifications(param).subscribe(res=>{
+        console.log(res);
+    })
+  }
   toggleSidemenu(param) {
     this.sidemenu_status =
       this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
@@ -43,5 +53,8 @@ export class AdminTopbarComponent implements OnInit {
       this.http.removeSession();
       this.route.navigate(['/login']);
     });
+  }
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 }

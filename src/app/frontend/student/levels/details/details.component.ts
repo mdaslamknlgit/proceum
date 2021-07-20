@@ -165,13 +165,12 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.player = kPoint.Player(document.getElementById("player-container"), {
                 "kvideoId"  : video['video_source'],
                 "videoHost" : "proceum.kpoint.com",
-                "params"    : {"autoplay" : true, "hide": "search, share, like, toc", "xt" : this.xt}
-              });console.log(this.player)
+                "params"    : {"autoplay" : false, "hide": "search, share, like, toc", "xt" : this.xt}
+              });
              this.getTimeline();
             },1000);
         }
         else{
-            console.log(video, 'kpoint');
             this.player.loadVideoById(video['video_source']);
             this.getTimeline();
         }
