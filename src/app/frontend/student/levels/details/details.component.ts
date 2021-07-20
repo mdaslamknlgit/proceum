@@ -212,6 +212,15 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   seekTo(time){
       this.player.seekTo(time);
   }
+  getThumbinail(url){
+    var iframe_src       = url;
+    var youtube_video_id = iframe_src.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop();
+    
+    if (youtube_video_id.length == 11) {
+        var video_thumbnail = this.sanitizer.bypassSecurityTrustResourceUrl("https://img.youtube.com/vi/"+youtube_video_id+"/0.jpg");
+        return video_thumbnail
+    }
+  }
    millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);

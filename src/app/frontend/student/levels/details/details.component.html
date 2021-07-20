@@ -802,7 +802,8 @@
                   <!-- wv_actv -->
                   <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
-                        <mat-icon *ngIf="video['video_type'] == 'YOUTUBE'">videocam</mat-icon>
+                        <!-- <mat-icon *ngIf="video['video_type'] == 'YOUTUBE'">videocam</mat-icon> -->
+                        <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
                       <img *ngIf="video['video_type'] == 'KPOINT'" src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" /> 
                     </div>
                     <div class="wv_ttl_dsc">
