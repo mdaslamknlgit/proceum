@@ -51,7 +51,7 @@ import { AssetsLibraryComponent } from './assets-library/assets-library.componen
 import { ContentManagementComponent } from './content-management/content-management.component';
 import { MapingComponent } from './content-management/maping/maping.component';
 import { WhiteboardgalleryComponent } from './whiteboardgallery/whiteboardgallery.component';
-import { CreatePartnerComponent } from './create-partner/create-partner.component';
+import { CreatePartnerComponent } from './partner-management/create-partner/create-partner.component';
 import { CreateNewQuestionComponent } from './question-management/create-new-question/create-new-question.component';
 import { QuestionsManagementComponent } from './question-management/questions-management/questions-management.component';
 import { ReviewDashboardComponent } from './module_review/review-dashboard/review-dashboard.component';
