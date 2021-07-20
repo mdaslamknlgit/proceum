@@ -1,316 +1,371 @@
 <div class="mn_dshbrd">
     <div class="pg_ttl">Create Partner</div>
     <hr />
-    <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
-        <mat-accordion>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Basic details
-                    </mat-panel-title>
-                    <mat-panel-description></mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="crt_pr_mn">
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Parnter Type</div>
-                        <div class="crt_prt_cnt">
-                            <mat-radio-group aria-label="Select an option">
-                                <mat-radio-button value="1">University</mat-radio-button>
-                                <mat-radio-button value="2">College</mat-radio-button>
-                                <mat-radio-button value="3">Institute</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        &nbsp;
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Parnter Name</div>
-                        <div>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="Parnter Name" />
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Email address</div>
-                        <div>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="Parnter Name" />
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Contact name</div>
-                        <div>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="Parnter Name" />
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Password</div>
-                        <div>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="Parnter Name" />
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Contact phone</div>
-                        <div>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="Parnter Name" />
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Confirm password</div>
-                        <div>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="Parnter Name" />
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">GSTIN number</div>
-                        <div>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="Parnter Name" />
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="clear_fix"></div>
-                    <div class="text_right float_right w_100p">
-                        <button mat-raised-button class="no_bxsdw gry_btn mr_1">Back</button>
-                        <button mat-raised-button class="no_bxsdw" color="accent">Next</button>
-                    </div>
-                </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Branding info
-                    </mat-panel-title>
-                    <mat-panel-description></mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="crt_pr_mn">
-                    <div class="crt_pr_dv">
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Parnter Header Logo</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_80p">
-                                    <input matInput matInput placeholder="Parnter Name" />
-                                </mat-form-field>
-                                <button mat-raised-button class="no_bxsdw w_19p mt_3px" color="accent">Browse</button>
+    
+        <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
+            <mat-accordion>
+                <mat-expansion-panel [expanded]="basic_details_expand" hideToggle>
+                    <mat-expansion-panel-header style="pointer-events: none;">
+                        <mat-panel-title>
+                            Basic details
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <form autocomplete="off" #create_Partner_form1="ngForm" name="create_Partner_form1" (ngSubmit)="create_Partner_form1.valid" novalidate>
+                        <div class="crt_pr_mn">
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Parnter Type</div>
+                                <div class="crt_prt_cnt">
+                                    <mat-radio-group aria-label="Select an option" name="partner_type" [(ngModel)]="partner_type" required>
+                                        <mat-radio-button name="partner_type" value="1">University</mat-radio-button>
+                                        <mat-radio-button name="partner_type" value="2">College</mat-radio-button>
+                                        <mat-radio-button name="partner_type" value="3">Institute</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                &nbsp;
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Parnter Name</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput placeholder="Parnter Name" maxlength="50" [(ngModel)]="partner_name" name="partner_name_edit" #partner_name_edit="ngModel" required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || partner_name_edit.touched) && partner_name_edit.invalid">Partner name is required</span>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Email address</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit" #email_edit="ngModel"  autocomplete="off"  required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || email_edit.touched) && email_edit.invalid">Email is required</span>
+                                    <span class="prc_tltp" *ngIf="create_Partner_form1.submitted && email_edit.errors?.pattern">This is not a valid Email!</span>    
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Password</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password_edit" #password_edit="ngModel" minlength="6"  autocomplete="off"  required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || password_edit.touched) && password_edit.invalid">Password is required</span>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || password_edit.touched) && (password != '' && password.length < 5) ">Minimum of 6 characters password required!</span>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Confirm password</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p"  class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
+                                        <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="confirm_password" name="confirm_password_edit" #confirm_password_edit="ngModel" minlength="6" required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || confirm_password_edit.touched) && confirm_password_edit.invalid">confirm password is required</span>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || confirm_password_edit.touched) && confirm_password != '' && (confirm_password != password)">Password and Confirm Password must be match!</span>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Contact Number</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput placeholder="Contact Number" [(ngModel)]="phone" name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13" required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || phone_edit.touched) && phone_edit.invalid">Contact number is required</span>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 && phone.length > 13)">Invalid Contact number.Minimun of 9, Maximum of 13 digits required!</span>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Contact Person</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput placeholder="Person Name" maxlength="50" appAlphabetOnly [(ngModel)]="contact_name" name="contact_name_edit" #contact_name_edit="ngModel" required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || contact_name_edit.touched) && contact_name_edit.invalid">Contact Person name is required</span>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">GSTIN number</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput placeholder="GSTIN" [(ngModel)]="gstin" name="gstin_edit" #gstin_edit="ngModel" required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || gstin_edit.touched) && gstin_edit.invalid">GSTIN is required</span>
+                                </div>
+                            </div>
+                            <div class="clear_fix"></div>
+                            <div class="text_right float_right w_100p">
+                                <button mat-raised-button  class="no_bxsdw" color="accent" (click)="validateBasicDeatils()">Next</button>
                             </div>
                         </div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Footer Logo</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_80p">
-                                    <input matInput matInput placeholder="Parnter Name" />
-                                </mat-form-field>
-                                <button mat-raised-button class="no_bxsdw w_19p mt_3px" color="accent">Browse</button>
+                    </form>
+                </mat-expansion-panel>
+                <mat-expansion-panel [expanded]="branding_info_expand" hideToggle>
+                    <mat-expansion-panel-header style="pointer-events: none;">
+                        <mat-panel-title>
+                            Branding info
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <form autocomplete="off" #create_Partner_form2="ngForm" name="create_Partner_form2" (ngSubmit)="create_Partner_form2.valid" novalidate>
+                        <div class="crt_pr_mn">
+                            <div class="crt_pr_dv">
+                                <div class="brnd_info_mn">
+                                    <div class="crt_prt_hd">Parnter Header Logo</div>
+                                    <div class="brnd_info_upld">
+                                        <div *ngIf="header_logo">
+                                            <img src="{{ header_logo }}" alt="Header Logo">
+                                        </div>
+                                        <button mat-raised-button class="no_bxsdw w_19p mt_3px" color="accent"  onclick="document.getElementById('imageToUpload1').click()" type="button">
+                                            <input (change)="uploadImage($event,'header_logo')" accept="image/x-png,image/gif,image/jpeg" id="imageToUpload1" type="file" style="display: none" />Browse
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="brnd_info_mn">
+                                    <div class="crt_prt_hd">Footer Logo</div>
+                                    <div class="brnd_info_upld">
+                                        <div *ngIf="footer_logo">
+                                            <img src="{{ footer_logo }}" alt="Header Logo">
+                                        </div>
+                                        <button mat-raised-button class="no_bxsdw w_19p mt_3px" color="accent"  onclick="document.getElementById('imageToUpload2').click()" type="button">
+                                            <input (change)="uploadImage($event,'footer_logo')" accept="image/x-png,image/gif,image/jpeg" id="imageToUpload2" type="file" style="display: none" />Browse
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Description</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <textarea matInput class="crt_prt_txt" ppAlphabetOnly [(ngModel)]="description" name="description_edit" #description_edit="ngModel" required></textarea>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form2.submitted || description_edit.touched) && description_edit.invalid">Description is required</span>
+                                </div>
+                            </div>
+                            <div class="clear_fix"></div>
+                            <div class="text_right float_right w_100p">
+                                <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1" (click)="branding_info_expand=false;basic_details_expand=true">Back</button>
+                                <button mat-raised-button class="no_bxsdw" color="accent" (click)="validateBrandingInfo()">Next</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Description</div>
-                        <mat-form-field appearance="outline" class="w_100p">
-                            <textarea matInput class="crt_prt_txt"></textarea>
-                        </mat-form-field>
-                    </div>
-                    <div class="clear_fix"></div>
-                    <div class="text_right float_right w_100p">
-                        <button mat-raised-button class="no_bxsdw gry_btn mr_1">Back</button>
-                        <button mat-raised-button class="no_bxsdw" color="accent">Next</button>
-                    </div>
-                </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Licence info
-                    </mat-panel-title>
-                    <mat-panel-description></mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="crt_pr_mn">
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Choose subscription package</div>
-                        <mat-form-field appearance="outline" class="w_100p">
-                            <mat-select>
-                                <mat-option value="1">one</mat-option>
-                                <mat-option>one</mat-option>
-                                <mat-option>one</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="clear_fix w_100p"></div>
-                    <div class="crt_pr_dv d-flex jc_sb">
-                        <div class="w_47p">
-                            <div class="crt_prt_hd">Licence start date</div>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput [matDatepicker]="picker">
-                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                        <div class="w_47p">
-                            <div class="crt_prt_hd">Licence end date</div>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput [matDatepicker]="picker">
-                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="clear_fix"></div>
-                    <div class="text_right float_right w_100p">
-                        <button mat-raised-button class="no_bxsdw gry_btn mr_1">Back</button>
-                        <button mat-raised-button class="no_bxsdw" color="accent">Next</button>
-                    </div>
-                </div>
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        Billing address &amp; Correspondence address
-                    </mat-panel-title>
-                    <mat-panel-description></mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="crt_pr_mn">
-                    <div class="text_right w_100p"><mat-checkbox>Same as Billing Address</mat-checkbox></div>
-                    <div class="clear_fix w_100p"></div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_pr_sbhd" >Billing address</div>
-                        <div class="hgt_10"></div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Address line 1</div>
-                            <div class="brnd_info_upld">
+                    </form>
+                </mat-expansion-panel>
+                <mat-expansion-panel [expanded]="licence_info_expand" hideToggle>
+                    <mat-expansion-panel-header style="pointer-events: none;">
+                        <mat-panel-title>
+                            Licence info
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <form autocomplete="off" #create_Partner_form3="ngForm" name="create_Partner_form3" (ngSubmit)="create_Partner_form3.valid" novalidate>
+                        <div class="crt_pr_mn">
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Choose subscription package</div>
                                 <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput matInput placeholder="Address line 1" />
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Address line 2</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput matInput placeholder="Address line 2" />
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="brnd_info_mn d-flex jc_sb">
-                            <div class="w_47p">
-                                <div class="crt_prt_hd">Country</div>
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <mat-select>
-                                        <mat-option value="1">one</mat-option>
-                                        <mat-option>one</mat-option>
-                                        <mat-option>one</mat-option>
+                                    <mat-select placeholder="Select Package" name="package_edit" #package_edit="ngModel" [(ngModel)]="package_id" required>
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No package found'"
+                                            [placeholderLabel]="'Search Package'" name="search_package" ngModel
+                                            (ngModelChange)="filterPackages($event)"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let package of all_packages | async" [value]="package['pk_id']">{{ package["package_name"] }}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
+                                <span *ngIf="(create_Partner_form3.submitted || package_edit.touched) && (package_edit.invalid || package_id == 0 || package_id == '')" class="prc_tltp">Package is required</span>
                             </div>
-                            <div class="w_47p">
-                                <div class="crt_prt_hd">State</div>
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <mat-select>
-                                        <mat-option value="1">one</mat-option>
-                                        <mat-option>one</mat-option>
-                                        <mat-option>one</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                            <div class="clear_fix w_100p"></div>
+                            <div class="crt_pr_dv d-flex jc_sb">
+                                <div class="w_47p">
+                                    <div class="crt_prt_hd">Licence start date</div>
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput placeholder="Select Start Date"  [matDatepicker]="picker1" #start_date="ngModel" [(ngModel)]="licence_start_date"  name="start_date" [min]="today_date" autocomplete="off" required>
+                                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker1></mat-datepicker>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form3.submitted || start_date.touched) && start_date.invalid">Licence Start Date is required</span>
+                                </div>
+                                <div class="w_47p">
+                                    <div class="crt_prt_hd">Licence end date</div>
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput placeholder="Select End Date"  [matDatepicker]="picker2"  #end_date="ngModel" [(ngModel)]="licence_end_date"  name="end_date" [min]="licence_start_date" autocomplete="off" required>
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form3.submitted || end_date.touched) && end_date.invalid">Licence End Date is required</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="brnd_info_mn d-flex jc_sb">
-                            <div class="w_47p">
-                                <div class="crt_prt_hd">City</div>
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <mat-select>
-                                        <mat-option value="1">one</mat-option>
-                                        <mat-option>one</mat-option>
-                                        <mat-option>one</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="w_47p">
-                                <div class="crt_prt_hd">Postcode</div>
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput matInput placeholder="Postcode" />
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_pr_sbhd" >Correspondence address</div>
-                        <div class="hgt_10"></div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Address line 1</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput matInput placeholder="Address line 1" />
-                                </mat-form-field>
+                            <div class="clear_fix"></div>
+                            <div class="text_right float_right w_100p">
+                                <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1" (click)="licence_info_expand=false;branding_info_expand=true">Back</button>
+                                <button mat-raised-button class="no_bxsdw" color="accent" (click)="validateLicenceInfo()">Next</button>
                             </div>
                         </div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Address line 2</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput matInput placeholder="Address line 2" />
-                                </mat-form-field>
+                    </form>
+                </mat-expansion-panel>
+                <mat-expansion-panel [expanded]="billing_address_expand" hideToggle>
+                    <mat-expansion-panel-header style="pointer-events: none;">
+                        <mat-panel-title>
+                            Billing address &amp; Correspondence address
+                        </mat-panel-title>
+                        <mat-panel-description></mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <form autocomplete="off" #create_Partner_form4="ngForm" name="create_Partner_form4" (ngSubmit)="create_Partner_form4.valid" novalidate>
+                        <div class="crt_pr_mn">
+                            <div class="text_right w_100p"><mat-checkbox  name="same_as_billing_address" [(ngModel)]="same_as_billing_address" (ngModelChange)="sameAsBillingAddress()">Same as Billing Address</mat-checkbox></div>
+                            <div class="clear_fix w_100p"></div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_pr_sbhd" >Billing address</div>
+                                <div class="hgt_10"></div>
+                                <div class="brnd_info_mn">
+                                    <div class="crt_prt_hd">Address line 1</div>
+                                    <div class="brnd_info_upld">
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <input matInput matInput placeholder="Address line 1" [(ngModel)]="b_address_line_1" name="address_line_1_edit" #address_line_1_edit="ngModel" required/>
+                                        </mat-form-field>
+                                        <span class="prc_tltp" *ngIf="(create_Partner_form4.submitted || address_line_1_edit.touched) && address_line_1_edit.invalid">Address Line 1 is required</span>
+                                    </div>
+                                </div>
+                                <div class="brnd_info_mn">
+                                    <div class="crt_prt_hd">Address line 2</div>
+                                    <div class="brnd_info_upld">
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <input matInput matInput placeholder="Address line 2" [(ngModel)]="b_address_line_2" name="address_line_2_edit" #address_line_2_edit="ngModel" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="brnd_info_mn d-flex jc_sb">
+                                    <div class="w_47p">
+                                        <div class="crt_prt_hd">Country</div>
+                                        <div class="err_tltp_par">
+                                            <mat-form-field appearance="outline" class="w_100p">
+                                                <mat-select placeholder="Select Country" name="country_edit" #country_edit="ngModel" [(ngModel)]="b_country_id" (ngModelChange)="getStates(b_country_id)" required>
+                                                    <<mat-option>
+                                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
+                                                        [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                                                        (ngModelChange)="filterCountries($event)"></ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{ country["country_name"] }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <span *ngIf="(create_Partner_form4.submitted || country_edit.touched) && country_edit.invalid" class="prc_tltp">Country is required</span>
+                                        </div>
+                                    </div>
+                                    <div class="w_47p">
+                                        <div class="crt_prt_hd">State</div>
+                                        <div class="err_tltp_par">
+                                            <mat-form-field appearance="outline" class="w_100p">
+                                                <mat-select placeholder="Select State" name="state_edit" #state_edit="ngModel" [(ngModel)]="b_state_id" required>
+                                                    <mat-option>
+                                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
+                                                        [placeholderLabel]="'Search State'" name="search_state" ngModel
+                                                        (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{ state["state_name"] }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <span *ngIf="(create_Partner_form4.submitted || state_edit.touched) && state_edit.invalid" class="prc_tltp">State is required</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="brnd_info_mn d-flex jc_sb">
+                                    <div class="w_47p">
+                                        <div class="crt_prt_hd">City</div>
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <input matInput matInput placeholder="City" [(ngModel)]="b_city" name="city_edit" #city_edit="ngModel" required/>
+                                        </mat-form-field>
+                                        <span class="prc_tltp" *ngIf="(create_Partner_form4.submitted || city_edit.touched) && city_edit.invalid">City is required</span>
+                                    </div>
+                                    <div class="w_47p">
+                                        <div class="crt_prt_hd">Postcode</div>
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <input matInput placeholder="ZIP/Pin code" [(ngModel)]="b_pincode" name="pincode_edit" #pincode_edit="ngModel" appNumbersonly minlength="4" maxlength="13" required/>
+                                        </mat-form-field>
+                                        <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || pincode_edit.touched) && pincode_edit.invalid">ZIP/Pincode is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_pr_sbhd" >Correspondence address</div>
+                                <div class="hgt_10"></div>
+                                <div class="brnd_info_mn">
+                                    <div class="crt_prt_hd">Address line 1</div>
+                                    <div class="brnd_info_upld">
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <input matInput matInput placeholder="Address line 1" [(ngModel)]="c_address_line_1" name="c_address_line_1_edit" #c_address_line_1_edit="ngModel" required/>
+                                        </mat-form-field>
+                                        <span class="prc_tltp" *ngIf="(create_Partner_form4.submitted || c_address_line_1_edit.touched) && c_address_line_1_edit.invalid">Address Line 1 is required</span>
+                                    </div>
+                                </div>
+                                <div class="brnd_info_mn">
+                                    <div class="crt_prt_hd">Address line 2</div>
+                                    <div class="brnd_info_upld">
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <input matInput matInput placeholder="Address line 2" [(ngModel)]="c_address_line_2" name="c_address_line_2_edit" #c_address_line_2_edit="ngModel" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="brnd_info_mn d-flex jc_sb">
+                                    <div class="w_47p">
+                                        <div class="crt_prt_hd">Country</div>
+                                        <div class="err_tltp_par">
+                                            <mat-form-field appearance="outline" class="w_100p">
+                                                <mat-select placeholder="Select Country" name="c_country_edit" #c_country_edit="ngModel" [(ngModel)]="c_country_id" (ngModelChange)="getStates(c_country_id)" required>
+                                                    <<mat-option>
+                                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
+                                                        [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                                                        (ngModelChange)="filterCountries($event)"></ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{ country["country_name"] }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <span *ngIf="(create_Partner_form4.submitted || c_country_edit.touched) && c_country_edit.invalid" class="prc_tltp">Country is required</span>
+                                        </div>
+                                    </div>
+                                    <div class="w_47p">
+                                        <div class="crt_prt_hd">State</div>
+                                        <div class="err_tltp_par">
+                                            <mat-form-field appearance="outline" class="w_100p">
+                                                <mat-select placeholder="Select State" name="c_state_edit" #c_state_edit="ngModel" [(ngModel)]="c_state_id" required>
+                                                    <mat-option>
+                                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
+                                                        [placeholderLabel]="'Search State'" name="search_state" ngModel
+                                                        (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{ state["state_name"] }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <span *ngIf="(create_Partner_form4.submitted || c_state_edit.touched) && c_state_edit.invalid" class="prc_tltp">State is required</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="brnd_info_mn d-flex jc_sb">
+                                    <div class="w_47p">
+                                        <div class="crt_prt_hd">City</div>
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <input matInput matInput placeholder="City" [(ngModel)]="c_city" name="c_city_edit" #c_city_edit="ngModel" required/>
+                                        </mat-form-field>
+                                        <span class="prc_tltp" *ngIf="(create_Partner_form4.submitted || c_city_edit.touched) && c_city_edit.invalid">City is required</span>
+                                    </div>
+                                    <div class="w_47p">
+                                        <div class="crt_prt_hd">Postcode</div>
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <input matInput placeholder="ZIP/Pin code" [(ngModel)]="c_pincode" name="c_pincode_edit" #c_pincode_edit="ngModel" appNumbersonly minlength="4" maxlength="13" required/>
+                                        </mat-form-field>
+                                        <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || c_pincode_edit.touched) && c_pincode_edit.invalid">ZIP/Pincode is required</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clear_fix"></div>
+                            <div class="text_right float_right w_100p">
+                                <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1" (click)="billing_address_expand=false;licence_info_expand = true;">Back</button>
+                                <button mat-raised-button class="no_bxsdw" color="accent" (click)="validateAddressDetails()">Finish</button>
                             </div>
                         </div>
-                        <div class="brnd_info_mn d-flex jc_sb">
-                            <div class="w_47p">
-                                <div class="crt_prt_hd">Country</div>
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <mat-select>
-                                        <mat-option value="1">one</mat-option>
-                                        <mat-option>one</mat-option>
-                                        <mat-option>one</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="w_47p">
-                                <div class="crt_prt_hd">State</div>
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <mat-select>
-                                        <mat-option value="1">one</mat-option>
-                                        <mat-option>one</mat-option>
-                                        <mat-option>one</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="brnd_info_mn d-flex jc_sb">
-                            <div class="w_47p">
-                                <div class="crt_prt_hd">City</div>
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <mat-select>
-                                        <mat-option value="1">one</mat-option>
-                                        <mat-option>one</mat-option>
-                                        <mat-option>one</mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="w_47p">
-                                <div class="crt_prt_hd">Postcode</div>
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput matInput placeholder="Postcode" />
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clear_fix"></div>
-                    <div class="text_right float_right w_100p">
-                        <button mat-raised-button class="no_bxsdw gry_btn mr_1">Back</button>
-                        <button mat-raised-button class="no_bxsdw" color="accent">Finish</button>
-                    </div>
-                </div>
-              
-            </mat-expansion-panel>
-
-        </mat-accordion>
-    </div>
+                    </form>
+                  
+                </mat-expansion-panel>
+    
+            </mat-accordion>
+        </div>
+    
 </div>

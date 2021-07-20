@@ -18,10 +18,10 @@ export class CurriculamComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'name',
-    'status',
     'created_at',
     'updated_at',
     'actions',
+    'status',
   ];
   view_model_status = false;
   public curriculum_name = '';

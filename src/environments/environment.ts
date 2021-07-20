@@ -49,11 +49,19 @@ export const environment = {
     //'TableToolbar',
     //'htmlSource',
   ],
-  //  apiUrl: 'http://192.168.0.12:8080/api/',
+  
 
-  // apiUrl: 'http://192.10.250.150:8000/api/',
-    // apiUrl: 'http://127.0.0.1:8000/api/',
-    apiUrl: 'https://apiqa.proceum.com/api/',
+   apiUrl: 'http://192.10.250.150:8000/api/',
+     //apiUrl: 'http://127.0.0.1:8000/api/',
+    //apiUrl: 'https://apiqa.proceum.com/api/',
+    firebaseConfig : {
+        apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
+        authDomain: "proceum-dev-62a30.firebaseapp.com",
+        projectId: "proceum-dev-62a30",
+        storageBucket: "proceum-dev-62a30.appspot.com",
+        messagingSenderId: "41849089517",
+        appId: "1:41849089517:web:daea02011d4e30db528be4"
+      }
 };
 
 /*

@@ -192,7 +192,7 @@ export class EditPackageComponent implements OnInit {
         //For reccuring datetime
         if(package_data.valid_up_to !== null){
           let valid_date = package_data.valid_up_to.split('-');
-          console.log(valid_date);
+          //console.log(valid_date);
           this.valid_up_to = new Date(
             package_data.valid_up_to
           );
@@ -258,7 +258,7 @@ export class EditPackageComponent implements OnInit {
   }
 
   updatePackageService(){
-    if(this.applicable_to_university == '' || this.applicable_to_college == '' || this.applicable_to_institute == ''){
+    if(this.applicable_to_university == '' && this.applicable_to_college == '' && this.applicable_to_institute == ''){
       this.toster.error("Applicable to is required", 'Error', { closeButton: true });
       return;
     }
