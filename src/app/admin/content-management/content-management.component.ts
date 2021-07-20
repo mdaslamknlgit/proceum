@@ -17,11 +17,11 @@ export class ContentManagementComponent implements OnInit {
     'sno',
     'content_title',
     'created_by',
-    'status',
     'content_status',
     'created_at',
     'updated_at',
     'actions',
+    'status',
   ];
   public dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
