@@ -49,7 +49,7 @@ export const environment = {
     //'TableToolbar',
     //'htmlSource',
   ],
-  //  apiUrl: 'http://192.168.0.12:8080/api/',
+  
 
    apiUrl: 'http://192.10.250.150:8000/api/',
      //apiUrl: 'http://127.0.0.1:8000/api/',
