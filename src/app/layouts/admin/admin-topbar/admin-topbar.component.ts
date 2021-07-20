@@ -12,6 +12,7 @@ export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: string = localStorage.getItem('sidemenu');
   public user;
   private subscription:Subscription;
+  private content_notifications = [];
   width: any;
   @HostListener('window:load', ['$event'])
   @HostListener('window:resize', ['$event'])
@@ -36,7 +37,7 @@ export class AdminTopbarComponent implements OnInit {
   ngAfterViewInit(){
     let param = {path: "content_notifications", role_id: Number(this.user['role'])};
     this.subscription = this.fs.getNotifications(param).subscribe(res=>{
-        console.log(res);
+        this.content_notifications = res;
     })
   }
   toggleSidemenu(param) {

@@ -132,8 +132,8 @@
                 <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Premium content</mat-radio-button>&nbsp; &nbsp;
                 <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free content</mat-radio-button> 
             </section> -->
-  <mat-slide-toggle [checked]="is_paid==1?true:false">
-    {{ is_paid == 1 ? 'Paid' : 'Free'}} 
+  <mat-slide-toggle [(ngModel)]="is_paid">
+    {{ is_paid == true ? 'Paid' : 'Free'}} 
   </mat-slide-toggle>
   <form (keydown.enter)="$event.preventDefault()" id="content_form" #content_create_form="ngForm"
     name="content_create_form" (ngSubmit)="content_create_form.valid && createContent(false)" novalidate>
