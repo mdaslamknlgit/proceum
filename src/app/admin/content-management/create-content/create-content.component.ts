@@ -92,6 +92,29 @@ export class CreateContentComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   public Editor = Editor;
+  editorReviewConfig = {
+    Plugins: [],
+    placeholder: 'Enter content',
+    toolbar: {
+      items: ['Heading', 'bold', 'FontColor', 'FontBackgroundColor', 'italic', 'underline', 'link', 'bulletedList', 'numberedList',],
+    },
+    image: {
+      upload: ['png'],
+      toolbar: [
+        'imageStyle:alignLeft',
+        'imageStyle:full',
+        'imageStyle:alignRight',
+      ],
+      styles: ['full', 'alignLeft', 'alignRight'],
+    },
+    table: {
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
+    },
+    mediaEmbed: {
+      previewsInData: true,
+    },
+    language: 'en',
+  };
   editorConfig = {
     Plugins: [],
     placeholder: 'Enter content',
