@@ -12,7 +12,6 @@ import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from 'js-3d-model-viewer';
-
 declare var kPoint: any;
 @Component({
   selector: 'app-details',
