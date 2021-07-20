@@ -128,6 +128,13 @@
     </div>
   </div>
   <div class="pg_ttl">{{ pgae_title }}</div>
+  <!-- <section>
+                <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Premium content</mat-radio-button>&nbsp; &nbsp;
+                <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free content</mat-radio-button> 
+            </section> -->
+  <mat-slide-toggle [checked]="is_paid==1?true:false">
+    {{ is_paid == 1 ? 'Paid' : 'Free'}} 
+  </mat-slide-toggle>
   <form (keydown.enter)="$event.preventDefault()" id="content_form" #content_create_form="ngForm"
     name="content_create_form" (ngSubmit)="content_create_form.valid && createContent(false)" novalidate>
     <div class="main_content_cc">
@@ -147,13 +154,6 @@
             ">
             Content Title is required</span>
         </div>
-        <div class="al_asts">
-          <mat-radio-group>
-                <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0" class="mr_1">Free</mat-radio-button>
-                <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Paid</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <div class="hgt_20"></div>
         <!-- #Row1 -->
         <div class="cc_row">
           <!-- Intro video -->
@@ -183,7 +183,7 @@
             <div class="c_block">
               <div class="c_block_title">
                 <mat-icon>videocam</mat-icon>
-                <label for="Intro video"> videos</label>
+                <label for="Intro video"> Videos</label>
               </div>
               <!-- <mat-form-field appearance="outline" class="mn_vd_inp">
                 <input matInput placeholder="Enter Content Title (max. 250 characters)" />
@@ -281,9 +281,12 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <button type="button" (click)="addVideo(2)" mat-icon-button class="no_bxsdw">
-                      Add New Video<mat-icon>add</mat-icon>
-                    </button>
+                    
+                      <button type="button" (click)="addVideo(2)" mat-icon-button class="no_bxsdw add_new_video_button" mat-raised-button color="accent">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    
+                    
                     <div class="ulvd_inpts" *ngFor="let board_lecture_video of board_lecture_videos;let i=index">
                       <div *ngIf="board_lecture_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
@@ -326,8 +329,8 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <button type="button" (click)="addVideo(3)" mat-icon-button class="no_bxsdw">
-                      Add New Video<mat-icon>add</mat-icon>
+                    <button type="button" (click)="addVideo(3)" mat-icon-button class="no_bxsdw add_new_video_button" mat-raised-button color="accent">
+                      <mat-icon>add</mat-icon>
                     </button>
                     <div class="ulvd_inpts" *ngFor="let clinical_video of clinical_videos;let i=index">
                       <div *ngIf="clinical_video['status'] != 'delete'" class="ulvd_inpts">
@@ -370,7 +373,7 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <button (click)="addVideo(4)" type="button" mat-icon-button class="no_bxsdw">
+                    <button (click)="addVideo(4)" type="button" mat-icon-button class="no_bxsdw add_new_video_button" mat-raised-button color="accent">
                       <mat-icon>add</mat-icon>
                     </button>
                     <div class="ulvd_inpts" *ngFor="let procedural_video of procedural_videos;let i=index">
@@ -415,7 +418,7 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <button type="button" (click)="addVideo(5)" mat-icon-button class="no_bxsdw">
+                    <button type="button" (click)="addVideo(5)" mat-icon-button class="no_bxsdw add_new_video_button" mat-raised-button color="accent">
                       <mat-icon>add</mat-icon>
                     </button>
                     <div class="ulvd_inpts" *ngFor="let three_d_video of three_d_videos;let i=index">
@@ -1095,24 +1098,27 @@
 
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
+          <span>
+            <mat-checkbox class="example-margin">Free content</mat-checkbox>
+          </span>
           <a target="_blank" href="student/curriculum/details/00/00/00/{{content_id}}"
-            *ngIf="content_id >0" class="gry_btn" type="button"
+            *ngIf="content_id >0" class="gry_btn ml_1" type="button"
             mat-raised-button>
             Preview
           </a>
-          <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'" class="gry_btn"
+          <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'" class="gry_btn ml_1"
             type="button" mat-raised-button (click)="createContent(true)">
             Save as draft
           </button>
-          <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="mx_1">
+          <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="ml_1">
             Cancel
           </button>
-          <button class="gry_btn"
+          <button class="gry_btn ml_1"
             *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
             type="button" color="accent" mat-raised-button (click)="selectReviewer()">
             Send To Review
           </button>
-          <button class="gry_btn" *ngIf="is_published == '1' && content_parent_id == 0" mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
+          <button class="gry_btn ml_1" *ngIf="is_published == '1' && content_parent_id == 0" mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
             [popoverMessage]="
               'are you sure to create a new copy of this published content '
             " placement="auto" (confirm)="createContent(false)" confirmButtonType="danger"
@@ -1123,7 +1129,7 @@
             type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                 'are you sure to Publish this content '+ publish_message
               " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
-            cancelButtonType="outline-secondary" mat-raised-button color="accent" class="mx_1">
+            cancelButtonType="outline-secondary" mat-raised-button color="accent" class="ml_1">
             Save & Publish
           </button>
         </div>
