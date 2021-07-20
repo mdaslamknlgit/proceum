@@ -3,6 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+
 @Component({
   selector: 'app-admin-topbar',
   templateUrl: './admin-topbar.component.html',
@@ -12,7 +13,8 @@ export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: string = localStorage.getItem('sidemenu');
   public user;
   private subscription:Subscription;
-  private content_notifications = [];
+  public content_notifications = [];
+  public show_notifications = false;
   width: any;
   @HostListener('window:load', ['$event'])
   @HostListener('window:resize', ['$event'])
@@ -58,4 +60,14 @@ export class AdminTopbarComponent implements OnInit {
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
+  navigateTo(url){
+    let user = this.http.getUser();
+    if(user['role']== '1'){
+        url = "/admin/"+url;
+    }
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/reviewer/"+url;
+  }
+    this.route.navigateByUrl(url);
+}
 }

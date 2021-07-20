@@ -39,6 +39,9 @@ import {
 
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
+import { OrderByPipe } from '../shared/pipes/order-by.pipe';
+
+//components
 import { StatesComponent } from './states/states.component';
 import { CitiesComponent } from './cities/cities.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -205,7 +208,8 @@ const routes: Routes = [
     QuestionsManagementComponent,
     QuestionBankComponent,
     EditNewQuestionComponent,
-    PartnersListComponent
+    PartnersListComponent,
+    OrderByPipe
   ],
   imports: [
     MaterialModule,
