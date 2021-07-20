@@ -62,6 +62,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public player:any;
   public display_videos = "INTRO";
   public video_type = 'KPOINT';
+  public iframe_width = '420';
+  public iframe_height = '315';
   public youtube_iframe:any;
   public xt = '';
   public timeline:any;
@@ -140,6 +142,14 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 }
   switchView(){
       this.view_type = this.view_type == 1?2:1;
+      if(this.view_type == 1){
+        this.iframe_width = '420';
+        this.iframe_height = '315';
+    }
+    else{
+        this.iframe_width = '100%';
+        this.iframe_height = '600';
+    }
   }
   
   playVideo(video){
@@ -183,7 +193,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }
         this.video_type = "YOUTUBE";
         let embed_link = video['video_source'].replace("/watch?v=","/embed/");
-        this.youtube_iframe = this.sanitizer.bypassSecurityTrustHtml('<iframe width="420" height="315" src="'+embed_link+'"></iframe>');
+        console.log(embed_link)
+        this.youtube_iframe = this.sanitizer.bypassSecurityTrustResourceUrl(embed_link);
+       // this.youtube_iframe = this.sanitizer.bypassSecurityTrustHtml('<iframe [width]="iframe_width" [height]="iframe_height" src="'+embed_link+'"></iframe>');
     }
   }
   getTimeline(){
@@ -199,6 +211,15 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
   seekTo(time){
       this.player.seekTo(time);
+  }
+  getThumbinail(url){
+    var iframe_src       = url;
+    var youtube_video_id = iframe_src.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop();
+    
+    if (youtube_video_id.length == 11) {
+        var video_thumbnail = this.sanitizer.bypassSecurityTrustResourceUrl("https://img.youtube.com/vi/"+youtube_video_id+"/0.jpg");
+        return video_thumbnail
+    }
   }
    millisToMinutesAndSeconds(millis) {
     var minutes = Math.floor(millis / 60000);

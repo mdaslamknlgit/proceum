@@ -42,7 +42,7 @@ export class CreateContentComponent implements OnInit {
   public selected_short_questions = [];
   public library_popup: boolean = false;
   public title = '';
-  public is_paid = 0;
+  public is_paid = true;
   public videos = [];
   public videos_files = [];
   public main_content: string = '';
@@ -92,6 +92,29 @@ export class CreateContentComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   public Editor = Editor;
+  editorReviewConfig = {
+    Plugins: [],
+    placeholder: 'Enter content',
+    toolbar: {
+      items: ['Heading', 'bold', 'FontColor', 'FontBackgroundColor', 'italic', 'underline', 'link', 'bulletedList', 'numberedList',],
+    },
+    image: {
+      upload: ['png'],
+      toolbar: [
+        'imageStyle:alignLeft',
+        'imageStyle:full',
+        'imageStyle:alignRight',
+      ],
+      styles: ['full', 'alignLeft', 'alignRight'],
+    },
+    table: {
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
+    },
+    mediaEmbed: {
+      previewsInData: true,
+    },
+    language: 'en',
+  };
   editorConfig = {
     Plugins: [],
     placeholder: 'Enter content',
@@ -188,7 +211,7 @@ export class CreateContentComponent implements OnInit {
         
         this.is_published = data['is_published'];
         this.title = data['title'];
-        this.is_paid = data['is_paid'];
+        this.is_paid = data['is_paid'] == 1?true:false;
         let videos = data['videos'];
         if(videos['intro_video'].length > 0){
             this.intro_video = videos['intro_video'];
@@ -698,7 +721,7 @@ export class CreateContentComponent implements OnInit {
     }
     let form_data = {
       title: this.title,
-      is_paid:this.is_paid,
+      is_paid:this.is_paid == true?1:0,
       main_videos: this.videos,
       intro_video: this.intro_video,
       two_d_videos: this.two_d_videos,

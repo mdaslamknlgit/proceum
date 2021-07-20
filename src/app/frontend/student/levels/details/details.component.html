@@ -707,7 +707,10 @@
           </div>
 
           <div id="youtube_div">
-            <div *ngIf="video_type=='YOUTUBE'" [innerHtml]="youtube_iframe"></div>
+            <!-- <div *ngIf="video_type=='YOUTUBE'" [innerHtml]="youtube_iframe"> -->
+            <div *ngIf="video_type=='YOUTUBE'">
+              <iframe [width]="iframe_width" [height]="iframe_height" [src]="youtube_iframe"></iframe>
+            </div>
           </div>
           <div id="threed_obj_dev">
             <div *ngIf="video_type=='3D_OBJECT'">
@@ -809,8 +812,9 @@
                   <!-- wv_actv -->
                   <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
-                      <mat-icon>videocam</mat-icon>
-                      <!-- <img src="../../../assets/images/vid_smpl.jpg" /> -->
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
                     </div>
                     <div class="wv_ttl_dsc">
                       <span class="wv_tt_hd">{{video['module_title']}}</span>
@@ -833,14 +837,15 @@
                   <mat-icon>videocam</mat-icon> 2D Videos ({{two_d_videos.length}})
                 </mat-panel-title>
               </mat-expansion-panel-header>
-            
+
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
                   <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
-                      <mat-icon>videocam</mat-icon>
-                      <!-- <img src="../../../assets/images/vid_smpl.jpg" /> -->
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
                     </div>
                     <div class="wv_ttl_dsc">
                       <span class="wv_tt_hd">{{video['module_title']}}</span>
@@ -864,14 +869,15 @@
                   <mat-icon>videocam</mat-icon> Board Lectures ({{board_lecture_videos.length}})
                 </mat-panel-title>
               </mat-expansion-panel-header>
-           
+
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
                   <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
-                      <mat-icon>videocam</mat-icon>
-                      <!-- <img src="../../../assets/images/vid_smpl.jpg" /> -->
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
                     </div>
                     <div class="wv_ttl_dsc">
                       <span class="wv_tt_hd">{{video['module_title']}}</span>
@@ -894,14 +900,15 @@
                   <mat-icon>videocam</mat-icon> Clinical Essentials ({{clinical_videos.length}})
                 </mat-panel-title>
               </mat-expansion-panel-header>
-           
+
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
                   <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
-                      <mat-icon>videocam</mat-icon>
-                      <!-- <img src="../../../assets/images/vid_smpl.jpg" /> -->
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
                     </div>
                     <div class="wv_ttl_dsc">
                       <span class="wv_tt_hd">{{video['module_title']}}</span>
@@ -924,18 +931,20 @@
                   <mat-icon>videocam</mat-icon> Procedural Videos ({{procedural_videos.length}})
                 </mat-panel-title>
               </mat-expansion-panel-header>
-             
+
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
                   <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
-                      <mat-icon>videocam</mat-icon>
-                      <!-- <img src="../../../assets/images/vid_smpl.jpg" /> -->
+                      <!-- <mat-icon *ngIf="video['video_type'] == 'YOUTUBE'">videocam</mat-icon> -->
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
                     </div>
                     <div class="wv_ttl_dsc">
                       <span class="wv_tt_hd">{{video['module_title']}}</span>
-                      <!-- <span class="wv_ts">05:50 min</span> -->
+                      <span class="wv_ts">05:50 min</span>
                     </div>
                     <!-- <span class="spacer"></span>
                     <div class="wv_ply_icn">
@@ -948,22 +957,21 @@
                 </div>
               </div>
             </mat-expansion-panel>
-
-
             <mat-expansion-panel (click)="display_videos='3D'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon>videocam</mat-icon> 3D ({{three_d_videos.length}})
                 </mat-panel-title>
               </mat-expansion-panel-header>
-             
+
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
                   <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
-                      <mat-icon>videocam</mat-icon>
-                      <!-- <img src="../../../assets/images/vid_smpl.jpg" /> -->
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
                     </div>
                     <div class="wv_ttl_dsc">
                       <span class="wv_tt_hd">{{video['module_title']}}</span>

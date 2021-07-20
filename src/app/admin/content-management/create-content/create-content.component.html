@@ -30,7 +30,7 @@
       <div style="height: 200px">
         <div class="ck_editor">
           <ckeditor [(ngModel)]="comments_content" name="comments_content" (ready)="onReady($event)" [editor]="Editor"
-            #editor [config]="editorConfig" style="height: 500px"></ckeditor>
+            #editor [config]="editorReviewConfig" style="height: 500px"></ckeditor>
         </div>
       </div>
       <div class="wr_atchmts" *ngIf="review_docs.length>0">
@@ -136,8 +136,8 @@
                 <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free content</mat-radio-button> 
             </section> -->
   <div>
-    <mat-slide-toggle [checked]="is_paid==1?true:false">
-      {{ is_paid == 1 ? 'Paid Content' : 'Free Content'}}
+    <mat-slide-toggle [(ngModel)]="is_paid">
+      {{ is_paid == true ? 'Paid Content' : 'Free Content'}}
     </mat-slide-toggle>
   </div>
   <form (keydown.enter)="$event.preventDefault()" id="content_form" #content_create_form="ngForm"
@@ -1094,11 +1094,6 @@
 
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
-          <span>
-            <mat-slide-toggle [checked]="is_paid==1?true:false">
-              {{ is_paid == 1 ? 'Paid Content' : 'Free Content'}}
-            </mat-slide-toggle>
-          </span>
           <a target="_blank" href="student/curriculum/details/00/00/00/{{content_id}}" *ngIf="content_id >0"
             class="gry_btn ml_1" type="button" mat-raised-button>
             Preview
