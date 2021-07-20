@@ -141,7 +141,6 @@
           <strong *ngIf="i == breadcome.length - 1">
             {{ setTitle(bread["name"]) }}</strong></span>
       </div>
-
       <div class="pg_ttl" *ngIf="content != undefined">
         <div>{{ content["title"] }}</div>
         <!-- <div class="spacer"></div> -->
@@ -642,78 +641,78 @@
       </div>
     </div>
   </div>
-    
-    <div class="crses_rgt" *ngIf="videos.length>0">
-      <div class="intr_vd_hd">
-        <mat-icon>videocam</mat-icon>
-        {{video_title}}
+</div>
+<div class="crses_rgt" *ngIf="videos.length>0">
+  <div class="intr_vd_hd">
+    <mat-icon>videocam</mat-icon>
+    {{video_title}}
+  </div>
+  <div class="intr_vd_sc">
+    <div id="kpoint_div">
+      <div [hidden]="video_type!='KPOINT'" id="player-container"></div>
+    </div>
+    <div id="youtube_div">
+      <div *ngIf="video_type=='YOUTUBE'" [innerHtml]="youtube_iframe"></div>
+    </div>
+    <div id="threed_obj_dev">
+      <div *ngIf="video_type=='3D_OBJECT'">
+        <!-- <stl-model-viewer stlModel="{{bucket_url+active_video_obj['video_source']}}"></stl-model-viewer> -->
       </div>
-      <div class="intr_vd_sc">
-        <div id="kpoint_div">
-          <div [hidden]="video_type!='KPOINT'" id="player-container"></div>
-        </div>
-        <div id="youtube_div">
-          <div *ngIf="video_type=='YOUTUBE'" [innerHtml]="youtube_iframe"></div>
-        </div>
-        <div id="threed_obj_dev">
-          <div *ngIf="video_type=='3D_OBJECT'">
-            <!-- <stl-model-viewer stlModel="{{bucket_url+active_video_obj['video_source']}}"></stl-model-viewer> -->
-          </div>
-          <!-- Approach2
+      <!-- Approach2
         <div *ngIf="false" [hidden]="this.video_id !='gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-kvideo-id]="'gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-video-host]="'proceum.kpoint.com'"
         [attr.data-video-params]='{"offset": 12000, "resume": true}' style='width:640px; height:360px'></div>
         <div *ngIf="false" [hidden]="this.video_id !='gcc-e4cf940c-741d-4342-b473-24132269fa30'" [attr.data-kvideo-id]="'gcc-e4cf940c-741d-4342-b473-24132269fa30'" [attr.data-video-host]="'proceum.kpoint.com'"
         [attr.data-video-params]='{"offset": 12000, "resume": true}' style='width:640px; height:360px'></div> -->
 
-        </div>
-        <div class="intr_vd_optns d_none">
-          <span>
-            <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] == 1 ? true : false">
-              thumb_up_alt
-            </mat-icon>
-            <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] != 1 ? true : false">
-              thumb_up_off_alt
-            </mat-icon>
-          </span>
-          <span>
-            <mat-icon>share</mat-icon>
-          </span>
-          <span>
-            <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] != 1 ? true : false">
-              favorite_border
-            </mat-icon>
-            <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] == 1 ? true : false">favorite
-            </mat-icon>
-          </span>
-          <span>
-            <mat-icon>playlist_add</mat-icon>
-          </span>
-          <span>
-            <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false">
-              bookmark_border
-            </mat-icon>
-            <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] == 1 ? true : false">
-              bookmark
-            </mat-icon>
-          </span>
-        </div>
-        <div class="intr_vd_tml">
-          <mat-accordion>
-            <mat-expansion-panel *ngIf="timeline!=undefined && timeline.length>0">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon>timeline</mat-icon> Timeline
-                </mat-panel-title>
-                <mat-panel-description> </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div class="tm_ln_dv" *ngFor="let time of timeline">
-                <div (click)="seekTo(time['rel_offset'])">
-                  <span class="tm_stmp">{{millisToMinutesAndSeconds(time['rel_offset'])}} -
-                    {{millisToMinutesAndSeconds(time['rel_offset']+time['duration'])}}</span>
-                  <span class="tm_stmp_txt">{{time['text']}}</span>
-                </div>
-              </div>
-              <!-- <div class="tm_ln_dv">
+    </div>
+    <div class="intr_vd_optns d_none">
+      <span>
+        <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] == 1 ? true : false">
+          thumb_up_alt
+        </mat-icon>
+        <mat-icon (click)="manageStatistics('like')" *ngIf="statistics['is_like'] != 1 ? true : false">
+          thumb_up_off_alt
+        </mat-icon>
+      </span>
+      <span>
+        <mat-icon>share</mat-icon>
+      </span>
+      <span>
+        <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] != 1 ? true : false">
+          favorite_border
+        </mat-icon>
+        <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] == 1 ? true : false">favorite
+        </mat-icon>
+      </span>
+      <span>
+        <mat-icon>playlist_add</mat-icon>
+      </span>
+      <span>
+        <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false">
+          bookmark_border
+        </mat-icon>
+        <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] == 1 ? true : false">
+          bookmark
+        </mat-icon>
+      </span>
+    </div>
+    <div class="intr_vd_tml">
+      <mat-accordion>
+        <mat-expansion-panel *ngIf="timeline!=undefined && timeline.length>0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>timeline</mat-icon> Timeline
+            </mat-panel-title>
+            <mat-panel-description> </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="tm_ln_dv" *ngFor="let time of timeline">
+            <div (click)="seekTo(time['rel_offset'])">
+              <span class="tm_stmp">{{millisToMinutesAndSeconds(time['rel_offset'])}} -
+                {{millisToMinutesAndSeconds(time['rel_offset']+time['duration'])}}</span>
+              <span class="tm_stmp_txt">{{time['text']}}</span>
+            </div>
+          </div>
+          <!-- <div class="tm_ln_dv">
             <span class="tm_stmp">01:30</span>
             <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
           </div>
@@ -721,60 +720,59 @@
             <span class="tm_stmp">01:30</span>
             <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
           </div> -->
-            </mat-expansion-panel>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon>videocam</mat-icon> Videos
-                </mat-panel-title>
-                <mat-panel-description>
-                  <span class="spacer"></span>
-                  <!-- 15 / 30 videos watched -->
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div class="mtvd_hds">
-                <span *ngIf="intro_video.length>0" class="{{display_videos=='INTRO'?'mtvd_actv':''}}"
-                  (click)="display_videos='INTRO'">Introduction</span>
-                <span *ngIf="two_d_videos.length>0" class="{{display_videos=='2D'?'mtvd_actv':''}}"
-                  (click)="display_videos='2D'">2D Videos
-                  <span>({{two_d_videos.length}})</span></span>
-                <span *ngIf="board_lecture_videos.length>0" class="{{display_videos=='BOARD_LECTURES'?'mtvd_actv':''}}"
-                  (click)="display_videos='BOARD_LECTURES'">Board Lectures
-                  <span>({{board_lecture_videos.length}})</span></span>
-                <span *ngIf="clinical_videos.length>0" class="{{display_videos=='CLINICAL_ESSENTIALS'?'mtvd_actv':''}}"
-                  (click)="display_videos='CLINICAL_ESSENTIALS'">Clinical Essentials
-                  <span>({{clinical_videos.length}})</span></span>
-                <span *ngIf="procedural_videos.length>0" class="{{display_videos=='PROCEDURAL'?'mtvd_actv':''}}"
-                  (click)="display_videos='PROCEDURAL'">Procedural Videos
-                  <span>({{procedural_videos.length}})</span></span>
-                <span *ngIf="three_d_videos.length>0" class="{{display_videos=='3D'?'mtvd_actv':''}}"
-                  (click)="display_videos='3D'">3D Objects
-                  <span>({{three_d_videos.length}})</span></span>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>videocam</mat-icon> Videos
+            </mat-panel-title>
+            <mat-panel-description>
+              <span class="spacer"></span>
+              <!-- 15 / 30 videos watched -->
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="mtvd_hds">
+            <span *ngIf="intro_video.length>0" class="{{display_videos=='INTRO'?'mtvd_actv':''}}"
+              (click)="display_videos='INTRO'">Introduction</span>
+            <span *ngIf="two_d_videos.length>0" class="{{display_videos=='2D'?'mtvd_actv':''}}"
+              (click)="display_videos='2D'">2D Videos
+              <span>({{two_d_videos.length}})</span></span>
+            <span *ngIf="board_lecture_videos.length>0" class="{{display_videos=='BOARD_LECTURES'?'mtvd_actv':''}}"
+              (click)="display_videos='BOARD_LECTURES'">Board Lectures
+              <span>({{board_lecture_videos.length}})</span></span>
+            <span *ngIf="clinical_videos.length>0" class="{{display_videos=='CLINICAL_ESSENTIALS'?'mtvd_actv':''}}"
+              (click)="display_videos='CLINICAL_ESSENTIALS'">Clinical Essentials
+              <span>({{clinical_videos.length}})</span></span>
+            <span *ngIf="procedural_videos.length>0" class="{{display_videos=='PROCEDURAL'?'mtvd_actv':''}}"
+              (click)="display_videos='PROCEDURAL'">Procedural Videos
+              <span>({{procedural_videos.length}})</span></span>
+            <span *ngIf="three_d_videos.length>0" class="{{display_videos=='3D'?'mtvd_actv':''}}"
+              (click)="display_videos='3D'">3D Objects
+              <span>({{three_d_videos.length}})</span></span>
+          </div>
+          <div class="hgt_20"></div>
+          <div *ngFor="let video of videos">
+            <!-- wv_actv -->
+            <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+              <div class="wv_img">
+                <mat-icon>videocam</mat-icon>
+                <!-- <img src="../../../assets/images/vid_smpl.jpg" /> -->
               </div>
-              <div class="hgt_20"></div>
-              <div *ngFor="let video of videos">
-                <!-- wv_actv -->
-                <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
-                  <div class="wv_img">
-                    <mat-icon>videocam</mat-icon>
-                    <!-- <img src="../../../assets/images/vid_smpl.jpg" /> -->
-                  </div>
-                  <div class="wv_ttl_dsc">
-                    <span class="wv_tt_hd">{{video['module_title']}}</span>
-                    <!-- <span class="wv_ts">05:50 min</span> -->
-                  </div>
-                  <!-- <span class="spacer"></span>
+              <div class="wv_ttl_dsc">
+                <span class="wv_tt_hd">{{video['module_title']}}</span>
+                <!-- <span class="wv_ts">05:50 min</span> -->
+              </div>
+              <!-- <span class="spacer"></span>
                       <div class="wv_ply_icn">
                         <mat-icon>graphic_eq</mat-icon>
                       </div> -->
-                  <!-- <div class="wv_bkmrk">
+              <!-- <div class="wv_bkmrk">
                         <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
                       </div> -->
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>
-      </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
-    </div>
+  </div>
+</div>
