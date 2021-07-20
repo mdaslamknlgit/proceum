@@ -152,6 +152,7 @@ const routes: Routes = [
       { path: 'questionmanagement', component: QuestionsManagementComponent },
       { path: 'questionbank', component: QuestionBankComponent },
       { path: 'create-partner', component: CreatePartnerComponent },
+      { path: 'create-partner/:id', component: CreatePartnerComponent },
       { path: 'partners-list', component: PartnersListComponent },
       { path: 'create-content/:id', component: CreateContentComponent },
       { path: 'course-package-management', component: ListPackageComponent },

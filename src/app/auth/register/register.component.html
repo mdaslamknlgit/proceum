@@ -84,7 +84,7 @@
 
                 <div class="fir_name err_tltp_par">
                   <mat-form-field appearance="legacy">
-                    <input tabindex="9"  matInput placeholder="Qualification" [(ngModel)]="individualRegister.qualification" name="qualification" required>
+                    <input tabindex="9"  matInput placeholder="Qualification" [(ngModel)]="individualRegister.qualification" name="qualification" maxlength="50" required>
                     <span class="prc_tltp" *ngIf="individual_signup_form.submitted && individualRegister.qualification == ''">Qualification is required</span>
                   </mat-form-field>
                 </div>
@@ -181,7 +181,7 @@
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy" class="{{ (((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == '') ? 'mat-form-field-invalid' : ''}}">
                       <input tabindex="16" matInput placeholder="City" [(ngModel)]="individualRegister.city" name="city" #city="ngModel"
-                        [required]="address_details">
+                        [required]="address_details" maxlength="50">
                       <span class="prc_tltp" *ngIf="((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == ''">City is required</span>
                     </mat-form-field>
                   </div>
@@ -699,7 +699,7 @@
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy" class="{{ (((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == '') ? 'mat-form-field-invalid' : ''}}">
                       <input matInput placeholder="City" [(ngModel)]="institutionResgister.city" name="city" #city="ngModel"
-                        [required]="address_details">
+                        [required]="address_details" maxlength="50">
                       <span class="prc_tltp" *ngIf="((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == ''">City is required</span>
                     </mat-form-field>
                   </div>
