@@ -30,7 +30,7 @@
       <div style="height: 200px">
         <div class="ck_editor">
           <ckeditor [(ngModel)]="comments_content" name="comments_content" (ready)="onReady($event)" [editor]="Editor"
-            #editor [config]="editorConfig" style="height: 500px"></ckeditor>
+            #editor [config]="editorReviewConfig" style="height: 500px"></ckeditor>
         </div>
       </div>
       <div class="wr_atchmts" *ngIf="review_docs.length>0">
@@ -132,8 +132,8 @@
                 <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Premium content</mat-radio-button>&nbsp; &nbsp;
                 <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free content</mat-radio-button> 
             </section> -->
-  <mat-slide-toggle [checked]="is_paid==1?true:false">
-    {{ is_paid == 1 ? 'Paid' : 'Free'}} 
+  <mat-slide-toggle [(ngModel)]="is_paid">
+    {{ is_paid == true ? 'Paid' : 'Free'}} 
   </mat-slide-toggle>
   <form (keydown.enter)="$event.preventDefault()" id="content_form" #content_create_form="ngForm"
     name="content_create_form" (ngSubmit)="content_create_form.valid && createContent(false)" novalidate>
@@ -1120,14 +1120,14 @@
           </button>
           <button class="gry_btn ml_1" *ngIf="is_published == '1' && content_parent_id == 0" mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
             [popoverMessage]="
-              'are you sure to create a new copy of this published content '
+              'Are you sure to create a new copy of this published content '
             " placement="auto" (confirm)="createContent(false)" confirmButtonType="danger"
             cancelButtonType="outline-secondary" type="button" mat-raised-button>
             Make a Copy
           </button>
           <button *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || user['role'] == '1')"
             type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                'are you sure to Publish this content '+ publish_message
+                'Are you sure to Publish this content '+ publish_message
               " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
             cancelButtonType="outline-secondary" mat-raised-button color="accent" class="ml_1">
             Save & Publish

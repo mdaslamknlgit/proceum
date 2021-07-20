@@ -7,29 +7,31 @@
   <span class="spacer"></span>
 
   <app-white-board></app-white-board>
-  <span class="tp_rt_mn ps_rel">
-    <mat-icon class="tp_rt_mn">notification_important</mat-icon>
-    <span>Notifications</span>
-    <div class="noti_dv d-none">
+  <span class="tp_rt_mn ps_rel fr_bdg">
+      <span (click)="show_notifications = !show_notifications">
+        <mat-icon *ngIf="content_notifications.length > 0" class="tp_rt_mn" matBadge="1" matBadgeColor="warn">notification_important</mat-icon>
+        <mat-icon *ngIf="content_notifications.length == 0" class="tp_rt_mn">notification_important</mat-icon>
+        <span>Notifications</span>
+    </span>
+    <div class="noti_dv {{show_notifications == false?'d-none':''}}">
       <div class="noti_hd d-flex">
         <span class="fnt_16">Notifications</span>
         <span class="spacer"></span>
-        <span><mat-icon>close</mat-icon></span>
+        <span (click)="show_notifications = !show_notifications"><mat-icon>close</mat-icon></span>
       </div>
       <div class="noti_cnt">
         <ul>
-          <li>
-            <span class="noti_bld">This is bold notification</span>
-            <span>This is notification content</span>
-          </li>
-          <li>
-            <span class="noti_bld">This is bold notification</span>
-            <span>This is notification content</span>
-          </li>
-          <li>
+          <li *ngFor="let notification of content_notifications">
             <!-- <span class="noti_bld">This is bold notification</span> -->
-            <span>This is notification content</span>
+            <span (click)="navigateTo('create-content/'+notification['content_id'])">Content Review request from {{notification['first_name']}}</span>
           </li>
+          <!-- <li>
+            <span class="noti_bld">This is bold notification</span>
+            <span>This is notification content</span>
+          </li>-->
+          <li>
+            <span *ngIf="content_notifications.length == 0">No Notifications</span>
+          </li> 
       </ul>
       </div>
     </div>
