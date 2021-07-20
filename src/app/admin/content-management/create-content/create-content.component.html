@@ -18,8 +18,6 @@
           <div class="oldr_cmnts_dvts">{{ comment["date_time"] }}</div>
         </div>
         <div class="oldr_cmnt_dsc">
-          Description:
-          <div class="hgt_10"></div>
           <div class="ck_editor_view" *ngIf="comment['comment']">
             <ckeditor [disabled]="true" [editor]="Editor" [config]="{}" [data]="comment['comment']"></ckeditor>
           </div>
@@ -60,7 +58,7 @@
         </button>
         <div class="spacer"></div>
         <button mat-raised-button class="gry_btn mr_1" (click)="showComments()">Cancel</button>
-        <button mat-raised-button color="accent" (click)="addComent()">Submit Review</button>
+        <button mat-raised-button color="accent" (click)="addComent()">Submit</button>
       </div>
     </div>
   </div>
@@ -1078,7 +1076,6 @@
                       </div>
                     </div>
                   </mat-tab>
-
                   <mat-tab label="External References">
                     <div class="ck_editor">
                       <ckeditor [(ngModel)]="external_ref_content" name="external_ref_content_name"
@@ -1094,37 +1091,49 @@
 
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
-          <a target="_blank" href="student/curriculum/details/00/00/00/{{content_id}}" *ngIf="content_id >0"
-            class="gry_btn ml_1" type="button" mat-raised-button>
-            Preview
-          </a>
-          <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'" class="gry_btn ml_1"
-            type="button" mat-raised-button (click)="createContent(true)">
-            Save as draft
-          </button>
-          <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="ml_1">
-            Cancel
-          </button>
-          <button class="gry_btn ml_1"
-            *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
-            type="button" color="accent" mat-raised-button (click)="selectReviewer()">
-            Send To Review
-          </button>
-          <button class="gry_btn ml_1" *ngIf="is_published == '1' && content_parent_id == 0" mwlConfirmationPopover
-            [popoverTitle]="'Are you sure?'" [popoverMessage]="
-              'are you sure to create a new copy of this published content '
+          <div>
+            <a target="_blank" href="student/curriculum/details/00/00/00/{{content_id}}" *ngIf="content_id >0"
+              class="gry_btn ml_1" type="button" mat-raised-button>
+              Preview
+            </a>
+          </div>
+          <div>
+            <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'"
+              class="gry_btn ml_1" type="button" mat-raised-button (click)="createContent(true)">
+              Save as draft
+            </button>
+          </div>
+          <div>
+            <button type="button" (click)="navigateTo('manage-content')" mat-raised-button color="warn" class="ml_1">
+              Cancel
+            </button>
+          </div>
+          <div>
+            <button class="gry_btn ml_1"
+              *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
+              type="button" color="accent" mat-raised-button (click)="selectReviewer()">
+              Send To Review
+            </button>
+          </div>
+          <div>
+            <button class="gry_btn ml_1" *ngIf="is_published == '1' && content_parent_id == 0" mwlConfirmationPopover
+              [popoverTitle]="'Are you sure?'" [popoverMessage]="
+              'Are you sure to create a new copy of this published content '
             " placement="auto" (confirm)="createContent(false)" confirmButtonType="danger"
-            cancelButtonType="outline-secondary" type="button" mat-raised-button>
-            Make a Copy
-          </button>
-          <button
-            *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || user['role'] == '1')"
-            type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                'are you sure to Publish this content '+ publish_message
+              cancelButtonType="outline-secondary" type="button" mat-raised-button>
+              Make a Copy
+            </button>
+          </div>
+          <div>
+            <button
+              *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || user['role'] == '1')"
+              type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                'Are you sure to Publish this content '+ publish_message
               " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
-            cancelButtonType="outline-secondary" mat-raised-button color="accent" class="ml_1">
-            Save & Publish
-          </button>
+              cancelButtonType="outline-secondary" mat-raised-button color="accent" class="ml_1">
+              Save & Publish
+            </button>
+          </div>
         </div>
       </div>
     </div>

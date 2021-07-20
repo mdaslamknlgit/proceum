@@ -106,8 +106,8 @@ export class DrawingBoardComponent implements OnInit {
     {   
         let param = {url: 'upload-drawing', base64_string: links[i].href}
         this.http.post(param).subscribe(res=>{
+          this.toastr.success(res['message'], 'Success', { closeButton: true });
           setTimeout(()=>{
-            this.toastr.success(res['message'], 'Success', { closeButton: true });
             window.location.reload();
           }, 3000)
             
