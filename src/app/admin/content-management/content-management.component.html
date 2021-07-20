@@ -1,7 +1,6 @@
 <div class="mn_dshbrd">
   <div class="brd_crm">Proceum &raquo; <strong>Manage Content</strong></div>
   <div class="pg_ttl">Manage Content</div>
-  <hr />
   <div class="dsh_brd_crds">
     <div>
       <div class="cm_fltr_sc mr_1">
@@ -15,7 +14,7 @@
         </mat-form-field>
       </div>
       <div class="cm_fltr_sc mr_1">
-        <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+        <mat-form-field appearance="outline" class="cal_wdth date_picker" color="accent">
           <input placeholder="From Date" required name="valid_from_name" #valid_from_name="ngModel"
             [(ngModel)]="from_date" matInput [matDatepicker]="picker" autocomplete="off" [max]="today_date" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -23,7 +22,7 @@
         </mat-form-field>
       </div>
       <div class="cm_fltr_sc mr_1">
-        <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+        <mat-form-field appearance="outline" class="cal_wdth date_picker" color="accent">
           <input placeholder="To Date" required name="valid_to_name" #valid_to_name="ngModel" [(ngModel)]="to_date"
             matInput [matDatepicker]="picker2" autocomplete="off" [min]="from_date" />
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -37,11 +36,12 @@
           <mat-icon class="curserToPointer" (click)="doFilter()" matSuffix>search</mat-icon>
         </mat-form-field>
       </div>
+      <button mat-raised-button color="accent" class="float_right" (click)="navigateTo('create-content')" type="button">
+        Create Content
+      </button>
     </div>
     <div class="clear_fix"></div>
-    <button mat-raised-button color="accent" class="float_right" (click)="navigateTo('create-content')" type="button">
-      Create Content
-    </button>
+    
     <div class="clear_fix"></div>
     <mat-tab-group (selectedTabChange)="switchTab($event)">
       <mat-tab label="All">
@@ -106,7 +106,7 @@
                 <!-- <button matTooltip="click here to {{
                   element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                 }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                  'are you sure to change status of <b>' + element.title + '</b> '
+                  'Are you sure to change status of <b>' + element.title + '</b> '
                 " placement="auto" (confirm)="deleteContent(element.id, element.status)" confirmButtonType="danger"
                 cancelButtonType="outline-secondary">
                 <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
@@ -114,7 +114,7 @@
               </button> -->
                 <button *ngIf="user['role'] == '1'" mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
                   [popoverMessage]="
-              'are you sure to delete <b>' + element.title + '</b> '
+              'Are you sure to delete <b>' + element.title + '</b> '
             " placement="auto" (confirm)="deleteContentData(element.id, element.status)" confirmButtonType="danger"
                   cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
                   <mat-icon>remove_circle_outline</mat-icon>
@@ -198,7 +198,7 @@
                 <!-- <button matTooltip="click here to {{
                   element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                 }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                  'are you sure to change status of <b>' + element.title + '</b> '
+                  'Are you sure to change status of <b>' + element.title + '</b> '
                 " placement="auto" (confirm)="deleteContent(element.id, element.status)" confirmButtonType="danger"
                 cancelButtonType="outline-secondary">
                 <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
@@ -206,7 +206,7 @@
               </button> -->
                 <button *ngIf="user['role'] == '1'" mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
                   [popoverMessage]="
-              'are you sure to delete <b>' + element.title + '</b> '
+              'Are you sure to delete <b>' + element.title + '</b> '
             " placement="auto" (confirm)="deleteContentData(element.id, element.status)" confirmButtonType="danger"
                   cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
                   <mat-icon>remove_circle_outline</mat-icon>
@@ -290,7 +290,7 @@
                 <!-- <button matTooltip="click here to {{
                       element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                     }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                      'are you sure to change status of <b>' + element.title + '</b> '
+                      'Are you sure to change status of <b>' + element.title + '</b> '
                     " placement="auto" (confirm)="deleteContent(element.id, element.status)" confirmButtonType="danger"
                     cancelButtonType="outline-secondary">
                     <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
@@ -298,7 +298,7 @@
                   </button> -->
                 <button *ngIf="user['role'] == '1'" mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
                   [popoverMessage]="
-              'are you sure to delete <b>' + element.title + '</b> '
+              'Are you sure to delete <b>' + element.title + '</b> '
             " placement="auto" (confirm)="deleteContentData(element.id, element.status)" confirmButtonType="danger"
                   cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
                   <mat-icon>remove_circle_outline</mat-icon>
@@ -382,7 +382,7 @@
                 <button matTooltip="click here to {{
                       element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                     }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                      'are you sure to change status of <b>' + element.title + '</b> '
+                      'Are you sure to change status of <b>' + element.title + '</b> '
                     " placement="auto" (confirm)="deleteContent(element.id, element.status)" confirmButtonType="danger"
                   cancelButtonType="outline-secondary">
                   <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
