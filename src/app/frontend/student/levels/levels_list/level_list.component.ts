@@ -175,7 +175,7 @@ export class Level_listComponent implements OnInit {
           if(this.tab != 'all' && type != 'rating'){
             this.levels.splice(i, 1);
           }
-        this.toster.success(res['message'], 'Info', { closeButton: true });
+        //this.toster.success(res['message'], 'Info', { closeButton: true });
       } else {
         this.toster.info('Something went wrong. Please try again.', 'Error', {
           closeButton: true,
