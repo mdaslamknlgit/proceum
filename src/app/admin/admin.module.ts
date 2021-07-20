@@ -1,12 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '../material/material.module';
-import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+
+
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../../environments/environment';
+
+//custom modules
 import { LayoutsModule } from '../layouts/layouts.module';
+import { MaterialModule } from '../material/material.module';
+
+import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { UsersComponent } from './users/users.component';
 import { EmailTemplatesComponent } from './email-templates/email-templates.component';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ManageTemplateComponent } from './email-templates/manage-template/manage-template.component';
 import { StudentsComponent } from './students/students.component';
 import { CurriculamComponent } from './curriculam/curriculam.component';
@@ -16,7 +25,7 @@ import { StepsComponent } from './curriculam/steps/steps.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
 import { AccessMatrixComponent } from './roles-list/access-matrix/access-matrix.component';
 import { LoginHistoryComponent } from './login-history/login-history.component';
-import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+
 import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
 import { SettingsComponent } from './settings/settings.component';
 import { CreateCustomPagesComponent } from './custom-pages/create-custom-pages/create-custom-pages.component';
@@ -143,6 +152,7 @@ const routes: Routes = [
       { path: 'questionmanagement', component: QuestionsManagementComponent },
       { path: 'questionbank', component: QuestionBankComponent },
       { path: 'create-partner', component: CreatePartnerComponent },
+      { path: 'create-partner/:id', component: CreatePartnerComponent },
       { path: 'partners-list', component: PartnersListComponent },
       { path: 'create-content/:id', component: CreateContentComponent },
       { path: 'course-package-management', component: ListPackageComponent },
@@ -208,6 +218,8 @@ const routes: Routes = [
     CommonModule,
     CKEditorModule,
     HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },

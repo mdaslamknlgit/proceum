@@ -25,7 +25,9 @@ import {
 } from 'angularx-social-login';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
-
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +53,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NgWhiteboardModule,
     SocialLoginModule,
     MatIconModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true },

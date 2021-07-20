@@ -78,7 +78,7 @@ export class RegisterComponent implements OnInit {
     state_id:'',
     city:'',
     zip_code:'',
-    accepeted_terms:true,
+    accepeted_terms:false,
   };
 
   //institution form bindings
@@ -119,7 +119,7 @@ export class RegisterComponent implements OnInit {
     state_id:'',
     city:'',
     zip_code:'',
-    accepeted_terms:true,
+    accepeted_terms:false,
   }
   
   constructor(
@@ -142,8 +142,8 @@ export class RegisterComponent implements OnInit {
   radioChange(institution_type: string, form) {
     form.resetForm();
     this.profile_pic = '';
-    this.individualRegister.accepeted_terms = true;
-    this.institutionResgister.accepeted_terms = true;
+    this.individualRegister.accepeted_terms = false;
+    this.institutionResgister.accepeted_terms = false;
     if (institution_type == '1') {
       this.institutionResgister.register_type = 'university';
       this.is_university = true;

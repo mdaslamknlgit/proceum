@@ -249,7 +249,7 @@ export class CreatePackageComponent implements OnInit {
   }
 
   createPackageService(){
-    if(this.applicable_to_university == '' || this.applicable_to_college == '' || this.applicable_to_institute == ''){
+    if(this.applicable_to_university == '' && this.applicable_to_college == '' && this.applicable_to_institute == ''){
       this.toster.error("Applicable to is required", 'Required!', { closeButton: true });
       return;
     }
@@ -268,7 +268,7 @@ export class CreatePackageComponent implements OnInit {
       valid_up_to : this.valid_up_to,
       billing_frequency : this.billing_frequency,
     };
-    let params = { url: 'update-package', form_data: form_data };
+    let params = { url: 'create-package', form_data: form_data };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
