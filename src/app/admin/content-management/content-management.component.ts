@@ -126,6 +126,18 @@ export class ContentManagementComponent implements OnInit {
     }
     this.getContentList();
   };
+  resetFilter(){
+    this.page = 0;
+    this.dataentry_uid = 0;
+    this.from_date = '';
+    this.to_date = '';
+    this.search_box = '';
+    if (this.paginator != undefined) {
+      this.paginator.pageIndex = 0;
+      this.paginator.firstPage();
+    }
+    this.getContentList();
+  }
   deleteContent(id, status) {
     status = status == 1 ? '0' : '1';
     let param = {
