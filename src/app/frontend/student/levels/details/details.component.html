@@ -769,16 +769,8 @@
                   <span class="tm_stmp_txt">{{time['text']}}</span>
                 </div>
               </div>
-              <!-- <div class="tm_ln_dv">
-            <span class="tm_stmp">01:30</span>
-            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-          </div>
-          <div class="tm_ln_dv">
-            <span class="tm_stmp">01:30</span>
-            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-          </div> -->
             </mat-expansion-panel>
-            <mat-expansion-panel (click)="display_videos='INTRO'">
+            <mat-expansion-panel *ngIf="intro_video.length>0" (click)="display_videos='INTRO'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon>videocam</mat-icon> Introduction
@@ -831,7 +823,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-            <mat-expansion-panel (click)="display_videos='2D'">
+            <mat-expansion-panel *ngIf="two_d_videos.length>0" (click)="display_videos='2D'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon>videocam</mat-icon> 2D Videos ({{two_d_videos.length}})
@@ -863,7 +855,7 @@
               </div>
             </mat-expansion-panel>
 
-            <mat-expansion-panel (click)="display_videos='BOARD_LECTURES'">
+            <mat-expansion-panel *ngIf="board_lecture_videos.length>0" (click)="display_videos='BOARD_LECTURES'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon>videocam</mat-icon> Board Lectures ({{board_lecture_videos.length}})
@@ -894,7 +886,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-            <mat-expansion-panel (click)="display_videos='CLINICAL_ESSENTIALS'">
+            <mat-expansion-panel *ngIf="clinical_videos.length>0" (click)="display_videos='CLINICAL_ESSENTIALS'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon>videocam</mat-icon> Clinical Essentials ({{clinical_videos.length}})
@@ -925,7 +917,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-            <mat-expansion-panel (click)="display_videos='PROCEDURAL'">
+            <mat-expansion-panel *ngIf="procedural_videos.length>0" (click)="display_videos='PROCEDURAL'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon>videocam</mat-icon> Procedural Videos ({{procedural_videos.length}})
@@ -957,7 +949,7 @@
                 </div>
               </div>
             </mat-expansion-panel>
-            <mat-expansion-panel (click)="display_videos='3D'">
+            <mat-expansion-panel *ngIf="three_d_videos.length>0" (click)="display_videos='3D'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon>videocam</mat-icon> 3D ({{three_d_videos.length}})
