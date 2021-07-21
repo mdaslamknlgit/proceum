@@ -54,9 +54,11 @@
           dets_actv: value['content_id'] == content_id ? true : false
         }">
           <div *ngIf="value['content_id'] != content_id" (click)="viewContent(value['content_id'])" class="otr_bd_dv">
-            {{ value["content_title"] }}<span style="float: right;">{{value['is_paid'] == 1?"Paid":"Free"}}</span>
+            <span style="float: left; width:90%">{{ value["content_title"] }}</span>
+            <span style="float: right;">{{value['is_paid'] == 1?"Paid":"Free"}}</span>
+            <div class="clear_both"></div>
           </div>
-          
+
         </div>
       </div>
     </div>
@@ -71,7 +73,7 @@
         </button>
       </div>
       <div class="tbbd_bdy" *ngIf="library_popup && this.images.length>0">
-        <ngx-image-viewer [config]="image_config"  [src]="images" [(index)]="image_index"></ngx-image-viewer>
+        <ngx-image-viewer [config]="image_config" [src]="images" [(index)]="image_index"></ngx-image-viewer>
         <hr />
         <button mat-raised-button class="float_right mr_1 gry_btn" (click)="library_popup=false">
           Close
@@ -153,34 +155,34 @@
           <!-- <div class="spacer"></div> -->
         </div>
       </div>
-    
 
-    <div  *ngIf="content != undefined">
-      <div class="d-flex content_buttons">
-        <button *ngIf="content_list.length > 1" matTooltip="More Content"
-          (click)="show_content_list = !show_content_list" mat-mini-fab color="accent"
-          class="mr_vrt_btn algn_s_fs no_bxsdw">
-          <mat-icon>menu_open</mat-icon>
-        </button>
-        <span class="icon_circle" *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords">
-          <button mat-icon-button color="accent" class="buzz_btn">
-            <mat-icon>highlight_alt</mat-icon>
-          </button></span>
-        <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords">
-          <button mat-icon-button color="accent" class="actv_txt_hglt mr_1">
-            <mat-icon>highlight_alt</mat-icon>
+
+      <div *ngIf="content != undefined">
+        <div class="d-flex content_buttons">
+          <button *ngIf="content_list.length > 1" matTooltip="More Content"
+            (click)="show_content_list = !show_content_list" mat-mini-fab color="accent"
+            class="mr_vrt_btn algn_s_fs no_bxsdw">
+            <mat-icon>menu_open</mat-icon>
           </button>
-        </span>
-        <span (click)="setFontSize('+')" class="a_pls icon_circle fnt_sze">A<sup>+</sup></span>
-        <span (click)="setFontSize('-')" class="a_mns icon_circle fnt_sze">A<sup>-</sup></span>
+          <span class="icon_circle" *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords">
+            <button mat-icon-button color="accent" class="buzz_btn">
+              <mat-icon>highlight_alt</mat-icon>
+            </button></span>
+          <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords">
+            <button mat-icon-button color="accent" class="actv_txt_hglt">
+              <mat-icon>highlight_alt</mat-icon>
+            </button>
+          </span>
+          <span (click)="setFontSize('+')" class="a_pls icon_circle fnt_sze">A<sup>+</sup></span>
+          <span (click)="setFontSize('-')" class="a_mns icon_circle fnt_sze">A<sup>-</sup></span>
 
-        <button (click)="switchView()" *ngIf="videos.length>0" mat-icon-button mat-mini-fab color="accent"
-          class="mr_vrt_btn algn_s_fs no_bxsdw">
-          <mat-icon>switch_video</mat-icon>
-        </button>
+          <button (click)="switchView()" *ngIf="videos.length>0" mat-icon-button mat-mini-fab color="accent"
+            class="mr_vrt_btn algn_s_fs no_bxsdw">
+            <mat-icon>switch_video</mat-icon>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
     <!-- <div class="crs_lft_hd">
     <span class="crs_bk_btn"
       ><mat-icon>arrow_back</mat-icon>General features of Muscle</span
@@ -217,49 +219,51 @@
           </div>
         </div>
       </div>
-    
-    <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 1">
-      <div class="crses_lft">
-        <div class="crs_desc_hd">
-          <span class="desc_in_hd">
-            <mat-icon>quiz</mat-icon>MCQs
-          </span>
-        </div>
-        <div class="crs_desc no_desc_fnd" *ngIf="mcqs.length == 0">
-          No MCQs Found
-        </div>
-        <div class="crs_desc" *ngIf="mcqs.length > 0">
-          <div class="qstn_nms">
-            <div class="qstn_hds">Questions</div>
-            <ul>
-              <li *ngFor="let question of mcqs; let i = index" class="{{ i == active_mcq_index ? 'act_qstnm' : '' }}">
-                <span class="qstn_cnt" (click)="active_mcq_index = i" matTooltip='{{question["question"]}}'>{{ i + 1 }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...': question["question"]}}</span>
-              </li>
-            </ul>
+
+      <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 1">
+        <div class="crses_lft">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>quiz</mat-icon>MCQs
+            </span>
           </div>
-          <div class="crs_desc_cnt mcb_desc">
-            <div *ngIf="mcqs.length > 0">
-              <div class="hgt_20"></div>
-              <div class="qstnof_cnt">{{active_mcq_index + 1}} / {{mcqs.length}}</div>
-              <div class="hgt_20"></div>
-              <div class="qstn_hds">
-                {{ active_mcq_index + 1 }}.{{
-                " " + mcqs[active_mcq_index]["question"]
-                }}
-              </div>
-              <mat-radio-group aria-label="Select an option" [(ngModel)]="mcqs[active_mcq_index]['selected_option']">
-                <mat-radio-button *ngFor="
+          <div class="crs_desc no_desc_fnd" *ngIf="mcqs.length == 0">
+            No MCQs Found
+          </div>
+          <div class="crs_desc" *ngIf="mcqs.length > 0">
+            <div class="qstn_nms">
+              <div class="qstn_hds">Questions</div>
+              <ul>
+                <li *ngFor="let question of mcqs; let i = index" class="{{ i == active_mcq_index ? 'act_qstnm' : '' }}">
+                  <span class="qstn_cnt" (click)="active_mcq_index = i" matTooltip='{{question["question"]}}'>{{ i + 1
+                    }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...':
+                    question["question"]}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="crs_desc_cnt mcb_desc">
+              <div *ngIf="mcqs.length > 0">
+                <div class="hgt_20"></div>
+                <div class="qstnof_cnt">{{active_mcq_index + 1}} / {{mcqs.length}}</div>
+                <div class="hgt_20"></div>
+                <div class="qstn_hds">
+                  {{ active_mcq_index + 1 }}.{{
+                  " " + mcqs[active_mcq_index]["question"]
+                  }}
+                </div>
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="mcqs[active_mcq_index]['selected_option']">
+                  <mat-radio-button *ngFor="
                   let option of mcqs[active_mcq_index]['options'];
                   let i_option = index
-                " (click)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
+                " (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
                   mcqs[active_mcq_index]['selected_option'] != undefined &&
                   mcqs[active_mcq_index]['s_no'] == option['pk_id']
                     ? 'crrct_rdo'
                     : ''
                 }} {{
                   mcqs[active_mcq_index]['selected_option'] != undefined &&
-                  mcqs[active_mcq_index]['selected_option'] !=
-                    mcqs[active_mcq_index]['s_no']
+                  (mcqs[active_mcq_index]['selected_option'] !=
+                  option['pk_id'] || mcqs[active_mcq_index]['selected_option'] != mcqs[active_mcq_index]['s_no'])
                     ? 'wrng_rdo'
                     : ''
                 }}">
@@ -372,7 +376,7 @@
           </button> -->
             </div>
             <div class="crs_desc_cnt">
-                
+
               <div class="desc_tmb_img">
                 <img *ngFor="let file of content['images']; let i = index" [src]="file['path']" [alt]="
                 file['file_path'].substring(
@@ -475,38 +479,41 @@
           <button mat-icon-button color="primary">
             <mat-icon>close</mat-icon>
           </button> -->
-          </div>
-          <div class="qstn_nms">
-            <div class="qstn_hds">Questions</div>
-            <ul>
-              <li *ngFor="let question of cases; let i = index" class="{{ i == active_case_index ? 'act_qstnm' : '' }}">
-                <span class="qstn_cnt" (click)="active_case_index = i" matTooltip='{{question["question"]}}'>{{ i + 1 }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...': question["question"]}}</span>
-              </li>
-            </ul>
-          </div>
-          <div class="crs_desc_cnt mcb_desc">
-            <div *ngIf="cases.length > 0">
-              <div class="hgt_20"></div>
-              <div class="qstnof_cnt">{{active_case_index + 1}} / {{cases.length}}</div>
-              <div class="qstn_hds">
-                {{ active_case_index + 1 }}.{{
-                " " + cases[active_case_index]["question"]
-                }}
-              </div>
-              <mat-radio-group aria-label="Select an option" [(ngModel)]="cases[active_case_index]['selected_option']">
-                <mat-radio-button *ngFor="
+            </div>
+            <div class="qstn_nms">
+              <div class="qstn_hds">Questions</div>
+              <ul>
+                <li *ngFor="let question of cases; let i = index"
+                  class="{{ i == active_case_index ? 'act_qstnm' : '' }}">
+                  <span class="qstn_cnt" (click)="active_case_index = i" matTooltip='{{question["question"]}}'>{{ i + 1
+                    }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...':
+                    question["question"]}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="crs_desc_cnt mcb_desc">
+              <div *ngIf="cases.length > 0">
+                <div class="hgt_20"></div>
+                <div class="qstnof_cnt">{{active_case_index + 1}} / {{cases.length}}</div>
+                <div class="qstn_hds">
+                  {{ active_case_index + 1 }}.{{
+                  " " + cases[active_case_index]["question"]
+                  }}
+                </div>
+                <mat-radio-group aria-label="Select an option"
+                  [(ngModel)]="cases[active_case_index]['selected_option']">
+                  <mat-radio-button *ngFor="
                   let option of cases[active_case_index]['options'];
                   let i_option = index
-                " (click)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
+                " (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
                   cases[active_case_index]['selected_option'] != undefined &&
                   cases[active_case_index]['s_no'] == option['pk_id']
                     ? 'crrct_rdo'
                     : ''
                 }} {{
-                  cases[active_case_index]['selected_option'] != undefined &&
-                  cases[active_case_index]['selected_option'] !=
-                    cases[active_case_index]['s_no']
-                    ? 'wrng_rdo'
+                  cases[active_case_index]['selected_option'] != undefined && (cases[active_case_index]['selected_option'] !=
+                  option['pk_id'] || cases[active_case_index]['selected_option'] != cases[active_case_index]['s_no'])
+                  ? 'wrng_rdo'
                     : ''
                 }}">
                     {{ option["option_text"] }}
@@ -560,23 +567,26 @@
             <div class="qstn_nms">
               <div class="qstn_hds">Questions</div>
 
-            <ul>
-              <li *ngFor="let question of short_answers; let i = index"
-                class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
-                <span class="qstn_cnt" (click)="active_short_answer_index = i" matTooltip='{{question["question"]}}'>{{ i + 1 }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...': question["question"]}}</span>
-              </li>
-            </ul>
-          </div>
-          <div class="crs_desc_cnt mcb_desc">
-            <div *ngIf="short_answers.length > 0">
-              <div class="hgt_20"></div>
-              <div class="qstnof_cnt">{{active_short_answer_index + 1}} / {{short_answers.length}}</div>
-              <div class="qstn_hds">
-                {{ active_short_answer_index + 1 }}.{{
-                " " + short_answers[active_short_answer_index]["question"]
-                }}
-              </div>
-              <mat-radio-group aria-label="Select an option" [(ngModel)]="
+              <ul>
+                <li *ngFor="let question of short_answers; let i = index"
+                  class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
+                  <span class="qstn_cnt" (click)="active_short_answer_index = i"
+                    matTooltip='{{question["question"]}}'>{{ i + 1 }} {{"
+                    "}}{{question["question"].length>25?question["question"].substring(0,25)+'...':
+                    question["question"]}}</span>
+                </li>
+              </ul>
+            </div>
+            <div class="crs_desc_cnt mcb_desc">
+              <div *ngIf="short_answers.length > 0">
+                <div class="hgt_20"></div>
+                <div class="qstnof_cnt">{{active_short_answer_index + 1}} / {{short_answers.length}}</div>
+                <div class="qstn_hds">
+                  {{ active_short_answer_index + 1 }}.{{
+                  " " + short_answers[active_short_answer_index]["question"]
+                  }}
+                </div>
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="
                 short_answers[active_short_answer_index]['selected_option']
               ">
                   <mat-radio-button *ngFor="
@@ -584,7 +594,7 @@
                     'options'
                   ];
                   let i_option = index
-                " (click)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
+                " (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
                   short_answers[active_short_answer_index]['selected_option'] !=
                     undefined &&
                   short_answers[active_short_answer_index]['s_no'] ==
@@ -594,9 +604,8 @@
                 }} {{
                   short_answers[active_short_answer_index]['selected_option'] !=
                     undefined &&
-                  short_answers[active_short_answer_index]['selected_option'] !=
-                    short_answers[active_short_answer_index]['s_no']
-                    ? 'wrng_rdo'
+                    (short_answers[active_short_answer_index]['selected_option'] !=
+                  option['pk_id'] || short_answers[active_short_answer_index]['selected_option'] != short_answers[active_short_answer_index]['s_no'])? 'wrng_rdo'
                     : ''
                 }}">
                     {{ option["option_text"] }}
@@ -663,12 +672,12 @@
                 <mat-icon>bolt</mat-icon> Related Topics
               </span>
               <span class="spacer"></span>
-                <!-- 
+              <!-- 
                   <span class="fnt_sze">
                     <span (click)="setFontSize('+')" class="a_pls">A<sup>+</sup></span>
                     <span (click)="setFontSize('-')" class="a_mns">A<sup>-</sup></span>
                   </span> -->
-                <!-- 
+              <!-- 
                   <button mat-icon-button color="primary">
                     <mat-icon>close</mat-icon>
                   </button> 
@@ -699,13 +708,13 @@
 
           <div id="youtube_div">
             <!-- <div *ngIf="video_type=='YOUTUBE'" [innerHtml]="youtube_iframe"> -->
-                <div *ngIf="video_type=='YOUTUBE'">
-                <iframe [width]="iframe_width" [height]="iframe_height" [src]="youtube_iframe"></iframe>
+            <div *ngIf="video_type=='YOUTUBE'">
+              <iframe [width]="iframe_width" [height]="iframe_height" [src]="youtube_iframe"></iframe>
             </div>
           </div>
           <div id="threed_obj_dev">
             <div *ngIf="video_type=='3D_OBJECT'">
-                <!-- <stl-model-viewer stlModel="{{bucket_url+active_video_obj['video_source']}}"></stl-model-viewer> -->
+              <!-- <stl-model-viewer stlModel="{{bucket_url+active_video_obj['video_source']}}"></stl-model-viewer> -->
             </div>
           </div>
           <!-- Approach2
@@ -760,29 +769,22 @@
                   <span class="tm_stmp_txt">{{time['text']}}</span>
                 </div>
               </div>
-              <!-- <div class="tm_ln_dv">
-            <span class="tm_stmp">01:30</span>
-            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-          </div>
-          <div class="tm_ln_dv">
-            <span class="tm_stmp">01:30</span>
-            <span class="tm_stmp_txt">Sed non tortor ut diam aliquam aliquam</span>
-          </div> -->
             </mat-expansion-panel>
-            <mat-expansion-panel>
+            <mat-expansion-panel *ngIf="intro_video.length>0" (click)="display_videos='INTRO'">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <mat-icon>videocam</mat-icon> Videos
+                  <mat-icon>videocam</mat-icon> Introduction
                 </mat-panel-title>
                 <mat-panel-description>
-                  <span class="spacer"></span>
-                  <!-- 15 / 30 videos watched -->
+                  <!--  <span class="spacer"></span>
+                   15 / 30 videos watched -->
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <div class="mtvd_hds">
+              <!-- <div class="mtvd_hds">
                 <span *ngIf="intro_video.length>0" class="{{display_videos=='INTRO'?'mtvd_actv':''}}"
                   (click)="display_videos='INTRO'">Introduction</span>
-                <span *ngIf="two_d_videos.length>0" class="{{display_videos=='2D'?'mtvd_actv':''}}" (click)="display_videos='2D'">2D Videos
+                <span *ngIf="two_d_videos.length>0" class="{{display_videos=='2D'?'mtvd_actv':''}}"
+                  (click)="display_videos='2D'">2D Videos
                   <span>({{two_d_videos.length}})</span></span>
                 <span *ngIf="board_lecture_videos.length>0" class="{{display_videos=='BOARD_LECTURES'?'mtvd_actv':''}}"
                   (click)="display_videos='BOARD_LECTURES'">Board Lectures
@@ -793,18 +795,18 @@
                 <span *ngIf="procedural_videos.length>0" class="{{display_videos=='PROCEDURAL'?'mtvd_actv':''}}"
                   (click)="display_videos='PROCEDURAL'">Procedural Videos
                   <span>({{procedural_videos.length}})</span></span>
-                <span *ngIf="three_d_videos.length>0" class="{{display_videos=='3D'?'mtvd_actv':''}}" (click)="display_videos='3D'">3D Objects
+                <span *ngIf="three_d_videos.length>0" class="{{display_videos=='3D'?'mtvd_actv':''}}"
+                  (click)="display_videos='3D'">3D Objects
                   <span>({{three_d_videos.length}})</span></span>
-              </div>
-              <div class="hgt_20"></div>
+              </div> -->
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
-                        <!-- <mat-icon *ngIf="video['video_type'] == 'YOUTUBE'">videocam</mat-icon> -->
-                        <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
-                      <img *ngIf="video['video_type'] == 'KPOINT'" src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" /> 
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
                     </div>
                     <div class="wv_ttl_dsc">
                       <span class="wv_tt_hd">{{video['module_title']}}</span>
@@ -821,9 +823,166 @@
                 </div>
               </div>
             </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="two_d_videos.length>0" (click)="display_videos='2D'">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>videocam</mat-icon> 2D Videos ({{two_d_videos.length}})
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div>
+                <div *ngFor="let video of videos">
+                  <!-- wv_actv -->
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                    <div class="wv_img">
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
+                    </div>
+                    <div class="wv_ttl_dsc">
+                      <span class="wv_tt_hd">{{video['module_title']}}</span>
+                      <!-- <span class="wv_ts">05:50 min</span> -->
+                    </div>
+                    <!-- <span class="spacer"></span>
+                    <div class="wv_ply_icn">
+                      <mat-icon>graphic_eq</mat-icon>
+                    </div> -->
+                    <!-- <div class="wv_bkmrk">
+                      <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="board_lecture_videos.length>0" (click)="display_videos='BOARD_LECTURES'">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>videocam</mat-icon> Board Lectures ({{board_lecture_videos.length}})
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div>
+                <div *ngFor="let video of videos">
+                  <!-- wv_actv -->
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                    <div class="wv_img">
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
+                    </div>
+                    <div class="wv_ttl_dsc">
+                      <span class="wv_tt_hd">{{video['module_title']}}</span>
+                      <!-- <span class="wv_ts">05:50 min</span> -->
+                    </div>
+                    <!-- <span class="spacer"></span>
+                    <div class="wv_ply_icn">
+                      <mat-icon>graphic_eq</mat-icon>
+                    </div> -->
+                    <!-- <div class="wv_bkmrk">
+                      <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="clinical_videos.length>0" (click)="display_videos='CLINICAL_ESSENTIALS'">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>videocam</mat-icon> Clinical Essentials ({{clinical_videos.length}})
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div>
+                <div *ngFor="let video of videos">
+                  <!-- wv_actv -->
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                    <div class="wv_img">
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
+                    </div>
+                    <div class="wv_ttl_dsc">
+                      <span class="wv_tt_hd">{{video['module_title']}}</span>
+                      <!-- <span class="wv_ts">05:50 min</span> -->
+                    </div>
+                    <!-- <span class="spacer"></span>
+                    <div class="wv_ply_icn">
+                      <mat-icon>graphic_eq</mat-icon>
+                    </div> -->
+                    <!-- <div class="wv_bkmrk">
+                      <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="procedural_videos.length>0" (click)="display_videos='PROCEDURAL'">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>videocam</mat-icon> Procedural Videos ({{procedural_videos.length}})
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div>
+                <div *ngFor="let video of videos">
+                  <!-- wv_actv -->
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                    <div class="wv_img">
+                      <!-- <mat-icon *ngIf="video['video_type'] == 'YOUTUBE'">videocam</mat-icon> -->
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
+                    </div>
+                    <div class="wv_ttl_dsc">
+                      <span class="wv_tt_hd">{{video['module_title']}}</span>
+                      <span class="wv_ts">05:50 min</span>
+                    </div>
+                    <!-- <span class="spacer"></span>
+                    <div class="wv_ply_icn">
+                      <mat-icon>graphic_eq</mat-icon>
+                    </div> -->
+                    <!-- <div class="wv_bkmrk">
+                      <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="three_d_videos.length>0" (click)="display_videos='3D'">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>videocam</mat-icon> 3D ({{three_d_videos.length}})
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div>
+                <div *ngFor="let video of videos">
+                  <!-- wv_actv -->
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                    <div class="wv_img">
+                      <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
+                      <img *ngIf="video['video_type'] == 'KPOINT'"
+                        src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
+                    </div>
+                    <div class="wv_ttl_dsc">
+                      <span class="wv_tt_hd">{{video['module_title']}}</span>
+                      <!-- <span class="wv_ts">05:50 min</span> -->
+                    </div>
+                    <!-- <span class="spacer"></span>
+                    <div class="wv_ply_icn">
+                      <mat-icon>graphic_eq</mat-icon>
+                    </div> -->
+                    <!-- <div class="wv_bkmrk">
+                      <mat-icon class="wv_bkmrkd">bookmark</mat-icon>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+
           </mat-accordion>
         </div>
       </div>
     </div>
-    </div>
   </div>
+</div>

@@ -19,8 +19,8 @@ export class ListPackageComponent implements OnInit {
     'pricing_model',
     'billing_frequency',
     'valid_up_to',
-    'status',
     'actions',
+    'status',
   ];
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;

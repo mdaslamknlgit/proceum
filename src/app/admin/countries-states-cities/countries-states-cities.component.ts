@@ -15,7 +15,7 @@ import { environment } from '../../../environments/environment';
 })
 
 export class CountriesStatesCitiesComponent implements OnInit {
-  displayedColumns: string[] = ['pk_id', 'country_name', 'country_language', 'currency_text','currency_symbal', 'status', 'action'];
+  displayedColumns: string[] = ['pk_id', 'country_name', 'country_language', 'currency_text','currency_symbal', 'action', 'status'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -151,9 +151,9 @@ export class CountriesStatesCitiesComponent implements OnInit {
     let params={url: 'update-status',type: type,id:id};
     this.http.post(params).subscribe((res: Response) => {
       if (res.error) {
-        this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
+       // this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
       }else{
-        this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
+       // this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
         this.applyFilters();
       }
     });

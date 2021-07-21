@@ -4,8 +4,8 @@
   <div class="dsh_brd_crds">
     <div>
       <div class="cm_fltr_sc mr_1">
-        <mat-form-field appearance="outline">
-          <mat-select placeholder="Users" [(ngModel)]="dataentry_uid" (ngModelChange)="doFilter()" name="user_name">
+        <mat-form-field appearance="outline" style="width:150px;">
+          <mat-select placeholder="Users" [(ngModel)]="dataentry_uid" name="user_name">
             <mat-option value="0">Select User</mat-option>
             <mat-option *ngFor="let user of users" [value]="user['id']">{{
               user['first_name'] }}
@@ -15,7 +15,7 @@
       </div>
       <div class="cm_fltr_sc mr_1">
         <mat-form-field appearance="outline" class="cal_wdth date_picker" color="accent">
-          <input placeholder="From Date" required name="valid_from_name" #valid_from_name="ngModel"
+          <input readonly placeholder="From Date" name="valid_from_name" #valid_from_name="ngModel"
             [(ngModel)]="from_date" matInput [matDatepicker]="picker" autocomplete="off" [max]="today_date" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -23,7 +23,7 @@
       </div>
       <div class="cm_fltr_sc mr_1">
         <mat-form-field appearance="outline" class="cal_wdth date_picker" color="accent">
-          <input placeholder="To Date" required name="valid_to_name" #valid_to_name="ngModel" [(ngModel)]="to_date"
+          <input readonly placeholder="To Date" name="valid_to_name" #valid_to_name="ngModel" [(ngModel)]="to_date"
             matInput [matDatepicker]="picker2" autocomplete="off" [min]="from_date" />
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
@@ -36,17 +36,25 @@
           <mat-icon class="curserToPointer" (click)="doFilter()" matSuffix>search</mat-icon>
         </mat-form-field>
       </div>
-      <button mat-raised-button color="accent" class="float_right" (click)="navigateTo('create-content')" type="button">
+      <button mat-raised-button (click)="doFilter()" color="accent" class="no_bxsdw mr_1 mt_3px">
+        Submit
+      </button>
+      <button (click)="resetFilter()" mat-raised-button color="warn" class="no_bxsdw mt_3px" matTooltip="Reset">
+        <mat-icon>restart_alt</mat-icon>
+      </button>
+
+      <button mat-raised-button color="accent" class="float_right mt_1" (click)="navigateTo('create-content')"
+        type="button">
         Create Content
       </button>
     </div>
     <div class="clear_fix"></div>
-    
+
     <div class="clear_fix"></div>
     <mat-tab-group (selectedTabChange)="switchTab($event)">
       <mat-tab label="All">
         <div class="rsp_tbl">
-          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="rsp_tbl">
             <ng-container matColumnDef="sno">
               <th mat-header-cell *matHeaderCellDef>S.No</th>
               <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
@@ -77,31 +85,41 @@
             <ng-container matColumnDef="content_status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Status</th>
               <td mat-cell *matCellDef="let element">
-                <span>
-                    <span *ngIf="element.content_status == null">Copy</span>
-                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
-                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
-                    {{element.role?'('+element.role+')':''}}
+                <span class="cm_sts_info">
+                  <span *ngIf="element.content_status == null" class="cpy">Copy</span>
+                  <span *ngIf="element.content_status == 'PUBLISHED'" class="pblshd">Published</span>
+                  <span *ngIf="element.content_status == 'DRAFT'" class="drft">Draft</span>
+                  <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3"
+                    class="crct_pnd">Corrections Pending</span>
+                  <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7" class="aw_aprvl">Awaiting
+                    Approval</span>
+                  <span
+                    *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)"
+                    class="rw_pndg">Review Pending</span>
+                  <!-- {{element.role?'('+element.role+')':''}} -->
                 </span>
               </td>
             </ng-container>
+            <ng-container matColumnDef="assigned_to">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Pending at</th>
+              <td mat-cell *matCellDef="let element">
+                <span>{{element.role?element.role:'N/A'}}</span>
+              </td>
+            </ng-container>
             <ng-container matColumnDef="created_at">
-              <th mat-header-cell *matHeaderCellDef>Create Date</th>
-              <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Create Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
             </ng-container>
             <ng-container matColumnDef="updated_at">
-              <th mat-header-cell *matHeaderCellDef>Updated Date</th>
-              <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let element">
+              <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
+              <td mat-cell *matCellDef="let element" class="actions_tdh">
                 <button mat-icon-button color="accent" matTooltip="Click to edit"
                   (click)="navigateTo('create-content/'+element.id)">
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>edit_note</mat-icon>
                 </button>
                 <!-- <button matTooltip="click here to {{
                   element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
@@ -125,7 +143,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">
+              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumns.length">
                 No Records Found
               </td>
             </tr>
@@ -136,7 +154,7 @@
       </mat-tab>
       <mat-tab label="Drafts">
         <div class="rsp_tbl">
-          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="rsp_tbl">
             <ng-container matColumnDef="sno">
               <th mat-header-cell *matHeaderCellDef>S.No</th>
               <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
@@ -156,44 +174,22 @@
                 {{element['created_by']}}
               </td>
             </ng-container>
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-              <td mat-cell *matCellDef="let element">
-                <span matTooltip="Current Status is {{
-                  element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-                }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-                  "Inactive" }}</span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="content_status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Status</th>
-              <td mat-cell *matCellDef="let element">
-                <span>
-                    <span *ngIf="element.content_status == null">Copy</span>
-                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
-                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
-                    {{element.role?'('+element.role+')':''}}
-                </span>
-              </td>
-            </ng-container>
+
             <ng-container matColumnDef="created_at">
-              <th mat-header-cell *matHeaderCellDef>Create Date</th>
-              <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Create Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
             </ng-container>
 
             <ng-container matColumnDef="updated_at">
-              <th mat-header-cell *matHeaderCellDef>Updated Date</th>
-              <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let element">
+              <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
+              <td mat-cell *matCellDef="let element" class="actions_tdh">
                 <button mat-icon-button color="accent" matTooltip="Click to edit"
                   (click)="navigateTo('create-content/'+element.id)">
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>edit_note</mat-icon>
                 </button>
                 <!-- <button matTooltip="click here to {{
                   element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
@@ -214,10 +210,11 @@
               </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="draft_displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: draft_displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">
+              <td style="text-align: center; margin: 20px" class="mat-cell"
+                [attr.colspan]="draft_displayedColumns.length">
                 No Records Found
               </td>
             </tr>
@@ -228,7 +225,7 @@
       </mat-tab>
       <mat-tab label="Pending Reviews">
         <div class="rsp_tbl">
-          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="rsp_tbl">
             <ng-container matColumnDef="sno">
               <th mat-header-cell *matHeaderCellDef>S.No</th>
               <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
@@ -248,44 +245,45 @@
                 {{element['created_by']}}
               </td>
             </ng-container>
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-              <td mat-cell *matCellDef="let element">
-                <span matTooltip="Current Status is {{
-                      element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-                    }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-                  "Inactive" }}</span>
-              </td>
-            </ng-container>
+
             <ng-container matColumnDef="content_status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Status</th>
               <td mat-cell *matCellDef="let element">
-                <span>
-                    <span *ngIf="element.content_status == null">Copy</span>
-                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
-                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
-                    {{element.role?'('+element.role+')':''}}
+                <span class="cm_sts_info">
+                  <span *ngIf="element.content_status == null" class="cpy">Copy</span>
+                  <span *ngIf="element.content_status == 'PUBLISHED'" class="pblshd">Published</span>
+                  <span *ngIf="element.content_status == 'DRAFT'" class="drft">Draft</span>
+                  <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3"
+                    class="crct_pnd">Corrections Pending</span>
+                  <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7" class="aw_aprvl">Awaiting
+                    Approval</span>
+                  <span
+                    *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)"
+                    class="rw_pndg">Review Pending</span>
                 </span>
               </td>
             </ng-container>
+            <ng-container matColumnDef="assigned_to">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Pending at</th>
+              <td mat-cell *matCellDef="let element">
+                <span>{{element.role?element.role:'N/A'}}</span>
+              </td>
+            </ng-container>
             <ng-container matColumnDef="created_at">
-              <th mat-header-cell *matHeaderCellDef>Create Date</th>
-              <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Create Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
             </ng-container>
 
             <ng-container matColumnDef="updated_at">
-              <th mat-header-cell *matHeaderCellDef>Updated Date</th>
-              <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let element">
+              <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
+              <td mat-cell *matCellDef="let element" class="actions_tdh">
                 <button mat-icon-button color="accent" matTooltip="Click to edit"
                   (click)="navigateTo('create-content/'+element.id)">
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>edit_note</mat-icon>
                 </button>
                 <!-- <button matTooltip="click here to {{
                       element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
@@ -305,11 +303,11 @@
                 </button>
               </td>
             </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="review_displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: review_displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">
+              <td style="text-align: center; margin: 20px" class="mat-cell"
+                [attr.colspan]="review_displayedColumns.length">
                 No Records Found
               </td>
             </tr>
@@ -320,12 +318,11 @@
       </mat-tab>
       <mat-tab label="Published">
         <div class="rsp_tbl">
-          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="rsp_tbl">
             <ng-container matColumnDef="sno">
               <th mat-header-cell *matHeaderCellDef>S.No</th>
               <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
             </ng-container>
-
             <ng-container matColumnDef="content_title">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Content title
@@ -343,58 +340,50 @@
             <ng-container matColumnDef="status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
               <td mat-cell *matCellDef="let element">
-                <span matTooltip="Current Status is {{
+                <!-- <span matTooltip="Current Status is {{
                       element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
                     }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-                  "Inactive" }}</span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="content_status">
-              <th mat-header-cell *matHeaderCellDef>Content Status</th>
-              <td mat-cell *matCellDef="let element">
-                <span>
-                    <span *ngIf="element.content_status == null">Copy</span>
-                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
-                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
-                    {{element.role?'('+element.role+')':''}}
-                </span>
+                  "Inactive" }}</span> -->
+                <mat-slide-toggle (click)="deleteContent(element.id, element.status)"
+                  [checked]="element.status == 1 ? true : false"
+                  matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+
+                </mat-slide-toggle>
               </td>
             </ng-container>
             <ng-container matColumnDef="created_at">
-              <th mat-header-cell *matHeaderCellDef>Create Date</th>
-              <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Create Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
             </ng-container>
 
             <ng-container matColumnDef="updated_at">
-              <th mat-header-cell *matHeaderCellDef>Updated Date</th>
-              <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let element">
+              <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
+              <td mat-cell *matCellDef="let element" class="actions_tdh">
                 <button mat-icon-button color="accent" matTooltip="Click to edit"
                   (click)="navigateTo('create-content/'+element.id)">
-                  <mat-icon>edit</mat-icon>
+                  <mat-icon>edit_note</mat-icon>
                 </button>
-                <button matTooltip="click here to {{
+                <!-- <button matTooltip="click here to {{
                       element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                     }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                       'Are you sure to change status of <b>' + element.title + '</b> '
                     " placement="auto" (confirm)="deleteContent(element.id, element.status)" confirmButtonType="danger"
                   cancelButtonType="outline-secondary">
                   <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
-                  <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-                </button>
+                  <mat-icon *ngIf="element.status == 0">visibility</mat-icon>                
+                </button> -->
               </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="published_displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: published_displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="6">
+              <td style="text-align: center; margin: 20px" class="mat-cell"
+                [attr.colspan]="published_displayedColumns.length">
                 No Records Found
               </td>
             </tr>
