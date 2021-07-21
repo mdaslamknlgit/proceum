@@ -69,7 +69,7 @@ export class AssetsLibraryComponent implements OnInit {
     });
   }
   filterFiles() {
-    let search = this.search_images;
+    let search = this.search_images.replace(' ','_');
     if (!search) {
       this.all_files.next(this.files.slice());
       return;
@@ -87,6 +87,7 @@ export class AssetsLibraryComponent implements OnInit {
     );
   }
   openFolder(path) {
+    this.search_images = '';
     this.current_path = path;
     this.current_path_list = this.current_path.split('/');
     let param = { url: 'get-files', path: path };

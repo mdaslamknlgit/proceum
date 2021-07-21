@@ -102,10 +102,16 @@
                     <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
                     <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
                     <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
-                    {{element.role?'('+element.role+')':''}}
+                    
                 </span>
               </td>
             </ng-container>
+            <ng-container matColumnDef="assigned_to">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Pending at</th>
+                <td mat-cell *matCellDef="let element">
+                  <span>{{element.role?element.role:'N/A'}}</span>
+                </td>
+              </ng-container>
             <ng-container matColumnDef="created_at">
               <th mat-header-cell *matHeaderCellDef>Create Date</th>
               <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
@@ -143,7 +149,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="8">
+              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumns.length">
                 No Records Found
               </td>
             </tr>
@@ -174,29 +180,7 @@
                 {{element['created_by']}}
               </td>
             </ng-container>
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-              <td mat-cell *matCellDef="let element">
-                <span matTooltip="Current Status is {{
-                  element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-                }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-                  "Inactive" }}</span>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="content_status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Status</th>
-              <td mat-cell *matCellDef="let element">
-                <span>
-                    <span *ngIf="element.content_status == null">Copy</span>
-                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
-                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
-                    {{element.role?'('+element.role+')':''}}
-                </span>
-              </td>
-            </ng-container>
+            
             <ng-container matColumnDef="created_at">
               <th mat-header-cell *matHeaderCellDef>Create Date</th>
               <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
@@ -232,10 +216,10 @@
               </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="draft_displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: draft_displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="8">
+              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="draft_displayedColumns.length">
                 No Records Found
               </td>
             </tr>
@@ -266,15 +250,7 @@
                 {{element['created_by']}}
               </td>
             </ng-container>
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-              <td mat-cell *matCellDef="let element">
-                <span matTooltip="Current Status is {{
-                      element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-                    }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-                  "Inactive" }}</span>
-              </td>
-            </ng-container>
+            
             <ng-container matColumnDef="content_status">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Status</th>
               <td mat-cell *matCellDef="let element">
@@ -285,10 +261,16 @@
                     <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
                     <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
                     <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
-                    {{element.role?'('+element.role+')':''}}
+                    
                 </span>
               </td>
             </ng-container>
+            <ng-container matColumnDef="assigned_to">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Pending at</th>
+                <td mat-cell *matCellDef="let element">
+                  <span>{{element.role?element.role:'N/A'}}</span>
+                </td>
+              </ng-container>
             <ng-container matColumnDef="created_at">
               <th mat-header-cell *matHeaderCellDef>Create Date</th>
               <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
@@ -324,10 +306,10 @@
               </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="review_displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: review_displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="8">
+              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="review_displayedColumns.length">
                 No Records Found
               </td>
             </tr>
@@ -367,20 +349,6 @@
                   "Inactive" }}</span>
               </td>
             </ng-container>
-            <ng-container matColumnDef="content_status">
-              <th mat-header-cell *matHeaderCellDef>Content Status</th>
-              <td mat-cell *matCellDef="let element">
-                <span>
-                    <span *ngIf="element.content_status == null">Copy</span>
-                    <span *ngIf="element.content_status == 'PUBLISHED'">Published</span>
-                    <span *ngIf="element.content_status == 'DRAFT'">Draft</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3">Corrections Pending</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7">Awaiting Approval</span>
-                    <span *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)">Review Pending</span>
-                    {{element.role?'('+element.role+')':''}}
-                </span>
-              </td>
-            </ng-container>
             <ng-container matColumnDef="created_at">
               <th mat-header-cell *matHeaderCellDef>Create Date</th>
               <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
@@ -413,10 +381,10 @@
               </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr mat-header-row *matHeaderRowDef="published_displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: published_displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="8">
+              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="published_displayedColumns.length">
                 No Records Found
               </td>
             </tr>
