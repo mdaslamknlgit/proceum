@@ -13,16 +13,10 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./content-management.component.scss'],
 })
 export class ContentManagementComponent implements OnInit {
-  public displayedColumns: string[] = [
-    'sno',
-    'content_title',
-    'created_by',
-    'content_status',
-    'created_at',
-    'updated_at',
-    'actions',
-    'status',
-  ];
+  public displayedColumns: string[] = ['sno', 'content_title', 'created_by', 'content_status', 'assigned_to', 'created_at', 'updated_at', 'actions', 'status'];
+  public draft_displayedColumns: string[] = ['sno', 'content_title', 'created_by', 'created_at', 'updated_at', 'actions'];
+  public review_displayedColumns: string[] = ['sno','content_title','created_by','content_status','assigned_to','created_at','updated_at','actions'];
+  public published_displayedColumns: string[] = ['sno','content_title','created_by','created_at','updated_at','actions','status'];
   public dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
