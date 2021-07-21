@@ -1,12 +1,10 @@
 <div class="sd_br" [ngClass]="sidemenuStatus" (scroll)="scrollHandler($event)">
   <!-- sd_opn || sd_cls -->
   <ul class="sdmn_cntul">
-    <li
-      (click)="menu_active = 0"
-      routerLinkActive="active"
-      routerLink="/reviewer/dashboard"
-    >
-      <div class="sd_mnuhd"><mat-icon>dashboard</mat-icon> Dashboard</div>
+    <li (click)="menu_active = 0" routerLinkActive="active" routerLink="/reviewer/dashboard">
+      <div class="sd_mnuhd">
+        <mat-icon>dashboard</mat-icon> Dashboard
+      </div>
     </li>
 
     <!-- <li *ngIf="false"
@@ -67,8 +65,7 @@
         <mat-icon>auto_awesome_mosaic</mat-icon> Curriculum Management
       </div>
     </li> -->
-    <li
-      class="hs_sbmnu {{
+    <li class="hs_sbmnu {{
         menu_active == 2 ||
         active_route == '/reviewer/create-content' ||
         active_route == '/reviewer/link-content' ||
@@ -76,11 +73,10 @@
         active_route == '/reviewer/manage-content'
           ? 'active'
           : ''
-      }}"
-      routerLinkActive="active"
-      (click)="activeMenu(2, menu_active)"
-    >
-      <div class="sd_mnuhd"><mat-icon>source</mat-icon> Content Management</div>
+      }}" routerLinkActive="active" (click)="activeMenu(2, menu_active)">
+      <div class="sd_mnuhd">
+        <mat-icon>source</mat-icon> Content Management
+      </div>
       <ul class="sdmn_sub">
         <li routerLinkActive="active" routerLink="/reviewer/create-content">
           <mat-icon>add</mat-icon>Create Content
@@ -91,9 +87,15 @@
         <li routerLinkActive="active" routerLink="/reviewer/link-content">
           <mat-icon>notes</mat-icon>Link Content
         </li>
-        <li><mat-icon>speaker_notes</mat-icon>Learning Notes</li>
-        <li><mat-icon>description</mat-icon>Teacher Materials</li>
-        <li><mat-icon>style</mat-icon>Flash Cards</li>
+        <li>
+          <mat-icon>speaker_notes</mat-icon>Learning Notes
+        </li>
+        <li>
+          <mat-icon>description</mat-icon>Teacher Materials
+        </li>
+        <li>
+          <mat-icon>style</mat-icon>Flash Cards
+        </li>
       </ul>
     </li>
     <!-- <li routerLink="/reviewer/users" (click)="menu_active = 0">
@@ -101,14 +103,11 @@
         <mat-icon>library_books</mat-icon> Proceum User
       </div>
     </li>-->
-    <li
-      class="hs_sbmnu {{
+    <li class="hs_sbmnu {{
         menu_active == 3 || active_route.includes('/reviewer/assets-library')
           ? 'active'
           : ''
-      }}"
-      (click)="activeMenu(3, menu_active)"
-    >
+      }}" (click)="activeMenu(3, menu_active)">
       <div class="sd_mnuhd">
         <mat-icon>corporate_fare</mat-icon> Assets Library
       </div>
@@ -119,10 +118,7 @@
         <li routerLinkActive="active" routerLink="/reviewer/assets-library/images">
           <mat-icon>wallpaper</mat-icon>Images
         </li>
-        <li
-          routerLinkActive="active"
-          routerLink="/reviewer/assets-library/documents"
-        >
+        <li routerLinkActive="active" routerLink="/reviewer/assets-library/documents">
           <mat-icon>text_snippet</mat-icon>Documents
         </li>
       </ul>

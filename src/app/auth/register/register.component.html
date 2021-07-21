@@ -31,116 +31,149 @@
     <div class="log_div text_center" *ngIf="is_individual">
       <!-- <h2 class="clr_wht fnt_nrml wlcm_hd">Welcome to Proceum</h2> -->
       <div class="sgn_sec">
-        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back To Account Types <mat-icon>arrow_back</mat-icon>
+        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back To Account Types <mat-icon>
+              arrow_back</mat-icon>
           </span> Individual user</p>
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
         <form #individual_signup_form="ngForm" name="individual_signup_form" autocomplete="off" novalidate>
           <mat-horizontal-stepper [linear]="isLinear" #stepper>
 
-          <mat-step [stepControl]="firstFormGroup" label="Basic details">
-            <div class="hgt_20"></div>
-            <div class="reg_container">
-              <div class="left_block_reg">
-                <div class="fir_name err_tltp_par">
-                  <mat-form-field appearance="legacy">
-                    <input tabindex="1" matInput placeholder="First Name" [(ngModel)]="individualRegister.first_name" name="first_name" #first_name="ngModel" maxlength="50" required>
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted ||
+            <mat-step [stepControl]="firstFormGroup" label="Basic details">
+              <div class="hgt_20"></div>
+              <div class="reg_container">
+                <div class="left_block_reg">
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <input tabindex="1" matInput placeholder="First Name" [(ngModel)]="individualRegister.first_name"
+                        name="first_name" #first_name="ngModel" maxlength="50" required>
+                      <span class="prc_tltp" *ngIf="(individual_signup_form.submitted ||
                     first_name.touched) &&
                   first_name.invalid">First Name is required</span>
-                  </mat-form-field>
-                </div>
-                <div class="fir_name err_tltp_par">
-                  <mat-form-field appearance="legacy">
-                    <input tabindex="3" matInput placeholder="Email" [(ngModel)]="individualRegister.email" name="email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  required>
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted ||
+                    </mat-form-field>
+                  </div>
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <input tabindex="3" matInput placeholder="Email" [(ngModel)]="individualRegister.email"
+                        name="email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                      <span class="prc_tltp" *ngIf="(individual_signup_form.submitted ||
                     email.touched) &&
                   email.invalid">Email is required</span>
-                    <span class="prc_tltp" *ngIf="individual_signup_form.submitted && email.errors?.pattern">This is not a valid Email!!!</span>
-                  </mat-form-field>
-                </div>
-                <div class="fir_name err_tltp_par">
-                  <mat-form-field appearance="legacy">
-                    <input tabindex="5"  matInput placeholder="Password" [(ngModel)]="individualRegister.password" name="password" type="password"  minlength="6" maxlength="16" ngModel #password="ngModel" required>
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted ||
-                    password.touched) && (individualRegister.password == '' || !password_check)">Password is required</span>
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted || password.touched) && individualRegister.password.length <= 5">A minimum of 6 characters password  required</span>
-                  </mat-form-field>
-                </div>
-                <div class="fir_name err_tltp_par">   
-                  <mat-form-field appearance="legacy">
-                    <mat-select tabindex="7"  placeholder="Select University" name="university" #university="ngModel"
-                      [(ngModel)]="individualRegister.university"  [required]="individualRegister.college == ''" >
-                      <mat-option>
-                        <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
-                          [placeholderLabel]="'Search University'" name="search_university" ngModel
-                          (ngModelChange)="filterPartnersListForUniversity($event)"></ngx-mat-select-search>
-                      </mat-option>
-                      <mat-option *ngFor="let university of all_universities | async" [value]="university['pk_id']">{{
-                        university["name"] }}</mat-option>
-                    </mat-select>
-                    <span *ngIf="individual_signup_form.submitted && individualRegister.university == ''" class="prc_tltp">{{ university_college_error }}</span>
-                  </mat-form-field>
-                </div>
+                      <span class="prc_tltp" *ngIf="individual_signup_form.submitted && email.errors?.pattern">This is
+                        not a valid Email!!!</span>
+                    </mat-form-field>
+                  </div>
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <input tabindex="5" matInput placeholder="Password" [(ngModel)]="individualRegister.password"
+                        name="password" type="password" minlength="6" maxlength="16" ngModel #password="ngModel"
+                        required>
+                      <span class="prc_tltp" *ngIf="(individual_signup_form.submitted ||
+                    password.touched) && (individualRegister.password == '' || !password_check)">Password is
+                        required</span>
+                      <span class="prc_tltp"
+                        *ngIf="(individual_signup_form.submitted || password.touched) && individualRegister.password.length <= 5">A
+                        minimum of 6 characters password required</span>
+                    </mat-form-field>
+                  </div>
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <mat-select tabindex="7" placeholder="Select University" name="university" #university="ngModel"
+                        [(ngModel)]="individualRegister.university" [required]="individualRegister.college == ''">
+                        <mat-option>
+                          <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
+                            [placeholderLabel]="'Search University'" name="search_university" ngModel
+                            (ngModelChange)="filterPartnersListForUniversity($event)"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let university of all_universities | async" [value]="university['pk_id']">{{
+                          university["name"] }}</mat-option>
+                      </mat-select>
+                      <span *ngIf="individual_signup_form.submitted && individualRegister.university == ''"
+                        class="prc_tltp">{{ university_college_error }}</span>
+                    </mat-form-field>
+                  </div>
 
-                <div class="fir_name err_tltp_par">
-                  <mat-form-field appearance="legacy">
-                    <input tabindex="9"  matInput placeholder="Qualification" [(ngModel)]="individualRegister.qualification" name="qualification" maxlength="50" required>
-                    <span class="prc_tltp" *ngIf="individual_signup_form.submitted && individualRegister.qualification == ''">Qualification is required</span>
-                  </mat-form-field>
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <input tabindex="9" matInput placeholder="Qualification"
+                        [(ngModel)]="individualRegister.qualification" name="qualification" maxlength="50" required>
+                      <span class="prc_tltp"
+                        *ngIf="individual_signup_form.submitted && individualRegister.qualification == ''">Qualification
+                        is required</span>
+                    </mat-form-field>
+                  </div>
                 </div>
+                <div class="right_block_reg">
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <input tabindex="2" matInput placeholder="Last Name" [(ngModel)]="individualRegister.last_name"
+                        name="last_name" #last_name="ngModel" required maxlength="50">
+                      <span class="prc_tltp"
+                        *ngIf="(individual_signup_form.submitted || last_name.touched) && last_name.invalid">Last Name
+                        is required</span>
+                    </mat-form-field>
+                  </div>
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <input tabindex="4" matInput placeholder="Contact Number"
+                        [(ngModel)]="individualRegister.contact_number" name="contact_number" ngModel
+                        #contact_number="ngModel"
+                        pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
+                        required>
+                      <span class="prc_tltp"
+                        *ngIf="(individual_signup_form.submitted  || contact_number.touched) && contact_number.invalid">Contact
+                        number is required</span>
+                      <span class="prc_tltp"
+                        *ngIf="(individual_signup_form.submitted  || contact_number.touched) && contact_number.errors?.pattern">This
+                        is not a valid contact number!!!</span>
+                    </mat-form-field>
+                  </div>
+                  <div class="last_name err_tltp_par">
+                    <mat-form-field appearance="legacy"
+                      class="{{ individualRegister.confirm_pwd != '' && (individualRegister.confirm_pwd != individualRegister.password) ? 'mat-form-field-invalid' : ''}}">
+                      <input tabindex="6" matInput [type]="confirm_hide ? 'password' : 'text'" required
+                        [(ngModel)]="individualRegister.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd"
+                        onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" placeholder="Confirm Password"
+                        ngModel />
+                      <span class="prc_tltp"
+                        *ngIf="(individual_signup_form.submitted  || confirm_pwd.touched) && individualRegister.confirm_pwd == ''">Confirm
+                        Password required!</span>
+                      <span class="prc_tltp"
+                        *ngIf="(individual_signup_form.submitted  || confirm_pwd.touched) && (individualRegister.confirm_pwd != '' && individualRegister.confirm_pwd != individualRegister.password)">Password
+                        and Confirm Password must be match.</span>
+                    </mat-form-field>
+                  </div>
 
-              </div>
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <mat-select tabindex="8" placeholder="Select College" name="college" #college="ngModel"
+                        [(ngModel)]="individualRegister.college" [required]="individualRegister.university == ''">
+                        <mat-option>
+                          <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
+                            [placeholderLabel]="'Search College'" name="search_college" ngModel
+                            (ngModelChange)="filterPartnersListForCollege($event)"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let college of all_colleges | async" [value]="college['pk_id']">{{
+                          college["name"] }}</mat-option>
+                      </mat-select>
+                      <span
+                        *ngIf="(individual_signup_form.submitted  || college.touched) && (individualRegister.university == '' && individualRegister.college == '')"
+                        class="prc_tltp">{{ university_college_error }}</span>
+                    </mat-form-field>
+                  </div>
 
-
-              <div class="right_block_reg">
-                <div class="fir_name err_tltp_par">
-                  <mat-form-field appearance="legacy">
-                    <input tabindex="2" matInput placeholder="Last Name" [(ngModel)]="individualRegister.last_name" name="last_name" #last_name="ngModel" required  maxlength="50" >
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted || last_name.touched) && last_name.invalid">Last Name is required</span>
-                  </mat-form-field>
-                </div>
-                <div class="fir_name err_tltp_par">
-                  <mat-form-field appearance="legacy">
-                    <input tabindex="4" matInput placeholder="Contact Number" [(ngModel)]="individualRegister.contact_number" name="contact_number" ngModel #contact_number="ngModel" pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$" required>
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted  || contact_number.touched) && contact_number.invalid">Contact number is required</span>
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted  || contact_number.touched) && contact_number.errors?.pattern">This is not a valid contact number!!!</span>
-                  </mat-form-field>
-                </div>
-                <div class="last_name err_tltp_par">
-                  <mat-form-field appearance="legacy" class="{{ individualRegister.confirm_pwd != '' && (individualRegister.confirm_pwd != individualRegister.password) ? 'mat-form-field-invalid' : ''}}">
-                    <input tabindex="6"  matInput [type]="confirm_hide ? 'password' : 'text'" required [(ngModel)]="individualRegister.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd" onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" placeholder="Confirm Password" ngModel/>
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted  || confirm_pwd.touched) && individualRegister.confirm_pwd == ''">Confirm Password required!</span>
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted  || confirm_pwd.touched) && (individualRegister.confirm_pwd != '' && individualRegister.confirm_pwd != individualRegister.password)">Password and Confirm Password must be match.</span>
-                  </mat-form-field>
-                </div>
-
-                <div class="fir_name err_tltp_par">   
-                  <mat-form-field appearance="legacy">
-                    <mat-select tabindex="8" placeholder="Select College" name="college" #college="ngModel"
-                      [(ngModel)]="individualRegister.college"  [required]="individualRegister.university == ''" >
-                      <mat-option>
-                        <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
-                          [placeholderLabel]="'Search College'" name="search_college" ngModel
-                          (ngModelChange)="filterPartnersListForCollege($event)"></ngx-mat-select-search>
-                      </mat-option>
-                      <mat-option *ngFor="let college of all_colleges | async" [value]="college['pk_id']">{{
-                        college["name"] }}</mat-option>
-                    </mat-select>
-                    <span *ngIf="(individual_signup_form.submitted  || college.touched) && (individualRegister.university == '' && individualRegister.college == '')" class="prc_tltp">{{ university_college_error }}</span>
-                  </mat-form-field>
-                </div>
-
-                <div class="fir_name err_tltp_par">
-                  <mat-form-field appearance="legacy">
-                    <mat-select tabindex="10" placeholder="Select Profession" name="profession" #profession="ngModel"
-                      [(ngModel)]="individualRegister.profession" required>
-                      <mat-option value="Doctor">Doctor</mat-option>
-                      <mat-option value="Professor">Professor</mat-option>
-                      <mat-option value="Student">Student</mat-option>
-                    </mat-select>
-                    <span class="prc_tltp" *ngIf="(individual_signup_form.submitted  || profession.touched) && individualRegister.profession == ''">Profession is required</span>
-                  </mat-form-field>
-                </div>
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <mat-select tabindex="10" placeholder="Select Profession" name="profession" #profession="ngModel"
+                        [(ngModel)]="individualRegister.profession" required>
+                        <mat-option value="Doctor">Doctor</mat-option>
+                        <mat-option value="Professor">Professor</mat-option>
+                        <mat-option value="Student">Student</mat-option>
+                      </mat-select>
+                      <span class="prc_tltp"
+                        *ngIf="(individual_signup_form.submitted  || profession.touched) && individualRegister.profession == ''">Profession
+                        is required</span>
+                    </mat-form-field>
+                  </div>
 
                 </div>
               </div>
@@ -151,13 +184,18 @@
               </div>
             </mat-step>
             <mat-step [stepControl]="secondFormGroup" label="Address details">
+              <div class="hgt_20"></div>
               <div class="reg_container">
                 <div class="left_block_reg">
                   <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy" class="{{ (((address_details && individual_signup_form.submitted) || address_line_1.touched) && individualRegister.address_line_1 == '') ? 'mat-form-field-invalid' : ''}}">
-                      <input tabindex="12" matInput placeholder="Address Line1" [(ngModel)]="individualRegister.address_line_1"
-                        name="address_line_1" #address_line_1="ngModel" [required]="address_details"  maxlength="70" >
-                      <span class="prc_tltp" *ngIf="((address_details && individual_signup_form.submitted)  || address_line_1.touched) && individualRegister.address_line_1 == ''">Address Line1 is
+                    <mat-form-field appearance="legacy"
+                      class="{{ (((address_details && individual_signup_form.submitted) || address_line_1.touched) && individualRegister.address_line_1 == '') ? 'mat-form-field-invalid' : ''}}">
+                      <input tabindex="12" matInput placeholder="Address Line1"
+                        [(ngModel)]="individualRegister.address_line_1" name="address_line_1" #address_line_1="ngModel"
+                        [required]="address_details" maxlength="70">
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && individual_signup_form.submitted)  || address_line_1.touched) && individualRegister.address_line_1 == ''">Address
+                        Line1 is
                         required</span>
                     </mat-form-field>
                   </div>
@@ -175,14 +213,19 @@
                         <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{
                           country["country_name"] }}</mat-option>
                       </mat-select>
-                      <span *ngIf="((address_details && individual_signup_form.submitted) || country_id.touched) && individualRegister.country_id == ''" class="prc_tltp">Country is required</span>
+                      <span
+                        *ngIf="((address_details && individual_signup_form.submitted) || country_id.touched) && individualRegister.country_id == ''"
+                        class="prc_tltp">Country is required</span>
                     </mat-form-field>
                   </div>
                   <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy" class="{{ (((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == '') ? 'mat-form-field-invalid' : ''}}">
-                      <input tabindex="16" matInput placeholder="City" [(ngModel)]="individualRegister.city" name="city" #city="ngModel"
-                        [required]="address_details" maxlength="50">
-                      <span class="prc_tltp" *ngIf="((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == ''">City is required</span>
+                    <mat-form-field appearance="legacy"
+                      class="{{ (((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == '') ? 'mat-form-field-invalid' : ''}}">
+                      <input tabindex="16" matInput placeholder="City" [(ngModel)]="individualRegister.city" name="city"
+                        #city="ngModel" [required]="address_details" maxlength="50">
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == ''">City
+                        is required</span>
                     </mat-form-field>
                   </div>
                 </div>
@@ -190,14 +233,15 @@
                 <div class="right_block_reg">
                   <div class="fir_name">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="13" matInput placeholder="Address Line2" [(ngModel)]="individualRegister.address_line_2"
-                        name="address_line_2">
+                      <input tabindex="13" matInput placeholder="Address Line2"
+                        [(ngModel)]="individualRegister.address_line_2" name="address_line_2">
                     </mat-form-field>
                   </div>
                   <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy" class="{{ (((address_details && individual_signup_form.submitted) || state_id.touched) && individualRegister.state_id == '') ? 'mat-form-field-invalid' : ''}}">
-                      <mat-select tabindex="15"  placeholder="Select State" #state_id="ngModel" name="state_id"
-                        [(ngModel)]="individualRegister.state_id" [required]="address_details"  maxlength="70">
+                    <mat-form-field appearance="legacy"
+                      class="{{ (((address_details && individual_signup_form.submitted) || state_id.touched) && individualRegister.state_id == '') ? 'mat-form-field-invalid' : ''}}">
+                      <mat-select tabindex="15" placeholder="Select State" #state_id="ngModel" name="state_id"
+                        [(ngModel)]="individualRegister.state_id" [required]="address_details" maxlength="70">
                         <mat-option>
                           <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                             [placeholderLabel]="'Search State'" name="search_state" ngModel
@@ -207,18 +251,25 @@
                           state["state_name"] }}
                         </mat-option>
                       </mat-select>
-                      <span class="prc_tltp" *ngIf="((address_details && individual_signup_form.submitted)  || state_id.touched) && individualRegister.state_id == ''">State/Province is required</span>
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && individual_signup_form.submitted)  || state_id.touched) && individualRegister.state_id == ''">State/Province
+                        is required</span>
                     </mat-form-field>
 
                   </div>
                   <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy" class="{{ (((address_details && individual_signup_form.submitted) || zip_code.touched) && individualRegister.zip_code == '') ? 'mat-form-field-invalid' : ''}}">
-                      <input tabindex="17" matInput placeholder="ZIP/Postal Code" [(ngModel)]="individualRegister.zip_code"
-                        name="zip_code" ngModel #zip_code="ngModel" pattern="^[0-9][0-9\- ]{4,10}[0-9]$"
-                        [required]="address_details"  maxlength="10">
-                      <span class="prc_tltp" *ngIf="((address_details && individual_signup_form.submitted)  || zip_code.touched) && individualRegister.zip_code == ''">ZIP/Postal Code is
+                    <mat-form-field appearance="legacy"
+                      class="{{ (((address_details && individual_signup_form.submitted) || zip_code.touched) && individualRegister.zip_code == '') ? 'mat-form-field-invalid' : ''}}">
+                      <input tabindex="17" matInput placeholder="ZIP/Postal Code"
+                        [(ngModel)]="individualRegister.zip_code" name="zip_code" ngModel #zip_code="ngModel"
+                        pattern="^[0-9][0-9\- ]{4,10}[0-9]$" [required]="address_details" maxlength="10">
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && individual_signup_form.submitted)  || zip_code.touched) && individualRegister.zip_code == ''">ZIP/Postal
+                        Code is
                         required</span>
-                      <span class="prc_tltp" *ngIf="((address_details && individual_signup_form.submitted)  || zip_code.touched ) && individualRegister.zip_code != '' && zip_code.errors?.pattern">This is not a valid ZIP/Postal
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && individual_signup_form.submitted)  || zip_code.touched ) && individualRegister.zip_code != '' && zip_code.errors?.pattern">This
+                        is not a valid ZIP/Postal
                         Code!</span>
                     </mat-form-field>
                   </div>
@@ -227,9 +278,12 @@
 
               <!-- Conditions -->
               <div class="conditions_div">
-                <mat-checkbox  tabindex="18" name="accepeted_terms" class="example-margin" [(ngModel)]="individualRegister.accepeted_terms">
-                  <a  routerLink="/privacy-policy" routerLinkActive="active" target="_blank" rel="terms">I accept the terms & conditions
-                    and privacy policy</a></mat-checkbox>
+                <mat-checkbox tabindex="18" name="accepeted_terms" class="example-margin"
+                  [(ngModel)]="individualRegister.accepeted_terms">
+                  <a routerLink="/privacy-policy" routerLinkActive="active" target="_blank" rel="terms">I accept the
+                    terms & conditions
+                    and privacy policy</a>
+                </mat-checkbox>
               </div>
 
               <div class="login_btns">
@@ -269,7 +323,8 @@
     <div class="log_div text_center" *ngIf="is_institution">
       <!-- <h2 class="clr_wht fnt_nrml wlcm_hd">Welcome to Proceum</h2> -->
       <div class="sgn_sec">
-        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back To Account Types <mat-icon>arrow_back</mat-icon>
+        <p class="sgn_hd"> <span (click)="registrationForm('registration_menu')">Back To Account Types <mat-icon>
+              arrow_back</mat-icon>
           </span> Institution</p>
         <!-- <p class="sgn_hint">Log-in to continue to application</p> -->
         <form #institution_signup_form="ngForm" name="institution_signup_form" autocomplete="off" novalidate>
@@ -278,9 +333,12 @@
               <div class="hgt_20"></div>
               <div class="conditions_div">
                 <mat-radio-group>
-                  <mat-radio-button value="1" (change)="radioChange('1',institution_signup_form);" checked>University</mat-radio-button>
-                  <mat-radio-button value="2" (change)="radioChange('2',institution_signup_form);">College</mat-radio-button>
-                  <mat-radio-button value="3" (change)="radioChange('3',institution_signup_form);">Coaching Institute</mat-radio-button>
+                  <mat-radio-button value="1" (change)="radioChange('1',institution_signup_form);" checked>University
+                  </mat-radio-button>
+                  <mat-radio-button value="2" (change)="radioChange('2',institution_signup_form);">College
+                  </mat-radio-button>
+                  <mat-radio-button value="3" (change)="radioChange('3',institution_signup_form);">Coaching Institute
+                  </mat-radio-button>
                 </mat-radio-group>
               </div>
               <div class="hgt_20"></div>
@@ -289,35 +347,43 @@
 
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="1" matInput placeholder="University Name" [(ngModel)]="institutionResgister.university_name"
-                         name="university_name" #university_name="ngModel" required  maxlength="100" (keypress)="omitSpecialChar($event)">
+                      <input tabindex="1" matInput placeholder="University Name"
+                        [(ngModel)]="institutionResgister.university_name" name="university_name"
+                        #university_name="ngModel" required maxlength="100" (keypress)="omitSpecialChar($event)">
 
                       <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let university of universities" [value]="university.name">
                           {{university.name}}
                         </mat-option>
                       </mat-autocomplete> -->
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || university_name.touched) && institutionResgister.university_name == '' ">University Name is
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || university_name.touched) && institutionResgister.university_name == '' ">University
+                        Name is
                         required</span>
                     </mat-form-field>
                   </div>
-                  <div
-                  class="fir_name err_tltp_par">
-                  <mat-form-field appearance="legacy">
-                    <input tabindex="3" matInput placeholder="Password" [(ngModel)]="institutionResgister.password" name="password"
-                      type="password" minlength="6" maxlength="16" ngModel #password="ngModel" required>
-                    <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || password.touched) && institutionResgister.password == '' || !password_check ">Password is
-                      required</span>
-                    <span class="prc_tltp"
-                      *ngIf="(institution_signup_form.submitted || password.touched) && institutionResgister.password != '' && institutionResgister.password.length <= 5">A
-                      minimum of 6 characters password required</span>
-                  </mat-form-field>
-                </div>
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="5" matInput placeholder="University Code" [(ngModel)]="institutionResgister.university_code"
-                        name="university_code" #university_code="ngModel" required  maxlength="10">
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || university_code.touched) && institutionResgister.university_code == ''">University Code is
+                      <input tabindex="3" matInput placeholder="Password" [(ngModel)]="institutionResgister.password"
+                        name="password" type="password" minlength="6" maxlength="16" ngModel #password="ngModel"
+                        required>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || password.touched) && institutionResgister.password == '' || !password_check ">Password
+                        is
+                        required</span>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || password.touched) && institutionResgister.password != '' && institutionResgister.password.length <= 5">A
+                        minimum of 6 characters password required</span>
+                    </mat-form-field>
+                  </div>
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <input tabindex="5" matInput placeholder="University Code"
+                        [(ngModel)]="institutionResgister.university_code" name="university_code"
+                        #university_code="ngModel" required maxlength="10">
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || university_code.touched) && institutionResgister.university_code == ''">University
+                        Code is
                         required</span>
                     </mat-form-field>
                   </div>
@@ -328,9 +394,12 @@
                         ngModel #university_primary_contact="ngModel"
                         pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
                         required>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || university_primary_contact.touched) && institutionResgister.university_primary_contact == ''">Primary
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || university_primary_contact.touched) && institutionResgister.university_primary_contact == ''">Primary
                         Contact Number is required</span>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || university_primary_contact.touched) && institutionResgister.university_primary_contact != '' && university_primary_contact.errors?.pattern">This is not a valid
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || university_primary_contact.touched) && institutionResgister.university_primary_contact != '' && university_primary_contact.errors?.pattern">This
+                        is not a valid
                         Primary Contact Number!</span>
                     </mat-form-field>
                   </div>
@@ -341,37 +410,45 @@
                         [(ngModel)]="institutionResgister.university_secondary_contact"
                         name="university_secondary_contact" ngModel #university_secondary_contact="ngModel"
                         pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
-                        required >
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || university_secondary_contact.touched) && institutionResgister.university_secondary_contact == ''">Secondary
+                        required>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || university_secondary_contact.touched) && institutionResgister.university_secondary_contact == ''">Secondary
                         Contact Number is required</span>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || university_secondary_contact.touched) && institutionResgister.university_secondary_contact != '' && university_secondary_contact.errors?.pattern">This is not a valid
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || university_secondary_contact.touched) && institutionResgister.university_secondary_contact != '' && university_secondary_contact.errors?.pattern">This
+                        is not a valid
                         Secondary Contact Number!</span>
                     </mat-form-field>
                   </div>
-                  
+
                 </div>
                 <div class="right_block_reg">
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="2" matInput placeholder="Email" [(ngModel)]="institutionResgister.university_email"
-                        name="university_email" ngModel #university_email="ngModel"
-                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || university_email.touched) && institutionResgister.university_email == ''">Email is
+                      <input tabindex="2" matInput placeholder="Email"
+                        [(ngModel)]="institutionResgister.university_email" name="university_email" ngModel
+                        #university_email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || university_email.touched) && institutionResgister.university_email == ''">Email
+                        is
                         required</span>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || university_email.touched) && institutionResgister.university_email != '' && university_email.errors?.pattern">This is not a valid
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || university_email.touched) && institutionResgister.university_email != '' && university_email.errors?.pattern">This
+                        is not a valid
                         Email!!!</span>
                     </mat-form-field>
                   </div>
-                                   
+
 
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy"
                       class="{{ institutionResgister.confirm_pwd != '' && (institutionResgister.confirm_pwd != institutionResgister.password) ? 'mat-form-field-invalid' : ''}}">
                       <input tabindex="4" matInput type='password' required
                         [(ngModel)]="institutionResgister.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd"
-                         #confirm_pwd="ngModel" placeholder="Confirm Password"
-                        ngModel />
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || confirm_pwd.touched) && institutionResgister.confirm_pwd == ''">Confirm Password
+                        #confirm_pwd="ngModel" placeholder="Confirm Password" ngModel />
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || confirm_pwd.touched) && institutionResgister.confirm_pwd == ''">Confirm
+                        Password
                         required!</span>
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || confirm_pwd.touched) && institutionResgister.confirm_pwd != '' && institutionResgister.confirm_pwd != institutionResgister.password">Password
@@ -381,14 +458,16 @@
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
                       <input tabindex="6" matInput placeholder="Contact Person Name"
-                        [(ngModel)]="institutionResgister.university_contact_person" name="university_contact_person" #university_contact_person="ngModel"
-                        required  maxlength="30">
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || university_contact_person.touched) && institutionResgister.university_contact_person == ''">Contact Person
+                        [(ngModel)]="institutionResgister.university_contact_person" name="university_contact_person"
+                        #university_contact_person="ngModel" required maxlength="30">
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || university_contact_person.touched) && institutionResgister.university_contact_person == ''">Contact
+                        Person
                         Name is required</span>
                     </mat-form-field>
                   </div>
                   <div class="fir_name text_left">
-                    Upload Logo 
+                    Upload Logo
                   </div>
                   <div class="fir_name reg_imgupld mt_1">
                     <!-- <div class="unilogup" *ngIf="profile_pic != ''">
@@ -401,11 +480,12 @@
                       </div>
                       <mat-icon *ngIf="profile_pic == ''">insert_photo</mat-icon>
                       <div class="unilogup_btns">
-                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo" type="button" (click)="profile_pic = ''">
+                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo" type="button"
+                          (click)="profile_pic = ''">
                           <mat-icon>delete_outline</mat-icon>
                         </button>
-                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" type="button" color="accent"
-                          class="mt_5px no_bxsdw" matTooltip="Upload Logo">
+                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" type="button"
+                          color="accent" class="mt_5px no_bxsdw" matTooltip="Upload Logo">
                           <mat-icon>upload</mat-icon>
                           <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
                             id="imageToUpload" type="file" style="display: none" />
@@ -423,22 +503,25 @@
                 <div class="left_block_reg">
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="1" matInput placeholder="College Name" [(ngModel)]="institutionResgister.college_name"
-                         name="college_name" #college_name="ngModel" required  maxlength="100" (keypress)="omitSpecialChar($event)">
+                      <input tabindex="1" matInput placeholder="College Name"
+                        [(ngModel)]="institutionResgister.college_name" name="college_name" #college_name="ngModel"
+                        required maxlength="100" (keypress)="omitSpecialChar($event)">
                       <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let college of colleges" [value]="college.name">
                           {{college.name}}
                         </mat-option>
                       </mat-autocomplete> -->
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted  || college_code.touched) && institutionResgister.college_name == ''">College Name is
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted  || college_code.touched) && institutionResgister.college_name == ''">College
+                        Name is
                         required</span>
                     </mat-form-field>
                   </div>
-                  <div
-                    class="fir_name err_tltp_par">
+                  <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="3" matInput placeholder="Password" [(ngModel)]="institutionResgister.password" name="password"
-                        type="password" minlength="6" maxlength="16" ngModel #password="ngModel" required>
+                      <input tabindex="3" matInput placeholder="Password" [(ngModel)]="institutionResgister.password"
+                        name="password" type="password" minlength="6" maxlength="16" ngModel #password="ngModel"
+                        required>
                       <span class="prc_tltp" *ngIf="(institution_signup_form.submitted ||
                       password.touched) && (institutionResgister.password == '' || !password_check)">Password is
                         required</span>
@@ -450,26 +533,31 @@
                   </div>
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="5" matInput placeholder="College Code" [(ngModel)]="institutionResgister.college_code"
-                        name="college_code" #college_code="ngModel" required  maxlength="10">
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted  || college_code.touched) && institutionResgister.college_code == ''">College Code is
+                      <input tabindex="5" matInput placeholder="College Code"
+                        [(ngModel)]="institutionResgister.college_code" name="college_code" #college_code="ngModel"
+                        required maxlength="10">
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted  || college_code.touched) && institutionResgister.college_code == ''">College
+                        Code is
                         required</span>
                     </mat-form-field>
                   </div>
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
                       <input tabindex="7" matInput placeholder="Contact Person Name"
-                        [(ngModel)]="institutionResgister.college_contact_person" name="college_contact_person" #college_contact_person="ngModel"
-                        required>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted  || college_code.touched) && institutionResgister.college_contact_person == ''">Contact Person
+                        [(ngModel)]="institutionResgister.college_contact_person" name="college_contact_person"
+                        #college_contact_person="ngModel" required>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted  || college_code.touched) && institutionResgister.college_contact_person == ''">Contact
+                        Person
                         Name is required</span>
                     </mat-form-field>
                   </div>
-                  
-                  <div class="fir_name err_tltp_par">   
+
+                  <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <mat-select tabindex="8" placeholder="Select University" name="college_university" #college_university="ngModel"
-                        [(ngModel)]="institutionResgister.college_university" >
+                      <mat-select tabindex="8" placeholder="Select University" name="college_university"
+                        #college_university="ngModel" [(ngModel)]="institutionResgister.college_university">
                         <mat-option>
                           <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
                             [placeholderLabel]="'Search University'" name="search_university" ngModel
@@ -478,7 +566,9 @@
                         <mat-option *ngFor="let university of all_universities | async" [value]="university['pk_id']">{{
                           university["name"] }}</mat-option>
                       </mat-select>
-                      <span *ngIf="(institution_signup_form.submitted  || college_university.touched) && institutionResgister.college_university == ''" class="prc_tltp">Select University</span>
+                      <span
+                        *ngIf="(institution_signup_form.submitted  || college_university.touched) && institutionResgister.college_university == ''"
+                        class="prc_tltp">Select University</span>
                     </mat-form-field>
                   </div>
 
@@ -491,20 +581,24 @@
                       <input tabindex="2" matInput placeholder="Email" [(ngModel)]="institutionResgister.college_email"
                         name="college_email" ngModel #college_email="ngModel"
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted  || college_email.touched) && institutionResgister.college_email == ''">Email is required</span>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted  || college_email.touched) && institutionResgister.college_email != '' && college_email.errors?.pattern">This is not a valid Email!!!</span>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted  || college_email.touched) && institutionResgister.college_email == ''">Email
+                        is required</span>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted  || college_email.touched) && institutionResgister.college_email != '' && college_email.errors?.pattern">This
+                        is not a valid Email!!!</span>
                     </mat-form-field>
                   </div>
-                  
-                  <div
-                    class="fir_name err_tltp_par">
+
+                  <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy"
                       class="{{ institutionResgister.confirm_pwd != '' && (institutionResgister.confirm_pwd != institutionResgister.password) ? 'mat-form-field-invalid' : ''}}">
-                      <input tabindex="4"  matInput [type]="confirm_hide ? 'password' : 'text'" required
+                      <input tabindex="4" matInput [type]="confirm_hide ? 'password' : 'text'" required
                         [(ngModel)]="institutionResgister.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd"
-                         #confirm_pwd="ngModel" placeholder="Confirm Password"
-                        ngModel />
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || confirm_pwd.touched) && institutionResgister.confirm_pwd == ''">Confirm Password
+                        #confirm_pwd="ngModel" placeholder="Confirm Password" ngModel />
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || confirm_pwd.touched) && institutionResgister.confirm_pwd == ''">Confirm
+                        Password
                         required!</span>
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || confirm_pwd.touched) && institutionResgister.confirm_pwd != '' && (institutionResgister.confirm_pwd != institutionResgister.password)">Password
@@ -518,9 +612,13 @@
                         ngModel #college_primary_contact="ngModel"
                         pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
                         required>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted  || college_primary_contact.touched) && institutionResgister.college_primary_contact == ''">Primary Contact
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted  || college_primary_contact.touched) && institutionResgister.college_primary_contact == ''">Primary
+                        Contact
                         Number is required</span>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted  || college_primary_contact.touched) && institutionResgister.college_primary_contact != '' && college_primary_contact.errors?.pattern">This is not a valid Primary
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted  || college_primary_contact.touched) && institutionResgister.college_primary_contact != '' && college_primary_contact.errors?.pattern">This
+                        is not a valid Primary
                         Contact Number!</span>
                     </mat-form-field>
                   </div>
@@ -539,11 +637,12 @@
                       </div>
                       <mat-icon *ngIf="profile_pic == ''">insert_photo</mat-icon>
                       <div class="unilogup_btns">
-                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo" type="button" (click)="profile_pic = ''">
+                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo" type="button"
+                          (click)="profile_pic = ''">
                           <mat-icon>delete_outline</mat-icon>
                         </button>
-                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" type="button" color="accent"
-                          class="mt_5px no_bxsdw" matTooltip="Upload Logo">
+                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" type="button"
+                          color="accent" class="mt_5px no_bxsdw" matTooltip="Upload Logo">
                           <mat-icon>upload</mat-icon>
                           <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
                             id="imageToUpload" type="file" style="display: none" />
@@ -562,10 +661,12 @@
                 <div class="left_block_reg">
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="1" matInput placeholder="Institute Name" [(ngModel)]="institutionResgister.institute_name"
-                         name="institute_name" #institute_name="ngModel" required  maxlength="100" (keypress)="omitSpecialChar($event)">
-                         <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || institute_name.touched) && institutionResgister.institute_name != ''">Institute
-                          Name is required</span>
+                      <input tabindex="1" matInput placeholder="Institute Name"
+                        [(ngModel)]="institutionResgister.institute_name" name="institute_name"
+                        #institute_name="ngModel" required maxlength="100" (keypress)="omitSpecialChar($event)">
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || institute_name.touched) && institutionResgister.institute_name != ''">Institute
+                        Name is required</span>
                       <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let institute of institutes" [value]="institute.name">
                           {{institute.name}}
@@ -575,9 +676,12 @@
                   </div>
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="3" matInput placeholder="Password" [(ngModel)]="institutionResgister.password" name="password"
-                        type="password" minlength="6" maxlength="16" ngModel #password="ngModel" required>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || password.touched) && (institutionResgister.password == '' || !password_check) ">Password is
+                      <input tabindex="3" matInput placeholder="Password" [(ngModel)]="institutionResgister.password"
+                        name="password" type="password" minlength="6" maxlength="16" ngModel #password="ngModel"
+                        required>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || password.touched) && (institutionResgister.password == '' || !password_check) ">Password
+                        is
                         required</span>
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || password.touched) && institutionResgister.password != '' && institutionResgister.password.length <= 5">A
@@ -586,48 +690,58 @@
                   </div>
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="5"  matInput placeholder="Contact Person Name"
-                        [(ngModel)]="institutionResgister.institute_contact_person" name="institute_contact_person" #institute_contact_person="ngModel"
-                        required  maxlength="30">
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || institute_contact_person.touched) && institutionResgister.institute_contact_person == ''">Contact Person
+                      <input tabindex="5" matInput placeholder="Contact Person Name"
+                        [(ngModel)]="institutionResgister.institute_contact_person" name="institute_contact_person"
+                        #institute_contact_person="ngModel" required maxlength="30">
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || institute_contact_person.touched) && institutionResgister.institute_contact_person == ''">Contact
+                        Person
                         Name is required</span>
                     </mat-form-field>
                   </div>
 
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
-                      <input tabindex="6"  matInput placeholder="Primary Contact Number"
+                      <input tabindex="6" matInput placeholder="Primary Contact Number"
                         [(ngModel)]="institutionResgister.institute_primary_contact" name="institute_primary_contact"
                         ngModel #institute_primary_contact="ngModel"
                         pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
                         required>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || institute_primary_contact.touched) && institutionResgister.institute_primary_contact == ''">Primary
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || institute_primary_contact.touched) && institutionResgister.institute_primary_contact == ''">Primary
                         Contact Number is required</span>
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || institute_primary_contact.touched) && institutionResgister.institute_primary_contact != '' && institute_primary_contact.errors?.pattern">This is not a valid
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || institute_primary_contact.touched) && institutionResgister.institute_primary_contact != '' && institute_primary_contact.errors?.pattern">This
+                        is not a valid
                         Primary Contact Number!</span>
                     </mat-form-field>
                   </div>
-                  
+
                 </div>
-                <div class="right_block_reg">                 
-                  
-                <div class="fir_name err_tltp_par">
-                  <mat-form-field appearance="legacy">
-                    <input tabindex="2" type="email" matInput placeholder="Email" [(ngModel)]="institutionResgister.institute_email"
-                      name="institute_email" ngModel #institute_email="ngModel"
-                      pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
-                    <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || institute_email.touched) && institutionResgister.institute_email == ''">Email is required</span>
-                    <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || institute_email.touched) && institutionResgister.institute_email != '' && institute_email.errors?.pattern">This is not a valid Email!!!</span>
-                  </mat-form-field>
-                </div>
+                <div class="right_block_reg">
+
+                  <div class="fir_name err_tltp_par">
+                    <mat-form-field appearance="legacy">
+                      <input tabindex="2" type="email" matInput placeholder="Email"
+                        [(ngModel)]="institutionResgister.institute_email" name="institute_email" ngModel
+                        #institute_email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || institute_email.touched) && institutionResgister.institute_email == ''">Email
+                        is required</span>
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || institute_email.touched) && institutionResgister.institute_email != '' && institute_email.errors?.pattern">This
+                        is not a valid Email!!!</span>
+                    </mat-form-field>
+                  </div>
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy"
                       class="{{ (institution_signup_form.submitted || confirm_pwd.touched) && institutionResgister.confirm_pwd != '' && institutionResgister.confirm_pwd != institutionResgister.password ? 'mat-form-field-invalid' : ''}}">
                       <input tabindex="4" matInput type="password" required
                         [(ngModel)]="institutionResgister.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd"
-                         #confirm_pwd="ngModel" placeholder="Confirm Password"
-                        ngModel />
-                      <span class="prc_tltp" *ngIf="(institution_signup_form.submitted || password.touched) && institutionResgister.confirm_pwd == ''">Confirm Password
+                        #confirm_pwd="ngModel" placeholder="Confirm Password" ngModel />
+                      <span class="prc_tltp"
+                        *ngIf="(institution_signup_form.submitted || password.touched) && institutionResgister.confirm_pwd == ''">Confirm
+                        Password
                         required!</span>
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || confirm_pwd.touched) && institutionResgister.confirm_pwd != '' && institutionResgister.confirm_pwd != institutionResgister.password">Password
@@ -648,11 +762,12 @@
                       </div>
                       <mat-icon *ngIf="profile_pic == ''">insert_photo</mat-icon>
                       <div class="unilogup_btns">
-                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo" type="button" (click)="profile_pic = ''">
+                        <button mat-mini-fab class="mr_1 no_bxsdw" color="warn" matTooltip="Delete Logo" type="button"
+                          (click)="profile_pic = ''">
                           <mat-icon>delete_outline</mat-icon>
                         </button>
-                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" type="button" color="accent"
-                          class="mt_5px no_bxsdw" matTooltip="Upload Logo">
+                        <button mat-mini-fab onclick="document.getElementById('imageToUpload').click()" type="button"
+                          color="accent" class="mt_5px no_bxsdw" matTooltip="Upload Logo">
                           <mat-icon>upload</mat-icon>
                           <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
                             id="imageToUpload" type="file" style="display: none" />
@@ -678,10 +793,13 @@
               <div class="reg_container">
                 <div class="left_block_reg">
                   <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy" class="{{ (((address_details && institution_signup_form.submitted) || address_line_1.touched) && institutionResgister.address_line_1 == '') ? 'mat-form-field-invalid' : ''}}">
+                    <mat-form-field appearance="legacy"
+                      class="{{ (((address_details && institution_signup_form.submitted) || address_line_1.touched) && institutionResgister.address_line_1 == '') ? 'mat-form-field-invalid' : ''}}">
                       <input matInput placeholder="Address Line11" [(ngModel)]="institutionResgister.address_line_1"
-                        name="address_line_1" #address_line_1="ngModel" [required]="address_details"  maxlength="70">
-                      <span class="prc_tltp" *ngIf="((address_details && institution_signup_form.submitted)  || address_line_1.touched) && institutionResgister.address_line_1 == ''">Address Line1 is
+                        name="address_line_1" #address_line_1="ngModel" [required]="address_details" maxlength="70">
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && institution_signup_form.submitted)  || address_line_1.touched) && institutionResgister.address_line_1 == ''">Address
+                        Line1 is
                         required</span>
                     </mat-form-field>
                   </div>
@@ -699,27 +817,33 @@
                         <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{
                           country["country_name"] }}</mat-option>
                       </mat-select>
-                      <span *ngIf="((address_details && institution_signup_form.submitted) || country_id.touched) && institutionResgister.country_id == ''" class="prc_tltp">Country is required</span>
+                      <span
+                        *ngIf="((address_details && institution_signup_form.submitted) || country_id.touched) && institutionResgister.country_id == ''"
+                        class="prc_tltp">Country is required</span>
                     </mat-form-field>
                   </div>
                   <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy" class="{{ (((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == '') ? 'mat-form-field-invalid' : ''}}">
-                      <input matInput placeholder="City" [(ngModel)]="institutionResgister.city" name="city" #city="ngModel"
-                        [required]="address_details" maxlength="50">
-                      <span class="prc_tltp" *ngIf="((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == ''">City is required</span>
+                    <mat-form-field appearance="legacy"
+                      class="{{ (((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == '') ? 'mat-form-field-invalid' : ''}}">
+                      <input matInput placeholder="City" [(ngModel)]="institutionResgister.city" name="city"
+                        #city="ngModel" [required]="address_details" maxlength="50">
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == ''">City
+                        is required</span>
                     </mat-form-field>
                   </div>
                 </div>
-          
+
                 <div class="right_block_reg">
                   <div class="fir_name">
                     <mat-form-field appearance="legacy">
                       <input matInput placeholder="Address Line2" [(ngModel)]="institutionResgister.address_line_2"
-                        name="address_line_2"  maxlength="70">
+                        name="address_line_2" maxlength="70">
                     </mat-form-field>
                   </div>
                   <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy" class="{{ (((address_details && institution_signup_form.submitted) || state_id.touched) && institutionResgister.state_id == '') ? 'mat-form-field-invalid' : ''}}">
+                    <mat-form-field appearance="legacy"
+                      class="{{ (((address_details && institution_signup_form.submitted) || state_id.touched) && institutionResgister.state_id == '') ? 'mat-form-field-invalid' : ''}}">
                       <mat-select placeholder="Select State" #state_id="ngModel" name="state_id"
                         [(ngModel)]="institutionResgister.state_id" [required]="address_details">
                         <mat-option>
@@ -731,41 +855,50 @@
                           state["state_name"] }}
                         </mat-option>
                       </mat-select>
-                      <span class="prc_tltp" *ngIf="((address_details && institution_signup_form.submitted)  || state_id.touched) && institutionResgister.state_id == ''">State/Province is required</span>
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && institution_signup_form.submitted)  || state_id.touched) && institutionResgister.state_id == ''">State/Province
+                        is required</span>
                     </mat-form-field>
-          
+
                   </div>
                   <div class="fir_name err_tltp_par">
-                    <mat-form-field appearance="legacy" class="{{ (((address_details && institution_signup_form.submitted) || zip_code.touched) && institutionResgister.zip_code == '') ? 'mat-form-field-invalid' : ''}}">
+                    <mat-form-field appearance="legacy"
+                      class="{{ (((address_details && institution_signup_form.submitted) || zip_code.touched) && institutionResgister.zip_code == '') ? 'mat-form-field-invalid' : ''}}">
                       <input matInput placeholder="ZIP/Postal Code" [(ngModel)]="institutionResgister.zip_code"
                         name="zip_code" ngModel #zip_code="ngModel" pattern="^[0-9][0-9\- ]{4,10}[0-9]$"
                         [required]="address_details">
-                      <span class="prc_tltp" *ngIf="((address_details && institution_signup_form.submitted)  || zip_code.touched) && institutionResgister.zip_code == ''">ZIP/Postal Code is
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && institution_signup_form.submitted)  || zip_code.touched) && institutionResgister.zip_code == ''">ZIP/Postal
+                        Code is
                         required</span>
-                      <span class="prc_tltp" *ngIf="((address_details && institution_signup_form.submitted)  || zip_code.touched ) && institutionResgister.zip_code != '' && zip_code.errors?.pattern">This is not a valid ZIP/Postal
+                      <span class="prc_tltp"
+                        *ngIf="((address_details && institution_signup_form.submitted)  || zip_code.touched ) && institutionResgister.zip_code != '' && zip_code.errors?.pattern">This
+                        is not a valid ZIP/Postal
                         Code!</span>
                     </mat-form-field>
                   </div>
                 </div>
               </div>
-          
+
               <!-- Conditions -->
               <div class="conditions_div">
-                <mat-checkbox name="accepeted_terms" class="example-margin" [(ngModel)]="institutionResgister.accepeted_terms"><a  routerLink="/privacy-policy" routerLinkActive="active" target="_blank" rel="terms">I accept the terms & conditions
-                  and privacy policy</a></mat-checkbox>
+                <mat-checkbox name="accepeted_terms" class="example-margin"
+                  [(ngModel)]="institutionResgister.accepeted_terms"><a routerLink="/privacy-policy"
+                    routerLinkActive="active" target="_blank" rel="terms">I accept the terms & conditions
+                    and privacy policy</a></mat-checkbox>
               </div>
-          
+
               <div class="login_btns">
                 <button matStepperPrevious class="teal_btn sign_btn-2 lgn_btn">Back</button>
                 <button type="button" (click)="institution_signup_form.valid && doInstitutionRegistraion()"
                   class="teal_btn sign_btn lgn_btn">Register</button>
               </div>
-          
+
               <!-- <div>
               <button mat-button matStepperPrevious>Back</button>
               <button mat-button (click)="stepper.reset()">Reset</button>
             </div> -->
-          
+
             </mat-step>
           </mat-horizontal-stepper>
 
