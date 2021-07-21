@@ -24,8 +24,8 @@ export class PartnersListComponent implements OnInit {
     'package_name',
     'licence_start_date',
     'licence_end_date',
-    'status',
     'actions',
+    'status',
   ];
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
