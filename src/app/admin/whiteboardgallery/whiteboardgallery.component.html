@@ -55,10 +55,14 @@
     <hr />
     <div class="dsh_brd_crds wbg_mn">
         <div class="wbg_srch">
-            <mat-form-field appearance="outline" class="xl_srch">
-                <input matInput placeholder="Search" #search_text="ngModel" [(ngModel)]="whiteboard.search_text" (keyup)="$event.keyCode == 13 ? doFilter() : ''" />
-                <mat-icon matSuffix (click)="doFilter()">search</mat-icon>
+            <mat-form-field appearance="outline" class="xl_srch" *ngIf="show_list_view">
+                <input matInput placeholder="Search" #search_text="ngModel" [(ngModel)]="whiteboard.search_text" (keyup)="$event.keyCode == 13 ? listFilter() : ''" />
+                <mat-icon matSuffix (click)="listFilter()">search</mat-icon>
             </mat-form-field>
+            <mat-form-field appearance="outline" class="xl_srch" *ngIf="!show_list_view">
+              <input matInput placeholder="Search" #search_text_gird="ngModel" [(ngModel)]="whiteboard.search_text_gird" (keyup)="$event.keyCode == 13 ? gridFilter() : ''" />
+              <mat-icon matSuffix (click)="gridFilter()">search</mat-icon>
+          </mat-form-field>
             <div class="spacer"></div>
             <button mat-mini-fab class="no_bxsdw mr_1 {{show_list_view == true? 'wbg_actv_btn' : ''}} " matTooltip="List View" (click)="changeView('list')">
                 <mat-icon>format_list_bulleted</mat-icon>
