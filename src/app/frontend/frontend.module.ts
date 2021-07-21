@@ -47,6 +47,10 @@ const routes: Routes = [
         path: 'curriculum/details/:curriculum_id/:level_id/:level_parent_id/:content_id',
         component: DetailsComponent,
       },
+      {
+        path: 'content-preview/:content_id',
+        component: DetailsComponent,
+      },
       { path: 'curriculums/:curriculum_id', component: Level_listComponent },
       {
         path: 'curriculums/:curriculum_id/:level_id',
