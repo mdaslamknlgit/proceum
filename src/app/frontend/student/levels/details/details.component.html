@@ -255,15 +255,15 @@
                   <mat-radio-button *ngFor="
                   let option of mcqs[active_mcq_index]['options'];
                   let i_option = index
-                " (click)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
+                " (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
                   mcqs[active_mcq_index]['selected_option'] != undefined &&
                   mcqs[active_mcq_index]['s_no'] == option['pk_id']
                     ? 'crrct_rdo'
                     : ''
                 }} {{
                   mcqs[active_mcq_index]['selected_option'] != undefined &&
-                  mcqs[active_mcq_index]['selected_option'] !=
-                    mcqs[active_mcq_index]['s_no']
+                  (mcqs[active_mcq_index]['selected_option'] !=
+                  option['pk_id'] || mcqs[active_mcq_index]['selected_option'] != mcqs[active_mcq_index]['s_no'])
                     ? 'wrng_rdo'
                     : ''
                 }}">
@@ -505,16 +505,15 @@
                   <mat-radio-button *ngFor="
                   let option of cases[active_case_index]['options'];
                   let i_option = index
-                " (click)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
+                " (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
                   cases[active_case_index]['selected_option'] != undefined &&
                   cases[active_case_index]['s_no'] == option['pk_id']
                     ? 'crrct_rdo'
                     : ''
                 }} {{
-                  cases[active_case_index]['selected_option'] != undefined &&
-                  cases[active_case_index]['selected_option'] !=
-                    cases[active_case_index]['s_no']
-                    ? 'wrng_rdo'
+                  cases[active_case_index]['selected_option'] != undefined && (cases[active_case_index]['selected_option'] !=
+                  option['pk_id'] || cases[active_case_index]['selected_option'] != cases[active_case_index]['s_no'])
+                  ? 'wrng_rdo'
                     : ''
                 }}">
                     {{ option["option_text"] }}
@@ -595,7 +594,7 @@
                     'options'
                   ];
                   let i_option = index
-                " (click)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
+                " (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
                   short_answers[active_short_answer_index]['selected_option'] !=
                     undefined &&
                   short_answers[active_short_answer_index]['s_no'] ==
@@ -605,9 +604,8 @@
                 }} {{
                   short_answers[active_short_answer_index]['selected_option'] !=
                     undefined &&
-                  short_answers[active_short_answer_index]['selected_option'] !=
-                    short_answers[active_short_answer_index]['s_no']
-                    ? 'wrng_rdo'
+                    (short_answers[active_short_answer_index]['selected_option'] !=
+                  option['pk_id'] || short_answers[active_short_answer_index]['selected_option'] != short_answers[active_short_answer_index]['s_no'])? 'wrng_rdo'
                     : ''
                 }}">
                     {{ option["option_text"] }}

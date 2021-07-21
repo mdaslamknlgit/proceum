@@ -87,6 +87,10 @@ export class CreateContentComponent implements OnInit {
   public is_published = '';
   public showReviewers = false;
   public content_parent_id = 0;
+  public is_draft = false;
+  public dataentry_uid = 0;
+  public is_preview = false;
+  public allow_coment = false;
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -212,6 +216,8 @@ export class CreateContentComponent implements OnInit {
         this.is_published = data['is_published'];
         this.title = data['title'];
         this.is_paid = data['is_paid'] == 1?true:false;
+        this.is_draft = data['is_draft'] == 1?true:false;
+        this.dataentry_uid = Number(data['dataentry_uid']);
         let videos = data['videos'];
         if(videos['intro_video'].length > 0){
             this.intro_video = videos['intro_video'];
@@ -736,32 +742,39 @@ export class CreateContentComponent implements OnInit {
       is_draft: is_draft,
       content_id: this.content_id,
       reviewer_role: is_draft?'':this.reviewer_role,
-      publsh_content: this.publsh_content
+      publsh_content: this.publsh_content,
+      is_preview: this.is_preview
     };
     let params = { url: 'create-content', form_data: form_data };
 
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success(res['message'], 'Success', { closeButton: true });
-        if(res['data']['content_status'] == "REVIEW"){
-            let doc = {
-                "role_id" : res['data']['reviewer_role'],
-                "first_name" : res['data']['first_name'],
-                "order_by" : res['data']['order_by'],
-                "content_id" : res['data']['id']
+          if(this.is_preview == true){
+            window.open('student/content-preview/'+res['data']['id'], "_blank");
+          }
+          else{
+            this.toster.success(res['message'], 'Success', { closeButton: true });
+            if(res['data']['content_status'] == "REVIEW"){
+                let doc = {
+                    "role_id" : res['data']['reviewer_role'],
+                    "first_name" : res['data']['first_name'],
+                    "order_by" : res['data']['order_by'],
+                    "content_id" : res['data']['id']
+                }
+                let param = {path: "content_notifications", content_id: ''+res['data']['id'], data:doc};
+                this.fs.addNotification(param);
             }
-            let param = {path: "content_notifications", content_id: ''+res['data']['id'], data:doc};
-            this.fs.addNotification(param);
-        }
-        if(res['data']['content_status'] == "PUBLISHED"){
-            let content_id = this.content_id>0?this.content_id:res['data']['id'];
-            this.fs.deleteNotification({path: "content_notifications/"+content_id});
-        }
-        setTimeout(res=>{
-            this.navigateTo('manage-content');
-        }, 1000)
+            if(res['data']['content_status'] == "PUBLISHED"){
+                let content_id = this.content_id>0?this.content_id:res['data']['id'];
+                this.fs.deleteNotification({path: "content_notifications/"+content_id});
+            }
+            setTimeout(res=>{
+                this.navigateTo('manage-content');
+            }, 1000);
+          }
       } else {
           this.publsh_content = false;
+          this.is_preview = false
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
@@ -831,6 +844,7 @@ export class CreateContentComponent implements OnInit {
       if (res['error'] == false) {
         this.toster.success('Files successfully uploaded.', 'File Uploaded');
       }
+      this.allow_coment = true;
       this.review_docs.push(res['url']);
     });
   }
@@ -840,9 +854,6 @@ export class CreateContentComponent implements OnInit {
     }
   }
   addComent(){
-      if(this.comments_content == ''){
-          return false;
-      }
     let param = {
         url: 'add-content-comment',
         content_id : this.content_id,
@@ -855,6 +866,7 @@ export class CreateContentComponent implements OnInit {
         this.older_coments = res['data']['comments'];
         this.review_docs = res['data']['review_docs'];
         this.comments_content = '';
+        this.allow_coment = false;
         } else {
         this.toster.error(res['message'], res['message'], {
             closeButton: true,
@@ -889,5 +901,9 @@ export class CreateContentComponent implements OnInit {
         //     });
         //     }
         // });
+    }
+    savePreview(){
+        this.is_preview = true;
+        this.createContent(false);
     }
 }
