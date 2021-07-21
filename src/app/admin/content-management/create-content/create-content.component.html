@@ -18,7 +18,7 @@
           <div class="oldr_cmnts_dvts">{{ comment["date_time"] }}</div>
         </div>
         <div class="oldr_cmnt_dsc">
-          <div class="ck_editor_view" *ngIf="comment['comment']">
+          <div class="ck_editor_view" *ngIf="comment['comment'] && comment['comment'].trim()!=''">
             <ckeditor [disabled]="true" [editor]="Editor" [config]="{}" [data]="comment['comment']"></ckeditor>
           </div>
         </div>
@@ -58,7 +58,7 @@
         </button>
         <div class="spacer"></div>
         <button mat-raised-button class="gry_btn mr_1" (click)="showComments()">Cancel</button>
-        <button mat-raised-button color="accent" (click)="addComent()">Submit</button>
+        <button mat-raised-button color="accent" [disabled]="comments_content.trim()=='' && allow_coment == false" (click)="addComent()">Submit</button>
       </div>
     </div>
   </div>
@@ -1093,13 +1093,19 @@
         <!-- Bottom buttons  -->
         <div class="page_buttons text_right">
           <div>
-            <a target="_blank" href="student/curriculum/details/00/00/00/{{content_id}}" *ngIf="content_id >0"
+            <a target="_blank" href="student/content-preview/{{content_id}}" *ngIf="content_id >0 && is_published == '1'"
               class="yellow_btn ml_1" type="button" mat-raised-button>
               Preview
             </a>
           </div>
           <div>
-            <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1'"
+            <button (click)="savePreview()" *ngIf="is_published != '1'  && (dataentry_uid == user['id'] || is_draft == false) && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
+              class="yellow_btn ml_1" type="button" mat-raised-button>
+              Save & Preview
+          </button>
+          </div>
+          <div>
+            <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1' && (dataentry_uid == user['id'] || is_draft == false)"
               class="gry_btn ml_1" type="button" mat-raised-button (click)="createContent(true)">
               Save as draft
             </button>
@@ -1111,7 +1117,7 @@
           </div>
           <div>
             <button class="gry_btn ml_1"
-              *ngIf="is_published != '1' && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
+              *ngIf="is_published != '1' && (is_draft == false || dataentry_uid == user['id']) && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
               type="button" color="accent" mat-raised-button (click)="selectReviewer()">
               Send To Review
             </button>

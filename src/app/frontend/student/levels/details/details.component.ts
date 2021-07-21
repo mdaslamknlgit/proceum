@@ -109,10 +109,12 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
-      this.curriculum_id = param.curriculum_id;
-      this.level_id = param.level_id ? param.level_id : 0;
-      this.level_parent_id = param.level_parent_id ? param.level_parent_id : 0;
-      this.content_id = param.content_id ? param.content_id : 0;
+        console.log(param.level_id, param.level_parent_id);
+        console.log(param.curriculum_id, param.content_id);
+      this.curriculum_id = param.curriculum_id == undefined?0:param.curriculum_id;
+      this.level_id = param.level_id != undefined ? param.level_id : 0;
+      this.level_parent_id = param.level_parent_id != undefined ? param.level_parent_id : 0;
+      this.content_id = param.content_id != undefined ? param.content_id : 0;
       this.getLevelDetails();
     });
     
