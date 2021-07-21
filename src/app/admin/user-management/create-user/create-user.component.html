@@ -1,0 +1,143 @@
+<div class="mn_dshbrd">
+    <div class="pg_ttl">Create User</div>
+    <hr />
+    
+        <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
+            <form autocomplete="off" #create_user_form="ngForm" name="create_user_form" (ngSubmit)="create_user_form.valid" novalidate>
+                <div class="crt_pr_mn">
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Parnter Name</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Name" maxlength="50" [(ngModel)]="name" name="name_edit" #name_edit="ngModel" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || name_edit.touched) && name_edit.invalid">Name is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Name</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Name" maxlength="50" [(ngModel)]="name" name="name_edit" #name_edit="ngModel" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || name_edit.touched) && name_edit.invalid">Name is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Email address</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit" #email_edit="ngModel"  autocomplete="off"  required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || email_edit.touched) && email_edit.invalid">Email is required</span>
+                            <span class="prc_tltp" *ngIf="create_user_form.submitted && email_edit.errors?.pattern">This is not a valid Email!</span>    
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Contact Number</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Contact Number" [(ngModel)]="phone" name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || phone_edit.touched) && phone_edit.invalid">Contact number is required</span>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 && phone.length > 13)">Invalid Contact number.Minimun of 9, Maximum of 13 digits required!</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Password</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password_edit" #password_edit="ngModel" minlength="6"  autocomplete="off"  required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || password_edit.touched) && password_edit.invalid">Password is required</span>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || password_edit.touched) && (password != '' && password.length < 5) ">Minimum of 6 characters password required!</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Confirm password</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p"  class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
+                                <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="confirm_password" name="confirm_password_edit" #confirm_password_edit="ngModel" minlength="6" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || confirm_password_edit.touched) && confirm_password_edit.invalid">confirm password is required</span>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || confirm_password_edit.touched) && confirm_password != '' && (confirm_password != password)">Password and Confirm Password must be match!</span>
+                        </div>
+                    </div>
+                    
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Address Line 1</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Person Name" maxlength="50" appAlphabetOnly [(ngModel)]="address_line_1" name="address_line_1_edit" #address_line_1_edit="ngModel" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || address_line_1_edit.touched) && address_line_1_edit.invalid">Address Line1 is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Address Line 2</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Person Name" maxlength="50" appAlphabetOnly [(ngModel)]="address_line_2" name="address_line_2_edit" #address_line_2_edit="ngModel" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || address_line_2_edit.touched) && address_line_2_edit.invalid">Address Line 2 is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Country</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select Country" name="country_edit" #country_edit="ngModel" [(ngModel)]="country_id" (ngModelChange)="getStates(country_id)" required>
+                                    <<mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
+                                        [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                                        (ngModelChange)="filterCountries($event)"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{ country["country_name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span *ngIf="(create_user_form.submitted || country_edit.touched) && country_edit.invalid" class="prc_tltp">Country is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">State</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select State" name="state_edit" #state_edit="ngModel" [(ngModel)]="state_id" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
+                                        [placeholderLabel]="'Search State'" name="search_state" ngModel
+                                        (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{ state["state_name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span *ngIf="(create_user_form.submitted || state_edit.touched) && state_edit.invalid" class="prc_tltp">State is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">City</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput matInput placeholder="City" [(ngModel)]="city" name="city_edit" #city_edit="ngModel" maxlength="30" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || city_edit.touched) && city_edit.invalid">City is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">ZIP/Pincode Code</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="ZIP/Pin code" [(ngModel)]="pincode" name="pincode_edit" #pincode_edit="ngModel" appNumbersonly minlength="4" maxlength="13" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || pincode_edit.touched) && pincode_edit.invalid">ZIP/Pincode is required</span>
+                        </div>
+                    </div>
+
+                    <div class="clear_fix"></div>
+                    <div class="text_right float_right w_100p">
+                        <button mat-raised-button  class="no_bxsdw" color="accent" (click)="validateFrom()">Next</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>

@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
 
