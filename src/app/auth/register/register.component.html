@@ -45,7 +45,7 @@
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
                       <input tabindex="1" matInput placeholder="First Name" [(ngModel)]="individualRegister.first_name"
-                        name="first_name" #first_name="ngModel" maxlength="50" required>
+                        name="first_name" #first_name="ngModel" maxlength="50" required  (keypress)="allAlphabetsWithSpaces($event)">
                       <span class="prc_tltp" *ngIf="(individual_signup_form.submitted ||
                     first_name.touched) &&
                   first_name.invalid">First Name is required</span>
@@ -106,7 +106,7 @@
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy">
                       <input tabindex="2" matInput placeholder="Last Name" [(ngModel)]="individualRegister.last_name"
-                        name="last_name" #last_name="ngModel" required maxlength="50">
+                        name="last_name" #last_name="ngModel" required maxlength="50"  (keypress)="allAlphabetsWithSpaces($event)">
                       <span class="prc_tltp"
                         *ngIf="(individual_signup_form.submitted || last_name.touched) && last_name.invalid">Last Name
                         is required</span>
@@ -222,7 +222,7 @@
                     <mat-form-field appearance="legacy"
                       class="{{ (((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == '') ? 'mat-form-field-invalid' : ''}}">
                       <input tabindex="16" matInput placeholder="City" [(ngModel)]="individualRegister.city" name="city"
-                        #city="ngModel" [required]="address_details" maxlength="50">
+                        #city="ngModel" [required]="address_details" maxlength="50"  (keypress)="allAlphabetsWithSpaces($event)">
                       <span class="prc_tltp"
                         *ngIf="((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == ''">City
                         is required</span>
@@ -349,7 +349,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="1" matInput placeholder="University Name"
                         [(ngModel)]="institutionResgister.university_name" name="university_name"
-                        #university_name="ngModel" required maxlength="100" (keypress)="omitSpecialChar($event)">
+                        #university_name="ngModel" required maxlength="100" (keypress)="allAlphabetsWithSpaces($event)">
 
                       <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let university of universities" [value]="university.name">
@@ -459,7 +459,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="6" matInput placeholder="Contact Person Name"
                         [(ngModel)]="institutionResgister.university_contact_person" name="university_contact_person"
-                        #university_contact_person="ngModel" required maxlength="30">
+                        #university_contact_person="ngModel" required maxlength="30"  (keypress)="allAlphabetsWithSpaces($event)">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || university_contact_person.touched) && institutionResgister.university_contact_person == ''">Contact
                         Person
@@ -505,7 +505,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="1" matInput placeholder="College Name"
                         [(ngModel)]="institutionResgister.college_name" name="college_name" #college_name="ngModel"
-                        required maxlength="100" (keypress)="omitSpecialChar($event)">
+                        required maxlength="100"  (keypress)="allAlphabetsWithSpaces($event)">
                       <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let college of colleges" [value]="college.name">
                           {{college.name}}
@@ -546,7 +546,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="7" matInput placeholder="Contact Person Name"
                         [(ngModel)]="institutionResgister.college_contact_person" name="college_contact_person"
-                        #college_contact_person="ngModel" required>
+                        #college_contact_person="ngModel" required  (keypress)="allAlphabetsWithSpaces($event)">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted  || college_code.touched) && institutionResgister.college_contact_person == ''">Contact
                         Person
@@ -663,7 +663,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="1" matInput placeholder="Institute Name"
                         [(ngModel)]="institutionResgister.institute_name" name="institute_name"
-                        #institute_name="ngModel" required maxlength="100" (keypress)="omitSpecialChar($event)">
+                        #institute_name="ngModel" required maxlength="100"  (keypress)="allAlphabetsWithSpaces($event)">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || institute_name.touched) && institutionResgister.institute_name != ''">Institute
                         Name is required</span>
@@ -692,7 +692,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="5" matInput placeholder="Contact Person Name"
                         [(ngModel)]="institutionResgister.institute_contact_person" name="institute_contact_person"
-                        #institute_contact_person="ngModel" required maxlength="30">
+                        #institute_contact_person="ngModel" required maxlength="30"  (keypress)="allAlphabetsWithSpaces($event)">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || institute_contact_person.touched) && institutionResgister.institute_contact_person == ''">Contact
                         Person
@@ -796,7 +796,7 @@
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy"
                       class="{{ (((address_details && institution_signup_form.submitted) || address_line_1.touched) && institutionResgister.address_line_1 == '') ? 'mat-form-field-invalid' : ''}}">
-                      <input matInput placeholder="Address Line11" [(ngModel)]="institutionResgister.address_line_1"
+                      <input matInput placeholder="Address Line1" [(ngModel)]="institutionResgister.address_line_1"
                         name="address_line_1" #address_line_1="ngModel" [required]="address_details" maxlength="70">
                       <span class="prc_tltp"
                         *ngIf="((address_details && institution_signup_form.submitted)  || address_line_1.touched) && institutionResgister.address_line_1 == ''">Address
@@ -827,7 +827,7 @@
                     <mat-form-field appearance="legacy"
                       class="{{ (((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == '') ? 'mat-form-field-invalid' : ''}}">
                       <input matInput placeholder="City" [(ngModel)]="institutionResgister.city" name="city"
-                        #city="ngModel" [required]="address_details" maxlength="50">
+                        #city="ngModel" [required]="address_details" maxlength="50"  (keypress)="allAlphabetsWithSpaces($event)">
                       <span class="prc_tltp"
                         *ngIf="((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == ''">City
                         is required</span>

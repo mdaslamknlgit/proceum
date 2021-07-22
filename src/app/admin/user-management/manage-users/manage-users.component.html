@@ -1,0 +1,116 @@
+
+<div class="mn_dshbrd">
+    <div class="brd_crm">Proceum &raquo; <strong>manage Users</strong></div>
+    <div class="pg_ttl">Manage Users</div>
+    <hr />
+    <div class="dsh_brd_crds">
+        <div class="d-flex">
+            <div class="xl_srch">
+                <mat-form-field appearance="outline" class="w_100p">
+                    <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                    placeholder="Search" />
+                <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="spacer"></div>
+            <div>
+                <button mat-raised-button color="accent" (click)="navigateTo('create-user')">
+                    <mat-icon>add</mat-icon>
+                    Add New Partner
+                </button>
+            </div>
+        </div>
+        <div>
+            <div class="rsp_tbl">
+                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>S.No</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.s_no }}
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                            Name
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span>{{ element.name }}</span>
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                            Email
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span>{{ element.email }}</span>
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="role">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                            Role
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span>{{ element.role }}</span>
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>
+                            Contact
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="created_at">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>
+                            Created
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
+                        <td mat-cell *matCellDef="let element">
+                            <span matTooltip="Current Status is {{
+                        element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+                    }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+                                "Inactive" }}</span>
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef class="text_center">Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button matTooltip="Click to edit"
+                                (click)="navigateTo('create-partner/'+element.pk_id)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button matTooltip="click here to {{
+                        element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
+                    }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                        'are you sure to change status of <b>' +
+                        element.partner_name +
+                        '</b>'
+                    " placement="auto" (confirm)="deletePartner(element.pk_id, element.status)" confirmButtonType="danger"
+                                cancelButtonType="outline-secondary">
+                                <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
+                                <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                        <td class="mat-cell" colspan="9">No Records Found</td>
+                    </tr>
+                </table>                     
+            </div>
+            <mat-paginator [pageSizeOptions]="page_size_options" showFirstLastButtons (page)="getServerData($event)">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

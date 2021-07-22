@@ -39,7 +39,6 @@
     </button>
   </div>
 
-
   <div class="cust_mdl_par {{ show_content_list ? 'cust_mdl_opn' : '' }}">
     <div class="desc_otr_tpc">
       <div class="otr_ttl">
@@ -63,6 +62,7 @@
       </div>
     </div>
   </div>
+
   <div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
@@ -72,8 +72,10 @@
           &#x2715;
         </button>
       </div>
-      <div class="tbbd_bdy" *ngIf="library_popup && this.images.length>0">
-        <ngx-image-viewer [config]="image_config" [src]="images" [(index)]="image_index"></ngx-image-viewer>
+      <div class="tbbd_bdy">
+        <div *ngIf="library_popup && this.images.length>0" class="img_vwr">
+          <ngx-image-viewer [config]="image_config" [src]="images" [(index)]="image_index"></ngx-image-viewer>
+        </div>
         <hr />
         <button mat-raised-button class="float_right mr_1 gry_btn" (click)="library_popup=false">
           Close
@@ -802,7 +804,8 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                    *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
                       <img *ngIf="video['video_type'] == 'KPOINT'"
@@ -833,7 +836,8 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                    *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
                       <img *ngIf="video['video_type'] == 'KPOINT'"
@@ -865,7 +869,8 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                    *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
                       <img *ngIf="video['video_type'] == 'KPOINT'"
@@ -896,7 +901,8 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                    *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
                       <img *ngIf="video['video_type'] == 'KPOINT'"
@@ -926,7 +932,8 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                    *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <!-- <mat-icon *ngIf="video['video_type'] == 'YOUTUBE'">videocam</mat-icon> -->
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
@@ -958,7 +965,8 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}" *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
+                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                    *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
                       <img *ngIf="video['video_type'] == 'KPOINT'"

@@ -24,7 +24,7 @@ import { PromotionalSettingsComponent } from './promotional-settings/promotional
 import { StepsComponent } from './curriculam/steps/steps.component';
 import { RolesListComponent } from './roles-list/roles-list.component';
 import { AccessMatrixComponent } from './roles-list/access-matrix/access-matrix.component';
-import { LoginHistoryComponent } from './login-history/login-history.component';
+import { LoginHistoryComponent } from './user-management/login-history/login-history.component';
 
 import { NewsletterListComponent } from './newsletter-list/newsletter-list.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -64,6 +64,8 @@ import { EditPackageComponent } from './course-package/edit-package/edit-package
 import { ListPackageComponent } from './course-package/list-package/list-package.component';
 import { EditNewQuestionComponent } from './question-management/edit-new-question/edit-new-question.component';
 import { PartnersListComponent } from './partner-management/partners-list/partners-list.component';
+import { ManageUsersComponent } from './user-management/manage-users/manage-users.component';
+import { CreateUserComponent } from './user-management/create-user/create-user.component';
 
 const routes: Routes = [
   {
@@ -165,6 +167,9 @@ const routes: Routes = [
       { path: 'questions-mgt/questions-list', component: QuestionsManagementComponent },
       { path: 'questions-mgt/create-question', component: CreateNewQuestionComponent },
       { path: 'questions-mgt/edit-question/:id', component: EditNewQuestionComponent },
+      { path: 'manage-users', component: ManageUsersComponent },
+      { path: 'create-user', component: CreateUserComponent },
+      { path: 'edit-user/:id', component: CreateUserComponent },
     ],
   },
 ];
@@ -209,7 +214,9 @@ const routes: Routes = [
     QuestionBankComponent,
     EditNewQuestionComponent,
     PartnersListComponent,
-    OrderByPipe
+    OrderByPipe,
+    ManageUsersComponent,
+    CreateUserComponent
   ],
   imports: [
     MaterialModule,
