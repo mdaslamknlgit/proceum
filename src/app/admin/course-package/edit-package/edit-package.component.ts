@@ -262,6 +262,10 @@ export class EditPackageComponent implements OnInit {
       this.toster.error("Applicable to is required", 'Error', { closeButton: true });
       return;
     }
+    if(this.courses_ids_csv == ''){
+      this.toster.error("Please select courses!", 'Required!', { closeButton: true });
+      return;
+    }
     let form_data = {
       package_id : this.package_id,
       package_name : this.package_name,
