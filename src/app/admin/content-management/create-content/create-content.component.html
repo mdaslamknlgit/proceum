@@ -58,7 +58,8 @@
         </button>
         <div class="spacer"></div>
         <button mat-raised-button class="gry_btn mr_1" (click)="showComments()">Cancel</button>
-        <button mat-raised-button color="accent" [disabled]="comments_content.trim()=='' && allow_coment == false" (click)="addComent()">Submit</button>
+        <button mat-raised-button color="accent" [disabled]="comments_content.trim()=='' && allow_coment == false"
+          (click)="addComent()">Submit</button>
       </div>
     </div>
   </div>
@@ -753,7 +754,8 @@
 
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumns.length">
+                              <td style="text-align: center; margin: 20px" class="mat-cell"
+                                [attr.colspan]="displayedColumns.length">
                                 No Records Found
                               </td>
                             </tr>
@@ -854,7 +856,8 @@
 
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumns.length">
+                              <td style="text-align: center; margin: 20px" class="mat-cell"
+                                [attr.colspan]="displayedColumns.length">
                                 No Records Found
                               </td>
                             </tr>
@@ -1029,7 +1032,8 @@
 
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumns.length">
+                              <td style="text-align: center; margin: 20px" class="mat-cell"
+                                [attr.colspan]="displayedColumns.length">
                                 No Records Found
                               </td>
                             </tr>
@@ -1091,21 +1095,23 @@
         </div>
 
         <!-- Bottom buttons  -->
-        <div class="page_buttons text_right">
+        <div class="page_buttons">
           <div>
-            <a target="_blank" href="student/content-preview/{{content_id}}" *ngIf="content_id >0 && is_published == '1'"
-              class="yellow_btn ml_1" type="button" mat-raised-button>
+            <a target="_blank" href="student/content-preview/{{content_id}}"
+              *ngIf="content_id >0 && is_published == '1'" class="yellow_btn ml_1" type="button" mat-raised-button>
               Preview
             </a>
           </div>
           <div>
-            <button (click)="savePreview()" *ngIf="is_published != '1'  && (dataentry_uid == user['id'] || is_draft == false) && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
+            <button (click)="savePreview()"
+              *ngIf="is_published != '1'  && (dataentry_uid == user['id'] || is_draft == false) && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
               class="yellow_btn ml_1" type="button" mat-raised-button>
               Save & Preview
-          </button>
+            </button>
           </div>
           <div>
-            <button *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1' && (dataentry_uid == user['id'] || is_draft == false)"
+            <button
+              *ngIf="(content_id == 0 || content_reviewer_role == '0') && is_published != '1' && (dataentry_uid == user['id'] || is_draft == false)"
               class="gry_btn ml_1" type="button" mat-raised-button (click)="createContent(true)">
               Save as draft
             </button>
@@ -1126,7 +1132,7 @@
             <button class="gry_btn ml_1" *ngIf="is_published == '1' && content_parent_id == 0" mwlConfirmationPopover
               [popoverTitle]="'Are you sure?'" [popoverMessage]="
               'Are you sure to create a new copy of this published content '
-            " placement="auto" (confirm)="createContent(false)" confirmButtonType="danger"
+            " placement="left" (confirm)="createContent(false)" confirmButtonType="danger"
               cancelButtonType="outline-secondary" type="button" mat-raised-button>
               Make a Copy
             </button>
@@ -1136,7 +1142,7 @@
               *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || user['role'] == '1')"
               type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                 'Are you sure to Publish this content '+ publish_message
-              " placement="auto" (confirm)="publishContent()" confirmButtonType="danger"
+              " placement="left" (confirm)="publishContent()" confirmButtonType="danger"
               cancelButtonType="outline-secondary" mat-raised-button color="accent" class="ml_1">
               Save & Publish
             </button>
