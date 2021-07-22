@@ -42,14 +42,20 @@ export class CreateUserComponent implements OnInit {
   public domain = '';
   countrys = [];
   states = [];
+  roles = [];
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_roles: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   ngOnInit(): void {
     this.domain = location.origin;
     this.getCountries();
   }
 
+  onUserTypeChange(){
+  
+  }
+  
   getCountries(){
     let param = { url: 'get-countries' };
     this.http.post(param).subscribe((res) => {
