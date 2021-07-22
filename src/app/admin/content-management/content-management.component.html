@@ -1,10 +1,20 @@
 <div class="mn_dshbrd">
   <div class="brd_crm">Proceum &raquo; <strong>Manage Content</strong></div>
-  <div class="pg_ttl">Manage Content</div>
+  <div class="pg_ttl ai_cntr">
+    Manage Content
+    <div class="spacer"></div>
+    <div>
+      <button mat-raised-button color="accent" class="" (click)="navigateTo('create-content')"
+      type="button">
+      Create Content
+    </button>
+    </div>
+  </div>
+  <hr/>
   <div class="dsh_brd_crds">
     <div>
       <div class="cm_fltr_sc mr_1">
-        <mat-form-field appearance="outline" style="width:150px;">
+        <mat-form-field appearance="outline">
           <mat-select placeholder="Users" [(ngModel)]="dataentry_uid" name="user_name">
             <mat-option value="0">Select User</mat-option>
             <mat-option *ngFor="let user of users" [value]="user['id']">{{
@@ -43,10 +53,7 @@
         <mat-icon>restart_alt</mat-icon>
       </button>
 
-      <button mat-raised-button color="accent" class="float_right mt_1" (click)="navigateTo('create-content')"
-        type="button">
-        Create Content
-      </button>
+     
     </div>
     <div class="clear_fix"></div>
 
