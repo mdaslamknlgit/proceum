@@ -6,12 +6,14 @@
             <form autocomplete="off" #create_user_form="ngForm" name="create_user_form" (ngSubmit)="create_user_form.valid" novalidate>
                 <div class="crt_pr_mn">
                     <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Parnter Name</div>
+                        <div class="crt_prt_hd">User Type</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Name" maxlength="50" [(ngModel)]="name" name="name_edit" #name_edit="ngModel" required/>
+                                <mat-select placeholder="Select User Type" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="onUserTypeChange()" required>
+                                    <mat-option *ngFor="let item of all_roles | async" [value]="item['pk_id']">{{ item["role_name"] }}</mat-option>
+                                </mat-select>
                             </mat-form-field>
-                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || name_edit.touched) && name_edit.invalid">Name is required</span>
+                            <span *ngIf="(create_user_form.submitted || role_edit.touched) && role_edit.invalid" class="prc_tltp">Country is required</span>
                         </div>
                     </div>
                     <div class="crt_pr_dv">
@@ -135,7 +137,7 @@
 
                     <div class="clear_fix"></div>
                     <div class="text_right float_right w_100p">
-                        <button mat-raised-button  class="no_bxsdw" color="accent" (click)="validateFrom()">Next</button>
+                        <button mat-raised-button  class="no_bxsdw" color="accent" (click)="validateFrom()">Submit</button>
                     </div>
                 </div>
             </form>
