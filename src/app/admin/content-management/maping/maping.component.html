@@ -51,21 +51,22 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let element">
                 <a *ngIf="user['role'] == '1'" href="/admin/create-content/{{ element['id'] }}" target="_blank">View</a>
-                <a *ngIf="user['role'] == '3' || user['role'] == '4' || user['role'] == '5' || user['role'] == '6' || user['role'] == '7'" href="/reviewer/create-content/{{ element['id'] }}" target="_blank">View</a>
+                <a *ngIf="user['role'] == '3' || user['role'] == '4' || user['role'] == '5' || user['role'] == '6' || user['role'] == '7'"
+                  href="/reviewer/create-content/{{ element['id'] }}" target="_blank">View</a>
               </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-              <td colspan="5" style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumns.length">
+              <td colspan="5" style="text-align: center; margin: 20px" class="mat-cell"
+                [attr.colspan]="displayedColumns.length">
                 No Records Found
               </td>
             </tr>
           </table>
         </div>
-        <mat-paginator [pageSizeOptions]="page_size_options" #content_paginator
-          [length]="content_totalSize" [pageSize]="content_pageSize" showFirstLastButtons
-          (page)="contentGetServerData($event)"></mat-paginator>
+        <mat-paginator [pageSizeOptions]="page_size_options" #content_paginator [length]="content_totalSize"
+          [pageSize]="content_pageSize" showFirstLastButtons (page)="contentGetServerData($event)"></mat-paginator>
         <hr />
         <div class="float_right">
           <button mat-raised-button (click)="closeModal()" class="mr_1 gry_btn">
@@ -83,15 +84,15 @@
   <div class="pg_ttl">Content linking</div>
   <hr />
   <div class="dsh_brd_crds">
-      <div *ngIf="curriculum_list == undefined">
-          No Curriculums Found
-      </div>
+    <div *ngIf="curriculum_list == undefined">
+      No Curriculums Found
+    </div>
     <div *ngIf="curriculum_list != undefined" class="cm_fltr_sc mr_1">
       <span>Select Course</span>
       <div class="clear_fix"></div>
       <mat-form-field appearance="outline">
         <mat-select [(ngModel)]="curriculum_id" (ngModelChange)="applyFilters(0)">
-          <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']">{{ value["curriculumn_name"] }}
+          <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']" [matTooltip]="value['curriculumn_name']" >{{ value["curriculumn_name"] }}
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -110,8 +111,8 @@
                 applyFilters(value['level_number']);
                 getLevels(value['level_number'])
               ">
-              <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']">{{
-                level["level_name"] }}</mat-option>
+              <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -150,7 +151,7 @@
         </tr>
       </table>
     </div>
-    <mat-paginator #paginator [pageSizeOptions]="page_size_options" [length]="totalSize"
-      [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
+    <mat-paginator #paginator [pageSizeOptions]="page_size_options" [length]="totalSize" [pageSize]="pageSize"
+      showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
   </div>
 </div>
