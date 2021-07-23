@@ -18,8 +18,9 @@ export class ManageUsersComponent implements OnInit {
     'id',
     'name',
     'email',
-    'role',
+    'role_name',
     'phone',
+    'created_at',
     'status',
     'actions',
   ];
@@ -43,14 +44,14 @@ export class ManageUsersComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    //this.getAdminUsers();
+    this.getAdminUsers();
   }
 
   public getAdminUsers() {
-    let param = { url: 'get' };
+    let param = { url: 'get-user-list', is_admin_specific_role : '1' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['packages']);
+        this.dataSource = new MatTableDataSource(res['data']);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       } else {
@@ -60,10 +61,10 @@ export class ManageUsersComponent implements OnInit {
   }
 
   public doFilter() {
-    let param = { url: 'get-packages', search: this.search_box };
+    let param = { url: 'get-user-list', search: this.search_box , is_admin_specific_role : '1'};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['packages']);
+        this.dataSource = new MatTableDataSource(res['data']);
       } else {
         this.dataSource = new MatTableDataSource([]);
         //this.toster.error(res['message'], 'Error');
@@ -74,16 +75,17 @@ export class ManageUsersComponent implements OnInit {
   public getServerData(event?: PageEvent) {
     this.page = event.pageSize * event.pageIndex;
     let param = {
-      url: 'get-packages',
+      url: 'get-user-list', 
+      is_admin_specific_role : '1',
       offset: this.page,
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
     };
     this.http.post(param).subscribe((res) => {
-      //console.log(res['data']['packages']);
+      //console.log(res['data']);
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['packages']);
+        this.dataSource = new MatTableDataSource(res['data']);
         this.totalSize = res['total_records'];
       } else {
         //this.toster.info(res['message'], 'Error');
@@ -92,13 +94,10 @@ export class ManageUsersComponent implements OnInit {
     });
   }
 
-  public editPackage(params){
 
-  }
-
-  public deletePackage(package_id, status){
+  public changeStatus(package_id, status){
     let param = {
-      url: 'package-status',
+      url: 'user-status',
       id: package_id,
       status: status,
     };

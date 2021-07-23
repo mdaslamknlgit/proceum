@@ -3,36 +3,64 @@
     <hr />
     
         <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
-            <form autocomplete="off" #create_user_form="ngForm" name="create_user_form" (ngSubmit)="create_user_form.valid" novalidate>
+            <form autocomplete="off" #create_user_form="ngForm" name="create_user_form" (ngSubmit)="create_user_form.valid">
                 <div class="crt_pr_mn">
                     <div class="crt_pr_dv">
                         <div class="crt_prt_hd">User Type</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
                                 <mat-select placeholder="Select User Type" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="onUserTypeChange()" required>
-                                    <mat-option *ngFor="let item of all_roles | async" [value]="item['pk_id']">{{ item["role_name"] }}</mat-option>
+                                    <mat-option *ngFor="let item of all_roles | async" [value]="item['id']">{{ item["role_name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <span *ngIf="(create_user_form.submitted || role_edit.touched) && role_edit.invalid" class="prc_tltp">Country is required</span>
                         </div>
                     </div>
                     <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Name</div>
-                        <div class="err_tltp_par">
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Name" maxlength="50" [(ngModel)]="name" name="name_edit" #name_edit="ngModel" required/>
-                            </mat-form-field>
-                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || name_edit.touched) && name_edit.invalid">Name is required</span>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
                         <div class="crt_prt_hd">Email address</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit" #email_edit="ngModel"  autocomplete="off"  required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                                <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit" #email_edit="ngModel"  autocomplete="off"  required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [disabled]="user_id"/>
                             </mat-form-field>
                             <span class="prc_tltp" *ngIf="(create_user_form.submitted || email_edit.touched) && email_edit.invalid">Email is required</span>
                             <span class="prc_tltp" *ngIf="create_user_form.submitted && email_edit.errors?.pattern">This is not a valid Email!</span>    
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">First Name</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="First Name" maxlength="50" [(ngModel)]="first_name" name="first_name_edit" #first_name_edit="ngModel" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || first_name_edit.touched) && first_name_edit.invalid">Name is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv">
+                        <div class="crt_prt_hd">Last Name</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Last Name" maxlength="50" [(ngModel)]="last_name" name="last_name_edit" #last_name_edit="ngModel"/>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv" *ngIf="!user_id">
+                        <div class="crt_prt_hd">Password</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password_edit" #password_edit="ngModel" minlength="6" maxlength="20"  autocomplete="off"  required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || password_edit.touched) && password_edit.invalid">Password is required</span>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || password_edit.touched) && (password != '' && password.length < 5) ">Minimum of 6 characters password required!</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv" *ngIf="!user_id">
+                        <div class="crt_prt_hd">Confirm password</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p"  class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
+                                <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="confirm_password" name="confirm_password_edit" #confirm_password_edit="ngModel" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || confirm_password_edit.touched) && confirm_password_edit.invalid">confirm password is required</span>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || confirm_password_edit.touched) && confirm_password != '' && (confirm_password != password)">Password and Confirm Password must be match!</span>
                         </div>
                     </div>
                     <div class="crt_pr_dv">
@@ -46,31 +74,10 @@
                         </div>
                     </div>
                     <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Password</div>
-                        <div class="err_tltp_par">
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password_edit" #password_edit="ngModel" minlength="6"  autocomplete="off"  required/>
-                            </mat-form-field>
-                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || password_edit.touched) && password_edit.invalid">Password is required</span>
-                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || password_edit.touched) && (password != '' && password.length < 5) ">Minimum of 6 characters password required!</span>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv">
-                        <div class="crt_prt_hd">Confirm password</div>
-                        <div class="err_tltp_par">
-                            <mat-form-field appearance="outline" class="w_100p"  class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
-                                <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="confirm_password" name="confirm_password_edit" #confirm_password_edit="ngModel" minlength="6" required/>
-                            </mat-form-field>
-                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || confirm_password_edit.touched) && confirm_password_edit.invalid">confirm password is required</span>
-                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || confirm_password_edit.touched) && confirm_password != '' && (confirm_password != password)">Password and Confirm Password must be match!</span>
-                        </div>
-                    </div>
-                    
-                    <div class="crt_pr_dv">
                         <div class="crt_prt_hd">Address Line 1</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Person Name" maxlength="50" appAlphabetOnly [(ngModel)]="address_line_1" name="address_line_1_edit" #address_line_1_edit="ngModel" required/>
+                                <input matInput placeholder="Address Line1" maxlength="50" appAlphabetOnly [(ngModel)]="address_line_1" name="address_line_1_edit" #address_line_1_edit="ngModel" required/>
                             </mat-form-field>
                             <span class="prc_tltp" *ngIf="(create_user_form.submitted || address_line_1_edit.touched) && address_line_1_edit.invalid">Address Line1 is required</span>
                         </div>
@@ -79,7 +86,7 @@
                         <div class="crt_prt_hd">Address Line 2</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Person Name" maxlength="50" appAlphabetOnly [(ngModel)]="address_line_2" name="address_line_2_edit" #address_line_2_edit="ngModel" required/>
+                                <input matInput placeholder="Address Line2" maxlength="50" appAlphabetOnly [(ngModel)]="address_line_2" name="address_line_2_edit" #address_line_2_edit="ngModel"/>
                             </mat-form-field>
                             <span class="prc_tltp" *ngIf="(create_user_form.submitted || address_line_2_edit.touched) && address_line_2_edit.invalid">Address Line 2 is required</span>
                         </div>
@@ -135,11 +142,199 @@
                         </div>
                     </div>
 
+
+                    
+                    <div class="crt_pr_dv" *ngIf="role == '2'">
+                        <div class="crt_prt_hd">Organization Type</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select Organization Type" name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization" (ngModelChange)="onOrganizationTypeChange()" required>
+                                    <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span *ngIf="(create_user_form.submitted || organization_edit.touched) && organization_edit.invalid" class="prc_tltp">Organization is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv" *ngIf="role == '2' && organization == '1'">
+                        <div class="crt_prt_hd">University</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select University" name="university_edit" #university_edit="ngModel" [(ngModel)]="university_id" (ngModelChange)="getYears(university_id,0)" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
+                                            [placeholderLabel]="'Search University'" name="search_university" ngModel
+                                            (ngModelChange)="filterUniversity($event)">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of all_universities | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span *ngIf="(create_user_form.submitted || university_edit.touched) && university_edit.invalid" class="prc_tltp">University is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv" *ngIf="role == '2' && organization == '2'">
+                        <div class="crt_prt_hd">College</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYears(college_id,0)" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
+                                            [placeholderLabel]="'Search College'" name="search_college" ngModel
+                                            (ngModelChange)="filterCollege($event)">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of all_colleges | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span *ngIf="(create_user_form.submitted || college_edit.touched) && college_edit.invalid" class="prc_tltp">College is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv" *ngIf="role == '2' && organization == '3'">
+                        <div class="crt_prt_hd">Institute</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select Institute" name="institute_edit" #institute_edit="ngModel" [(ngModel)]="institute_id" (ngModelChange)="getYears(institute_id,0)" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No Institute found'"
+                                            [placeholderLabel]="'Search Institute'" name="search_institute" ngModel
+                                            (ngModelChange)="filterInstitute($event)">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of all_institutes | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span *ngIf="(create_user_form.submitted || institute_edit.touched) && institute_edit.invalid" class="prc_tltp">Institute is required</span>
+                        </div>
+                    </div>
+
+                    <div class="crt_pr_dv" *ngIf="role == '2'">
+                        <div class="crt_prt_hd">Year</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getSemesters()" required>
+                                    <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span *ngIf="(create_user_form.submitted || year_edit.touched) && year_edit.invalid" class="prc_tltp">Year is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv" *ngIf="role == '2'">
+                        <div class="crt_prt_hd">Semester</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getGroups()" >
+                                    <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- <span *ngIf="(create_user_form.submitted || semester_edit.touched) && semester_edit.invalid" class="prc_tltp">Semester is required</span> -->
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv" *ngIf="role == '2'">
+                        <div class="crt_prt_hd">Group</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select User Type" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id">
+                                    <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- <span *ngIf="(create_user_form.submitted || group_edit.touched) && group_edit.invalid" class="prc_tltp">Group is required</span> -->
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv" *ngIf="role == '2'">
+                        <div class="crt_prt_hd">Registration/UUID Number</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Registration/UUID Number" maxlength="50" [(ngModel)]="uuid" name="uuid_edit" #uuid_edit="ngModel" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || uuid_edit.touched) && uuid_edit.invalid">Registration/UUID Number is required</span>
+                        </div>
+                    </div>                        
+                    
+
+                    
+                    <div class="crt_pr_dv" *ngIf="role == '12'">
+                        <div class="crt_prt_hd">Qualification</div>
+                        <div class="err_tltp_par">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Qualification" maxlength="50" [(ngModel)]="qualification" name="qualification_edit" #qualification_edit="ngModel" required/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || qualification_edit.touched) && qualification_edit.invalid">Qualification is required</span>
+                        </div>
+                    </div>
+                    <div class="crt_pr_dv" *ngIf="role == '12'">
+                        
+                        <div class="mt_grd_dv" *ngIf="courses_div">
+                            <div *ngFor="let course of selected_courses;let i = index">
+                                <span>{{course.title}}</span>
+                            </div>
+                        </div>
+                        <div class="crt_prt_hd">
+                            <button mat-raised-button color="accent" type="button" (click)="edit_model_status = true">
+                                <mat-icon>add</mat-icon> Check Subject
+                            </button>
+                        </div>
+                        
+                        
+                    </div>
+                    
                     <div class="clear_fix"></div>
                     <div class="text_right float_right w_100p">
-                        <button mat-raised-button  class="no_bxsdw" color="accent" (click)="validateFrom()">Submit</button>
+                        <button mat-raised-button  class="no_bxsdw" color="accent" (click)="submitFrom()">Submit</button>
                     </div>
                 </div>
             </form>
         </div>
+</div>
+<div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: edit_model_status }">
+    <div class="cust_mdl_chl">
+        <div class="pg_ttl">
+            Select Courses
+            <span class="spacer"></span>
+            <button mat-icon-button (click)="edit_model_status = !edit_model_status">
+                &#x2715;
+            </button>
+        </div>
+        <div class="tbbd_bdy">
+            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+                <!-- This is the tree node template for leaf nodes -->
+                <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
+                    [style.display]="!search || node.ok?'block':'none'">
+                    <li class="mat-tree-node">
+                        <!-- use a disabled button to provide padding for tree leaf -->
+                        <button type="button" mat-icon-button disabled></button>
+                        <mat-checkbox class="checklist-leaf-node"
+                            (change)="todoItemSelectionToggle($event.checked,node)" [checked]="node.selected">
+                            {{node.name}}</mat-checkbox>
+
+                    </li>
+                </mat-tree-node>
+                <!-- This is the tree node template for expandable nodes -->
+                <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild"
+                    [style.display]="!search || node.ok?'block':'none'">
+                    <li>
+                        <div class="mat-tree-node">
+                            <button type="button" mat-icon-button matTreeNodeToggle
+                                [attr.aria-label]="'toggle ' + node.name">
+                                <mat-icon class="mat-icon-rtl-mirror">
+                                    {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                </mat-icon>
+                            </button>
+                            <mat-checkbox [checked]="node.selected"
+                                [indeterminate]="node.indeterminate && !node.selected"
+                                (change)="todoItemSelectionToggle($event.checked,node)">{{node.name}}
+                            </mat-checkbox>
+                        </div>
+                        <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                            <ng-container matTreeNodeOutlet></ng-container>
+                        </ul>
+                    </li>
+                </mat-nested-tree-node>
+            </mat-tree>
+            <div class="w_100p text_right">
+                <button type="button" mat-raised-button color="accent"
+                    (click)="submitCourses()">Submit</button><br />
+            </div>
+            <div class="hgt_20"></div>
+        </div>
+    </div>
 </div>
