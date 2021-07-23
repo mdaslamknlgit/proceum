@@ -676,6 +676,9 @@ export class RegisterComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.institutes = res['data']['institutes'];
+        if(this.institutes != undefined){
+          this.all_institutes.next(this.institutes.slice()); 
+        }
       } else {
         //this.toster.error(res['message'], 'Error');
       }

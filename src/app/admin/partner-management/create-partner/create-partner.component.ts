@@ -80,7 +80,6 @@ export class CreatePartnerComponent implements OnInit {
           this.partner_id = 0;
       }
     });
-    console.log(this.partner_id);
     this.getCountries();
     this.getPackages();
   }

@@ -50,6 +50,11 @@ export const environment = {
     //'TableToolbar',
     //'htmlSource',
   ],
+  ORGANIZATION_TYPES : [
+    {value: '1', viewValue: 'University'},
+    {value: '2', viewValue: 'College'},
+    {value: '3', viewValue: 'Institute'}
+  ],
   
 
    apiUrl: 'http://192.10.250.150:8000/api/',

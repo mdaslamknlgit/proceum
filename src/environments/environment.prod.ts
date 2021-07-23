@@ -46,6 +46,11 @@ export const environment = {
     //'TableToolbar',
     //'htmlSource',
   ],
+  ORGANIZATION_TYPES : [
+    {value: '1', viewValue: 'University'},
+    {value: '2', viewValue: 'College'},
+    {value: '3', viewValue: 'Institute'}
+  ],
   // apiUrl: 'https://apidev.proceum.com/api/',
   apiUrl: 'https://apiqa.proceum.com/api/',
   //apiUrl: 'https://apiuat.proceum.com/api/',
