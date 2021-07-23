@@ -74,7 +74,7 @@ export class AssetsLibraryComponent implements OnInit {
       this.all_files.next(this.files.slice());
       return;
     } else {
-      search = this.search_images.toLowerCase();
+      search = search.toLowerCase();
     }
     this.all_files.next(
       this.files.filter(
@@ -143,8 +143,20 @@ export class AssetsLibraryComponent implements OnInit {
     for (var i = 0; i < files.length; i++) {
       let ext = files[i].name.split('.').pop().toLowerCase();
       if (allowed_types.includes(ext)) {
-        valid_files.push(files[i]);
-        uploadData.append('file' + i, files[i]);
+        let size = files[i].size;
+        size = Math.round(size / 1024);
+        if(size > environment.file_upload_size){
+            this.toster.error(
+                ext +
+                  ' Size of file (' +
+                  files[i].name +
+                  ') is too large max allowed size 2mb'
+              );
+        }
+        else{
+            valid_files.push(files[i]);
+            uploadData.append('file' + i, files[i]);
+        }
       } else {
         this.toster.error(
           ext +
@@ -163,7 +175,7 @@ export class AssetsLibraryComponent implements OnInit {
     let param = { url: 'upload-files' };
     this.http.imageUpload(param, uploadData).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success('Files successfully uploaded.', 'File Uploaded');
+        this.toster.success('Files successfully uploaded. large files may take some to find in search.', 'File Uploaded');
         this.openFolder(this.current_path);
       }
     });

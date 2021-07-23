@@ -10,6 +10,7 @@ export class CommonService {
   public child_data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public isLoading = new BehaviorSubject(false);
   private apiURL: string;
+  public kpoint_api_url = "https://proceum.kpoint.com/api/v1/xapi/";
   public menu_status: String;
   constructor(private http: HttpClient) {
     this.apiURL = environment.apiUrl;
@@ -30,7 +31,7 @@ export class CommonService {
     localStorage.removeItem('user');
   }
   public kpointGet(param){
-    return this.http.get("https://proceum.kpoint.com/api/v1/xapi/kapsule/"+param['video_id']+"/bookmarks?xt="+param['xt']).pipe(
+    return this.http.get(this.kpoint_api_url+param['url']).pipe(
       map((res) => res),
       catchError(this.errorHandler)
     );
