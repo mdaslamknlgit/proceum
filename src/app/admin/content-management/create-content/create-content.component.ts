@@ -1213,7 +1213,7 @@ export class CreateContentComponent implements OnInit {
     let param = {
         url: 'add-content-comment',
         content_id : this.content_id,
-        comment: this.comments_content,
+        comment: this.comments_content.trim()==''?"Please find attachments.":this.comments_content,
         review_docs: this.review_docs
     };
     this.http.post(param).subscribe((res) => {
