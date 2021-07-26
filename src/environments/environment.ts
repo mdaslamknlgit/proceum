@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  file_upload_size: 2040,//in kb
   page_size: 10,
   page_size_options: [10, 20, 50, 100],
   ckeditor_toolbar: [
@@ -56,9 +57,9 @@ export const environment = {
   ],
   
 
-   apiUrl: 'http://192.10.250.150:8000/api/',
+   //apiUrl: 'http://192.10.250.150:8000/api/',
     // apiUrl: 'http://127.0.0.1:8000/api/',
-    //apiUrl: 'https://apiqa.proceum.com/api/',
+    apiUrl: 'https://apiqa.proceum.com/api/',
     firebaseConfig : {
         apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
         authDomain: "proceum-dev-62a30.firebaseapp.com",

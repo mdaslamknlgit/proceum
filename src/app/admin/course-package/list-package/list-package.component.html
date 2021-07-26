@@ -1,8 +1,8 @@
 <div class="mn_dshbrd">
     <div class="brd_crm">
-        Proceum &raquo; <strong>Package Management </strong>
+        Proceum &raquo; <strong>Prices &amp; Package Management </strong>
     </div>
-    <div class="pg_ttl">Package Management</div>
+    <div class="pg_ttl">Prices &amp; Package Management</div>
     <hr />
 
     <div class="dsh_brd_crds">
@@ -60,13 +60,7 @@
                 <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
                     <td mat-cell *matCellDef="let element">
-                        <!-- <span matTooltip="Current Status is {{
-                    element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-                }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-                            "Inactive" }}</span> -->
-                            <mat-slide-toggle (click)="deletePackage(element.pk_id, element.status)" [checked]="element.status == 1 ? true : false" matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
-                   
-                            </mat-slide-toggle>
+                        <mat-slide-toggle (click)="changeStatus(element.pk_id, element.status)" [checked]="element.status == 1 ? true : false" matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
                     </td>
                 </ng-container>
 
@@ -74,20 +68,16 @@
                     <th mat-header-cell *matHeaderCellDef>Actions</th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-icon-button matTooltip="Click to " color="accent"
-                            (click)="navigateTo('-package/'+element.pk_id)">
+                            (click)="navigateTo('edit-package/'+element.pk_id)">
                             <mat-icon>edit_note</mat-icon>
                         </button>
-                        <!-- <button matTooltip="click here to {{
-                    element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
-                }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                    'Are you sure to change status of <b>' +
-                    element.package_name +
-                    '</b> Package'
-                " placement="auto" (confirm)="deletePackage(element.pk_id, element.status)" confirmButtonType="danger"
-                            cancelButtonType="outline-secondary">
-                            <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
-                            <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-                        </button> -->
+                        <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
+                                [popoverMessage]="
+                            'Are you sure to delete <b>' + element.package_name + '</b> '
+                            " placement="left" (confirm)="deleteRecord(element.pk_id)" confirmButtonType="danger"
+                                cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                        </button>
                     </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

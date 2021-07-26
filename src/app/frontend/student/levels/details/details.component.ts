@@ -32,7 +32,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public content_list = [];
   public content = [];
   public images = [];
-  public active_div = 3;
+  public active_div = 99;
   public main_content: any = [];
   public Editor = Editor;
   public Editor2 = Editor;
@@ -69,6 +69,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public timeline:any;
   public library_popup = false;
   public image_index = 0;
+  public is_loaded = false;
+  public is_preview = false;
+  public editorConfig = {link: {decorators: {openInNewTab: {mode: 'manual',label: 'Open in a new tab',defaultValue: true, attributes: {target: '_blank', rel: 'noopener noreferrer'}}}}}
   public image_config = {
     btnClass: 'default', // The CSS class(es) that will apply to the buttons
     zoomFactor: 0.1, // The amount that the scale will be increased by
@@ -109,12 +112,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
-        console.log(param.level_id, param.level_parent_id);
-        console.log(param.curriculum_id, param.content_id);
       this.curriculum_id = param.curriculum_id == undefined?0:param.curriculum_id;
       this.level_id = param.level_id != undefined ? param.level_id : 0;
       this.level_parent_id = param.level_parent_id != undefined ? param.level_parent_id : 0;
       this.content_id = param.content_id != undefined ? param.content_id : 0;
+      this.is_preview = window.location.href.includes("content-preview")?true:false;
       this.getLevelDetails();
     });
     
@@ -205,7 +207,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     let param1 = {"url": "get-kpoint-token"};
     this.http.post(param1).subscribe(res=>{
         this.xt = res['data']['xt'];
-        let param = {video_id: this.player.info.kvideoId, xt:this.xt};
+        let param = {url: "kapsule/"+this.player.info.kvideoId+"/bookmarks?xt="+this.xt};
         this.http.kpointGet(param).subscribe(res=>{
         this.timeline = res;
     });
@@ -286,6 +288,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let data = res['data'];
+        this.is_loaded = true;
         this.statistics = data['statistics'];
         this.bucket_url = data['bucket_url'];
         this.curriculum = data['curriculum'];
@@ -343,11 +346,44 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 this.board_lecture_videos.push(video);
             }
         })
+        this.setDefaultDiv();
       } else {
         this.breadcome = res['data']['breadcome'];
       }
     });
   }
+    setDefaultDiv(){
+        if(this.content['learning_obj_content']!=undefined && this.content['learning_obj_content'].trim() != ''){
+            this.showDiv(3);
+        }
+        else if(this.content['main_content']!=undefined && this.content['main_content'].trim() != ''){
+            this.showDiv(0);
+        }
+        else if(this.learning_notes.length > 0){
+            this.showDiv(2);
+        }
+        else if(this.highyields.length > 0){
+            this.showDiv(6);
+        }
+        else if(this.mcqs != undefined && this.mcqs.length > 0){
+            this.showDiv(1);
+        }
+        else if(this.short_answers != undefined && this.short_answers.length > 0){
+            this.showDiv(10);
+        }
+        else if(this.cases != undefined && this.cases.length > 0){
+            this.showDiv(7);
+        }
+        else if(this.content['external_ref_content'] != undefined && this.content['external_ref_content'].trim() != ''){
+            this.showDiv(8);
+        }
+        else if(this.content['images'] !=undefined && this.content['images'].length>0){
+            this.showDiv(4);
+        }
+        else if(this.content['attachments'] !=undefined && this.content['attachments'].length>0){
+            this.showDiv(5);
+        }
+    }
   showDiv(div) {
     this.active_div = div;
   }

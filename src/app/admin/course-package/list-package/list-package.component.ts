@@ -95,7 +95,7 @@ export class ListPackageComponent implements OnInit {
 
   }
 
-  public deletePackage(package_id, status){
+  public changeStatus(package_id, status){
     let param = {
       url: 'package-status',
       id: package_id,
@@ -112,6 +112,23 @@ export class ListPackageComponent implements OnInit {
       }
     });
     
+  }
+
+  deleteRecord(id){
+    let param = {
+      url: 'delete-package',
+      id: id,
+    };
+    this.http.post(param).subscribe((res) => {  
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.getPackages();
+      } else {
+        this.toster.error(res['message'], res['message'], {
+          closeButton: true,
+        });
+      }
+    });
   }
 
   navigateTo(url){

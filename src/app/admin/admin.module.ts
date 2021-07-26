@@ -160,7 +160,7 @@ const routes: Routes = [
       { path: 'create-partner/:id', component: CreatePartnerComponent },
       { path: 'partners-list', component: PartnersListComponent },
       { path: 'create-content/:id', component: CreateContentComponent },
-      { path: 'course-package-management', component: ListPackageComponent },
+      { path: 'prices-package-management', component: ListPackageComponent },
       { path: 'create-package', component: CreatePackageComponent },
       { path: 'edit-package/:id', component: EditPackageComponent },
       { path: 'questions-mgt/qbank', component: QuestionBankComponent },

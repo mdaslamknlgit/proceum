@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  file_upload_size: 2040,//in kb
   page_size: 10,
   page_size_options: [10, 20, 50, 100],
   ckeditor_toolbar: [
@@ -53,12 +54,20 @@ export const environment = {
   // apiUrl: 'https://apidev.proceum.com/api/',
   apiUrl: 'https://apiqa.proceum.com/api/',
   //apiUrl: 'https://apiuat.proceum.com/api/',
+//   firebaseConfig : {
+//     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
+//     authDomain: "proceum-dev-62a30.firebaseapp.com",
+//     projectId: "proceum-dev-62a30",
+//     storageBucket: "proceum-dev-62a30.appspot.com",
+//     messagingSenderId: "41849089517",
+//     appId: "1:41849089517:web:daea02011d4e30db528be4"
+//   }
   firebaseConfig : {
-    apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
-    authDomain: "proceum-dev-62a30.firebaseapp.com",
-    projectId: "proceum-dev-62a30",
-    storageBucket: "proceum-dev-62a30.appspot.com",
-    messagingSenderId: "41849089517",
-    appId: "1:41849089517:web:daea02011d4e30db528be4"
+    apiKey: "AIzaSyDM_Q8stJkIGWMqZvvGW8MDp0nS8i_zgqg",
+    authDomain: "proceum-5b71c.firebaseapp.com",
+    projectId: "proceum-5b71c",
+    storageBucket: "proceum-5b71c.appspot.com",
+    messagingSenderId: "730854299639",
+    appId: "1:730854299639:web:223a73ba74a9c7bcee80f2"
   }
 };

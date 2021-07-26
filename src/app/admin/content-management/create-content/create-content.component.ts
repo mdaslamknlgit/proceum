@@ -125,6 +125,19 @@ export class CreateContentComponent implements OnInit {
     toolbar: {
       items: environment.ckeditor_toolbar,
     },
+    link: {
+        decorators: {
+            openInNewTab: {
+                mode: 'manual',
+                label: 'Open in a new tab',
+                defaultValue: true,			// This option will be selected by default.
+                attributes: {
+                    target: '_blank',
+                    rel: 'noopener noreferrer'
+                }
+            }
+        }
+    },
     image: {
       upload: ['png'],
       toolbar: [
@@ -156,12 +169,12 @@ export class CreateContentComponent implements OnInit {
   public review_docs = [];
   public review_docs_new = [];
   public content_reviewer_role = '';
-  public intro_video = [{pk_id:0, video_section:'INTRO', source:'', title:'', value:'', status:''}];
-  public two_d_videos = [{pk_id:0, video_section:'2D', source:'', title:'', value:'', status:''}];
-  public board_lecture_videos = [{pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:''}];
-  public clinical_videos = [{pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:''}];
-  public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''}];
-  public three_d_videos = [{pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:''}];
+  public intro_video = [{pk_id:0, video_section:'INTRO', source:'', title:'', value:'', status:'', error:false, message: ''}];
+  public two_d_videos = [{pk_id:0, video_section:'2D', source:'', title:'', value:'', status:'', error:false, message: ''}];
+  public board_lecture_videos = [{pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:'', error:false, message: ''}];
+  public clinical_videos = [{pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:'', error:false, message: ''}];
+  public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:'', error:false, message: ''}];
+  public three_d_videos = [{pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:'', error:false, message: ''}];
   public publsh_content = false;
   public publish_message = "";
   private subscription:Subscription;
@@ -264,21 +277,343 @@ export class CreateContentComponent implements OnInit {
   }
   addVideo(tabIndex){
     if(tabIndex == 1){
-      this.two_d_videos.push({pk_id:0, video_section:'2D', source:'', title:'', value:'', status:''});
+      this.two_d_videos.push({pk_id:0, video_section:'2D', source:'', title:'', value:'', status:'', error:false, message: ''});
     }
     if(tabIndex == 2){
-      this.board_lecture_videos.push({pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:''});
+      this.board_lecture_videos.push({pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:'', error:false, message: ''});
     }
     if(tabIndex == 3){
-      this.clinical_videos.push({pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:''});
+      this.clinical_videos.push({pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:'', error:false, message: ''});
     }
     if(tabIndex == 4){
-      this.procedural_videos.push({pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:''});
+      this.procedural_videos.push({pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:'', error:false, message: ''});
     }
     if(tabIndex == 5){
-      this.three_d_videos.push({pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:''});
+      this.three_d_videos.push({pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:'', error:false, message: ''});
     }
   }
+  validateVideo(tab_index, index){
+    if(tab_index == 0){
+        if(this.intro_video[index]['source'] != '' && this.intro_video[index]['title'] && this.intro_video[index]['value']){
+            //this.CheckTitle(tab_index, index);
+            if(this.intro_video[index]['error'] == false || true){
+                let video_type = this.intro_video[index]['source'];
+                if(video_type == 'KPOINT'){
+                    let kpoint = this.validateKpointId(this.intro_video[index]['value']);
+                    if(kpoint == true){
+                        let param1 = {"url": "get-kpoint-token"};
+                        this.http.post(param1).subscribe(res=>{
+                            let xt = res['data']['xt'];
+                            let param = {video_id: this.intro_video[index]['value'], xt:xt, url: "kapsule/"+this.intro_video[index]['value']+"?xt="+xt};
+                            this.http.kpointGet(param).subscribe(res=>{
+                                this.intro_video[index]['error'] = false;
+                                this.intro_video[index]['message'] = "";
+                            },
+                            error => {
+                                if(error['error']['error']['code'] == 9003){
+                                    this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
+                                    this.intro_video[index]['error'] = true;
+                                    this.intro_video[index]['message'] = "Invalid kpoint id";
+                                }
+                            }
+                            );
+                        })
+                    }
+                    else{
+                        this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
+                        this.intro_video[index]['error'] = true;
+                        this.intro_video[index]['message'] = "Invalid kpoint id";
+                    }
+                }
+                if(video_type == 'YOUTUBE'){
+                    let youtube_check = this.validateYouTubeUrl(this.intro_video[index]['value']);
+                    if(youtube_check){
+                        this.intro_video[index]['error'] = false;
+                        this.intro_video[index]['message'] = "";
+                    }
+                    else{
+                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
+                        this.intro_video[index]['error'] = true;
+                        this.intro_video[index]['message'] = "Invalid Youtube url";
+                    }
+                }
+            }
+            else{
+                console.log("eror dup");
+            }
+        }
+    }
+    if(tab_index == 1){
+        if(this.two_d_videos[index]['source'] != '' && this.two_d_videos[index]['title'] && this.two_d_videos[index]['value']){
+            //this.CheckTitle(tab_index, index);
+            if(this.two_d_videos[index]['error'] == false|| true){
+                let video_type = this.two_d_videos[index]['source'];
+                if(video_type == 'KPOINT'){
+                    this.validateKpointId(this.two_d_videos[index]['value']);
+                }
+                if(video_type == 'YOUTUBE'){
+                    let youtube_check = this.validateYouTubeUrl(this.two_d_videos[index]['value']);
+                    if(youtube_check){
+                        this.two_d_videos[index]['error'] = false;
+                        this.two_d_videos[index]['message'] = "";
+                    }
+                    else{
+                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
+                        this.two_d_videos[index]['error'] = true;
+                        this.two_d_videos[index]['message'] = "Invalid Youtube url";
+                    }
+                }
+            }
+            else{
+                console.log("eror dup");
+            }
+        }
+    }
+    if(tab_index == 2){
+        if(this.board_lecture_videos[index]['source'] != '' && this.board_lecture_videos[index]['title'] && this.board_lecture_videos[index]['value']){
+            //this.CheckTitle(tab_index, index);
+            if(this.board_lecture_videos[index]['error'] == false|| true){
+                let video_type = this.board_lecture_videos[index]['source'];
+                if(video_type == 'KPOINT'){
+                    this.validateKpointId(this.board_lecture_videos[index]['value']);
+                }
+                if(video_type == 'YOUTUBE'){
+                    let youtube_check = this.validateYouTubeUrl(this.board_lecture_videos[index]['value']);
+                    if(youtube_check){
+                        this.board_lecture_videos[index]['error'] = false;
+                        this.board_lecture_videos[index]['message'] = "";
+                    }
+                    else{
+                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
+                        this.board_lecture_videos[index]['error'] = true;
+                        this.board_lecture_videos[index]['message'] = "Invalid Youtube url";
+                    }
+                }
+            }
+            else{
+                console.log("eror dup");
+            }
+        }
+    }
+    if(tab_index == 3){
+        if(this.clinical_videos[index]['source'] != '' && this.clinical_videos[index]['title'] && this.clinical_videos[index]['value']){
+            //this.CheckTitle(tab_index, index);
+            if(this.clinical_videos[index]['error'] == false|| true){
+                let video_type = this.clinical_videos[index]['source'];
+                if(video_type == 'KPOINT'){
+                    this.validateKpointId(this.clinical_videos[index]['value']);
+                }
+                if(video_type == 'YOUTUBE'){
+                    let youtube_check = this.validateYouTubeUrl(this.clinical_videos[index]['value']);
+                    if(youtube_check){
+                        this.clinical_videos[index]['error'] = false;
+                        this.clinical_videos[index]['message'] = "";
+                    }
+                    else{
+                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
+                        this.clinical_videos[index]['error'] = true;
+                        this.clinical_videos[index]['message'] = "Invalid Youtube url";
+                    }
+                }
+            }
+            else{
+                console.log("eror dup");
+            }
+        }
+    }
+    if(tab_index == 4){
+        if(this.procedural_videos[index]['source'] != '' && this.procedural_videos[index]['title'] && this.procedural_videos[index]['value']){
+            //this.CheckTitle(tab_index, index);
+            if(this.procedural_videos[index]['error'] == false|| true){
+                let video_type = this.procedural_videos[index]['source'];
+                if(video_type == 'KPOINT'){
+                    this.validateKpointId(this.procedural_videos[index]['value']);
+                }
+                if(video_type == 'YOUTUBE'){
+                    let youtube_check = this.validateYouTubeUrl(this.procedural_videos[index]['value']);
+                    if(youtube_check){
+                        this.procedural_videos[index]['error'] = false;
+                        this.procedural_videos[index]['message'] = "";
+                    }
+                    else{
+                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
+                        this.procedural_videos[index]['error'] = true;
+                        this.procedural_videos[index]['message'] = "Invalid Youtube url";
+                    }
+                }
+            }
+            else{
+                console.log("eror dup");
+            }
+        }
+    }
+    if(tab_index == 5){
+        if(this.three_d_videos[index]['source'] != '' && this.three_d_videos[index]['title'] && this.three_d_videos[index]['value']){
+            //this.CheckTitle(tab_index, index);
+            if(this.three_d_videos[index]['error'] == false|| true){
+                let video_type = this.three_d_videos[index]['source'];
+                if(video_type == 'KPOINT'){
+                    this.validateKpointId(this.three_d_videos[index]['value']);
+                }
+                if(video_type == 'YOUTUBE'){
+                    let youtube_check = this.validateYouTubeUrl(this.three_d_videos[index]['value']);
+                    if(youtube_check){
+                        this.three_d_videos[index]['error'] = false;
+                        this.three_d_videos[index]['message'] = "";
+                    }
+                    else{
+                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
+                        this.three_d_videos[index]['error'] = true;
+                        this.three_d_videos[index]['message'] = "Invalid Youtube url";
+                    }
+                }
+            }
+            else{
+                console.log("eror dup");
+            }
+        }
+    }
+  }
+  CheckTitle(tab_index, index){
+      if(tab_index == 0){
+          this.intro_video.forEach((res, index2)=>{
+              if((res['title'] == this.intro_video[index]['title']) && this.intro_video[index]['status'] != 'delete' && index != index2){
+                this.toster.error("Duplicate Title "+this.intro_video[index]['title'], "Error", {closeButton: true,});
+                this.intro_video[index]['error'] = true;
+                this.intro_video[index]['message'] = "Duplicate Title";
+              }
+              else if((res['value'] == this.intro_video[index]['value']) && this.intro_video[index]['status'] != 'delete' && index != index2){
+                this.toster.error("Duplicate Value "+this.intro_video[index]['value'], "Error", {closeButton: true,});
+                this.intro_video[index]['error'] = true;
+                this.intro_video[index]['message'] = "Duplicate Value";
+              }
+              else{
+                this.intro_video[index2]['error'] = false;
+                this.intro_video[index2]['message'] = "";
+              }
+          })
+      }
+      if(tab_index == 1){
+        this.two_d_videos.forEach((res, index2)=>{
+            if(res['title'] == this.two_d_videos[index]['title'] && this.two_d_videos[index]['status'] != 'delete' && index != index2){
+              this.toster.error("Duplicate Title "+this.two_d_videos[index]['title'], "Error", {closeButton: true,});
+              this.two_d_videos[index]['title'] = '';
+              this.two_d_videos[index]['error'] = true;
+              this.two_d_videos[index]['message'] = "Duplicate Title";
+            }
+            else if((res['value'] == this.two_d_videos[index]['value']) && this.two_d_videos[index]['status'] != 'delete' && index != index2){
+                this.toster.error("Duplicate Value "+this.two_d_videos[index]['value'], "Error", {closeButton: true,});
+                this.two_d_videos[index]['error'] = true;
+                this.two_d_videos[index]['value'] = '';
+                this.two_d_videos[index]['message'] = "Duplicate Value";
+            }
+            else{
+              this.two_d_videos[index]['error'] = false;
+              this.two_d_videos[index]['message'] = "";
+            }
+        })
+    }
+    if(tab_index == 2){
+        this.board_lecture_videos.forEach((res, index2)=>{
+            if(res['title'] == this.board_lecture_videos[index]['title'] && this.board_lecture_videos[index]['status'] != 'delete' && index != index2){
+              this.toster.error("Duplicate Title "+this.board_lecture_videos[index]['title'], "Error", {closeButton: true,});
+              this.board_lecture_videos[index]['error'] = true;
+              this.board_lecture_videos[index]['title'] = '';
+              this.board_lecture_videos[index]['message'] = "Duplicate Title";
+            }
+            else if((res['value'] == this.board_lecture_videos[index]['value']) && this.board_lecture_videos[index]['status'] != 'delete' && index != index2){
+                this.toster.error("Duplicate Value "+this.board_lecture_videos[index]['value'], "Error", {closeButton: true,});
+                this.board_lecture_videos[index]['error'] = true;
+                this.board_lecture_videos[index]['value'] = '';
+                this.board_lecture_videos[index]['message'] = "Duplicate Value";
+            }
+            else{
+              this.board_lecture_videos[index]['error'] = false;
+              this.board_lecture_videos[index]['message'] = "";
+            }
+        })
+    }
+    if(tab_index == 3){
+        this.clinical_videos.forEach((res, index2)=>{
+            if(res['title'] == this.clinical_videos[index]['title'] && this.clinical_videos[index]['status'] != 'delete' && index != index2){
+              this.toster.error("Duplicate Title "+this.clinical_videos[index]['title'], "Error", {closeButton: true,});
+              this.clinical_videos[index]['error'] = true;
+              this.clinical_videos[index]['title'] = '';
+              this.clinical_videos[index]['message'] = "Duplicate Title";
+            }
+            else if((res['value'] == this.clinical_videos[index]['value']) && this.clinical_videos[index]['status'] != 'delete' && index != index2){
+                this.toster.error("Duplicate Value "+this.clinical_videos[index]['value'], "Error", {closeButton: true,});
+                this.clinical_videos[index]['error'] = true;
+                this.clinical_videos[index]['value'] = '';
+                this.clinical_videos[index]['message'] = "Duplicate Value";
+            }
+            else{
+              this.clinical_videos[index]['error'] = false;
+              this.clinical_videos[index]['message'] = "";
+            }
+        })
+    }
+    if(tab_index == 4){
+        this.procedural_videos.forEach((res, index2)=>{
+            if(res['title'] == this.procedural_videos[index]['title'] && this.procedural_videos[index]['status'] != 'delete' && index != index2){
+              this.toster.error("Duplicate Title "+this.procedural_videos[index]['title'], "Error", {closeButton: true,});
+              this.procedural_videos[index]['error'] = true;
+              this.procedural_videos[index]['title'] = '';
+              this.procedural_videos[index]['message'] = "Duplicate Title";
+            }
+            else if((res['value'] == this.procedural_videos[index]['value']) && this.procedural_videos[index]['status'] != 'delete' && index != index2){
+                this.toster.error("Duplicate Value "+this.procedural_videos[index]['value'], "Error", {closeButton: true,});
+                this.procedural_videos[index]['error'] = true;
+                this.procedural_videos[index]['value'] = '';
+                this.procedural_videos[index]['message'] = "Duplicate Value";
+            }
+            else{
+              this.procedural_videos[index]['error'] = false;
+              this.procedural_videos[index]['message'] = "";
+            }
+        })
+    }
+      if(tab_index == 5){
+        this.three_d_videos.forEach((res, index2)=>{
+            if(res['title'] == this.three_d_videos[index]['title'] && this.three_d_videos[index]['status'] != 'delete' && index != index2){
+              this.toster.error("Duplicate Title "+this.three_d_videos[index]['title'], "Error", {closeButton: true,});
+              this.three_d_videos[index]['error'] = true;
+              this.three_d_videos[index]['title'] = '';
+              this.three_d_videos[index]['message'] = "Duplicate Title";
+            }
+            else if((res['value'] == this.three_d_videos[index]['value']) && this.three_d_videos[index]['status'] != 'delete' && index != index2){
+                this.toster.error("Duplicate Value "+this.three_d_videos[index]['value'], "Error", {closeButton: true,});
+                this.three_d_videos[index]['error'] = true;
+                this.three_d_videos[index]['message'] = "Duplicate Value";
+            }
+            else{
+              this.three_d_videos[index]['error'] = false;
+              this.three_d_videos[index]['message'] = "";
+            }
+        })
+    }
+  }
+    validateKpointId(id){
+        if(id.length == 40){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    validateYouTubeUrl(url)
+    {
+        if (url != undefined || url != '') {
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }
   upload3dObject(event,index){
     let allowed_types = [];
     allowed_types = ["obj"];
@@ -432,7 +767,8 @@ export class CreateContentComponent implements OnInit {
         }else{
             this.lecture_note_obj.forEach((res, index)=>{
             if(res['title'] == this.lecture_note_title && res['status'] != 'delete'){
-                this.toster.error("Title has been taken");
+                
+                this.toster.error("Title has been taken", "Error", {closeButton: true,});
                 return false;
             }
             if(this.lecture_note_obj.length == (index+1)){
@@ -450,7 +786,8 @@ export class CreateContentComponent implements OnInit {
     this.lecture_note_obj.forEach((res, index)=>{
         if(res['title'].trim() == this.lecture_note_title.trim() && res['status'] != 'delete' && ''+index != this.highyield_index){
             this.lecture_note_title_duplicate = true;
-            this.toster.error("Title has been taken");
+            this.lecture_note_title = '';
+            this.toster.error("Title has been taken", "Error" , {closeButton: true,});
             return false;
         }
         if(this.lecture_note_obj.length == (index+1)){
@@ -506,7 +843,8 @@ export class CreateContentComponent implements OnInit {
     this.highyield_obj.forEach((res, index)=>{
         if(res['title'].trim() == this.highyield_title.trim() && res['status'] != 'delete' && ''+index != this.highyield_index){
             this.highyield_title_duplicate = true;
-            this.toster.error("Title has been taken");
+            this.highyield_title = '';
+            this.toster.error("Title has been taken", "Error" , {closeButton: true,});
             return false;
         }
         if(this.highyield_obj.length == (index+1)){
@@ -749,10 +1087,16 @@ export class CreateContentComponent implements OnInit {
 
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
+
           if(this.is_preview == true){
+              this.is_preview = false;
+              if(this.content_id == 0){
+                this.navigateTo("create-content/"+res['data']['id']);
+              }
             window.open('student/content-preview/'+res['data']['id'], "_blank");
           }
           else{
+              this.is_preview = false;
             this.toster.success(res['message'], 'Success', { closeButton: true });
             if(res['data']['content_status'] == "REVIEW"){
                 let doc = {
@@ -823,14 +1167,26 @@ export class CreateContentComponent implements OnInit {
     for (var i = 0; i < files.length; i++) {
       let ext = files[i].name.split('.').pop().toLowerCase();
       if (allowed_types.includes(ext)) {
-        valid_files.push(files[i]);
-        uploadData.append('file' + i, files[i]);
+        let size = files[i].size;
+        size = Math.round(size / 1024);
+        if(size > environment.file_upload_size){
+            this.toster.error(
+                ext +
+                  ' Size of file (' +
+                  files[i].name +
+                  ') is too large max allowed size 2mb', "Error", {closeButton: true,}
+              );
+        }
+        else{
+            valid_files.push(files[i]);
+            uploadData.append('file' + i, files[i]);
+        }
       } else {
         this.toster.error(
           ext +
             ' Extension not allowed file (' +
             files[i].name +
-            ') not uploaded'
+            ') not uploaded', "Error", {closeButton: true,}
         );
       }
     }
@@ -857,7 +1213,7 @@ export class CreateContentComponent implements OnInit {
     let param = {
         url: 'add-content-comment',
         content_id : this.content_id,
-        comment: this.comments_content,
+        comment: this.comments_content.trim()==''?"Please find attachments.":this.comments_content,
         review_docs: this.review_docs
     };
     this.http.post(param).subscribe((res) => {
