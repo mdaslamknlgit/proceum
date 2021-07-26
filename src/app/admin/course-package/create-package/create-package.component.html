@@ -1,5 +1,5 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <strong>Courses &amp; Package Management</strong> &raquo; <strong>Create
+    <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/prices-package-management"><strong>Prices &amp; Package Management</strong></span> &raquo; <strong>Create
             Package</strong></div>
     <div class="pg_ttl">Create Package</div>
     <hr />
@@ -15,7 +15,7 @@
                     <div class="err_tltp_par">
                         <mat-form-field appearance="outline">
                             <input matInput placeholder="Enter package name" [(ngModel)]="package_name"
-                                name="package_name" required />
+                                name="package_name" (keypress)="allAlphabetsWithSpaces($event)" maxlength="60" required />
                             <span class="prc_tltp" *ngIf="create_package_form.submitted && package_name == ''">Package
                                 name is required</span>
                         </mat-form-field>
@@ -64,7 +64,7 @@
                 <div class="cpm_pg_cnt">
                     <div>Set Package Price Country Wise</div>
                     <div *ngFor="let price of package_prices;let i = index">
-                        <div class="pkg_chkbx" *ngIf="price['status'] != 'delete'">
+                        <div class="pkg_chkbx" *ngIf="price['status'] != '0'">
                             <div class="w_50p mr_1">
                                 <!-- <div>
                                 <mat-checkbox class="mr_1"></mat-checkbox>Package price in INR
@@ -74,10 +74,13 @@
                                         <mat-select [(ngModel)]="package_prices[i]['country_id']"
                                             name="package_price_country_{{i}}" required>
                                             <mat-option value="">Select Country</mat-option>
-                                            <mat-option *ngFor="let country of all_countries | async"
+                                            <ng-container *ngFor="let country of all_countries | async">
+                                                <mat-option [disabled]="selected_countires.indexOf(country['id']) !== -1" [value]="country['id']" (click)=" addCurrencyToField(country['currency_text'],i,country['id']);">{{ country['country_name'] }}</mat-option>
+                                            </ng-container>
+                                            <!-- <mat-option *ngFor="let country of all_countries | async"
                                                 [value]="country['id']"
                                                 (click)="addCurrencyToField(country['currency_text'],i)">
-                                                {{country['country_name']}}</mat-option>
+                                                {{country['country_name']}}</mat-option> -->
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -90,7 +93,7 @@
                                     <mat-form-field appearance="outline" class="mt_05">
                                         <input [(ngModel)]="package_prices[i]['price_amount']"
                                             name="package_price_price_amount_{{i}}" matInput
-                                            placeholder="{{ package_prices[i]['placeholder'] }}" required />
+                                            placeholder="{{ package_prices[i]['placeholder'] }}" maxlength="7" appNumbersonly required [disabled]="package_prices[i]['country_id'] == ''" />
                                         <span matPrefix></span>
                                     </mat-form-field>
                                 </div>
@@ -125,7 +128,7 @@
                     </div>
                     <div class="mt_grd_dv mt_1" *ngIf="courses_div">
                         <div *ngFor="let course of selected_courses;let i = index">
-                            <span>{{course.title}}</span>
+                            <span>{{course}}</span>
                         </div>
                     </div>
                 </div>
@@ -168,9 +171,9 @@
                             <div class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <input matInput [matDatepicker]="picker" [(ngModel)]="valid_up_to"
-                                        name="valid_up_to" [min]="today_date" required>
+                                        name="valid_up_to" [min]="today_date" placeholder="Validity Till" required readonly>
                                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker color="accent"></mat-datepicker>
+                                    <mat-datepicker #picker color="accent" disabled="false"></mat-datepicker>
                                     <span class="prc_tltp"
                                         *ngIf="create_package_form.submitted && valid_up_to == ''">Package validity till
                                         required</span>

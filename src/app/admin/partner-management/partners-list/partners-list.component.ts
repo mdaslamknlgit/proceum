@@ -64,7 +64,7 @@ export class PartnersListComponent implements OnInit {
     });
   }
   public getPartners() {
-    console.log(this.type);
+    //console.log(this.type);
     let param = { url: 'get-partners' , type : this.type};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -89,7 +89,7 @@ export class PartnersListComponent implements OnInit {
   }
 
   public getServerData(event?: PageEvent) {
-    console.log("called");
+    //console.log("called");
     this.page = event.pageSize * event.pageIndex;
     let param = {
       url: 'get-partners',

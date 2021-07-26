@@ -29,7 +29,7 @@ export class CreatePackageComponent implements OnInit {
 
   public user = [];
   public package_id = 0;
-  public package_prices = [{pk_id:0, country_id:'', price_amount:'', status:'', placeholder:'0.00'}];
+  public package_prices = [{pk_id:0, country_id:'', price_amount:'', status:'1', placeholder:'Price'}];
   public countries = [];
   public package_name = '';
   public package_img = '';
@@ -46,6 +46,7 @@ export class CreatePackageComponent implements OnInit {
   public courses_arr = [];
   public courses_div = false;
   public selected_courses = [];
+  public selected_countires = [];
   all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
   
   //Code starts here for course selection
@@ -132,33 +133,49 @@ export class CreatePackageComponent implements OnInit {
   }
 
   submitCourses() {
-    let result = [];
+    let result = [];let selected_ids = [];
     this.dataSource.data.forEach(node => {
       result = result.concat(
         this.treeControl
           .getDescendants(node)
-          .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children])
+          .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children,x.name,x.parentid])
+      );
+      selected_ids = selected_ids.concat(
+        this.treeControl
+          .getDescendants(node)
+          .filter(x => x.selected && x.id).map(x => x.id)
       );
     });
-    this.courses_arr = result;
-    if(this.courses_arr){
-      let params = { url: 'get-selected-courses','courses_arr': this.courses_arr};
-      this.http.post(params).subscribe((res) => {
-        if (res['error'] == false) {
-          //console.log(res['data']);
-          this.courses_div = true;
-          this.selected_courses = res['data']['selected_courses'];
-          this.edit_model_status = false;
-          this.courses_ids_csv = res['data']['course_ids_csv'];
-          //console.log(this.courses_ids_csv);
-        }else{
-          this.courses_div = false;
-          this.selected_courses = [];
-          this.edit_model_status = false;
-          this.courses_ids_csv = '';
-        }
-      });
+    this.selected_courses = result.filter(function(node) {
+      if(selected_ids.indexOf(node[4]) == -1){
+        return node;
+      }
+    }).map(x => x[3]);
+    console.log(this.selected_courses);
+    if(this.selected_courses){
+      this.courses_div = true;
+      this.edit_model_status = false;
+      this.courses_ids_csv = selected_ids.join();
+      this.courses_arr = result;
+    }else{
+      this.courses_div = false;
+      this.edit_model_status = false;
+      this.courses_ids_csv = '';
+      this.courses_arr = result;
     }
+    console.log(this.courses_ids_csv);
+  }
+
+  fillDivWithSelectedCourses(result,selected_ids){
+    this.selected_courses = result.filter(function(node) {
+      if(selected_ids.indexOf(node[4]) == -1){
+        return node;
+      }
+    });
+  }
+
+  filterSelectedItems(){
+    
   }
 
   ngOnInit(): void {
@@ -182,11 +199,11 @@ export class CreatePackageComponent implements OnInit {
         //For reccuring datetime
         if(package_data.valid_up_to !== null){
           let valid_date = package_data.valid_up_to.split('-');
-          console.log(valid_date);
+          //console.log(valid_date);
           this.valid_up_to = new Date(
             package_data.valid_up_to
           );
-          console.log(this.valid_up_to); 
+          //console.log(this.valid_up_to); 
           this.today_date = this.valid_up_to;
         }
         // For package prices
@@ -241,11 +258,11 @@ export class CreatePackageComponent implements OnInit {
   }
 
   addPackagePriceField(){
-    this.package_prices.push({pk_id:0, country_id:'', price_amount:'', status:'', placeholder:'0.00'});
+    this.package_prices.push({pk_id:0, country_id:'', price_amount:'', status:'1', placeholder:'Price'});
   }
 
   removePackagePrice(index){
-    this.package_prices[index]['status'] = "delete";
+    this.package_prices[index]['status'] = "0";
   }
 
   createPackageService(){
@@ -276,7 +293,7 @@ export class CreatePackageComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        //this.navigateTo('manage-content');
+        this.navigateTo('prices-package-management');
       } else {
           this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -297,9 +314,55 @@ export class CreatePackageComponent implements OnInit {
     });
   }
 
-  addCurrencyToField(currency,index){
-    this.package_prices[index]['placeholder'] = currency.toUpperCase();
+  addCurrencyToField(currency,index,currency_id){
+    if(this.selected_countires.indexOf(currency_id) === -1){
+      this.package_prices[index]['placeholder'] = currency.toUpperCase();
+      this.prepareSelectedCountriesArr();
+    }
   }
 
+  allAlphabetsWithSpaces(event){   
+    var inp = String.fromCharCode(event.keyCode);
+
+    if (/^[a-zA-Z ]*$/.test(inp)) {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
+  }
+
+  emptyFields(){
+    this.package_id = 0;
+    this.package_name = '';
+    this.package_img = '';
+    this.package_desc = '';
+    this.pricing_model = '';
+    this.package_prices = [{pk_id:0, country_id:'', price_amount:'', status:'1', placeholder:'Price'}];
+    this.courses_ids_csv = '';
+    this.applicable_to_university = '';
+    this.applicable_to_college = '';
+    this.applicable_to_institute = '';
+    this.valid_up_to = '';
+    this.billing_frequency = '';
+  }
+
+  navigateTo(url){
+    let user = this.http.getUser();
+    if(user['role']== '1'){
+        url = "/admin/"+url;
+    }
+    //Later we must change this
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/admin/"+url;
+    }
+      this.router.navigateByUrl(url);
+  }
+
+  prepareSelectedCountriesArr(){
+    this.selected_countires = [];
+    let prices = this.package_prices;
+    this.selected_countires = prices.map(x => x.country_id);
+  }
   
 }
