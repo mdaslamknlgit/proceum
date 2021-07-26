@@ -345,8 +345,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             if(video['video_section'] == "BOARD_LECTURES") {
                 this.board_lecture_videos.push(video);
             }
-            this.setDefaultDiv()
         })
+        this.setDefaultDiv();
       } else {
         this.breadcome = res['data']['breadcome'];
       }

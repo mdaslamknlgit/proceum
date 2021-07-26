@@ -68,6 +68,7 @@ export class StepsComponent implements OnInit {
     };
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
+          this.page = 0;
         this.breadcome = res['data']['breadcome'];
         this.curriculum_obj = res['data']['curriculum'];
         this.prev_steps = res['data']['prev_steps'];

@@ -52,8 +52,8 @@ export const environment = {
     {value: '3', viewValue: 'Institute'}
   ],
   // apiUrl: 'https://apidev.proceum.com/api/',
-  //apiUrl: 'https://apiqa.proceum.com/api/',
-  apiUrl: 'https://apiuat.proceum.com/api/',
+  apiUrl: 'https://apiqa.proceum.com/api/',
+  //apiUrl: 'https://apiuat.proceum.com/api/',
 //   firebaseConfig : {
 //     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
 //     authDomain: "proceum-dev-62a30.firebaseapp.com",
