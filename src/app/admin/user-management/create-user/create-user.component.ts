@@ -544,33 +544,67 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
+  // submitCourses() {
+  //   let result = [];
+  //   this.dataSource.data.forEach(node => {
+  //     result = result.concat(
+  //       this.treeControl
+  //         .getDescendants(node)
+  //         .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children])
+  //     );
+  //   });
+  //   this.courses_arr = result;
+  //   if(this.courses_arr){
+  //     let params = { url: 'get-selected-courses','courses_arr': this.courses_arr};
+  //     this.http.post(params).subscribe((res) => {
+  //       if (res['error'] == false) {
+  //         //console.log(res['data']);
+  //         this.courses_div = true;
+  //         this.selected_courses = res['data']['selected_courses'];
+  //         this.edit_model_status = false;
+  //         this.subject_csv = res['data']['course_ids_csv'];
+  //       }else{
+  //         this.courses_div = false;
+  //         this.selected_courses = [];
+  //         this.edit_model_status = false;
+  //         this.subject_csv = '';
+  //       }
+  //     });
+  //   }
+  // }
+
   submitCourses() {
-    let result = [];
+    let result = [];let selected_ids = [];
     this.dataSource.data.forEach(node => {
       result = result.concat(
         this.treeControl
           .getDescendants(node)
-          .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children])
+          .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children,x.name,x.parentid])
+      );
+      selected_ids = selected_ids.concat(
+        this.treeControl
+          .getDescendants(node)
+          .filter(x => x.selected && x.id).map(x => x.id)
       );
     });
-    this.courses_arr = result;
-    if(this.courses_arr){
-      let params = { url: 'get-selected-courses','courses_arr': this.courses_arr};
-      this.http.post(params).subscribe((res) => {
-        if (res['error'] == false) {
-          //console.log(res['data']);
-          this.courses_div = true;
-          this.selected_courses = res['data']['selected_courses'];
-          this.edit_model_status = false;
-          this.subject_csv = res['data']['course_ids_csv'];
-        }else{
-          this.courses_div = false;
-          this.selected_courses = [];
-          this.edit_model_status = false;
-          this.subject_csv = '';
-        }
-      });
+    this.selected_courses = result.filter(function(node) {
+      if(selected_ids.indexOf(node[4]) == -1){
+        return node;
+      }
+    }).map(x => x[3]);
+    console.log(this.selected_courses);
+    if(this.selected_courses){
+      this.courses_div = true;
+      this.edit_model_status = false;
+      this.subject_csv = selected_ids.join();
+      this.courses_arr = result;
+    }else{
+      this.courses_div = false;
+      this.edit_model_status = false;
+      this.subject_csv = '';
+      this.courses_arr = result;
     }
+    console.log(this.subject_csv);
   }
 
   getCurriculumnHierarchy(){

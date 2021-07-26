@@ -122,7 +122,6 @@ export class CreatePartnerComponent implements OnInit {
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.states = res['data']['states'];
-          console.log(this.states);
           this.all_states.next(this.states.slice());
         } else {
           let message = res['errors']['title']
@@ -204,7 +203,6 @@ export class CreatePartnerComponent implements OnInit {
     }
     let param = { url: 'upload-picture' };
     this.http.imageUpload(param, uploadData).subscribe((res) => {
-      console.log(res);
       if (res['error'] == false) {
         //this.toastr.success('Files successfully uploaded.', 'File Uploaded');
         if(logo_type == 'header_logo'){
@@ -233,7 +231,6 @@ export class CreatePartnerComponent implements OnInit {
     if(this.partner_type != "" && this.partner_name != "" && this.email != "" && this.contact_name != "" && this.gstin != "" && this.partner_type != ""){
       this.branding_info_expand = true;
       this.basic_details_expand = false;
-      console.log("successvalidateBasicDeatils");
     }
     
   }
@@ -242,23 +239,19 @@ export class CreatePartnerComponent implements OnInit {
     if(this.description != ""){
       this.licence_info_expand = true;
       this.branding_info_expand = false;
-      console.log("validateBrandingInfo");
     }
   }
   
   validateLicenceInfo(){
-    console.log(this.package_id);
     if(this.package_id != 0 && this.licence_start_date != "" && this.licence_end_date != ""){
       this.billing_address_expand = true;
       this.licence_info_expand = false;
-      console.log("validateLicenceInfo");
     }
   }
 
   validateAddressDetails(){
         if(this.c_address_line_1  != "" &&  this.c_country_id  != 0 &&   this.c_state_id  != "" &&   this.c_city  != "" &&   this.c_pincode  != "" &&   this.b_address_line_1 != "" &&   this.b_address_line_2 != "" &&   this.b_country_id != 0 &&   this.b_state_id != "" &&   this.b_city != "" &&   this.b_pincode != ""){
           this.createPartnerService();
-          console.log("validateAddressDetails");
         }
   }
 
@@ -321,7 +314,7 @@ export class CreatePartnerComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        //this.navigateTo('manage-content');
+        this.navigateTo('partners-list');
       } else {
           this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -377,9 +370,32 @@ export class CreatePartnerComponent implements OnInit {
         //     valid_date
         //   );
         // }
-        console.log(this.licence_end_date);
+        ////////console.log(this.licence_end_date);
       }
     });
+  }
+
+  navigateTo(url){
+    let user = this.http.getUser();
+    if(user['role']== '1'){
+        url = "/admin/"+url;
+    }
+    //Later we must change this
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+        url = "/admin/"+url;
+    }
+      this.router.navigateByUrl(url);
+  }
+
+  allAlphabetsWithSpaces(event){   
+    var inp = String.fromCharCode(event.keyCode);
+
+    if (/^[a-zA-Z ]*$/.test(inp)) {
+      return true;
+    } else {
+      event.preventDefault();
+      return false;
+    }
   }
 
 }
