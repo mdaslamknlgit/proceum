@@ -43,6 +43,8 @@ export class StepsComponent implements OnInit {
   public totalSize = 0;
   public sort_by: any;
   public search_box = '';
+  public breadcome = [];
+  public curriculum_obj = [];
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -54,7 +56,7 @@ export class StepsComponent implements OnInit {
   ngOnInit(): void {
     this.step_id = this.activatedRoute.snapshot.params.step;
     this.activatedRoute.params.subscribe((param) => {
-      this.step_id = param.step;
+      this.step_id = param.step?param.step:1;
       this.parent_id = param.level_parent_id ? param.level_parent_id : 0;
       this.curriculum_id = param.curriculum_id;
       this.reLoad();
@@ -62,10 +64,12 @@ export class StepsComponent implements OnInit {
   }
   reLoad() {
     let param = {
-      url: 'curriculum/' + this.curriculum_id + '/' + this.step_id,
+      url: 'curriculum/' + this.curriculum_id + '/' + this.step_id+'/'+this.parent_id,
     };
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
+        this.breadcome = res['data']['breadcome'];
+        this.curriculum_obj = res['data']['curriculum'];
         this.prev_steps = res['data']['prev_steps'];
         this.step = res['data']['result']['display_label'];
         this.curriculum_label_id = res['data']['result']['pk_id'];
@@ -201,8 +205,9 @@ export class StepsComponent implements OnInit {
     });
   }
   public navigateTo(param) {
+      let step_id = param['level_id'] != undefined?param['level_id']:this.step_id
     let param2 = {
-      url: 'get-next-step/' + this.curriculum_id + '/' + this.step_id,
+      url: 'get-next-step/' + this.curriculum_id + '/' + step_id,
     };
     this.http.get(param2).subscribe((res) => {
       if (res['error'] == false) {

@@ -89,11 +89,11 @@
     <div class="ism_scrl">
       <ul>
         <li (click)="showDiv(3)"
-          *ngIf="content['learning_obj_content']!=undefined && content['learning_obj_content'].trim()">
+          *ngIf="content['learning_obj_content']!=undefined && content['learning_obj_content'].trim() != ''">
           <mat-icon class="ism_icn  {{ active_div == 3 ? 'ism_actv_btn' : '' }}" matTooltip="Learning Objectives">
             lightbulb</mat-icon>
         </li>
-        <li (click)="showDiv(0)" *ngIf="content['main_content']">
+        <li (click)="showDiv(0)" *ngIf="content['main_content'] != undefined && content['main_content'].trim() != ''">
           <mat-icon class="ism_icn {{ active_div == 0 ? 'ism_actv_btn' : '' }}" matTooltip="Description">feed</mat-icon>
         </li>
 
@@ -121,7 +121,7 @@
           <mat-icon class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}" matTooltip="Related Topics">bolt
           </mat-icon>
         </li>
-        <li (click)="showDiv(8)" *ngIf="content['external_ref_content']">
+        <li (click)="showDiv(8)" *ngIf="content['external_ref_content'] != undefined && content['external_ref_content'].trim() != ''">
           <mat-icon class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}" matTooltip="External References">
             insert_link</mat-icon>
         </li>
@@ -153,8 +153,9 @@
         </div>
 
         <div class="pg_ttl" *ngIf="content != undefined">
-          <div>{{ content["title"] }}</div>
-          <!-- <div class="spacer"></div> -->
+          <div>{{ content["title"]}}</div>
+          <div class="spacer"></div>
+          <span *ngIf="is_preview">Preview Content</span>
         </div>
       </div>
 
@@ -215,7 +216,7 @@
               No Description Found
             </div>
             <div class="crs_desc_cnt ck_editor_view" *ngIf="content['main_content']">
-              <ckeditor #editor name="main_content" [disabled]="true" [editor]="Editor" [config]="{}"
+              <ckeditor #editor name="main_content" [disabled]="true" [editor]="Editor" [config]="editorConfig"
                 (ready)="onReady($event)" [data]="content['main_content']"></ckeditor>
             </div>
           </div>
@@ -301,7 +302,7 @@
           </div>
         </div>
       </div>
-      <div class="crses_lft_mn" *ngIf="active_div == 2">
+      <div class="crses_lft_mn" *ngIf="active_div == 2 && is_loaded">
         <div class="crses_lft">
           <div class="crs_desc">
             <div class="crs_desc_hd">
@@ -320,7 +321,7 @@
                   <mat-panel-description> </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div class="tm_ln_dv ck_editor_view">
-                  <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+                  <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
                     [data]="note['learning_notes']"></ckeditor>
                 </div>
               </mat-expansion-panel>
@@ -339,7 +340,7 @@
           </div>
         </div>
       </div>
-      <div class="crses_lft_mn" *ngIf="active_div == 3">
+      <div class="crses_lft_mn" *ngIf="active_div == 3  && is_loaded">
         <div class="crses_lft">
           <div class="crs_desc">
             <div class="crs_desc_hd">
@@ -359,7 +360,7 @@
               No Notes Found
             </div>
             <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_obj_content']">
-              <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
                 [data]="content['learning_obj_content']"></ckeditor>
             </div>
           </div>
@@ -450,7 +451,7 @@
                     <mat-panel-description> </mat-panel-description>
                   </mat-expansion-panel-header>
                   <div class="tm_ln_dv ck_editor_view">
-                    <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+                    <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
                       [data]="highyield['highyield_notes']"></ckeditor>
                   </div>
                 </mat-expansion-panel>
@@ -660,7 +661,7 @@
           </button> -->
             </div>
             <div class="crs_desc_cnt ck_editor_view" *ngIf="content['external_ref_content']">
-              <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
                 [data]="content['external_ref_content']"></ckeditor>
             </div>
           </div>
@@ -686,7 +687,7 @@
                 -->
             </div>
             <div class="crs_desc_cnt ck_editor_view" *ngIf="content['related_topics']">
-              <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="{}" (ready)="onReady($event)"
+              <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
                 [data]="content['related_topics']"></ckeditor>
             </div>
           </div>
@@ -804,7 +805,7 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                  <div class="wtcd_vds {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
@@ -836,7 +837,7 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                  <div class="wtcd_vds {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
@@ -869,7 +870,7 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                  <div class="wtcd_vds {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
@@ -901,7 +902,7 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                  <div class="wtcd_vds {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />
@@ -932,7 +933,7 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                  <div class="wtcd_vds {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <!-- <mat-icon *ngIf="video['video_type'] == 'YOUTUBE'">videocam</mat-icon> -->
@@ -965,7 +966,7 @@
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
-                  <div class="wtcd_vds {{video['module_title'] == video_title ? 'wv_actv' : ''}}"
+                  <div class="wtcd_vds {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos" (click)="playVideo(video)">
                     <div class="wv_img">
                       <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getThumbinail(video['video_source'])" />

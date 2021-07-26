@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  file_upload_size: 2040,//in kb
   page_size: 10,
   page_size_options: [10, 20, 50, 100],
   ckeditor_toolbar: [
