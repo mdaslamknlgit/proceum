@@ -22,22 +22,33 @@
                     </div>
                 </div>
                 <div class="cpm_pg_cnt">
-                    <div>Package image</div>
-                    <div class="brnd_info_upld">
-                        <div *ngIf="package_img != ''">
-                            <img src="{{ package_img }}" alt="">
+                    <div class="d-flex ai_cntr">
+                        <div class="cpm_pg_hd">Package image</div>
+                        <div class="spacer"></div>
+                        <div>
+                            <button type="button" mat-raised-button class="no_bxsdw" color="accent"
+                                onclick="document.getElementById('imageToUpload').click()">
+                                <mat-icon>upload</mat-icon>
+                                Upload Image
+                                <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
+                                    id="imageToUpload" type="file" style="display: none" />
+                            </button>
                         </div>
-                        <mat-icon *ngIf="package_img == ''">insert_photo</mat-icon>
-                        <button type="button" mat-raised-button class="no_bxsdw w_19p mt_6px" color="accent"
-                            onclick="document.getElementById('imageToUpload').click()">Browse
-                            <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
-                                id="imageToUpload" type="file" style="display: none" />
-                        </button>
+                    </div>
+                    <div class="fs_12 text_right">(Supported Formats: .png, .jpg, .jpeg)</div>
+                    <div class="brnd_info_upld pkg_img">
+                        <div class="mt_1 pkg_img_dv">
+                            <mat-icon *ngIf="package_img == ''">insert_photo</mat-icon>
+                            <div *ngIf="package_img != ''">
+                                <img src="{{ package_img }}" alt="">
+                            </div>
+                        </div>
                         <input type="hidden" name="package_img" [(ngModel)]="package_img">
                     </div>
                 </div>
+                <div class="hgt_20"></div>
                 <div class="cpm_pg_cnt">
-                    <div>Package description</div>
+                    <div class="cpm_pg_hd">Package description</div>
                     <div class="err_tltp_par">
                         <mat-form-field appearance="outline">
                             <textarea matInput class="crt_prt_txt" placeholder="Enter package description"
@@ -113,6 +124,7 @@
                 </div>
 
                 <div class="hgt_20"></div>
+
                 <div class="cpm_pg_hd">
                     Courses
                 </div>
@@ -120,7 +132,7 @@
                     <div>Courses</div>
                     <div class="text_right w_100p mt_1">
                         <button mat-raised-button color="accent" type="button" (click)="edit_model_status = true">
-                            <mat-icon>add</mat-icon> Add More
+                            <mat-icon>add</mat-icon> Add Courses
                         </button>
                     </div>
                     <div class="mt_grd_dv mt_1" *ngIf="courses_div">
