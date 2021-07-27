@@ -271,9 +271,54 @@
                     Sample Videos
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <div>
-                        
-                    </div>
+                    <form  #sample_video_form="ngForm" name="sample_video_form" (ngSubmit)="sample_video_form.valid" >
+                        <div *ngFor="let video of sample_videos;let i=index">
+                            <div class="ulvd_inpts" *ngIf="video['status']">
+                                <div class="err_tltp_par" *ngIf="1 == 0">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select [(ngModel)]="sample_videos[i]['source_type']" name="video_source_type_{{i}}"
+                                        (ngModelChange)="sample_videos[i]['title']=''; sample_videos[i]['video_source']=''" required>
+                                        <mat-option value="">Select Source</mat-option>
+                                        <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                            {{video_type['name']}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="sample_video_form.submitted && sample_videos[i]['source_type'] == ''">Please select source</span>
+                                </div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <input [(ngModel)]="sample_videos[i]['title']" name="video_title_{{i}}" matInput
+                                        placeholder="Title" (keypress)="checkVideoTitleExist(i)" required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="sample_video_form.submitted && sample_videos[i]['title'] == ''">Video Title required</span>
+                                    <span class="prc_tltp" *ngIf="sample_video_form.submitted && sample_videos[i]['title_exist'] != ''">Title already given!</span>
+                                </div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput [(ngModel)]="sample_videos[i]['video_source']" name="video_video_source_{{i}}"
+                                        placeholder="Youtube Full URL" required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="sample_video_form.submitted && sample_videos[i]['video_source'] == ''">Youtube link required</span>
+                                    <span class="prc_tltp" *ngIf="sample_video_form.submitted && sample_videos[i]['video_source_exist'] != ''">Url already given!</span>
+                                </div>
+                                <div class="w_50p">
+                                    <button type="button" (click)="removeSampleVideo(i)" mat-icon-button class="no_bxsdw"
+                                        color="warn" *ngIf="i > 0">
+                                        <mat-icon>remove_circle_outline</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text_right">
+                            <button type="button" (click)="addVideo()" mat-raised-button color="accent">
+                              <mat-icon>add</mat-icon> Add Video
+                            </button> &nbsp;
+                            <button mat-raised-button color="accent">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                    
                 </mat-tab>
 
                 <mat-tab>
@@ -281,9 +326,38 @@
                     FAQ's
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <div>
-                        
-                    </div>
+                    <form  #faq_form="ngForm" name="faq_form" (ngSubmit)="faq_form.valid" >
+                        <div *ngFor="let faq of faqs;let i=index">
+                            <div class="ulvd_inpts" *ngIf="faq['status']">
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <textarea matInput class="crt_prt_txt" placeholder="Question" [(ngModel)]="faqs[i]['question']" name="faq_question_{{i}}" required></textarea>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="faq_form.submitted && faqs[i]['question'] == ''">Question required</span>
+                                </div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <textarea matInput class="crt_prt_txt" placeholder="Answer" [(ngModel)]="faqs[i]['answer']" name="answer{{i}}" required></textarea>
+                                        
+                                    </mat-form-field>
+                                </div>
+                                <div class="w_50p">
+                                    <button type="button" (click)="removeFaq(i)" mat-icon-button class="no_bxsdw"
+                                        color="warn" *ngIf="i > 0">
+                                        <mat-icon>remove_circle_outline</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text_right">
+                            <button type="button" (click)="addFaq()" mat-raised-button color="accent">
+                              <mat-icon>add</mat-icon> Add FAQ
+                            </button> &nbsp;
+                            <button mat-raised-button color="accent">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
                 </mat-tab>
     
     

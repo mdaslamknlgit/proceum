@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef  } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -49,7 +49,7 @@ export class StepsComponent implements OnInit {
     private http: CommonService,
     public toster: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private route: Router
+    private route: Router,
   ) {
     //this.route.routeReuseStrategy.shouldReuseRoute = () => false;
   }
@@ -68,6 +68,7 @@ export class StepsComponent implements OnInit {
     };
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
+          this.page = 0;
         this.breadcome = res['data']['breadcome'];
         this.curriculum_obj = res['data']['curriculum'];
         this.prev_steps = res['data']['prev_steps'];
@@ -91,10 +92,17 @@ export class StepsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['steps']);
-        if (is_ini) {
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+        this.dataSource = new MatTableDataSource(res['data']['steps']);console.log(this.dataSource)
+        if (is_ini || true) {
+          
+          if (this.paginator != undefined) {
+            this.paginator.pageIndex = 0;
+            this.paginator.firstPage();
+          }
+          else{
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
         }
         this.totalSize = res['total_records'];
       } else {
