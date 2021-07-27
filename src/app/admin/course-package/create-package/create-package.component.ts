@@ -5,6 +5,7 @@ import { ReplaySubject } from 'rxjs';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 interface CurriculumNode {
   id?: number;
@@ -30,6 +31,9 @@ export class CreatePackageComponent implements OnInit {
   public user = [];
   public package_id = 0;
   public package_prices = [{pk_id:0, country_id:'', price_amount:'', status:'1', placeholder:'Price'}];
+  public sample_videos = [{pk_id:0, title:'', source_type:'YOUTUBE', video_source:'', video_source_exist:'', title_exist:'', status:1}];
+  public faqs = [{pk_id:0, question:'', answer:'', status:1}];
+  public video_types = [{name: "KPoint", value:'KPOINT'}, {name: "Youtube", value:'YOUTUBE'}]
   public countries = [];
   public package_name = '';
   public package_img = '';
@@ -364,5 +368,37 @@ export class CreatePackageComponent implements OnInit {
     let prices = this.package_prices;
     this.selected_countires = prices.map(x => x.country_id);
   }
+
+  addVideo(){
+    this.sample_videos.push({pk_id:0, title:'', source_type:'YOUTUBE', video_source:'', video_source_exist:'', title_exist:'', status :1});
+  }
+
+  addFaq(){
+    this.faqs.push({pk_id:0, question:'', answer:'', status :1});
+  }
   
+  removeSampleVideo(index){
+    this.sample_videos[index]['status'] = 0;
+  }
+
+  removeFaq(index){
+    this.faqs[index]['status'] = 0;
+  }
+
+  checkVideoTitleExist(index){
+    let title = this.sample_videos[index]['title'];
+    let titles = [];
+    //Get all the titles
+    for(let i = 0; i < this.sample_videos.length;i++){
+      if(i !== index){
+        titles.push(this.sample_videos[i]['title']);
+      }
+    }
+    //Check title repeated
+    if(titles.length > 0 && (titles.indexOf(title) !== -1)){
+      this.sample_videos[index]['title_exist'] = "Ttile already given!";
+      console.log("shash");
+    }
+    
+  }
 }

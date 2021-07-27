@@ -207,7 +207,8 @@
                     <div class="ulvd_inpts" *ngFor="let intro_v of intro_video;let i=index">
                       <div>
                         <mat-form-field appearance="outline">
-                          <mat-select [(ngModel)]="intro_video[i]['source']" name="intro_video_source" (ngModelChange)="validateVideo(0,i)">
+                          <mat-select [(ngModel)]="intro_video[i]['source']" name="intro_video_source"
+                            (ngModelChange)="validateVideo(0,i)">
                             <mat-option value="">Select Source</mat-option>
                             <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
                               {{video_type['name']}}</mat-option>
@@ -216,8 +217,8 @@
                       </div>
                       <div>
                         <mat-form-field appearance="outline">
-                          <input (blur)="validateVideo(0,i)" [(ngModel)]="intro_video[i]['title']" name="intro_video_title" matInput
-                            placeholder="Title" />
+                          <input (blur)="validateVideo(0,i)" [(ngModel)]="intro_video[i]['title']"
+                            name="intro_video_title" matInput placeholder="Title" />
                         </mat-form-field>
                       </div>
                       <div>
@@ -241,16 +242,13 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    <div class="text_right">
-                      <button type="button" (click)="addVideo(1)" mat-raised-button color="accent">
-                        <mat-icon>add</mat-icon> Add Video
-                      </button>
-                    </div>
+                   
                     <div *ngFor="let two_d_video of two_d_videos;let i=index">
                       <div class="ulvd_inpts" *ngIf="two_d_video['status'] != 'delete'">
                         <div>
                           <mat-form-field appearance="outline">
-                            <mat-select [(ngModel)]="two_d_videos[i]['source']" name="two_d_video_source_{{i}}" (ngModelChange)="validateVideo(1,i)">
+                            <mat-select [(ngModel)]="two_d_videos[i]['source']" name="two_d_video_source_{{i}}"
+                              (ngModelChange)="validateVideo(1,i)">
                               <mat-option value="">Select Source</mat-option>
                               <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
                                 {{video_type['name']}}</mat-option>
@@ -269,16 +267,88 @@
                               placeholder="Video URL/ID" (blur)="validateVideo(1,i);CheckTitle(1,i)" />
                           </mat-form-field>
                         </div>
-                        <span *ngIf="two_d_videos[i]['error'] == true">{{two_d_videos[i]['message']}}</span>
-                        <div class="w_60px">
+                        <div class="w_100p text_right warn" *ngIf="two_d_videos[i]['error'] == true">
+                          {{two_d_videos[i]['message']}}</div>
+                        <!-- <div class="w_60px">
                           <button type="button" (click)="removeVideo(1,i)" mat-icon-button class="no_bxsdw"
                             color="warn">
                             <mat-icon>remove_circle_outline</mat-icon>
                           </button>
-
+                        </div> -->
+                      </div>
+                    </div>
+                    <div class="text_right">
+                      <button type="button" (click)="addVideo(1)" mat-raised-button color="accent">
+                        <mat-icon>add</mat-icon> Add Video
+                      </button>
+                    </div>
+                    <div>
+                      <div class="hyt_lst_dv">
+                        <div class="kp_yt_img">
+                          <img src="../../../assets/images/kpoint_k.png" >
+                        </div>
+                        <div class="mr_1 fnt_bold">Proceum pvt ltd (Trailer) - Pioneers in Animated Medical video lectures
+                          <div class="vd_pth">
+                           Video ID: lQLrCBhWAQ
+                          </div>
+                        </div>
+                        <div class="spacer"></div>
+                        <div>
+                          <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
+                            <mat-icon>mode_edit</mat-icon>
+                          </button>
+                        </div>
+                        <div>
+                          <button type="button" mat-icon-button class="no_bxsdw" color="warn">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="hyt_lst_dv">
+                        <div class="kp_yt_img">
+                          <img src="../../../assets/images/youtube.png" >
+                        </div>
+                        <div class="mr_1 fnt_bold">Proceum pvt ltd (Trailer) - Pioneers in Animated Medical video lectures
+                          <div class="vd_pth">
+                            https://www.youtube.com/watch?v=-lQLrCBhWAQ
+                          </div>
+                        </div>
+                        <div class="spacer"></div>
+                        <div>
+                          <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
+                            <mat-icon>mode_edit</mat-icon>
+                          </button>
+                        </div>
+                        <div>
+                          <button type="button" mat-icon-button class="no_bxsdw" color="warn">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="hyt_lst_dv">
+                        <div class="kp_yt_img">
+                          <img src="../../../assets/images/youtube.png" >
+                        </div>
+                        <div class="mr_1 fnt_bold">Proceum pvt ltd (Trailer) - Pioneers in Animated Medical video lectures
+                          <div class="vd_pth">
+                            https://www.youtube.com/watch?v=-lQLrCBhWAQ
+                          </div>
+                        </div>
+                        <div class="spacer"></div>
+                        <div>
+                          <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
+                            <mat-icon>mode_edit</mat-icon>
+                          </button>
+                        </div>
+                        <div>
+                          <button type="button" mat-icon-button class="no_bxsdw" color="warn">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                          </button>
                         </div>
                       </div>
                     </div>
+
+                    <div class="hgt_20"></div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
@@ -295,8 +365,8 @@
                       <div *ngIf="board_lecture_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
                           <mat-form-field appearance="outline">
-                            <mat-select [(ngModel)]="board_lecture_videos[i]['source']" (ngModelChange)="validateVideo(2,i)"
-                              name="board_lecture_videos_source_{{i}}">
+                            <mat-select [(ngModel)]="board_lecture_videos[i]['source']"
+                              (ngModelChange)="validateVideo(2,i)" name="board_lecture_videos_source_{{i}}">
                               <mat-option value="">Select Source</mat-option>
                               <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
                                 {{video_type['name']}}</mat-option>
@@ -306,13 +376,15 @@
                         <div>
                           <mat-form-field appearance="outline">
                             <input [(ngModel)]="board_lecture_videos[i]['title']"
-                              name="board_lecture_videos_title_{{i}}" matInput placeholder="Title" (blur)="validateVideo(2,i);CheckTitle(2,i)"/>
+                              name="board_lecture_videos_title_{{i}}" matInput placeholder="Title"
+                              (blur)="validateVideo(2,i);CheckTitle(2,i)" />
                           </mat-form-field>
                         </div>
                         <div>
                           <mat-form-field appearance="outline">
                             <input matInput [(ngModel)]="board_lecture_videos[i]['value']"
-                              name="board_lecture_videos_value_{{i}}" placeholder="Video URL/ID"(blur)="validateVideo(2,i);CheckTitle(2,i)"  />
+                              name="board_lecture_videos_value_{{i}}" placeholder="Video URL/ID"
+                              (blur)="validateVideo(2,i);CheckTitle(2,i)" />
                           </mat-form-field>
                         </div>
                         <div class="w_60px">
@@ -339,7 +411,8 @@
                       <div *ngIf="clinical_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
                           <mat-form-field appearance="outline">
-                            <mat-select [(ngModel)]="clinical_videos[i]['source']" name="clinical_videos_source_{{i}}" (ngModelChange)="validateVideo(3,i)">
+                            <mat-select [(ngModel)]="clinical_videos[i]['source']" name="clinical_videos_source_{{i}}"
+                              (ngModelChange)="validateVideo(3,i)">
                               <mat-option value="">Select Source</mat-option>
                               <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
                                 {{video_type['name']}}</mat-option>
@@ -355,7 +428,7 @@
                         <div>
                           <mat-form-field appearance="outline">
                             <input matInput [(ngModel)]="clinical_videos[i]['value']" name="clinical_videos_value_{{i}}"
-                              placeholder="Video URL/ID" (blur)="validateVideo(3,i);CheckTitle(3,i)"/>
+                              placeholder="Video URL/ID" (blur)="validateVideo(3,i);CheckTitle(3,i)" />
                           </mat-form-field>
                         </div>
                         <div class="w_60px">
@@ -382,8 +455,8 @@
                       <div *ngIf="procedural_video['status'] != 'delete'" class="ulvd_inpts">
                         <div>
                           <mat-form-field appearance="outline">
-                            <mat-select [(ngModel)]="procedural_videos[i]['source']" (ngModelChange)="validateVideo(4,i)"
-                              name="procedural_videos_source_{{i}}">
+                            <mat-select [(ngModel)]="procedural_videos[i]['source']"
+                              (ngModelChange)="validateVideo(4,i)" name="procedural_videos_source_{{i}}">
                               <mat-option value="">Select Source</mat-option>
                               <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
                                 {{video_type['name']}}</mat-option>
@@ -399,7 +472,8 @@
                         <div>
                           <mat-form-field appearance="outline">
                             <input matInput [(ngModel)]="procedural_videos[i]['value']"
-                              name="procedural_videos_value_{{i}}" placeholder="Video URL/ID" (blur)="validateVideo(4,i);CheckTitle(4,i)" />
+                              name="procedural_videos_value_{{i}}" placeholder="Video URL/ID"
+                              (blur)="validateVideo(4,i);CheckTitle(4,i)" />
                           </mat-form-field>
                         </div>
                         <div class="w_60px">
