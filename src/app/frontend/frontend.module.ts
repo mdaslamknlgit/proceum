@@ -23,6 +23,8 @@ import { LevelComponent } from './student/levels/level.component';
 import { Level_listComponent } from './student/levels/levels_list/level_list.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ImageViewerModule } from 'ngx-image-viewer';
+import { ListPackagesComponent } from './pricing-packages/list-packages/list-packages.component';
+import { PackageDetailsComponent } from './pricing-packages/package-details/package-details.component';
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
 const routes: Routes = [
@@ -83,6 +85,8 @@ const routes: Routes = [
     DetailsComponent,
     LevelComponent,
     Level_listComponent,
+    ListPackagesComponent,
+    PackageDetailsComponent,
   ],
   imports: [
     CommonModule,

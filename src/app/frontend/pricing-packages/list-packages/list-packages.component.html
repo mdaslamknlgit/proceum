@@ -1,0 +1,69 @@
+<app-topbar class="inner-header"></app-topbar>
+
+<app-sidemenu *ngIf="user!= undefined && (user['role'] == '2' || user['role'] == '11')"></app-sidemenu>
+<div class="mn_dshbrd">
+    <div class="brd_crm">Proceum &raquo; <strong>Pricing & Packages</strong></div>
+    <div class="pg_ttl">Packages</div>
+    <div class="hgt_20"></div>
+    <div class="dsh_brd_crds">
+        <mat-form-field appearance="outline" class="float_right main_search">
+            <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                placeholder="Search" />
+            <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+    <div class="crs_par">
+        <div class="hgt_20"></div>
+        <!-- item -->
+        <div class="crs_chld" *ngFor="let package of packages">
+            <div class="crs_icn grn_bg" *ngIf="package.package_img">
+                <img src="{{ package.package_img }}" alt="">
+            </div>
+            <div class="crs_icn grn_bg" *ngIf="!package.package_img || package.package_img == null">
+                <mat-icon>work_outline</mat-icon>
+            </div>
+            
+            <div class="crs_hdng">
+                {{ package.package_name }}
+            </div>
+            <div class="rtng_par">
+                <div class="crs_rtng str_slctd">
+                    <mat-icon>star_rate</mat-icon>
+                    <mat-icon class="hlf_str1">star_rate</mat-icon>
+                    <mat-icon class="">star_rate</mat-icon>
+                    <mat-icon class="hlf_str2">star_rate</mat-icon>
+                    <mat-icon>star_rate</mat-icon>
+                    <mat-icon class="hlf_str3 ct_slctd">star_rate</mat-icon>
+                    <mat-icon>star_rate</mat-icon>
+                    <mat-icon class="hlf_str4">star_rate</mat-icon>
+                    <mat-icon>star_rate</mat-icon>
+                    <mat-icon class="hlf_str5">star_rate</mat-icon>
+                </div>
+            </div>
+            <div class="crs_dsc" *ngIf="package.package_desc">
+               
+                {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' : (package.package_desc) }}
+            </div>
+            <div class="crs_d_r_p">
+                <span *ngIf="package.duration">
+                    <mat-icon>timelapse</mat-icon> {{ package.duration }}
+                </span>
+                <!-- <span>
+                    <mat-icon>favorite_border</mat-icon> 3445
+                </span> -->
+                <span class="bld_txt_blk" [innerHtml]="localPrice(package.prices)"></span>
+            </div>
+            <div class="crs_pr_bynw">
+                <div class="pr_btn_dv" [routerLink]="['/package-details', package.pk_id]">
+                    <mat-icon>play_circle</mat-icon> Preview
+                </div>
+                <div class="bn_btn_dv">
+                    <mat-icon>shopping_cart</mat-icon> Buy Now
+                </div>
+            </div>
+        </div>
+        <!-- item End-->
+    </div>
+    
+</div>
+<app-footer></app-footer>

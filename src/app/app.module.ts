@@ -34,7 +34,7 @@ import { environment } from '../environments/environment';
     SpinnerComponent,
     NotFoundComponent,
     DrawingBoardComponent,
-    ProceumLibraryComponent, 
+    ProceumLibraryComponent,
   ],
   imports: [
     BrowserModule,
