@@ -5,7 +5,9 @@ export const environment = {
   page_size_options: [10, 20, 50, 100],
   ckeditor_toolbar: [
     'Heading',
-    'uploadImage',
+    //'uploadImage',
+    //'ImageInsert',
+    //'AutoImage',
     'PageBreak',
     'FontBackgroundColor',
     'Alignment',
@@ -45,6 +47,7 @@ export const environment = {
     //'Table',
     //'TableToolbar',
     //'htmlSource',
+    'CustomFileExporer'
   ],
   ORGANIZATION_TYPES : [
     {value: '1', viewValue: 'University'},

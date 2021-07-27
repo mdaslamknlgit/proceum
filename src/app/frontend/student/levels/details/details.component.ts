@@ -2,17 +2,13 @@ import { Component, OnInit, ViewChild, AfterViewInit, Renderer2 } from '@angular
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
 import * as Editor from '../../../../../assets/ckeditor5';
-
-import {
-  DomSanitizer,
-  SafeResourceUrl,
-  SafeUrl,
-} from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from 'js-3d-model-viewer';
 declare var kPoint: any;
+
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
@@ -20,7 +16,7 @@ declare var kPoint: any;
 })
 export class DetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
-  @ViewChild('editor2', { static: false }) editor2: CKEditorComponent;
+  //@ViewChild('editor2', { static: false }) editor2: CKEditorComponent;
   public view_type = 1;
   public title = '';
   public curriculum = [];
@@ -385,6 +381,29 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }
     }
   showDiv(div) {
+    this.images = [];
+      if(div == 4){
+        if(this.content['images'].length > 0){
+            this.content['images'].forEach(element => {
+                this.images.push(element.path);
+            });
+        }
+      }
+    setTimeout(res=>{
+        let class_name = document.getElementsByClassName("ck_editor_view");
+        let images = class_name[0].getElementsByTagName("img");
+        for(var i = 0, n = images.length; i < n; ++i) {
+            if(images[i].src != "") {
+                this.images.push(images[i].src);
+                images[i].addEventListener("click", (e) =>  {
+                    const target = e.target as HTMLSourceElement;
+                    let index = this.images.indexOf(target.src);
+                    this.openLibrary(index);
+                    
+                });
+            }
+        }
+      },1000)
     this.active_div = div;
   }
   openLibrary(index){
