@@ -9,7 +9,9 @@ export const environment = {
   page_size_options: [10, 20, 50, 100],
   ckeditor_toolbar: [
     'Heading',
-    'uploadImage',
+    //'uploadImage',
+    //'ImageInsert',
+    //'AutoImage',
     'PageBreak',
     'FontBackgroundColor',
     'Alignment',
@@ -49,6 +51,7 @@ export const environment = {
     //'Table',
     //'TableToolbar',
     //'htmlSource',
+    'CustomFileExporer'
   ],
   ORGANIZATION_TYPES : [
     {value: '1', viewValue: 'University'},
@@ -57,9 +60,9 @@ export const environment = {
   ],
   
 
-   //apiUrl: 'http://192.10.250.150:8000/api/',
-    // apiUrl: 'http://127.0.0.1:8000/api/',
-    apiUrl: 'https://apiqa.proceum.com/api/',
+   apiUrl: 'http://192.10.250.150:8000/api/',
+     //apiUrl: 'http://127.0.0.1:8000/api/',
+    //apiUrl: 'https://apiqa.proceum.com/api/',
     firebaseConfig : {
         apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
         authDomain: "proceum-dev-62a30.firebaseapp.com",

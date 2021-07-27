@@ -115,7 +115,7 @@
         </button>
       </div>
       <div class="tbbd_bdy" *ngIf="library_popup">
-        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab }"></app-assets-library>
+        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab, 'library_purpose': library_purpose }"></app-assets-library>
 
         <hr />
         <button mat-raised-button color="accent" class="float_right mr_1">
@@ -481,8 +481,9 @@
               </div>
               <div class="c_block_content">
                 <div class="ck_editor" style="height: 500px;">
-                  <ckeditor [(ngModel)]="main_content" name="main_content_name" (ready)="onReady($event)"
-                    [editor]="Editor" #editor [config]="editorConfig"></ckeditor>
+                  <ckeditor (focus)="editorFocused('description_editor')" [(ngModel)]="main_content" name="main_content_name" (ready)="onReady($event)"
+                    [editor]="Editor" #description_editor [config]="editorConfig">
+                </ckeditor>
                 </div>
               </div>
             </div>
@@ -571,9 +572,10 @@
               <div class="c_block_content">
                 <mat-tab-group (selectedTabChange)="notesTab($event)" animationDuration="0.15s" *ngIf="show_tabs">
                   <mat-tab label="Learning Objectives">
+                      <!-- <button type="button" (click)="addImage()">Add</button> -->
                     <div class="ck_editor">
-                      <ckeditor [(ngModel)]="learning_obj_content" name="learning_obj_content_name"
-                        (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
+                      <ckeditor [(ngModel)]="learning_obj_content" (focus)="editorFocused('lerning_obj_editor')" name="learning_obj_content_name"
+                        (ready)="onReady($event)" [editor]="Editor" #lerning_obj_editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div>
                   </mat-tab>
@@ -586,8 +588,8 @@
                         </mat-form-field>
                       </div>
                       <div class="ck_editor">
-                        <ckeditor [(ngModel)]="lecture_note_content" name="lecture_note_content_name"
-                          (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
+                        <ckeditor (focus)="editorFocused('lecture_editor')" [(ngModel)]="lecture_note_content" name="lecture_note_content_name"
+                          (ready)="onReady($event)" [editor]="Editor" #lecture_editor [config]="editorConfig"
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
@@ -635,8 +637,8 @@
                         </mat-form-field>
                       </div>
                       <div class="ck_editor">
-                        <ckeditor [(ngModel)]="highyield_content" name="highyield_content_name"
-                          (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
+                        <ckeditor (focus)="editorFocused('highyield_editor')" [(ngModel)]="highyield_content" name="highyield_content_name"
+                          (ready)="onReady($event)" [editor]="Editor" #highyield_editor [config]="editorConfig"
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
@@ -1085,8 +1087,8 @@
                   </mat-tab>
                   <mat-tab label="External References">
                     <div class="ck_editor">
-                      <ckeditor [(ngModel)]="external_ref_content" name="external_ref_content_name"
-                        (ready)="onReady($event)" [editor]="Editor" #editor [config]="editorConfig"
+                      <ckeditor (focus)="editorFocused('external_editor')" [(ngModel)]="external_ref_content" name="external_ref_content_name"
+                        (ready)="onReady($event)" [editor]="Editor" #external_editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div>
                   </mat-tab>
