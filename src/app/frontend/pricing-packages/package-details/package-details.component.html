@@ -7,13 +7,16 @@
     <div class="crs_innr_par">
         <div class="crs_innr_chld">
             <div class="crs_innr_lgo">
-                <div class="crs_icn grn_bg m_auto">
+                <div class="crs_icn grn_bg m_auto" *ngIf="package.package_img">
+                    <img src="{{ package.package_img }}" alt="">
+                </div>
+                <div class="crs_icn grn_bg m_auto" *ngIf="!package.package_img || package.package_img == null">
                     <mat-icon>work_outline</mat-icon>
                 </div>
             </div>
             <div class="crs_innr_dsc">
                 <div class="crs_innr_hd">
-                    Echocardiography Workshop
+                    {{ package.package_name }}
                 </div>
                 <div class="hgt_10"></div>
                 <div class="rtng_par">
@@ -32,33 +35,21 @@
                 </div>
                 <div class="hgt_10"></div>
                 <div class="crs_innr_prc">
-                    <span class="bld_txt_blk"><span class="rpe_sym">₹</span> 14500</span>
+                    <span class="bld_txt_blk" [innerHtml]="localPrice(package_prices)"></span>
                 </div>
-                <div class="crs_dsc">
-                    Overcoming the limitation of conventional
-                    echo books, keeping in mind that the main
-                    distinguishing factor…
+                <div class="crs_dsc"  *ngIf="package.package_desc">
+                    {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' : (package.package_desc) }}
                 </div>
                 <hr class="wht_hr">
-                <div class="crs_yr">
-                    What year to choose ?
-                    <mat-form-field appearance="outline" color="accent">
-                        <mat-select>
-                            <mat-option>None</mat-option>
-                            <mat-option value="option1">2020</mat-option>
-                            <mat-option value="option2">2021</mat-option>
-                            <mat-option value="option3">2022</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
+                
                 <hr class="wht_hr">
                 <div class="crs_d_r_p">
-                    <span>
-                        <mat-icon>timelapse</mat-icon> 4 months
+                    <span *ngIf="package.converted_duration">
+                        <mat-icon>timelapse</mat-icon> {{ package.converted_duration }}
                     </span>
-                    <span>
+                    <!-- <span>
                         <mat-icon>favorite_border</mat-icon> 3445
-                    </span>
+                    </span> -->
                 </div>
                 <div class="bn_btn_dv grn_bg rsp_m_auto">
                     <mat-icon>shopping_cart</mat-icon> Buy Now
@@ -67,37 +58,21 @@
             <div class="crs_innr_dets">
                 <span class="crs_dets_hd">Course details</span>
                 <ul class="crs_innr_dets_tbl">
-                    <li>
+                    <li *ngIf="package.converted_duration">
                         <span class="dets_tbl_hd">Length</span>
-                        <span class="dets_tbl_cnt">12 Weeks</span>
+                        <span class="dets_tbl_cnt">{{ package.converted_duration }}</span>
                     </li>
-                    <li>
-                        <span class="dets_tbl_hd">Effort</span>
-                        <span class="dets_tbl_cnt">6 - 18 hours per week</span>
+                    <li *ngIf="package.billing_frequency">
+                        <span class="dets_tbl_hd">Billing Frequency</span>
+                        <span class="dets_tbl_cnt">{{ package.billing_frequency }}</span>
                     </li>
-                    <li>
-                        <span class="dets_tbl_hd">Institution</span>
-                        <span class="dets_tbl_cnt">HarvardX</span>
+                    <li *ngIf="package.pricing_model">
+                        <span class="dets_tbl_hd">Pricing</span>
+                        <span class="dets_tbl_cnt">{{ package.pricing_model }}</span>
                     </li>
-                    <li>
-                        <span class="dets_tbl_hd">Subject</span>
-                        <span class="dets_tbl_cnt">Computer Science</span>
-                    </li>
-                    <li>
-                        <span class="dets_tbl_hd">Level</span>
-                        <span class="dets_tbl_cnt">Introductory</span>
-                    </li>
-                    <li>
-                        <span class="dets_tbl_hd">Language</span>
-                        <span class="dets_tbl_cnt">English</span>
-                    </li>
-                    <li>
-                        <span class="dets_tbl_hd">Video Transcript</span>
-                        <span class="dets_tbl_cnt">English</span>
-                    </li>
-                    <li>
-                        <span class="dets_tbl_hd">Course Type</span>
-                        <span class="dets_tbl_cnt">Self-Paced on your time</span>
+                    <li *ngIf="package.valid_up_to">
+                        <span class="dets_tbl_hd">Available Till</span>
+                        <span class="dets_tbl_cnt">{{ package.valid_up_to }}</span>
                     </li>
                 </ul>
             </div>
@@ -111,134 +86,47 @@
                         Description
                     </ng-template>
                     <div class="crs_tbbs_cnt">
-                        <span class="crs_yr_spn">2019</span>
-                        <ul class="crs_pdf_dl">
-                            <li>Click here to view Table of Contents for 2019 Part 2 Videos <mat-icon>picture_as_pdf
-                                </mat-icon>
-                            </li>
-                            <li>Click here to view Table of Contents for 2019 Part 2 Videos <mat-icon>picture_as_pdf
-                                </mat-icon>
-                            </li>
-                            <li>Click here to view Table of Contents for 2019 Part 2 Videos <mat-icon>picture_as_pdf
-                                </mat-icon>
-                            </li>
-
-                        </ul>
+                        {{package.package_desc}}
                     </div>
                     <div class="hgt_20"></div>
-                    <mat-accordion>
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Biochemistry
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <div class="crs_innr_tbd">
-                                <ul>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Endocrine Overview <span
-                                            class="crs_du_spn">29:50 Min</span><span
-                                            class="crs_fr_indi">Free</span><span class="crs_clktovw">Click here to
-                                            View</span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Pituitary <span class="crs_du_spn">29:50
-                                            Min</span><span class="crs_fr_indi">Free</span><span
-                                            class="crs_clktovw">Click here to View</span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Adrenal Steroid Synthesis <span
-                                            class="crs_du_spn">29:50 Min</span><span class="crs_lkd">
-                                            <mat-icon>lock</mat-icon>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Glucocorticoids and Cushing Syndrome
-                                        <span class="crs_du_spn">29:50 Min</span><span class="crs_lkd">
-                                            <mat-icon>lock</mat-icon>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Other Adrenal Pathology <span
-                                            class="crs_du_spn">29:50 Min</span><span class="crs_lkd">
-                                            <mat-icon>lock</mat-icon>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Thyroid Basics and Hyperthyroidism <span
-                                            class="crs_du_spn">29:50 Min</span><span class="crs_lkd">
-                                            <mat-icon>lock</mat-icon>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel>
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Biochemistry
-                                </mat-panel-title>
-                            </mat-expansion-panel-header>
-                            <div class="crs_innr_tbd">
-                                <ul>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Endocrine Overview <span
-                                            class="crs_du_spn">29:50 Min</span><span
-                                            class="crs_fr_indi">Free</span><span class="crs_clktovw">Click here to
-                                            View</span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Pituitary <span class="crs_du_spn">29:50
-                                            Min</span><span class="crs_fr_indi">Free</span><span
-                                            class="crs_clktovw">Click here to View</span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Adrenal Steroid Synthesis <span
-                                            class="crs_du_spn">29:50 Min</span><span class="crs_lkd">
-                                            <mat-icon>lock</mat-icon>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Glucocorticoids and Cushing Syndrome
-                                        <span class="crs_du_spn">29:50 Min</span><span class="crs_lkd">
-                                            <mat-icon>lock</mat-icon>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Other Adrenal Pathology <span
-                                            class="crs_du_spn">29:50 Min</span><span class="crs_lkd">
-                                            <mat-icon>lock</mat-icon>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <mat-icon>play_circle_filled</mat-icon> Thyroid Basics and Hyperthyroidism <span
-                                            class="crs_du_spn">29:50 Min</span><span class="crs_lkd">
-                                            <mat-icon>lock</mat-icon>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </mat-expansion-panel>
-
-
-                    </mat-accordion>
-
                 </mat-tab>
-                <mat-tab>
-                    <ng-template mat-tab-label>
-                        <mat-icon>data_usage</mat-icon>
-                        Usage
-                    </ng-template>
-                    Usage
-                </mat-tab>
+                
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <mat-icon>topic</mat-icon>
                         Topics
                     </ng-template>
-                    Topics
+                    <div class="crs_tbbs_cnt">
+                        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
+                            <!-- This is the tree node template for leaf nodes -->
+                            <!-- There is inline padding applied to this node using styles.
+                              This padding value depends on the mat-icon-button width. -->
+                            <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+                                {{node.name}}
+                            </mat-tree-node>
+                            <!-- This is the tree node template for expandable nodes -->
+                            <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+                                <div class="mat-tree-node">
+                                  <button mat-icon-button matTreeNodeToggle
+                                          [attr.aria-label]="'Toggle ' + node.name">
+                                    <mat-icon class="mat-icon-rtl-mirror">
+                                      {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                    </mat-icon>
+                                  </button>
+                                  {{node.name}}
+                                </div>
+                                <!-- There is inline padding applied to this div using styles.
+                                    This padding value depends on the mat-icon-button width.  -->
+                                <div [class.example-tree-invisible]="!treeControl.isExpanded(node)"
+                                    role="group">
+                                  <ng-container matTreeNodeOutlet></ng-container>
+                              </div>
+                            </mat-nested-tree-node>
+                          </mat-tree>   
+                    </div>
                 </mat-tab>
+
+
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <mat-icon>person</mat-icon>
@@ -246,19 +134,37 @@
                     </ng-template>
                     Testimonials
                 </mat-tab>
-                <mat-tab>
+
+                <mat-tab *ngIf="sample_videos.length > 0">
                     <ng-template mat-tab-label>
                         <mat-icon>videocam</mat-icon>
                         Sample
                     </ng-template>
-                    Sample
+                    <div class="crs_par">
+                        <div class="crs_chld" *ngFor="let video of sample_videos">
+                            <div *ngIf="video.source_type=='YOUTUBE'">
+                                <iframe [width]="iframe_width" [height]="iframe_height" [src]="video.embed_link" allowfullscreen></iframe>
+                                <span>{{video.title}}</span>
+                            </div>
+                            
+                        </div>
+
+                    </div>
                 </mat-tab>
-                <mat-tab>
+
+
+                <mat-tab *ngIf="faqs.length > 0">
                     <ng-template mat-tab-label>
                         <mat-icon>help_outline</mat-icon>
                         FAQ's
                     </ng-template>
-                    FAQ's
+                    <div class="crs_tbbs_cnt">
+                        <ul style="list-style-type:none;" *ngFor="let faq of faqs;let i = index">
+                            <li><b>Q :   {{ faq.question }} </b></li>
+                            <li><b>Ans : </b>  {{ faq.answer }} </li>
+                            <div class="hgt_20"></div>
+                        </ul>
+                    </div>
                 </mat-tab>
 
             </mat-tab-group>
