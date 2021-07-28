@@ -62,6 +62,7 @@ export class CreateContentComponent implements OnInit {
   public highyield_title_duplicate = false;
   public highyield_obj = [];
   public highyield_index = '';
+  public loading_questions=false;
   public cases = '';
   public mcqs = '';
   public related_topics = '';
@@ -569,10 +570,10 @@ export class CreateContentComponent implements OnInit {
                 let title = this['video_title_'+tab_index];
                 let value = this['video_value_'+tab_index];
                 let video_index = this['video_index_'+tab_index];
-                if((res['title'] == title) && res['status'] != 'delete' && video_index != index2 && index == 1){
+                if((res['title'].trim() == title.trim()) && res['status'] != 'delete' && video_index != index2 && index == 1){
                     this['video_title_'+tab_index] = '';
                     this['video_title_error_'+tab_index] = "Duplicate Title "+title;
-                    this.toster.error("Duplicate Title "+title, "Error", {closeButton: true,});
+                    this.toster.error("Title ("+title+") should not be duplicate", "Error", {closeButton: true,});
                 }
                 else{
                     this['video_title_error_'+tab_index] = '';
@@ -580,7 +581,7 @@ export class CreateContentComponent implements OnInit {
                 if((res['value'] == value) && res['status'] != 'delete' && video_index != index2 && index == 2){
                     this['video_value_'+tab_index] = '';
                     this['video_value_error_'+tab_index] = "Duplicate Value "+value;
-                    this.toster.error("Duplicate Value "+value, "Error", {closeButton: true,});
+                    this.toster.error("Value ("+value+") should not be duplicate", "Error", {closeButton: true,});
                 }
                 else{
                     this['video_value_error_'+tab_index] = '';
@@ -1005,8 +1006,11 @@ export class CreateContentComponent implements OnInit {
     }
   }
   getAllQuestions(param) {
+      this.loading_questions=true;
+      this.all_questions = new MatTableDataSource([]);
     this.resetPagination();
     this.http.post(param).subscribe((res) => {
+        this.loading_questions=false;
       if (res['error'] == false) {
         this.all_questions = new MatTableDataSource(
           res['data']['question_list']
