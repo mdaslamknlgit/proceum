@@ -63,6 +63,18 @@ export class CommonService {
         catchError(this.errorHandler)
       );
   }
+
+  public nonAuthenticatedPost(param) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+    return this.http
+      .post(this.apiURL + param.url, param, { headers: headers })
+      .pipe(
+        map((res) => res),
+        catchError(this.errorHandler)
+      );
+  }
+
   public put(param) {
     let user = this.getUser();
     let headers = new HttpHeaders();
