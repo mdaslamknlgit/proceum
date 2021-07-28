@@ -8,6 +8,7 @@ import { throwError, BehaviorSubject } from 'rxjs';
 })
 export class CommonService {
   public child_data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public child_data_editor: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public isLoading = new BehaviorSubject(false);
   private apiURL: string;
   public kpoint_api_url = "https://proceum.kpoint.com/api/v1/xapi/";
@@ -62,6 +63,18 @@ export class CommonService {
         catchError(this.errorHandler)
       );
   }
+
+  public nonAuthenticatedPost(param) {
+    let headers = new HttpHeaders();
+    headers = headers.set('Content-Type', 'application/json');
+    return this.http
+      .post(this.apiURL + param.url, param, { headers: headers })
+      .pipe(
+        map((res) => res),
+        catchError(this.errorHandler)
+      );
+  }
+
   public put(param) {
     let user = this.getUser();
     let headers = new HttpHeaders();
@@ -127,6 +140,9 @@ export class CommonService {
   }
   public setChildData(data: any) {
     this.child_data.next(data);
+  }
+  public setChildDataEditor(data: any) {
+    this.child_data_editor.next(data);
   }
   public ucFirst(value: string): string {
     let first = value.substr(0, 1).toUpperCase();

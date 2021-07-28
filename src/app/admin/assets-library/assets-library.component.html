@@ -44,9 +44,13 @@
             </a>
           </div>
           <div>
-            <button *ngIf="data['modal_view'] == true" mat-raised-button color="accent" class="float_right mr_1"
+            <button type="button" *ngIf="data['modal_view'] == true  && library_purpose != 'editor'" mat-raised-button color="accent" class="float_right mr_1"
               (click)="
             selectFile({ file_path: file_details['path'], path: preview_path })">Select
+            </button>
+            <button type="button" *ngIf="data['modal_view'] == true && library_purpose == 'editor'" mat-raised-button color="accent" class="float_right mr_1"
+              (click)="
+              insertFile({ file_path: file_details['path'], path: preview_path })">Insert
             </button>
           </div>
           <div>
@@ -125,7 +129,7 @@
   
   <div *ngIf="data['modal_view']" class="hgt_20"></div>
   <div class="explr_nav">
-    <mat-icon class="mr_5px">dns</mat-icon> /&nbsp;<span *ngFor="let path of current_path_list">{{ path + " / "
+    <mat-icon class="mr_5px">dns</mat-icon> /&nbsp;<span *ngFor="let path of current_path_list; let path_idex=index;" (click)="goToFolder(path_idex)">{{ path + " / "
       }}</span>
   </div>
   <div *ngIf="!data['modal_view']" class="hgt_20"></div>
@@ -185,7 +189,7 @@
       </div>
     </mat-tab>
     <mat-tab label="Images" *ngIf="
-        (data['modal_view'] && activeTab == 'images') || !data['modal_view']
+        (data['modal_view'] && (activeTab == 'images' || activeTab == 'images/content_images')) || !data['modal_view']
       ">
       <div class="hgt_20"></div>
       

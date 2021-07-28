@@ -22,6 +22,7 @@ export class AssetsLibraryComponent implements OnInit {
   public directories = [];
   public bucket_path = '';
   public preview_path = '';
+  public library_purpose = '';
   public all_files: ReplaySubject<any> = new ReplaySubject<any>(1);
   search_images = '';
   public properties_popup: boolean = false;
@@ -41,13 +42,16 @@ export class AssetsLibraryComponent implements OnInit {
         else this.selectedIndex = 0;
         this.current_path = this.activeTab;
         this.current_path_list = [this.activeTab];
-        console.log(this.current_path_list, this.current_path);
         this.openFolder(this.current_path);
       });
     } else {
       this.activeTab = this.data['active_tab'];
       if (this.activeTab == 'videos') this.selectedIndex = 2;
-      else if (this.activeTab == 'images') this.selectedIndex = 1;
+      else if (this.activeTab == 'images' || this.activeTab == 'images/content_images') {
+        this.activeTab = 'images';
+          this.selectedIndex = 1;
+          this.library_purpose = this.data['library_purpose'];
+        }
       else this.selectedIndex = 0;
 
       this.current_path = this.data['active_tab'];
@@ -180,6 +184,19 @@ export class AssetsLibraryComponent implements OnInit {
       }
     });
   }
+  goToFolder(path_index){
+      let go_to_path = '';
+    this.current_path_list.forEach((res, index) => {
+        if(index <= path_index){
+            go_to_path += res+"/";
+        }
+    })
+    setTimeout(res=>{
+        go_to_path = go_to_path.substring(0, go_to_path.length - 1);
+        console.log(go_to_path);
+        this.openFolder(go_to_path);
+    },1000)
+}
   deleteFile(path) {
     let param = { url: 'delete-file', path: path };
     this.http.post(param).subscribe((res) => {
@@ -194,6 +211,10 @@ export class AssetsLibraryComponent implements OnInit {
   }
   selectFile(file) {
     this.http.setChildData(file);
+    this.ClosePropertisModal();
+  }
+  insertFile(file) {
+    this.http.setChildDataEditor(file);
     this.ClosePropertisModal();
   }
 }

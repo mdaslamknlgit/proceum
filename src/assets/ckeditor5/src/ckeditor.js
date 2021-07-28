@@ -48,88 +48,88 @@ import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specia
 // A plugin that combines a basic set of special characters.
 import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
 
-export default class ClassicEditor extends ClassicEditorBase {}
+export default class ClassicEditor extends ClassicEditorBase { }
 
 // Plugins to include in the build.
 ClassicEditor.builtinPlugins = [
-	Alignment,
-	Essentials,
-	UploadAdapter,
-	Autoformat,
-	Bold,
-	Italic,
-	Underline, 
-	Strikethrough, 
-	Code, 
-	Subscript, 
-	Superscript,
-	BlockQuote,
-	CKFinder,
-	CloudServices,
-	EasyImage,
-	Font,
-	Heading,
-	Highlight,
-	HorizontalLine,
-	Image,
-	ImageCaption,
-	ImageResize,
-	ImageStyle,
-	ImageToolbar,
-	ImageUpload,
-	Indent,
-	Link,
-	List,
-	MathType,
-	MediaEmbed,
-	Paragraph,
-	PasteFromOffice,
-	PageBreak,
-	SpecialCharacters,
-	SpecialCharactersEssentials,
-	Table,
-	TableToolbar,
-	TextTransformation
+    Alignment,
+    Essentials,
+    UploadAdapter,
+    Autoformat,
+    Bold,
+    Italic,
+    Underline,
+    Strikethrough,
+    Code,
+    Subscript,
+    Superscript,
+    BlockQuote,
+    CKFinder,
+    CloudServices,
+    EasyImage,
+    Font,
+    Heading,
+    Highlight,
+    HorizontalLine,
+    Image,
+    ImageCaption,
+    ImageResize,
+    ImageStyle,
+    ImageToolbar,
+    ImageUpload,
+    Indent,
+    Link,
+    List,
+    MathType,
+    MediaEmbed,
+    Paragraph,
+    PasteFromOffice,
+    PageBreak,
+    SpecialCharacters,
+    SpecialCharactersEssentials,
+    Table,
+    TableToolbar,
+    TextTransformation
 ];
 
 // Editor configuration.
 ClassicEditor.defaultConfig = {
-	toolbar: {
-		items: [
-			'heading',
-			'|',
-			'bold',
-			'italic',
-			'link',
-			'bulletedList',
-			'numberedList',
-			'|',
-			'outdent',
-			'indent',
-			'|',
-			'uploadImage',
-			'blockQuote',
-			'insertTable',
-			'mediaEmbed',
-			'undo',
-			'redo'
-		]
-	},
-	image: {
-		toolbar: [
-			'imageStyle:full',
-			'imageStyle:side',
-			'|',
-			'imageTextAlternative'
-		]
-	},
-	table: {
-		contentToolbar: [
-			'tableColumn',
-			'tableRow',
-			'mergeTableCells'
-		]
-	},
-	// This value must be kept in sync with the language defined in webpack.config.js.
-	language: 'en'
+    toolbar: {
+        items: [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'link',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'outdent',
+            'indent',
+            '|',
+            'uploadImage',
+            'blockQuote',
+            'insertTable',
+            'mediaEmbed',
+            'undo',
+            'redo'
+        ]
+    },
+    image: {
+        toolbar: [
+            'imageStyle:full',
+            'imageStyle:side',
+            '|',
+            'imageTextAlternative'
+        ]
+    },
+    table: {
+        contentToolbar: [
+            'tableColumn',
+            'tableRow',
+            'mergeTableCells'
+        ]
+    },
+    // This value must be kept in sync with the language defined in webpack.config.js.
+    language: 'en'
 };

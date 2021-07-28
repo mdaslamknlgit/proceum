@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
@@ -11,7 +11,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FirebaseService } from 'src/app/services/firebase.service';
-
 export interface PeriodicElement {
   s_no: number;
   question: number;
@@ -95,7 +94,17 @@ export class CreateContentComponent implements OnInit {
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
+  @ViewChild('description_editor', { static: false }) description_editor: CKEditorComponent;
+  @ViewChild('lerning_obj_editor', { static: false }) lerning_obj_editor: CKEditorComponent;
+  @ViewChild('lecture_editor', { static: false }) lecture_editor: CKEditorComponent;
+  @ViewChild('highyield_editor', { static: false }) highyield_editor: CKEditorComponent;
+  @ViewChild('external_editor', { static: false }) external_editor: CKEditorComponent;
+  public focus_editor =  '';
   public Editor = Editor;
+  @HostListener('window:open_library', ['$event'])
+  openCustomPopup(event) {
+    this.openAssetsLibrary('images/content_images', 'editor');
+  }
   editorReviewConfig = {
     Plugins: [],
     placeholder: 'Enter content',
@@ -150,6 +159,16 @@ export class CreateContentComponent implements OnInit {
     table: {
       contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
     },
+    highlight: {
+        options: [
+            {
+                model: 'yellowMarker',
+                class: 'marker-yellow',
+                title: 'Yellow marker',
+                color: 'var(--ck-highlight-marker-yellow)',
+                type: 'marker'
+            }]
+        },
     mediaEmbed: {
       previewsInData: true,
     },
@@ -178,6 +197,7 @@ export class CreateContentComponent implements OnInit {
   public publsh_content = false;
   public publish_message = "";
   private subscription:Subscription;
+  private subscription_editor:Subscription;
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -199,10 +219,12 @@ export class CreateContentComponent implements OnInit {
       }
     });
     this.getChildData();
+    this.getChildDataEditor();
     this.getReviewers();
   }
   ngOnDestroy() { 
     this.subscription.unsubscribe();
+    this.subscription_editor.unsubscribe();
 }
   getReviewers(){
     let data = { url: 'get-reviewers' };
@@ -214,6 +236,23 @@ export class CreateContentComponent implements OnInit {
   }
   ngAfterViewInit(){
       this.show_tabs = true;
+  }
+  addImage(src){
+      if(this.focus_editor == 'description_editor'){
+        this.description_editor.editorInstance.execute("insertImage", { source: src });
+      }
+      if(this.focus_editor == 'lerning_obj_editor'){
+        this.lerning_obj_editor.editorInstance.execute("insertImage", { source: src })
+      }
+      if(this.focus_editor == 'lecture_editor'){
+        this.lecture_editor.editorInstance.execute("insertImage", { source: src })
+      }
+      if(this.focus_editor == 'highyield_editor'){
+        this.highyield_editor.editorInstance.execute("insertImage", { source: src })
+      }
+      if(this.focus_editor == 'external_editor'){
+        this.external_editor.editorInstance.execute("insertImage", { source: src })
+      }
   }
   getContent() {
     let data = { url: 'create-content/' + this.content_id };
@@ -670,6 +709,18 @@ export class CreateContentComponent implements OnInit {
       //this.three_d_videos.splice(index, 1);
     }
   }
+  getChildDataEditor() {
+    this.subscription_editor = this.http.child_data_editor.subscribe((res) => {
+      if (this.library_purpose == 'editor') {
+        let obj = { file_path: res['file_path'], path: res['path'] };
+        this.addImage(res['path']);
+        this.CloseModal();
+      }
+    });
+  }
+  editorFocused(editor_name){
+      this.focus_editor = editor_name;
+  }
   getChildData() {
     this.subscription = this.http.child_data.subscribe((res) => {
       if (this.library_purpose == 'attachments') {
@@ -761,6 +812,7 @@ export class CreateContentComponent implements OnInit {
         this.lecture_note_title;
       this.lecture_note_obj[Number(this.lecture_note_index)]['content'] =
         this.lecture_note_content;
+        this.lecture_note_obj[Number(this.lecture_note_index)]['status'] = '';
     } else {
         if(this.lecture_note_obj.length == 0){
             this.lecture_note_obj.push(lecture_note);
@@ -819,6 +871,7 @@ export class CreateContentComponent implements OnInit {
     if (this.highyield_index != '') {
       this.highyield_obj[Number(this.highyield_index)]['title'] = this.highyield_title.trim();
       this.highyield_obj[Number(this.highyield_index)]['content'] = this.highyield_content.trim();
+      this.highyield_obj[Number(this.highyield_index)]['status'] = '';
     } else {
         if(this.highyield_obj.length == 0){
             this.highyield_obj.push(highyield);
