@@ -188,12 +188,61 @@ export class CreateContentComponent implements OnInit {
   public review_docs = [];
   public review_docs_new = [];
   public content_reviewer_role = '';
-  public intro_video = [{pk_id:0, video_section:'INTRO', source:'', title:'', value:'', status:'', error:false, message: ''}];
-  public two_d_videos = [{pk_id:0, video_section:'2D', source:'', title:'', value:'', status:'', error:false, message: ''}];
-  public board_lecture_videos = [{pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:'', error:false, message: ''}];
-  public clinical_videos = [{pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:'', error:false, message: ''}];
-  public procedural_videos = [{pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:'', error:false, message: ''}];
-  public three_d_videos = [{pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:'', error:false, message: ''}];
+  //intro videos
+  public video_source_0 = '';
+  public video_title_0 = '';
+  public video_title_error_0 = '';
+  public video_value_0 = "";
+  public video_value_error_0 = "";
+  public video_value_invalid_error_0 = "";
+  public video_index_0:any;
+  public intro_video = [];
+  //2d videos
+  public video_source_1 = '';
+  public video_title_1 = '';
+  public video_title_error_1 = '';
+  public video_value_1 = "";
+  public video_value_error_1 = "";
+  public video_value_invalid_error_1 = "";
+  public video_index_1:any;
+  public two_d_videos = [];
+  //board lecture vidoes
+  public video_source_2 = '';
+  public video_title_2 = '';
+  public video_title_error_2 = '';
+  public video_value_2 = "";
+  public video_value_error_2 = "";
+  public video_value_invalid_error_2 = "";
+  public video_index_2:any;
+  public board_lecture_videos = [];
+  //clinical videos
+  public video_source_3 = '';
+  public video_title_3 = '';
+  public video_title_error_3 = '';
+  public video_value_3 = "";
+  public video_value_error_3 = "";
+  public video_value_invalid_error_3 = "";
+  public video_index_3:any;
+  public clinical_videos = [];
+  //procedural videos
+  public video_source_4 = '';
+  public video_title_4 = '';
+  public video_title_error_4 = '';
+  public video_value_4 = "";
+  public video_value_error_4 = "";
+  public video_value_invalid_error_4 = "";
+  public video_index_4:any;
+  public procedural_videos = [];
+  //3d videos
+  public video_source_5 = '3D_OBJECT';
+  public video_title_5 = '';
+  public video_title_error_5 = '';
+  public video_value_5 = "";
+  public video_value_error_5 = "";
+  public video_value_invalid_error_5 = "";
+  public video_index_5:any;
+  public three_d_videos = [];
+
   public publsh_content = false;
   public publish_message = "";
   private subscription:Subscription;
@@ -315,323 +364,230 @@ export class CreateContentComponent implements OnInit {
     });
   }
   addVideo(tabIndex){
-    if(tabIndex == 1){
-      this.two_d_videos.push({pk_id:0, video_section:'2D', source:'', title:'', value:'', status:'', error:false, message: ''});
-    }
-    if(tabIndex == 2){
-      this.board_lecture_videos.push({pk_id:0, video_section:'BOARD_LECTURES', source:'', title:'', value:'', status:'', error:false, message: ''});
-    }
-    if(tabIndex == 3){
-      this.clinical_videos.push({pk_id:0, video_section:'CLINICAL_ESSENTIALS', source:'', title:'', value:'', status:'', error:false, message: ''});
-    }
-    if(tabIndex == 4){
-      this.procedural_videos.push({pk_id:0, video_section:'PROCEDURAL', source:'', title:'', value:'', status:'', error:false, message: ''});
-    }
-    if(tabIndex == 5){
-      this.three_d_videos.push({pk_id:0, video_section:'3D', source:'YOUTUBE', title:'', value:'', status:'', error:false, message: ''});
-    }
-  }
-  validateVideo(tab_index, index){
-    if(tab_index == 0){
-        if(this.intro_video[index]['source'] != '' && this.intro_video[index]['title'] && this.intro_video[index]['value']){
-            //this.CheckTitle(tab_index, index);
-            if(this.intro_video[index]['error'] == false || true){
-                let video_type = this.intro_video[index]['source'];
-                if(video_type == 'KPOINT'){
-                    let kpoint = this.validateKpointId(this.intro_video[index]['value']);
-                    if(kpoint == true){
-                        let param1 = {"url": "get-kpoint-token"};
-                        this.http.post(param1).subscribe(res=>{
-                            let xt = res['data']['xt'];
-                            let param = {video_id: this.intro_video[index]['value'], xt:xt, url: "kapsule/"+this.intro_video[index]['value']+"?xt="+xt};
-                            this.http.kpointGet(param).subscribe(res=>{
-                                this.intro_video[index]['error'] = false;
-                                this.intro_video[index]['message'] = "";
-                            },
-                            error => {
-                                if(error['error']['error']['code'] == 9003){
-                                    this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
-                                    this.intro_video[index]['error'] = true;
-                                    this.intro_video[index]['message'] = "Invalid kpoint id";
-                                }
-                            }
-                            );
-                        })
-                    }
-                    else{
-                        this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
-                        this.intro_video[index]['error'] = true;
-                        this.intro_video[index]['message'] = "Invalid kpoint id";
-                    }
-                }
-                if(video_type == 'YOUTUBE'){
-                    let youtube_check = this.validateYouTubeUrl(this.intro_video[index]['value']);
-                    if(youtube_check){
-                        this.intro_video[index]['error'] = false;
-                        this.intro_video[index]['message'] = "";
-                    }
-                    else{
-                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
-                        this.intro_video[index]['error'] = true;
-                        this.intro_video[index]['message'] = "Invalid Youtube url";
-                    }
-                }
-            }
-            else{
-                console.log("eror dup");
-            }
-        }
-    }
-    if(tab_index == 1){
-        if(this.two_d_videos[index]['source'] != '' && this.two_d_videos[index]['title'] && this.two_d_videos[index]['value']){
-            //this.CheckTitle(tab_index, index);
-            if(this.two_d_videos[index]['error'] == false|| true){
-                let video_type = this.two_d_videos[index]['source'];
-                if(video_type == 'KPOINT'){
-                    this.validateKpointId(this.two_d_videos[index]['value']);
-                }
-                if(video_type == 'YOUTUBE'){
-                    let youtube_check = this.validateYouTubeUrl(this.two_d_videos[index]['value']);
-                    if(youtube_check){
-                        this.two_d_videos[index]['error'] = false;
-                        this.two_d_videos[index]['message'] = "";
-                    }
-                    else{
-                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
-                        this.two_d_videos[index]['error'] = true;
-                        this.two_d_videos[index]['message'] = "Invalid Youtube url";
-                    }
-                }
-            }
-            else{
-                console.log("eror dup");
-            }
-        }
-    }
-    if(tab_index == 2){
-        if(this.board_lecture_videos[index]['source'] != '' && this.board_lecture_videos[index]['title'] && this.board_lecture_videos[index]['value']){
-            //this.CheckTitle(tab_index, index);
-            if(this.board_lecture_videos[index]['error'] == false|| true){
-                let video_type = this.board_lecture_videos[index]['source'];
-                if(video_type == 'KPOINT'){
-                    this.validateKpointId(this.board_lecture_videos[index]['value']);
-                }
-                if(video_type == 'YOUTUBE'){
-                    let youtube_check = this.validateYouTubeUrl(this.board_lecture_videos[index]['value']);
-                    if(youtube_check){
-                        this.board_lecture_videos[index]['error'] = false;
-                        this.board_lecture_videos[index]['message'] = "";
-                    }
-                    else{
-                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
-                        this.board_lecture_videos[index]['error'] = true;
-                        this.board_lecture_videos[index]['message'] = "Invalid Youtube url";
-                    }
-                }
-            }
-            else{
-                console.log("eror dup");
-            }
-        }
-    }
-    if(tab_index == 3){
-        if(this.clinical_videos[index]['source'] != '' && this.clinical_videos[index]['title'] && this.clinical_videos[index]['value']){
-            //this.CheckTitle(tab_index, index);
-            if(this.clinical_videos[index]['error'] == false|| true){
-                let video_type = this.clinical_videos[index]['source'];
-                if(video_type == 'KPOINT'){
-                    this.validateKpointId(this.clinical_videos[index]['value']);
-                }
-                if(video_type == 'YOUTUBE'){
-                    let youtube_check = this.validateYouTubeUrl(this.clinical_videos[index]['value']);
-                    if(youtube_check){
-                        this.clinical_videos[index]['error'] = false;
-                        this.clinical_videos[index]['message'] = "";
-                    }
-                    else{
-                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
-                        this.clinical_videos[index]['error'] = true;
-                        this.clinical_videos[index]['message'] = "Invalid Youtube url";
-                    }
-                }
-            }
-            else{
-                console.log("eror dup");
-            }
-        }
-    }
-    if(tab_index == 4){
-        if(this.procedural_videos[index]['source'] != '' && this.procedural_videos[index]['title'] && this.procedural_videos[index]['value']){
-            //this.CheckTitle(tab_index, index);
-            if(this.procedural_videos[index]['error'] == false|| true){
-                let video_type = this.procedural_videos[index]['source'];
-                if(video_type == 'KPOINT'){
-                    this.validateKpointId(this.procedural_videos[index]['value']);
-                }
-                if(video_type == 'YOUTUBE'){
-                    let youtube_check = this.validateYouTubeUrl(this.procedural_videos[index]['value']);
-                    if(youtube_check){
-                        this.procedural_videos[index]['error'] = false;
-                        this.procedural_videos[index]['message'] = "";
-                    }
-                    else{
-                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
-                        this.procedural_videos[index]['error'] = true;
-                        this.procedural_videos[index]['message'] = "Invalid Youtube url";
-                    }
-                }
-            }
-            else{
-                console.log("eror dup");
-            }
-        }
-    }
-    if(tab_index == 5){
-        if(this.three_d_videos[index]['source'] != '' && this.three_d_videos[index]['title'] && this.three_d_videos[index]['value']){
-            //this.CheckTitle(tab_index, index);
-            if(this.three_d_videos[index]['error'] == false|| true){
-                let video_type = this.three_d_videos[index]['source'];
-                if(video_type == 'KPOINT'){
-                    this.validateKpointId(this.three_d_videos[index]['value']);
-                }
-                if(video_type == 'YOUTUBE'){
-                    let youtube_check = this.validateYouTubeUrl(this.three_d_videos[index]['value']);
-                    if(youtube_check){
-                        this.three_d_videos[index]['error'] = false;
-                        this.three_d_videos[index]['message'] = "";
-                    }
-                    else{
-                        this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
-                        this.three_d_videos[index]['error'] = true;
-                        this.three_d_videos[index]['message'] = "Invalid Youtube url";
-                    }
-                }
-            }
-            else{
-                console.log("eror dup");
-            }
-        }
-    }
-  }
-  CheckTitle(tab_index, index){
-      if(tab_index == 0){
-          this.intro_video.forEach((res, index2)=>{
-              if((res['title'] == this.intro_video[index]['title']) && this.intro_video[index]['status'] != 'delete' && index != index2){
-                this.toster.error("Duplicate Title "+this.intro_video[index]['title'], "Error", {closeButton: true,});
-                this.intro_video[index]['error'] = true;
-                this.intro_video[index]['message'] = "Duplicate Title";
-              }
-              else if((res['value'] == this.intro_video[index]['value']) && this.intro_video[index]['status'] != 'delete' && index != index2){
-                this.toster.error("Duplicate Value "+this.intro_video[index]['value'], "Error", {closeButton: true,});
-                this.intro_video[index]['error'] = true;
-                this.intro_video[index]['message'] = "Duplicate Value";
-              }
-              else{
-                this.intro_video[index2]['error'] = false;
-                this.intro_video[index2]['message'] = "";
-              }
-          })
+      if(tabIndex ==5){
+        this.three_d_videos.push({pk_id:0, video_section:'3D', source: this.video_source_5, title: this['video_title_5'], value: this.video_value_5, status:'', error:false, message: ''});
+        this['video_index_'+tabIndex] = undefined;
+        this['video_title_'+tabIndex] = '';
+        this['video_value_'+tabIndex] = '';
       }
-      if(tab_index == 1){
-        this.two_d_videos.forEach((res, index2)=>{
-            if(res['title'] == this.two_d_videos[index]['title'] && this.two_d_videos[index]['status'] != 'delete' && index != index2){
-              this.toster.error("Duplicate Title "+this.two_d_videos[index]['title'], "Error", {closeButton: true,});
-              this.two_d_videos[index]['title'] = '';
-              this.two_d_videos[index]['error'] = true;
-              this.two_d_videos[index]['message'] = "Duplicate Title";
-            }
-            else if((res['value'] == this.two_d_videos[index]['value']) && this.two_d_videos[index]['status'] != 'delete' && index != index2){
-                this.toster.error("Duplicate Value "+this.two_d_videos[index]['value'], "Error", {closeButton: true,});
-                this.two_d_videos[index]['error'] = true;
-                this.two_d_videos[index]['value'] = '';
-                this.two_d_videos[index]['message'] = "Duplicate Value";
-            }
-            else{
-              this.two_d_videos[index]['error'] = false;
-              this.two_d_videos[index]['message'] = "";
-            }
-        })
-    }
-    if(tab_index == 2){
-        this.board_lecture_videos.forEach((res, index2)=>{
-            if(res['title'] == this.board_lecture_videos[index]['title'] && this.board_lecture_videos[index]['status'] != 'delete' && index != index2){
-              this.toster.error("Duplicate Title "+this.board_lecture_videos[index]['title'], "Error", {closeButton: true,});
-              this.board_lecture_videos[index]['error'] = true;
-              this.board_lecture_videos[index]['title'] = '';
-              this.board_lecture_videos[index]['message'] = "Duplicate Title";
-            }
-            else if((res['value'] == this.board_lecture_videos[index]['value']) && this.board_lecture_videos[index]['status'] != 'delete' && index != index2){
-                this.toster.error("Duplicate Value "+this.board_lecture_videos[index]['value'], "Error", {closeButton: true,});
-                this.board_lecture_videos[index]['error'] = true;
-                this.board_lecture_videos[index]['value'] = '';
-                this.board_lecture_videos[index]['message'] = "Duplicate Value";
+      else{
+        this.validateVideo(tabIndex);
+      }
+  }
+  validateVideo(tab_index){
+    if(this['video_source_'+tab_index] != '' && this['video_title_'+tab_index] && this['video_value_'+tab_index]){
+        let video_title = this['video_title_'+tab_index];
+        let video_source = this['video_source_'+tab_index];
+        let video_value = this['video_value_'+tab_index];
+        if(video_source == 'KPOINT'){
+            let kpoint = this.validateKpointId(video_value);
+            if(kpoint == true){
+                let param1 = {"url": "get-kpoint-token"};
+                this.http.post(param1).subscribe(res=>{
+                    let xt = res['data']['xt'];
+                    let param = {video_id: video_value, xt:xt, url: "kapsule/"+video_value+"?xt="+xt};
+                    this.http.kpointGet(param).subscribe(res=>{
+                        this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
+                     },
+                    error => {
+                        if(error['error']['error']['code'] == 9003){
+                            this['video_value_invalid_error_'+tab_index] = 'Invalid kpoint id';
+                            this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
+                        }
+                    }
+                    );
+                })
             }
             else{
-              this.board_lecture_videos[index]['error'] = false;
-              this.board_lecture_videos[index]['message'] = "";
+                this['video_value_invalid_error_'+tab_index] = 'Invalid kpoint id';
+                this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
             }
-        })
-    }
-    if(tab_index == 3){
-        this.clinical_videos.forEach((res, index2)=>{
-            if(res['title'] == this.clinical_videos[index]['title'] && this.clinical_videos[index]['status'] != 'delete' && index != index2){
-              this.toster.error("Duplicate Title "+this.clinical_videos[index]['title'], "Error", {closeButton: true,});
-              this.clinical_videos[index]['error'] = true;
-              this.clinical_videos[index]['title'] = '';
-              this.clinical_videos[index]['message'] = "Duplicate Title";
-            }
-            else if((res['value'] == this.clinical_videos[index]['value']) && this.clinical_videos[index]['status'] != 'delete' && index != index2){
-                this.toster.error("Duplicate Value "+this.clinical_videos[index]['value'], "Error", {closeButton: true,});
-                this.clinical_videos[index]['error'] = true;
-                this.clinical_videos[index]['value'] = '';
-                this.clinical_videos[index]['message'] = "Duplicate Value";
+        }
+        if(video_source == 'YOUTUBE'){
+            let youtube_check = this.validateYouTubeUrl(video_value);
+            if(youtube_check){
+                this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
             }
             else{
-              this.clinical_videos[index]['error'] = false;
-              this.clinical_videos[index]['message'] = "";
+                this['video_value_invalid_error_'+tab_index] = 'Invalid youtube url';
+                this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
             }
-        })
-    }
-    if(tab_index == 4){
-        this.procedural_videos.forEach((res, index2)=>{
-            if(res['title'] == this.procedural_videos[index]['title'] && this.procedural_videos[index]['status'] != 'delete' && index != index2){
-              this.toster.error("Duplicate Title "+this.procedural_videos[index]['title'], "Error", {closeButton: true,});
-              this.procedural_videos[index]['error'] = true;
-              this.procedural_videos[index]['title'] = '';
-              this.procedural_videos[index]['message'] = "Duplicate Title";
-            }
-            else if((res['value'] == this.procedural_videos[index]['value']) && this.procedural_videos[index]['status'] != 'delete' && index != index2){
-                this.toster.error("Duplicate Value "+this.procedural_videos[index]['value'], "Error", {closeButton: true,});
-                this.procedural_videos[index]['error'] = true;
-                this.procedural_videos[index]['value'] = '';
-                this.procedural_videos[index]['message'] = "Duplicate Value";
-            }
-            else{
-              this.procedural_videos[index]['error'] = false;
-              this.procedural_videos[index]['message'] = "";
-            }
-        })
-    }
-      if(tab_index == 5){
-        this.three_d_videos.forEach((res, index2)=>{
-            if(res['title'] == this.three_d_videos[index]['title'] && this.three_d_videos[index]['status'] != 'delete' && index != index2){
-              this.toster.error("Duplicate Title "+this.three_d_videos[index]['title'], "Error", {closeButton: true,});
-              this.three_d_videos[index]['error'] = true;
-              this.three_d_videos[index]['title'] = '';
-              this.three_d_videos[index]['message'] = "Duplicate Title";
-            }
-            else if((res['value'] == this.three_d_videos[index]['value']) && this.three_d_videos[index]['status'] != 'delete' && index != index2){
-                this.toster.error("Duplicate Value "+this.three_d_videos[index]['value'], "Error", {closeButton: true,});
-                this.three_d_videos[index]['error'] = true;
-                this.three_d_videos[index]['message'] = "Duplicate Value";
-            }
-            else{
-              this.three_d_videos[index]['error'] = false;
-              this.three_d_videos[index]['message'] = "";
-            }
-        })
+        }
     }
   }
+  addUpdateVideo(tab_index, param){
+    if(tab_index == 0)
+    {
+        if(this['video_index_'+tab_index] == undefined){
+            this.intro_video.push({pk_id:0, video_section:'INTRO', source: param['source'], title: param['title'], value: param['value'], status:'', error:false, message: ''});
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video added", "Success", {closeButton: true,});
+        }
+        else{
+            this.intro_video[this['video_index_'+tab_index]]['source'] = param['source'];
+            this.intro_video[this['video_index_'+tab_index]]['title'] = param['title'];
+            this.intro_video[this['video_index_'+tab_index]]['value'] = param['value'];
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video updated", "Success", {closeButton: true,});
+        }
+    }
+    if(tab_index == 1)
+    {
+        if(this['video_index_'+tab_index] == undefined){
+            this.two_d_videos.push({pk_id:0, video_section:'2D', source: param['source'], title: param['title'], value: param['value'], status:'', error:false, message: ''});
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video added", "Success", {closeButton: true,});
+        }
+        else{
+            this.two_d_videos[this['video_index_'+tab_index]]['source'] = param['source'];
+            this.two_d_videos[this['video_index_'+tab_index]]['title'] = param['title'];
+            this.two_d_videos[this['video_index_'+tab_index]]['value'] = param['value'];
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video updated", "Success", {closeButton: true,});
+        }
+    }
+    if(tab_index == 2)
+    {
+        if(this['video_index_'+tab_index] == undefined){
+            this.board_lecture_videos.push({pk_id:0, video_section:'BOARD_LECTURES', source: param['source'], title: param['title'], value: param['value'], status:'', error:false, message: ''});
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video added", "Success", {closeButton: true,});
+        }
+        else{
+            this.board_lecture_videos[this['video_index_'+tab_index]]['source'] = param['source'];
+            this.board_lecture_videos[this['video_index_'+tab_index]]['title'] = param['title'];
+            this.board_lecture_videos[this['video_index_'+tab_index]]['value'] = param['value'];
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video updated", "Success", {closeButton: true,});
+        }
+    }
+    if(tab_index == 3)
+    {
+        if(this['video_index_'+tab_index] == undefined){
+            this.clinical_videos.push({pk_id:0, video_section:'CLINICAL_ESSENTIALS', source: param['source'], title: param['title'], value: param['value'], status:'', error:false, message: ''});
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video added", "Success", {closeButton: true,});
+        }
+        else{
+            this.clinical_videos[this['video_index_'+tab_index]]['source'] = param['source'];
+            this.clinical_videos[this['video_index_'+tab_index]]['title'] = param['title'];
+            this.clinical_videos[this['video_index_'+tab_index]]['value'] = param['value'];
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video updated", "Success", {closeButton: true,});
+        }
+    }
+    if(tab_index == 4)
+    {
+        if(this['video_index_'+tab_index] == undefined){
+            this.procedural_videos.push({pk_id:0, video_section:'PROCEDURAL', source: param['source'], title: param['title'], value: param['value'], status:'', error:false, message: ''});
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video added", "Success", {closeButton: true,});
+        }
+        else{
+            this.procedural_videos[this['video_index_'+tab_index]]['source'] = param['source'];
+            this.procedural_videos[this['video_index_'+tab_index]]['title'] = param['title'];
+            this.procedural_videos[this['video_index_'+tab_index]]['value'] = param['value'];
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video updated", "Success", {closeButton: true,});
+        }
+    }
+    if(tab_index == 5)
+    {
+        if(this['video_index_'+tab_index] == undefined){
+            this.three_d_videos.push({pk_id:0, video_section:'3D', source: 'YOUTUBE', title: param['title'], value: param['value'], status:'', error:false, message: ''});
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video added", "Success", {closeButton: true,});
+        }
+        else{
+            this.three_d_videos[this['video_index_'+tab_index]]['source'] = param['source'];
+            this.three_d_videos[this['video_index_'+tab_index]]['title'] = param['title'];
+            this.three_d_videos[this['video_index_'+tab_index]]['value'] = param['value'];
+            this.resetVideo(tab_index);
+            this['video_value_invalid_error_'+tab_index] = '';
+            this['video_value_error_'+tab_index] = '';
+            this['video_title_error_'+tab_index] = '';
+            this.toster.success("Video updated", "Success", {closeButton: true,});
+        }
+    }
+  }
+    CheckTitleValue(tab_index, index){
+        let videos = [];
+        if(tab_index == 0){
+            videos = this.intro_video;
+        }
+        if(tab_index == 1){
+            videos = this.two_d_videos;
+        }
+        if(tab_index == 2){
+            videos = this.board_lecture_videos;
+        }
+        if(tab_index == 3){
+            videos = this.clinical_videos;
+        }
+        if(tab_index == 4){
+            videos = this.procedural_videos;
+        }
+        if(tab_index == 5){
+            videos = this.three_d_videos;
+        }
+
+        if(videos.length > 0){
+            videos.forEach((res, index2)=>{
+                let title = this['video_title_'+tab_index];
+                let value = this['video_value_'+tab_index];
+                let video_index = this['video_index_'+tab_index];
+                if((res['title'] == title) && res['status'] != 'delete' && video_index != index2 && index == 1){
+                    this['video_title_'+tab_index] = '';
+                    this['video_title_error_'+tab_index] = "Duplicate Title "+title;
+                    this.toster.error("Duplicate Title "+title, "Error", {closeButton: true,});
+                }
+                else{
+                    this['video_title_error_'+tab_index] = '';
+                }
+                if((res['value'] == value) && res['status'] != 'delete' && video_index != index2 && index == 2){
+                    this['video_value_'+tab_index] = '';
+                    this['video_value_error_'+tab_index] = "Duplicate Value "+value;
+                    this.toster.error("Duplicate Value "+value, "Error", {closeButton: true,});
+                }
+                else{
+                    this['video_value_error_'+tab_index] = '';
+                }
+            });
+        }
+    }
     validateKpointId(id){
         if(id.length == 40){
             return true;
@@ -653,7 +609,7 @@ export class CreateContentComponent implements OnInit {
             }
         }
     }
-  upload3dObject(event,index){
+  upload3dObject(event){
     let allowed_types = [];
     allowed_types = ["obj"];
     const uploadData = new FormData();
@@ -683,11 +639,58 @@ export class CreateContentComponent implements OnInit {
     this.http.imageUpload(param, uploadData).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success('Files successfully uploaded.', 'File Uploaded');
-        this.three_d_videos[index]['value'] = res['url'];
+        this.video_value_5 = res['url'];
+      }else{
+        this.toster.error('File upload failed.', 'Error');
+        this.video_value_5 = '';
       }
     });
   }
+  resetVideo(tabIndex){
+    this['video_index_'+tabIndex] = undefined;
+    this['video_title_'+tabIndex] = '';
+    this['video_source_'+tabIndex] = '';
+    this['video_value_'+tabIndex] = '';
+  }
+  editVideo(tabIndex, index){
+    this['video_index_'+tabIndex] = index;
+    this['video_value_invalid_error_'+tabIndex] = '';
+    if(tabIndex == 0){
+        this['video_title_'+tabIndex] = this.intro_video[index]['title'];
+        this['video_source_'+tabIndex] = this.intro_video[index]['source'];
+        this['video_value_'+tabIndex] = this.intro_video[index]['value'];
+    }
+    if(tabIndex == 1){
+        this['video_title_'+tabIndex] = this.two_d_videos[index]['title'];
+        this['video_source_'+tabIndex] = this.two_d_videos[index]['source'];
+        this['video_value_'+tabIndex] = this.two_d_videos[index]['value'];
+    }
+    if(tabIndex == 2){
+        this['video_title_'+tabIndex] = this.board_lecture_videos[index]['title'];
+        this['video_source_'+tabIndex] = this.board_lecture_videos[index]['source'];
+        this['video_value_'+tabIndex] = this.board_lecture_videos[index]['value'];
+    }
+    if(tabIndex == 3){
+        this['video_title_'+tabIndex] = this.clinical_videos[index]['title'];
+        this['video_source_'+tabIndex] = this.clinical_videos[index]['source'];
+        this['video_value_'+tabIndex] = this.clinical_videos[index]['value'];
+    }
+    if(tabIndex == 4){
+        this['video_title_'+tabIndex] = this.procedural_videos[index]['title'];
+        this['video_source_'+tabIndex] = this.procedural_videos[index]['source'];
+        this['video_value_'+tabIndex] = this.procedural_videos[index]['value'];
+    }
+    if(tabIndex == 5){
+        this['video_title_'+tabIndex] = this.three_d_videos[index]['title'];
+        this['video_source_'+tabIndex] = this.three_d_videos[index]['source'];
+        this['video_value_'+tabIndex] = this.three_d_videos[index]['value'];
+    }
+  }
   removeVideo(tabIndex, index){
+    if(tabIndex == 0){
+        this.intro_video[index]['status'] = "delete";
+        //this.two_d_videos.splice(index, 1);
+    }
     if(tabIndex == 1){
         this.two_d_videos[index]['status'] = "delete";
         //this.two_d_videos.splice(index, 1);
@@ -1146,7 +1149,10 @@ export class CreateContentComponent implements OnInit {
               if(this.content_id == 0){
                 this.navigateTo("create-content/"+res['data']['id']);
               }
-            window.open('student/content-preview/'+res['data']['id'], "_blank");
+              else{
+                  setTimeout(timeout=>{window.location.reload();},1000)
+              }
+              window.open('student/content-preview/'+res['data']['id'], "_blank");
           }
           else{
               this.is_preview = false;
