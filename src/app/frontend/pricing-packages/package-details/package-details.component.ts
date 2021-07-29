@@ -26,6 +26,7 @@ interface CurriculumNode {
 })
 export class PackageDetailsComponent implements OnInit {
   public package_id = 0;
+  public user_id = 0;
   public package_prices = [];
   public sample_videos = [];
   public testimonials = [];
@@ -37,6 +38,7 @@ export class PackageDetailsComponent implements OnInit {
   public rating = 0;
   public review = '';
   public package_avg_rating:any = 0;
+  public review_error = false;
   
   //Tree controls for topics tab
   treeControl = new NestedTreeControl<CurriculumNode>(node => node.children);
@@ -54,6 +56,10 @@ export class PackageDetailsComponent implements OnInit {
   hasChild = (_: number, node: CurriculumNode) => !!node.children && node.children.length > 0;
 
   ngOnInit(): void {
+    let user = this.http.getUser();
+    if(user){
+      this.user_id = user.id;
+    }
     this.activatedRoute.params.subscribe((param) => {
       this.package_id = param.id;
       if (this.package_id != undefined) {
@@ -139,19 +145,31 @@ export class PackageDetailsComponent implements OnInit {
   }
 
   public addReview(){
+    this.review_error =  false;
+    if(this.user_id == 0){
+      this.toster.error("Please Login!", 'Error', { closeButton: true });
+      return;
+    }
+    
+
     if(this.rating < 0.5){
       this.toster.error("Please rate between 1 to 5", 'Error', { closeButton: true });
       return;
     }
-    if(this.rating < 0.5){
-      this.toster.error("Write your review!", 'Error', { closeButton: true });
+
+    if(this.review == ''){
+      this.review_error =  true;
+      //this.toster.error("Write your review!", 'Error', { closeButton: true });
       return;
-    }
-    let data = { url: 'add-review-rating', package_id : this.package_id, rating : this.rating, review : this.review};
+    } 
+    
+    let data = { url: 'add-review-rating', package_id : this.package_id, rating : this.rating, review : this.review, user_id : this.user_id};
     this.http.nonAuthenticatedPost(data).subscribe((res) => {
       if (res['error'] == false) {     
         //console.log(res);
         this.toster.success("Thanks for your feedback!", 'Success', { closeButton: true });
+        this.rating = 0;
+        this.review = '';
       }else{
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }

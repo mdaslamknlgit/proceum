@@ -208,10 +208,10 @@
                                     </div>
                                     <div class="mt_1">Write Your Review</div>
                                     <div class="err_tltp_par">
-                                        <mat-form-field appearance="outline" class=" w_100p">
-                                            <textarea matInput class="hgt_100px" placeholder="Write Your Review" [(ngModel)]="review" name="rating_review" #rating_review="ngModel" required></textarea>
+                                        <mat-form-field appearance="outline" class=" w_100p {{ ((review_form.submitted || rating_review.touched) && review_error) ? 'mat-form-field-invalid' : ''}}">
+                                            <textarea matInput class="hgt_100px" placeholder="Write Your Review" [(ngModel)]="review" name="rating_review" #rating_review="ngModel" ></textarea>
                                         </mat-form-field>
-                                        <span class="prc_tltp" *ngIf="(review_form.submitted || rating_review.touched) && review == ''">Please write some review!</span>
+                                        <span class="prc_tltp" *ngIf="(review_form.submitted || rating_review.touched) && review_error">Please write some review!</span>
                                     </div>
 
                                     <div class="text_right">
