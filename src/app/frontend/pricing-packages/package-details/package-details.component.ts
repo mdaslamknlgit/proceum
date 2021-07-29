@@ -34,6 +34,9 @@ export class PackageDetailsComponent implements OnInit {
   public user = [];
   public iframe_width = '400';
   public iframe_height = '300';
+  public rating = 0;
+  public review = '';
+  public package_avg_rating:any = 0;
   
   //Tree controls for topics tab
   treeControl = new NestedTreeControl<CurriculumNode>(node => node.children);
@@ -79,6 +82,7 @@ export class PackageDetailsComponent implements OnInit {
         }    
         this.faqs = res['data']['faqs'];        
         this.testimonials = res['data']['testimonials']; 
+        this.package_avg_rating = res['data']['package_avg_rating']; 
         //Get the topics if package courses not empty
         if(this.package.courses_ids_csv != ''){
           this.getPackageTopicsHierarchy();
@@ -123,10 +127,36 @@ export class PackageDetailsComponent implements OnInit {
     let data = { url: 'get-package-topics', package_id : this.package_id};
     this.http.nonAuthenticatedPost(data).subscribe((res) => {
       if (res['error'] == false) {     
-        console.log(res);
+        //console.log(res);
         this.dataSource.data = res['data'];
       }
     });
+  }
+
+  public setRating(rating){
+    this.rating = rating;
+    //console.log(this.rating);
+  }
+
+  public addReview(){
+    if(this.rating < 0.5){
+      this.toster.error("Please rate between 1 to 5", 'Error', { closeButton: true });
+      return;
+    }
+    if(this.rating < 0.5){
+      this.toster.error("Write your review!", 'Error', { closeButton: true });
+      return;
+    }
+    let data = { url: 'add-review-rating', package_id : this.package_id, rating : this.rating, review : this.review};
+    this.http.nonAuthenticatedPost(data).subscribe((res) => {
+      if (res['error'] == false) {     
+        //console.log(res);
+        this.toster.success("Thanks for your feedback!", 'Success', { closeButton: true });
+      }else{
+        this.toster.error(res['message'], 'Error', { closeButton: true });
+      }
+    });
+    
   }
 
 

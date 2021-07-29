@@ -1,7 +1,8 @@
 <app-topbar class="inner-header"></app-topbar>
 <app-sidemenu></app-sidemenu>
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <span routerLink="pricing-and-packages"><strong>Pricing & Packages</strong></span> &raquo; Details</div>
+    <div class="brd_crm">Proceum &raquo; <span routerLink="pricing-and-packages"><strong>Pricing &
+                Packages</strong></span> &raquo; Details</div>
     <div class="pg_ttl">Package Details</div>
     <div class="hgt_20"></div>
     <div class="crs_innr_par">
@@ -16,21 +17,21 @@
             </div>
             <div class="crs_innr_dsc">
                 <div class="crs_innr_hd">
-                    {{ package.package_name }}
+                    {{ package.package_name }} {{package_avg_rating}}
                 </div>
                 <div class="hgt_10"></div>
                 <div class="rtng_par">
                     <div class="crs_rtng str_slctd">
-                        <mat-icon>star_rate</mat-icon>
-                        <mat-icon class="hlf_str1">star_rate</mat-icon>
-                        <mat-icon class="">star_rate</mat-icon>
-                        <mat-icon class="hlf_str2">star_rate</mat-icon>
-                        <mat-icon>star_rate</mat-icon>
-                        <mat-icon class="hlf_str3 ct_slctd">star_rate</mat-icon>
-                        <mat-icon>star_rate</mat-icon>
-                        <mat-icon class="hlf_str4">star_rate</mat-icon>
-                        <mat-icon>star_rate</mat-icon>
-                        <mat-icon class="hlf_str5">star_rate</mat-icon>
+                        <mat-icon class="{{package_avg_rating > 0 ?'ct_slctd':''}}">star</mat-icon>
+                        <mat-icon class="hlf_str1 {{package_avg_rating > 0.5 ?'ct_slctd':''}}" >star</mat-icon>
+                        <mat-icon class="{{package_avg_rating > 1 ?'ct_slctd':''}}">star</mat-icon>
+                        <mat-icon class="hlf_str2 {{package_avg_rating > 1.5?'ct_slctd':''}}" >star</mat-icon>
+                        <mat-icon class="{{package_avg_rating > 2?'ct_slctd':''}}">star</mat-icon>
+                        <mat-icon class="hlf_str3 {{package_avg_rating > 2.5?'ct_slctd':''}}" >star</mat-icon>
+                        <mat-icon class="{{package_avg_rating > 3 ?'ct_slctd':''}}">star</mat-icon>
+                        <mat-icon class="hlf_str4 {{package_avg_rating > 3.5 ?'ct_slctd':''}}" >star</mat-icon>
+                        <mat-icon class="{{package_avg_rating > 4 ?'ct_slctd':''}}">star</mat-icon>
+                        <mat-icon class="hlf_str5 {{package_avg_rating > 4.5?'ct_slctd':''}}" >star</mat-icon>
                     </div>
                 </div>
                 <div class="hgt_10"></div>
@@ -40,7 +41,6 @@
                 <div class="crs_dsc"  *ngIf="package.package_desc">
                     {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' : (package.package_desc) }}
                 </div>
-                <hr class="wht_hr">
                 
                 <hr class="wht_hr">
                 <div class="crs_d_r_p">
@@ -132,7 +132,97 @@
                         <mat-icon>person</mat-icon>
                         Testimonials
                     </ng-template>
-                    Testimonials
+                    <div class="testi_mo_mn">
+                        <div class="testi_hd">
+                            Testimonials
+                        </div>
+                        <div class="testi_cnt mt_05" *ngIf="testimonials.length > 0">
+                            <div class="testi_dv" *ngFor="let testimonial of testimonials">
+                                <div class="testi_aa">
+                                    <div class="testi_pp" *ngIf="testimonial.profile_pic">
+                                        <img src="{{ testimonial.profile_pic }}">
+                                    </div>
+                                    <div class="testi_pp" *ngIf="!testimonial.profile_pic">
+                                        <img src="../../../assets/images/out-story-img.jpeg">
+                                    </div>
+                                    <div class="testi_rt">
+                                        <div>
+                                            {{ testimonial.first_name}}  {{testimonial.last_name }}
+                                        </div>
+                                        <div class="rtng_par">
+                                            <div class="crs_rtng">
+                                                <mat-icon class="{{testimonial.rating > 0 ?'ct_slctd':''}}">star</mat-icon>
+                                                <mat-icon class="hlf_str1 {{testimonial.rating > 0.5 ?'ct_slctd':''}}" >star</mat-icon>
+                                                <mat-icon class="{{testimonial.rating > 1 ?'ct_slctd':''}}">star</mat-icon>
+                                                <mat-icon class="hlf_str2 {{testimonial.rating > 1.5?'ct_slctd':''}}" >star</mat-icon>
+                                                <mat-icon class="{{testimonial.rating > 2?'ct_slctd':''}}">star</mat-icon>
+                                                <mat-icon class="hlf_str3 {{testimonial.rating > 2.5?'ct_slctd':''}}" >star</mat-icon>
+                                                <mat-icon class="{{testimonial.rating > 3 ?'ct_slctd':''}}">star</mat-icon>
+                                                <mat-icon class="hlf_str4 {{testimonial.rating > 3.5 ?'ct_slctd':''}}" >star</mat-icon>
+                                                <mat-icon class="{{testimonial.rating > 4 ?'ct_slctd':''}}">star</mat-icon>
+                                                <mat-icon class="hlf_str5 {{testimonial.rating > 4.5?'ct_slctd':''}}" >star</mat-icon>
+                                            </div>
+                                            <div>
+                                                {{ testimonial.rating }}/5
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="testi_ab mt_05">
+                                    <!-- <div class="testi_ac">
+                                        An awesome activity to experience
+                                    </div> -->
+                                    <div class="testi_ad">
+                                        {{ testimonial.review }}
+                                    </div>
+                                    <div class="testi_ae">
+                                        {{ testimonial.created_at }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hgt_20"></div>
+                        <div class="testi_hd">
+                            Write Review
+                        </div>
+                        <form #review_form="ngForm" name="review_form" (ngSubmit)="review_form.valid && addReview()" autocomplete="off">
+                            <div class="wr_mn dsh_brd_crds">
+                                <div class="wr_yr mt_1">
+                                    <div>Your Rating</div>
+                                    <div class="rtng_par bb_0">
+                                        <div class="crs_rtng">
+                                            <mat-icon class="{{rating > 0 ?'ct_slctd':''}}" (click)="setRating(0.5)">star</mat-icon>
+                                            <mat-icon class="hlf_str1 {{rating > 0.5 ?'ct_slctd':''}}" (click)="setRating(1)">star</mat-icon>
+                                            <mat-icon class="{{rating > 1 ?'ct_slctd':''}}" (click)="setRating(1.5)">star</mat-icon>
+                                            <mat-icon class="hlf_str2 {{rating > 1.5?'ct_slctd':''}}" (click)="setRating(2)">star</mat-icon>
+                                            <mat-icon class="{{rating > 2?'ct_slctd':''}}" (click)="setRating(2.5)">star</mat-icon>
+                                            <mat-icon class="hlf_str3 {{rating > 2.5?'ct_slctd':''}}" (click)="setRating(3)">star</mat-icon>
+                                            <mat-icon class="{{rating > 3 ?'ct_slctd':''}}" (click)="setRating(3.5)">star</mat-icon>
+                                            <mat-icon class="hlf_str4 {{rating > 3.5 ?'ct_slctd':''}}" (click)="setRating(4)">star</mat-icon>
+                                            <mat-icon class="{{rating > 4 ?'ct_slctd':''}}" (click)="setRating(4.5)">star</mat-icon>
+                                            <mat-icon class="hlf_str5 {{rating > 4.5?'ct_slctd':''}}" (click)="setRating(5)">star</mat-icon>
+                                        </div>
+                                        <div>
+                                            {{rating}}/5
+                                        </div>
+                                    </div>
+                                    <div class="mt_1">Write Your Review</div>
+                                    <div class="err_tltp_par">
+                                        <mat-form-field appearance="outline" class=" w_100p">
+                                            <textarea matInput class="hgt_100px" placeholder="Write Your Review" [(ngModel)]="review" name="rating_review" #rating_review="ngModel" required></textarea>
+                                        </mat-form-field>
+                                        <span class="prc_tltp" *ngIf="(review_form.submitted || rating_review.touched) && review == ''">Please write some review!</span>
+                                    </div>
+
+                                    <div class="text_right">
+                                        <button type="submit" mat-raised-button color="accent">Submit</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>
                 </mat-tab>
 
                 <mat-tab *ngIf="sample_videos.length > 0">
@@ -156,7 +246,7 @@
                 <mat-tab *ngIf="faqs.length > 0">
                     <ng-template mat-tab-label>
                         <mat-icon>help_outline</mat-icon>
-                        FAQ's
+                        FAQs
                     </ng-template>
                     <div class="crs_tbbs_cnt">
                         <ul style="list-style-type:none;" *ngFor="let faq of faqs;let i = index">

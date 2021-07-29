@@ -315,18 +315,28 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }
         this.videos = data['videos'];
         this.xt = data['xt'];
+        let i=0;
         this.videos.forEach(video => {
             if(video['video_section'] == "INTRO") {
                 this.intro_video.push(video);
                 //this.video_id = video['video_source'];
-                if(this.player == undefined && video['video_type'] == 'KPOINT'){
+                if(i==0){
+                    // if(this.player == undefined && video['video_type'] == 'KPOINT'){
+                    //     this.playVideo(video);
+                    // }
+                    // else{
+                    //     this.playVideo(video);
+                    // }
                     this.playVideo(video);
+                    i++;
                 }
-                else{
-                    this.playVideo(video);
-                }
+                
             }
             if(video['video_section'] == "2D") {
+                if(i==0){
+                    this.playVideo(video);
+                    i++;
+                }
                 this.two_d_videos.push(video);
             }
             if(video['video_section'] == "3D") {
@@ -389,22 +399,30 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             });
         }
       }
+    this.fetchImages(0);
+    this.active_div = div;
+  }
+  fetchImages(class_index){
     setTimeout(res=>{
         let class_name = document.getElementsByClassName("ck_editor_view");
-        let images = class_name[0].getElementsByTagName("img");
-        for(var i = 0, n = images.length; i < n; ++i) {
-            if(images[i].src != "") {
-                this.images.push(images[i].src);
-                images[i].addEventListener("click", (e) =>  {
-                    const target = e.target as HTMLSourceElement;
-                    let index = this.images.indexOf(target.src);
-                    this.openLibrary(index);
-                    
-                });
+        if(class_name != undefined){
+            let images = class_name[class_index].getElementsByTagName("img");
+            if(images != undefined){
+                for(var i = 0, n = images.length; i < n; ++i) {
+                    if(images[i].src != "") {
+                        if(!this.images.includes(images[i].src))
+                            this.images.push(images[i].src);
+                        images[i].addEventListener("click", (e) =>  {
+                            const target = e.target as HTMLSourceElement;
+                            let index = this.images.indexOf(target.src);
+                            this.openLibrary(index);
+                            
+                        });
+                    }
+                }
             }
         }
       },1000)
-    this.active_div = div;
   }
   openLibrary(index){
       this.image_index = index;

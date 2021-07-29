@@ -315,7 +315,7 @@
               No Notes Found
             </div>
             <mat-accordion *ngIf="learning_notes.length > 0" multi>
-              <mat-expansion-panel *ngFor="let note of learning_notes">
+              <mat-expansion-panel *ngFor="let note of learning_notes;let learning_notes_index = index" (click)="fetchImages(learning_notes_index)">
                 <mat-expansion-panel-header>
                   <mat-panel-title>{{ note["title"] }}</mat-panel-title>
                   <mat-panel-description> </mat-panel-description>
