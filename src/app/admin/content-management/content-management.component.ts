@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -34,7 +35,7 @@ export class ContentManagementComponent implements OnInit {
   from_date = '';
   to_date = '';
   public today_date = new Date();
-  constructor(private http: CommonService, private toster: ToastrService, private router: Router) {}
+  constructor(private http: CommonService, private toster: ToastrService, private router: Router, private fs: FirebaseService) {}
 
   ngOnInit(): void {
       this.user = this.http.getUser();
@@ -163,6 +164,7 @@ export class ContentManagementComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
+        this.fs.deleteNotification({path: "content_notifications/"+id});
         this.getContentList();
       } else {
         this.toster.error(res['message'], res['message'], {

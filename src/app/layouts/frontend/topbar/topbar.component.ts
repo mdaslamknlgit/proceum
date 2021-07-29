@@ -43,6 +43,9 @@ export class TopbarComponent implements OnInit {
     } else if (this.user['role'] == '2') {
       this.route.navigateByUrl('/student/dashboard');
     }
+    else if (this.user['role'] == '3' || this.user['role'] == '4' || this.user['role'] == '5' || this.user['role'] == '6' || this.user['role'] == '7') {
+        this.route.navigateByUrl('/reviewer/dashboard');
+      }
   }
   menuActive() {
     if (typeof this.id != undefined) {
