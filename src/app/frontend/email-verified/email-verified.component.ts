@@ -18,6 +18,7 @@ export class EmailVerifiedComponent implements OnInit {
   ngOnInit(): void {
     let params = {url: 'verificationemail/'+this.hash_token}
     this.http.verify(params).subscribe((res: Response) => {
+      console.log(res);
       if (res.error) {
         this.is_show=false;
         this.is_verrified=1;
@@ -25,6 +26,7 @@ export class EmailVerifiedComponent implements OnInit {
         this.is_show=true;
       }
     });
+    console.log("shasssha");
   }
 
 }

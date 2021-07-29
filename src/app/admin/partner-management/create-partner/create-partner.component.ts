@@ -58,11 +58,16 @@ export class CreatePartnerComponent implements OnInit {
   public c_city = '';
   public c_pincode = '';
   public domain = '';
+  public code = '';
+  public second_phone = '';
+  public college_university : any = '';
 
   countrys = [];
   states = [];
   packages = [];
   public user = [];
+  universities = [];
+  all_universities: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_packages: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -82,6 +87,7 @@ export class CreatePartnerComponent implements OnInit {
     });
     this.getCountries();
     this.getPackages();
+    this.getPartnersListForUniversity();
   }
 
   getCountries(){
@@ -219,16 +225,32 @@ export class CreatePartnerComponent implements OnInit {
     if(!this.validateEmail(this.email)){
       return false;
     }
-    if(this.password.length < 6){
+    if(this.password.length < 6 && this.package_id < 1){
       return;
     }
-    if(this.password !== this.confirm_password){
+    if((this.password !== this.confirm_password) &&  this.package_id < 1){
       return;
     }
     if(!Number(this.phone) || (this.phone.length < 10 || this.phone.length > 13)){
       return;
     }
-    if(this.partner_type != "" && this.partner_name != "" && this.email != "" && this.contact_name != "" && this.gstin != "" && this.partner_type != ""){
+    if(this.partner_type == '1'){ // partner_type == '2' is University
+      if(!Number(this.second_phone) || (this.second_phone.length < 10 || this.second_phone.length > 13)){
+        return;
+      }
+    }
+    if(this.partner_type == '1' || this.partner_type == '2'){
+      if(this.code == ""){
+        return;
+      }
+    }
+    if(this.partner_type == '2'){ // partner_type == '2' is College
+      if(this.college_university == ''){ //Univesity selected or not
+        return;
+      }
+    }
+
+    if(this.partner_type != "" && this.partner_name != "" && this.email != "" && this.contact_name != "" && this.code != "" && this.gstin != "" && this.partner_type != ""){
       this.branding_info_expand = true;
       this.basic_details_expand = false;
     }
@@ -285,6 +307,9 @@ export class CreatePartnerComponent implements OnInit {
       password : this.password,
       contact_name : this.contact_name,
       phone : this.phone,
+      second_phone : this.second_phone,
+      code : this.code,
+      college_university : this.college_university,
       gstin : this.gstin,
       header_logo : this.header_logo,
       footer_logo : this.footer_logo,
@@ -335,6 +360,9 @@ export class CreatePartnerComponent implements OnInit {
         this.password = partner.password ;
         this.contact_name = partner.contact_name ;
         this.phone = partner.phone ;
+        this.second_phone = partner.second_phone ;
+        this.code = partner.code;
+        this.college_university = partner.college_university;
         this.gstin = partner.gstin ;
         this.header_logo = partner.header_logo ;
         this.footer_logo = partner.footer_logo ;
@@ -396,6 +424,36 @@ export class CreatePartnerComponent implements OnInit {
       event.preventDefault();
       return false;
     }
+  }
+
+  //To get all the Universities list
+  getPartnersListForUniversity(){
+    let param = { url: 'get-partners-list',partner_type_id : 1 };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.universities = res['data']['partners'];
+        if(this.universities != undefined){
+          this.all_universities.next(this.universities.slice()); 
+        }
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  filterPartnersListForUniversity(event) {
+    let search = event;
+    if (!search) {
+      this.all_universities.next(this.universities.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_universities.next(
+      this.universities.filter(
+        (university) => university.name.toLowerCase().indexOf(search) > -1
+      )
+    );
   }
 
 }

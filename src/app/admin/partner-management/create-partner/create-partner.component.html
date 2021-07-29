@@ -46,7 +46,7 @@
                                     <span class="prc_tltp" *ngIf="create_Partner_form1.submitted && email_edit.errors?.pattern">This is not a valid Email!</span>    
                                 </div>
                             </div>
-                            <div class="crt_pr_dv">
+                            <div class="crt_pr_dv" *ngIf="!partner_id">
                                 <div class="crt_prt_hd">Password</div>
                                 <div class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
@@ -56,7 +56,7 @@
                                     <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || password_edit.touched) && (password != '' && password.length < 5) ">Minimum of 6 characters password required!</span>
                                 </div>
                             </div>
-                            <div class="crt_pr_dv">
+                            <div class="crt_pr_dv" *ngIf="!partner_id">
                                 <div class="crt_prt_hd">Confirm password</div>
                                 <div class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p"  class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
@@ -67,22 +67,60 @@
                                 </div>
                             </div>
                             <div class="crt_pr_dv">
-                                <div class="crt_prt_hd">Contact Number</div>
+                                <div class="crt_prt_hd">Primary Contact Number</div>
                                 <div class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <input matInput placeholder="Contact Number" [(ngModel)]="phone" name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13" required/>
+                                        <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone" name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13" required/>
                                     </mat-form-field>
                                     <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || phone_edit.touched) && phone_edit.invalid">Contact number is required</span>
-                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 && phone.length > 13)">Invalid Contact number.Minimun of 9, Maximum of 13 digits required!</span>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 || phone.length > 13)">Invalid Contact number.Minimun of 9, Maximum of 13 digits required!</span>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv" *ngIf="partner_type == '1'">
+                                <div class="crt_prt_hd">Secondery Contact Number</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone" name="second_phone_edit" #second_phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13" required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || second_phone_edit.touched) && second_phone_edit.invalid">Contact number is required</span>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || second_phone_edit.touched) && (second_phone != '') && (second_phone.length < 10 || second_phone.length > 13)">Invalid Contact number.Minimun of 9, Maximum of 13 digits required!</span>
                                 </div>
                             </div>
                             <div class="crt_pr_dv">
                                 <div class="crt_prt_hd">Contact Person</div>
                                 <div class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <input matInput placeholder="Person Name" maxlength="50" appAlphabetOnly [(ngModel)]="contact_name" name="contact_name_edit" #contact_name_edit="ngModel" required/>
+                                        <input matInput placeholder="Person Name" maxlength="50" (keypress)="allAlphabetsWithSpaces($event)"  [(ngModel)]="contact_name" name="contact_name_edit" #contact_name_edit="ngModel" required/>
                                     </mat-form-field>
                                     <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || contact_name_edit.touched) && contact_name_edit.invalid">Contact Person name is required</span>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv" *ngIf="partner_type == '1' || partner_type == '2'">
+                                <div class="crt_prt_hd">{{ (partner_type == 1) ? "University" : "College"}} Code</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput placeholder="{{ (partner_type == '1') ? 'University' : 'College'}} Code" maxlength="10" [(ngModel)]="code" name="code_edit" #code_edit="ngModel" required/>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || code_edit.touched) && code_edit.invalid">{{ (partner_type == '1') ? "University" : "College"}} Code is required</span>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv" *ngIf="partner_type == '2'">
+                                <div class="crt_prt_hd">Select University</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <mat-select tabindex="8" placeholder="Select University" name="college_university_edit"
+                                            #college_university_edit="ngModel" [(ngModel)]="college_university" required>
+                                            <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
+                                                [placeholderLabel]="'Search University'" name="search_university" ngModel
+                                                (ngModelChange)="filterPartnersListForUniversity($event)"></ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let university of all_universities | async" [value]="university['pk_id']">{{
+                                            university["name"] }}</mat-option>
+                                        </mat-select>
+                                        <span *ngIf="(create_Partner_form1.submitted  || college_university_edit.touched) && college_university == ''"
+                                        class="prc_tltp">Select University</span>
+                                    </mat-form-field>
                                 </div>
                             </div>
                             <div class="crt_pr_dv">

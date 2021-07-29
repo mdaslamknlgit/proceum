@@ -3,21 +3,34 @@
     <div class="pg_ttl">Customers Database</div>
     <hr />
     <div class="dsh_brd_crds">
-        <div class="d-flex">
-            <div class="xl_srch">
-                <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-                        placeholder="Search" />
-                    <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
-                </mat-form-field>
-            </div>
+        <div class="d_flx_ac">
+            <mat-form-field appearance="outline" class="mr_1">
+                <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                    placeholder="Search" />
+                <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mr_1">
+                <input matInput [max]="today" [matDatepicker]="from_picker" [(ngModel)]="from_date" readonly placeholder="From Date" />
+                <mat-datepicker-toggle matSuffix [for]="from_picker"></mat-datepicker-toggle>
+                <mat-datepicker #from_picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="mr_1">
+                <input matInput [min]="from_date" [matDatepicker]="to_picker" [(ngModel)]="to_date" [disabled]="!from_date" readonly placeholder="To Date" />
+                <mat-datepicker-toggle matSuffix [for]="to_picker"></mat-datepicker-toggle>
+                <mat-datepicker #to_picker></mat-datepicker>
+            </mat-form-field>
+            <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm" (click)="doFilter()"
+            [disabled]="!from_date || !to_date">
+            Submit
+            </button>
+            <button mat-raised-button class="float_right mr_1 btn_st_frm" (click)="resetFilters()" color="warn"  matTooltip="Reset">
+                <mat-icon>restart_alt</mat-icon>
+            </button>
             <div class="spacer"></div>
-            <div>
-                <button mat-raised-button color="accent" (click)="navigateTo('create-partner')">
-                    <mat-icon>add</mat-icon>
-                    Add New Partner
-                </button>
-            </div>
+            <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm" (click)="navigateTo('create-partner')">
+                <mat-icon>add</mat-icon>
+                Add New Partner
+            </button>
         </div>
         <!-- <div class="d-flex">
             <div class="spacer"></div>
