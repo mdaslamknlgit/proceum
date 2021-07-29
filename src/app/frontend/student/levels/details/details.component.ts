@@ -217,7 +217,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
           return false;
       }
     var iframe_src       = url;
-    var youtube_video_id = iframe_src.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop();
+    var youtube_video_id = iframe_src.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/);
+    if(youtube_video_id == null)
+        return false
+    else
+    youtube_video_id = youtube_video_id.pop();
     
     if (youtube_video_id.length == 11) {
         var video_thumbnail = this.sanitizer.bypassSecurityTrustResourceUrl("https://img.youtube.com/vi/"+youtube_video_id+"/0.jpg");

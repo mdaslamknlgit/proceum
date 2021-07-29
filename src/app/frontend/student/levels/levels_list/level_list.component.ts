@@ -80,6 +80,7 @@ export class Level_listComponent implements OnInit {
           this.title = this.curriculum['curriculumn_name'];
         }
       } else {
+        this.breadcome = res['breadcome'];
         this.levels = [];
         this.total_items = 0;
         if (res['check_data'] == 0) {
