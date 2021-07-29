@@ -76,7 +76,7 @@ const routes: Routes = [
       role: '2,1,3,4,5,6,7,8,9,10,11',
     },
   },
-  //{ path: 'student-curriculum', component: CurriculumComponent },
+  { path: 'student-curriculum', component: CurriculumComponent },
   { path: 'pricing-and-packages', component: ListPackagesComponent },
   { path: 'package-details/:id', component: PackageDetailsComponent },
   { path: 'not-found', component: NotFoundComponent },

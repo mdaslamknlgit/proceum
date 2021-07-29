@@ -14,7 +14,7 @@
                             </ng-template>
                             <div class="hgt_20"></div>
                             <div>
-                                <form #create_package_form="ngForm" name="create_package_form"
+                                <form autocomplete="off" #create_package_form="ngForm" name="create_package_form"
                                     (ngSubmit)="create_package_form.valid && createPackageService()" novalidate>
                                     <div class="cpm_pg">
                                         <div class="cpm_pg_mn">
@@ -100,9 +100,6 @@
                                                 <div *ngFor="let price of package_prices;let i = index">
                                                     <div class="pkg_chkbx" *ngIf="price['status'] != '0'">
                                                         <div class="w_50p mr_1">
-                                                            <!-- <div>
-                                                    <mat-checkbox class="mr_1"></mat-checkbox>Package price in INR
-                                                </div> -->
                                                             <div class="err_tltp_par">
                                                                 <mat-form-field appearance="outline" class="mt_05">
                                                                     <mat-select
@@ -118,18 +115,11 @@
                                                                                 {{ country['country_name'] }}
                                                                             </mat-option>
                                                                         </ng-container>
-                                                                        <!-- <mat-option *ngFor="let country of all_countries | async"
-                                                                    [value]="country['id']"
-                                                                    (click)="addCurrencyToField(country['currency_text'],i)">
-                                                                    {{country['country_name']}}</mat-option> -->
                                                                     </mat-select>
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
                                                         <div class="w_50p">
-                                                            <!-- <div>
-                                                    <mat-checkbox class="mr_1"></mat-checkbox>Package price in USD
-                                                </div> -->
                                                             <div class="err_tltp_par">
                                                                 <mat-form-field appearance="outline" class="mt_05">
                                                                     <input
@@ -152,7 +142,6 @@
 
                                                     </div>
                                                 </div>
-                                                <!-- <input type="hidden" name="package_inputs_count" [(ngModel)]="package_inputs_count" />  -->
                                                 <div class="text_right w_100p">
                                                     <button mat-raised-button color="accent" type="button"
                                                         (click)="addPackagePriceField()">
@@ -178,17 +167,20 @@
                                                         <span>{{course}}</span>
                                                     </div>
                                                 </div>
+                                                <div class="hgt_20"></div>
+                                                <div class="w_50p mr_1">
+                                                    <div>Duration (In days)</div>
+                                                    <div class="err_tltp_par">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput placeholder="Enter Duration (In days)"
+                                                                [(ngModel)]="duration" name="duration" appNumbersonly maxlength="3"
+                                                                required />
+                                                            <span class="prc_tltp"
+                                                                *ngIf="create_package_form.submitted && duration == ''">Duration is required</span>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <!-- <div class="cpm_pg_cnt">
-                                    <div>Addons</div>
-                                    <div>
-                                        <mat-form-field appearance="outline">
-                                            <mat-select>
-                                                <mat-option value="Courses">Select Addons</mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div> -->
                                             <div class="hgt_20"></div>
                                             <div class="cpm_pg_hd">
                                                 Package access
@@ -328,134 +320,67 @@
                                 Sample Videos
                             </ng-template>
                             <div class="hgt_20"></div>
-                            <form #sample_video_form="ngForm" name="sample_video_form"
-                                (ngSubmit)="sample_video_form.valid">
-                                <div *ngFor="let video of sample_videos;let i=index">
-                                    <div class="ulvd_inpts" *ngIf="video['status']">
-                                        <div class="err_tltp_par" *ngIf="1 == 0">
+                            <form autocomplete="off" #sample_video_form="ngForm" name="sample_video_form"
+                                (ngSubmit)="sample_video_form.valid && addVideo()" autocomplete="off">
+                                <div>
+                                    <div class="ulvd_inpts">
+                                        <div class="err_tltp_par" *ngIf="hide_source_type">
                                             <mat-form-field appearance="outline">
-                                                <mat-select [(ngModel)]="sample_videos[i]['source_type']"
-                                                    name="video_source_type_{{i}}"
-                                                    (ngModelChange)="sample_videos[i]['title']=''; sample_videos[i]['video_source']=''"
-                                                    required>
+                                                <mat-select [(ngModel)]="source_type" name="video_source_type" required>
                                                     <mat-option value="">Select Source</mat-option>
                                                     <mat-option *ngFor="let video_type of video_types"
                                                         [value]="video_type['value']">
                                                         {{video_type['name']}}</mat-option>
                                                 </mat-select>
                                             </mat-form-field>
-                                            <span class="prc_tltp"
-                                                *ngIf="sample_video_form.submitted && sample_videos[i]['source_type'] == ''">Please
-                                                select source</span>
+                                            <span class="prc_tltp" *ngIf="sample_video_form.submitted && source_type == ''">Please select source</span>
                                         </div>
                                         <div class="err_tltp_par">
-                                            <mat-form-field appearance="outline">
-                                                <input [(ngModel)]="sample_videos[i]['title']" name="video_title_{{i}}"
-                                                    matInput placeholder="Title" (keypress)="checkVideoTitleExist(i)"
-                                                    required />
+                                            <mat-form-field appearance="outline" class="{{ ((sample_video_form.submitted || video_title.touched) && title_error) ? 'mat-form-field-invalid' : ''}}">
+                                                <input [(ngModel)]="title" name="video_title" #video_title="ngModel" matInput placeholder="Title" (ngModelChange)="checkTitle()" />
                                             </mat-form-field>
-                                            <span class="prc_tltp"
-                                                *ngIf="sample_video_form.submitted && sample_videos[i]['title'] == ''">Video
-                                                Title required</span>
-                                            <span class="prc_tltp"
-                                                *ngIf="sample_video_form.submitted && sample_videos[i]['title_exist'] != ''">Title
-                                                already given!</span>
+                                            <span class="prc_tltp" *ngIf="(sample_video_form.submitted || video_title.touched) && title_error">{{ title_error }}</span>
                                         </div>
                                         <div class="err_tltp_par">
-                                            <mat-form-field appearance="outline">
-                                                <input matInput [(ngModel)]="sample_videos[i]['video_source']"
-                                                    name="video_video_source_{{i}}" placeholder="Youtube Full URL"
-                                                    required />
+                                            <mat-form-field appearance="outline" class="{{ ((sample_video_form.submitted || video_source_link.touched) && video_url_error) ? 'mat-form-field-invalid' : ''}}">
+                                                <input [(ngModel)]="video_source" name="video_source_link" #video_source_link="ngModel" matInput placeholder="Video URL"  (ngModelChange)="checkURL()" />
                                             </mat-form-field>
-                                            <span class="prc_tltp"
-                                                *ngIf="sample_video_form.submitted && sample_videos[i]['video_source'] == ''">Youtube
-                                                link required</span>
-                                            <span class="prc_tltp"
-                                                *ngIf="sample_video_form.submitted && sample_videos[i]['video_source_exist'] != ''">Url
-                                                already given!</span>
+                                            <span class="prc_tltp" *ngIf="(sample_video_form.submitted || video_source_link.touched) && video_url_error">{{ video_url_error }}</span>
                                         </div>
                                         <div class="w_50p">
-                                            <button type="button" (click)="addVideo()" mat-raised-button color="accent"
+                                            <button type="submit" mat-raised-button color="accent"
                                                 class="mt_3px">
                                                 <mat-icon>add</mat-icon> Add Video
                                             </button>
-                                            <!-- <button type="button" (click)="removeSampleVideo(i)" mat-icon-button class="no_bxsdw"
-                                        color="warn" *ngIf="i > 0">
-                                        <mat-icon>remove_circle_outline</mat-icon>
-                                    </button> -->
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="hyt_lst_dv">
-                                        <div class="kp_yt_img">
-                                            <img src="../../../assets/images/kpoint_k.png">
-                                        </div>
-                                        <div class="mr_1 fnt_bold">Proceum pvt ltd (Trailer) - Pioneers in Animated
-                                            Medical video lectures
-                                            <div class="vd_pth">
-                                                Video ID: lQLrCBhWAQ
-                                            </div>
-                                        </div>
-                                        <div class="spacer"></div>
-                                        <div>
-                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
-                                                <mat-icon>mode_edit</mat-icon>
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn">
-                                                <mat-icon>remove_circle_outline</mat-icon>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="hyt_lst_dv">
+                                <div *ngFor="let video of sample_videos;let i=index">
+                                    <div class="hyt_lst_dv" *ngIf="video.status != 0 && video.status != 2"> 
                                         <div class="kp_yt_img">
                                             <img src="../../../assets/images/youtube.png">
                                         </div>
-                                        <div class="mr_1 fnt_bold">Proceum pvt ltd (Trailer) - Pioneers in Animated
-                                            Medical video lectures
+                                        <div class="mr_1 fnt_bold">
+                                            {{ video.title}}
                                             <div class="vd_pth">
-                                                https://www.youtube.com/watch?v=-lQLrCBhWAQ
+                                                {{ video.video_source}}
                                             </div>
                                         </div>
                                         <div class="spacer"></div>
                                         <div>
-                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
+                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent" (click)="editVideo(i)">
                                                 <mat-icon>mode_edit</mat-icon>
                                             </button>
                                         </div>
                                         <div>
-                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn">
-                                                <mat-icon>remove_circle_outline</mat-icon>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="hyt_lst_dv">
-                                        <div class="kp_yt_img">
-                                            <img src="../../../assets/images/youtube.png">
-                                        </div>
-                                        <div class="mr_1 fnt_bold">Proceum pvt ltd (Trailer) - Pioneers in Animated
-                                            Medical video lectures
-                                            <div class="vd_pth">
-                                                https://www.youtube.com/watch?v=-lQLrCBhWAQ
-                                            </div>
-                                        </div>
-                                        <div class="spacer"></div>
-                                        <div>
-                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
-                                                <mat-icon>mode_edit</mat-icon>
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn">
+                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn" (click)="deleteVideo(i)">
                                                 <mat-icon>remove_circle_outline</mat-icon>
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="text_right mt_1">
-                                    <button mat-raised-button color="accent">
+                                    <button mat-raised-button color="accent" type="button" (click)="submitData()">
                                         Submit
                                     </button>
                                 </div>
@@ -468,28 +393,27 @@
                                 FAQ's
                             </ng-template>
                             <div class="hgt_20"></div>
-                            <form #faq_form="ngForm" name="faq_form" (ngSubmit)="faq_form.valid">
-                                <div *ngFor="let faq of faqs;let i=index">
-                                    <div class="ulvd_inpts" *ngIf="faq['status']">
+                            <form autocomplete="off" #faq_form="ngForm" name="faq_form" (ngSubmit)="faq_form.valid && addFaq()">
+                                <div>
+                                    <div class="ulvd_inpts">
                                         <div class="err_tltp_par w_100p">
-                                            <mat-form-field appearance="outline" class="w_100p">
+                                            <mat-form-field appearance="outline" class="w_100p {{ ((faq_form.submitted || faq_question.touched) && question_error) ? 'mat-form-field-invalid' : '' }}">
                                                 <textarea matInput class="crt_prt_txt" placeholder="Question"
-                                                    [(ngModel)]="faqs[i]['question']" name="faq_question_{{i}}"
-                                                    required></textarea>
+                                                    [(ngModel)]="question" name="faq_question" #faq_question="ngModel" (ngModelChange)="checkQuestion()"
+                                                    ></textarea>
                                             </mat-form-field>
-                                            <span class="prc_tltp"
-                                                *ngIf="faq_form.submitted && faqs[i]['question'] == ''">Question
-                                                required</span>
+                                            <span class="prc_tltp" *ngIf="(faq_form.submitted || faq_question.touched) && question_error">{{ question_error }}</span>
                                         </div>
                                         <div class="err_tltp_par w_100p">
-                                            <mat-form-field appearance="outline" class="w_100p">
+                                            <mat-form-field appearance="outline" class="w_100p {{ ((faq_form.submitted || faq_answer.touched) && answer == '') ? 'mat-form-field-invalid' : '' }}">
                                                 <textarea matInput class="crt_prt_txt hgt_100px" placeholder="Answer"
-                                                    [(ngModel)]="faqs[i]['answer']" name="answer{{i}}"
-                                                    required></textarea>
+                                                    [(ngModel)]="answer" name="faq_answer" #faq_answer="ngModel"
+                                                    ></textarea>
                                             </mat-form-field>
+                                            <span class="prc_tltp" *ngIf="(faq_form.submitted || faq_answer.touched) && answer == ''">Answer required</span>
                                         </div>
                                         <div class="w_100p text_right">
-                                            <button type="button" (click)="addFaq()" mat-raised-button color="accent">
+                                            <button type="submit" mat-raised-button color="accent">
                                                 <mat-icon>add</mat-icon> Add FAQ
                                             </button>
                                             <!-- <button type="button" (click)="removeFaq(i)" mat-icon-button class="no_bxsdw"
@@ -499,25 +423,21 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div class="hyt_lst_dv">
-                                        <div class="mr_1 fnt_bold">Proceum pvt ltd (Trailer) - Pioneers in Animated
-                                            Medical video lectures ?
-                                            <div class="vd_pth clr_inh">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci
-                                                perspiciatis quos alias incidunt earum atque reiciendis ex, aliquid
-                                                error porro iste eveniet minus accusantium, delectus excepturi ipsam
-                                                rem. Commodi, ex.
+                                <div  *ngFor="let faq of faqs;let i=index">
+                                    <div class="hyt_lst_dv"  *ngIf="faq.status != 0 && faq.status != 2">
+                                        <div class="mr_1 fnt_bold">Quetion : {{ faq.question }}
+                                            <div class="vd_pth clr_inh"> Answer : 
+                                                {{ (faq.answer.length > 200) ? ( faq.answer | slice:0:200 ) + '..' : (faq.answer) }}
                                             </div>
                                         </div>
                                         <div class="spacer"></div>
                                         <div>
-                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
+                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent" (click)="editFaq(i)">
                                                 <mat-icon>mode_edit</mat-icon>
                                             </button>
                                         </div>
                                         <div>
-                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn">
+                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn" (click)="deleteFaq(i)">
                                                 <mat-icon>remove_circle_outline</mat-icon>
                                             </button>
                                         </div>
@@ -525,22 +445,12 @@
                                 </div>
                                 <div class="text_right mt_1">
 
-                                    <button mat-raised-button color="accent">
+                                    <button mat-raised-button color="accent" type="button" (click)="submitData()">
                                         Submit
                                     </button>
                                 </div>
                             </form>
                         </mat-tab>
-
-
-
-
-
-
-
-
-
-
                         <!-- <mat-tab>
                     <ng-template mat-tab-label>
                     Introduction
