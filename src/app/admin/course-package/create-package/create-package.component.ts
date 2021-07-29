@@ -31,8 +31,8 @@ export class CreatePackageComponent implements OnInit {
   public user = [];
   public package_id = 0;
   public package_prices = [{pk_id:0, country_id:'', price_amount:'', status:'1', placeholder:'Price'}];
-  public sample_videos = [{pk_id:0, title:'', source_type:'YOUTUBE', video_source:'', video_source_exist:'', title_exist:'', status:1}];
-  public faqs = [{pk_id:0, question:'', answer:'', status:1}];
+  public sample_videos = [];
+  public faqs = [];
   public video_types = [{name: "KPoint", value:'KPOINT'}, {name: "Youtube", value:'YOUTUBE'}]
   public countries = [];
   public package_name = '';
@@ -40,6 +40,7 @@ export class CreatePackageComponent implements OnInit {
   public package_desc = '';
   public pricing_model = 'fixed';
   public courses_ids_csv = '';
+  public duration = '';
   public applicable_to_university = '';
   public applicable_to_college = '';
   public applicable_to_institute = '';
@@ -51,6 +52,18 @@ export class CreatePackageComponent implements OnInit {
   public courses_div = false;
   public selected_courses = [];
   public selected_countires = [];
+  public source_type = 'YOUTUBE';
+  public title = '';
+  public video_source = '';
+  public title_error = '';
+  public video_url_error = '';
+  public hide_source_type = false;
+  public sample_video_index = -1;
+  public question =  '';
+  public answer =  '';
+  public faqs_index = -1;
+  public question_error = '';
+  public answer_error = '';
   all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
   
   //Code starts here for course selection
@@ -196,6 +209,7 @@ export class CreatePackageComponent implements OnInit {
         this.package_img = package_data.package_img;
         this.package_desc = package_data.package_desc;
         this.pricing_model = package_data.pricing_model;
+        this.duration = package_data.duration;
         this.applicable_to_university = package_data.applicable_to_university;
         this.applicable_to_college = package_data.applicable_to_college;
         this.applicable_to_institute = package_data.applicable_to_institute;
@@ -285,7 +299,10 @@ export class CreatePackageComponent implements OnInit {
       package_img : this.package_img,
       package_desc : this.package_desc,
       pricing_model : this.pricing_model,
+      duration : this.duration,
       package_prices : this.package_prices,
+      sample_videos : this.sample_videos,
+      faqs : this.faqs,
       courses_ids_csv : this.courses_ids_csv,
       applicable_to_university : this.applicable_to_university,
       applicable_to_college : this.applicable_to_college,
@@ -369,36 +386,182 @@ export class CreatePackageComponent implements OnInit {
     this.selected_countires = prices.map(x => x.country_id);
   }
 
+  // addVideo(){
+  //   if(this.source_type != "" && this.title != "" && this.video_source != ""){
+  //     let form_data = {
+  //       source_type : this.source_type,
+  //       title : this.title,
+  //       video_source : this.video_source,
+  //     };
+  //     let params = { url: 'add-package-video', form_data: form_data };
+  //     this.http.post(params).subscribe((res) => {
+  //       if (res['error'] == false) {
+  //         this.toster.success(res['message'], 'Success', { closeButton: true });
+  //         //this.navigateTo('prices-package-management');
+  //       } else {
+  //           this.toster.error(res['message'], 'Error', { closeButton: true });
+  //       }
+  //     });
+  //   }
+  // }
+
   addVideo(){
-    this.sample_videos.push({pk_id:0, title:'', source_type:'YOUTUBE', video_source:'', video_source_exist:'', title_exist:'', status :1});
+    if(this.source_type != "" && this.title != "" && this.video_source != ""){
+      //Check any duplicates found on title or video source
+      let duplicate_found = this.checkSampleVideoDuplicates(this.title,this.video_source);
+      if(duplicate_found){
+        return;
+      }else{
+        if(this.sample_video_index !== -1){
+          //Update
+          this.sample_videos[this.sample_video_index] = {pk_id:0, title: this.title, source_type:'YOUTUBE', video_source: this.video_source, status :1};
+          this.sample_video_index = -1;
+        }else{
+          this.sample_videos.push({pk_id:0, title: this.title, source_type:'YOUTUBE', video_source: this.video_source, status :1});
+        }
+        //Clear data
+        this.title = ''; 
+        this.video_source = '';
+      }
+    }else{
+      if(this.title == ''){
+        this.title_error = "Title required!";
+      }
+      if(this.video_source == ''){
+        this.video_url_error = 'Video URL required!';
+      }
+    }
+    
   }
 
-  addFaq(){
-    this.faqs.push({pk_id:0, question:'', answer:'', status :1});
+  checkSampleVideoDuplicates(title,video_source){
+    this.title_error = '';
+    this.video_url_error = '';
+    //llop through titles
+    for(let i = 0; i < this.sample_videos.length;i++){
+      if(title == this.sample_videos[i]['title'] || video_source == this.sample_videos[i]['video_source'] && (this.sample_videos[i]['status'] != 0 && this.sample_videos[i]['status'] != 2)){
+        if(title == this.sample_videos[i]['title']){
+          this.title_error = 'Title already given!';
+        }
+        if(video_source == this.sample_videos[i]['video_source']){
+          this.video_url_error = 'Video url already given!';
+        }
+        return true;
+        break;
+      }
+    }
+    if(this.title_error || this.video_url_error){
+      return true;
+    }else{
+      return false;
+    }
+    
+  }
+
+  checkTitle(){
+    this.title_error = '';
+    //Loop through titles
+    for(let i = 0; i < this.sample_videos.length;i++){
+      if(this.title == this.sample_videos[i]['title'] && (this.sample_videos[i]['status'] != 0 && this.sample_videos[i]['status'] != 2)){
+        this.title_error = 'Title already given!';
+        break;
+      }
+    }
+  }
+
+  checkURL(){
+    this.video_url_error = '';
+    //Loop through video urls
+    for(let i = 0; i < this.sample_videos.length;i++){
+      if(this.video_source == this.sample_videos[i]['video_source'] && (this.sample_videos[i]['status'] != 0 && this.sample_videos[i]['status'] != 2)){
+        this.video_url_error = 'Video url already given!';
+        break;
+      }
+    }
   }
   
-  removeSampleVideo(index){
+
+  editVideo(index){
+    this.title =  this.sample_videos[index]['title'];
+    this.video_source =  this.sample_videos[index]['video_source'];
+    this.sample_video_index = index;
+    this.sample_videos[index]['status'] = 2;
+    
+  }
+
+  deleteVideo(index){
     this.sample_videos[index]['status'] = 0;
   }
 
-  removeFaq(index){
+  addFaq(){
+    if(this.question != "" && this.answer !=""){
+      //Check any duplicates found 
+      let duplicate_found = this.checkFaqsDuplicates(this.question);
+      if(duplicate_found){
+        return;
+      }else{
+        if(this.faqs_index !== -1){
+          //Update
+          this.faqs[this.faqs_index] = {pk_id:0, question:this.question,answer:this.answer, status :1};
+          this.faqs_index = -1;
+        }else{
+          this.faqs.push({pk_id:0, question:this.question,answer:this.answer, status :1});
+        }
+        //Clear data
+        this.question = ''; 
+        this.answer = '';
+      }
+    }else{
+      if(this.question == ''){
+        this.question_error = "Title required!";
+      }
+      if(this.answer == ''){
+        this.answer_error = 'Video URL required!';
+      }
+    }
+  }
+
+  checkFaqsDuplicates(question){
+    this.question_error = '';
+    //llop through titles
+    for(let i = 0; i < this.faqs.length;i++){
+      if(question == this.faqs[i]['question'] && (this.faqs[i]['status'] != 0 && this.faqs[i]['status'] != 2)){
+        this.question_error = 'Question already given!';
+        return true;
+        break;
+      }
+    }
+    return false;
+  }
+  
+  checkQuestion(){
+    this.question_error = '';
+    //Loop through titles
+    for(let i = 0; i < this.faqs.length;i++){
+      if(this.title == this.faqs[i]['question'] && (this.faqs[i]['status'] != 0 && this.faqs[i]['status'] != 2)){
+        this.question_error = 'Question already given!';
+        break;
+      }
+    }
+  }
+
+  editFaq(index){
+    this.question =  this.faqs[index]['question'];
+    this.answer =  this.faqs[index]['answer'];
+    this.faqs_index = index;
+    this.faqs[index]['status'] = 2;
+    
+  }
+
+  deleteFaq(index){
     this.faqs[index]['status'] = 0;
   }
 
-  checkVideoTitleExist(index){
-    let title = this.sample_videos[index]['title'];
-    let titles = [];
-    //Get all the titles
-    for(let i = 0; i < this.sample_videos.length;i++){
-      if(i !== index){
-        titles.push(this.sample_videos[i]['title']);
-      }
+  submitData(){
+    if(this.package_name == "" || this.package_desc == "" || this.pricing_model == "" || this.duration == "" || this.package_prices.length < 1 || this.courses_ids_csv == "" || (this.applicable_to_university == "" && this.applicable_to_college == "" && this.applicable_to_institute == "") || this.valid_up_to == "" || this.billing_frequency == ""){
+      this.toster.error("Basic Details are required!", 'Error', { closeButton: true });
+      return;
     }
-    //Check title repeated
-    if(titles.length > 0 && (titles.indexOf(title) !== -1)){
-      this.sample_videos[index]['title_exist'] = "Ttile already given!";
-      console.log("shash");
-    }
-    
+    this.createPackageService();
   }
 }

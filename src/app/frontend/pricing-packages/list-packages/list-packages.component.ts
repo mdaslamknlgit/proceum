@@ -24,7 +24,7 @@ export class ListPackagesComponent implements OnInit {
   }
 
   public getPackages() {
-    let param = { url: 'get-all-packages' };
+    let param = { url: 'get-all-packages', status: '1' };
     this.http.nonAuthenticatedPost(param).subscribe((res) => {
       //console.log(res);
       if (res['error'] == false) {
