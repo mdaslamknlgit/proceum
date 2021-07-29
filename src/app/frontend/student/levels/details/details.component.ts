@@ -213,6 +213,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       this.player.seekTo(time);
   }
   getThumbinail(url){
+      if(url == null || url == undefined){
+          return false;
+      }
     var iframe_src       = url;
     var youtube_video_id = iframe_src.match(/youtube\.com.*(\?v=|\/embed\/)(.{11})/).pop();
     
@@ -333,10 +336,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 
             }
             if(video['video_section'] == "2D") {
-                if(i==0){
-                    this.playVideo(video);
-                    i++;
-                }
                 this.two_d_videos.push(video);
             }
             if(video['video_section'] == "3D") {
