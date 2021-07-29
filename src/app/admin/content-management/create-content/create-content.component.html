@@ -35,9 +35,7 @@
         <ul>
           <li *ngFor="let file of review_docs;let file_index = index;">
             <div>
-              <img src="../../../assets/images/{{
-                file.split('.').pop().toLowerCase()
-              }}.png" alt="{{ file.substring(file.lastIndexOf('/') + 1) }}" />
+              <img [src]="getPreview(file)" alt="{{ file.substring(file.lastIndexOf('/') + 1) }}" />
             </div>
             <div>{{ file.substring(file.lastIndexOf('/') + 1) }}</div>
             <div>

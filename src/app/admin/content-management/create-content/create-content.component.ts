@@ -91,6 +91,7 @@ export class CreateContentComponent implements OnInit {
   public dataentry_uid = 0;
   public is_preview = false;
   public allow_coment = false;
+  public bucket_url = "";
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -180,7 +181,7 @@ export class CreateContentComponent implements OnInit {
     eventData.plugins.get('FileRepository').createUploadAdapter = function (
       loader
     ) {
-      var data = new UploadAdapter(loader, apiUrl + 'upload');
+      var data = new UploadAdapter(loader, apiUrl + 'upload-content-image');
       return data;
     };
   }
@@ -281,6 +282,7 @@ export class CreateContentComponent implements OnInit {
     this.http.post(data).subscribe((res) => {
         if (res['error'] == false) {
             this.reviewers = res['data']['reviewers'];
+            this.bucket_url = res['data']['bucket_url'];
         }
     })
   }
@@ -1213,16 +1215,7 @@ export class CreateContentComponent implements OnInit {
   }
   uploadReviewFiles(event) {
     let allowed_types = [];
-    allowed_types = [
-        'doc',
-        'docx',
-        'pdf',
-        'odt',
-        'xls',
-        'xlsx',
-        'ppt',
-        'csv',
-      ];
+    allowed_types = ['doc', 'docx', 'pdf', 'odt', 'xls', 'xlsx', 'ppt', 'csv','jpg', 'jpeg', 'bmp', 'gif', 'png'];
     const uploadData = new FormData();
     let files = event.target.files;
     if (files.length == 0) return false;
@@ -1264,8 +1257,21 @@ export class CreateContentComponent implements OnInit {
         this.toster.success('Files successfully uploaded.', 'File Uploaded');
       }
       this.allow_coment = true;
-      this.review_docs.push(res['url']);
+      res['urls'].forEach(url => {
+        this.review_docs.push(url);
+      });
+      
     });
+  }
+  getPreview(file){
+      let path = '';
+      if(['jpg', 'jpeg', 'bmp', 'gif', 'png'].includes(file.split('.').pop().toLowerCase())){
+          return this.bucket_url+file;
+      }
+      else{
+          return "../../../assets/images/"+file.split('.').pop().toLowerCase()+".png";
+      }
+    
   }
   removeReviewDocument(index){
     if (index > -1) {
