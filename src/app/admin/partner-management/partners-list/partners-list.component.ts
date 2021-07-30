@@ -34,6 +34,9 @@ export class PartnersListComponent implements OnInit {
   public search_box = '';
   public type = 0;
   public page = 0;
+  public from_date='';
+  public to_date='';
+  public today = new Date();
   popoverTitle = '';
   popoverMessage = '';
   dataSource = new MatTableDataSource();
@@ -43,7 +46,7 @@ export class PartnersListComponent implements OnInit {
   constructor(
     private http: CommonService,
     public toster: ToastrService,
-    private router: Router
+    private router: Router,
     ) { }
 
   ngOnInit(): void {
@@ -77,7 +80,13 @@ export class PartnersListComponent implements OnInit {
   }
 
   public doFilter() {
-    let param = { url: 'get-partners', search: this.search_box , type : this.type};
+    let param = { 
+      url: 'get-partners', 
+      search: this.search_box , 
+      type : this.type,
+      from_date : this.from_date,
+      to_date : this.to_date,
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['partners']);
@@ -97,7 +106,9 @@ export class PartnersListComponent implements OnInit {
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
-      type : this.type
+      type : this.type,
+      from_date : this.from_date,
+      to_date : this.to_date,
     };
     this.http.post(param).subscribe((res) => {
       //console.log(res['data']['partners']);
@@ -151,8 +162,18 @@ export class PartnersListComponent implements OnInit {
       this.paginator.firstPage();
     }
     this.search_box = '';
+    this.from_date = '';
+    this.to_date = '';
     this.type = event.index;
     this.getPartners();
   }
+
+  resetFilters(){
+    this.search_box =   '';
+    this.from_date = '';
+    this.to_date = '';
+    this.doFilter();
+  }
+
 
 }

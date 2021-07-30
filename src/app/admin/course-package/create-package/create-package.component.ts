@@ -407,6 +407,12 @@ export class CreatePackageComponent implements OnInit {
 
   addVideo(){
     if(this.source_type != "" && this.title != "" && this.video_source != ""){
+      //Check youtube url is valid
+      let valid = this.validateYouTubeUrl(this.video_source);
+      if(!valid){
+        this.video_url_error = 'Invalid youtube URL!';
+        return;
+      }
       //Check any duplicates found on title or video source
       let duplicate_found = this.checkSampleVideoDuplicates(this.title,this.video_source);
       if(duplicate_found){
@@ -563,5 +569,19 @@ export class CreatePackageComponent implements OnInit {
       return;
     }
     this.createPackageService();
+  }
+  
+  validateYouTubeUrl(url){
+    if (url != undefined || url != '') {
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        if (match && match[2].length == 11) {
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+      return false;
+    }
   }
 }

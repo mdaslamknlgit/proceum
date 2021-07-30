@@ -94,6 +94,7 @@ export class CreateUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.domain = location.origin;
+    this.getAdminSpecificRoles();
     this.activatedRoute.params.subscribe((param) => {
       this.user_id = param.id;
       if (this.user_id != undefined) {
@@ -105,7 +106,7 @@ export class CreateUserComponent implements OnInit {
       }
     });
     this.getCountries();
-    this.getAdminSpecificRoles();
+    
   }
 
   onUserTypeChange(){
@@ -410,7 +411,7 @@ export class CreateUserComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        //this.navigateTo('manage-content');
+        this.navigateTo('manage-users');
       } else {
           this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -469,6 +470,18 @@ export class CreateUserComponent implements OnInit {
         this.getCurriculumnHierarchy();
       }
     });
+  }
+
+  navigateTo(url){
+    let user = this.http.getUser();
+    if(user['role']== '1'){
+        url = "/admin/"+url;
+    }
+    //Later we must change this
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/admin/"+url;
+    }
+      this.router.navigateByUrl(url);
   }
 
   hasChild = (_: number, node: CurriculumNode) =>
