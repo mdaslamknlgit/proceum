@@ -20,6 +20,7 @@ export class StepsComponent implements OnInit {
   displayedColumns: string[] = [
     'pk_id',
     'level_name',
+    'order_number',
     'status',
     'created_at',
     'updated_at',
@@ -45,6 +46,7 @@ export class StepsComponent implements OnInit {
   public search_box = '';
   public breadcome = [];
   public curriculum_obj = [];
+  public order_number = 0;
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -197,6 +199,9 @@ export class StepsComponent implements OnInit {
         });
       }
     });
+  }
+  setOrder(event){
+      console.log(event)
   }
   deleteStep(id, status) {
     status = status == 1 ? '0' : '1';
