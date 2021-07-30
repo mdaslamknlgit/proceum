@@ -1,5 +1,6 @@
 <div class="mn_dshbrd">
-    <div class="pg_ttl">Create User</div>
+    <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/manage-users"><strong>Manage Users</strong></span> &raquo; <strong>{{ (user_id > 0) ? "Edit" : "Create" }} User</strong></div>
+    <div class="pg_ttl">{{ (user_id > 0) ? "Edit" : "Create" }} User</div>
     <hr />
     
         <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
@@ -70,7 +71,7 @@
                                 <input matInput placeholder="Contact Number" [(ngModel)]="phone" name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13" required/>
                             </mat-form-field>
                             <span class="prc_tltp" *ngIf="(create_user_form.submitted || phone_edit.touched) && phone_edit.invalid">Contact number is required</span>
-                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 && phone.length > 13)">Invalid Contact number.Minimun of 9, Maximum of 13 digits required!</span>
+                            <span class="prc_tltp" *ngIf="(create_user_form.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 || phone.length > 13)">Invalid Contact number.Minimun of 9, Maximum of 13 digits required!</span>
                         </div>
                     </div>
                     <div class="crt_pr_dv">

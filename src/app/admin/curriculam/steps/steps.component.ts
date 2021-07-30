@@ -135,9 +135,11 @@ export class StepsComponent implements OnInit {
   }
   sortData(event) {
     this.sort_by = event;
+    this.page = 0;
     if (this.sort_by.direction != '') this.getSteps();
   }
   public doFilter = () => {
+    this.page=0;
     this.getSteps();
   };
   toggleModel() {

@@ -60,6 +60,7 @@ export class EditPackageComponent implements OnInit {
   public question =  '';
   public answer =  '';
   public faqs_index = -1;
+  public pk_id = 0;
   public question_error = '';
   public answer_error = '';
   all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -364,6 +365,12 @@ export class EditPackageComponent implements OnInit {
 
   addVideo(){
     if(this.source_type != "" && this.title != "" && this.video_source != ""){
+      //Check youtube url is valid
+      let valid = this.validateYouTubeUrl(this.video_source);
+      if(!valid){
+        this.video_url_error = 'Invalid youtube URL!';
+        return;
+      }
       //Check any duplicates found on title or video source
       let duplicate_found = this.checkSampleVideoDuplicates(this.title,this.video_source);
       if(duplicate_found){
@@ -371,8 +378,9 @@ export class EditPackageComponent implements OnInit {
       }else{
         if(this.sample_video_index !== -1){
           //Update
-          this.sample_videos[this.sample_video_index] = {pk_id:0, title: this.title, source_type:'YOUTUBE', video_source: this.video_source, status :1};
+          this.sample_videos[this.sample_video_index] = {pk_id: this.pk_id, title: this.title, source_type:'YOUTUBE', video_source: this.video_source, status :1};
           this.sample_video_index = -1;
+          this.pk_id = 0;
         }else{
           this.sample_videos.push({pk_id:0, title: this.title, source_type:'YOUTUBE', video_source: this.video_source, status :1});
         }
@@ -442,6 +450,7 @@ export class EditPackageComponent implements OnInit {
     this.title =  this.sample_videos[index]['title'];
     this.video_source =  this.sample_videos[index]['video_source'];
     this.sample_video_index = index;
+    this.pk_id =  this.sample_videos[index]['pk_id'];
     this.sample_videos[index]['status'] = 2;
     
   }
@@ -459,8 +468,9 @@ export class EditPackageComponent implements OnInit {
       }else{
         if(this.faqs_index !== -1){
           //Update
-          this.faqs[this.faqs_index] = {pk_id:0, question:this.question,answer:this.answer, status :1};
+          this.faqs[this.faqs_index] = {pk_id: this.pk_id, question:this.question,answer:this.answer, status :1};
           this.faqs_index = -1;
+          this.pk_id = 0;
         }else{
           this.faqs.push({pk_id:0, question:this.question,answer:this.answer, status :1});
         }
@@ -506,6 +516,7 @@ export class EditPackageComponent implements OnInit {
     this.question =  this.faqs[index]['question'];
     this.answer =  this.faqs[index]['answer'];
     this.faqs_index = index;
+    this.pk_id = this.faqs[index]['pk_id'];
     this.faqs[index]['status'] = 2;
     
   }
@@ -520,5 +531,19 @@ export class EditPackageComponent implements OnInit {
       return;
     }
     this.updatePackageService();
+  }
+
+  validateYouTubeUrl(url){
+    if (url != undefined || url != '') {
+        var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+        var match = url.match(regExp);
+        if (match && match[2].length == 11) {
+            return true;
+        }else{
+            return false;
+        }
+    }else{
+      return false;
+    }
   }
 }
