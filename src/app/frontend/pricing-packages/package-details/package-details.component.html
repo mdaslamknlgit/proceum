@@ -38,10 +38,9 @@
                 <div class="crs_innr_prc">
                     <span class="bld_txt_blk" [innerHtml]="localPrice(package_prices)"></span>
                 </div>
-                <div class="crs_dsc"  *ngIf="package.package_desc">
+                <div class="crs_dsc" *ngIf="package.package_desc">
                     {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' : (package.package_desc) }}
                 </div>
-                
                 <hr class="wht_hr">
                 <div class="crs_d_r_p">
                     <span *ngIf="package.converted_duration">
@@ -90,7 +89,6 @@
                     </div>
                     <div class="hgt_20"></div>
                 </mat-tab>
-                
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <mat-icon>topic</mat-icon>
@@ -125,8 +123,6 @@
                           </mat-tree>   
                     </div>
                 </mat-tab>
-
-
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <mat-icon>person</mat-icon>
@@ -230,13 +226,12 @@
                         <mat-icon>videocam</mat-icon>
                         Sample
                     </ng-template>
-                    <div class="crs_par">
+                    <div class="crs_par smpl_vds">
                         <div class="crs_chld" *ngFor="let video of sample_videos">
                             <div *ngIf="video.source_type=='YOUTUBE'">
                                 <iframe [width]="iframe_width" [height]="iframe_height" [src]="video.embed_link" allowfullscreen></iframe>
                                 <span>{{video.title}}</span>
                             </div>
-                            
                         </div>
 
                     </div>
@@ -248,12 +243,20 @@
                         <mat-icon>help_outline</mat-icon>
                         FAQs
                     </ng-template>
-                    <div class="crs_tbbs_cnt">
-                        <ul *ngFor="let faq of faqs;let i = index">
-                            <li><b>Q :   {{ faq.question }} </b></li>
-                            <li><b>Ans : </b>  {{ faq.answer }} </li>
-                            <div class="hgt_20"></div>
-                        </ul>
+                    <div class="crs_tbbs_cnt faq_mat_acc">
+
+                        <mat-accordion *ngFor="let faq of faqs;let i = index" >
+                            <mat-expansion-panel [expanded]="true">
+                                <mat-expansion-panel-header>
+                                  <mat-panel-title>
+                                    Q :   {{ faq.question }}
+                                  </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div>Ans: {{ faq.answer }}</div>
+                              </mat-expansion-panel>
+                        </mat-accordion>
+
+                      
                     </div>
                 </mat-tab>
             </mat-tab-group>
