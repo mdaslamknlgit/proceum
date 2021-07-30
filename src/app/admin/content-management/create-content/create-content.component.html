@@ -102,6 +102,36 @@
       </div>
     </div>
   </div>
+  <div class="cust_mdl_par cust_mdl_30p {{ schdule_publish ? 'cust_mdl_opn' : '' }}">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        Set Publish Date & Time
+        <span class="spacer"></span>
+        <button (click)="CloseSchdulePublish()" mat-icon-button class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy">
+        <div class="hgt_20"></div>
+        <span class="err_tltp_par" *ngIf="reviewers.length>0">
+          <mat-form-field appearance="outline">
+            <input placeholder="Select Date" name="publish_date_name" #publish_date_name="ngModel"
+                      [(ngModel)]="publish_date" matInput [matDatepicker]="picker" autocomplete="off"
+                      [min]="today_date" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <input type="time" min="{{today.today.getHours()}+':'+today.getMinutes()}" [(ngModel)]="publish_time" name="publish_time">
+        </span>
+        <hr>
+        <button type="button" [disabled]="!publish_date || !publish_time" (click)="publishContent()" mat-raised-button
+          color="accent" class="float_right">
+          Submit
+        </button>
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div>
 
   <div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
@@ -1304,6 +1334,10 @@
             </button>
           </div>
           <div>
+            <button
+            *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || (user['role'] == '7' && dataentry_uid == user['id']) || user['role'] == '1') && (content_parent_id == 0) && (is_published != '1')" type="button" mat-raised-button color="accent" class="ml_1" (click)="schdule_publish=true">
+            Schedule Publish
+          </button>
             <button
               *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || (user['role'] == '7' && dataentry_uid == user['id']) || user['role'] == '1')"
               type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="

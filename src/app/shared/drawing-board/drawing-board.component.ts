@@ -1,8 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { NgWhiteboardService } from 'ng-whiteboard';
+import { NgWhiteboardService, FormatType  } from 'ng-whiteboard';
 import { ToastrService } from 'ngx-toastr';
 import { DOCUMENT } from '@angular/common';
-import { DomSanitizer } from '@angular/platform-browser';
 import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-drawing-board',
@@ -16,12 +15,10 @@ export class DrawingBoardComponent implements OnInit {
   isActive = false;
   elem;
   isFullscreen = false;
-  base_image_url:any;
   constructor(
     @Inject(DOCUMENT) private document: any,
     private toastr: ToastrService,
     private whiteboardService: NgWhiteboardService,
-    private domSanitizer: DomSanitizer,
     private http: CommonService
   ) {}
   
@@ -79,13 +76,12 @@ export class DrawingBoardComponent implements OnInit {
   onRedo() {
     this.toastr.success('Redo!','', { closeButton: true });
   }
-  onSave() {
-    
-    // var s = new XMLSerializer().serializeToString(document.getElementById("white-board"));
-    // var encodedData = window.btoa(s);
-    // this.base_image_url = this.domSanitizer.bypassSecurityTrustUrl('data:image/png;base64,'+encodedData);
-    // console.log("data:image/svg+xml;base64,"+encodedData);
-    // this.toastr.success('Save!','', { closeButton: true });
+  onSave(img: string) {
+    let param = {url: 'upload-drawing', base64_string: img}
+        this.http.post(param).subscribe(res=>{
+          this.toastr.success('White board has been saved successfully.','Success', { closeButton: true });
+            
+        })
   }
   onImageAded() {
     this.toastr.success('ImageAded!','', { closeButton: true });
@@ -99,21 +95,21 @@ export class DrawingBoardComponent implements OnInit {
     this.isActive = false;
   }
   save() {
-    this.whiteboardService.save("board", "png");
-    setTimeout(res=>{
-        var links=document.getElementsByTagName('a'), hrefs = [];
-    for (var i = 0; i<links.length; i++)
-    {   
-        let param = {url: 'upload-drawing', base64_string: links[i].href}
-        this.http.post(param).subscribe(res=>{
-          this.toastr.success(res['message'], 'Success', { closeButton: true });
-          setTimeout(()=>{
-            window.location.reload();
-          }, 3000)
+   this.whiteboardService.save(FormatType.Base64, "board");
+   // setTimeout(res=>{
+    //     var links=document.getElementsByTagName('a'), hrefs = [];
+    // for (var i = 0; i<links.length; i++)
+    // {   
+    //     let param = {url: 'upload-drawing', base64_string: links[i].href}
+    //     this.http.post(param).subscribe(res=>{
+    //       this.toastr.success(res['message'], 'Success', { closeButton: true });
+    //       setTimeout(()=>{
+    //         window.location.reload();
+    //       }, 3000)
             
-        })
-    }
-    }, 3000)
+    //     })
+    // }
+    // }, 3000);
   }
   undo() {
     this.whiteboardService.undo();

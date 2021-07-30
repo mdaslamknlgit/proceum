@@ -249,6 +249,10 @@ export class CreateContentComponent implements OnInit {
   public publish_message = "";
   private subscription:Subscription;
   private subscription_editor:Subscription;
+  public schdule_publish = false;
+  public publish_date = new Date();
+  public publish_time = '';
+  public today_date = new Date();
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -1113,6 +1117,9 @@ export class CreateContentComponent implements OnInit {
       }
     }
   }
+  CloseSchdulePublish(){
+      this.schdule_publish = false;
+  }
   createContent(is_draft) {
     this.is_submit = true;
     if(this.title == ''){
@@ -1143,6 +1150,8 @@ export class CreateContentComponent implements OnInit {
       content_id: this.content_id,
       reviewer_role: is_draft?'':this.reviewer_role,
       publsh_content: this.publsh_content,
+      publish_date: this.publish_date,
+      publish_time: this.publish_time,
       is_preview: this.is_preview
     };
     let params = { url: 'create-content', form_data: form_data };
