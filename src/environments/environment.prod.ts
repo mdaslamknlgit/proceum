@@ -65,12 +65,22 @@ export const environment = {
 //     messagingSenderId: "41849089517",
 //     appId: "1:41849089517:web:daea02011d4e30db528be4"
 //   }
-  firebaseConfig : {
-    apiKey: "AIzaSyDM_Q8stJkIGWMqZvvGW8MDp0nS8i_zgqg",
-    authDomain: "proceum-5b71c.firebaseapp.com",
-    projectId: "proceum-5b71c",
-    storageBucket: "proceum-5b71c.appspot.com",
-    messagingSenderId: "730854299639",
-    appId: "1:730854299639:web:223a73ba74a9c7bcee80f2"
+//qa firebase
+firebaseConfig : {
+    apiKey: "AIzaSyBRMnr8x3_S_LxXZgWGGFALPiwp6-lkfgU",
+    authDomain: "proceum-qa.firebaseapp.com",
+    projectId: "proceum-qa",
+    storageBucket: "proceum-qa.appspot.com",
+    messagingSenderId: "659520827468",
+    appId: "1:659520827468:web:14067a9f4bd63bce9504e9"
   }
+  //uat firebase
+//   firebaseConfig : {
+//     apiKey: "AIzaSyDM_Q8stJkIGWMqZvvGW8MDp0nS8i_zgqg",
+//     authDomain: "proceum-5b71c.firebaseapp.com",
+//     projectId: "proceum-5b71c",
+//     storageBucket: "proceum-5b71c.appspot.com",
+//     messagingSenderId: "730854299639",
+//     appId: "1:730854299639:web:223a73ba74a9c7bcee80f2"
+//   }
 };

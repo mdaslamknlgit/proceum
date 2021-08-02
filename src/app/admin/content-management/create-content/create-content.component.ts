@@ -123,7 +123,17 @@ export class CreateContentComponent implements OnInit {
       styles: ['full', 'alignLeft', 'alignRight'],
     },
     table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],
+
+            // Configuration of the TableProperties plugin.
+            tableProperties: {
+                // ...
+            },
+
+            // Configuration of the TableCellProperties plugin.
+            tableCellProperties: {
+                // ...
+            }
     },
     mediaEmbed: {
       previewsInData: true,
@@ -159,7 +169,7 @@ export class CreateContentComponent implements OnInit {
       styles: ['full', 'alignLeft', 'alignRight'],
     },
     table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],
     },
     highlight: {
         options: [
@@ -186,6 +196,7 @@ export class CreateContentComponent implements OnInit {
     };
   }
   public pgae_title = 'Create Content';
+  public content_status = '';
   public show_tabs = false;
   public review_docs = [];
   public review_docs_new = [];
@@ -320,7 +331,7 @@ export class CreateContentComponent implements OnInit {
         if(this.content_parent_id > 0){
             this.publish_message = "Changes will be updated to old content.";
         }
-        
+        this.content_status = data['content_status'];
         this.is_published = data['is_published'];
         this.title = data['title'];
         this.is_paid = data['is_paid'] == 1?true:false;

@@ -99,7 +99,7 @@
             </th>
             <td mat-cell *matCellDef="let element">
                 <mat-form-field appearance="outline">
-                  <input matInput trim="blur" name="order_number_name" (blur)="setOrder($event.target.value)" />
+                  <input matInput appNumbersonly trim="blur" [value]="element.order_number" name="order_number_name" (blur)="setOrder($event.target.value, element.id)" />
                 </mat-form-field>
             </td>
           </ng-container>

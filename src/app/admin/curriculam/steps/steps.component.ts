@@ -94,7 +94,7 @@ export class StepsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['steps']);console.log(this.dataSource)
+        this.dataSource = new MatTableDataSource(res['data']['steps']);
         if (is_ini || true) {
           
           if (this.paginator != undefined) {
@@ -200,8 +200,21 @@ export class StepsComponent implements OnInit {
       }
     });
   }
-  setOrder(event){
-      console.log(event)
+  setOrder(order_number, pk_id){
+    let param = {
+        url: "update-step-order",
+        level_id: pk_id,
+        order_number: order_number
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.toster.success(res['message'], 'Success', { closeButton: true });
+        } else {
+          this.toster.error(res['message'], res['message'], {
+            closeButton: true,
+          });
+        }
+      });
   }
   deleteStep(id, status) {
     status = status == 1 ? '0' : '1';

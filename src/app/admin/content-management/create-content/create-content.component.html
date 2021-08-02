@@ -159,6 +159,18 @@
   </div>
   <div class="brd_crm">Proceum &raquo; <strong>{{ pgae_title }}</strong></div>
   <div class="pg_ttl">{{ pgae_title }} </div>
+  <span style="float: right;" class="cm_sts_info" *ngIf="content_id>0">
+    <span *ngIf="content_status == null" class="cpy">Copy</span>
+    <span *ngIf="content_status == 'PUBLISHED'" class="pblshd">Published</span>
+    <span *ngIf="content_status == 'DRAFT'" class="drft">Draft</span>
+    <span *ngIf="content_status == 'REVIEW' && content_reviewer_role==3"
+      class="crct_pnd">Corrections Pending</span>
+    <span *ngIf="content_status == 'REVIEW' && content_reviewer_role==7" class="aw_aprvl">Awaiting
+      Approval</span>
+    <span
+      *ngIf="content_status == 'REVIEW' && (content_reviewer_role==4 || econtent_reviewer_role==5 || content_reviewer_role==6)"
+      class="rw_pndg">Review Pending</span>
+  </span>
   <!-- <section>
                 <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Premium content</mat-radio-button>&nbsp; &nbsp;
                 <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free content</mat-radio-button> 
@@ -1300,7 +1312,7 @@
           </div>
           <div>
             <button (click)="savePreview()"
-              *ngIf="(is_published != '1' || user['role'] == '1')  && (dataentry_uid == user['id'] || is_draft == false) && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
+              *ngIf="(is_published != '1' && user['role'] == '1')  || (dataentry_uid == user['id'] || is_draft == false) && (content_id == 0 || content_reviewer_role == '0' || user['role'] == content_reviewer_role)"
               class="yellow_btn ml_1" type="button" mat-raised-button>
               Save & Preview
             </button>
