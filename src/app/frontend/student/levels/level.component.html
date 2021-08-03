@@ -18,17 +18,30 @@
     <mat-tab label="All">
       <div class="crs_sld_mn">
         <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0">No Records Found</div>
-        <div class="crs_sld_dv" *ngFor="let level of levels">
-          <span class="cs_hd">{{ level["name"] }}</span>
-          <span class="cs_rtn">
+        <div class="crs_sld_dv" *ngFor="let level of levels;let i=index">
+          <span class="cs_hd" routerLink="/student/curriculums/{{ level['id'] }}/{{level['labels'][0]['level_number']}}">{{ level["name"] }}</span>
+          <span class="ct_rtn"> 
+            <mat-icon class="{{level['rating'] > 0 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,0.5)">star</mat-icon>
+            <mat-icon class="hlf_str1 {{level['rating'] > 0.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 1 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,1.5)">star</mat-icon>
+            <mat-icon class="hlf_str2 {{level['rating'] > 1.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 2?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,2.5)">star</mat-icon>
+            <mat-icon class="hlf_str3 {{level['rating'] > 2.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 3 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,3.5)">star</mat-icon>
+            <mat-icon class="hlf_str4 {{level['rating'] > 3.5 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 4 ?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,4.5)">star</mat-icon>
+            <mat-icon class="hlf_str5 {{level['rating'] > 4.5?'ct_slctd':''}}" (click)="manageStatistics('rating', level['id'], i,5)">star</mat-icon>
+            <!-- ct_slctd || add this class to the selected single star -->
+          </span>
+          <!-- <span class="cs_rtn">
             <mat-icon class="ct_slctd">star</mat-icon>
             <mat-icon class="ct_slctd">star</mat-icon>
             <mat-icon class="ct_slctd">star</mat-icon>
             <mat-icon>star</mat-icon>
             <mat-icon>star</mat-icon>
             <span>3/5</span>
-          </span>
-          <span class="cs_rew">(3,150 reviews)</span>
+          </span> -->
+          <span class="cs_rew" *ngIf="false">(3,150 reviews)</span>
           <span class="cs_stc" *ngFor="let label of level['labels']">
             <span class="cs_stc_hd">{{ label["display_label"] }}</span>
             <span class="cs_stc_nm">{{
@@ -38,14 +51,15 @@
               }}</span>
           </span>
           <span class="cs_av">
-            <span class="cs_af" *ngIf="false">
-              <mat-icon color="accent">favorite_border</mat-icon>Add to fav
+            <span class="cs_af" >
+                <mat-icon color="accent" (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] != 1 ? true : false" matTooltip="Make Favorite">
+                    favorite_border</mat-icon>
+                  <mat-icon color="accent" (click)="manageStatistics('fav', level['id'], i)" *ngIf="level['is_fav'] == 1 ? true : false" matTooltip="Unfavourite">
+                    favorite</mat-icon> Favorite
             </span>
             <span class="cs_bb" *ngIf="false"></span>
             <span class="spacer"></span>
-            <span class="cs_vw" routerLink="/student/curriculums/{{ level['id'] }}/{{
-                level['labels'][0]['level_number']
-              }}">View<mat-icon>east</mat-icon></span>
+            <span class="cs_vw" routerLink="/student/curriculums/{{ level['id'] }}/{{level['labels'][0]['level_number']}}">View<mat-icon>east</mat-icon></span>
           </span>
         </div>
       </div>

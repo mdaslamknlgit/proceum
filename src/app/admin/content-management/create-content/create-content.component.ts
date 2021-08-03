@@ -165,8 +165,9 @@ export class CreateContentComponent implements OnInit {
         'imageStyle:alignLeft',
         'imageStyle:full',
         'imageStyle:alignRight',
+        'imageStyle:side'
       ],
-      styles: ['full', 'alignLeft', 'alignRight'],
+      styles: ['full', 'alignLeft', 'alignRight', 'side'],
     },
     table: {
       contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],

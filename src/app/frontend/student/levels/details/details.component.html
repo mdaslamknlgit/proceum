@@ -28,7 +28,8 @@
         matTooltip="Unfavorite">favorite</mat-icon>
     </button>
     <button mat-icon-button class="no_bxsdw my_05">
-      <mat-icon matTooltip="Wishlist">playlist_add</mat-icon>
+      <mat-icon matTooltip="Wishlist" (click)="manageStatistics('is_wishlist')" *ngIf="statistics['is_wishlist'] != 1 ? true : false">playlist_add</mat-icon>
+      <mat-icon matTooltip="Remove from Wishlist" (click)="manageStatistics('is_wishlist')" *ngIf="statistics['is_wishlist'] == 1 ? true : false">playlist_add_check</mat-icon>
     </button>
     <button mat-icon-button class="no_bxsdw my_05">
       <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false"
