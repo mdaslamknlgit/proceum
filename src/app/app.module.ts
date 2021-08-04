@@ -14,15 +14,8 @@ import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { DrawingBoardComponent } from './shared/drawing-board/drawing-board.component';
 import { NgWhiteboardModule } from 'ng-whiteboard';
 import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
-
-import {
-  SocialLoginModule,
-  SocialAuthServiceConfig,
-} from 'angularx-social-login';
-import {
-  GoogleLoginProvider,
-  FacebookLoginProvider,
-} from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider, SocialLoginModule, SocialAuthServiceConfig} from 'angularx-social-login';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { AngularFireModule } from '@angular/fire';
@@ -55,6 +48,7 @@ import { environment } from '../environments/environment';
     MatIconModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    PdfViewerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true },

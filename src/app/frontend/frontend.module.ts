@@ -25,6 +25,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ImageViewerModule } from 'ngx-image-viewer';
 import { ListPackagesComponent } from './pricing-packages/list-packages/list-packages.component';
 import { PackageDetailsComponent } from './pricing-packages/package-details/package-details.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
 const routes: Routes = [
@@ -94,7 +95,8 @@ const routes: Routes = [
     MaterialModule,
     LayoutsModule,
     CKEditorModule,
-    ImageViewerModule.forRoot()
+    ImageViewerModule.forRoot(),
+    PdfViewerModule
     // StlModelViewerModule
   ],
   exports: [RouterModule],

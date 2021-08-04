@@ -169,6 +169,10 @@ export class CreateContentComponent implements OnInit {
       ],
       styles: ['full', 'alignLeft', 'alignRight', 'side'],
     },
+    // wproofreader: {
+    //     serviceId: 'your-service-ID',
+    //     srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js'
+    // },
     table: {
       contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],
     },
@@ -858,7 +862,7 @@ export class CreateContentComponent implements OnInit {
   }
   checkLectureNoteDuplicate(){
     this.lecture_note_obj.forEach((res, index)=>{
-        if(res['title'].trim() == this.lecture_note_title.trim() && res['status'] != 'delete' && ''+index != this.highyield_index){
+        if(res['title'].trim() == this.lecture_note_title.trim() && res['status'] != 'delete' && ''+index != this.lecture_note_index){
             this.lecture_note_title_duplicate = true;
             this.lecture_note_title = '';
             this.toster.error("Title has been taken", "Error" , {closeButton: true,});
