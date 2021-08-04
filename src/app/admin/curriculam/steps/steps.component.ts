@@ -200,7 +200,13 @@ export class StepsComponent implements OnInit {
       }
     });
   }
-  setOrder(order_number, pk_id){
+  setOrder(order_number, step_obj){
+    order_number = order_number.trim();
+    if(order_number == ''){
+        (<HTMLInputElement>document.getElementById("order_"+step_obj['id'])).value = step_obj['order_number'];
+        return false;
+    }
+      let pk_id = step_obj['id'];
     let param = {
         url: "update-step-order",
         level_id: pk_id,
