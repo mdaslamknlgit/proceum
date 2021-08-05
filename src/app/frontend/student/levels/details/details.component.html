@@ -64,7 +64,7 @@
     </div>
   </div>
 
-  <div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
+  <div class="cust_mdl_par cust_mdl_70p {{ library_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Images
@@ -85,7 +85,7 @@
       </div>
     </div>
   </div>
-  <div class="cust_mdl_par cust_mdl_50p {{ pdf_popup ? 'cust_mdl_opn' : '' }}">
+  <div class="cust_mdl_par {{ pdf_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
          <span class="spacer"></span>
@@ -93,11 +93,8 @@
           &#x2715;
         </button>
       </div>
-      <div class="tbbd_bdy">
-        <div *ngIf="pdf_popup" class="img_vwr">
-            <pdf-viewer [src]="pdf_file_path" style="display: block;"></pdf-viewer>
-
-        </div>
+      <div *ngIf="pdf_popup" class="tbbd_bdy">
+        <pdf-viewer [src]="pdf_file_path" [external-link-target]="'blank'" [show-all]="true" [page]="1" [autoresize]="true" [original-size]="false" [fit-to-page]="true" [zoom]="0.9" [show-borders]="true" [zoom-scale]="'page-fit'" style="display: block;"></pdf-viewer>
         <hr />
         <button mat-raised-button class="float_right mr_1 gry_btn" (click)="pdf_popup=false">
           Close
@@ -743,7 +740,7 @@
             </div>
           </div>
           
-            <div *ngIf="video_type=='3D_OBJECT'">
+            <div [hidden]="video_type!='3D_OBJECT'">
                 <div id="threed_obj_dev" style="width: 100%; height: 400px; margin: auto; background: #000000;margin-top: 2em;"></div>
               <!-- <stl-model-viewer stlModel="{{bucket_url+active_video_obj['video_source']}}"></stl-model-viewer> -->
             </div>
