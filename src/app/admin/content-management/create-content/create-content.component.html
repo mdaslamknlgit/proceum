@@ -111,17 +111,15 @@
           &#x2715;
         </button>
       </div>
-      <div class="tbbd_bdy">
+      <div class="tbbd_bdy dsh_brd_crds">
         <div class="hgt_20"></div>
         <span class="err_tltp_par" *ngIf="reviewers.length>0">
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" color="accent">
             <input readonly="true" placeholder="Select Date" name="publish_date_name" #publish_date_name="ngModel"
-                      [(ngModel)]="publish_date" matInput [matDatepicker]="picker" autocomplete="off"
-                      [min]="today_date" />
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
+              [(ngModel)]="publish_date" matInput [matDatepicker]="picker" autocomplete="off" [min]="today_date" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-          <input type="time" min="{{today.today.getHours()}+':'+today.getMinutes()}" [(ngModel)]="publish_time" name="publish_time">
         </span>
         <hr>
         <button type="button" [disabled]="!publish_date || !publish_time" (click)="publishContent()" mat-raised-button
@@ -143,7 +141,8 @@
         </button>
       </div>
       <div class="tbbd_bdy" *ngIf="library_popup">
-        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab, 'library_purpose': library_purpose }"></app-assets-library>
+        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab, 'library_purpose': library_purpose }">
+        </app-assets-library>
 
         <hr />
         <button mat-raised-button color="accent" class="float_right mr_1">
@@ -158,19 +157,24 @@
     </div>
   </div>
   <div class="brd_crm">Proceum &raquo; <strong>{{ pgae_title }}</strong></div>
-  <div class="pg_ttl">{{ pgae_title }} </div>
-  <span style="float: right;" class="cm_sts_info" *ngIf="content_id>0">
-    <span *ngIf="content_status == null" class="cpy">Copy</span>
-    <span *ngIf="content_status == 'PUBLISHED'" class="pblshd">Published</span>
-    <span *ngIf="content_status == 'DRAFT'" class="drft">Draft</span>
-    <span *ngIf="content_status == 'REVIEW' && content_reviewer_role==3"
-      class="crct_pnd">Corrections Pending</span>
-    <span *ngIf="content_status == 'REVIEW' && content_reviewer_role==7" class="aw_aprvl">Awaiting
-      Approval</span>
-    <span
-      *ngIf="content_status == 'REVIEW' && (content_reviewer_role==4 || econtent_reviewer_role==5 || content_reviewer_role==6)"
-      class="rw_pndg">Review Pending</span>
-  </span>
+  <div class="pg_ttl ai_cntr">
+    <div class="mr_1">{{ pgae_title }}</div>
+
+    <div class="cm_sts_info" *ngIf="content_id>0">
+
+      <span *ngIf="content_status == null" class="cpy">Copy</span>
+      <span *ngIf="content_status == 'PUBLISHED'" class="pblshd">Published</span>
+      <span *ngIf="content_status == 'DRAFT'" class="drft">Draft</span>
+      <span *ngIf="content_status == 'REVIEW' && content_reviewer_role==3" class="crct_pnd">Corrections Pending</span>
+      <span *ngIf="content_status == 'REVIEW' && content_reviewer_role==7" class="aw_aprvl">Awaiting
+        Approval</span>
+      <span
+        *ngIf="content_status == 'REVIEW' && (content_reviewer_role==4 || econtent_reviewer_role==5 || content_reviewer_role==6)"
+        class="rw_pndg">Review Pending</span>
+
+    </div>
+  </div>
+
   <!-- <section>
                 <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Premium content</mat-radio-button>&nbsp; &nbsp;
                 <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free content</mat-radio-button> 
@@ -180,6 +184,7 @@
       {{ is_paid == true ? 'Paid Content' : 'Free Content'}}
     </mat-slide-toggle>
   </div>
+  <div class="hgt_10"></div>
   <form (keydown.enter)="$event.preventDefault()" id="content_form" #content_create_form="ngForm"
     name="content_create_form" (ngSubmit)="content_create_form.valid && createContent(false)" novalidate>
     <div class="main_content_cc">
@@ -245,65 +250,74 @@
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts">
-                          <div>
-                            <span class="err_tltp_par">
-                            <mat-form-field appearance="outline">
-                              <mat-select [(ngModel)]="video_source_0" name="video_source_0">
-                                <mat-option value="">Select Source</mat-option>
-                                <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
-                                  {{video_type['name']}}</mat-option>
-                              </mat-select>
-                            </mat-form-field>
-                            </span>
-                          </div>
-                          <div>
-                            <span class="err_tltp_par">
-                            <mat-form-field appearance="outline" class="{{video_title_error_0!=''?'mat-form-field-invalid':''}}">
-                              <input [(ngModel)]="video_title_0" maxlength="50" (blur)="CheckTitleValue(0,1)" name="video_title_0" matInput
-                                placeholder="Title" />
-                            </mat-form-field>
-                            </span>
-                          </div>
-                          <div>
-                            <span class="err_tltp_par">
-                            <mat-form-field appearance="outline" class="{{video_value_error_0!='' || video_value_invalid_error_0!=''?'mat-form-field-invalid':''}}">
-                              <input matInput [(ngModel)]="video_value_0" (blur)="CheckTitleValue(0,2)" name="video_value_0"
-                                placeholder="Video URL/ID" />
-                            </mat-form-field>
-                            <span class="prc_tltp" *ngIf="video_value_invalid_error_0!=''">{{video_value_invalid_error_0}}</span>
-                            </span>
-                          </div>
-                        </div>
-                      <div class="text_right">
-                        <button [disabled]="video_source_0.trim()=='' || video_title_0.trim()=='' || video_value_0.trim() == ''" type="button" (click)="addVideo(0)" mat-raised-button color="accent">
-                          <mat-icon>add</mat-icon> Add Video
-                        </button>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline">
+                            <mat-select [(ngModel)]="video_source_0" name="video_source_0">
+                              <mat-option value="">Select Source</mat-option>
+                              <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                {{video_type['name']}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </span>
                       </div>
                       <div>
-                        <div *ngFor="let video of intro_video; let video_index=index">
-                            <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_title_error_0!=''?'mat-form-field-invalid':''}}">
+                            <input [(ngModel)]="video_title_0" maxlength="50" (blur)="CheckTitleValue(0,1)"
+                              name="video_title_0" matInput placeholder="Title" />
+                          </mat-form-field>
+                        </span>
+                      </div>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_value_error_0!='' || video_value_invalid_error_0!=''?'mat-form-field-invalid':''}}">
+                            <input matInput [(ngModel)]="video_value_0" (blur)="CheckTitleValue(0,2)"
+                              name="video_value_0" placeholder="Video URL/ID" />
+                          </mat-form-field>
+                          <span class="prc_tltp"
+                            *ngIf="video_value_invalid_error_0!=''">{{video_value_invalid_error_0}}</span>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="text_right">
+                      <button
+                        [disabled]="video_source_0.trim()=='' || video_title_0.trim()=='' || video_value_0.trim() == ''"
+                        type="button" (click)="addVideo(0)" mat-raised-button color="accent">
+                        <mat-icon>add</mat-icon> Add Video
+                      </button>
+                    </div>
+                    <div>
+                      <div *ngFor="let video of intro_video; let video_index=index">
+                        <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
                           <div class="kp_yt_img">
-                            <img src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}" >
+                            <img
+                              src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}">
                           </div>
                           <div class="mr_1 fnt_bold">{{video['title']}}
                             <div class="vd_pth">
-                             Source: {{video['value']}}
+                              Source: {{video['value']}}
                             </div>
                           </div>
                           <div class="spacer"></div>
                           <div>
-                            <button (click)="editVideo(0,video_index)" type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
+                            <button (click)="editVideo(0,video_index)" type="button" mat-icon-button
+                              class="mr_1 no_bxsdw" color="accent">
                               <mat-icon>mode_edit</mat-icon>
                             </button>
                           </div>
                           <div>
-                            <button *ngIf="video_index_0!=video_index" (click)="removeVideo(0,video_index)" type="button" mat-icon-button class="no_bxsdw" color="warn">
+                            <button *ngIf="video_index_0!=video_index" (click)="removeVideo(0,video_index)"
+                              type="button" mat-icon-button class="no_bxsdw" color="warn">
                               <mat-icon>remove_circle_outline</mat-icon>
                             </button>
                           </div>
-                          </div>
                         </div>
                       </div>
+                    </div>
+                    <div class="hgt_20"></div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
@@ -311,10 +325,9 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                   
                     <div class="ulvd_inpts">
-                        <div>
-                          <span class="err_tltp_par">
+                      <div>
+                        <span class="err_tltp_par">
                           <mat-form-field appearance="outline">
                             <mat-select [(ngModel)]="video_source_1" name="video_source_1">
                               <mat-option value="">Select Source</mat-option>
@@ -322,57 +335,64 @@
                                 {{video_type['name']}}</mat-option>
                             </mat-select>
                           </mat-form-field>
-                          </span>
-                        </div>
-                        <div>
-                          <span class="err_tltp_par">
-                          <mat-form-field appearance="outline" class="{{video_title_error_1!=''?'mat-form-field-invalid':''}}">
-                            <input [(ngModel)]="video_title_1" maxlength="50" (blur)="CheckTitleValue(1,1)" name="video_title_1" matInput
-                              placeholder="Title" />
-                          </mat-form-field>
-                          </span>
-                        </div>
-                        <div>
-                          <span class="err_tltp_par">
-                          <mat-form-field appearance="outline" class="{{video_value_error_1!='' || video_value_invalid_error_1!=''?'mat-form-field-invalid':''}}">
-                            <input matInput [(ngModel)]="video_value_1" (blur)="CheckTitleValue(1,2)" name="video_value_1"
-                              placeholder="Video URL/ID" />
-                          </mat-form-field>
-                          <span class="prc_tltp" *ngIf="video_value_invalid_error_1!=''">{{video_value_invalid_error_1}}</span>
-                          </span>
-                        </div>
+                        </span>
                       </div>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_title_error_1!=''?'mat-form-field-invalid':''}}">
+                            <input [(ngModel)]="video_title_1" maxlength="50" (blur)="CheckTitleValue(1,1)"
+                              name="video_title_1" matInput placeholder="Title" />
+                          </mat-form-field>
+                        </span>
+                      </div>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_value_error_1!='' || video_value_invalid_error_1!=''?'mat-form-field-invalid':''}}">
+                            <input matInput [(ngModel)]="video_value_1" (blur)="CheckTitleValue(1,2)"
+                              name="video_value_1" placeholder="Video URL/ID" />
+                          </mat-form-field>
+                          <span class="prc_tltp"
+                            *ngIf="video_value_invalid_error_1!=''">{{video_value_invalid_error_1}}</span>
+                        </span>
+                      </div>
+                    </div>
                     <div class="text_right">
-                      <button [disabled]="video_source_1.trim()=='' || video_title_1.trim()=='' || video_value_1.trim() == ''" type="button" (click)="addVideo(1)" mat-raised-button color="accent">
+                      <button
+                        [disabled]="video_source_1.trim()=='' || video_title_1.trim()=='' || video_value_1.trim() == ''"
+                        type="button" (click)="addVideo(1)" mat-raised-button color="accent">
                         <mat-icon>add</mat-icon> Add Video
                       </button>
                     </div>
                     <div>
                       <div *ngFor="let video of two_d_videos; let video_index=index">
-                          <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
-                        <div class="kp_yt_img">
-                          <img src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}" >
-                        </div>
-                        <div class="mr_1 fnt_bold">{{video['title']}}
-                          <div class="vd_pth">
-                           Source: {{video['value']}}
+                        <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
+                          <div class="kp_yt_img">
+                            <img
+                              src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}">
                           </div>
-                        </div>
-                        <div class="spacer"></div>
-                        <div>
-                          <button (click)="editVideo(1,video_index)" type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
-                            <mat-icon>mode_edit</mat-icon>
-                          </button>
-                        </div>
-                        <div>
-                          <button *ngIf="video_index_1!=video_index" (click)="removeVideo(1,video_index)" type="button" mat-icon-button class="no_bxsdw" color="warn">
-                            <mat-icon>remove_circle_outline</mat-icon>
-                          </button>
-                        </div>
+                          <div class="mr_1 fnt_bold">{{video['title']}}
+                            <div class="vd_pth">
+                              Source: {{video['value']}}
+                            </div>
+                          </div>
+                          <div class="spacer"></div>
+                          <div>
+                            <button (click)="editVideo(1,video_index)" type="button" mat-icon-button
+                              class="mr_1 no_bxsdw" color="accent">
+                              <mat-icon>mode_edit</mat-icon>
+                            </button>
+                          </div>
+                          <div>
+                            <button *ngIf="video_index_1!=video_index" (click)="removeVideo(1,video_index)"
+                              type="button" mat-icon-button class="no_bxsdw" color="warn">
+                              <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-
                     <div class="hgt_20"></div>
                   </mat-tab>
                   <mat-tab>
@@ -382,8 +402,8 @@
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts">
-                        <div>
-                          <span class="err_tltp_par">
+                      <div>
+                        <span class="err_tltp_par">
                           <mat-form-field appearance="outline">
                             <mat-select [(ngModel)]="video_source_2" name="video_source_2">
                               <mat-option value="">Select Source</mat-option>
@@ -391,53 +411,61 @@
                                 {{video_type['name']}}</mat-option>
                             </mat-select>
                           </mat-form-field>
-                          </span>
-                        </div>
-                        <div>
-                          <span class="err_tltp_par">
-                          <mat-form-field appearance="outline" class="{{video_title_error_2!=''?'mat-form-field-invalid':''}}">
-                            <input [(ngModel)]="video_title_2" maxlength="50" (blur)="CheckTitleValue(2,1)" name="video_title_2" matInput
-                              placeholder="Title" />
-                          </mat-form-field>
-                          </span>
-                        </div>
-                        <div>
-                          <span class="err_tltp_par">
-                          <mat-form-field appearance="outline" class="{{video_value_error_2!='' || video_value_invalid_error_2!=''?'mat-form-field-invalid':''}}">
-                            <input matInput [(ngModel)]="video_value_2" (blur)="CheckTitleValue(2,2)" name="video_value_2"
-                              placeholder="Video URL/ID" />
-                          </mat-form-field>
-                          <span class="prc_tltp" *ngIf="video_value_invalid_error_2!=''">{{video_value_invalid_error_1}}</span>
-                          </span>
-                        </div>
+                        </span>
                       </div>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_title_error_2!=''?'mat-form-field-invalid':''}}">
+                            <input [(ngModel)]="video_title_2" maxlength="50" (blur)="CheckTitleValue(2,1)"
+                              name="video_title_2" matInput placeholder="Title" />
+                          </mat-form-field>
+                        </span>
+                      </div>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_value_error_2!='' || video_value_invalid_error_2!=''?'mat-form-field-invalid':''}}">
+                            <input matInput [(ngModel)]="video_value_2" (blur)="CheckTitleValue(2,2)"
+                              name="video_value_2" placeholder="Video URL/ID" />
+                          </mat-form-field>
+                          <span class="prc_tltp"
+                            *ngIf="video_value_invalid_error_2!=''">{{video_value_invalid_error_1}}</span>
+                        </span>
+                      </div>
+                    </div>
                     <div class="text_right">
-                      <button [disabled]="video_source_2.trim()=='' || video_title_2.trim()=='' || video_value_2.trim() == ''" type="button" (click)="addVideo(2)" mat-raised-button color="accent">
+                      <button
+                        [disabled]="video_source_2.trim()=='' || video_title_2.trim()=='' || video_value_2.trim() == ''"
+                        type="button" (click)="addVideo(2)" mat-raised-button color="accent">
                         <mat-icon>add</mat-icon> Add Video
                       </button>
                     </div>
                     <div>
                       <div *ngFor="let video of board_lecture_videos; let video_index=index">
-                          <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
-                        <div class="kp_yt_img">
-                          <img src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}" >
-                        </div>
-                        <div class="mr_1 fnt_bold">{{video['title']}}
-                          <div class="vd_pth">
-                           Source: {{video['value']}}
+                        <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
+                          <div class="kp_yt_img">
+                            <img
+                              src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}">
                           </div>
-                        </div>
-                        <div class="spacer"></div>
-                        <div>
-                          <button (click)="editVideo(2,video_index)" type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
-                            <mat-icon>mode_edit</mat-icon>
-                          </button>
-                        </div>
-                        <div>
-                          <button *ngIf="video_index_2!=video_index" (click)="removeVideo(2,video_index)" type="button" mat-icon-button class="no_bxsdw" color="warn">
-                            <mat-icon>remove_circle_outline</mat-icon>
-                          </button>
-                        </div>
+                          <div class="mr_1 fnt_bold">{{video['title']}}
+                            <div class="vd_pth">
+                              Source: {{video['value']}}
+                            </div>
+                          </div>
+                          <div class="spacer"></div>
+                          <div>
+                            <button (click)="editVideo(2,video_index)" type="button" mat-icon-button
+                              class="mr_1 no_bxsdw" color="accent">
+                              <mat-icon>mode_edit</mat-icon>
+                            </button>
+                          </div>
+                          <div>
+                            <button *ngIf="video_index_2!=video_index" (click)="removeVideo(2,video_index)"
+                              type="button" mat-icon-button class="no_bxsdw" color="warn">
+                              <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -451,8 +479,8 @@
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts">
-                        <div>
-                          <span class="err_tltp_par">
+                      <div>
+                        <span class="err_tltp_par">
                           <mat-form-field appearance="outline">
                             <mat-select [(ngModel)]="video_source_3" name="video_source_3">
                               <mat-option value="">Select Source</mat-option>
@@ -460,56 +488,65 @@
                                 {{video_type['name']}}</mat-option>
                             </mat-select>
                           </mat-form-field>
-                          </span>
-                        </div>
-                        <div>
-                          <span class="err_tltp_par">
-                          <mat-form-field appearance="outline" class="{{video_title_error_3!=''?'mat-form-field-invalid':''}}">
-                            <input [(ngModel)]="video_title_3" maxlength="50" (blur)="CheckTitleValue(3,1)" name="video_title_3" matInput
-                              placeholder="Title" />
-                          </mat-form-field>
-                          </span>
-                        </div>
-                        <div>
-                          <span class="err_tltp_par">
-                          <mat-form-field appearance="outline" class="{{video_value_error_3!='' || video_value_invalid_error_3!=''?'mat-form-field-invalid':''}}">
-                            <input matInput [(ngModel)]="video_value_3" (blur)="CheckTitleValue(3,2)" name="video_value_3"
-                              placeholder="Video URL/ID" />
-                          </mat-form-field>
-                          <span class="prc_tltp" *ngIf="video_value_invalid_error_3!=''">{{video_value_invalid_error_1}}</span>
-                          </span>
-                        </div>
+                        </span>
                       </div>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_title_error_3!=''?'mat-form-field-invalid':''}}">
+                            <input [(ngModel)]="video_title_3" maxlength="50" (blur)="CheckTitleValue(3,1)"
+                              name="video_title_3" matInput placeholder="Title" />
+                          </mat-form-field>
+                        </span>
+                      </div>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_value_error_3!='' || video_value_invalid_error_3!=''?'mat-form-field-invalid':''}}">
+                            <input matInput [(ngModel)]="video_value_3" (blur)="CheckTitleValue(3,2)"
+                              name="video_value_3" placeholder="Video URL/ID" />
+                          </mat-form-field>
+                          <span class="prc_tltp"
+                            *ngIf="video_value_invalid_error_3!=''">{{video_value_invalid_error_1}}</span>
+                        </span>
+                      </div>
+                    </div>
                     <div class="text_right">
-                      <button [disabled]="video_source_3.trim()=='' || video_title_3.trim()=='' || video_value_3.trim() == ''" type="button" (click)="addVideo(3)" mat-raised-button color="accent">
+                      <button
+                        [disabled]="video_source_3.trim()=='' || video_title_3.trim()=='' || video_value_3.trim() == ''"
+                        type="button" (click)="addVideo(3)" mat-raised-button color="accent">
                         <mat-icon>add</mat-icon> Add Video
                       </button>
                     </div>
                     <div>
                       <div *ngFor="let video of clinical_videos; let video_index=index">
-                          <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
-                        <div class="kp_yt_img">
-                          <img src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}" >
-                        </div>
-                        <div class="mr_1 fnt_bold">{{video['title']}}
-                          <div class="vd_pth">
-                           Source: {{video['value']}}
+                        <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
+                          <div class="kp_yt_img">
+                            <img
+                              src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}">
                           </div>
-                        </div>
-                        <div class="spacer"></div>
-                        <div>
-                          <button (click)="editVideo(3,video_index)" type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
-                            <mat-icon>mode_edit</mat-icon>
-                          </button>
-                        </div>
-                        <div>
-                          <button *ngIf="video_index_3!=video_index" (click)="removeVideo(3,video_index)" type="button" mat-icon-button class="no_bxsdw" color="warn">
-                            <mat-icon>remove_circle_outline</mat-icon>
-                          </button>
-                        </div>
+                          <div class="mr_1 fnt_bold">{{video['title']}}
+                            <div class="vd_pth">
+                              Source: {{video['value']}}
+                            </div>
+                          </div>
+                          <div class="spacer"></div>
+                          <div>
+                            <button (click)="editVideo(3,video_index)" type="button" mat-icon-button
+                              class="mr_1 no_bxsdw" color="accent">
+                              <mat-icon>mode_edit</mat-icon>
+                            </button>
+                          </div>
+                          <div>
+                            <button *ngIf="video_index_3!=video_index" (click)="removeVideo(3,video_index)"
+                              type="button" mat-icon-button class="no_bxsdw" color="warn">
+                              <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div class="hgt_20"></div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
@@ -518,8 +555,8 @@
                     </ng-template>
                     <div class="hgt_20"></div>
                     <div class="ulvd_inpts">
-                        <div>
-                          <span class="err_tltp_par">
+                      <div>
+                        <span class="err_tltp_par">
                           <mat-form-field appearance="outline">
                             <mat-select [(ngModel)]="video_source_4" name="video_source_4">
                               <mat-option value="">Select Source</mat-option>
@@ -527,56 +564,65 @@
                                 {{video_type['name']}}</mat-option>
                             </mat-select>
                           </mat-form-field>
-                          </span>
-                        </div>
-                        <div>
-                          <span class="err_tltp_par">
-                          <mat-form-field appearance="outline" class="{{video_title_error_4!=''?'mat-form-field-invalid':''}}">
-                            <input [(ngModel)]="video_title_4" maxlength="50" (blur)="CheckTitleValue(4,1)" name="video_title_4" matInput
-                              placeholder="Title" />
-                          </mat-form-field>
-                          </span>
-                        </div>
-                        <div>
-                          <span class="err_tltp_par">
-                          <mat-form-field appearance="outline" class="{{video_value_error_4!='' || video_value_invalid_error_4!=''?'mat-form-field-invalid':''}}">
-                            <input matInput [(ngModel)]="video_value_4" (blur)="CheckTitleValue(4,2)" name="video_value_4"
-                              placeholder="Video URL/ID" />
-                          </mat-form-field>
-                          <span class="prc_tltp" *ngIf="video_value_invalid_error_4!=''">{{video_value_invalid_error_1}}</span>
-                          </span>
-                        </div>
+                        </span>
                       </div>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_title_error_4!=''?'mat-form-field-invalid':''}}">
+                            <input [(ngModel)]="video_title_4" maxlength="50" (blur)="CheckTitleValue(4,1)"
+                              name="video_title_4" matInput placeholder="Title" />
+                          </mat-form-field>
+                        </span>
+                      </div>
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline"
+                            class="{{video_value_error_4!='' || video_value_invalid_error_4!=''?'mat-form-field-invalid':''}}">
+                            <input matInput [(ngModel)]="video_value_4" (blur)="CheckTitleValue(4,2)"
+                              name="video_value_4" placeholder="Video URL/ID" />
+                          </mat-form-field>
+                          <span class="prc_tltp"
+                            *ngIf="video_value_invalid_error_4!=''">{{video_value_invalid_error_1}}</span>
+                        </span>
+                      </div>
+                    </div>
                     <div class="text_right">
-                      <button [disabled]="video_source_4.trim()=='' || video_title_4.trim()=='' || video_value_4.trim() == ''" type="button" (click)="addVideo(4)" mat-raised-button color="accent">
+                      <button
+                        [disabled]="video_source_4.trim()=='' || video_title_4.trim()=='' || video_value_4.trim() == ''"
+                        type="button" (click)="addVideo(4)" mat-raised-button color="accent">
                         <mat-icon>add</mat-icon> Add Video
                       </button>
                     </div>
                     <div>
                       <div *ngFor="let video of procedural_videos; let video_index=index">
-                          <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
-                        <div class="kp_yt_img">
-                          <img src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}" >
-                        </div>
-                        <div class="mr_1 fnt_bold">{{video['title']}}
-                          <div class="vd_pth">
-                           Source: {{video['value']}}
+                        <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
+                          <div class="kp_yt_img">
+                            <img
+                              src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}">
                           </div>
-                        </div>
-                        <div class="spacer"></div>
-                        <div>
-                          <button (click)="editVideo(4,video_index)" type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
-                            <mat-icon>mode_edit</mat-icon>
-                          </button>
-                        </div>
-                        <div>
-                          <button *ngIf="video_index_4!=video_index" (click)="removeVideo(4,video_index)" type="button" mat-icon-button class="no_bxsdw" color="warn">
-                            <mat-icon>remove_circle_outline</mat-icon>
-                          </button>
-                        </div>
+                          <div class="mr_1 fnt_bold">{{video['title']}}
+                            <div class="vd_pth">
+                              Source: {{video['value']}}
+                            </div>
+                          </div>
+                          <div class="spacer"></div>
+                          <div>
+                            <button (click)="editVideo(4,video_index)" type="button" mat-icon-button
+                              class="mr_1 no_bxsdw" color="accent">
+                              <mat-icon>mode_edit</mat-icon>
+                            </button>
+                          </div>
+                          <div>
+                            <button *ngIf="video_index_4!=video_index" (click)="removeVideo(4,video_index)"
+                              type="button" mat-icon-button class="no_bxsdw" color="warn">
+                              <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div class="hgt_20"></div>
                   </mat-tab>
                   <mat-tab>
                     <ng-template mat-tab-label>
@@ -584,9 +630,9 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-                    
+
                     <div class="ulvd_inpts">
-                        <!-- <div>
+                      <!-- <div>
                           <span class="err_tltp_par">
                           <mat-form-field appearance="outline">
                             <mat-select [(ngModel)]="video_source_5" name="video_source_5">
@@ -597,64 +643,65 @@
                           </mat-form-field>
                           </span>
                         </div> -->
-                        <div>
-                          <span class="err_tltp_par">
-                          <mat-form-field appearance="outline" maxlength="50" class="{{video_title_error_5!=''?'mat-form-field-invalid':''}}">
-                            <input [(ngModel)]="video_title_5" (blur)="CheckTitleValue(5,1)" name="video_title_5" matInput
-                              placeholder="Title" />
+                      <div>
+                        <span class="err_tltp_par">
+                          <mat-form-field appearance="outline" maxlength="50"
+                            class="{{video_title_error_5!=''?'mat-form-field-invalid':''}}">
+                            <input [(ngModel)]="video_title_5" maxlength="50" (blur)="CheckTitleValue(5,1)" name="video_title_5"
+                              matInput placeholder="Title" />
                           </mat-form-field>
-                          </span>
-                        </div>
-                        <div>
-                          <span class="err_tltp_par">
+                        </span>
+                      </div>
+                      <div>
+                        <span class="err_tltp_par">
                           <!-- <mat-form-field appearance="outline" class="{{video_value_error_5!='' || video_value_invalid_error_5!=''?'mat-form-field-invalid':''}}"> -->
-                            <div style="padding-top: 10px;">
-                                <input type="file" (change)="upload3dObject($event)" name="three_d_videos_value_5"
-                                  placeholder="Select 3d objet" />
-                              </div>
-                            <!-- <input matInput [(ngModel)]="video_value_5" (blur)="CheckTitleValue(5,2)" name="video_value_5"
+                          <div style="padding-top: 10px;">
+                            <input type="file" (change)="upload3dObject($event)" name="three_d_videos_value_5"
+                              placeholder="Select 3d objet" />
+                          </div>
+                          <!-- <input matInput [(ngModel)]="video_value_5" (blur)="CheckTitleValue(5,2)" name="video_value_5"
                               placeholder="Video URL/ID" /> -->
                           <!-- </mat-form-field> -->
-                          <span class="prc_tltp" *ngIf="video_value_invalid_error_5!=''">{{video_value_invalid_error_1}}</span>
-                          </span>
-                        </div>
+                          <span class="prc_tltp"
+                            *ngIf="video_value_invalid_error_5!=''">{{video_value_invalid_error_1}}</span>
+                        </span>
                       </div>
+                    </div>
                     <div class="text_right">
-                      <button [disabled]="video_source_5.trim()=='' || video_title_5.trim()=='' || video_value_5.trim() == ''" type="button" (click)="addVideo(5)" mat-raised-button color="accent">
+                      <button
+                        [disabled]="video_source_5.trim()=='' || video_title_5.trim()=='' || video_value_5.trim() == ''"
+                        type="button" (click)="addVideo(5)" mat-raised-button color="accent">
                         <mat-icon>add</mat-icon> Add Video
                       </button>
                     </div>
                     <div>
                       <div *ngFor="let video of three_d_videos; let video_index=index">
-                          <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
-                        <div class="kp_yt_img">
-                          <img src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}" >
-                        </div>
-                        <div class="mr_1 fnt_bold">{{video['title']}}
-                          <div class="vd_pth">
-                           Source: {{video['value']}}
+                        <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
+                          <div class="kp_yt_img">
+                            <img
+                              src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}">
                           </div>
-                        </div>
-                        <div class="spacer"></div>
-                        <!-- <div>
+                          <div class="mr_1 fnt_bold">{{video['title']}}
+                            <div class="vd_pth">
+                              Source: {{video['value']}}
+                            </div>
+                          </div>
+                          <div class="spacer"></div>
+                          <!-- <div>
                           <button (click)="editVideo(5,video_index)" type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent">
                             <mat-icon>mode_edit</mat-icon>
                           </button>
                         </div> -->
-                        <div>
-                          <button *ngIf="video_index_5!=video_index" (click)="removeVideo(5,video_index)" type="button" mat-icon-button class="no_bxsdw" color="warn">
-                            <mat-icon>remove_circle_outline</mat-icon>
-                          </button>
-                        </div>
+                          <div>
+                            <button *ngIf="video_index_5!=video_index" (click)="removeVideo(5,video_index)"
+                              type="button" mat-icon-button class="no_bxsdw" color="warn">
+                              <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
-
-
-
-
-
-
+                    <div class="hgt_20"></div>
                   </mat-tab>
                 </mat-tab-group>
               </div>
@@ -687,7 +734,7 @@
                 <div class="ck_editor" (click)="editorFocused('description_editor')">
                   <ckeditor [(ngModel)]="main_content" name="main_content_name" (ready)="onReady($event)"
                     [editor]="Editor" #description_editor [config]="editorConfig">
-                </ckeditor>
+                  </ckeditor>
                 </div>
               </div>
             </div>
@@ -776,7 +823,7 @@
               <div class="c_block_content">
                 <mat-tab-group (selectedTabChange)="notesTab($event)" animationDuration="0.15s" *ngIf="show_tabs">
                   <mat-tab label="Learning Objectives">
-                      <!-- <button type="button" (click)="addImage()">Add</button> -->
+                    <!-- <button type="button" (click)="addImage()">Add</button> -->
                     <div class="ck_editor" (click)="editorFocused('lerning_obj_editor')">
                       <ckeditor [(ngModel)]="learning_obj_content" name="learning_obj_content_name"
                         (ready)="onReady($event)" [editor]="Editor" #lerning_obj_editor [config]="editorConfig"
@@ -914,11 +961,11 @@
                                 {{ element.weight }}
                               </td>
                             </ng-container>
-
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
-                                <span *ngIf="!loading_questions">No Records Found</span> 
+                              <td style="text-align: center; margin: 20px" class="mat-cell"
+                                [attr.colspan]="displayedColumns.length">
+                                <span *ngIf="!loading_questions">No Records Found</span>
                               </td>
                             </tr>
                           </table>
@@ -933,11 +980,9 @@
                                   $event.keyCode == 13 ? searchQuestions() : ''
                                 " matInput placeholder="Search" />
                               <mat-icon matSuffix (click)="searchQuestions()">search</mat-icon>
-
                             </mat-form-field>
                           </div>
-
-                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn whtspc_nml">
+                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn">
                             <ng-container matColumnDef="s_no">
                               <td mat-cell *matCellDef="let element">
                                 <mat-checkbox [value]="element['id']" [checked]="
@@ -964,7 +1009,7 @@
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                               <td style="text-align: center; margin: 20px" class="mat-cell"
                                 [attr.colspan]="displayedColumns.length">
-                                <span *ngIf="!loading_questions">No Records Found</span> 
+                                <span *ngIf="!loading_questions">No Records Found</span>
                               </td>
                             </tr>
                           </table>
@@ -1018,7 +1063,7 @@
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                               <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
-                                <span *ngIf="!loading_questions">No Records Found</span> 
+                                <span *ngIf="!loading_questions">No Records Found</span>
                               </td>
                             </tr>
                           </table>
@@ -1066,7 +1111,7 @@
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                               <td style="text-align: center; margin: 20px" class="mat-cell"
                                 [attr.colspan]="displayedColumns.length">
-                                <span *ngIf="!loading_questions">No Records Found</span> 
+                                <span *ngIf="!loading_questions">No Records Found</span>
                               </td>
                             </tr>
                           </table>
@@ -1197,7 +1242,7 @@
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                               <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
-                                <span *ngIf="!loading_questions">No Records Found</span> 
+                                <span *ngIf="!loading_questions">No Records Found</span>
                               </td>
                             </tr>
                           </table>
@@ -1242,7 +1287,7 @@
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                               <td style="text-align: center; margin: 20px" class="mat-cell"
                                 [attr.colspan]="displayedColumns.length">
-                                <span *ngIf="!loading_questions">No Records Found</span> 
+                                <span *ngIf="!loading_questions">No Records Found</span>
                               </td>
                             </tr>
                           </table>
@@ -1347,9 +1392,10 @@
           </div>
           <div>
             <button
-            *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || (user['role'] == '7' && dataentry_uid == user['id']) || user['role'] == '1') && (content_parent_id == 0) && (is_published != '1')" type="button" mat-raised-button color="accent" class="ml_1" (click)="schdule_publish=true">
-            Schedule Publish
-          </button>
+              *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || (user['role'] == '7' && dataentry_uid == user['id']) || user['role'] == '1') && (content_parent_id == 0) && (is_published != '1')"
+              type="button" mat-raised-button color="accent" class="ml_1" (click)="schdule_publish=true">
+              Schedule Publish
+            </button>
             <button
               *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || (user['role'] == '7' && dataentry_uid == user['id']) || user['role'] == '1')"
               type="button" mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
