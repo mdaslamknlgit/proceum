@@ -111,18 +111,14 @@
           &#x2715;
         </button>
       </div>
-      <div class="tbbd_bdy">
+      <div class="tbbd_bdy dsh_brd_crds">
         <div class="hgt_20"></div>
         <span class="err_tltp_par" *ngIf="reviewers.length>0">
-          <mat-form-field appearance="outline" class="w_47p mr_1">
-            <input placeholder="Select Date" name="publish_date_name" #publish_date_name="ngModel"
+          <mat-form-field appearance="outline" color="accent">
+            <input readonly placeholder="Select Date" name="publish_date_name" #publish_date_name="ngModel"
               [(ngModel)]="publish_date" matInput [matDatepicker]="picker" autocomplete="off" [min]="today_date" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="w_47p">
-            <input matInput type="time" min="{{today.today.getHours()}+':'+today.getMinutes()}"
-              [(ngModel)]="publish_time" name="publish_time">
           </mat-form-field>
         </span>
         <hr>
@@ -163,7 +159,7 @@
   <div class="brd_crm">Proceum &raquo; <strong>{{ pgae_title }}</strong></div>
   <div class="pg_ttl ai_cntr">
     <div class="mr_1">{{ pgae_title }}</div>
-   
+
     <div class="cm_sts_info" *ngIf="content_id>0">
 
       <span *ngIf="content_status == null" class="cpy">Copy</span>
@@ -965,10 +961,10 @@
                                 {{ element.weight }}
                               </td>
                             </ng-container>
-
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
+                              <td style="text-align: center; margin: 20px" class="mat-cell"
+                                [attr.colspan]="displayedColumns.length">
                                 <span *ngIf="!loading_questions">No Records Found</span>
                               </td>
                             </tr>
@@ -984,11 +980,9 @@
                                   $event.keyCode == 13 ? searchQuestions() : ''
                                 " matInput placeholder="Search" />
                               <mat-icon matSuffix (click)="searchQuestions()">search</mat-icon>
-
                             </mat-form-field>
                           </div>
-
-                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn whtspc_nml">
+                          <table mat-table [dataSource]="all_questions" class="qsp_pp_mn">
                             <ng-container matColumnDef="s_no">
                               <td mat-cell *matCellDef="let element">
                                 <mat-checkbox [value]="element['id']" [checked]="

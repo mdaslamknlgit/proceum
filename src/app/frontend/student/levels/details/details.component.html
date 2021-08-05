@@ -85,6 +85,27 @@
       </div>
     </div>
   </div>
+  <div class="cust_mdl_par cust_mdl_50p {{ pdf_popup ? 'cust_mdl_opn' : '' }}">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+         <span class="spacer"></span>
+        <button (click)="pdf_popup=false" mat-icon-button class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy">
+        <div *ngIf="pdf_popup" class="img_vwr">
+            <pdf-viewer [src]="pdf_file_path" style="display: block;"></pdf-viewer>
+
+        </div>
+        <hr />
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="pdf_popup=false">
+          Close
+        </button>
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div>
   <div class="innr_sd_mnu ism_opn">
     <!-- ism_opn -->
     <div class="ism_scrl">
@@ -413,8 +434,11 @@
                   file['file_path'].lastIndexOf('/') + 1
                 )
               }}">
-                  <a class="dwnld_attcmnt" [href]="bucket_url + file['file_path']" target="_blank">
+                  <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() != 'pdf'" class="dwnld_attcmnt" [href]="bucket_url + file['file_path']" target="_blank">
                     <mat-icon matTooltip="Download" matTooltipPosition="above">file_download</mat-icon>
+                  </a>
+                  <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'pdf'" (click)="openPdf(bucket_url + file['file_path'])" class="dwnld_attcmnt">
+                    <mat-icon matTooltip="View" matTooltipPosition="above">visibility</mat-icon>
                   </a>
                   <img [src]="file['path']" [alt]="
                   file['file_path'].substring(
@@ -718,11 +742,11 @@
               <iframe [width]="iframe_width" [height]="iframe_height" [src]="youtube_iframe" allowfullscreen></iframe>
             </div>
           </div>
-          <div id="threed_obj_dev">
+          
             <div *ngIf="video_type=='3D_OBJECT'">
+                <div id="threed_obj_dev" style="width: 100%; height: 400px; margin: auto; background: #000000;margin-top: 2em;"></div>
               <!-- <stl-model-viewer stlModel="{{bucket_url+active_video_obj['video_source']}}"></stl-model-viewer> -->
             </div>
-          </div>
           <!-- Approach2
         <div *ngIf="false" [hidden]="this.video_id !='gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-kvideo-id]="'gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-video-host]="'proceum.kpoint.com'"
         [attr.data-video-params]='{"offset": 12000, "resume": true}' style='width:640px; height:360px'></div>

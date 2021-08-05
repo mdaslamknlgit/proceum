@@ -52,6 +52,7 @@ export const environment = {
     //'Table',
     //'TableToolbar',
     //'htmlSource',
+    //'wproofreader'
   ],
   ORGANIZATION_TYPES : [
     {value: '1', viewValue: 'University'},
