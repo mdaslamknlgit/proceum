@@ -172,6 +172,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
   public scene:any;
   playVideo(video){
+    window.scroll(0,0);
       this.active_video_obj = video;
       if(!this.http.getUser()){
           this.router.navigateByUrl("/login");
