@@ -114,11 +114,15 @@
       <div class="tbbd_bdy dsh_brd_crds">
         <div class="hgt_20"></div>
         <span class="err_tltp_par" *ngIf="reviewers.length>0">
-          <mat-form-field appearance="outline" color="accent">
+          <mat-form-field appearance="outline" color="accent" class="w_47p mr_1">
             <input readonly="true" placeholder="Select Date" name="publish_date_name" #publish_date_name="ngModel"
               [(ngModel)]="publish_date" matInput [matDatepicker]="picker" autocomplete="off" [min]="today_date" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="w_47p">
+            <input matInput type="time" min="{{today.today.getHours()}+':'+today.getMinutes()}"
+              [(ngModel)]="publish_time" name="publish_time">
           </mat-form-field>
         </span>
         <hr>
@@ -647,8 +651,8 @@
                         <span class="err_tltp_par">
                           <mat-form-field appearance="outline" maxlength="50"
                             class="{{video_title_error_5!=''?'mat-form-field-invalid':''}}">
-                            <input [(ngModel)]="video_title_5" maxlength="50" (blur)="CheckTitleValue(5,1)" name="video_title_5"
-                              matInput placeholder="Title" />
+                            <input [(ngModel)]="video_title_5" maxlength="50" (blur)="CheckTitleValue(5,1)"
+                              name="video_title_5" matInput placeholder="Title" />
                           </mat-form-field>
                         </span>
                       </div>
