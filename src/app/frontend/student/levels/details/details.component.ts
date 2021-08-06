@@ -95,6 +95,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 };
     public pdf_file_path = '';
     public pdf_popup: boolean = false;
+    public pdf_zoom = 1;
+    public pdf_rotation: 0 | 90 | 180 | 270 = 0;
+    public pdf_page = 0;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -107,7 +110,19 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       return false;
     };
   }
-
+    pdf_rotation_change(){
+        if(this.pdf_rotation == 0)
+            this.pdf_rotation = 90;
+        else if(this.pdf_rotation == 90){
+            this.pdf_rotation = 180;
+        }
+        else if(this.pdf_rotation == 180){
+            this.pdf_rotation = 270;
+        }
+        else{
+            this.pdf_rotation = 0;
+        }
+    }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
       this.curriculum_id = param.curriculum_id == undefined?0:param.curriculum_id;

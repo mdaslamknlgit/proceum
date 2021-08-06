@@ -91,18 +91,15 @@
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         <div>
-          This is the name of the file which can come into large name.pdf
+          {{pdf_file_path.substring(
+          pdf_file_path.lastIndexOf("/") + 1
+          )}}
         </div>
         <div class="pdf_ed_icn">
-          <div>
-            <input type="text" value="1" > / <input type="text" value="2">
-          </div>
-          <div>
-            <mat-icon>zoom_in</mat-icon>
-          </div>
-          <div>
-            <mat-icon>zoom_out</mat-icon>
-          </div>
+          <mat-icon (click)="pdf_zoom=pdf_zoom+0.2">zoom_in</mat-icon>
+          <mat-icon (click)="pdf_zoom=pdf_zoom-0.2">zoom_out</mat-icon>
+          <mat-icon (click)="pdf_rotation_change()">rotate_left</mat-icon>
+          <input type="number" max="100" min="0" matinput [(ngModel)]="pdf_page">
         </div>
         <div>
           <button (click)="pdf_popup=false" mat-icon-button class="float_right">
@@ -111,9 +108,9 @@
         </div>
       </div>
       <div *ngIf="pdf_popup" class="tbbd_bdy">
-        <pdf-viewer [src]="pdf_file_path" [external-link-target]="'blank'" [show-all]="true" [page]="1"
-          [autoresize]="true" [original-size]="false" [fit-to-page]="true" [zoom]="0.9" [show-borders]="true"
-          [zoom-scale]="'page-fit'" style="display: block;"></pdf-viewer>
+        <pdf-viewer [src]="pdf_file_path" [external-link-target]="'blank'" [show-all]="true" [(page)]="pdf_page"
+          [autoresize]="true" [original-size]="false" [zoom]="pdf_zoom" [show-borders]="true"
+          [zoom-scale]="'page-width'" style="display: block;" [rotation]="pdf_rotation"></pdf-viewer>
         <!-- <hr />
         <button mat-raised-button class="float_right mr_1 gry_btn" (click)="pdf_popup=false">
           Close
