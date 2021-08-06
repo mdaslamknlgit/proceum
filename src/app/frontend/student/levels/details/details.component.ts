@@ -6,7 +6,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import * as modelPlayer from 'js-3d-model-viewer';
+import * as modelPlayer from '../../../../../assets/js-3d-model-viewer.min';
 declare var kPoint: any;
 
 @Component({
@@ -93,6 +93,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         prev: true
     }
 };
+    public pdf_file_path = '';
+    public pdf_popup: boolean = false;
+    public pdf_zoom = 1;
+    public pdf_rotation: 0 | 90 | 180 | 270 = 0;
+    public pdf_page = 0;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -105,7 +110,19 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       return false;
     };
   }
-
+    pdf_rotation_change(){
+        if(this.pdf_rotation == 0)
+            this.pdf_rotation = 90;
+        else if(this.pdf_rotation == 90){
+            this.pdf_rotation = 180;
+        }
+        else if(this.pdf_rotation == 180){
+            this.pdf_rotation = 270;
+        }
+        else{
+            this.pdf_rotation = 0;
+        }
+    }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
       this.curriculum_id = param.curriculum_id == undefined?0:param.curriculum_id;
@@ -151,7 +168,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.iframe_height = '600';
     }
   }
-  
+  public scene:any;
   playVideo(video){
       this.active_video_obj = video;
       if(!this.http.getUser()){
@@ -159,18 +176,26 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }
     this.video_title = video['module_title'];
     if(video['video_type'] == "3D_OBJECT"){
+        this.timeline = undefined;
+        if(this.player != undefined){
+            this.player.pauseVideo();
+        }
         this.video_type = "3D_OBJECT";
-        // setTimeout(()=>{
-        //     const viewerElement = document.getElementById('threed_obj_dev');
-        // const scene = modelPlayer.prepareScene(viewerElement);
-        // modelPlayer.loadObject(scene, 'http://192.10.250.150:4200/assets/sample.obj');
-        // },3000);
+        setTimeout(()=>{   
+        if(this.scene == undefined){
+            const viewerElement = document.getElementById('threed_obj_dev');
+            this.scene = modelPlayer.prepareScene(viewerElement);
+        }     
+        modelPlayer.clearScene(this.scene)
+        modelPlayer.resetCamera(this.scene)
+        modelPlayer.loadObject(this.scene, this.bucket_url+video['video_source'],null);
+        },1000);
         //modelPlayer.loadObject(scene, this.bucket_url+this.active_video_obj['video_source']);
     }
     if(video['video_type'] == "KPOINT"){
         this.video_type = "KPOINT";        
         if(this.player == undefined){
-            console.log(video, 'kpoint-ini');
+            //console.log(video, 'kpoint-ini');
             setTimeout(()=>{
             this.player = kPoint.Player(document.getElementById("player-container"), {
                 "kvideoId"  : video['video_source'],
@@ -187,15 +212,12 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     }
     if(video['video_type'] == "YOUTUBE"){
         this.timeline = undefined;
-        console.log(video, "youtube");
         if(this.player != undefined){
             this.player.pauseVideo();
         }
         this.video_type = "YOUTUBE";
         let embed_link = video['video_source'].replace("/watch?v=","/embed/");
-        console.log(embed_link)
         this.youtube_iframe = this.sanitizer.bypassSecurityTrustResourceUrl(embed_link);
-       // this.youtube_iframe = this.sanitizer.bypassSecurityTrustHtml('<iframe [width]="iframe_width" [height]="iframe_height" src="'+embed_link+'"></iframe>');
     }
   }
   getTimeline(){
@@ -409,6 +431,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     setTimeout(res=>{
         let class_name = document.getElementsByClassName("ck_editor_view");
         if(class_name != undefined){
+            if(class_name[class_index] == undefined)return false;
             let images = class_name[class_index].getElementsByTagName("img");
             if(images != undefined){
                 for(var i = 0, n = images.length; i < n; ++i) {
@@ -430,6 +453,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   openLibrary(index){
       this.image_index = index;
     this.library_popup = true;
+  }
+  openPdf(path){
+      console.log(path)
+      this.pdf_popup = true;
+      this.pdf_file_path = path
   }
   manageStatistics(type) {
     let param = {
