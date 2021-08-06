@@ -642,6 +642,16 @@ export class CreateContentComponent implements OnInit {
     for (var i = 0; i < files.length; i++) {
       let ext = files[i].name.split('.').pop().toLowerCase();
       if (allowed_types.includes(ext)) {
+        let size = files[i].size;
+        size = Math.round(size / 1024);
+        if(size > environment.file_upload_size){
+            this.toster.error(
+                ext +
+                  ' Size of file (' +
+                  files[i].name +
+                  ') is too large max allowed size 2mb', "Error", {closeButton: true,}
+              );
+        }
         valid_files.push(files[i]);
         uploadData.append('file' + i, files[i]);
       } else {

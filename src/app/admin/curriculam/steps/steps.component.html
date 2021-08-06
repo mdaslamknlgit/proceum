@@ -97,9 +97,9 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               {{ step }} Order
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element; let i=index;">
                 <mat-form-field appearance="outline">
-                  <input matInput appNumbersonly maxlength="5" trim="blur" id="order_{{element.id}}" [value]="element.order_number" name="order_number_name" (blur)="setOrder($event.target.value, element)" />
+                  <input matInput appNumbersonly maxlength="5" trim="blur" id="order_{{element.id}}" [value]="element.order_number" name="order_number_name" (blur)="setOrder($event.target.value, element, i)" />
                 </mat-form-field>
             </td>
           </ng-container>
