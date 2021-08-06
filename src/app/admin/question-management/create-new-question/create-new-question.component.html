@@ -59,22 +59,17 @@
                     </mat-nested-tree-node>
                   </mat-tree>
                 <div class="crt_pr_dv">
-                    <div class="crt_prt_hd">Add question to <span class="required">*</span></div>
+                    <div class="crt_prt_hd">This Question is for:</div>
                     <div class="crt_prt_cnt">
-                        <span class="err_tltp_par">
-                            <mat-form-field appearance="outline">
-                                <mat-select name="qbank" [(ngModel)]="question.q_bank_ids" #qbank="ngModel" ngModel
-                                    multiple required>
-                                    <mat-option value="0">Select question bank(s)</mat-option>
-                                    <mat-option *ngFor="let qbank of QBanks" [value]="qbank.id">{{ qbank.q_bank_type }}
-                                    </mat-option>
-                                </mat-select>
-                                <span class="prc_tltp" *ngIf=" (qbank.submitted || qbank.touched) &&
-                            qbank.invalid">Question to is Required</span>
-                            </mat-form-field>
-                        </span>
+                        <mat-radio-group name="questionUsageType" [(ngModel)]="question.questionUsageType"
+                            #questionUsageType="ngModel" ngModel required>
+                            <mat-radio-button [value]="1" class="emh qif" (click)="changeQUsageType(1)">Assessment Only</mat-radio-button>
+                            <mat-radio-button [value]="2" class="emh qif" (click)="changeQUsageType(2)">Preparation Only</mat-radio-button>
+                            <mat-radio-button [value]="3" class="emh qif" (click)="changeQUsageType(3)">QBanks Only</mat-radio-button>
+                        </mat-radio-group>
                     </div>
                 </div>
+                
                 <div class="crt_pr_dv">
                     <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
                     <div class="crt_prt_cnt">
@@ -102,6 +97,24 @@
                             <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
                             <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
                         </mat-radio-group>
+                    </div>
+                </div>                
+
+                <div class="crt_pr_dv" *ngIf="question_Qbank">
+                    <div class="crt_prt_hd">Add question to QBank <span class="required">*</span></div>
+                    <div class="crt_prt_cnt">
+                        <span class="err_tltp_par">
+                            <mat-form-field appearance="outline">
+                                <mat-select name="qbank" [(ngModel)]="question.q_bank_ids" #qbank="ngModel" ngModel
+                                    multiple required>
+                                    <mat-option value="0">Select question bank(s)</mat-option>
+                                    <mat-option *ngFor="let qbank of QBanks" [value]="qbank.id">{{ qbank.q_bank_type }}
+                                    </mat-option>
+                                </mat-select>
+                                <span class="prc_tltp" *ngIf=" (qbank.submitted || qbank.touched) &&
+                            qbank.invalid">Question to is Required</span>
+                            </mat-form-field>
+                        </span>
                     </div>
                 </div>
 

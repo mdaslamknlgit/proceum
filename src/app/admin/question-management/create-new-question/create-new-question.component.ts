@@ -41,6 +41,7 @@ export class CreateNewQuestionComponent implements OnInit {
   page_size_options = environment.page_size_options;
 
   public Editor = Editor;
+  public question_Qbank = false;
   configEditor = {
     Plugins: [],
     placeholder: 'Provide Text',
@@ -77,6 +78,7 @@ export class CreateNewQuestionComponent implements OnInit {
     q_source: "",
     q_source_value: null,
     difficulty_level_id: 1,
+    questionUsageType: 1,
     explanation: '',
     option1: null,
     option2: null,
@@ -118,6 +120,7 @@ export class CreateNewQuestionComponent implements OnInit {
   ngOnInit(): void {
     this.getQTypes()
     this.getQBanks()
+    this.changeQUsageType(1)
   }
 
   getQLists() {
@@ -326,6 +329,13 @@ export class CreateNewQuestionComponent implements OnInit {
       this.toster.error(message, 'Error', { closeButton: true });
        }
     });
+  }
+
+  public changeQUsageType(val){
+    this.question_Qbank = false;
+    if(val == 3){
+      this.question_Qbank = true;
+    }
   }
 
 }
