@@ -120,6 +120,7 @@
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
+          <input type="time" min="{{today.today.getHours()}+':'+today.getMinutes()}" [(ngModel)]="publish_time" name="publish_time">
         </span>
         <hr>
         <button type="button" [disabled]="!publish_date || !publish_time" (click)="publishContent()" mat-raised-button
