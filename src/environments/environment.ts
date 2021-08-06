@@ -60,16 +60,10 @@ export const environment = {
     {value: '3', viewValue: 'Institute'}
   ],
   
-<<<<<<< HEAD
 
     // apiUrl: 'http://192.10.250.150:8000/api/',
     // apiUrl: 'http://127.0.0.1:8000/api/',
     apiUrl: 'https://apiqa.proceum.com/api/',
-=======
-     apiUrl: 'http://192.10.250.150:8000/api/',
-    // apiUrl: 'http://127.0.0.1:8000/api/',
-    //apiUrl: 'https://apiqa.proceum.com/api/',
->>>>>>> adfc68606d04062cf243f15f7aa393dddb4a78ee
     firebaseConfig : {
         apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
         authDomain: "proceum-dev-62a30.firebaseapp.com",
