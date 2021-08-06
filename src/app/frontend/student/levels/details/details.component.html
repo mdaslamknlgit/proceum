@@ -89,22 +89,29 @@
   </div>
   <div class="cust_mdl_par pdf_vwr {{ pdf_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
-      <div class="pg_ttl">
+      <div class="pg_ttl dsh_brd_crds">
         <div>
           {{pdf_file_path.substring(
           pdf_file_path.lastIndexOf("/") + 1
           )}}
         </div>
         <div class="pdf_ed_icn">
+          <mat-form-field appearance="outline" class="w_80px mr_1">
+            <input matInput type="number" max="100" min="0" [(ngModel)]="pdf_page">
+          </mat-form-field>
+
           <mat-icon (click)="pdf_zoom=pdf_zoom+0.2">zoom_in</mat-icon>
           <mat-icon (click)="pdf_zoom=pdf_zoom-0.2">zoom_out</mat-icon>
-          <mat-icon (click)="pdf_rotation_change()">rotate_left</mat-icon>
-          <input type="number" max="100" min="0" matinput [(ngModel)]="pdf_page">
-          <br>
-          <input #queryInp id="pdfQueryInput" type="text" placeholder="Search..." [value]="pdfQuery"
-              (input)="searchQueryChanged($event.target.value)" (keyup.enter)="searchQueryChanged(queryInp.value)">
+          <mat-icon>rotate_left</mat-icon>
+          <mat-icon (click)="pdf_rotation_change()">rotate_right</mat-icon>
+
         </div>
         <div>
+          <mat-form-field appearance="outline" class="pdf_srch">
+            <input #queryInp id="pdfQueryInput" placeholder="Search..." matInput [value]="pdfQuery"
+              (input)="searchQueryChanged($event.target.value)" (keyup.enter)="searchQueryChanged(queryInp.value)">
+              <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
           <button (click)="pdf_popup=false" mat-icon-button class="float_right">
             &#x2715;
           </button>

@@ -21,10 +21,10 @@ export class StepsComponent implements OnInit {
     'pk_id',
     'level_name',
     'order_number',
-    'status',
     'created_at',
     'updated_at',
     'actions',
+    'status',
   ];
   public step_name = '';
   public step_code = '';
