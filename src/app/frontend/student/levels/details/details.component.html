@@ -100,6 +100,9 @@
           <mat-icon (click)="pdf_zoom=pdf_zoom-0.2">zoom_out</mat-icon>
           <mat-icon (click)="pdf_rotation_change()">rotate_left</mat-icon>
           <input type="number" max="100" min="0" matinput [(ngModel)]="pdf_page">
+          <br>
+          <input #queryInp id="pdfQueryInput" type="text" placeholder="Search..." [value]="pdfQuery"
+              (input)="searchQueryChanged($event.target.value)" (keyup.enter)="searchQueryChanged(queryInp.value)">
         </div>
         <div>
           <button (click)="pdf_popup=false" mat-icon-button class="float_right">

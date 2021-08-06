@@ -6,8 +6,9 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import * as modelPlayer from '../../../../../assets/js-3d-model-viewer.min';
+import * as modelPlayer from '../../../../../assets/3d-model-viewer/js-3d-model-viewer.min';
 declare var kPoint: any;
+import { PdfViewerComponent } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-details',
@@ -16,7 +17,7 @@ declare var kPoint: any;
 })
 export class DetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
-  //@ViewChild('editor2', { static: false }) editor2: CKEditorComponent;
+  @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
   public view_type = 1;
   public title = '';
   public curriculum = [];
@@ -98,6 +99,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     public pdf_zoom = 1;
     public pdf_rotation: 0 | 90 | 180 | 270 = 0;
     public pdf_page = 0;
+    pdfQuery = '';
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -526,5 +528,19 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         '/' +
         content_id
     );
+  }
+  searchQueryChanged(newQuery: string) {
+    if (newQuery !== this.pdfQuery) {
+      this.pdfQuery = newQuery;
+      this.pdfComponent.pdfFindController.executeCommand('find', {
+        query: this.pdfQuery,
+        highlightAll: true
+      });
+    } else {
+      this.pdfComponent.pdfFindController.executeCommand('findagain', {
+        query: this.pdfQuery,
+        highlightAll: true
+      });
+    }
   }
 }
