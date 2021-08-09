@@ -92,6 +92,7 @@ export class CreateContentComponent implements OnInit {
   public is_preview = false;
   public allow_coment = false;
   public bucket_url = "";
+    public threed_object:any;
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -397,6 +398,13 @@ export class CreateContentComponent implements OnInit {
         this.validateVideo(tabIndex);
       }
   }
+  add3dObject(threed_object){
+    this.three_d_videos.push({pk_id:0, video_section:'3D', source: this.video_source_5, title: this['video_title_5'], value: this.video_value_5, status:'', error:false, message: ''});
+    this['video_index_5'] = undefined;
+    this['video_title_5'] = '';
+    this['video_value_5'] = '';
+    threed_object.value = "";
+  }
   validateVideo(tab_index){
     if(this['video_source_'+tab_index] != '' && this['video_title_'+tab_index] && this['video_value_'+tab_index]){
         let video_title = this['video_title_'+tab_index];
@@ -667,7 +675,7 @@ export class CreateContentComponent implements OnInit {
     if (valid_files.length == 0) {
       return false;
     }
-    uploadData.append('path', 'images/threed_objects');
+    uploadData.append('path', 'documents/threed_objects');
     uploadData.append('number_files', files.length);
     let param = { url: 'upload-files' };
     this.http.imageUpload(param, uploadData).subscribe((res) => {
@@ -837,7 +845,7 @@ export class CreateContentComponent implements OnInit {
   }
   addLectureNote() {
       if(this.lecture_note_title_duplicate){
-          return false;
+          //return false;
       }
     let lecture_note = {
       id: 0,
@@ -898,7 +906,7 @@ export class CreateContentComponent implements OnInit {
   }
   addHighyield() {
       if(this.highyield_title_duplicate){
-          return false;
+          //return false;
       }
     let highyield = {
       id: 0,

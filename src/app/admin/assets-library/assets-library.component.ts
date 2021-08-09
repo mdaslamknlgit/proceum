@@ -122,7 +122,7 @@ export class AssetsLibraryComponent implements OnInit {
   ClosePropertisModal() {
     this.properties_popup = false;
   }
-  uploadFiles(event) {
+  uploadFiles(event, documents) {
     let allowed_types = [];
     if (this.activeTab == 'documents') {
       allowed_types = [
@@ -179,6 +179,7 @@ export class AssetsLibraryComponent implements OnInit {
     let param = { url: 'upload-files' };
     this.http.imageUpload(param, uploadData).subscribe((res) => {
       if (res['error'] == false) {
+        documents.value='';
         this.toster.success('Files successfully uploaded. large files may take some to find in search.', 'File Uploaded');
         this.openFolder(this.current_path);
       }
