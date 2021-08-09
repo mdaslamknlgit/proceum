@@ -656,7 +656,7 @@
                         <span class="err_tltp_par">
                           <!-- <mat-form-field appearance="outline" class="{{video_value_error_5!='' || video_value_invalid_error_5!=''?'mat-form-field-invalid':''}}"> -->
                           <div style="padding-top: 10px;">
-                            <input type="file" (change)="upload3dObject($event)" name="three_d_videos_value_5"
+                            <input type="file" #threed_object (change)="upload3dObject($event)" name="three_d_videos_value_5"
                               placeholder="Select 3d objet" />
                           </div>
                           <!-- <input matInput [(ngModel)]="video_value_5" (blur)="CheckTitleValue(5,2)" name="video_value_5"
@@ -670,7 +670,7 @@
                     <div class="text_right">
                       <button
                         [disabled]="video_source_5.trim()=='' || video_title_5.trim()=='' || video_value_5.trim() == ''"
-                        type="button" (click)="addVideo(5)" mat-raised-button color="accent">
+                        type="button" (click)="add3dObject(threed_object)" mat-raised-button color="accent">
                         <mat-icon>add</mat-icon> Add Video
                       </button>
                     </div>
@@ -845,11 +845,18 @@
                       </div>
                       <div class="mt_1 text_right">
                         <button type="button"
-                          [disabled]="lecture_note_title.trim() == '' || lecture_note_content.trim() == '' || lecture_note_title_duplicate"
+                          [disabled]="lecture_note_title.trim() == '' || lecture_note_content.trim() == ''"
                           (click)="addLectureNote()" mat-raised-button color="accent">
                           <mat-icon>add</mat-icon> Add Notes
                         </button>
                       </div>
+                      <!-- <div class="mt_1 text_right">
+                        <button type="button"
+                          [disabled]="lecture_note_title.trim() == '' || lecture_note_content.trim() == '' || lecture_note_title_duplicate"
+                          (click)="addLectureNote()" mat-raised-button color="accent">
+                          <mat-icon>add</mat-icon> Add Notes
+                        </button>
+                      </div> -->
                     </div>
 
                     <div class="hyt_aded_nts">
@@ -894,10 +901,15 @@
                       </div>
                       <div class="mt_1 text_right">
                         <button type="button"
+                        [disabled]="highyield_title.trim() == '' || highyield_content.trim() == ''"
+                        (click)="addHighyield()" mat-raised-button color="accent">
+                        <mat-icon>add</mat-icon> Add Notes
+                      </button>
+                        <!-- <button type="button"
                           [disabled]="highyield_title.trim() == '' || highyield_content.trim() == '' || highyield_title_duplicate"
                           (click)="addHighyield()" mat-raised-button color="accent">
                           <mat-icon>add</mat-icon> Add Notes
-                        </button>
+                        </button> -->
                       </div>
                     </div>
 

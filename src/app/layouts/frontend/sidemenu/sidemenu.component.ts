@@ -19,6 +19,9 @@ export class SidemenuComponent implements OnInit {
     this.user = this.http.getUser();
     this.active_route = this.router.url;
     this.router.events.subscribe((ev) => {
+        if(this.user.length == 0){
+            this.logout();
+        }
         if(!this.user['role'] || this.user['role'] != '2'){
             this.allowed_urls.forEach(url=>{
                 if(!this.router.url.includes(url)){
@@ -34,15 +37,26 @@ export class SidemenuComponent implements OnInit {
     });
   }
   logout() {
-    let login_id = JSON.parse(atob(localStorage.getItem('user'))).login_id;
-    let params = { url: 'logout', login_id: login_id };
-    this.http.post(params).subscribe((res) => {
-      localStorage.removeItem('_token');
-      localStorage.removeItem('user');
-      setTimeout(res=>{window.location.reload();}, 1000);
+    let local_storage = localStorage.getItem('user');
+    if(local_storage){
+      let login_id = JSON.parse(atob(local_storage)).login_id;
+      let params = { url: 'logout', login_id: login_id };
+      this.http.post(params).subscribe((res) => {
+      this.http.removeSession();
+      setTimeout(res=>{
+          window.location.reload();
+      }, 1000)
       this.router.navigate(['/login']);
-    });
-  }
+      });
+    }
+    else{
+      this.http.removeSession();
+      setTimeout(res=>{
+          window.location.reload();
+      }, 1000)
+      this.router.navigate(['/login']);
+    }
+}
   scrollHandler(event) {
     const container = document.querySelector('.sd_br');
     localStorage.setItem('sidemenu_scroll', '' + container.scrollTop);

@@ -67,12 +67,12 @@ export const environment = {
 //   }
 //qa firebase
 firebaseConfig : {
-    apiKey: "AIzaSyBRMnr8x3_S_LxXZgWGGFALPiwp6-lkfgU",
-    authDomain: "proceum-qa.firebaseapp.com",
-    projectId: "proceum-qa",
-    storageBucket: "proceum-qa.appspot.com",
-    messagingSenderId: "659520827468",
-    appId: "1:659520827468:web:14067a9f4bd63bce9504e9"
+    apiKey: "AIzaSyBSuwf5lz04-nZEPjXUCW6W41FgD3v8hvE",
+    authDomain: "proceum-qa-34a1f.firebaseapp.com",
+    projectId: "proceum-qa-34a1f",
+    storageBucket: "proceum-qa-34a1f.appspot.com",
+    messagingSenderId: "1050534849110",
+    appId: "1:1050534849110:web:942b6b83ec40e05c9669f7"
   }
   //uat firebase
 //   firebaseConfig : {

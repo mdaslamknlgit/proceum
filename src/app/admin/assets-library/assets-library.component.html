@@ -81,51 +81,7 @@
   </div>
   <div class="pg_ttl" *ngIf="!data['modal_view']">Assets Library</div>
   <hr *ngIf="!data['modal_view']" />
-  <!-- <div *ngIf="!data['modal_view']" class="hgt_20"></div> -->
-  <!-- <mat-chip-list>
-        <mat-chip color="primary">
-            <mat-icon class="mr_5px">dns</mat-icon>
-            Public
-        </mat-chip>
-        <mat-chip color="primary">
-            <mat-icon class="mr_5px">dns</mat-icon>
-            Local
-        </mat-chip>
-    </mat-chip-list> -->
-  <!--<div class="fls_edt_btn">
-    <ul class="float_right">
-      <li>
-        <mat-icon matTooltip="Refresh" (click)="openFolder(current_path)"
-          >autorenew</mat-icon
-        >
-      </li>
-    </ul>
-    <ul class="float_right">
-      <li>
-        <mat-icon>note</mat-icon>
-      </li>
-      <li>
-        <mat-icon>folder</mat-icon>
-      </li>
-      <li>
-        <mat-icon>download</mat-icon>
-      </li>
-      <li>
-        <mat-icon>delete</mat-icon>
-      </li>
-    </ul>
-     <ul class="float_right">
-      <li>
-        <mat-icon>file_copy</mat-icon>
-      </li>
-      <li>
-        <mat-icon>content_cut</mat-icon>
-      </li>
-      <li>
-        <mat-icon>content_paste</mat-icon>
-      </li>
-    </ul> 
-  </div>-->
+  
   
   <div *ngIf="data['modal_view']" class="hgt_20"></div>
   <div class="explr_nav">
@@ -153,7 +109,7 @@
         <button mat-raised-button onclick="document.getElementById('fileToUpload').click()" color="accent"
           class=" mr_1 mt_5px">
           <mat-icon>upload</mat-icon>
-          Upload Files<input (change)="uploadFiles($event)" multiple="true" #documents accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+          Upload Files<input (change)="uploadFiles($event, documents)" multiple="true" #documents accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
             text/plain, application/pdf" id="fileToUpload" type="file" style="display: none" />
         </button>
         <span class="fl_frmt_info">
@@ -206,7 +162,7 @@
         <button mat-raised-button onclick="document.getElementById('imageToUpload').click()" color="accent"
           class=" mr_1 mt_5px">
           <mat-icon>upload</mat-icon>
-          Upload Files<input (change)="uploadFiles($event)" multiple="true" accept="image/x-png,image/gif,image/jpeg"
+          Upload Files<input (change)="uploadFiles($event, documents)" #documents multiple="true" accept="image/x-png,image/gif,image/jpeg"
             id="imageToUpload" type="file" style="display: none" />
         </button>
         <span class="fl_frmt_info">
@@ -254,7 +210,7 @@
             <button mat-raised-button onclick="document.getElementById('videoToUpload').click()" color="accent"
               class="float_right mr_1 mt_5px">
               <mat-icon>upload</mat-icon>
-              Upload Files<input (change)="uploadFiles($event)" multiple="true" accept="video/*" id="videoToUpload"
+              Upload Files<input (change)="uploadFiles($event, documents)" #documents multiple="true" accept="video/*" id="videoToUpload"
                 type="file" style="display: none" />
             </button>
           </div>

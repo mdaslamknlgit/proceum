@@ -97,7 +97,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     public pdf_file_path = '';
     public pdf_popup: boolean = false;
     public pdf_zoom = 1;
-    public pdf_rotation: 0 | 90 | 180 | 270 = 0;
+    public pdf_rotation = 0;
     public pdf_page = 0;
     pdfQuery = '';
   constructor(
@@ -112,18 +112,22 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       return false;
     };
   }
-    pdf_rotation_change(){
-        if(this.pdf_rotation == 0)
-            this.pdf_rotation = 90;
-        else if(this.pdf_rotation == 90){
-            this.pdf_rotation = 180;
-        }
-        else if(this.pdf_rotation == 180){
-            this.pdf_rotation = 270;
-        }
-        else{
-            this.pdf_rotation = 0;
-        }
+    pdf_rotation_change(direction){
+        if(direction == 'next')
+            this.pdf_rotation = this.pdf_rotation+90;
+        if(direction == 'prev')
+            this.pdf_rotation = this.pdf_rotation-90;
+        // if(this.pdf_rotation == 0)
+        //     this.pdf_rotation = 90;
+        // else if(this.pdf_rotation == 90){
+        //     this.pdf_rotation = 180;
+        // }
+        // else if(this.pdf_rotation == 180){
+        //     this.pdf_rotation = 270;
+        // }
+        // else{
+        //     this.pdf_rotation = 0;
+        // }
     }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
@@ -348,21 +352,13 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.videos = data['videos'];
         this.xt = data['xt'];
         let i=0;
-        this.videos.forEach(video => {
+        this.videos.forEach((video, index) => {
             if(video['video_section'] == "INTRO") {
                 this.intro_video.push(video);
-                //this.video_id = video['video_source'];
                 if(i==0){
-                    // if(this.player == undefined && video['video_type'] == 'KPOINT'){
-                    //     this.playVideo(video);
-                    // }
-                    // else{
-                    //     this.playVideo(video);
-                    // }
                     this.playVideo(video);
                     i++;
                 }
-                
             }
             if(video['video_section'] == "2D") {
                 this.two_d_videos.push(video);
@@ -379,7 +375,24 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             if(video['video_section'] == "BOARD_LECTURES") {
                 this.board_lecture_videos.push(video);
             }
-        })
+            if((index+1) == this.videos.length && i==0){
+                if(this.two_d_videos[0] != undefined){
+                    this.playVideo(video);
+                }
+                else if(this.board_lecture_videos[0] != undefined){
+                    this.playVideo(video);
+                }
+                else if(this.clinical_videos[0] != undefined){
+                    this.playVideo(video);
+                }
+                else if(this.procedural_videos[0] != undefined){
+                    this.playVideo(video);
+                }
+                else if(this.three_d_videos[0] != undefined){
+                    this.playVideo(video);
+                }
+            }
+        });
         this.setDefaultDiv();
       } else {
         this.breadcome = res['data']['breadcome'];
