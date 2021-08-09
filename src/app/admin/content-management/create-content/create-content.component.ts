@@ -651,6 +651,7 @@ export class CreateContentComponent implements OnInit {
                   files[i].name +
                   ') is too large max allowed size 2mb', "Error", {closeButton: true,}
               );
+              return false;
         }
         valid_files.push(files[i]);
         uploadData.append('file' + i, files[i]);
