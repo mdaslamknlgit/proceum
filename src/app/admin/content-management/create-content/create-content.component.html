@@ -163,15 +163,12 @@
   <div class="brd_crm">Proceum &raquo; <strong>{{ pgae_title }}</strong></div>
   <div class="pg_ttl ai_cntr">
     <div class="mr_1">{{ pgae_title }}</div>
-
-    <div class="cm_sts_info" *ngIf="content_id>0">
-
+    <div class="cm_sts_info edt_cnt_sts_info" *ngIf="content_id>0">
       <span *ngIf="content_status == null" class="cpy">Copy</span>
       <span *ngIf="content_status == 'PUBLISHED'" class="pblshd">Published</span>
       <span *ngIf="content_status == 'DRAFT'" class="drft">Draft</span>
       <span *ngIf="content_status == 'REVIEW' && content_reviewer_role==3" class="crct_pnd">Corrections Pending</span>
-      <span *ngIf="content_status == 'REVIEW' && content_reviewer_role==7" class="aw_aprvl">Awaiting
-        Approval</span>
+      <span *ngIf="content_status == 'REVIEW' && content_reviewer_role==7" class="aw_aprvl">Awaiting Approval</span>
       <span
         *ngIf="content_status == 'REVIEW' && (content_reviewer_role==4 || econtent_reviewer_role==5 || content_reviewer_role==6)"
         class="rw_pndg">Review Pending</span>
@@ -184,9 +181,11 @@
                 <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free content</mat-radio-button> 
             </section> -->
   <div>
-    <mat-slide-toggle [(ngModel)]="is_paid">
-      {{ is_paid == true ? 'Paid Content' : 'Free Content'}}
-    </mat-slide-toggle>
+    <div class="fre_pid_dv">
+      <mat-slide-toggle [(ngModel)]="is_paid">
+        {{ is_paid == true ? 'Paid Content' : 'Free Content'}}
+      </mat-slide-toggle>
+    </div>
   </div>
   <div class="hgt_10"></div>
   <form (keydown.enter)="$event.preventDefault()" id="content_form" #content_create_form="ngForm"
