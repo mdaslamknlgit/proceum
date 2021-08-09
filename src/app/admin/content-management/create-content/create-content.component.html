@@ -163,6 +163,11 @@
   <div class="brd_crm">Proceum &raquo; <strong>{{ pgae_title }}</strong></div>
   <div class="pg_ttl ai_cntr">
     <div class="mr_1">{{ pgae_title }}</div>
+    <div class="fre_pid_dv mr_1">
+      <mat-slide-toggle [(ngModel)]="is_paid">
+        {{ is_paid == true ? 'Paid Content' : 'Free Content'}}
+      </mat-slide-toggle>
+    </div>
     <div class="cm_sts_info edt_cnt_sts_info" *ngIf="content_id>0">
       <span *ngIf="content_status == null" class="cpy">Copy</span>
       <span *ngIf="content_status == 'PUBLISHED'" class="pblshd">Published</span>
@@ -174,20 +179,12 @@
         class="rw_pndg">Review Pending</span>
 
     </div>
+   
   </div>
-
   <!-- <section>
                 <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Premium content</mat-radio-button>&nbsp; &nbsp;
                 <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free content</mat-radio-button> 
             </section> -->
-  <div>
-    <div class="fre_pid_dv">
-      <mat-slide-toggle [(ngModel)]="is_paid">
-        {{ is_paid == true ? 'Paid Content' : 'Free Content'}}
-      </mat-slide-toggle>
-    </div>
-  </div>
-  <div class="hgt_10"></div>
   <form (keydown.enter)="$event.preventDefault()" id="content_form" #content_create_form="ngForm"
     name="content_create_form" (ngSubmit)="content_create_form.valid && createContent(false)" novalidate>
     <div class="main_content_cc">
