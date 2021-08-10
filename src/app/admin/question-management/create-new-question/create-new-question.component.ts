@@ -100,7 +100,8 @@ export class CreateNewQuestionComponent implements OnInit {
   audio_clip_free_text = false;
   video_clicp_free_text = false;
   image_free_text = false;
-
+  public curriculums = [];
+  public topics = [];
   opt1FileName = '';
   opt2FileName = '';
   opt3FileName = '';
@@ -128,12 +129,10 @@ export class CreateNewQuestionComponent implements OnInit {
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['qbanks']);
-        if (this.is_loaded == true || true) {
-          this.is_loaded = false;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-      } else {
+        this.is_loaded = false;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
@@ -149,11 +148,22 @@ export class CreateNewQuestionComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.QTypes = res['data']['qtypes'];
+        this.curriculums = res['data']['curriculums_list'];
       }
     });
 
   }
-
+  getTopics(curriculum_id){
+    let params = {
+        url: 'get-topics-by-curriculum',
+        curriculum_id: curriculum_id
+      };
+      this.http.post(params).subscribe((res) => {
+        if (res['error'] == false) {
+            this.topics = res['data']['topics'];
+        }
+      });
+  }
   getQBanks() {
     this.QTypes = [];
     let params = {
