@@ -55,7 +55,7 @@ export class EditNewQuestionComponent implements OnInit {
 
   is_loaded = true
   question_id = null;
-
+  public question_Qbank = false;
   QTypes: any;
   QBanks: any;
   question: any = {
