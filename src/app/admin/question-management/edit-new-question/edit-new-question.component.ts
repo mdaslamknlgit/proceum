@@ -77,7 +77,10 @@ export class EditNewQuestionComponent implements OnInit {
     option3_crt_ans: '',
     option4_crt_ans: '',
     single_crt_ans: '',
-
+    option1_value: '',
+    option2_value: '',
+    option3_value: '',
+    option4_value: '',
 
 
 
@@ -139,48 +142,75 @@ export class EditNewQuestionComponent implements OnInit {
         this.question.explanation = questionData.explanation;
         this.question.question_type_id = res['q_type']['pk_id'];
         this.question.difficulty_level_id = questionData.difficulty_level_id;
-        var correct_ans_ids = questionData.correct_ans_id ? questionData.correct_ans_id.split(",") : [];
+        var correct_ans_ids_string = questionData.correct_ans_id+'';
+        let correct_ans_ids = [];
+        if(correct_ans_ids_string.includes(',')){
+            correct_ans_ids = correct_ans_ids_string.split(",");
+        }
+        else{
+            correct_ans_ids.push(correct_ans_ids_string);
+        }
         this.question.correct_ans_ids = correct_ans_ids;
         this.question.q_source = questionData.q_source;
         this.question.q_source_value = questionData.q_source_value;
       
-        if (correct_ans_ids.length > 0) {
-          for (var i = 0; correct_ans_ids.length > i; i++) {
-            var value = correct_ans_ids[i];
-            switch (value) {
-              case "1":
-                this.question.option1_crt_ans = 'checked';
-                break;
-              case "2":
-                this.question.option2_crt_ans = 'checked';
-                break;
-              case "3":
-                this.question.option3_crt_ans = 'checked';
-                break;
-              case "4":
-                this.question.option4_crt_ans = 'checked';
-                break;
-              default:
-                console.log("No such type exists!");
-                break;
-            }
+        // if (correct_ans_ids.length > 0) {
+        //   for (var i = 0; correct_ans_ids.length > i; i++) {
+        //     var value = correct_ans_ids[i];
+        //     switch (value) {
+        //       case "1":
+        //         this.question.option1_crt_ans = 'checked';
+        //         break;
+        //       case "2":
+        //         this.question.option2_crt_ans = 'checked';
+        //         break;
+        //       case "3":
+        //         this.question.option3_crt_ans = 'checked';
+        //         break;
+        //       case "4":
+        //         this.question.option4_crt_ans = 'checked';
+        //         break;
+        //       default:
+        //         console.log("No such type exists!");
+        //         break;
+        //     }
           
-          }
-        }
+        //   }
+        // }
 
         if (options.length > 0) {
           for (var i = 0; options.length > i; i++) {
             switch (i) {
               case 0:
+                  if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option1_crt_ans = 'checked';
+                    
+                  }
+                  this.question.option1_value = options[i]['pk_id'];
                 this.question.option1 = options[i]['option_text'];
                 break;
               case 1:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option2_crt_ans = 'checked';
+                    
+                  }
+                  this.question.option2_value = options[i]['pk_id'];
                 this.question.option2 = options[i]['option_text'];
                 break;
               case 2:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option3_crt_ans = 'checked';
+                    
+                  }
+                  this.question.option3_value = options[i]['pk_id'];
                 this.question.option3 = options[i]['option_text'];
                 break;
               case 3:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option4_crt_ans = 'checked';
+                    
+                  }
+                  this.question.option4_value = options[i]['pk_id'];
                 this.question.option4 = options[i]['option_text'];
                 break;
               default:
@@ -191,8 +221,8 @@ export class EditNewQuestionComponent implements OnInit {
           }
         }
         let qtype = res['q_type']['question_type'];
-      
         switch (qtype) {
+            
           case 'Single Option Selection':
             this.single_option = true;
             this.question.single_crt_ans = questionData.correct_ans_id;
@@ -223,6 +253,7 @@ export class EditNewQuestionComponent implements OnInit {
             break;
           case 'Image with Single Option Selection':
             this.question.single_crt_ans = questionData.correct_ans_id;
+            this.fileName = questionData['q_source_value'];
             this.image_single_option = true;
             break;
           case 'Image with Multiple Options Selection':
