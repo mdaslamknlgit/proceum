@@ -18,10 +18,13 @@
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Curriculum" name="curriculum_id_name" [(ngModel)]="question.curriculum_id" (ngModelChange)="getTopics(question.curriculum_id, '')" #curriculum_id_name="ngModel" ngModel
-                                        required>
-                                        <mat-option *ngFor="let value of curriculums" [value]="value['pk_id']">{{value['curriculumn_name']}}</mat-option>
-                                   </mat-select>
+                                    <mat-select placeholder="Select Curriculum" name="curriculum_id_name"
+                                        [(ngModel)]="question.curriculum_id"
+                                        (ngModelChange)="getTopics(question.curriculum_id, '')"
+                                        #curriculum_id_name="ngModel" ngModel required>
+                                        <mat-option *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                            {{value['curriculumn_name']}}</mat-option>
+                                    </mat-select>
                                     <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
                                     curriculum_id_name.invalid">Curriculum is Required</span>
                                 </mat-form-field>
@@ -33,12 +36,17 @@
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Topic" [(ngModel)]="question.topic" name="topic" ngModel="topic" #topic="ngModel" required>
+                                    <mat-select placeholder="Select Topic" [(ngModel)]="question.topic" name="topic"
+                                        ngModel="topic" #topic="ngModel" required>
                                         <mat-option>
-                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'" name="search_topic" ngModel (ngModelChange)="getTopics(question.curriculum_id, $event)" 
-                                            [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic</ngx-mat-select-search>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'"
+                                                name="search_topic" ngModel
+                                                (ngModelChange)="getTopics(question.curriculum_id, $event)"
+                                                [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic
+                                            </ngx-mat-select-search>
                                         </mat-option>
-                                        <mat-option *ngFor="let value of topics | async" [value]="value['pk_id']">{{value['level_name']}}</mat-option>
+                                        <mat-option *ngFor="let value of topics | async" [value]="value['pk_id']">
+                                            {{value['level_name']}}</mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
                                     curriculum_id_name.invalid">Topic is Required</span>
@@ -47,12 +55,27 @@
                         </div>
                     </div>
                     <div>
+                        <div class="crt_prt_hd">Difficulty level</div>
+                        <div class="crt_prt_cnt">
+                            <mat-radio-group name="difficulty_level" [(ngModel)]="question.difficulty_level_id"
+                                #difficulty_level="ngModel" ngModel required>
+                                <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
+                                <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
+                                <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="crt_pr_dv w_45p rsp_100p">
+                    <div>
                         <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Question Type" name="qtype" [(ngModel)]="question.question_type_id" #qtype="ngModel"
-                                        ngModel (selectionChange)="changeQType($event)" required>
+                                    <mat-select placeholder="Select Question Type" name="qtype"
+                                        [(ngModel)]="question.question_type_id" #qtype="ngModel" ngModel
+                                        (selectionChange)="changeQType($event)" required>
                                         <mat-option *ngFor="let qtype of QTypes" [value]="qtype.id">
                                             {{qtype.question_type}}
                                         </mat-option>
@@ -67,8 +90,9 @@
                         <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
-                                <mat-form-field appearance="outline" >
-                                    <mat-select placeholder="Select Question Category" name="question_flag" [(ngModel)]="question.question_flag" #question_flag="ngModel" ngModel required> 
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select Question Category" name="question_flag"
+                                        [(ngModel)]="question.question_flag" #question_flag="ngModel" ngModel required>
                                         <mat-option value="mcq">MCQ</mat-option>
                                         <mat-option value="case">Case based Question</mat-option>
                                         <mat-option value="short_answer">Short Question</mat-option>
@@ -99,17 +123,7 @@
                             </mat-radio-group>
                         </div>
                     </div>
-                    <div class="mt_1">
-                        <div class="crt_prt_hd">Difficulty level</div>
-                        <div class="crt_prt_cnt">
-                            <mat-radio-group name="difficulty_level" [(ngModel)]="question.difficulty_level_id"
-                                #difficulty_level="ngModel" ngModel required>
-                                <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
-                                <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
-                                <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
+
                     <div *ngIf="question_Qbank" class="mt_1">
                         <div class="crt_prt_hd">Add question to QBank <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
