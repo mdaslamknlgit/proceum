@@ -10,6 +10,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
+import { ReplaySubject } from 'rxjs';
 
 interface CurriculumNode {
   id?: number;
@@ -71,11 +72,13 @@ export class CreateNewQuestionComponent implements OnInit {
   QTypes: any;
   QBanks: any;
   question = {
+    curriculum_id:0,
     question_type_id: '',
     q_bank_ids: [],
     question_text: '',
     topic: '',
     q_source: "",
+    question_flag:'',
     q_source_value: null,
     difficulty_level_id: 1,
     questionUsageType: 1,
@@ -100,7 +103,8 @@ export class CreateNewQuestionComponent implements OnInit {
   audio_clip_free_text = false;
   video_clicp_free_text = false;
   image_free_text = false;
-
+  public curriculums = [];
+  public topics: ReplaySubject<any> = new ReplaySubject<any>(1);
   opt1FileName = '';
   opt2FileName = '';
   opt3FileName = '';
@@ -128,12 +132,10 @@ export class CreateNewQuestionComponent implements OnInit {
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['qbanks']);
-        if (this.is_loaded == true || true) {
-          this.is_loaded = false;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        }
-      } else {
+        this.is_loaded = false;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
@@ -149,11 +151,27 @@ export class CreateNewQuestionComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.QTypes = res['data']['qtypes'];
+        this.curriculums = res['data']['curriculums_list'];
       }
     });
 
   }
-
+  getTopics(curriculum_id, search){
+    let params = {
+        url: 'get-topics-by-curriculum',
+        curriculum_id: curriculum_id,
+        search: search
+      };
+     this.http.post(params).subscribe((res) => {
+        if (res['error'] == false) {
+            //this.topics.next([]);
+            if(res['data']['topics'].length > 0)
+                this.topics.next(res['data']['topics'].slice());
+                else
+                this.topics.next([]);
+        }
+      });
+  }
   getQBanks() {
     this.QTypes = [];
     let params = {
