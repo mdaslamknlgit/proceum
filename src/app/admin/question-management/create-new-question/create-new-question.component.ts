@@ -10,6 +10,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
+import { ReplaySubject } from 'rxjs';
 
 interface CurriculumNode {
   id?: number;
@@ -71,11 +72,13 @@ export class CreateNewQuestionComponent implements OnInit {
   QTypes: any;
   QBanks: any;
   question = {
+    curriculum_id:0,
     question_type_id: '',
     q_bank_ids: [],
     question_text: '',
     topic: '',
     q_source: "",
+    question_flag:'',
     q_source_value: null,
     difficulty_level_id: 1,
     questionUsageType: 1,
@@ -101,7 +104,7 @@ export class CreateNewQuestionComponent implements OnInit {
   video_clicp_free_text = false;
   image_free_text = false;
   public curriculums = [];
-  public topics = [];
+  public topics: ReplaySubject<any> = new ReplaySubject<any>(1);
   opt1FileName = '';
   opt2FileName = '';
   opt3FileName = '';
@@ -153,14 +156,19 @@ export class CreateNewQuestionComponent implements OnInit {
     });
 
   }
-  getTopics(curriculum_id){
+  getTopics(curriculum_id, search){
     let params = {
         url: 'get-topics-by-curriculum',
-        curriculum_id: curriculum_id
+        curriculum_id: curriculum_id,
+        search: search
       };
-      this.http.post(params).subscribe((res) => {
+     this.http.post(params).subscribe((res) => {
         if (res['error'] == false) {
-            this.topics = res['data']['topics'];
+            //this.topics.next([]);
+            if(res['data']['topics'].length > 0)
+                this.topics.next(res['data']['topics'].slice());
+                else
+                this.topics.next([]);
         }
       });
   }

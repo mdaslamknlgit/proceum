@@ -14,33 +14,34 @@
             <div class="crt_pr_mn px-0 bg-0">
                 <div class="crt_pr_dv w_45p rsp_100p">
                     <div>
-                        <div class="crt_prt_hd">Curriculum topic / subtopic <span class="required">*</span></div>
+                        <div class="crt_prt_hd">Curriculum<span class="required">*</span></div>
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Curriculum">
-                                        <mat-option>
-                                            <ngx-mat-select-search placeholder="Search">Select</ngx-mat-select-search>
-                                        </mat-option>
-                                        <mat-option>Select</mat-option>
-                                    </mat-select>
+                                    <mat-select placeholder="Select Curriculum" name="curriculum_id_name" [(ngModel)]="question.curriculum_id" (ngModelChange)="getTopics(question.curriculum_id, '')" #curriculum_id_name="ngModel" ngModel
+                                        required>
+                                        <mat-option *ngFor="let value of curriculums" [value]="value['pk_id']">{{value['curriculumn_name']}}</mat-option>
+                                   </mat-select>
+                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
+                                    curriculum_id_name.invalid">Curriculum is Required</span>
                                 </mat-form-field>
                             </span>
                         </div>
                     </div>
                     <div>
-                        <div class="crt_prt_hd">Select topic / subtopic <span class="required">*</span></div>
+                        <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select name="topic" [(ngModel)]="question.topic" #topic="ngModel" ngModel
-                                        required>
-                                        <mat-option value="">Select topic / subtopic</mat-option>
-                                        <mat-option value="KPoint">KPoint</mat-option>
-                                        <mat-option value="Youtube">Youtube</mat-option>
+                                    <mat-select placeholder="Select Topic" [(ngModel)]="question.topic" name="topic" ngModel="topic" #topic="ngModel" required>
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'" name="search_topic" ngModel (ngModelChange)="getTopics(question.curriculum_id, $event)" 
+                                            [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic</ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let value of topics | async" [value]="value['pk_id']">{{value['level_name']}}</mat-option>
                                     </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (topic.submitted || topic.touched) &&
-                                    topic.invalid">Topic is Required</span>
+                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
+                                    curriculum_id_name.invalid">Topic is Required</span>
                                 </mat-form-field>
                             </span>
                         </div>
@@ -50,9 +51,8 @@
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select name="qtype" [(ngModel)]="question.question_type_id" #qtype="ngModel"
+                                    <mat-select placeholder="Select Question Type" name="qtype" [(ngModel)]="question.question_type_id" #qtype="ngModel"
                                         ngModel (selectionChange)="changeQType($event)" required>
-                                        <mat-option value="">Select question type</mat-option>
                                         <mat-option *ngFor="let qtype of QTypes" [value]="qtype.id">
                                             {{qtype.question_type}}
                                         </mat-option>
@@ -67,13 +67,14 @@
                         <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select>
-                                        <mat-option value="0">Select</mat-option>
-                                        <mat-option value="1">MCQ</mat-option>
-                                        <mat-option value="2">Case based Question</mat-option>
-                                        <mat-option value="3">Short Question</mat-option>
+                                <mat-form-field appearance="outline" >
+                                    <mat-select placeholder="Select Question Category" name="question_flag" [(ngModel)]="question.question_flag" #question_flag="ngModel" ngModel required> 
+                                        <mat-option value="mcq">MCQ</mat-option>
+                                        <mat-option value="case">Case based Question</mat-option>
+                                        <mat-option value="short_answer">Short Question</mat-option>
                                     </mat-select>
+                                    <span class="prc_tltp" *ngIf=" (question_flag.submitted || question_flag.touched) &&
+                                    question_flag.invalid">Question type is Required</span>
                                 </mat-form-field>
                             </span>
                         </div>
