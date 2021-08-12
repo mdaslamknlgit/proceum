@@ -13,8 +13,23 @@
             (ngSubmit)="question_list_form.valid " novalidate>
             <div class="crt_pr_mn px-0 bg-0">
                 <div class="crt_pr_dv w_45p rsp_100p">
+
                     <div>
-                        <div class="crt_prt_hd">Select topic / subtopic <span class="required">*</span></div>
+                        <div class="crt_prt_hd">Curriculum<span class="required">*</span></div>
+                        <div class="crt_prt_cnt">
+                            <span class="err_tltp_par">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select Curriculum" name="curriculum_id_name">
+                                        <mat-option>test</mat-option>
+                                    </mat-select>
+                                    <span class="prc_tltp"  >Curriculum is Required</span>
+                                </mat-form-field>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
@@ -30,6 +45,19 @@
                             </span>
                         </div>
                     </div>
+                    <div>
+                        <div class="crt_prt_hd">Difficulty level</div>
+                        <div class="crt_prt_cnt">
+                            <mat-radio-group name="difficulty_level_id" [(ngModel)]="question.difficulty_level_id"
+                                #difficulty_level_id="ngModel" ngModel required>
+                                <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
+                                <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
+                                <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="crt_pr_dv w_45p rsp_100p">
                     <div>
                         <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
@@ -49,8 +77,6 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <div class="crt_pr_dv w_45p rsp_100p">
                     <div>
                         <div class="crt_prt_hd">Add question to <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
@@ -69,14 +95,24 @@
                             </span>
                         </div>
                     </div>
+                   
+                </div>
+                <div class="w_100p">
                     <div>
-                        <div class="crt_prt_hd">Difficulty level</div>
+                        <div class="crt_prt_hd">This Question is for:</div>
                         <div class="crt_prt_cnt">
-                            <mat-radio-group name="difficulty_level_id" [(ngModel)]="question.difficulty_level_id"
-                                #difficulty_level_id="ngModel" ngModel required>
-                                <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
-                                <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
-                                <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
+                            <mat-radio-group name="questionUsageType" [(ngModel)]="question.questionUsageType"
+                                #questionUsageType="ngModel" ngModel required>
+                                <mat-radio-button [value]="1" class="emh qif" >Assessment
+                                    Only (This question will not visible for frontend in notes/content)
+                                </mat-radio-button>
+                                <mat-radio-button [value]="2" class="emh qif" >Preparation
+                                    Only (Available for Study mode to view questions and also in notes / content page)
+                                </mat-radio-button>
+                                <mat-radio-button [value]="3" class="emh qif">QBanks Only
+                                    (Questions will be listed inside the Question banks as a separate list and will not
+                                    be accessible as a free content)
+                                </mat-radio-button>
                             </mat-radio-group>
                         </div>
                     </div>
