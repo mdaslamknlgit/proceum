@@ -30,7 +30,7 @@ export class EditNewQuestionComponent implements OnInit {
 
   configEditor = {
     Plugins: [],
-    placeholder: 'Provide Text',
+    placeholder: 'Enter Text',
     toolbar: {
       items: ['Alignment', 'FontColor', 'FontBackgroundColor', 'FontSize', 'underline', 'blockQuote', 'bulletedList', 'numberedList', 'SpecialCharacters'],
     },
@@ -145,10 +145,10 @@ export class EditNewQuestionComponent implements OnInit {
         var correct_ans_ids_string = questionData.correct_ans_id+'';
         let correct_ans_ids = [];
         if(correct_ans_ids_string.includes(',')){
-            correct_ans_ids = correct_ans_ids_string.split(",");
+            correct_ans_ids = correct_ans_ids_string.split(",").map(Number);
         }
         else{
-            correct_ans_ids.push(correct_ans_ids_string);
+            correct_ans_ids.push(Number(correct_ans_ids_string));
         }
         this.question.correct_ans_ids = correct_ans_ids;
         this.question.q_source = questionData.q_source;
@@ -179,6 +179,7 @@ export class EditNewQuestionComponent implements OnInit {
         // }
 
         if (options.length > 0) {
+            console.log(correct_ans_ids);
           for (var i = 0; options.length > i; i++) {
             switch (i) {
               case 0:
@@ -194,6 +195,7 @@ export class EditNewQuestionComponent implements OnInit {
                     this.question.option2_crt_ans = 'checked';
                     
                   }
+                  console.log(options[i]['pk_id'])
                   this.question.option2_value = options[i]['pk_id'];
                 this.question.option2 = options[i]['option_text'];
                 break;
@@ -225,7 +227,7 @@ export class EditNewQuestionComponent implements OnInit {
             
           case 'Single Option Selection':
             this.single_option = true;
-            this.question.single_crt_ans = questionData.correct_ans_id;
+            this.question.single_crt_ans = Number(correct_ans_ids_string);
             break;
           case 'Multiple Options Selection':
             this.multiple_option = true;
@@ -241,7 +243,7 @@ export class EditNewQuestionComponent implements OnInit {
             this.audio_clip_free_text = true;
             break;
           case 'Video Clip with Single Option Selection':
-            this.question.single_crt_ans = questionData.correct_ans_id;
+            this.question.single_crt_ans = Number(correct_ans_ids_string);
             this.vidio_single_option = true;
             break;
           case 'Video Clip with Multiple Options Selection':
@@ -252,7 +254,7 @@ export class EditNewQuestionComponent implements OnInit {
             this.video_clicp_free_text = true;
             break;
           case 'Image with Single Option Selection':
-            this.question.single_crt_ans = questionData.correct_ans_id;
+            this.question.single_crt_ans = Number(correct_ans_ids_string);
             this.fileName = questionData['q_source_value'];
             this.image_single_option = true;
             break;
@@ -377,6 +379,9 @@ export class EditNewQuestionComponent implements OnInit {
 
 
   onCorrectAnsChange(e) {
+      if((this.single_option || this.audio_single_option || this.vidio_single_option || this.image_single_option) && (e.source.value)){
+        this.question.correct_ans_ids = [];
+      }
     if (e.source.checked) {
       this.question.correct_ans_ids.push(e.source.value)
     }

@@ -30,7 +30,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class CreateContentComponent implements OnInit {
   public displayedColumns: string[] = ['s_no', 'question', 'action'];
-  public video_types = [{name: "KPoint", value:'KPOINT'}, {name: "Youtube", value:'YOUTUBE'}]
+  public video_types = environment.video_types;
   public all_questions = new MatTableDataSource();
   public selected_questions = ELEMENT_DATA; // new MatTableDataSource();
   public user = [];

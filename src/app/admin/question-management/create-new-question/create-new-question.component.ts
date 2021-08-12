@@ -32,6 +32,7 @@ interface CurriculumNode {
 
 
 export class CreateNewQuestionComponent implements OnInit {
+    public video_types = environment.video_types;
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,7 +46,7 @@ export class CreateNewQuestionComponent implements OnInit {
   public question_Qbank = false;
   configEditor = {
     Plugins: [],
-    placeholder: 'Provide Text',
+    placeholder: 'Enter Text',
     toolbar: {
       items: ['Alignment', 'FontColor', 'FontBackgroundColor', 'FontSize', 'underline', 'blockQuote', 'bulletedList', 'numberedList', 'SpecialCharacters'],
     },

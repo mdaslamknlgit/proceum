@@ -168,12 +168,12 @@
                             <mat-form-field appearance="outline">
                                 <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel
                                     required>
-                                    <mat-option value="">Select video type</mat-option>
-                                    <mat-option value="KPoint">KPoint</mat-option>
-                                    <mat-option value="Youtube">Youtube</mat-option>
+                                    <mat-option value="">Select Source</mat-option>
+                              <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                {{video_type['name']}}</mat-option>
                                 </mat-select>
                                 <span class="prc_tltp" *ngIf=" (q_source.submitted || q_source.touched) &&
-                                q_source.invalid">Topic is Required</span>
+                                q_source.invalid">Video Source Required</span>
                             </mat-form-field>
                         </span>
                     </div>
@@ -184,7 +184,7 @@
                                 <input [(ngModel)]="question.q_source_value" #q_source_value="ngModel"
                                     name="q_source_value" matInput placeholder="Video ID/Link" required />
                                 <span class="prc_tltp" *ngIf=" (q_source_value.submitted || q_source_value.touched) &&
-                                q_source_value.invalid">Video Source is Required</span>
+                                q_source_value.invalid">Video Source Value is Required</span>
                             </mat-form-field>
                         </span>
                     </div>
@@ -243,9 +243,7 @@
                         <div class="brnd_info_upld">
                             <mat-checkbox color="accent" value="2" (change)="onCorrectAnsChange($event)"></mat-checkbox>
                             <mat-form-field appearance="outline" class="w_90p">
-                                <textarea [(ngModel)]="question.option2" name="option_2" #option_2="ngModel"
-                                    name="option2" maxlength="255" matInput placeholder="Enter Option 2 Text"
-                                    class="crt_prt_txt" required></textarea>
+                                <textarea [(ngModel)]="question.option2" name="option_2" #option_2="ngModel" name="option2" maxlength="255" matInput placeholder="Enter Option 2 Text" class="crt_prt_txt" required></textarea>
                             </mat-form-field>
                         </div>
                     </div>
