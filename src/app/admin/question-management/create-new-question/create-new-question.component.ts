@@ -47,7 +47,7 @@ export class CreateNewQuestionComponent implements OnInit {
     Plugins: [],
     placeholder: 'Provide Text',
     toolbar: {
-      items: environment.ckeditor_toolbar,
+      items: ['Alignment', 'FontColor', 'FontBackgroundColor', 'FontSize', 'underline', 'blockQuote', 'bulletedList', 'numberedList', 'SpecialCharacters'],
     },
     image: {
       upload: ['png'],
