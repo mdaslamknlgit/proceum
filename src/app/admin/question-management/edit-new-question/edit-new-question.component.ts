@@ -138,6 +138,9 @@ export class EditNewQuestionComponent implements OnInit {
         let options = res['q_options'];
         let questionData = res['question'];
         this.question.curriculum_id = Number(questionData['curriculum_id']);
+        if(this.question.curriculum_id > 0){
+            this.getTopics(this.question.curriculum_id, '');
+        }
         this.question.questionUsageType = Number(questionData['question_for']);
         if(this.question.questionUsageType == 3){
             this.question_Qbank = true;
@@ -159,31 +162,6 @@ export class EditNewQuestionComponent implements OnInit {
         this.question.correct_ans_ids = correct_ans_ids;
         this.question.q_source = questionData.q_source;
         this.question.q_source_value = questionData.q_source_value;
-      
-        // if (correct_ans_ids.length > 0) {
-        //   for (var i = 0; correct_ans_ids.length > i; i++) {
-        //     var value = correct_ans_ids[i];
-        //     switch (value) {
-        //       case "1":
-        //         this.question.option1_crt_ans = 'checked';
-        //         break;
-        //       case "2":
-        //         this.question.option2_crt_ans = 'checked';
-        //         break;
-        //       case "3":
-        //         this.question.option3_crt_ans = 'checked';
-        //         break;
-        //       case "4":
-        //         this.question.option4_crt_ans = 'checked';
-        //         break;
-        //       default:
-        //         console.log("No such type exists!");
-        //         break;
-        //     }
-          
-        //   }
-        // }
-
         if (options.length > 0) {
             console.log(correct_ans_ids);
           for (var i = 0; options.length > i; i++) {
