@@ -49,6 +49,7 @@ export const environment = {
     //'TableToolbar',
     //'htmlSource',
   ],
+  video_types : [{name: "KPoint", value:'KPOINT'}, {name: "Youtube", value:'YOUTUBE'}],
   ORGANIZATION_TYPES : [
     {value: '1', viewValue: 'University'},
     {value: '2', viewValue: 'College'},
