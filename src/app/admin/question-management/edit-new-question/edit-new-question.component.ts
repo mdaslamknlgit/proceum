@@ -10,6 +10,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { count } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-edit-new-question',
@@ -24,9 +25,6 @@ export class EditNewQuestionComponent implements OnInit {
   page_size_options = environment.page_size_options;
 
   public Editor = Editor;
-
-  topics: any = ['KPoint', 'Youtube'];
-
 
   configEditor = {
     Plugins: [],
@@ -59,6 +57,8 @@ export class EditNewQuestionComponent implements OnInit {
   QTypes: any;
   QBanks: any;
   question: any = {
+    questionUsageType:'',
+    curriculum_id:0,
     question_type_id: '',
     q_bank_ids: [],
     question_text: '',
@@ -110,6 +110,8 @@ export class EditNewQuestionComponent implements OnInit {
   fileName = '';
 
   myFiles = [];
+    curriculums: any;
+    public topics: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private http: CommonService,
     private toster: ToastrService,
@@ -135,7 +137,11 @@ export class EditNewQuestionComponent implements OnInit {
       
         let options = res['q_options'];
         let questionData = res['question'];
-       // this.question.question_type_id = res['q_type'];
+        this.question.curriculum_id = Number(questionData['curriculum_id']);
+        this.question.questionUsageType = Number(questionData['question_for']);
+        if(this.question.questionUsageType == 3){
+            this.question_Qbank = true;
+        }
         this.question.q_bank_ids = Array.from(questionData.q_bank_ids.split(","), Number);
         this.question.question_text = questionData.question_text;
         this.question.topic = questionData.topic;
@@ -299,11 +305,27 @@ export class EditNewQuestionComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.QTypes = res['data']['qtypes'];
+        this.curriculums = res['data']['curriculums_list'];
       }
     });
 
   }
-
+  getTopics(curriculum_id, search){
+    let params = {
+        url: 'get-topics-by-curriculum',
+        curriculum_id: curriculum_id,
+        search: search
+      };
+     this.http.post(params).subscribe((res) => {
+        if (res['error'] == false) {
+            //this.topics.next([]);
+            if(res['data']['topics'].length > 0)
+                this.topics.next(res['data']['topics'].slice());
+                else
+                this.topics.next([]);
+        }
+      });
+  }
   getQBanks() {
     this.QTypes = [];
     let params = {
@@ -485,5 +507,13 @@ export class EditNewQuestionComponent implements OnInit {
     });
 
   }
-
+  public changeQUsageType(val){
+    this.question_Qbank = false;
+    if(val == 3){
+      this.question_Qbank = true;
+    }
+    else{
+        this.question.q_bank_ids = []
+    }
+  }
 }

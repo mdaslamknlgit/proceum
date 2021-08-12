@@ -19,10 +19,15 @@
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Curriculum" name="curriculum_id_name">
-                                        <mat-option>test</mat-option>
+                                    <mat-select placeholder="Select Curriculum" name="curriculum_id_name"
+                                        [(ngModel)]="question.curriculum_id"
+                                        (ngModelChange)="getTopics(question.curriculum_id, '')"
+                                        #curriculum_id_name="ngModel" ngModel required>
+                                        <mat-option *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                            {{value['curriculumn_name']}}</mat-option>
                                     </mat-select>
-                                    <span class="prc_tltp"  >Curriculum is Required</span>
+                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
+                                    curriculum_id_name.invalid">Curriculum is Required</span>
                                 </mat-form-field>
                             </span>
                         </div>
@@ -33,14 +38,20 @@
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select name="topic" [(ngModel)]="question.topic" #topic="ngModel" ngModel
-                                        required>
-                                        <mat-option value="">Select topic / subtopic</mat-option>
-                                        <mat-option *ngFor="let topic of topics" [value]="topic">{{ topic }}
+                                    <mat-select placeholder="Select Topic" [(ngModel)]="question.topic" name="topic"
+                                        ngModel="topic" #topic="ngModel" required>
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'"
+                                                name="search_topic" ngModel
+                                                (ngModelChange)="getTopics(question.curriculum_id, $event)"
+                                                [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic
+                                            </ngx-mat-select-search>
                                         </mat-option>
+                                        <mat-option *ngFor="let value of topics | async" [value]="value['pk_id']">
+                                            {{value['level_name']}}</mat-option>
                                     </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (topic.submitted || topic.touched) &&
-                                    topic.invalid">Topic is Required</span>
+                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
+                                    curriculum_id_name.invalid">Topic is Required</span>
                                 </mat-form-field>
                             </span>
                         </div>
@@ -77,7 +88,7 @@
                             </span>
                         </div>
                     </div>
-                    <div>
+                    <!-- <div *ngIf="question_Qbank">
                         <div class="crt_prt_hd">Add question to <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
@@ -94,7 +105,7 @@
                                 </mat-form-field>
                             </span>
                         </div>
-                    </div>
+                    </div> -->
                    
                 </div>
                 <div class="w_100p">
@@ -103,17 +114,35 @@
                         <div class="crt_prt_cnt">
                             <mat-radio-group name="questionUsageType" [(ngModel)]="question.questionUsageType"
                                 #questionUsageType="ngModel" ngModel required>
-                                <mat-radio-button [value]="1" class="emh qif" >Assessment
+                                <mat-radio-button [value]="1" class="emh qif" (click)="changeQUsageType(1)">Assessment
                                     Only (This question will not visible for frontend in notes/content)
                                 </mat-radio-button>
-                                <mat-radio-button [value]="2" class="emh qif" >Preparation
+                                <mat-radio-button [value]="2" class="emh qif" (click)="changeQUsageType(2)">Preparation
                                     Only (Available for Study mode to view questions and also in notes / content page)
                                 </mat-radio-button>
-                                <mat-radio-button [value]="3" class="emh qif">QBanks Only
+                                <mat-radio-button [value]="3" class="emh qif" (click)="changeQUsageType(3)">QBanks Only
                                     (Questions will be listed inside the Question banks as a separate list and will not
                                     be accessible as a free content)
                                 </mat-radio-button>
                             </mat-radio-group>
+                        </div>
+                    </div>
+                    <div *ngIf="question_Qbank" class="mt_1">
+                        <div class="crt_prt_hd">Add question to QBank <span class="required">*</span></div>
+                        <div class="crt_prt_cnt">
+                            <span class="err_tltp_par">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select QBank" name="qbank" [(ngModel)]="question.q_bank_ids" #qbank="ngModel" ngModel
+                                        multiple required>
+                                        <mat-option value="0">Select question bank(s)</mat-option>
+                                        <mat-option *ngFor="let qbank of QBanks" [value]="qbank.id">{{ qbank.q_bank_type
+                                            }}
+                                        </mat-option>
+                                    </mat-select>
+                                    <span class="prc_tltp" *ngIf=" (qbank.submitted || qbank.touched) &&
+                                qbank.invalid">Question to is Required</span>
+                                </mat-form-field>
+                            </span>
                         </div>
                     </div>
                 </div>
