@@ -50,7 +50,7 @@
                                 <div class="crt_prt_hd">Password</div>
                                 <div class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password_edit" #password_edit="ngModel" minlength="6" maxlength="20"  autocomplete="off"  required/>
+                                        <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password_edit" #password_edit="ngModel" minlength="6" maxlength="16"  autocomplete="off"  required/>
                                     </mat-form-field>
                                     <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || password_edit.touched) && password_edit.invalid">Password is required</span>
                                     <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || password_edit.touched) && (password != '' && password.length < 5) ">Minimum of 6 characters password required!</span>
@@ -60,7 +60,7 @@
                                 <div class="crt_prt_hd">Confirm password</div>
                                 <div class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p"  class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
-                                        <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="confirm_password" name="confirm_password_edit" #confirm_password_edit="ngModel" minlength="6" maxlength="20" required/>
+                                        <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="confirm_password" name="confirm_password_edit" #confirm_password_edit="ngModel" minlength="6" maxlength="16" required/>
                                     </mat-form-field>
                                     <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || confirm_password_edit.touched) && confirm_password_edit.invalid">confirm password is required</span>
                                     <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || confirm_password_edit.touched) && confirm_password != '' && (confirm_password != password)">Password and Confirm Password must be match!</span>
@@ -127,15 +127,14 @@
                                 <div class="crt_prt_hd">GSTIN number</div>
                                 <div class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <input  matInput placeholder="GST Number ( Ex:11AAAAA0000A1Z5 )" autocomplete="off" minlength="15"
+                                        <input  matInput placeholder="GST/VAT" autocomplete="off" minlength="15"
                                         maxlength="15" required name="gstin_edit" [(ngModel)]="gstin"
                                         #gstin_edit="ngModel" ngModel
-                                        onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))"
-                                        pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$" />
+                                        onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))" />
                                     </mat-form-field>
                                     <span class="prc_tltp" *ngIf="(create_Partner_form1.submitted || gstin_edit.touched) && gstin == ''">GSTIN is required</span>
                                     <span *ngIf="(create_Partner_form1.submitted || gstin_edit.touched) && gstin != '' && gstin_edit.errors?.pattern" class="prc_tltp">Please enter valid
-                                        GST Number ( Ex:11AAAAA0000A1Z5 )</span>
+                                        GST/VAT</span>
                                 </div>
                             </div>
                             <div class="clear_fix"></div>
@@ -146,7 +145,7 @@
                     </form>
                 </mat-expansion-panel>
                 <mat-expansion-panel [expanded]="branding_info_expand" hideToggle>
-                    <mat-expansion-panel-header style="pointer-events: none;">
+                    <mat-expansion-panel-header  style="pointer-events: none;">
                         <mat-panel-title>
                             Branding info
                         </mat-panel-title>
@@ -182,9 +181,21 @@
                                 <div class="crt_prt_hd">Description</div>
                                 <div class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <textarea matInput class="crt_prt_txt" ppAlphabetOnly [(ngModel)]="description" name="description_edit" #description_edit="ngModel" required></textarea>
+                                        <textarea matInput class="crt_prt_txt" appAlphabetOnly [(ngModel)]="description" name="description_edit" #description_edit="ngModel" required></textarea>
                                     </mat-form-field>
                                     <span class="prc_tltp" *ngIf="(create_Partner_form2.submitted || description_edit.touched) && description_edit.invalid">Description is required</span>
+                                </div>
+                            </div>
+                            <div class="crt_pr_dv">
+                                <div class="crt_prt_hd">Sub-Domain</div>
+                                <div class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input matInput matInput placeholder="Sub-Domain" [(ngModel)]="sub_domain" name="sub_domain_edit" #sub_domain_edit="ngModel" (ngModelChange)="checkSubDomainAvailable()" required/>
+                                        <span matSuffix>.proceum.com</span>
+                                    </mat-form-field>
+                                    <span class="prc_tltp" *ngIf="(create_Partner_form2.submitted || sub_domain_edit.touched) && sub_domain_edit.invalid">Sub-domain is required</span>
+                                    <span class="prc_tltp" *ngIf="sub_domain_err != ''">{{ sub_domain_err }}</span>
+                                
                                 </div>
                             </div>
                             <div class="clear_fix"></div>
@@ -238,6 +249,14 @@
                                         <mat-datepicker #picker2 disabled="false"></mat-datepicker>
                                     </mat-form-field>
                                     <span class="prc_tltp" *ngIf="(create_Partner_form3.submitted || end_date.touched) && end_date.invalid">Licence End Date is required</span>
+                                </div>
+                            </div>
+                            <div class="clear_fix w_100p"></div>
+                            <div class="crt_pr_dv d-flex jc_sb">
+                                <div class="w_47p">
+                                    <div class="crt_prt_hd"></div>
+                                    <mat-checkbox  name="is_reseller_account" [(ngModel)]="is_reseller_account">Reseller Account</mat-checkbox>
+                                    
                                 </div>
                             </div>
                             <div class="clear_fix"></div>

@@ -807,10 +807,9 @@
       <li><a href="#">Contact us</a></li>
     </ul>
   </div> -->
-
   <div class="second-part-footer">
     <div class="container">
-      <div class="footer-main-menu">
+      <div class="footer-main-menu"   *ngIf="!load_powered_by">
         <div class="block">
           <div class="title">Proceum</div>
           <ul>
@@ -845,6 +844,19 @@
             <img src="../../../assets/images/whatsapp-icon.svg" alt="" />
           </div>
         </div>
+      </div>
+
+      <div class="footer-main-menu"   *ngIf="load_powered_by">
+        <div class="block">
+          <span>
+            <img src="{{ sub_domain_data.parent_header_logo ? sub_domain_data.parent_header_logo : './assets/images/ProceumLogo.png'  }}" />
+          </span>
+          <div class="title">Powered By {{ (sub_domain_data.parent_organization_name) ? sub_domain_data.parent_organization_name : 'Proceum' }}</div>
+          <ul>
+            <li></li>
+          </ul>
+        </div>
+        
       </div>
     </div>
   </div>

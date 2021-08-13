@@ -3,6 +3,7 @@ import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-index',
@@ -23,9 +24,19 @@ export class IndexComponent implements OnInit {
   errClass: any;
   public isOpen = false;
   user: any;
+  sub_domain_data : any = [];
+  load_powered_by :boolean = false;
   ngOnInit(): void {
     this.user = this.service.getUser();
-    console.log(this.user);
+    //check subdomain
+    let sub_domain = window.location.hostname;
+    //sub_domain = 'aiimst';
+    //If subdomain not exist in in app domains then check for partner domain
+    if(environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1){
+      this.getSubDomainDetails(sub_domain);
+    }else{
+      this.load_powered_by = false;
+    }
   }
   navigateTo() {
     if (this.user['role'] == '1') {
@@ -83,6 +94,25 @@ export class IndexComponent implements OnInit {
         }, 5000);
       this.errClass = 'input-border-color';
     }
+  }
+
+  getSubDomainDetails(sub_domain){
+    let params = {
+      url: 'get-subdomain-details',
+      sub_domain: sub_domain,
+    };
+    this.http.post(params).subscribe((res) => {
+      if(!res['error']){
+        this.sub_domain_data = res['data'];
+        localStorage.setItem('sub_domain_data', this.sub_domain_data);
+        //console.log(this.sub_domain_data);
+        this.load_powered_by = true;
+      }else{
+        console.log("No subdomain data found");
+        this.load_powered_by = false;
+      }
+      
+    });
   }
 }
 

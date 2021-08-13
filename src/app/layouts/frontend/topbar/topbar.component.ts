@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-topbar',
@@ -12,11 +13,13 @@ export class TopbarComponent implements OnInit {
   public sidemenu_status: String = '';
   public innerWidth: any;
   public isOpen = false;
+  public load_top_bar = false;
   activeClass: string = 'tp_rt_mn';
   menus: any;
   subMenus: any = [];
   subMenuCount: number = 0;
   isCustomMenuShow: boolean = true;
+  sub_domain_data: any = [];
   constructor(
     private http: CommonService,
     private authHttp: AuthService,
@@ -26,13 +29,22 @@ export class TopbarComponent implements OnInit {
   public user;
   id: number = undefined;
   ngOnInit(): void {
+    //check subdomain
+    let sub_domain = window.location.hostname;
+    //sub_domain = 'aiimst';
+    //If subdomain not exist in in app domains then check for partner domain
+    if(environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1){
+      this.getSubDomainDetails(sub_domain);
+    }else{
+      this.load_top_bar = true;
+    }
     this.http.menu_status = '';
     this.user = this.http.getUser();
     this.innerWidth = window.innerWidth;
     this.getMenus();
     this.activeRoute.params.subscribe((routeParams) => {
       if (routeParams.id) {
-        this.activeClass = 'tp_rt_mn active';
+        //this.activeClass = 'tp_rt_mn active';
       }
     });
   }
@@ -101,6 +113,23 @@ export class TopbarComponent implements OnInit {
     };
     this.authHttp.post(params).subscribe((res) => {
       this.subMenus = res['pages'];
+    });
+  }
+
+  getSubDomainDetails(sub_domain){
+    let params = {
+      url: 'get-subdomain-details',
+      sub_domain: sub_domain,
+    };
+    this.authHttp.post(params).subscribe((res) => {
+      if(!res['error']){
+        this.sub_domain_data = res['data'];
+        localStorage.setItem('sub_domain_data', this.sub_domain_data);
+        //console.log(this.sub_domain_data);
+      }else{
+        console.log("No subdomain data found");
+      }
+      this.load_top_bar = true;
     });
   }
 }

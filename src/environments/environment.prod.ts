@@ -72,5 +72,10 @@ export const environment = {
     storageBucket: "proceum-5b71c.appspot.com",
     messagingSenderId: "730854299639",
     appId: "1:730854299639:web:223a73ba74a9c7bcee80f2"
-  }
+  },
+
+  /* 
+  * Below array used to check domian or subdomian from in app users or partners 
+  */
+  INAPP_DOMAINS_ARRAY: ["localhost","qa","uat","dev"],
 };
