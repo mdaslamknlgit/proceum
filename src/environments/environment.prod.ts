@@ -66,21 +66,6 @@ export const environment = {
 //     messagingSenderId: "41849089517",
 //     appId: "1:41849089517:web:daea02011d4e30db528be4"
 //   }
-<<<<<<< HEAD
-  firebaseConfig : {
-    apiKey: "AIzaSyDM_Q8stJkIGWMqZvvGW8MDp0nS8i_zgqg",
-    authDomain: "proceum-5b71c.firebaseapp.com",
-    projectId: "proceum-5b71c",
-    storageBucket: "proceum-5b71c.appspot.com",
-    messagingSenderId: "730854299639",
-    appId: "1:730854299639:web:223a73ba74a9c7bcee80f2"
-  },
-
-  /* 
-  * Below array used to check domian or subdomian from in app users or partners 
-  */
-  INAPP_DOMAINS_ARRAY: ["localhost","qa","uat","dev"],
-=======
 //qa firebase
 firebaseConfig : {
     apiKey: "AIzaSyBSuwf5lz04-nZEPjXUCW6W41FgD3v8hvE",
@@ -89,7 +74,11 @@ firebaseConfig : {
     storageBucket: "proceum-qa-34a1f.appspot.com",
     messagingSenderId: "1050534849110",
     appId: "1:1050534849110:web:942b6b83ec40e05c9669f7"
-  }
+  },
+    /* 
+  * Below array used to check domian or subdomian from in app users or partners 
+  */
+    INAPP_DOMAINS_ARRAY: ["localhost","qa","uat","dev"],
   //uat firebase
 //   firebaseConfig : {
 //     apiKey: "AIzaSyDM_Q8stJkIGWMqZvvGW8MDp0nS8i_zgqg",
@@ -99,5 +88,4 @@ firebaseConfig : {
 //     messagingSenderId: "730854299639",
 //     appId: "1:730854299639:web:223a73ba74a9c7bcee80f2"
 //   }
->>>>>>> 41deeeb816dc42450ea3668de8098f978402b2ea
 };
