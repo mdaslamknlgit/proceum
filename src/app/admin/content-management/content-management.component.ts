@@ -17,7 +17,7 @@ export class ContentManagementComponent implements OnInit {
   public displayedColumns: string[] = ['sno', 'content_title', 'created_by', 'content_status', 'assigned_to', 'created_at', 'updated_at', 'actions'];
   public draft_displayedColumns: string[] = ['sno', 'content_title', 'created_by', 'created_at', 'updated_at', 'actions'];
   public review_displayedColumns: string[] = ['sno','content_title','created_by','content_status','assigned_to','created_at','updated_at','actions'];
-  public published_displayedColumns: string[] = ['sno','content_title','created_by','created_at','updated_at','actions','status'];
+  public published_displayedColumns: string[] = ['sno','content_title','created_by', 'published_at','created_at','updated_at','actions','status'];
   public dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

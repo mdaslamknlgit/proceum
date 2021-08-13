@@ -20,10 +20,11 @@ export class StepsComponent implements OnInit {
   displayedColumns: string[] = [
     'pk_id',
     'level_name',
-    'status',
+    'order_number',
     'created_at',
     'updated_at',
     'actions',
+    'status',
   ];
   public step_name = '';
   public step_code = '';
@@ -45,6 +46,7 @@ export class StepsComponent implements OnInit {
   public search_box = '';
   public breadcome = [];
   public curriculum_obj = [];
+  public order_number = 0;
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -92,7 +94,7 @@ export class StepsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['steps']);console.log(this.dataSource)
+        this.dataSource = new MatTableDataSource(res['data']['steps']);
         if (is_ini || true) {
           
           if (this.paginator != undefined) {
@@ -197,6 +199,29 @@ export class StepsComponent implements OnInit {
         });
       }
     });
+  }
+  setOrder(order_number, step_obj, i){
+    order_number = order_number.trim();
+    if(order_number == ''){
+        (<HTMLInputElement>document.getElementById("order_"+step_obj['id'])).value = step_obj['order_number'];
+        return false;
+    }
+    let pk_id = step_obj['id'];
+    let param = {
+        url: "update-step-order",
+        level_id: pk_id,
+        order_number: order_number
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+            this.dataSource.data[i]['order_number'] = order_number;
+          this.toster.success(res['message'], 'Success', { closeButton: true });
+        } else {
+          this.toster.error(res['message'], res['message'], {
+            closeButton: true,
+          });
+        }
+      });
   }
   deleteStep(id, status) {
     status = status == 1 ? '0' : '1';

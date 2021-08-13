@@ -19,7 +19,6 @@ export const environment = {
     'FontColor',
     'FontFamily',
     'FontSize',
-    //'TextTransformation',
     'bold',
     'italic',
     'underline',
@@ -28,7 +27,6 @@ export const environment = {
     'numberedList',
     '|',
     '|',
-    //'imageUpload',
     'blockQuote',
     'insertTable',
     'undo',
@@ -36,13 +34,11 @@ export const environment = {
     'MathType',
     'ChemType',
     'MediaEmbed',
-    //'CKFinder',
-    //'CKFinderUploadAdapter',
     'HorizontalLine',
     //'Essentials',
     'Highlight',
     //'Image',
-    //'ImageCaption',
+    'ImageCaption',
     'ImageResize',
     //'ImageStyle',
     //'ImageToolbar',
@@ -52,7 +48,9 @@ export const environment = {
     //'Table',
     //'TableToolbar',
     //'htmlSource',
+    //'wproofreader'
   ],
+  video_types : [{name: "KPoint", value:'KPOINT'}, {name: "Youtube", value:'YOUTUBE'}],
   ORGANIZATION_TYPES : [
     {value: '1', viewValue: 'University'},
     {value: '2', viewValue: 'College'},
@@ -60,8 +58,13 @@ export const environment = {
   ],
   
 
+<<<<<<< HEAD
    //apiUrl: 'http://192.10.250.150:8000/api/',
      apiUrl: 'http://127.0.0.1:8000/api/',
+=======
+     apiUrl: 'http://192.10.250.150:8000/api/',
+    // apiUrl: 'http://127.0.0.1:8000/api/',
+>>>>>>> 41deeeb816dc42450ea3668de8098f978402b2ea
     //apiUrl: 'https://apiqa.proceum.com/api/',
     firebaseConfig : {
         apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",

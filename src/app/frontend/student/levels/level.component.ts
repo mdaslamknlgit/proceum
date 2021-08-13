@@ -35,6 +35,29 @@ export class LevelComponent implements OnInit {
       }
     });
   }
+  manageStatistics(type, id, i, rating=0) {
+  let param = {
+    url: 'manage-curriculum-statistics',
+    type: type,
+    source_id: id,
+    rating: rating
+  };
+  this.http.post(param).subscribe((res) => {
+    if (res['error'] == false) {
+      if (type == 'rating') {
+          this.levels[i]['rating'] =rating;
+        }
+        if (type == 'fav') {
+            this.levels[i]['is_fav'] = this.levels[i]['is_fav'] == 1 ? 0 : 1;
+        }
+      //this.toster.success(res['message'], 'Info', { closeButton: true });
+    } else {
+     // this.toster.info('Something went wrong. Please try again.', 'Error', {
+        //closeButton: true,
+      //});
+    }
+  });
+}
   doFilter() {
     this.getCurriculums();
   }

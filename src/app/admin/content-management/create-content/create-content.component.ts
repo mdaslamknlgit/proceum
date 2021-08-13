@@ -30,7 +30,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class CreateContentComponent implements OnInit {
   public displayedColumns: string[] = ['s_no', 'question', 'action'];
-  public video_types = [{name: "KPoint", value:'KPOINT'}, {name: "Youtube", value:'YOUTUBE'}]
+  public video_types = environment.video_types;
   public all_questions = new MatTableDataSource();
   public selected_questions = ELEMENT_DATA; // new MatTableDataSource();
   public user = [];
@@ -92,6 +92,7 @@ export class CreateContentComponent implements OnInit {
   public is_preview = false;
   public allow_coment = false;
   public bucket_url = "";
+    public threed_object:any;
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -123,7 +124,17 @@ export class CreateContentComponent implements OnInit {
       styles: ['full', 'alignLeft', 'alignRight'],
     },
     table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],
+
+            // Configuration of the TableProperties plugin.
+            tableProperties: {
+                // ...
+            },
+
+            // Configuration of the TableCellProperties plugin.
+            tableCellProperties: {
+                // ...
+            }
     },
     mediaEmbed: {
       previewsInData: true,
@@ -155,11 +166,16 @@ export class CreateContentComponent implements OnInit {
         'imageStyle:alignLeft',
         'imageStyle:full',
         'imageStyle:alignRight',
+        'imageStyle:side'
       ],
-      styles: ['full', 'alignLeft', 'alignRight'],
+      styles: ['full', 'alignLeft', 'alignRight', 'side'],
     },
+    // wproofreader: {
+    //     serviceId: 'your-service-ID',
+    //     srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js'
+    // },
     table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],
     },
     highlight: {
         options: [
@@ -186,6 +202,7 @@ export class CreateContentComponent implements OnInit {
     };
   }
   public pgae_title = 'Create Content';
+  public content_status = '';
   public show_tabs = false;
   public review_docs = [];
   public review_docs_new = [];
@@ -249,6 +266,10 @@ export class CreateContentComponent implements OnInit {
   public publish_message = "";
   private subscription:Subscription;
   private subscription_editor:Subscription;
+  public schdule_publish = false;
+  public publish_date = new Date();
+  public publish_time = '';
+  public today_date = new Date();
   constructor(
     private http: CommonService,
     private toster: ToastrService,
@@ -316,7 +337,7 @@ export class CreateContentComponent implements OnInit {
         if(this.content_parent_id > 0){
             this.publish_message = "Changes will be updated to old content.";
         }
-        
+        this.content_status = data['content_status'];
         this.is_published = data['is_published'];
         this.title = data['title'];
         this.is_paid = data['is_paid'] == 1?true:false;
@@ -376,6 +397,13 @@ export class CreateContentComponent implements OnInit {
       else{
         this.validateVideo(tabIndex);
       }
+  }
+  add3dObject(threed_object){
+    this.three_d_videos.push({pk_id:0, video_section:'3D', source: this.video_source_5, title: this['video_title_5'], value: this.video_value_5, status:'', error:false, message: ''});
+    this['video_index_5'] = undefined;
+    this['video_title_5'] = '';
+    this['video_value_5'] = '';
+    threed_object.value = "";
   }
   validateVideo(tab_index){
     if(this['video_source_'+tab_index] != '' && this['video_title_'+tab_index] && this['video_value_'+tab_index]){
@@ -622,6 +650,17 @@ export class CreateContentComponent implements OnInit {
     for (var i = 0; i < files.length; i++) {
       let ext = files[i].name.split('.').pop().toLowerCase();
       if (allowed_types.includes(ext)) {
+        let size = files[i].size;
+        size = Math.round(size / 1024);
+        if(size > environment.file_upload_size){
+            this.toster.error(
+                ext +
+                  ' Size of file (' +
+                  files[i].name +
+                  ') is too large max allowed size 2mb', "Error", {closeButton: true,}
+              );
+              return false;
+        }
         valid_files.push(files[i]);
         uploadData.append('file' + i, files[i]);
       } else {
@@ -636,7 +675,7 @@ export class CreateContentComponent implements OnInit {
     if (valid_files.length == 0) {
       return false;
     }
-    uploadData.append('path', 'images/threed_objects');
+    uploadData.append('path', 'documents/threed_objects');
     uploadData.append('number_files', files.length);
     let param = { url: 'upload-files' };
     this.http.imageUpload(param, uploadData).subscribe((res) => {
@@ -806,7 +845,7 @@ export class CreateContentComponent implements OnInit {
   }
   addLectureNote() {
       if(this.lecture_note_title_duplicate){
-          return false;
+          //return false;
       }
     let lecture_note = {
       id: 0,
@@ -842,7 +881,7 @@ export class CreateContentComponent implements OnInit {
   }
   checkLectureNoteDuplicate(){
     this.lecture_note_obj.forEach((res, index)=>{
-        if(res['title'].trim() == this.lecture_note_title.trim() && res['status'] != 'delete' && ''+index != this.highyield_index){
+        if(res['title'].trim() == this.lecture_note_title.trim() && res['status'] != 'delete' && ''+index != this.lecture_note_index){
             this.lecture_note_title_duplicate = true;
             this.lecture_note_title = '';
             this.toster.error("Title has been taken", "Error" , {closeButton: true,});
@@ -867,7 +906,7 @@ export class CreateContentComponent implements OnInit {
   }
   addHighyield() {
       if(this.highyield_title_duplicate){
-          return false;
+          //return false;
       }
     let highyield = {
       id: 0,
@@ -1113,6 +1152,9 @@ export class CreateContentComponent implements OnInit {
       }
     }
   }
+  CloseSchdulePublish(){
+      this.schdule_publish = false;
+  }
   createContent(is_draft) {
     this.is_submit = true;
     if(this.title == ''){
@@ -1143,6 +1185,8 @@ export class CreateContentComponent implements OnInit {
       content_id: this.content_id,
       reviewer_role: is_draft?'':this.reviewer_role,
       publsh_content: this.publsh_content,
+      publish_date: this.publish_date,
+      publish_time: this.publish_time,
       is_preview: this.is_preview
     };
     let params = { url: 'create-content', form_data: form_data };

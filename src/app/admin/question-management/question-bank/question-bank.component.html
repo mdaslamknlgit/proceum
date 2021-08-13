@@ -90,7 +90,7 @@
 
             <ng-container matColumnDef="id">
                 <th mat-header-cell *matHeaderCellDef>S.No </th>
-                <td mat-cell *matCellDef="let element"> {{ element.id }}</td>
+                <td mat-cell *matCellDef="let element"> {{ element.s_no }}</td>
             </ng-container>
 
             <ng-container matColumnDef="q_bank_type">
@@ -98,9 +98,9 @@
                 <td mat-cell *matCellDef="let element"> {{ element.q_bank_type }} </td>
             </ng-container>
 
-            <ng-container matColumnDef="description">
+            <ng-container matColumnDef="description" >
                 <th mat-header-cell *matHeaderCellDef> Description</th>
-                <td mat-cell *matCellDef="let element"> {{ element.description }} </td>
+                <td mat-cell *matCellDef="let element" class="ws_normal"> {{ element.description }} </td>
             </ng-container>
 
 
@@ -109,7 +109,7 @@
                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                 <td mat-cell *matCellDef="let element">
                     <button mat-icon-button color="accent" matTooltip="Click to edit">
-                        <mat-icon (click)="editQBank(element)">edit</mat-icon>
+                        <mat-icon (click)="editQBank(element)">edit_note</mat-icon>
                     </button>
                     <button mat-icon-button color="warn" matTooltip="Click to delete" mwlConfirmationPopover
                         [popoverTitle]="'Delete QBank ?'"
@@ -118,26 +118,21 @@
                         cancelButtonType="outline-secondary">
                         <mat-icon>remove_circle_outline</mat-icon>
                     </button>
-
                 </td>
             </ng-container>
-
             <ng-container matColumnDef="no_of_questions">
                 <th mat-header-cell *matHeaderCellDef> No of questions</th>
                 <td mat-cell *matCellDef="let element"> {{ element.no_of_questions }} </td>
             </ng-container>
-
-
             <ng-container matColumnDef="status">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
                 <td mat-cell *matCellDef="let element">
                     <span matTooltip="Current Status is {{
                   element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
                 }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-                        "Inactive" }}</span>
+                        "Inactive" }}</span>  
                 </td>
             </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
@@ -147,8 +142,6 @@
         <mat-paginator [pageSizeOptions]="page_size_options" showFirstLastButtons></mat-paginator>
     </div>
 </div>
-
-
 <div class="cust_mdl_par cust_mdl_50p cust_mdl_opn" [ngClass]="{ cust_mdl_opn: edit_model_status }">
     <div class="cust_mdl_chl">
         <div class="pg_ttl">

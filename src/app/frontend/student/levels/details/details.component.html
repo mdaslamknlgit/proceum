@@ -28,7 +28,10 @@
         matTooltip="Unfavorite">favorite</mat-icon>
     </button>
     <button mat-icon-button class="no_bxsdw my_05">
-      <mat-icon matTooltip="Wishlist">playlist_add</mat-icon>
+      <mat-icon matTooltip="Wishlist" (click)="manageStatistics('is_wishlist')"
+        *ngIf="statistics['is_wishlist'] != 1 ? true : false">playlist_add</mat-icon>
+      <mat-icon matTooltip="Remove from Wishlist" (click)="manageStatistics('is_wishlist')"
+        *ngIf="statistics['is_wishlist'] == 1 ? true : false">playlist_add_check</mat-icon>
     </button>
     <button mat-icon-button class="no_bxsdw my_05">
       <mat-icon (click)="manageStatistics('bookmark')" *ngIf="statistics['is_bookmark'] != 1 ? true : false"
@@ -63,7 +66,7 @@
     </div>
   </div>
 
-  <div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
+  <div class="cust_mdl_par cust_mdl_70p {{ library_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Images
@@ -80,6 +83,48 @@
         <button mat-raised-button class="float_right mr_1 gry_btn" (click)="library_popup=false">
           Close
         </button>
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div>
+  <div class="cust_mdl_par pdf_vwr {{ pdf_popup ? 'cust_mdl_opn' : '' }}">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl dsh_brd_crds">
+        <div>
+          {{pdf_file_path.substring(
+          pdf_file_path.lastIndexOf("/") + 1
+          )}}
+        </div>
+        <div class="pdf_ed_icn">
+          <mat-form-field appearance="outline" class="w_80px mr_1">
+            <input matInput type="number" max="100" min="0" [(ngModel)]="pdf_page">
+          </mat-form-field>
+
+          <mat-icon (click)="pdf_zoom=pdf_zoom+0.2">zoom_in</mat-icon>
+          <mat-icon (click)="pdf_zoom=pdf_zoom-0.2">zoom_out</mat-icon>
+          <mat-icon (click)="pdf_rotation_change('prev')">rotate_left</mat-icon>
+          <mat-icon (click)="pdf_rotation_change('next')">rotate_right</mat-icon>
+
+        </div>
+        <div>
+          <mat-form-field appearance="outline" class="pdf_srch">
+            <input #queryInp id="pdfQueryInput" placeholder="Search..." matInput [value]="pdfQuery"
+              (input)="searchQueryChanged($event.target.value)" (keyup.enter)="searchQueryChanged(queryInp.value)">
+              <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+          <button (click)="pdf_popup=false" mat-icon-button class="float_right">
+            &#x2715;
+          </button>
+        </div>
+      </div>
+      <div *ngIf="pdf_popup" class="tbbd_bdy">
+        <pdf-viewer [src]="pdf_file_path" [external-link-target]="'blank'" [show-all]="true" [(page)]="pdf_page"
+          [autoresize]="true" [original-size]="false" [zoom]="pdf_zoom" [show-borders]="true"
+          [zoom-scale]="'page-width'" style="display: block;" [rotation]="pdf_rotation"></pdf-viewer>
+        <!-- <hr />
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="pdf_popup=false">
+          Close
+        </button> -->
         <div class="hgt_20"></div>
       </div>
     </div>
@@ -121,7 +166,8 @@
           <mat-icon class="ism_icn {{ active_div == 9 ? 'ism_actv_btn' : '' }}" matTooltip="Related Topics">bolt
           </mat-icon>
         </li>
-        <li (click)="showDiv(8)" *ngIf="content['external_ref_content'] != undefined && content['external_ref_content'].trim() != ''">
+        <li (click)="showDiv(8)"
+          *ngIf="content['external_ref_content'] != undefined && content['external_ref_content'].trim() != ''">
           <mat-icon class="ism_icn {{ active_div == 8 ? 'ism_actv_btn' : '' }}" matTooltip="External References">
             insert_link</mat-icon>
         </li>
@@ -151,11 +197,13 @@
             <strong *ngIf="i == breadcome.length - 1">
               {{ setTitle(bread["name"]) }}</strong></span>
         </div>
+        <div class="hgt_20"></div>
+        <div class="prv_cnt" *ngIf="is_preview">Preview Content</div>
 
         <div class="pg_ttl" *ngIf="content != undefined">
           <div>{{ content["title"]}}</div>
           <div class="spacer"></div>
-          <span *ngIf="is_preview">Preview Content</span>
+
         </div>
       </div>
 
@@ -315,14 +363,15 @@
               No Notes Found
             </div>
             <mat-accordion *ngIf="learning_notes.length > 0" multi>
-              <mat-expansion-panel *ngFor="let note of learning_notes;let learning_notes_index = index" (click)="fetchImages(learning_notes_index)">
+              <mat-expansion-panel *ngFor="let note of learning_notes;let learning_notes_index = index"
+                (click)="fetchImages(learning_notes_index)">
                 <mat-expansion-panel-header>
                   <mat-panel-title>{{ note["title"] }}</mat-panel-title>
                   <mat-panel-description> </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div class="tm_ln_dv ck_editor_view">
-                  <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
-                    [data]="note['learning_notes']"></ckeditor>
+                  <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
+                    (ready)="onReady($event)" [data]="note['learning_notes']"></ckeditor>
                 </div>
               </mat-expansion-panel>
               <!-- <mat-expansion-panel>
@@ -359,7 +408,7 @@
             <div *ngIf="!content['learning_obj_content']" class="no_desc_fnd">
               No Notes Found
             </div>
-            <div class="crs_desc_cnt ck_editor_view" id="ck_editor_view"  *ngIf="content['learning_obj_content']">
+            <div class="crs_desc_cnt ck_editor_view" id="ck_editor_view" *ngIf="content['learning_obj_content']">
               <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
                 [data]="content['learning_obj_content']"></ckeditor>
             </div>
@@ -410,8 +459,13 @@
                   file['file_path'].lastIndexOf('/') + 1
                 )
               }}">
-                  <a class="dwnld_attcmnt" [href]="bucket_url + file['file_path']" target="_blank">
+                  <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() != 'pdf'"
+                    class="dwnld_attcmnt" [href]="bucket_url + file['file_path']" target="_blank">
                     <mat-icon matTooltip="Download" matTooltipPosition="above">file_download</mat-icon>
+                  </a>
+                  <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'pdf'"
+                    (click)="openPdf(bucket_url + file['file_path'])" class="dwnld_attcmnt">
+                    <mat-icon matTooltip="View" matTooltipPosition="above">visibility</mat-icon>
                   </a>
                   <img [src]="file['path']" [alt]="
                   file['file_path'].substring(
@@ -451,8 +505,8 @@
                     <mat-panel-description> </mat-panel-description>
                   </mat-expansion-panel-header>
                   <div class="tm_ln_dv ck_editor_view">
-                    <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
-                      [data]="highyield['highyield_notes']"></ckeditor>
+                    <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
+                      (ready)="onReady($event)" [data]="highyield['highyield_notes']"></ckeditor>
                   </div>
                 </mat-expansion-panel>
                 <!-- <mat-expansion-panel>
@@ -715,10 +769,11 @@
               <iframe [width]="iframe_width" [height]="iframe_height" [src]="youtube_iframe" allowfullscreen></iframe>
             </div>
           </div>
-          <div id="threed_obj_dev">
-            <div *ngIf="video_type=='3D_OBJECT'">
-              <!-- <stl-model-viewer stlModel="{{bucket_url+active_video_obj['video_source']}}"></stl-model-viewer> -->
-            </div>
+
+          <div [hidden]="video_type!='3D_OBJECT'">
+            <div id="threed_obj_dev"
+              style="width: 100%; height: 400px; margin: auto; background: #000000;margin-top: 2em;"></div>
+            <!-- <stl-model-viewer stlModel="{{bucket_url+active_video_obj['video_source']}}"></stl-model-viewer> -->
           </div>
           <!-- Approach2
         <div *ngIf="false" [hidden]="this.video_id !='gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-kvideo-id]="'gcc-23ae76a7-57de-49ec-94f9-ad008f74b805'" [attr.data-video-host]="'proceum.kpoint.com'"
@@ -776,32 +831,13 @@
             <mat-expansion-panel *ngIf="intro_video.length>0" (click)="display_videos='INTRO'" [expanded]="true">
               <mat-expansion-panel-header>
                 <mat-panel-title>
-                  <mat-icon>videocam</mat-icon> Introduction
+                  <mat-icon>videocam</mat-icon> Video ({{intro_video.length}})
                 </mat-panel-title>
                 <mat-panel-description>
                   <!--  <span class="spacer"></span>
                    15 / 30 videos watched -->
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <!-- <div class="mtvd_hds">
-                <span *ngIf="intro_video.length>0" class="{{display_videos=='INTRO'?'mtvd_actv':''}}"
-                  (click)="display_videos='INTRO'">Introduction</span>
-                <span *ngIf="two_d_videos.length>0" class="{{display_videos=='2D'?'mtvd_actv':''}}"
-                  (click)="display_videos='2D'">2D Videos
-                  <span>({{two_d_videos.length}})</span></span>
-                <span *ngIf="board_lecture_videos.length>0" class="{{display_videos=='BOARD_LECTURES'?'mtvd_actv':''}}"
-                  (click)="display_videos='BOARD_LECTURES'">Board Lectures
-                  <span>({{board_lecture_videos.length}})</span></span>
-                <span *ngIf="clinical_videos.length>0" class="{{display_videos=='CLINICAL_ESSENTIALS'?'mtvd_actv':''}}"
-                  (click)="display_videos='CLINICAL_ESSENTIALS'">Clinical Essentials
-                  <span>({{clinical_videos.length}})</span></span>
-                <span *ngIf="procedural_videos.length>0" class="{{display_videos=='PROCEDURAL'?'mtvd_actv':''}}"
-                  (click)="display_videos='PROCEDURAL'">Procedural Videos
-                  <span>({{procedural_videos.length}})</span></span>
-                <span *ngIf="three_d_videos.length>0" class="{{display_videos=='3D'?'mtvd_actv':''}}"
-                  (click)="display_videos='3D'">3D Objects
-                  <span>({{three_d_videos.length}})</span></span>
-              </div> -->
               <div>
                 <div *ngFor="let video of videos">
                   <!-- wv_actv -->
@@ -943,7 +979,7 @@
                     </div>
                     <div class="wv_ttl_dsc">
                       <span class="wv_tt_hd">{{video['module_title']}}</span>
-                      <span class="wv_ts">05:50 min</span>
+                      <!-- <span class="wv_ts">05:50 min</span> -->
                     </div>
                     <!-- <span class="spacer"></span>
                     <div class="wv_ply_icn">

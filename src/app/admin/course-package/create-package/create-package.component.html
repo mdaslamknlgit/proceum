@@ -1,5 +1,61 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/prices-package-management"><strong>Pricing &amp; Package Management</strong></span> &raquo; <strong>Create
+    <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: edit_model_status }">
+        <div class="cust_mdl_chl">
+            <div class="pg_ttl">
+                Select Courses
+                <span class="spacer"></span>
+                <button mat-icon-button (click)="edit_model_status = !edit_model_status">
+                    &#x2715;
+                </button>
+            </div>
+            <div class="tbbd_bdy">
+                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="sc_tre">
+                    <!-- This is the tree node template for leaf nodes -->
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
+                        [style.display]="!search || node.ok?'block':'none'">
+                        <li class="mat-tree-node">
+                            <!-- use a disabled button to provide padding for tree leaf -->
+                            <button type="button" mat-icon-button disabled></button>
+                            <mat-checkbox class="checklist-leaf-node"
+                                (change)="todoItemSelectionToggle($event.checked,node)" [checked]="node.selected">
+                                {{node.name}}</mat-checkbox>
+
+                        </li>
+                    </mat-tree-node>
+                    <!-- This is the tree node template for expandable nodes -->
+                    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild"
+                        [style.display]="!search || node.ok?'block':'none'">
+                        <li>
+                            <div class="mat-tree-node">
+                                <button type="button" mat-icon-button matTreeNodeToggle
+                                    [attr.aria-label]="'toggle ' + node.name">
+                                    <mat-icon class="mat-icon-rtl-mirror">
+                                        {{treeControl.isExpanded(node) ? 'expand_more' :
+                                        'chevron_right'}}
+                                    </mat-icon>
+                                </button>
+                                <mat-checkbox [checked]="node.selected"
+                                    [indeterminate]="node.indeterminate && !node.selected"
+                                    (change)="todoItemSelectionToggle($event.checked,node)">
+                                    {{node.name}}
+                                </mat-checkbox>
+                            </div>
+                            <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                                <ng-container matTreeNodeOutlet></ng-container>
+                            </ul>
+                        </li>
+                    </mat-nested-tree-node>
+                </mat-tree>
+                <div class="w_100p text_right">
+                    <button type="button" mat-raised-button color="accent"
+                        (click)="submitCourses()">Submit</button><br />
+                </div>
+                <div class="hgt_20"></div>
+            </div>
+        </div>
+    </div>
+    <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/prices-package-management"><strong>Pricing &amp;
+                Package Management</strong></span> &raquo; <strong>Create
             Package</strong></div>
     <div class="pg_ttl">Create Package</div>
     <hr />
@@ -39,8 +95,8 @@
                                                 <div class="jc_sb d-flex ai_cntr">
                                                     <div class="cpm_pg_hd">Package image</div>
                                                     <div>
-                                                        <button type="button" mat-raised-button
-                                                            class="no_bxsdw" color="accent"
+                                                        <button type="button" mat-raised-button class="no_bxsdw"
+                                                            color="accent"
                                                             onclick="document.getElementById('imageToUpload').click()">
                                                             <mat-icon>upload</mat-icon>
                                                             Upload Image
@@ -52,7 +108,8 @@
                                                             [(ngModel)]="package_img">
                                                     </div>
                                                 </div>
-                                                <div class="text_right w_100p">(Supported Formats: .png, .jpg, .jpeg)</div>
+                                                <div class="text_right w_100p">(Supported Formats: .png, .jpg, .jpeg)
+                                                </div>
                                                 <div class="hgt_10"></div>
                                                 <div class="brnd_info_upld pkg_img">
                                                     <div class="pkg_img_dv">
@@ -99,7 +156,7 @@
                                                 <div>Set Package Price Country Wise</div>
                                                 <div *ngFor="let price of package_prices;let i = index">
                                                     <div class="pkg_chkbx" *ngIf="price['status'] != '0'">
-                                                        <div class="w_50p mr_1">
+                                                        <div class="w_45p mr_1">
                                                             <div class="err_tltp_par">
                                                                 <mat-form-field appearance="outline" class="mt_05">
                                                                     <mat-select
@@ -119,7 +176,7 @@
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
-                                                        <div class="w_50p">
+                                                        <div class="w_45p">
                                                             <div class="err_tltp_par">
                                                                 <mat-form-field appearance="outline" class="mt_05">
                                                                     <input
@@ -132,7 +189,7 @@
                                                                 </mat-form-field>
                                                             </div>
                                                         </div>
-                                                        <div class="w_50p">
+                                                        <div class="mt_6px">
                                                             <button type="button" (click)="removePackagePrice(i)"
                                                                 mat-icon-button class="no_bxsdw" color="warn"
                                                                 *ngIf="i > 0">
@@ -168,15 +225,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="hgt_20"></div>
-                                                <div class="w_50p mr_1">
+                                                <div class="w_50p mr_1 rsp_100p">
                                                     <div>Duration (In days)</div>
                                                     <div class="err_tltp_par">
                                                         <mat-form-field appearance="outline">
                                                             <input matInput placeholder="Enter Duration (In days)"
-                                                                [(ngModel)]="duration" name="duration" appNumbersonly maxlength="3"
-                                                                required />
+                                                                [(ngModel)]="duration" name="duration" appNumbersonly
+                                                                maxlength="3" required />
                                                             <span class="prc_tltp"
-                                                                *ngIf="create_package_form.submitted && duration == ''">Duration is required</span>
+                                                                *ngIf="create_package_form.submitted && duration == ''">Duration
+                                                                is required</span>
                                                         </mat-form-field>
                                                     </div>
                                                 </div>
@@ -251,66 +309,7 @@
                                             <button mat-raised-button color="accent">Submit</button>
                                         </div>
                                     </div>
-                                    <div class="cust_mdl_par cust_mdl_50p"
-                                        [ngClass]="{ cust_mdl_opn: edit_model_status }">
-                                        <div class="cust_mdl_chl">
-                                            <div class="pg_ttl">
-                                                Select Courses
-                                                <span class="spacer"></span>
-                                                <button mat-icon-button
-                                                    (click)="edit_model_status = !edit_model_status">
-                                                    &#x2715;
-                                                </button>
-                                            </div>
-                                            <div class="tbbd_bdy">
-                                                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl"
-                                                    class="example-tree">
-                                                    <!-- This is the tree node template for leaf nodes -->
-                                                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
-                                                        [style.display]="!search || node.ok?'block':'none'">
-                                                        <li class="mat-tree-node">
-                                                            <!-- use a disabled button to provide padding for tree leaf -->
-                                                            <button type="button" mat-icon-button disabled></button>
-                                                            <mat-checkbox class="checklist-leaf-node"
-                                                                (change)="todoItemSelectionToggle($event.checked,node)"
-                                                                [checked]="node.selected">
-                                                                {{node.name}}</mat-checkbox>
 
-                                                        </li>
-                                                    </mat-tree-node>
-                                                    <!-- This is the tree node template for expandable nodes -->
-                                                    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild"
-                                                        [style.display]="!search || node.ok?'block':'none'">
-                                                        <li>
-                                                            <div class="mat-tree-node">
-                                                                <button type="button" mat-icon-button matTreeNodeToggle
-                                                                    [attr.aria-label]="'toggle ' + node.name">
-                                                                    <mat-icon class="mat-icon-rtl-mirror">
-                                                                        {{treeControl.isExpanded(node) ? 'expand_more' :
-                                                                        'chevron_right'}}
-                                                                    </mat-icon>
-                                                                </button>
-                                                                <mat-checkbox [checked]="node.selected"
-                                                                    [indeterminate]="node.indeterminate && !node.selected"
-                                                                    (change)="todoItemSelectionToggle($event.checked,node)">
-                                                                    {{node.name}}
-                                                                </mat-checkbox>
-                                                            </div>
-                                                            <ul
-                                                                [class.example-tree-invisible]="!treeControl.isExpanded(node)">
-                                                                <ng-container matTreeNodeOutlet></ng-container>
-                                                            </ul>
-                                                        </li>
-                                                    </mat-nested-tree-node>
-                                                </mat-tree>
-                                                <div class="w_100p text_right">
-                                                    <button type="button" mat-raised-button color="accent"
-                                                        (click)="submitCourses()">Submit</button><br />
-                                                </div>
-                                                <div class="hgt_20"></div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </form>
                             </div>
                         </mat-tab>
@@ -333,30 +332,38 @@
                                                         {{video_type['name']}}</mat-option>
                                                 </mat-select>
                                             </mat-form-field>
-                                            <span class="prc_tltp" *ngIf="sample_video_form.submitted && source_type == ''">Please select source</span>
+                                            <span class="prc_tltp"
+                                                *ngIf="sample_video_form.submitted && source_type == ''">Please select
+                                                source</span>
                                         </div>
                                         <div class="err_tltp_par">
                                             <mat-form-field appearance="outline" class="{{ ((sample_video_form.submitted || video_title.touched) && title_error) ? 'mat-form-field-invalid' : ''}}">
                                                 <input [(ngModel)]="title" maxlength="100" name="video_title" #video_title="ngModel" matInput placeholder="Title" (ngModelChange)="checkTitle()" />
                                             </mat-form-field>
-                                            <span class="prc_tltp" *ngIf="(sample_video_form.submitted || video_title.touched) && title_error">{{ title_error }}</span>
+                                            <span class="prc_tltp"
+                                                *ngIf="(sample_video_form.submitted || video_title.touched) && title_error">{{
+                                                title_error }}</span>
                                         </div>
                                         <div class="err_tltp_par">
-                                            <mat-form-field appearance="outline" class="{{ ((sample_video_form.submitted || video_source_link.touched) && video_url_error) ? 'mat-form-field-invalid' : ''}}">
-                                                <input [(ngModel)]="video_source" name="video_source_link" #video_source_link="ngModel" matInput placeholder="Video URL"  (ngModelChange)="checkURL()" />
+                                            <mat-form-field appearance="outline"
+                                                class="{{ ((sample_video_form.submitted || video_source_link.touched) && video_url_error) ? 'mat-form-field-invalid' : ''}}">
+                                                <input [(ngModel)]="video_source" name="video_source_link"
+                                                    #video_source_link="ngModel" matInput placeholder="Video URL"
+                                                    (ngModelChange)="checkURL()" />
                                             </mat-form-field>
-                                            <span class="prc_tltp" *ngIf="(sample_video_form.submitted || video_source_link.touched) && video_url_error">{{ video_url_error }}</span>
+                                            <span class="prc_tltp"
+                                                *ngIf="(sample_video_form.submitted || video_source_link.touched) && video_url_error">{{
+                                                video_url_error }}</span>
                                         </div>
                                         <div class="w_50p">
-                                            <button type="submit" mat-raised-button color="accent"
-                                                class="mt_3px">
+                                            <button type="submit" mat-raised-button color="accent" class="mt_3px">
                                                 <mat-icon>add</mat-icon> Add Video
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div *ngFor="let video of sample_videos;let i=index">
-                                    <div class="hyt_lst_dv" *ngIf="video.status != 0 && video.status != 2"> 
+                                    <div class="hyt_lst_dv" *ngIf="video.status != 0 && video.status != 2">
                                         <div class="kp_yt_img">
                                             <img src="../../../assets/images/youtube.png">
                                         </div>
@@ -368,12 +375,14 @@
                                         </div>
                                         <div class="spacer"></div>
                                         <div>
-                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent" (click)="editVideo(i)">
+                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent"
+                                                (click)="editVideo(i)">
                                                 <mat-icon>mode_edit</mat-icon>
                                             </button>
                                         </div>
                                         <div>
-                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn" (click)="deleteVideo(i)">
+                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn"
+                                                (click)="deleteVideo(i)">
                                                 <mat-icon>remove_circle_outline</mat-icon>
                                             </button>
                                         </div>
@@ -393,24 +402,31 @@
                                 FAQ's
                             </ng-template>
                             <div class="hgt_20"></div>
-                            <form autocomplete="off" #faq_form="ngForm" name="faq_form" (ngSubmit)="faq_form.valid && addFaq()">
+                            <form autocomplete="off" #faq_form="ngForm" name="faq_form"
+                                (ngSubmit)="faq_form.valid && addFaq()">
                                 <div>
                                     <div class="ulvd_inpts">
                                         <div class="err_tltp_par w_100p">
-                                            <mat-form-field appearance="outline" class="w_100p {{ ((faq_form.submitted || faq_question.touched) && question_error) ? 'mat-form-field-invalid' : '' }}">
+                                            <mat-form-field appearance="outline"
+                                                class="w_100p {{ ((faq_form.submitted || faq_question.touched) && question_error) ? 'mat-form-field-invalid' : '' }}">
                                                 <textarea matInput class="crt_prt_txt" placeholder="Question"
-                                                    [(ngModel)]="question" name="faq_question" #faq_question="ngModel" (ngModelChange)="checkQuestion()"
-                                                    ></textarea>
+                                                    [(ngModel)]="question" name="faq_question" #faq_question="ngModel"
+                                                    (ngModelChange)="checkQuestion()"></textarea>
                                             </mat-form-field>
-                                            <span class="prc_tltp" *ngIf="(faq_form.submitted || faq_question.touched) && question_error">{{ question_error }}</span>
+                                            <span class="prc_tltp"
+                                                *ngIf="(faq_form.submitted || faq_question.touched) && question_error">{{
+                                                question_error }}</span>
                                         </div>
                                         <div class="err_tltp_par w_100p">
-                                            <mat-form-field appearance="outline" class="w_100p {{ ((faq_form.submitted || faq_answer.touched) && answer == '') ? 'mat-form-field-invalid' : '' }}">
+                                            <mat-form-field appearance="outline"
+                                                class="w_100p {{ ((faq_form.submitted || faq_answer.touched) && answer == '') ? 'mat-form-field-invalid' : '' }}">
                                                 <textarea matInput class="crt_prt_txt hgt_100px" placeholder="Answer"
-                                                    [(ngModel)]="answer" name="faq_answer" #faq_answer="ngModel"
-                                                    ></textarea>
+                                                    [(ngModel)]="answer" name="faq_answer"
+                                                    #faq_answer="ngModel"></textarea>
                                             </mat-form-field>
-                                            <span class="prc_tltp" *ngIf="(faq_form.submitted || faq_answer.touched) && answer == ''">Answer required</span>
+                                            <span class="prc_tltp"
+                                                *ngIf="(faq_form.submitted || faq_answer.touched) && answer == ''">Answer
+                                                required</span>
                                         </div>
                                         <div class="w_100p text_right">
                                             <button type="submit" mat-raised-button color="accent">
@@ -423,21 +439,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div  *ngFor="let faq of faqs;let i=index">
-                                    <div class="hyt_lst_dv"  *ngIf="faq.status != 0 && faq.status != 2">
+                                <div *ngFor="let faq of faqs;let i=index">
+                                    <div class="hyt_lst_dv" *ngIf="faq.status != 0 && faq.status != 2">
                                         <div class="mr_1 fnt_bold">Quetion : {{ faq.question }}
-                                            <div class="vd_pth clr_inh"> Answer : 
-                                                {{ (faq.answer.length > 200) ? ( faq.answer | slice:0:200 ) + '..' : (faq.answer) }}
+                                            <div class="vd_pth clr_inh"> Answer :
+                                                {{ (faq.answer.length > 200) ? ( faq.answer | slice:0:200 ) + '..' :
+                                                (faq.answer) }}
                                             </div>
                                         </div>
                                         <div class="spacer"></div>
                                         <div>
-                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent" (click)="editFaq(i)">
+                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent"
+                                                (click)="editFaq(i)">
                                                 <mat-icon>mode_edit</mat-icon>
                                             </button>
                                         </div>
                                         <div>
-                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn" (click)="deleteFaq(i)">
+                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn"
+                                                (click)="deleteFaq(i)">
                                                 <mat-icon>remove_circle_outline</mat-icon>
                                             </button>
                                         </div>
@@ -451,16 +470,6 @@
                                 </div>
                             </form>
                         </mat-tab>
-
-
-
-
-
-
-
-
-
-
                         <!-- <mat-tab>
                     <ng-template mat-tab-label>
                     Introduction

@@ -10,6 +10,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { count } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-edit-new-question',
@@ -25,14 +26,11 @@ export class EditNewQuestionComponent implements OnInit {
 
   public Editor = Editor;
 
-  topics: any = ['KPoint', 'Youtube'];
-
-
   configEditor = {
     Plugins: [],
-    placeholder: 'Provide Text',
+    placeholder: 'Enter Text',
     toolbar: {
-      items: environment.ckeditor_toolbar,
+      items: ['Alignment', 'FontColor', 'FontBackgroundColor', 'FontSize', 'underline', 'blockQuote', 'bulletedList', 'numberedList', 'SpecialCharacters'],
     },
     image: {
       upload: ['png'],
@@ -55,10 +53,12 @@ export class EditNewQuestionComponent implements OnInit {
 
   is_loaded = true
   question_id = null;
-
+  public question_Qbank = false;
   QTypes: any;
   QBanks: any;
   question: any = {
+    questionUsageType:'',
+    curriculum_id:0,
     question_type_id: '',
     q_bank_ids: [],
     question_text: '',
@@ -77,7 +77,10 @@ export class EditNewQuestionComponent implements OnInit {
     option3_crt_ans: '',
     option4_crt_ans: '',
     single_crt_ans: '',
-
+    option1_value: '',
+    option2_value: '',
+    option3_value: '',
+    option4_value: '',
 
 
 
@@ -107,6 +110,8 @@ export class EditNewQuestionComponent implements OnInit {
   fileName = '';
 
   myFiles = [];
+    curriculums: any;
+    public topics: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(private http: CommonService,
     private toster: ToastrService,
@@ -132,55 +137,66 @@ export class EditNewQuestionComponent implements OnInit {
       
         let options = res['q_options'];
         let questionData = res['question'];
-       // this.question.question_type_id = res['q_type'];
+        this.question.curriculum_id = Number(questionData['curriculum_id']);
+        if(this.question.curriculum_id > 0){
+            this.getTopics(this.question.curriculum_id, '');
+        }
+        this.question.questionUsageType = Number(questionData['question_for']);
+        if(this.question.questionUsageType == 3){
+            this.question_Qbank = true;
+        }
         this.question.q_bank_ids = Array.from(questionData.q_bank_ids.split(","), Number);
         this.question.question_text = questionData.question_text;
         this.question.topic = questionData.topic;
         this.question.explanation = questionData.explanation;
         this.question.question_type_id = res['q_type']['pk_id'];
         this.question.difficulty_level_id = questionData.difficulty_level_id;
-        var correct_ans_ids = questionData.correct_ans_id ? questionData.correct_ans_id.split(",") : [];
+        var correct_ans_ids_string = questionData.correct_ans_id+'';
+        let correct_ans_ids = [];
+        if(correct_ans_ids_string.includes(',')){
+            correct_ans_ids = correct_ans_ids_string.split(",").map(Number);
+        }
+        else{
+            correct_ans_ids.push(Number(correct_ans_ids_string));
+        }
         this.question.correct_ans_ids = correct_ans_ids;
         this.question.q_source = questionData.q_source;
         this.question.q_source_value = questionData.q_source_value;
-      
-        if (correct_ans_ids.length > 0) {
-          for (var i = 0; correct_ans_ids.length > i; i++) {
-            var value = correct_ans_ids[i];
-            switch (value) {
-              case "1":
-                this.question.option1_crt_ans = 'checked';
-                break;
-              case "2":
-                this.question.option2_crt_ans = 'checked';
-                break;
-              case "3":
-                this.question.option3_crt_ans = 'checked';
-                break;
-              case "4":
-                this.question.option4_crt_ans = 'checked';
-                break;
-              default:
-                console.log("No such type exists!");
-                break;
-            }
-          
-          }
-        }
-
         if (options.length > 0) {
+            console.log(correct_ans_ids);
           for (var i = 0; options.length > i; i++) {
             switch (i) {
               case 0:
+                  if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option1_crt_ans = 'checked';
+                    
+                  }
+                  this.question.option1_value = options[i]['pk_id'];
                 this.question.option1 = options[i]['option_text'];
                 break;
               case 1:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option2_crt_ans = 'checked';
+                    
+                  }
+                  console.log(options[i]['pk_id'])
+                  this.question.option2_value = options[i]['pk_id'];
                 this.question.option2 = options[i]['option_text'];
                 break;
               case 2:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option3_crt_ans = 'checked';
+                    
+                  }
+                  this.question.option3_value = options[i]['pk_id'];
                 this.question.option3 = options[i]['option_text'];
                 break;
               case 3:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option4_crt_ans = 'checked';
+                    
+                  }
+                  this.question.option4_value = options[i]['pk_id'];
                 this.question.option4 = options[i]['option_text'];
                 break;
               default:
@@ -191,11 +207,11 @@ export class EditNewQuestionComponent implements OnInit {
           }
         }
         let qtype = res['q_type']['question_type'];
-      
         switch (qtype) {
+            
           case 'Single Option Selection':
             this.single_option = true;
-            this.question.single_crt_ans = questionData.correct_ans_id;
+            this.question.single_crt_ans = Number(correct_ans_ids_string);
             break;
           case 'Multiple Options Selection':
             this.multiple_option = true;
@@ -211,7 +227,7 @@ export class EditNewQuestionComponent implements OnInit {
             this.audio_clip_free_text = true;
             break;
           case 'Video Clip with Single Option Selection':
-            this.question.single_crt_ans = questionData.correct_ans_id;
+            this.question.single_crt_ans = Number(correct_ans_ids_string);
             this.vidio_single_option = true;
             break;
           case 'Video Clip with Multiple Options Selection':
@@ -222,7 +238,8 @@ export class EditNewQuestionComponent implements OnInit {
             this.video_clicp_free_text = true;
             break;
           case 'Image with Single Option Selection':
-            this.question.single_crt_ans = questionData.correct_ans_id;
+            this.question.single_crt_ans = Number(correct_ans_ids_string);
+            this.fileName = questionData['q_source_value'];
             this.image_single_option = true;
             break;
           case 'Image with Multiple Options Selection':
@@ -266,11 +283,27 @@ export class EditNewQuestionComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.QTypes = res['data']['qtypes'];
+        this.curriculums = res['data']['curriculums_list'];
       }
     });
 
   }
-
+  getTopics(curriculum_id, search){
+    let params = {
+        url: 'get-topics-by-curriculum',
+        curriculum_id: curriculum_id,
+        search: search
+      };
+     this.http.post(params).subscribe((res) => {
+        if (res['error'] == false) {
+            //this.topics.next([]);
+            if(res['data']['topics'].length > 0)
+                this.topics.next(res['data']['topics'].slice());
+                else
+                this.topics.next([]);
+        }
+      });
+  }
   getQBanks() {
     this.QTypes = [];
     let params = {
@@ -346,6 +379,9 @@ export class EditNewQuestionComponent implements OnInit {
 
 
   onCorrectAnsChange(e) {
+      if((this.single_option || this.audio_single_option || this.vidio_single_option || this.image_single_option) && (e.source.value)){
+        this.question.correct_ans_ids = [];
+      }
     if (e.source.checked) {
       this.question.correct_ans_ids.push(e.source.value)
     }
@@ -449,5 +485,13 @@ export class EditNewQuestionComponent implements OnInit {
     });
 
   }
-
+  public changeQUsageType(val){
+    this.question_Qbank = false;
+    if(val == 3){
+      this.question_Qbank = true;
+    }
+    else{
+        this.question.q_bank_ids = []
+    }
+  }
 }
