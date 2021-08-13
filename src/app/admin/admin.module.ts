@@ -66,6 +66,13 @@ import { EditNewQuestionComponent } from './question-management/edit-new-questio
 import { PartnersListComponent } from './partner-management/partners-list/partners-list.component';
 import { ManageUsersComponent } from './user-management/manage-users/manage-users.component';
 import { CreateUserComponent } from './user-management/create-user/create-user.component';
+import { PackageTestimonialsComponent } from './course-package/package-testimonials/package-testimonials.component';
+import { CreateYearComponent } from './manage-years/create-year/create-year.component';
+import { ListYearsComponent } from './manage-years/list-years/list-years.component';
+import { ListSemestersComponent } from './manage-semesters/list-semesters/list-semesters.component';
+import { CreateSemesterComponent } from './manage-semesters/create-semester/create-semester.component';
+import { ListGroupsComponent } from './manage-year-groups/list-groups/list-groups.component';
+import { CreateGroupComponent } from './manage-year-groups/create-group/create-group.component';
 
 const routes: Routes = [
   {
@@ -170,6 +177,21 @@ const routes: Routes = [
       { path: 'manage-users', component: ManageUsersComponent },
       { path: 'create-user', component: CreateUserComponent },
       { path: 'edit-user/:id', component: CreateUserComponent },
+      { path: 'manage-packages-testimonial', component: PackageTestimonialsComponent },
+
+      //Years routes
+      { path: 'create-year', component: CreateYearComponent },
+      { path: 'edit-year/:id', component: CreateYearComponent },
+      { path: 'manage-years', component:  ListYearsComponent},
+      //Semester routes
+      { path: 'create-user', component: CreateSemesterComponent },
+      { path: 'edit-user/:id', component: CreateSemesterComponent },
+      { path: 'manage-semesters', component: ListSemestersComponent },
+      //Year Groups routes
+      { path: 'create-year-group', component: CreateGroupComponent },
+      { path: 'edit-year-group/:id', component: CreateGroupComponent },
+      { path: 'manage-year-groups', component: ListGroupsComponent },
+
     ],
   },
 ];
@@ -216,7 +238,14 @@ const routes: Routes = [
     PartnersListComponent,
     OrderByPipe,
     ManageUsersComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    PackageTestimonialsComponent,
+    CreateYearComponent,
+    ListYearsComponent,
+    ListSemestersComponent,
+    CreateSemesterComponent,
+    ListGroupsComponent,
+    CreateGroupComponent,
   ],
   imports: [
     MaterialModule,

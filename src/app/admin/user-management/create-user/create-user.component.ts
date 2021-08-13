@@ -605,7 +605,7 @@ export class CreateUserComponent implements OnInit {
         return node;
       }
     }).map(x => x[3]);
-    console.log(this.selected_courses);
+    //console.log(this.selected_courses);
     if(this.selected_courses){
       this.courses_div = true;
       this.edit_model_status = false;
@@ -617,7 +617,7 @@ export class CreateUserComponent implements OnInit {
       this.subject_csv = '';
       this.courses_arr = result;
     }
-    console.log(this.subject_csv);
+    //console.log(this.subject_csv);
   }
 
   getCurriculumnHierarchy(){

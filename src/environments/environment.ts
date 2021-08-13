@@ -58,8 +58,13 @@ export const environment = {
   ],
   
 
+<<<<<<< HEAD
+   //apiUrl: 'http://192.10.250.150:8000/api/',
+     apiUrl: 'http://127.0.0.1:8000/api/',
+=======
      apiUrl: 'http://192.10.250.150:8000/api/',
     // apiUrl: 'http://127.0.0.1:8000/api/',
+>>>>>>> 41deeeb816dc42450ea3668de8098f978402b2ea
     //apiUrl: 'https://apiqa.proceum.com/api/',
     firebaseConfig : {
         apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
@@ -68,7 +73,12 @@ export const environment = {
         storageBucket: "proceum-dev-62a30.appspot.com",
         messagingSenderId: "41849089517",
         appId: "1:41849089517:web:daea02011d4e30db528be4"
-      }
+      },
+
+      /* 
+      * Below array used to check domian or subdomian from in app users or partners 
+      */
+      INAPP_DOMAINS_ARRAY: ["localhost","qa","uat","dev"],
 };
 
 /*

@@ -46,6 +46,25 @@
         </li>
       </ul>
     </li>
+    <li routerLinkActive="active" class="hs_sbmnu {{
+      menu_active == 4 || active_route == '/admin/individuals' ? 'active' : ''
+    }}" (click)="activeMenu(4, menu_active)">
+      <div class="sd_mnuhd">
+        <mat-icon>account_balance</mat-icon> Years / Semesters / Groups
+      </div>
+      <ul class="sdmn_sub">
+        <li routerLinkActive="active" routerLink="/admin/manage-years">
+          <mat-icon>manage_accounts</mat-icon> Years
+        </li>
+        <li routerLinkActive="active" routerLink="/admin/manage-semesters">
+          <mat-icon>manage_accounts</mat-icon> Semester
+        </li>
+        <li routerLinkActive="active" routerLink="/admin/manage-year-groups">
+          <mat-icon>manage_accounts</mat-icon> Groups
+        </li>
+      </ul>
+    </li>
+  
     <li (click)="menu_active = 0" routerLinkActive="active" routerLink="/admin/curriculum" [ngClass]="{
         active:
           active_route == '/admin/curriculum' ||
