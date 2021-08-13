@@ -73,7 +73,7 @@ export class CreateNewQuestionComponent implements OnInit {
   QTypes: any;
   QBanks: any;
   question = {
-    curriculum_id:0,
+    curriculum_id:'',
     question_type_id: '',
     q_bank_ids: [],
     question_text: '',
@@ -89,12 +89,12 @@ export class CreateNewQuestionComponent implements OnInit {
     option3: null,
     option4: null,
     correct_ans_ids: [],
-    q_check_type: null
-
+    q_check_type: null,
+    option_array : [1,2,3,4,5,6]
   }
-
   single_option = false;
   multiple_option = false;
+  free_text = false;
   audio_single_option = false;
   audio_multiple_option = false;
   vidio_single_option = false;
@@ -191,6 +191,7 @@ export class CreateNewQuestionComponent implements OnInit {
     
     this.single_option = false;
     this.multiple_option = false;
+    this.free_text = false;
     this.audio_single_option = false;
     this.audio_multiple_option = false;
     this.vidio_single_option = false;
@@ -211,6 +212,9 @@ export class CreateNewQuestionComponent implements OnInit {
         break;
       case 'Multiple Options Selection':
         this.multiple_option = true;
+        break;
+        case 'Freetype Text Input':
+        this.free_text = true;
         break;
       case 'Audio Clip with Single Option Selection':
         this.audio_single_option = true;
@@ -323,9 +327,15 @@ export class CreateNewQuestionComponent implements OnInit {
     }
 
   }
-
+  addOption(index){
+    this.question.option_array.push(this.question.option_array.length);
+  }
+  removeOption(index){console.log(index)
+    this.question.option_array.splice(index, 1);
+    this.question.correct_ans_ids.splice(index+1, 1);
+  }
   createQList() {
-      if(this.question.correct_ans_ids.length == 0){
+      if(this.question.correct_ans_ids.length == 0 && (this.free_text == false && this.audio_clip_free_text  == false && this.video_clicp_free_text == false && this.image_free_text == false)){
           this.toster.error("Please select correct answer", "Error", {closeButton: true});
           return false;
       }
@@ -339,7 +349,7 @@ export class CreateNewQuestionComponent implements OnInit {
     }
     var details = JSON.stringify(this.question);
     formData.append('details', details);
-
+    //formData.append("option_array", JSON.stringify(this.option_array))
     let param = { url: 'qlists/create' };
     this.http.imageUpload(param, formData).subscribe((res) => {
       if (res['error'] == false) {
@@ -360,5 +370,7 @@ export class CreateNewQuestionComponent implements OnInit {
       this.question_Qbank = true;
     }
   }
-
+  public openFileExplor(id){
+    document.getElementById('opt'+id+'Img').click();
+  }
 }

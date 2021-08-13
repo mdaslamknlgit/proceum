@@ -74,7 +74,7 @@
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select name="question_type_id" [(ngModel)]="question.question_type_id"
+                                    <mat-select disabled="true" name="question_type_id" [(ngModel)]="question.question_type_id"
                                         #question_type_id="ngModel" ngModel (selectionChange)="changeQType($event)"
                                         required readonly>
                                         <mat-option value="" disabled>Select question type</mat-option>
@@ -230,8 +230,22 @@
                 <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
                     <div class="hgt_10"></div>
-                    <div class="brnd_info_mn">
-                        Is Correct Answer??
+                    <div class="brnd_info_mn" *ngFor="let option_value of question.option_array;index as option;">
+                        {{option==0?'Is Correct Answer?':''}}
+                        <div class="brnd_info_upld">
+                            <mat-checkbox color="accent" [value]='question["option"+(option+1)+"_value"]' class="mt_14p"
+                                name="option{{option+1}}_crt_ans" #option{{option+1}}_crt_ans="ngModel" [(ngModel)]="question['option'+(option+1)+'_crt_ans']"
+                                (change)="onCorrectAnsChange($event)"></mat-checkbox>
+
+                            <mat-form-field appearance="outline" class="w_90p">
+                                <textarea [(ngModel)]="question['option'+(option+1)]" #option{{option}}="ngModel"
+                                    name="option_{{option+1}}" maxlength="255" matInput placeholder="Enter Option {{option+1}} Text"
+                                    class="crt_prt_txt" required rows="10"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- <div class="brnd_info_mn">
+                        Is Correct Answer?
                         <div class="brnd_info_upld">
                             <mat-checkbox color="accent" [value]='question.option1_value' class="mt_14p"
                                 name="option1_crt_ans" #option1_crt_ans="ngModel" [(ngModel)]="question.option1_crt_ans"
@@ -284,14 +298,27 @@
                             </mat-form-field>
 
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
                     <div class="hgt_10"></div>
                     <mat-radio-group [(ngModel)]="question.single_crt_ans" name="single_crt_ans">
                         Is Correct Answer?
-                        <div class="brnd_info_mn">
+                        <div class="brnd_info_mn" *ngFor="let option_value of question.option_array;index as option;">
+                            <div class="brnd_info_upld">
+                                <mat-radio-button value="{{question['option'+(option+1)+'_value']}}"
+                                    (change)="onCorrectAnsChange($event)">
+                                </mat-radio-button>
+                                <mat-form-field appearance="outline" class="w_90p">
+                                    <textarea [(ngModel)]="question['option'+(option+1)]" name="option{{option+1}}" #option{{option+1}}="ngModel"
+                                        maxlength="255" matInput placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt"
+                                        required rows="10"></textarea>
+
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!-- <div class="brnd_info_mn">
                             <div class="brnd_info_upld">
                                 <mat-radio-button [value]='question.option1_value'
                                     (change)="onCorrectAnsChange($event)">
@@ -342,11 +369,30 @@
 
                                 </mat-form-field>
                             </div>
-                        </div>
+                        </div> -->
                     </mat-radio-group>
                 </div> 
-                <div class="crt_pr_dv isca_mat" *ngIf="image_single_option || image_multiple_option">
-                    <div class="brnd_info_mn">
+                <div class="crt_pr_dv isca_mat" *ngIf="image_single_option || image_multiple_option || audio_single_option || audio_multiple_option || vidio_single_option || video_multiple_option">
+                    <div class="brnd_info_mn" *ngFor="let option_value of question.option_array;index as option;">
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_80p">
+                                <input matInput placeholder="Upload Option {{option+1}} Image" [(ngModel)]="this['opt'+(option+1)+'FileName']"
+                                    id="opt{{option+1}}FileName" name="opt{{option+1}}FileName" />
+                                <mat-hint *ngIf="image_option" class="fl_frmt_info">
+                                    System will accept only jpg, jpeg, bmp, gif, png
+                                </mat-hint>
+                            </mat-form-field>
+                            <button type="button" mat-raised-button (click)="openFileExplor((option+1))"
+                                color="accent" class="float_right mr_1 mt_5px">
+                                <mat-icon>upload</mat-icon>
+                                Browse<input class="w_80p" (change)="onFileChange($event)"
+                                    accept="image/x-png,image/gif,image/jpeg" id="opt1Img" type="file"
+                                    style="display: none" />
+                            </button>
+
+                        </div>
+                    </div>
+                    <!-- <div class="brnd_info_mn">
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_80p">
                                 <input matInput placeholder="Upload Option 1 Image" [(ngModel)]="opt1FileName"
@@ -421,7 +467,7 @@
                             </button>
 
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="hgt_20"></div>
                 <div class="cc_row w_100p">

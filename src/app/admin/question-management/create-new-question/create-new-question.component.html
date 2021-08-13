@@ -21,11 +21,11 @@
                                     <mat-select placeholder="Select Curriculum" name="curriculum_id_name"
                                         [(ngModel)]="question.curriculum_id"
                                         (ngModelChange)="getTopics(question.curriculum_id, '')"
-                                        #curriculum_id_name="ngModel" ngModel required>
+                                        #curriculum_id_name="ngModel" ngModel="curriculum_id_name" required>
                                         <mat-option *ngFor="let value of curriculums" [value]="value['pk_id']">
                                             {{value['curriculumn_name']}}</mat-option>
                                     </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
+                                    <span class="prc_tltp" *ngIf="(question_list_form.submitted || curriculum_id_name.touched) &&
                                     curriculum_id_name.invalid">Curriculum is Required</span>
                                 </mat-form-field>
                             </span>
@@ -48,8 +48,8 @@
                                         <mat-option *ngFor="let value of topics | async" [value]="value['pk_id']">
                                             {{value['level_name']}}</mat-option>
                                     </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
-                                    curriculum_id_name.invalid">Topic is Required</span>
+                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || topic.touched) &&
+                                    topic.invalid">Topic is Required</span>
                                 </mat-form-field>
                             </span>
                         </div>
@@ -98,7 +98,7 @@
                                         <mat-option value="short_answer">Short Question</mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf=" (question_flag.submitted || question_flag.touched) &&
-                                    question_flag.invalid">Question type is Required</span>
+                                    question_flag.invalid">Question Category/Type is Required</span>
                                 </mat-form-field>
                             </span>
                         </div>
@@ -228,7 +228,20 @@
                 <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
                     <div class="hgt_10"></div>
-                    <div class="brnd_info_mn">
+                    <div class="brnd_info_mn" *ngFor="let option_value of question.option_array;index as option">
+                        {{option==0?'Is Correct Answer?':''}}
+                        <div class="brnd_info_upld">
+                            <mat-checkbox color="accent" [value]="option+1" (change)="onCorrectAnsChange($event)"></mat-checkbox>
+                            <mat-form-field appearance="outline" class="w_90p">
+                                <textarea [(ngModel)]="question['option'+(option+1)]" name="option_{{option+1}}" #option_{{option+1}}="ngModel"
+                                    maxlength="255" matInput placeholder="Enter Option {{option+1}} Text"
+                                    class="crt_prt_txt" required></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="brnd_info_mn">
                         Is Correct Answer?
                         <div class="brnd_info_upld">
                             <mat-checkbox color="accent" value="1" (change)="onCorrectAnsChange($event)"></mat-checkbox>
@@ -266,14 +279,33 @@
                                     class="crt_prt_txt" required></textarea>
                             </mat-form-field>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
                     <div class="hgt_10"></div>
                     <mat-radio-group [(ngModel)]="question.correct_ans_ids[0]" name="correct_options">
                         Is Correct Answer?
-                        <div class="brnd_info_mn">
+
+
+                        <div class="brnd_info_mn" *ngFor="let option_value of question.option_array;index as option;">
+                            <div class="brnd_info_upld">
+                                <mat-radio-button [value]="option+1" (change)="onCorrectAnsChange($event)">
+                                </mat-radio-button>
+                                <mat-form-field appearance="outline" class="w_90p">
+                                    <textarea [(ngModel)]="question['option'+(option+1)]" name="option{{option+1}}" #option{{option+1}}="ngModel"
+                                        maxlength="255" matInput placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt"
+                                        required></textarea>
+                                </mat-form-field>
+                            </div>
+                            <button (click)="addOption(option)" *ngIf="question.option_array.length<8" type="button">Add</button>
+                            <button (click)="removeOption(option)" *ngIf="question.option_array.length>2" type="button">Remove</button>
+                        </div>
+
+
+
+
+                        <!-- <div class="brnd_info_mn">
                             <div class="brnd_info_upld">
                                 <mat-radio-button [value]="1" (change)="onCorrectAnsChange($event)">
                                 </mat-radio-button>
@@ -317,12 +349,32 @@
 
                                 </mat-form-field>
                             </div>
-                        </div>
+                        </div> -->
                     </mat-radio-group>
                 </div>
                 <div class="crt_pr_dv w_50p" *ngIf="image_single_option || image_multiple_option">
                     <div class="hgt_10"></div>
-                    <div class="brnd_info_mn" style="margin-top: 20px;">
+                    <div class="brnd_info_mn" style="margin-top: 20px;" *ngFor="let option_value of question.option_array;index as option;">
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_80p">
+
+                                <input matInput placeholder="Upload Option {{option+1}} Image" [(ngModel)]="this['opt'+(option+1)+'FileName']"
+                                    id="opt{{option+1}}FileName" name="opt{{option+1}}FileName" />
+                                <mat-hint *ngIf="image_option" class="fl_frmt_info">
+                                    System will accept only jpg, jpeg, bmp, gif, png
+                                </mat-hint>
+                            </mat-form-field>
+                            <button type="button" mat-raised-button (click)="openFileExplor((option+1))"
+                                color="accent" class="float_right mr_1 mt_5px">
+                                <mat-icon>upload</mat-icon>
+                                Browse<input class="w_80p" (change)="onFileChange($event)"
+                                    accept="image/x-png,image/gif,image/jpeg" id="opt{{option+1}}Img" type="file"
+                                    style="display: none" />
+                            </button>
+
+                        </div>
+                    </div>
+                    <!-- <div class="brnd_info_mn" style="margin-top: 20px;">
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_80p">
 
@@ -397,7 +449,7 @@
                                     style="display: none" />
                             </button>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="hgt_20"></div>
                 <div class="cc_row w_100p">
