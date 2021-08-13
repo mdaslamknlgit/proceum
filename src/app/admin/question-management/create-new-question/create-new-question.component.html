@@ -238,6 +238,8 @@
                                     class="crt_prt_txt" required></textarea>
                             </mat-form-field>
                         </div>
+                        <button (click)="addOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length<8" type="button">Add</button>
+                        <button (click)="removeOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length>2" type="button">Remove</button>
                     </div>
 
 
@@ -298,8 +300,8 @@
                                         required></textarea>
                                 </mat-form-field>
                             </div>
-                            <button (click)="addOption(option)" *ngIf="question.option_array.length<8" type="button">Add</button>
-                            <button (click)="removeOption(option)" *ngIf="question.option_array.length>2" type="button">Remove</button>
+                            <button (click)="addOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length<8" type="button">Add</button>
+                            <button (click)="removeOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length>2" type="button">Remove</button>
                         </div>
 
 
@@ -373,6 +375,8 @@
                             </button>
 
                         </div>
+                        <button (click)="addOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length<8" type="button">Add</button>
+                        <button (click)="removeOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length>2" type="button">Remove</button>
                     </div>
                     <!-- <div class="brnd_info_mn" style="margin-top: 20px;">
                         <div class="brnd_info_upld">

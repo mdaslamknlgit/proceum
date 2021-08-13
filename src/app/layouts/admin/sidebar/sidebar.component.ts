@@ -16,7 +16,8 @@ export class SidebarComponent implements OnInit {
     this.active_route = this.router.url;
     this.router.events.subscribe((ev) => {
         this.user = this.http.getUser();
-        if(this.user.length == 0){
+        console.log(this.router.url)
+        if(this.user.length == 0 && this.router.url != '/login'){
             this.logout();
         }
       if (ev instanceof NavigationEnd) {
@@ -32,17 +33,17 @@ export class SidebarComponent implements OnInit {
         this.http.post(params).subscribe((res) => {
         this.http.removeSession();
         setTimeout(res=>{
-            window.location.reload();
+            window.location.href='/login';
         }, 1000)
-        this.router.navigate(['/login']);
+        //this.router.navigate(['/login']);
         });
       }
       else{
         this.http.removeSession();
         setTimeout(res=>{
-            window.location.reload();
+            window.location.href='/login';
         }, 1000)
-        this.router.navigate(['/login']);
+        //this.router.navigate(['/login']);
       }
   }
   scrollHandler(event) {

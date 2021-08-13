@@ -546,7 +546,7 @@ export class EditNewQuestionComponent implements OnInit {
         this.question.q_bank_ids = []
     }
   }
-  public openFileExplor(id){
+  public openFileExplor(id){console.log(id)
     document.getElementById('opt'+id+'Img').click();
   }
 }

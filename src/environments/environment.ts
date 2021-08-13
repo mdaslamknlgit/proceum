@@ -58,13 +58,8 @@ export const environment = {
   ],
   
 
-<<<<<<< HEAD
-   //apiUrl: 'http://192.10.250.150:8000/api/',
-     apiUrl: 'http://127.0.0.1:8000/api/',
-=======
-     apiUrl: 'http://192.10.250.150:8000/api/',
+   apiUrl: 'http://192.10.250.150:8000/api/',
     // apiUrl: 'http://127.0.0.1:8000/api/',
->>>>>>> 41deeeb816dc42450ea3668de8098f978402b2ea
     //apiUrl: 'https://apiqa.proceum.com/api/',
     firebaseConfig : {
         apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",

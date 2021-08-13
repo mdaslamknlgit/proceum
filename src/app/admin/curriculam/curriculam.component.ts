@@ -128,8 +128,8 @@ export class CurriculamComponent implements OnInit {
         this.toggleModel();
         this.getCurriculums();
       } else {
-        let message = res['errors']['curriculum_name']
-          ? res['errors']['curriculum_name']
+        let message = res['errors']
+          ? res['errors']
           : res['message'];
         this.toster.error(message, 'Error', { closeButton: true });
       }
