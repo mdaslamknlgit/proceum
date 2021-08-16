@@ -19,6 +19,10 @@ export class SidebarReviewerComponent implements OnInit {
       }
     });
   }
+  closeSidebar(){
+    this.http.menu_status = 'sd_cls';
+  }
+  
   scrollHandler(event) {
     const container = document.querySelector('.sd_br');
     sessionStorage.setItem('sidemenu_scroll', '' + container.scrollTop);
@@ -40,3 +44,4 @@ export class SidebarReviewerComponent implements OnInit {
     // }
   }
 }
+

@@ -36,6 +36,10 @@ export class SidemenuComponent implements OnInit {
       }
     });
   }
+
+  closeSidebar(){
+    this.http.menu_status = 'sd_cls';
+  }
   logout() {
     let local_storage = localStorage.getItem('user');
     if(local_storage){

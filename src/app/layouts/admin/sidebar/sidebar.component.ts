@@ -25,8 +25,11 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
+  closeSidebar(){
+    this.http.menu_status = 'sd_cls';
+  }
   logout() {
-      let local_storage = localStorage.getItem('user');
+          let local_storage = localStorage.getItem('user');
       if(local_storage){
         let login_id = JSON.parse(atob(local_storage)).login_id;
         let params = { url: 'logout', login_id: login_id };
@@ -62,3 +65,4 @@ export class SidebarComponent implements OnInit {
     else this.menu_active = 0;
   }
 }
+
