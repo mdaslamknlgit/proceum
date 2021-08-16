@@ -9,8 +9,8 @@
     </div>
     <div class="pg_ttl">Update Question</div>
     <div class="crt_prtnr dsh_brd_crds">
-        <form #question_list_form="ngForm" id="question_list_form" name="question_list_form"
-            (ngSubmit)="question_list_form.valid " novalidate>
+        <form ngNativeValidate #question_list_form="ngForm" id="question_list_form" name="question_list_form"
+            (ngSubmit)="question_list_form.valid && updateQList(question_list_form)" novalidate>
             <div class="crt_pr_mn px-0 bg-0">
                 <div class="crt_pr_dv w_45p rsp_100p">
 
@@ -131,16 +131,15 @@
                         <div class="crt_prt_hd">Add question to QBank <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select QBank" name="qbank" [(ngModel)]="question.q_bank_ids" #qbank="ngModel" ngModel
-                                        multiple required>
-                                        <mat-option value="0">Select question bank(s)</mat-option>
+                                <mat-form-field appearance="outline" class="{{question.q_bank_ids.length==0?'mat-form-field-invalid2':''}}">
+                                    <mat-select placeholder="Select QBank" name="qbank" [(ngModel)]="question.q_bank_ids" #qbank="ngModel" ngModel multiple required>
+                                        <mat-option value="">Select question bank(s)</mat-option>
                                         <mat-option *ngFor="let qbank of QBanks" [value]="qbank.id">{{ qbank.q_bank_type
                                             }}
                                         </mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf=" (qbank.submitted || qbank.touched) &&
-                                qbank.invalid">Question to is Required</span>
+                                    question.q_bank_ids.length==0">Please select question bank(s)</span>
                                 </mat-form-field>
                             </span>
                         </div>
@@ -169,11 +168,10 @@
                         <div class="crt_prt_hd">Video Type <span class="required">*</span></div>
                         <span class="err_tltp_par">
                             <mat-form-field appearance="outline">
-                                <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel
-                                    required>
+                                <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel required="true" (ngModelChange)="validateVideo()">
                                     <mat-option value="">Select topic / subtopic</mat-option>
-                                    <mat-option value="kpoint" selected>KPoint</mat-option>
-                                    <mat-option value="youtube" selected>Youtube</mat-option>
+                                    <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                        {{video_type['name']}}</mat-option>
                                 </mat-select>
                                 <span class="prc_tltp" *ngIf=" (q_source.submitted || q_source.touched) &&
                                 q_source.invalid">Topic is Required</span>
@@ -184,8 +182,8 @@
                         <div class="crt_prt_hd">Video Source <span class="required">*</span></div>
                         <span class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_90p">
-                                <input [(ngModel)]="question.q_source_value" #q_source_value="ngModel"
-                                    name="q_source_value" matInput matInput placeholder="Video ID/Link" required />
+                                <input (blur)="validateVideo()" [(ngModel)]="question.q_source_value" #q_source_value="ngModel"
+                                    name="q_source_value" matInput placeholder="Video ID/Link" required />
                                 <span class="prc_tltp" *ngIf=" (q_source_value.submitted || q_source_value.touched) &&
                                 q_source_value.invalid">Video Source is Required</span>
                             </mat-form-field>
@@ -480,7 +478,7 @@
                             <div class="c_block_content">
                                 <div class="ck_editor cnq_ck">
                                     <ckeditor [(ngModel)]="question.explanation" name="explanation" [editor]="Editor"
-                                        #editor [config]="configEditor" required></ckeditor>
+                                        #editor [config]="configEditor"></ckeditor>
                                 </div>
                             </div>
                         </div>
@@ -488,8 +486,8 @@
                 </div>
                 <div class="hgt_10"></div>
                 <div class="text_right w_100p">
-                    <button class="gry_btn mr_1" mat-raised-button>Cancel</button>
-                    <button color="accent" (click)="updateQList(question_list_form)" mat-raised-button>Submit</button>
+                    <button class="gry_btn mr_1" (click)="navigateTo('questions-mgt/questions-list')" mat-raised-button>Cancel</button>
+                    <button color="accent" mat-raised-button>Submit</button>
                 </div>
             </div>
         </form>

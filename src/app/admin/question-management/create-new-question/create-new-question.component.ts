@@ -11,6 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import { ReplaySubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 interface CurriculumNode {
   id?: number;
@@ -32,7 +33,7 @@ interface CurriculumNode {
 
 
 export class CreateNewQuestionComponent implements OnInit {
-    public video_types = environment.video_types;
+public video_types = environment.video_types;
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -118,15 +119,18 @@ export class CreateNewQuestionComponent implements OnInit {
     opt6FileName: any;
     opt7FileName: any;
     opt8FileName: any;
-
+    user = [];
+  
   constructor(private http: CommonService,
-    private toster: ToastrService
+    private toster: ToastrService,
+    private router: Router,
   ) { }
 
   hasChild = (_: number, node: CurriculumNode) =>
   !!node.children && node.children.length > 0;
   qtype: any;
   ngOnInit(): void {
+    this.user = this.http.getUser();
     this.getQTypes()
     this.getQBanks()
     this.changeQUsageType(1)
@@ -366,6 +370,10 @@ export class CreateNewQuestionComponent implements OnInit {
     }
   }
   createQList() {
+    if(this.question_Qbank && this.question.q_bank_ids.length == 0){
+        this.toster.error("Please select Question bank(s)", "Error", {closeButton: true});
+        return false;
+    }
       if(this.question.correct_ans_ids.length == 0 && (this.free_text == false && this.audio_clip_free_text  == false && this.video_clicp_free_text == false && this.image_free_text == false)){
           this.toster.error("Please select correct answer", "Error", {closeButton: true});
           return false;
@@ -400,8 +408,70 @@ export class CreateNewQuestionComponent implements OnInit {
     if(val == 3){
       this.question_Qbank = true;
     }
+    else{
+        this.question.q_bank_ids = []
+    }
   }
   public openFileExplor(id){
     document.getElementById('opt'+id+'Img').click();
   }
+  navigateTo(url){
+    let user = this.user;
+    if(user['role']== '1'){
+        url = "/admin/"+url;
+    }
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/reviewer/"+url;
+  }
+    this.router.navigateByUrl(url);
+}
+validateVideo(){
+    if(this.question.q_source_value != '' && this.question.q_source == 'KPOINT'){
+        this.validateKpointId(this.question.q_source_value);
+    }
+    if(this.question.q_source_value != '' && this.question.q_source == 'YOUTUBE'){
+        this.validateYouTubeUrl(this.question.q_source_value);
+    }
+}
+validateKpointId(id){
+    if(id.length == 40){
+        let param1 = {"url": "get-kpoint-token"};
+        this.http.post(param1).subscribe(res=>{
+            let xt = res['data']['xt'];
+            let param = {video_id: id, xt:xt, url: "kapsule/"+id+"?xt="+xt};
+            this.http.kpointGet(param).subscribe(res=>{
+                },
+            error => {
+                if(error['error']['error']['code'] == 9003){
+                    this.question.q_source_value = '';
+                    this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
+                }
+                if(error['error']['error']['code'] == 9001){
+                    this.question.q_source_value = '';
+                    this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
+                }
+            }
+            );
+        })
+    }
+    else{
+        this.question.q_source_value = '';
+        this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
+        return false;
+    }
+}
+validateYouTubeUrl(url)
+    {
+        if (url != undefined || url != '') {
+            var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=|\?v=)([^#\&\?]*).*/;
+            var match = url.match(regExp);
+            if (match && match[2].length == 11) {
+                return true;
+            }
+            else {
+                this.question.q_source_value = '';
+                this.toster.error("Invalid Youtube Url", "Error", {closeButton: true,});
+            }
+        }
+    }
 }

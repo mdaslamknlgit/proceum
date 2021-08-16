@@ -136,8 +136,7 @@
                                             }}
                                         </mat-option>
                                     </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (qbank.submitted || qbank.touched) &&
-                                qbank.invalid">Question to is Required</span>
+                                    <span class="prc_tltp" *ngIf=" (qbank.submitted || qbank.touched) && question.q_bank_ids==0">Please select question bank(s)</span>
                                 </mat-form-field>
                             </span>
                         </div>
@@ -166,8 +165,7 @@
                         <div class="crt_prt_hd">Video Type <span class="required">*</span></div>
                         <span class="err_tltp_par">
                             <mat-form-field appearance="outline">
-                                <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel
-                                    required>
+                                <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel required (ngModelChange)="validateVideo()">
                                     <mat-option value="">Select Source</mat-option>
                               <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
                                 {{video_type['name']}}</mat-option>
@@ -182,7 +180,7 @@
                         <span class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_90p">
                                 <input [(ngModel)]="question.q_source_value" #q_source_value="ngModel"
-                                    name="q_source_value" matInput placeholder="Video ID/Link" required />
+                                    name="q_source_value" matInput placeholder="Video ID/Link" required (blur)="validateVideo()" />
                                 <span class="prc_tltp" *ngIf=" (q_source_value.submitted || q_source_value.touched) &&
                                 q_source_value.invalid">Video Source Value is Required</span>
                             </mat-form-field>
@@ -465,7 +463,7 @@
                             <div class="c_block_content mt_1">
                                 <div class="ck_editor cnq_ck">
                                     <ckeditor [(ngModel)]="question.explanation" name="explanation" [editor]="Editor"
-                                        #editor [config]="configEditor" style="height: 500px" required></ckeditor>
+                                        #editor [config]="configEditor" style="height: 500px"></ckeditor>
                                 </div>
                             </div>
                         </div>
@@ -473,7 +471,7 @@
                 </div>
                 <div class="hgt_10"></div>
                 <div class="text_right w_100p">
-                    <button class="gry_btn mr_1" mat-raised-button>Cancel</button>
+                    <button class="gry_btn mr_1" (click)="navigateTo('questions-mgt/questions-list')" mat-raised-button>Cancel</button>
                     <button color="accent" mat-raised-button>Submit</button>
 
                 </div>
