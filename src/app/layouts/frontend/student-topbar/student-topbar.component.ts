@@ -16,10 +16,16 @@ export class StudentTopbarComponent implements OnInit {
     this.user = this.http.getUser();
   }
 
+  // toggleSidemenu(param) {
+  //   this.sidemenu_status =
+  //     this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
+  //   localStorage.setItem('sidemenu', this.sidemenu_status);
+  //   this.http.menu_status = this.sidemenu_status;
+  // }
+
   toggleSidemenu(param) {
     this.sidemenu_status =
-      this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
-    localStorage.setItem('sidemenu', this.sidemenu_status);
+    this.http.menu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
     this.http.menu_status = this.sidemenu_status;
   }
 

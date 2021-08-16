@@ -10,7 +10,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
   styleUrls: ['./admin-topbar.component.scss'],
 })
 export class AdminTopbarComponent implements OnInit {
-  public sidemenu_status: string = localStorage.getItem('sidemenu');
+  public sidemenu_status: string = "sd_cls";
+  // public sidemenu_status: string = localStorage.getItem('sidemenu');
   public user;
   private subscription:Subscription;
   public content_notifications = [];
@@ -22,19 +23,18 @@ export class AdminTopbarComponent implements OnInit {
     this.width = window.innerWidth;
   }
   constructor(private http: CommonService, private route: Router, private fs: FirebaseService) {
-    this.http.menu_status = localStorage.getItem('sidemenu');
+    this.http.menu_status = "sd_cls";
+    // this.http.menu_status = localStorage.getItem('sidemenu');
   }
   ngOnInit(): void {
     this.user = this.http.getUser();
     this.route.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
-        if (this.width < 1024) {
+        // if (this.width < 1024) {
           this.sidemenu_status = this.http.menu_status = 'sd_cls';
-        }
+        // }
       }
-    });
-    
-    
+    });   
   }
   ngAfterViewInit(){
     let param = {path: "content_notifications", role_id: Number(this.user['role'])};
@@ -42,10 +42,17 @@ export class AdminTopbarComponent implements OnInit {
         this.content_notifications = res;
     })
   }
+  // toggleSidemenu(param) {
+  //   this.sidemenu_status =
+  //     this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
+  //   localStorage.setItem('sidemenu', 'sd_cls');
+  //   // localStorage.setItem('sidemenu', this.sidemenu_status);
+  //   this.http.menu_status = this.sidemenu_status;
+  // }
+  
   toggleSidemenu(param) {
     this.sidemenu_status =
-      this.sidemenu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
-    localStorage.setItem('sidemenu', this.sidemenu_status);
+    this.http.menu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
     this.http.menu_status = this.sidemenu_status;
   }
 
