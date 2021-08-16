@@ -61,6 +61,9 @@ export class CreatePartnerComponent implements OnInit {
   public code = '';
   public second_phone = '';
   public college_university : any = '';
+  public is_reseller_account:boolean = false;
+  public sub_domain = '';
+  public sub_domain_err = '';
 
   countrys = [];
   states = [];
@@ -258,13 +261,14 @@ export class CreatePartnerComponent implements OnInit {
   }
   
   validateBrandingInfo(){
-    if(this.description != ""){
+    if(this.description != "" && (this.sub_domain != "" && this.sub_domain != null) && this.sub_domain_err == ''){
       this.licence_info_expand = true;
       this.branding_info_expand = false;
     }
   }
   
   validateLicenceInfo(){
+    console.log(this.is_reseller_account);
     if(this.package_id != 0 && this.licence_start_date != "" && this.licence_end_date != ""){
       this.billing_address_expand = true;
       this.licence_info_expand = false;
@@ -334,6 +338,8 @@ export class CreatePartnerComponent implements OnInit {
       c_city : this.c_city,
       c_pincode : this.c_pincode,
       domain : this.domain,
+      is_reseller_account :this.is_reseller_account,
+      sub_domain :this.sub_domain,
     };
     let params = { url: 'create-partner', form_data: form_data };
     this.http.post(params).subscribe((res) => {
@@ -386,6 +392,8 @@ export class CreatePartnerComponent implements OnInit {
         this.c_state_id = partner.c_state_id ;
         this.c_city = partner.c_city ;
         this.c_pincode = partner.c_pincode ;
+        this.is_reseller_account = partner.is_reseller_account ;
+        this.sub_domain = partner.sub_domain ;
         // if(partner.licence_start_date !== null){
         //   this.licence_start_date = new Date(
         //     partner.licence_start_date
@@ -454,6 +462,23 @@ export class CreatePartnerComponent implements OnInit {
         (university) => university.name.toLowerCase().indexOf(search) > -1
       )
     );
+  }
+
+  checkSubDomainAvailable() {
+    if (this.sub_domain != "") {
+      let param = {
+        url: 'check-subdomain',
+        sub_domain: this.sub_domain,
+        partner_id: this.partner_id,
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.sub_domain_err = '';
+        } else {
+          this.sub_domain_err = res['message'];
+        }
+      });
+    }
   }
 
 }

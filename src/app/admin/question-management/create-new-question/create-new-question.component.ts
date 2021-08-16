@@ -73,7 +73,7 @@ export class CreateNewQuestionComponent implements OnInit {
   QTypes: any;
   QBanks: any;
   question = {
-    curriculum_id:0,
+    curriculum_id:'',
     question_type_id: '',
     q_bank_ids: [],
     question_text: '',
@@ -89,12 +89,12 @@ export class CreateNewQuestionComponent implements OnInit {
     option3: null,
     option4: null,
     correct_ans_ids: [],
-    q_check_type: null
-
+    q_check_type: null,
+    option_array : [1,2,3,4]
   }
-
   single_option = false;
   multiple_option = false;
+  free_text = false;
   audio_single_option = false;
   audio_multiple_option = false;
   vidio_single_option = false;
@@ -114,6 +114,10 @@ export class CreateNewQuestionComponent implements OnInit {
   fileName = '';
 
   myFiles = [];
+    opt5FileName: any;
+    opt6FileName: any;
+    opt7FileName: any;
+    opt8FileName: any;
 
   constructor(private http: CommonService,
     private toster: ToastrService
@@ -191,6 +195,7 @@ export class CreateNewQuestionComponent implements OnInit {
     
     this.single_option = false;
     this.multiple_option = false;
+    this.free_text = false;
     this.audio_single_option = false;
     this.audio_multiple_option = false;
     this.vidio_single_option = false;
@@ -200,7 +205,7 @@ export class CreateNewQuestionComponent implements OnInit {
     this.audio_clip_free_text = false;
     this.video_clicp_free_text = false;
     this.image_free_text = false;
-
+    this.question.correct_ans_ids = [];
     this.question.q_check_type = null;
     let qtype = this.QTypes.find(i => i.id === e.value)['question_type'];
     
@@ -211,6 +216,9 @@ export class CreateNewQuestionComponent implements OnInit {
         break;
       case 'Multiple Options Selection':
         this.multiple_option = true;
+        break;
+        case 'Freetype Text Input':
+        this.free_text = true;
         break;
       case 'Audio Clip with Single Option Selection':
         this.audio_single_option = true;
@@ -253,8 +261,11 @@ export class CreateNewQuestionComponent implements OnInit {
 
 
   onCorrectAnsChange(e) {
+      if(this.single_option || this.vidio_single_option || this.audio_single_option || this.image_single_option){
+        this.question.correct_ans_ids = [];
+      }
     if (e.source.checked) {
-      this.question.correct_ans_ids.push(e.source.value)
+      this.question.correct_ans_ids.push(e.source.value);console.log(this.question.correct_ans_ids)
     }
     if (!e.source.checked) {
       var index = this.question.correct_ans_ids.indexOf(e.source.value);
@@ -304,6 +315,22 @@ export class CreateNewQuestionComponent implements OnInit {
             this.opt4FileName = fileName;
             this.myFiles['opt4Img'] = event.target.files[i];
             break;
+            case 'opt5Img':
+            this.opt5FileName = fileName;
+            this.myFiles['opt5Img'] = event.target.files[i];
+            break;
+            case 'opt6Img':
+            this.opt6FileName = fileName;
+            this.myFiles['opt6Img'] = event.target.files[i];
+            break;
+            case 'opt7Img':
+            this.opt7FileName = fileName;
+            this.myFiles['opt7Img'] = event.target.files[i];
+            break;
+            case 'opt8Img':
+            this.opt8FileName = fileName;
+            this.myFiles['opt8Img'] = event.target.files[i];
+            break;
 
           default:
             console.log("No such file exists!");
@@ -323,9 +350,23 @@ export class CreateNewQuestionComponent implements OnInit {
     }
 
   }
-
+  addOption(index){
+    this.question.option_array.push(this.question.option_array.length);
+  }
+  removeOption(index){
+    this.question.option_array.splice(index, 1);
+    this.question['option'+(index+1)] = '';
+    this['opt'+(index+1)+'FileName'] = '';
+    console.log(this.question.correct_ans_ids, "before");
+    index = this.question.correct_ans_ids.indexOf(index+1);
+    console.log(index, "index")
+    if(index >= 0){
+        this.question.correct_ans_ids.splice(index, 1);
+        console.log(this.question.correct_ans_ids, 'after')
+    }
+  }
   createQList() {
-      if(this.question.correct_ans_ids.length == 0){
+      if(this.question.correct_ans_ids.length == 0 && (this.free_text == false && this.audio_clip_free_text  == false && this.video_clicp_free_text == false && this.image_free_text == false)){
           this.toster.error("Please select correct answer", "Error", {closeButton: true});
           return false;
       }
@@ -339,7 +380,7 @@ export class CreateNewQuestionComponent implements OnInit {
     }
     var details = JSON.stringify(this.question);
     formData.append('details', details);
-
+    //formData.append("option_array", JSON.stringify(this.option_array))
     let param = { url: 'qlists/create' };
     this.http.imageUpload(param, formData).subscribe((res) => {
       if (res['error'] == false) {
@@ -360,5 +401,7 @@ export class CreateNewQuestionComponent implements OnInit {
       this.question_Qbank = true;
     }
   }
-
+  public openFileExplor(id){
+    document.getElementById('opt'+id+'Img').click();
+  }
 }

@@ -74,7 +74,11 @@ firebaseConfig : {
     storageBucket: "proceum-qa-34a1f.appspot.com",
     messagingSenderId: "1050534849110",
     appId: "1:1050534849110:web:942b6b83ec40e05c9669f7"
-  }
+  },
+    /* 
+  * Below array used to check domian or subdomian from in app users or partners 
+  */
+    INAPP_DOMAINS_ARRAY: ["localhost","qa","uat","dev"],
   //uat firebase
 //   firebaseConfig : {
 //     apiKey: "AIzaSyDM_Q8stJkIGWMqZvvGW8MDp0nS8i_zgqg",

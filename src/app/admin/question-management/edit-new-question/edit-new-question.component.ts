@@ -10,6 +10,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { count } from 'rxjs/operators';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-edit-new-question',
@@ -24,9 +25,6 @@ export class EditNewQuestionComponent implements OnInit {
   page_size_options = environment.page_size_options;
 
   public Editor = Editor;
-
-  topics: any = ['KPoint', 'Youtube'];
-
 
   configEditor = {
     Plugins: [],
@@ -59,6 +57,8 @@ export class EditNewQuestionComponent implements OnInit {
   QTypes: any;
   QBanks: any;
   question: any = {
+    questionUsageType:'',
+    curriculum_id:0,
     question_type_id: '',
     q_bank_ids: [],
     question_text: '',
@@ -84,14 +84,15 @@ export class EditNewQuestionComponent implements OnInit {
 
 
 
-    correct_ans_ids: []
-
+    correct_ans_ids: [],
+    option_array : []
   }
   q_type = '';
   public current_path = 'qlist';
 
   single_option = false;
   multiple_option = false;
+  free_text = false;
   audio_single_option = false;
   audio_multiple_option = false;
   vidio_single_option = false;
@@ -110,6 +111,12 @@ export class EditNewQuestionComponent implements OnInit {
   fileName = '';
 
   myFiles = [];
+    curriculums: any;
+    public topics: ReplaySubject<any> = new ReplaySubject<any>(1);
+    opt5FileName: any;
+    opt6FileName: any;
+    opt7FileName: any;
+    opt8FileName: any;
 
   constructor(private http: CommonService,
     private toster: ToastrService,
@@ -135,7 +142,14 @@ export class EditNewQuestionComponent implements OnInit {
       
         let options = res['q_options'];
         let questionData = res['question'];
-       // this.question.question_type_id = res['q_type'];
+        this.question.curriculum_id = Number(questionData['curriculum_id']);
+        if(this.question.curriculum_id > 0){
+            this.getTopics(this.question.curriculum_id, '');
+        }
+        this.question.questionUsageType = Number(questionData['question_for']);
+        if(this.question.questionUsageType == 3){
+            this.question_Qbank = true;
+        }
         this.question.q_bank_ids = Array.from(questionData.q_bank_ids.split(","), Number);
         this.question.question_text = questionData.question_text;
         this.question.topic = questionData.topic;
@@ -153,31 +167,9 @@ export class EditNewQuestionComponent implements OnInit {
         this.question.correct_ans_ids = correct_ans_ids;
         this.question.q_source = questionData.q_source;
         this.question.q_source_value = questionData.q_source_value;
-      
-        // if (correct_ans_ids.length > 0) {
-        //   for (var i = 0; correct_ans_ids.length > i; i++) {
-        //     var value = correct_ans_ids[i];
-        //     switch (value) {
-        //       case "1":
-        //         this.question.option1_crt_ans = 'checked';
-        //         break;
-        //       case "2":
-        //         this.question.option2_crt_ans = 'checked';
-        //         break;
-        //       case "3":
-        //         this.question.option3_crt_ans = 'checked';
-        //         break;
-        //       case "4":
-        //         this.question.option4_crt_ans = 'checked';
-        //         break;
-        //       default:
-        //         console.log("No such type exists!");
-        //         break;
-        //     }
-          
-        //   }
-        // }
-
+        for(let i=1;i<=options.length; i++){
+            this.question.option_array.push(i);
+        }
         if (options.length > 0) {
             console.log(correct_ans_ids);
           for (var i = 0; options.length > i; i++) {
@@ -188,6 +180,7 @@ export class EditNewQuestionComponent implements OnInit {
                     
                   }
                   this.question.option1_value = options[i]['pk_id'];
+                this.opt1FileName = options[i]['option_image'];
                 this.question.option1 = options[i]['option_text'];
                 break;
               case 1:
@@ -195,25 +188,57 @@ export class EditNewQuestionComponent implements OnInit {
                     this.question.option2_crt_ans = 'checked';
                     
                   }
-                  console.log(options[i]['pk_id'])
+                  this.opt2FileName = options[i]['option_image'];
                   this.question.option2_value = options[i]['pk_id'];
                 this.question.option2 = options[i]['option_text'];
                 break;
               case 2:
                 if(correct_ans_ids.includes(options[i]['pk_id'])){
                     this.question.option3_crt_ans = 'checked';
-                    
                   }
-                  this.question.option3_value = options[i]['pk_id'];
+                this.opt3FileName = options[i]['option_image'];
+                this.question.option3_value = options[i]['pk_id'];
                 this.question.option3 = options[i]['option_text'];
                 break;
               case 3:
                 if(correct_ans_ids.includes(options[i]['pk_id'])){
                     this.question.option4_crt_ans = 'checked';
-                    
-                  }
+                }
+                this.opt4FileName = options[i]['option_image'];
                   this.question.option4_value = options[i]['pk_id'];
                 this.question.option4 = options[i]['option_text'];
+                break;
+                case 4:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option5_crt_ans = 'checked';
+                }
+                this.opt5FileName = options[i]['option_image'];
+                  this.question.option5_value = options[i]['pk_id'];
+                this.question.option5 = options[i]['option_text'];
+                break;
+                case 5:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option6_crt_ans = 'checked';
+                }
+                this.opt6FileName = options[i]['option_image'];
+                  this.question.option6_value = options[i]['pk_id'];
+                this.question.option6 = options[i]['option_text'];
+                break;
+                case 6:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option7_crt_ans = 'checked';
+                }
+                this.opt7FileName = options[i]['option_image'];
+                  this.question.option7_value = options[i]['pk_id'];
+                this.question.option7 = options[i]['option_text'];
+                break;
+                case 7:
+                if(correct_ans_ids.includes(options[i]['pk_id'])){
+                    this.question.option8_crt_ans = 'checked';
+                }
+                this.opt8FileName = options[i]['option_image'];
+                  this.question.option8_value = options[i]['pk_id'];
+                this.question.option8 = options[i]['option_text'];
                 break;
               default:
                 console.log("No such type exists!");
@@ -227,23 +252,28 @@ export class EditNewQuestionComponent implements OnInit {
             
           case 'Single Option Selection':
             this.single_option = true;
-            this.question.single_crt_ans = Number(correct_ans_ids_string);
+            this.question.single_crt_ans = correct_ans_ids_string;
             break;
           case 'Multiple Options Selection':
             this.multiple_option = true;
             break;
+        case 'Freetype Text Input':
+            this.free_text = true;
+            break;
           case 'Audio Clip with Single Option Selection':
-            this.question.single_crt_ans = questionData.correct_ans_id;
+            this.fileName = questionData['q_source_value'];
+            this.question.single_crt_ans = correct_ans_ids_string;
             this.audio_single_option = true;
             break;
           case 'Audio Clip with Multiple Options Selection':
             this.audio_multiple_option = true;
+            this.fileName = questionData['q_source_value'];
             break;
           case 'Audio Clip with Freetype Text Input':
             this.audio_clip_free_text = true;
             break;
           case 'Video Clip with Single Option Selection':
-            this.question.single_crt_ans = Number(correct_ans_ids_string);
+            this.question.single_crt_ans = correct_ans_ids_string;
             this.vidio_single_option = true;
             break;
           case 'Video Clip with Multiple Options Selection':
@@ -254,11 +284,12 @@ export class EditNewQuestionComponent implements OnInit {
             this.video_clicp_free_text = true;
             break;
           case 'Image with Single Option Selection':
-            this.question.single_crt_ans = Number(correct_ans_ids_string);
+            this.question.single_crt_ans = correct_ans_ids_string;
             this.fileName = questionData['q_source_value'];
             this.image_single_option = true;
             break;
           case 'Image with Multiple Options Selection':
+            this.fileName = questionData['q_source_value'];
             this.image_multiple_option = true;
             break;
           case 'Image with Freetype Text Input':
@@ -299,11 +330,27 @@ export class EditNewQuestionComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.QTypes = res['data']['qtypes'];
+        this.curriculums = res['data']['curriculums_list'];
       }
     });
 
   }
-
+  getTopics(curriculum_id, search){
+    let params = {
+        url: 'get-topics-by-curriculum',
+        curriculum_id: curriculum_id,
+        search: search
+      };
+     this.http.post(params).subscribe((res) => {
+        if (res['error'] == false) {
+            //this.topics.next([]);
+            if(res['data']['topics'].length > 0)
+                this.topics.next(res['data']['topics'].slice());
+                else
+                this.topics.next([]);
+        }
+      });
+  }
   getQBanks() {
     this.QTypes = [];
     let params = {
@@ -322,6 +369,7 @@ export class EditNewQuestionComponent implements OnInit {
    
     this.single_option = false;
     this.multiple_option = false;
+    this.free_text = false;
     this.audio_single_option = false;
     this.audio_multiple_option = false;
     this.vidio_single_option = false;
@@ -341,6 +389,9 @@ export class EditNewQuestionComponent implements OnInit {
         break;
       case 'Multiple Options Selection':
         this.multiple_option = true;
+        break;
+        case 'Freetype Text Input':
+        this.free_text = true;
         break;
       case 'Audio Clip with Single Option Selection':
         this.audio_single_option = true;
@@ -379,6 +430,7 @@ export class EditNewQuestionComponent implements OnInit {
 
 
   onCorrectAnsChange(e) {
+      console.log(e.source.value)
       if((this.single_option || this.audio_single_option || this.vidio_single_option || this.image_single_option) && (e.source.value)){
         this.question.correct_ans_ids = [];
       }
@@ -485,5 +537,16 @@ export class EditNewQuestionComponent implements OnInit {
     });
 
   }
-
+  public changeQUsageType(val){
+    this.question_Qbank = false;
+    if(val == 3){
+      this.question_Qbank = true;
+    }
+    else{
+        this.question.q_bank_ids = []
+    }
+  }
+  public openFileExplor(id){console.log(id)
+    document.getElementById('opt'+id+'Img').click();
+  }
 }
