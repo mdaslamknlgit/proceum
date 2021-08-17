@@ -165,7 +165,7 @@
                         <div class="crt_prt_hd">Video Type <span class="required">*</span></div>
                         <span class="err_tltp_par">
                             <mat-form-field appearance="outline">
-                                <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel required (ngModelChange)="validateVideo()">
+                                <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel required (ngModelChange)="question.q_source_value='';validateVideo()">
                                     <mat-option value="">Select Source</mat-option>
                               <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
                                 {{video_type['name']}}</mat-option>
@@ -216,7 +216,7 @@
                                 color="accent" class="float_right mr_1 mt_5px">
                                 <mat-icon>upload</mat-icon>
                                 Browse<input class="w_80p" (change)="onFileChange($event)"
-                                    accept="image/x-png,image/gif,image/jpeg" id="file" type="file"
+                                    accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg':'video/mp4,.mp3'}}" id="file" type="file"
                                     style="display: none" />
                             </button>
                         </div>
@@ -359,7 +359,7 @@
                             <mat-form-field appearance="outline" class="w_80p">
 
                                 <input matInput placeholder="Upload Option {{option+1}} Image" [(ngModel)]="this['opt'+(option+1)+'FileName']"
-                                    id="opt{{option+1}}FileName" name="opt{{option+1}}FileName" />
+                                    id="opt{{option+1}}FileName" name="opt{{option+1}}FileName" readonly />
                                 <mat-hint *ngIf="image_option" class="fl_frmt_info">
                                     System will accept only jpg, jpeg, bmp, gif, png
                                 </mat-hint>

@@ -50,14 +50,12 @@ export class EditNewQuestionComponent implements OnInit {
     },
     language: 'en',
   };
-
-
-  is_loaded = true
-  question_id = null;
-  public question_Qbank = false;
-  QTypes: any;
-  QBanks: any;
-  question: any = {
+    is_loaded = true
+    question_id = null;
+    public question_Qbank = false;
+    QTypes: any;
+    QBanks: any;
+    question: any = {
     questionUsageType:'',
     curriculum_id:0,
     question_type_id: '',
@@ -72,7 +70,6 @@ export class EditNewQuestionComponent implements OnInit {
     option2: null,
     option3: null,
     option4: null,
-
     option1_crt_ans: '',
     option2_crt_ans: '',
     option3_crt_ans: '',
@@ -82,9 +79,6 @@ export class EditNewQuestionComponent implements OnInit {
     option2_value: '',
     option3_value: '',
     option4_value: '',
-
-
-
     correct_ans_ids: [],
     option_array : []
   }

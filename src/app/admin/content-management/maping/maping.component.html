@@ -111,6 +111,13 @@
                 applyFilters(value['level_number']);
                 getLevels(value['level_number'])
               ">
+              <mat-option>
+                <ngx-mat-select-search [noEntriesFoundLabel]="'No'+ ucFirst(value['display_label'])+' found'"
+                                                name="search_topic" ngModel
+                                                (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                                [placeholderLabel]="'Search'+ucFirst(value['display_label'])">Select {{ucFirst(value['display_label'])}}
+                                            </ngx-mat-select-search>
+                                        </mat-option>
               <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
                 [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
             </mat-select>
