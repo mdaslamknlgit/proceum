@@ -55,7 +55,8 @@ export class Loader {
             this.route.navigateByUrl('/login');
           }
           if (err.status == 400) {
-            this.toster.error(err.error, 'Error', { closeButton: true });
+              if(err.error.error != undefined && err.error.error.code != '9001')
+                this.toster.error(JSON.stringify(err.error), 'Error', { closeButton: true });
           }
           if (err.status == 500 || err.status == 405) {
             this.toster.error(err.error['message'], 'Error', {
