@@ -204,6 +204,11 @@
                     <div class="hgt_10"></div>
                     <div class="brnd_info_mn">
                         <div class="brnd_info_upld">
+                            <div class="ql_img_thmb">
+                                <img *ngIf="fileName && !imageSrc['file']" [src]="bucket_url+this['fileName']">
+                                <img *ngIf="fileName && imageSrc['file']" [src]="imageSrc['file']">
+                                <mat-icon *ngIf="!fileName">photo</mat-icon>
+                            </div>
                             <mat-form-field appearance="outline" class="w_80p">
                                 <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
                                     name="fileName" readonly />
@@ -273,12 +278,14 @@
                             </mat-radio-group>
                         </div>
                         <div class="ql_ca_mn"
-                            *ngIf="image_single_option || image_multiple_option || audio_single_option || audio_multiple_option || vidio_single_option || video_multiple_option">
-
+                            *ngIf="image_single_option || image_multiple_option">
+                            
                             <div class="brnd_info_mn"
                                 *ngFor="let option_value of question.option_array;index as option;">
                                 <div class="ql_img_thmb">
-                                    <mat-icon>photo</mat-icon>
+                                    <img *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']" [src]="bucket_url+this['opt'+(option+1)+'FileName']">
+                                    <img *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']" [src]="imageSrc['opt'+(option+1)+'Img']">
+                                    <mat-icon *ngIf="!this['opt'+(option+1)+'FileName']">photo</mat-icon>
                                 </div>
                                 <div class="brnd_info_upld">
                                     <mat-form-field appearance="outline" class="w_80p">

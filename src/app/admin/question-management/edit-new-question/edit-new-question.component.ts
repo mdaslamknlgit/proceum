@@ -113,6 +113,8 @@ export class EditNewQuestionComponent implements OnInit {
     opt7FileName: any;
     opt8FileName: any;
     user = [];
+    public bucket_url = '';
+    imageSrc = {};
   constructor(private http: CommonService,private router: Router,
     private toster: ToastrService,
     private activeRoute: ActivatedRoute,
@@ -135,7 +137,7 @@ export class EditNewQuestionComponent implements OnInit {
     };
     this.http.get(param).subscribe((res) => {
       if (res['error'] == false) {
-      
+        this.bucket_url = res['bucket_url'];
         let options = res['q_options'];
         let questionData = res['question'];
         this.question.curriculum_id = Number(questionData['curriculum_id']);
@@ -463,8 +465,24 @@ export class EditNewQuestionComponent implements OnInit {
     for (var i = 0; i < event.target.files.length; i++) {
       let ext = files[i].name.split('.').pop().toLowerCase();
       if (allowed_types.includes(ext)) {
+        let size = files[i].size;
+        size = Math.round(size / 1024);
+        if(size > environment.file_upload_size){
+            this.toster.error(
+                ext +
+                  ' Size of file (' +
+                  files[i].name +
+                  ') is too large max allowed size 2mb'
+              );
+              return false;
+        }
         let fileId = event.target.id;
         let fileName = event.target.files[i]['name'];
+        const reader = new FileReader();
+        reader.readAsDataURL(files[0]); 
+        reader.onload = (event) => { 
+            this.imageSrc[fileId] = reader.result;
+        }
         switch (fileId) {
           case 'file':
             this.myFiles.splice(this.myFiles.indexOf("file"), 1);
@@ -488,6 +506,22 @@ export class EditNewQuestionComponent implements OnInit {
             this.opt4FileName = fileName;
             this.myFiles['opt4Img'] = event.target.files[i];
             break;
+            case 'opt5Img':
+            this.opt5FileName = fileName;
+            this.myFiles['opt5Img'] = event.target.files[i];
+            break;
+            case 'opt6Img':
+            this.opt6FileName = fileName;
+            this.myFiles['opt6Img'] = event.target.files[i];
+            break;
+            case 'opt7Img':
+            this.opt7FileName = fileName;
+            this.myFiles['opt7Img'] = event.target.files[i];
+            break;
+            case 'opt8Img':
+            this.opt8FileName = fileName;
+            this.myFiles['opt8Img'] = event.target.files[i];
+            break;
 
           default:
             console.log("No such type exists!");
@@ -507,8 +541,7 @@ export class EditNewQuestionComponent implements OnInit {
     }
 
   }
-
-  updateQList(q_data) {
+   updateQList(q_data) {
       if(this.question_Qbank && this.question.q_bank_ids.length == 0){
         this.toster.error("Please select Question bank(s)", "Error", {closeButton: true});
           return false;

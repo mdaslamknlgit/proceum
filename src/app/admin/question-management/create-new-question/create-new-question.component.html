@@ -73,15 +73,15 @@
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Question Type" name="qtype"
-                                        [(ngModel)]="question.question_type_id" #qtype="ngModel" ngModel
+                                    <mat-select placeholder="Select Question Type" name="qtype_name"
+                                        [(ngModel)]="question.question_type_id" #qtype_name="ngModel" ngModel
                                         (selectionChange)="changeQType($event)" required>
                                         <mat-option *ngFor="let qtype of QTypes" [value]="qtype.id">
                                             {{qtype.question_type}}
                                         </mat-option>
                                     </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (qtype.submitted || qtype.touched) &&
-                                qtype.invalid">Question type is Required</span>
+                                    <span class="prc_tltp" *ngIf=" (qtype_name.submitted || qtype_name.touched) &&
+                                    qtype_name.invalid">Question type is Required</span>
                                 </mat-form-field>
                             </span>
                         </div>
@@ -152,9 +152,14 @@
                                 <label for="question-text"> Question Text <span class="required">*</span></label>
                             </div>
                             <div class="c_block_content mt_1">
-                                <div class="ck_editor cnq_ck">
+                                <div class="ck_editor err_tltp_par cnq_ck">
                                     <ckeditor [(ngModel)]="question.question_text" name="title" [editor]="Editor"
                                         #editor [config]="configEditor" style="height: 100px" required></ckeditor>
+                                        <span
+                class="prc_tltp"
+                *ngIf="question_list_form.submitted && question.question_text.trim()==''"
+                >Question Text is required</span
+              >
                                 </div>
                             </div>
                         </div>
@@ -202,8 +207,9 @@
 
                     <div class="brnd_info_mn">
                         <div class="brnd_info_upld">
-                            <div class="ql_img_thmb">
-                                <mat-icon>graphic_eq</mat-icon>
+                            <div class="ql_img_thmb" *ngIf="image_single_option||image_multiple_option">
+                                <img *ngIf="imageSrc['file']" [src]="imageSrc['file']">
+                                <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon>
                             </div>
                             <mat-form-field appearance="outline" class="w_80p">
                                 <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
@@ -368,8 +374,9 @@
                         <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
                             <div class="brnd_info_mn"
                                 *ngFor="let option_value of question.option_array;index as option;">
-                                <div class="ql_img_thmb">
-                                    <mat-icon>photo</mat-icon>
+                                 <div class="ql_img_thmb">
+                                    <img *ngIf="imageSrc['opt'+(option+1)+'Img']" [src]="imageSrc['opt'+(option+1)+'Img']">
+                                    <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
                                 </div>
                                 <div class="brnd_info_upld">
                                     <mat-form-field appearance="outline" class="">
@@ -388,7 +395,14 @@
                                             type="file" style="display: none" />
                                     </button>
                                 </div>
-                               
+                                <div class="text_right w_100p">
+                                    <button (click)="addOption(option)"
+                                        *ngIf="question.option_array.length == (option+1) && question.option_array.length<8"
+                                        mat-raised-button type="button" class="mr_1" color="accent">Add</button>
+                                    <button (click)="removeOption(option)"
+                                        *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
+                                        type="button" mat-raised-button color="warn">Remove</button>
+                                </div>
                             </div>
                         </div>
                     </div>

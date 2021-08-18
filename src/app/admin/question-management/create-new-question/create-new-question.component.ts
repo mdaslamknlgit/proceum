@@ -69,8 +69,8 @@ public video_types = environment.video_types;
     language: 'en',
   };
 
-  is_loaded = true
-
+  is_loaded = true;
+  imageSrc = {};
   QTypes: any;
   QBanks: any;
   question = {
@@ -294,8 +294,24 @@ public video_types = environment.video_types;
     for (var i = 0; i < event.target.files.length; i++) {
       let ext = files[i].name.split('.').pop().toLowerCase();
       if (allowed_types.includes(ext)) {
+        let size = files[i].size;
+        size = Math.round(size / 1024);
+        if(size > environment.file_upload_size){
+            this.toster.error(
+                ext +
+                  ' Size of file (' +
+                  files[i].name +
+                  ') is too large max allowed size 2mb'
+              );
+              return false;
+        }
         let fileId = event.target.id;
         let fileName = event.target.files[i]['name'];
+        const reader = new FileReader();
+        reader.readAsDataURL(files[0]); 
+        reader.onload = (event) => { 
+            this.imageSrc[fileId] = reader.result;
+        }
         switch (fileId) {
           case 'file':
             this.myFiles.splice(this.myFiles.indexOf("file"), 1);
