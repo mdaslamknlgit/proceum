@@ -27,7 +27,7 @@ export class QuestionsManagementComponent implements OnInit {
     public dataSource = new MatTableDataSource();
     public page_size_options = environment.page_size_options;
     public is_loaded = false;
-    public filter_array = {question_flag:'', question_bank:'', curriculum_id:0, level_id:0};
+    public filter_array = {question_flag:'', question_usage:0, question_bank:'', curriculum_id:0, level_id:0};
     public search_box = '';
     public slected_content_ids = [];
     public page = 0;
