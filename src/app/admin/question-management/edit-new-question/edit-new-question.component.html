@@ -221,7 +221,7 @@
                                 color="accent" class="float_right mr_1 mt_5px">
                                 <mat-icon>upload</mat-icon>
                                 Browse<input class="w_80p" (change)="onFileChange($event)"
-                                    accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg':'.mp3'}}"
+                                    accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg, image/bmp':'.mp3'}}"
                                     id="file" type="file" style="display: none" />
                             </button>
 
@@ -275,12 +275,13 @@
                         <div class="ql_ca_mn"
                             *ngIf="image_single_option || image_multiple_option || audio_single_option || audio_multiple_option || vidio_single_option || video_multiple_option">
 
-                            <div class="brnd_info_mn" *ngFor="let option_value of question.option_array;index as option;">
+                            <div class="brnd_info_mn"
+                                *ngFor="let option_value of question.option_array;index as option;">
                                 <div class="ql_img_thmb">
                                     <mat-icon>photo</mat-icon>
                                 </div>
                                 <div class="brnd_info_upld">
-                                    <mat-form-field appearance="outline" class="">
+                                    <mat-form-field appearance="outline" class="w_80p">
                                         <input matInput placeholder="Upload Option {{option+1}} Image"
                                             [(ngModel)]="this['opt'+(option+1)+'FileName']" id="opt{{option+1}}FileName"
                                             name="opt{{option+1}}FileName" readonly />
@@ -289,13 +290,12 @@
                                         </mat-hint>
                                     </mat-form-field>
                                     <button type="button" mat-raised-button (click)="openFileExplor((option+1))"
-                                        color="accent" class="float_right">
+                                        color="accent" class="float_right mr_1 mt_5px">
                                         <mat-icon>upload</mat-icon>
                                         Browse<input class="w_80p" (change)="onFileChange($event)"
-                                            accept="image/x-png,image/gif,image/jpeg" id="opt{{option+1}}Img"
+                                            accept="image/x-png,image/gif,image/jpeg,image/bmp" id="opt{{option+1}}Img"
                                             type="file" style="display: none" />
                                     </button>
-
                                 </div>
                             </div>
 
