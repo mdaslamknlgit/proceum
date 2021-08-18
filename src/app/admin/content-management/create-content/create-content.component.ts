@@ -1353,6 +1353,16 @@ export class CreateContentComponent implements OnInit {
   }
     this.router.navigateByUrl(url);
 }
+getNavigateTo(url){
+    let user = this.user;
+    if(user['role']== '1'){
+        url = "/admin/"+url;
+    }
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/reviewer/"+url;
+  }
+    return url;
+}
     publishContent(){
         this.publsh_content = true;
         this.createContent(false);

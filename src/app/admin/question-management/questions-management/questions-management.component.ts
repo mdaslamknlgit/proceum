@@ -82,6 +82,7 @@ export class QuestionsManagementComponent implements OnInit {
         this.level_options = [];
         this.all_level_options = [];
         this.selected_level = [];
+        this.filter_array.level_id=0;
         let param = {
             url: 'get-curriculum-labels',
             curriculum_id: this.filter_array.curriculum_id,
@@ -89,7 +90,6 @@ export class QuestionsManagementComponent implements OnInit {
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
             let data = res['data'];
-            //let length = this.level_options.length;
             this.level_options[1] = data['level_1'];
             this.all_level_options[1] = data['level_1'];
             this.curriculum_labels = data['curriculum_labels'];
@@ -138,15 +138,18 @@ export class QuestionsManagementComponent implements OnInit {
     public getServerData(event?: PageEvent) {
         this.pageSize = event.pageSize;
         this.page = (event.pageSize * event.pageIndex);
-        this.applyFilters();
+        let params={url:'qlists/index',"offset": this.page, "limit": this.pageSize,"search_key": this.search_key,"filter_array": this.filter_array, "selected_level": this.selected_level};
+        this.http.post(params).subscribe((res: Response) => {
+            this.dataSource = new MatTableDataSource(res['data']['qlists']);
+            this.questions_count =  res['questions_count'];
+        });
         
     }
     changeQSource(){
         this.applyFilters();
     }
     applyFilters(){
-        console.log(this.filter_array)
-        let params={url:'qlists/index',"offset": this.page, "limit": this.pageSize,"search_key": this.search_key,"filter_array": this.filter_array, "selected_level": this.selected_level};
+        let params={url:'qlists/index',"offset": 0, "limit": this.pageSize,"search_key": this.search_key,"filter_array": this.filter_array, "selected_level": this.selected_level};
         this.http.post(params).subscribe((res: Response) => {
         this.dataSource = new MatTableDataSource(res['data']['qlists']);
         this.questions_count =  res['questions_count'];
