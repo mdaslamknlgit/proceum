@@ -46,6 +46,7 @@ export class MapingComponent implements OnInit {
   public curriculum_labels = [];
   public curriculum_id = 1;
   public level_options = [];
+  public all_level_options = [];
   public selected_level = [];
   public link_to_string = '';
   public current_level_id = 0;
@@ -84,7 +85,9 @@ export class MapingComponent implements OnInit {
         this.stepsDataSource.sort = this.sort;
         this.selected_level = [];
         this.level_options = [];
+        this.all_level_options = [];
         this.level_options[1] = data['level_1'];
+        this.all_level_options[1] = data['level_1'];
       }
     });
   }
@@ -115,7 +118,9 @@ export class MapingComponent implements OnInit {
           this.stepsDisplayedColumns.push('actions');
           this.selected_level = [];
           this.level_options = [];
+          this.all_level_options = [];
           this.level_options[1] = data['level_1'];
+          this.all_level_options[1] = data['level_1'];
         }
         this.totalSize = res['total_records'];
       }
@@ -148,7 +153,9 @@ export class MapingComponent implements OnInit {
             this.stepsDisplayedColumns.push('actions');
             this.selected_level = [];
             this.level_options = [];
+            this.all_level_options = [];
             this.level_options[1] = data['level_1'];
+            this.all_level_options[1] = data['level_1'];
           }
           this.totalSize = res['total_records'];
         }
@@ -170,12 +177,23 @@ export class MapingComponent implements OnInit {
       if (res['error'] == false) {
         let data = res['data'];
         this.level_options[level_id + 1] = data['steps'];
+        this.all_level_options[level_id + 1] = data['steps'];
         this.level_options.forEach((opt, index) => {
           if (index > level_id + 1) this.level_options[index] = [];
         });
+        //aded with out test here
+        this.selected_level.forEach((opt, index) => {
+            if (index > level_id) this.selected_level[index] = 0;
+          });
       }
     });
   }
+  searchLevelByName(search,level){
+    let options = this.all_level_options[level];
+  this.level_options[level] = options.filter(
+      item => item.level_name.toLowerCase().includes(search.toLowerCase())
+    );
+}
   openModal(element) {
     let string = element['concat_names'];
     let string_to_arr = string.split('|');

@@ -3,19 +3,60 @@
     <span>Question Management</span>
   </div>
   <div class="pg_ttl">Question Management</div>
-  <div class="qm_srchhd">
+  <!-- <div class="qm_srchhd">
     Search
-  </div>
+  </div> -->
   <div class="qm_srch d-flex ">
+    <div *ngIf="curriculum_list != undefined" class="cm_fltr_sc mr_1">
+        <span>Select Course</span>
+        <div class="clear_fix"></div>
+        <mat-form-field appearance="outline">
+          <mat-select [(ngModel)]="filter_array.curriculum_id" (ngModelChange)="getLabels()">
+              <mat-option [value]="0">Select Curriculum</mat-option>
+            <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']" [matTooltip]="value['curriculumn_name']" >{{ value["curriculumn_name"] }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+          <div>
+            <span>{{ ucFirst(value["display_label"]) }}</span>
+            <div class="clear_fix"></div>
+            <mat-form-field appearance="outline">
+              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                <mat-option>
+                <ngx-mat-select-search [noEntriesFoundLabel]="'No'+ ucFirst(value['display_label'])+' found'"
+                                                name="search_topic" ngModel
+                                                (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                                [placeholderLabel]="'Search'+ucFirst(value['display_label'])">Select {{ucFirst(value['display_label'])}}
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                  [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
     <div class="mr_1">
-      <mat-form-field appearance="outline" color="accent">
-        <mat-select [(ngModel)]="search_source" (selectionChange)="changeQSource($event)" name="search_source"
-          #searchsource="ngModel">
-          <mat-option value="" selected>Select video type</mat-option>
-          <mat-option value="kpoint" selected>KPoint</mat-option>
-          <mat-option value="youtube" selected>Youtube</mat-option>
-        </mat-select>
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-select placeholder="Select Question Category" [(ngModel)]="filter_array['question_flag']" (ngModelChange)="changeQSource()" name="question_flag" #question_flag="ngModel" ngModel>
+                <mat-option value="">Select Question Category{{filter_array['question_flag']}}</mat-option>
+                <mat-option value="mcq">MCQ</mat-option>
+                <mat-option value="case">Case based Question</mat-option>
+                <mat-option value="short_answer">Short Question</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="mr_1">
+        <mat-form-field appearance="outline">
+            <mat-select placeholder="Select Question Bank" [(ngModel)]="filter_array['question_bank']" (selectionChange)="changeQSource()" name="question_bank" #question_bank="ngModel" ngModel>
+                <mat-option value="">Select QBank</mat-option>
+                <mat-option value="mcq" *ngFor="let value of q_banks" [value]="value['id']">{{value['q_bank_type']}}</mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
     <div class="w_100p mr_1">
       <mat-form-field appearance="outline" class="w_100p">
@@ -49,16 +90,16 @@
     </ng-container>
 
     <!-- Weight Column -->
-    <ng-container matColumnDef="question_type">
+    <!-- <ng-container matColumnDef="question_type">
       <th mat-header-cell *matHeaderCellDef> Question type </th>
       <td mat-cell *matCellDef="let element">{{ element.question_type }} </td>
-    </ng-container>
+    </ng-container> -->
 
     <!-- Symbol Column -->
-    <ng-container matColumnDef="q_bank">
+    <!-- <ng-container matColumnDef="q_bank">
       <th mat-header-cell *matHeaderCellDef> Question bank </th>
       <td mat-cell *matCellDef="let element"> {{ element.q_bank }} </td>
-    </ng-container>
+    </ng-container> -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let element">

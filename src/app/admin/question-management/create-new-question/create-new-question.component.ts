@@ -287,7 +287,7 @@ public video_types = environment.video_types;
       ];
     }
     if (this.audio_single_option || this.audio_multiple_option || this.audio_clip_free_text || this.video_clicp_free_text) {
-      allowed_types = ['mp3', 'mp4', 'weba']
+      allowed_types = ['mp3']
     }
 
     let files = event.target.files;
