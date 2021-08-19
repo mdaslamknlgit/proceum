@@ -155,11 +155,9 @@
                                 <div class="ck_editor err_tltp_par cnq_ck">
                                     <ckeditor [(ngModel)]="question.question_text" name="title" [editor]="Editor"
                                         #editor [config]="configEditor" style="height: 100px" required></ckeditor>
-                                        <span
-                class="prc_tltp"
-                *ngIf="question_list_form.submitted && question.question_text.trim()==''"
-                >Question Text is required</span
-              >
+                                    <span class="prc_tltp"
+                                        *ngIf="question_list_form.submitted && question.question_text.trim()==''">Question
+                                        Text is required</span>
                                 </div>
                             </div>
                         </div>
@@ -240,68 +238,62 @@
                 <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
                     <div class="hgt_10"></div>
-                    <div class="brnd_info_mn" *ngFor="let option_value of question.option_array;index as option">
-                        {{option==0?'Is Correct Answer?':''}}
-                        <div class="brnd_info_upld">
-                            <mat-checkbox color="accent" [value]="option+1" (change)="onCorrectAnsChange($event)">
-                            </mat-checkbox>
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <textarea [(ngModel)]="question['option'+(option+1)]" name="option_{{option+1}}"
-                                    #option_{{option+1}}="ngModel" maxlength="255" matInput
-                                    placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt"
-                                    required></textarea>
-                            </mat-form-field>
-                        </div>
-                        <div class="text_right w_100p">
-                            <button (click)="addOption(option)"
-                                *ngIf="question.option_array.length == (option+1) && question.option_array.length<8"
-                                mat-raised-button type="button" class="mr_1" color="accent">Add</button>
-                            <button (click)="removeOption(option)"
-                                *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
-                                type="button" mat-raised-button color="warn">Remove</button>
-                        </div>
-                    </div>
+                    <span> Is Correct Answer?</span>
+                    <div class="d-flex ql_ca">
+                        <div class="ql_ca_mn">
+                            <div class="brnd_info_mn"
+                                *ngFor="let option_value of question.option_array;index as option">
 
+                                <div class="brnd_info_upld">
+                                    <mat-checkbox color="accent" [value]="option+1"
+                                        (change)="onCorrectAnsChange($event)">
+                                    </mat-checkbox>
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <textarea [(ngModel)]="question['option'+(option+1)]" name="option_{{option+1}}"
+                                            #option_{{option+1}}="ngModel" maxlength="255" matInput
+                                            placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt"
+                                            required></textarea>
+                                    </mat-form-field>
+                                </div>
+                                <div class="text_right w_100p">
+                                    <button (click)="addOption(option)"
+                                        *ngIf="question.option_array.length == (option+1) && question.option_array.length<8"
+                                        mat-raised-button type="button" class="mr_1" color="accent">Add</button>
+                                    <button (click)="removeOption(option)"
+                                        *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
+                                        type="button" mat-raised-button color="warn">Remove</button>
+                                </div>
+                            </div>
+                        </div>
 
-                    <!-- <div class="brnd_info_mn">
-                        Is Correct Answer?
-                        <div class="brnd_info_upld">
-                            <mat-checkbox color="accent" value="1" (change)="onCorrectAnsChange($event)"></mat-checkbox>
-                            <mat-form-field appearance="outline" class="w_90p">
-                                <textarea [(ngModel)]="question.option1" name="option_1" #option_1="ngModel"
-                                    name="option1" maxlength="255" matInput placeholder="Enter Option 1 Text"
-                                    class="crt_prt_txt" required></textarea>
-                            </mat-form-field>
+                        <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
+                            <div class="brnd_info_mn"
+                                *ngFor="let option_value of question.option_array;index as option;">
+                                <div class="ql_img_thmb">
+                                    <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
+                                        [src]="imageSrc['opt'+(option+1)+'Img']">
+                                    <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
+                                </div>
+                                <div class="brnd_info_upld">
+                                    <mat-form-field appearance="outline" class="">
+                                        <input matInput placeholder="Upload Option {{option+1}} Image"
+                                            [(ngModel)]="this['opt'+(option+1)+'FileName']" id="opt{{option+1}}FileName"
+                                            name="opt{{option+1}}FileName" readonly />
+                                        <mat-hint *ngIf="image_option" class="fl_frmt_info">
+                                            System will accept only jpg, jpeg, bmp, gif, png
+                                        </mat-hint>
+                                    </mat-form-field>
+                                    <button type="button" mat-raised-button (click)="openFileExplor((option+1))"
+                                        color="accent" class="float_right">
+                                        <mat-icon>upload</mat-icon>
+                                        Browse<input class="w_80p" (change)="onFileChange($event)"
+                                            accept="image/x-png,image/gif,image/jpeg,image/bmp" id="opt{{option+1}}Img"
+                                            type="file" style="display: none" />
+                                    </button>
+                                </div> 
+                            </div>
                         </div>
                     </div>
-                    <div class="brnd_info_mn">
-                        <div class="brnd_info_upld">
-                            <mat-checkbox color="accent" value="2" (change)="onCorrectAnsChange($event)"></mat-checkbox>
-                            <mat-form-field appearance="outline" class="w_90p">
-                                <textarea [(ngModel)]="question.option2" name="option_2" #option_2="ngModel" name="option2" maxlength="255" matInput placeholder="Enter Option 2 Text" class="crt_prt_txt" required></textarea>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="brnd_info_mn">
-                        <div class="brnd_info_upld">
-                            <mat-checkbox color="accent" value="3" (change)="onCorrectAnsChange($event)"></mat-checkbox>
-                            <mat-form-field appearance="outline" class="w_90p">
-                                <textarea [(ngModel)]="question.option3" name="option_3" #option_3="ngModel"
-                                    name="option_3" maxlength="255" matInput placeholder="Enter Option 3 Text"
-                                    class="crt_prt_txt" required></textarea>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="brnd_info_mn">
-                        <div class="brnd_info_upld">
-                            <mat-checkbox color="accent" value="4" (change)="onCorrectAnsChange($event)"></mat-checkbox>
-                            <mat-form-field appearance="outline" class="w_90p">
-                                <textarea [(ngModel)]="question.option4" name="option_4" #option_4="ngModel"
-                                    name="option_4" maxlength="255" matInput placeholder="Enter Option 4 Text"
-                                    class="crt_prt_txt" required></textarea>
-                            </mat-form-field>
-                        </div>
-                    </div> -->
                 </div>
                 <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
@@ -323,7 +315,7 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-                               
+
                                 <!-- <div class="brnd_info_mn">
                                     <div class="brnd_info_upld">
                                         <mat-radio-button [value]="1" (change)="onCorrectAnsChange($event)">
@@ -374,8 +366,9 @@
                         <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
                             <div class="brnd_info_mn"
                                 *ngFor="let option_value of question.option_array;index as option;">
-                                 <div class="ql_img_thmb">
-                                    <img *ngIf="imageSrc['opt'+(option+1)+'Img']" [src]="imageSrc['opt'+(option+1)+'Img']">
+                                <div class="ql_img_thmb">
+                                    <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
+                                        [src]="imageSrc['opt'+(option+1)+'Img']">
                                     <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
                                 </div>
                                 <div class="brnd_info_upld">
@@ -414,7 +407,7 @@
                             *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
                             type="button" mat-raised-button color="warn">Remove</button>
                     </div>
-                  
+
                 </div>
                 <!-- 
                          <div class="" >
