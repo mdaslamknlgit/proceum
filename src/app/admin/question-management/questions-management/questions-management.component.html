@@ -6,75 +6,82 @@
   <!-- <div class="qm_srchhd">
     Search
   </div> -->
-  <div class="qm_srch d-flex ">
-    <div *ngIf="curriculum_list != undefined" class="cm_fltr_sc mr_1">
-        <div class="clear_fix"></div>
-        <mat-form-field appearance="outline">
-          <mat-select [(ngModel)]="filter_array.curriculum_id" (ngModelChange)="getLabels()">
-              <mat-option [value]="0">Select Curriculum</mat-option>
-            <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']" [matTooltip]="value['curriculumn_name']" >{{ value["curriculumn_name"] }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div>
-        <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
-          <div>
-            <span>{{ ucFirst(value["display_label"]) }}</span>
-            <div class="clear_fix"></div>
-            <mat-form-field appearance="outline">
-              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
-                [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
-                <mat-option>
-                <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
-                                                name="search_topic" ngModel
-                                                (ngModelChange)="searchLevelByName($event,value['level_number'])"
-                                                [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select {{ucFirst(value['display_label'])}}
-                                            </ngx-mat-select-search>
-                                        </mat-option>
-                <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
-                  [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
-    <div class="mr_1">
-        <mat-form-field appearance="outline">
-            <mat-select placeholder="Select Question Category" [(ngModel)]="filter_array['question_flag']" (ngModelChange)="changeQSource()" name="question_flag" #question_flag="ngModel" ngModel>
-                <mat-option value="">Select Question Category</mat-option>
-                <mat-option value="mcq">MCQ</mat-option>
-                <mat-option value="case">Case based Question</mat-option>
-                <mat-option value="short_answer">Short Question</mat-option>
-            </mat-select>
-        </mat-form-field>
+  <div class="qm_srch">
+    <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+      <div class="clear_fix"></div>
+      <div>Select Curriculum</div>
+      <mat-form-field appearance="outline">
+        <mat-select [(ngModel)]="filter_array.curriculum_id" (ngModelChange)="getLabels()">
+          <mat-option [value]="0">Select Curriculum</mat-option>
+          <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+            [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <div class="mr_1">
-        <mat-form-field appearance="outline">
-            <mat-select placeholder="Select Question Usage" [(ngModel)]="filter_array['question_usage']" (ngModelChange)="changeQSource()" name="question_usage" #question_usage="ngModel" ngModel>
-                <mat-option value="0">Select Question Usage</mat-option>
-                <mat-option value="1">Assessment</mat-option>
-                <mat-option value="2">Preparation</mat-option>
-                <mat-option value="3">QBanks</mat-option>
-            </mat-select>
-        </mat-form-field>
+    <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+      <span>{{ ucFirst(value["display_label"]) }}</span>
+      <div class="clear_fix"></div>
+      <mat-form-field appearance="outline">
+        <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+          [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+          <mat-option>
+            <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+              name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+              [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+              {{ucFirst(value['display_label'])}}
+            </ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+            [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <div class="mr_1">
-        <mat-form-field appearance="outline">
-            <mat-select placeholder="Select Question Bank" [(ngModel)]="filter_array['question_bank']" (selectionChange)="changeQSource()" name="question_bank" #question_bank="ngModel" ngModel>
-                <mat-option value="">Select QBank</mat-option>
-                <mat-option value="mcq" *ngFor="let value of q_banks" [value]="value['id']">{{value['q_bank_type']}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+    <div class="cm_fltr_sc mr_1" >
+      <div>Select Question Category</div>
+      <mat-form-field appearance="outline">
+        <mat-select placeholder="Select Question Category" [(ngModel)]="filter_array['question_flag']"
+          (ngModelChange)="changeQSource()" name="question_flag" #question_flag="ngModel" ngModel>
+          <mat-option value="">Select Question Category</mat-option>
+          <mat-option value="mcq">MCQ</mat-option>
+          <mat-option value="case">Case based Question</mat-option>
+          <mat-option value="short_answer">Short Question</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
-    <div class="w_100p mr_1">
+    <div class="cm_fltr_sc mr_1" >
+      <div>Select Question Usage</div>
+      <mat-form-field appearance="outline">
+        <mat-select placeholder="Select Question Usage" [(ngModel)]="filter_array['question_usage']"
+          (ngModelChange)="changeQSource()" name="question_usage" #question_usage="ngModel" ngModel>
+          <mat-option value="0">Select Question Usage</mat-option>
+          <mat-option value="1">Assessment</mat-option>
+          <mat-option value="2">Preparation</mat-option>
+          <mat-option value="3">QBanks</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="cm_fltr_sc mr_1" >
+      <span>Select QBank</span>
+      <mat-form-field appearance="outline">
+        <mat-select placeholder="Select Question Bank" [(ngModel)]="filter_array['question_bank']"
+          (selectionChange)="changeQSource()" name="question_bank" #question_bank="ngModel" ngModel>
+          <mat-option value="">Select QBank</mat-option>
+          <mat-option value="mcq" *ngFor="let value of q_banks" [value]="value['id']">{{value['q_bank_type']}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="cm_fltr_sc mr_1" >
+      <div>Search</div>
       <mat-form-field appearance="outline" class="w_100p">
         <input matInput matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
           placeholder="Search" placeholder="Search" />
         <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
       </mat-form-field>
     </div>
-    <div class="">
+    <div class="cm_fltr_sc mr_1" >
+      <div>&nbsp;</div>
       <button mat-raised-button color="accent" class="mt_6px" routerLink="/admin/questions-mgt/create-question">
         <mat-icon>add</mat-icon>
         Add new Question
@@ -95,7 +102,9 @@
     <!-- Name Column -->
     <ng-container matColumnDef="question">
       <th mat-header-cell *matHeaderCellDef> Question </th>
-      <td mat-cell *matCellDef="let element" class="ws_normal"><div [innerHtml]="element.question"></div></td>
+      <td mat-cell *matCellDef="let element" class="ws_normal">
+        <div [innerHtml]="element.question"></div>
+      </td>
     </ng-container>
 
     <!-- Weight Column -->
@@ -113,7 +122,7 @@
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let element">
         <button mat-icon-button color="accent" class="mr_1">
-          <mat-icon routerLink="/admin/questions-mgt/edit-question/{{element.id}}">edit</mat-icon>
+          <mat-icon routerLink="/admin/questions-mgt/edit-question/{{element.id}}" matTooltip="Click to Edit">edit_notes</mat-icon>
         </button>
         <button mat-icon-button color="warn" matTooltip="Click to delete" mwlConfirmationPopover
           [popoverTitle]="'Delete Question ?'"
