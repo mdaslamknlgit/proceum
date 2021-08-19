@@ -73,6 +73,7 @@ import { ListSemestersComponent } from './manage-semesters/list-semesters/list-s
 import { CreateSemesterComponent } from './manage-semesters/create-semester/create-semester.component';
 import { ListGroupsComponent } from './manage-year-groups/list-groups/list-groups.component';
 import { CreateGroupComponent } from './manage-year-groups/create-group/create-group.component';
+import { StudyPlannerComponent } from './study-planner/study-planner.component';
 
 const routes: Routes = [
   {
@@ -157,12 +158,16 @@ const routes: Routes = [
       { path: 'create-custom-page', component: CreateCustomPagesComponent },
       { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
       { path: 'manage-content', component: ContentManagementComponent },
+
       { path: 'link-content', component: MapingComponent },
       { path: 'create-content', component: CreateContentComponent },
+
       { path: 'whiteboard-gallery', component: WhiteboardgalleryComponent },
-      { path: 'createnewquestion', component: CreateNewQuestionComponent },
-      { path: 'questionmanagement', component: QuestionsManagementComponent },
-      { path: 'questionbank', component: QuestionBankComponent },
+
+      //{ path: 'createnewquestion', component: CreateNewQuestionComponent },
+      //{ path: 'questionmanagement', component: QuestionsManagementComponent },
+      //{ path: 'questionbank', component: QuestionBankComponent },
+
       { path: 'create-partner', component: CreatePartnerComponent },
       { path: 'create-partner/:id', component: CreatePartnerComponent },
       { path: 'partners-list', component: PartnersListComponent },
@@ -170,13 +175,16 @@ const routes: Routes = [
       { path: 'prices-package-management', component: ListPackageComponent },
       { path: 'create-package', component: CreatePackageComponent },
       { path: 'edit-package/:id', component: EditPackageComponent },
+
       { path: 'questions-mgt/qbank', component: QuestionBankComponent },
       { path: 'questions-mgt/questions-list', component: QuestionsManagementComponent },
       { path: 'questions-mgt/create-question', component: CreateNewQuestionComponent },
       { path: 'questions-mgt/edit-question/:id', component: EditNewQuestionComponent },
+
       { path: 'manage-users', component: ManageUsersComponent },
       { path: 'create-user', component: CreateUserComponent },
       { path: 'edit-user/:id', component: CreateUserComponent },
+
       { path: 'manage-packages-testimonial', component: PackageTestimonialsComponent },
 
       //Years routes
@@ -191,6 +199,8 @@ const routes: Routes = [
       { path: 'create-year-group', component: CreateGroupComponent },
       { path: 'edit-year-group/:id', component: CreateGroupComponent },
       { path: 'manage-year-groups', component: ListGroupsComponent },
+      //study-planner
+      { path: 'study-planner', component: StudyPlannerComponent },
 
     ],
   },
@@ -246,6 +256,7 @@ const routes: Routes = [
     CreateSemesterComponent,
     ListGroupsComponent,
     CreateGroupComponent,
+    StudyPlannerComponent,
   ],
   imports: [
     MaterialModule,

@@ -26,6 +26,7 @@ import { ImageViewerModule } from 'ngx-image-viewer';
 import { ListPackagesComponent } from './pricing-packages/list-packages/list-packages.component';
 import { PackageDetailsComponent } from './pricing-packages/package-details/package-details.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { StudyPlannerStudentComponent } from './student/study-planner-student/study-planner-student.component';
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
 const routes: Routes = [
@@ -63,6 +64,7 @@ const routes: Routes = [
         path: 'curriculums/:curriculum_id/:level_id/:level_parent_id',
         component: Level_listComponent,
       },
+      { path: 'study-planner', component: StudyPlannerStudentComponent },
     ],
   },
 ];
@@ -88,6 +90,7 @@ const routes: Routes = [
     Level_listComponent,
     ListPackagesComponent,
     PackageDetailsComponent,
+    StudyPlannerStudentComponent,
   ],
   imports: [
     CommonModule,
