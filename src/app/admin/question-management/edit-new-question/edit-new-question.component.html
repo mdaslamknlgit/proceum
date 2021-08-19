@@ -88,6 +88,23 @@
                             </span>
                         </div>
                     </div>
+                    <div>
+                        <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
+                        <div class="crt_prt_cnt">
+                            <span class="err_tltp_par">
+                                <mat-form-field appearance="outline">
+                                    <mat-select disabled="true" placeholder="Select Question Category" name="question_flag"
+                                        [(ngModel)]="question.question_flag" #question_flag="ngModel" ngModel required>
+                                        <mat-option value="mcq">MCQ</mat-option>
+                                        <mat-option value="case">Case based Question</mat-option>
+                                        <mat-option value="short_answer">Short Question</mat-option>
+                                    </mat-select>
+                                    <span class="prc_tltp" *ngIf=" (question_flag.submitted || question_flag.touched) &&
+                                    question_flag.invalid">Question Category/Type is Required</span>
+                                </mat-form-field>
+                            </span>
+                        </div>
+                    </div>
                     <!-- <div *ngIf="question_Qbank">
                         <div class="crt_prt_hd">Add question to <span class="required">*</span></div>
                         <div class="crt_prt_cnt">

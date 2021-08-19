@@ -141,7 +141,9 @@
     class="hs_sbmnu {{
       menu_active == 9 ||
       active_route == '/admin/questions-mgt/qbank' ||
-      active_route == '/admin/questions-mgt/questions-list'
+      active_route == '/admin/questions-mgt/questions-list' ||
+      active_route.includes('/questions-mgt/create-question') ||
+      active_route.includes('/questions-mgt/edit-question/')
         ? 'active'
         : ''
     }}"
@@ -159,9 +161,11 @@
       </li>
       <li
       routerLink="/admin/questions-mgt/questions-list"
-        [ngClass]="{ active: active_route == '/admin/questions-mgt/questions-list' }"
+        [ngClass]="{ active: active_route == '/admin/questions-mgt/questions-list' ||
+        active_route.includes('/questions-mgt/create-question') ||
+        active_route.includes('/questions-mgt/edit-question/') }"
       >
-        <mat-icon>quiz</mat-icon>Questions List
+        <mat-icon>quiz</mat-icon>Manage Questions
       </li>
     </ul>
   </li>

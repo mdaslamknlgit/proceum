@@ -59,6 +59,7 @@ export class EditNewQuestionComponent implements OnInit {
     questionUsageType:'',
     curriculum_id:0,
     question_type_id: '',
+    question_flag:'',
     q_bank_ids: [],
     question_text: '',
     topic: '',
@@ -140,6 +141,7 @@ export class EditNewQuestionComponent implements OnInit {
         this.bucket_url = res['bucket_url'];
         let options = res['q_options'];
         let questionData = res['question'];
+        this.question.question_flag =  questionData['question_flag'];
         this.question.curriculum_id = Number(questionData['curriculum_id']);
         if(this.question.curriculum_id > 0){
             this.getTopics(this.question.curriculum_id, '');
