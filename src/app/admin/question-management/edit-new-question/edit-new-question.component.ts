@@ -153,8 +153,8 @@ export class EditNewQuestionComponent implements OnInit {
             this.question.option_array.push(i);
         }
         if (options.length > 0) {
-            console.log(correct_ans_ids);
           for (var i = 0; options.length > i; i++) {
+              this.question['option_explanation_'+(i+1)] = options[i]['option_explanation'];
             switch (i) {
               case 0:
                   if(correct_ans_ids.includes(options[i]['pk_id'])){
