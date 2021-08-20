@@ -1,7 +1,7 @@
 <style>
     ::ng-deep .mat-option:first-child .mat-pseudo-checkbox {
         display: none;
-    }
+    } 
 </style>
 <div class="mn_dshbrd">
     <div class="brd_crm">
@@ -181,35 +181,46 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" *ngIf="vidio_single_option || video_multiple_option || video_clicp_free_text">
+                <div class="w_100p" *ngIf="vidio_single_option || video_multiple_option || video_clicp_free_text">
                     <div class="hgt_10"></div>
-                    <div style="width: 30%;float: left;">
-                        <div class="crt_prt_hd">Video Type <span class="required">*</span></div>
-                        <span class="err_tltp_par">
-                            <mat-form-field appearance="outline">
-                                <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel
-                                    required="true" (ngModelChange)="question.q_source_value='';validateVideo()">
-                                    <mat-option value="">Select Source</mat-option>
-                                    <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
-                                        {{video_type['name']}}</mat-option>
-                                </mat-select>
-                                <span class="prc_tltp" *ngIf=" (q_source.submitted || q_source.touched) &&
-                                q_source.invalid">Video Type is Required</span>
-                            </mat-form-field>
-                        </span>
+                    <div class="d-flex">
+                        <div class="w_50p">
+                            <div class="w_100p">
+                                <div class="crt_prt_hd">Video Type <span class="required">*</span></div>
+                                <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel
+                                            required="true" (ngModelChange)="question.q_source_value='';validateVideo()">
+                                            <mat-option value="">Select Source</mat-option>
+                                            <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                                {{video_type['name']}}</mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf=" (q_source.submitted || q_source.touched) &&
+                                        q_source.invalid">Video Type is Required</span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                            <div class="w_100p">
+                                <div class="crt_prt_hd">Video Source <span class="required">*</span></div>
+                                <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input (blur)="validateVideo()" [(ngModel)]="question.q_source_value"
+                                            #q_source_value="ngModel" name="q_source_value" matInput placeholder="Video ID/Link"
+                                            required />
+                                        <span class="prc_tltp" *ngIf=" (q_source_value.submitted || q_source_value.touched) &&
+                                        q_source_value.invalid">Video Source is Required</span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="w_50p">
+                            <div class="cnq_vd">
+                                <iframe width="1350" height="480" src="https://www.youtube.com/embed/kA3quxNrnAI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                             </div>
+                        </div>
                     </div>
-                    <div style="width: 70%;float: right;">
-                        <div class="crt_prt_hd">Video Source <span class="required">*</span></div>
-                        <span class="err_tltp_par">
-                            <mat-form-field appearance="outline" class="w_90p">
-                                <input (blur)="validateVideo()" [(ngModel)]="question.q_source_value"
-                                    #q_source_value="ngModel" name="q_source_value" matInput placeholder="Video ID/Link"
-                                    required />
-                                <span class="prc_tltp" *ngIf=" (q_source_value.submitted || q_source_value.touched) &&
-                                q_source_value.invalid">Video Source is Required</span>
-                            </mat-form-field>
-                        </span>
-                    </div>
+                  
+                   
                 </div>
                 <div class="crt_pr_dv w_100p" *ngIf="audio_single_option || 
                 audio_multiple_option || 
@@ -220,16 +231,15 @@
                 ">
                     <div class="hgt_10"></div>
                     <div class="brnd_info_mn">
-                        <div class="brnd_info_upld">
-                            <div class="ql_img_thmb">
+                        <div class="brnd_info_upld jc_fs">
+                            <div class="ql_img_thmb mr_1">
                                 <img *ngIf="fileName && !imageSrc['file']" [src]="bucket_url+this['fileName']">
                                 <img *ngIf="fileName && imageSrc['file']" [src]="imageSrc['file']">
                                 <mat-icon *ngIf="!fileName">photo</mat-icon>
                             </div>
-                            <mat-form-field appearance="outline" class="w_80p">
+                            <mat-form-field appearance="outline" class="w_50p ">
                                 <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
                                     name="fileName" readonly />
-
                                 <mat-hint *ngIf="image_single_option || image_multiple_option|| image_free_text"
                                     class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;">
                                     System will accept only jpg, jpeg, bmp, gif, png
@@ -240,13 +250,13 @@
                                 </mat-hint>
                             </mat-form-field>
                             <button type="button" mat-raised-button onclick="document.getElementById('file').click()"
-                                color="accent" class="float_right mr_1 mt_5px">
+                                color="accent" class="float_right mr_1 mt_3px">
                                 <mat-icon>upload</mat-icon>
                                 Browse<input class="w_80p" (change)="onFileChange($event)"
                                     accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg, image/bmp':'.mp3'}}"
                                     id="file" type="file" style="display: none" />
                             </button>
-
+                            <audio controls></audio>
                         </div>
                     </div>
                 </div>
@@ -262,7 +272,7 @@
                                 [(ngModel)]="question['option'+(option+1)+'_crt_ans']"
                                 (change)="onCorrectAnsChange($event)"></mat-checkbox>
 
-                            <mat-form-field appearance="outline" class="w_90p">
+                            <mat-form-field appearance="outline" class="w_100p">
                                 <textarea [(ngModel)]="question['option'+(option+1)]" #option{{option}}="ngModel"
                                     name="option_{{option+1}}" maxlength="255" matInput
                                     placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt" required
@@ -284,7 +294,7 @@
                                         <mat-radio-button value="{{question['option'+(option+1)+'_value']}}"
                                             (change)="onCorrectAnsChange($event)">
                                         </mat-radio-button>
-                                        <mat-form-field appearance="outline" class="w_90p">
+                                        <mat-form-field appearance="outline" class="w_100p">
                                             <textarea [(ngModel)]="question['option'+(option+1)]"
                                                 name="option{{option+1}}" #option{{option+1}}="ngModel" maxlength="255"
                                                 matInput placeholder="Enter Option {{option+1}} Text"
