@@ -11,7 +11,7 @@ import { MatSort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
 import { count } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
-
+import { DomSanitizer } from '@angular/platform-browser';
 @Component({
   selector: 'app-edit-new-question',
   templateUrl: './edit-new-question.component.html',
@@ -26,15 +26,7 @@ export class EditNewQuestionComponent implements OnInit {
   page_size_options = environment.page_size_options;
 
   public Editor = Editor;
-
-  configEditor = {
-    Plugins: [],
-    placeholder: 'Enter Text',
-    toolbar: {
-      items: ['bulletedList', 'numberedList', 'SpecialCharacters'],
-    },
-    language: 'en',
-  };
+  liteEditorConfig = environment.liteEditorConfig;
     is_loaded = true
     question_id = null;
     public question_Qbank = false;
@@ -70,7 +62,7 @@ export class EditNewQuestionComponent implements OnInit {
   }
   q_type = '';
   public current_path = 'qlist';
-
+  public audio = new Audio();
   single_option = false;
   multiple_option = false;
   free_text = false;
@@ -101,7 +93,7 @@ export class EditNewQuestionComponent implements OnInit {
     user = [];
     public bucket_url = '';
     imageSrc = {};
-  constructor(private http: CommonService,private router: Router,
+  constructor(private http: CommonService,private router: Router ,private domSanitizer: DomSanitizer,
     private toster: ToastrService,
     private activeRoute: ActivatedRoute,
   ) { }
@@ -438,6 +430,7 @@ export class EditNewQuestionComponent implements OnInit {
   }
 
   onFileChange(event) {
+      this.removeAudio();
     let allowed_types = ['jpg', 'jpeg', 'bmp', 'gif', 'png'];
     if (this.image_single_option || this.image_multiple_option || this.image_free_text) {
       allowed_types = [
@@ -470,6 +463,7 @@ export class EditNewQuestionComponent implements OnInit {
         reader.readAsDataURL(files[0]); 
         reader.onload = (event) => { 
             this.imageSrc[fileId] = reader.result;
+            //this.imageSrc[fileId] = this.domSanitizer.bypassSecurityTrustUrl(''+reader.result);
         }
         switch (fileId) {
           case 'file':
@@ -585,6 +579,20 @@ export class EditNewQuestionComponent implements OnInit {
   }
     this.router.navigateByUrl(url);
 }
+playAudio(src){
+    if(!src)
+      return false;
+    this.audio.src = src;
+    this.audio.load();
+    this.audio.play();
+  }
+  pauseAudio(){
+    this.audio.pause();
+  }
+  removeAudio(){
+    this.audio.pause();
+    this.audio.remove();
+  }
 validateVideo(){
     if(this.question.q_source_value != '' && this.question.q_source == 'KPOINT'){
         this.validateKpointId(this.question.q_source_value);

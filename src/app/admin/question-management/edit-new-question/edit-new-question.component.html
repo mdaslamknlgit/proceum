@@ -174,8 +174,7 @@
                             <div class="hgt_10"></div>
                             <div class="c_block_content">
                                 <div class="ck_editor cnq_ck">
-                                    <ckeditor [(ngModel)]="question.question_text" name="question_text"
-                                        [editor]="Editor" #editor [config]="configEditor" required></ckeditor>
+                                        <angular-editor id="question" [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig" name="question_text" #question_text="ngModel" [(ngModel)]="question.question_text"></angular-editor>
                                 </div>
                             </div>
                         </div>
@@ -232,10 +231,14 @@
                     <div class="hgt_10"></div>
                     <div class="brnd_info_mn">
                         <div class="brnd_info_upld jc_fs">
-                            <div class="ql_img_thmb mr_1">
+                            <div class="ql_img_thmb mr_1" *ngIf="image_single_option||image_multiple_option || image_free_text">
                                 <img *ngIf="fileName && !imageSrc['file']" [src]="bucket_url+this['fileName']">
                                 <img *ngIf="fileName && imageSrc['file']" [src]="imageSrc['file']">
                                 <mat-icon *ngIf="!fileName">photo</mat-icon>
+                            </div>
+                            <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text">
+                                <span (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">play</span>
+                                <span (click)="pauseAudio()">Pause</span>
                             </div>
                             <mat-form-field appearance="outline" class="w_50p ">
                                 <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
@@ -256,7 +259,6 @@
                                     accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg, image/bmp':'.mp3'}}"
                                     id="file" type="file" style="display: none" />
                             </button>
-                            <audio controls></audio>
                         </div>
                     </div>
                 </div>
@@ -348,8 +350,7 @@
                             <div class="hgt_10"></div>
                             <div class="c_block_content">
                                 <div class="ck_editor cnq_ck">
-                                    <ckeditor [(ngModel)]="question.explanation" name="explanation" [editor]="Editor"
-                                        #editor [config]="configEditor"></ckeditor>
+                                    <angular-editor id="explanation" [placeholder]="'Enter Explanation text here...'" [config]="liteEditorConfig" name="explanation" #explanation="ngModel" [(ngModel)]="question.explanation"></angular-editor>
                                 </div>
                             </div>
                         </div>
