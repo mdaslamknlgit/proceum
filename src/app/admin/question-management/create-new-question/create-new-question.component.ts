@@ -49,22 +49,7 @@ public video_types = environment.video_types;
     Plugins: [],
     placeholder: 'Enter Text',
     toolbar: {
-      items: ['Alignment', 'FontColor', 'FontBackgroundColor', 'FontSize', 'underline', 'blockQuote', 'bulletedList', 'numberedList', 'SpecialCharacters'],
-    },
-    image: {
-      upload: ['png'],
-      toolbar: [
-        'imageStyle:alignLeft',
-        'imageStyle:full',
-        'imageStyle:alignRight',
-      ],
-      styles: ['full', 'alignLeft', 'alignRight'],
-    },
-    table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
-    },
-    mediaEmbed: {
-      previewsInData: true,
+      items: ['bulletedList', 'numberedList', 'SpecialCharacters'],
     },
     language: 'en',
   };
@@ -251,7 +236,7 @@ public video_types = environment.video_types;
         break;
       case 'Image with Multiple Options Selection':
         this.image_multiple_option = true;
-        this.question.q_check_type = 'image'
+        this.question.q_check_type = 'image';
         break;
       case 'Image with Freetype Text Input':
         this.image_free_text = true;
@@ -377,12 +362,9 @@ public video_types = environment.video_types;
     this.question.option_array.splice(index, 1);
     this.question['option'+(index+1)] = '';
     this['opt'+(index+1)+'FileName'] = '';
-    console.log(this.question.correct_ans_ids, "before");
     index = this.question.correct_ans_ids.indexOf(index+1);
-    console.log(index, "index")
     if(index >= 0){
         this.question.correct_ans_ids.splice(index, 1);
-        console.log(this.question.correct_ans_ids, 'after')
     }
   }
   createQList() {

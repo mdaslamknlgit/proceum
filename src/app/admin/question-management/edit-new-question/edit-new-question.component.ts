@@ -31,22 +31,7 @@ export class EditNewQuestionComponent implements OnInit {
     Plugins: [],
     placeholder: 'Enter Text',
     toolbar: {
-      items: ['Alignment', 'FontColor', 'FontBackgroundColor', 'FontSize', 'underline', 'blockQuote', 'bulletedList', 'numberedList', 'SpecialCharacters'],
-    },
-    image: {
-      upload: ['png'],
-      toolbar: [
-        'imageStyle:alignLeft',
-        'imageStyle:full',
-        'imageStyle:alignRight',
-      ],
-      styles: ['full', 'alignLeft', 'alignRight'],
-    },
-    table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
-    },
-    mediaEmbed: {
-      previewsInData: true,
+      items: ['bulletedList', 'numberedList', 'SpecialCharacters'],
     },
     language: 'en',
   };
@@ -299,6 +284,7 @@ export class EditNewQuestionComponent implements OnInit {
             break;
           case 'Image with Freetype Text Input':
             this.image_free_text = true;
+            this.fileName = questionData['q_source_value'];
             break;
           default:
             console.log("No such type exists!");
