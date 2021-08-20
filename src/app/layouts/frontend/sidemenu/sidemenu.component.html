@@ -8,15 +8,31 @@
         <mat-icon>dashboard</mat-icon> Dashboard
       </div>
     </li>
-    <li routerLinkActive="active" class="{{
+    <li routerLinkActive="active" routerLink="/student/my-account">
+      <div class="sd_mnuhd">
+        <mat-icon>manage_accounts</mat-icon> My Account
+      </div>
+    </li>
+    <li routerLinkActive="active" class="hs_sbmnu {{
         active_route.includes('/student/level') ||
         active_route == '/student/curriculums'
           ? 'active'
           : ''
       }}" routerLink="/student/curriculums">
       <div class="sd_mnuhd">
-        <mat-icon>auto_stories</mat-icon> Curriculum
+        <mat-icon>auto_stories</mat-icon> My Courses
       </div>
+      <ul class="sdmn_sub">
+        <li>
+          <mat-icon>auto_stories</mat-icon> My Courses
+        </li>
+        <li>
+          <mat-icon>quiz</mat-icon> Question Banks
+        </li>
+        <li>
+          <mat-icon>recommend</mat-icon> Recommended Courses
+        </li>
+      </ul>
       <!-- <ul class="sdmn_sub">
         <li
           *ngFor="let val of curriculums"
@@ -27,25 +43,12 @@
         </li>
       </ul> -->
     </li>
-    <li routerLinkActive="active" class="hs_sbmnu {{ menu_active == 1 ? 'active' : '' }}"
-      (click)="activeMenu(1, menu_active)">
-      <div class="sd_mnuhd">
-        <mat-icon>auto_stories</mat-icon> Learning Notes
-      </div>
-      <ul class="sdmn_sub">
-        <li>
-          <mat-icon>play_circle_outline</mat-icon> Videos
-        </li>
-        <li>
-          <mat-icon>sticky_note_2</mat-icon> Teacher Materials
-        </li>
-      </ul>
-    </li>
     <li routerLinkActive="active" routerLink="/student/study-planner">
       <div class="sd_mnuhd">
         <mat-icon>today</mat-icon> Study Planner
       </div>
     </li>
+
     <li routerLinkActive="active" class="hs_sbmnu {{ menu_active == 2 ? 'active' : '' }}"
       (click)="activeMenu(2, menu_active)">
       <div class="sd_mnuhd">
@@ -63,6 +66,7 @@
         </li>
       </ul>
     </li>
+
     <li routerLinkActive="active" class="hs_sbmnu {{ menu_active == 3 ? 'active' : '' }}"
       (click)="activeMenu(3, menu_active)">
       <div class="sd_mnuhd">
@@ -80,16 +84,30 @@
         </li>
       </ul>
     </li>
-    <li routerLinkActive="active" routerLink="/student/my-account">
+    <li>
       <div class="sd_mnuhd">
-        <mat-icon>manage_accounts</mat-icon> My Account
+        <mat-icon>summarize</mat-icon> Reports
       </div>
     </li>
-    <li>
+    <li routerLinkActive="active" class="hs_sbmnu {{ menu_active == 1 ? 'active' : '' }}"
+      (click)="activeMenu(1, menu_active)">
+      <div class="sd_mnuhd">
+        <mat-icon>auto_stories</mat-icon> Learning Notes
+      </div>
+      <ul class="sdmn_sub">
+        <li>
+          <mat-icon>play_circle_outline</mat-icon> Videos
+        </li>
+        <li>
+          <mat-icon>sticky_note_2</mat-icon> Teacher Materials
+        </li>
+      </ul>
+    </li>
+    <!-- <li>
       <div class="sd_mnuhd">
         <mat-icon>quiz</mat-icon> Question Bank
       </div>
-    </li>
+    </li> -->
     <li>
       <div class="sd_mnuhd">
         <mat-icon>style</mat-icon> Flash Cards
