@@ -2,7 +2,7 @@
   <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
-        Create Curriculum
+        Create Course / QBank Structure
         <span class="spacer"></span>
         <button mat-icon-button (click)="toggleModel()" class="float_right">
           &#x2715;
@@ -25,14 +25,18 @@
                       #curriculum_name_name="ngModel" name="curriculum_name_name" placeholder="Provide Curiculum Name"
                       required />
                   </mat-form-field>
-
-                  <span class="prc_tltp" *ngIf="
-                      (curriculum_form.submitted ||
-                        curriculum_name_name.touched) &&
-                      curriculum_name_name.invalid
-                    ">
+                  <span class="prc_tltp" *ngIf="(curriculum_form.submitted || curriculum_name_name.touched) && curriculum_name_name.invalid">
                     Curriculum Name is required</span>
                 </span>
+              </span>
+            </div>
+            <div class="frm_dvs">
+              <span>Create Structure For:</span>
+              <span>
+                <mat-radio-group>
+                  <mat-radio-button value="1">Course</mat-radio-button>
+                  <mat-radio-button value="2">QBank</mat-radio-button>
+                </mat-radio-group>
               </span>
             </div>
             <div class="frm_dvs">
@@ -272,7 +276,9 @@
               }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
               "Inactive" }}</span> -->
 
-              <mat-slide-toggle (click)="deleteCurriculum(element.id, element.status)" [checked]="element.status == 1 ? true : false" matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
+            <mat-slide-toggle (click)="deleteCurriculum(element.id, element.status)"
+              [checked]="element.status == 1 ? true : false"
+              matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
           </td>
         </ng-container>
 
