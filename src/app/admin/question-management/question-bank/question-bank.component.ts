@@ -28,7 +28,7 @@ export class QuestionBankComponent implements OnInit {
     'q_bank_type',
     'description',
     'no_of_questions',
-    'status',
+    //'status',
     'actions',
   ];
 
@@ -41,7 +41,7 @@ export class QuestionBankComponent implements OnInit {
   q_bank_type = '';
   q_bank_id = '';
   description = '';
-  status = '';
+  status = '1';
  
 
   public model_status = false;

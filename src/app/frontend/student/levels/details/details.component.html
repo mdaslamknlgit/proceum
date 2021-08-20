@@ -286,9 +286,9 @@
               <div class="qstn_hds">Questions</div>
               <ul>
                 <li *ngFor="let question of mcqs; let i = index" class="{{ i == active_mcq_index ? 'act_qstnm' : '' }}">
-                  <span class="qstn_cnt" (click)="active_mcq_index = i" matTooltip='{{question["question"]}}'>{{ i + 1
-                    }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...':
-                    question["question"]}}</span>
+                  <span class="qstn_cnt" (click)="active_mcq_index = i" matTooltip='{{question["question_string"]}}'>{{ i + 1
+                    }} {{" "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
+                    question["question_string"]}}</span>
                 </li>
               </ul>
             </div>
@@ -298,9 +298,7 @@
                 <div class="qstnof_cnt">{{active_mcq_index + 1}} / {{mcqs.length}}</div>
                 <div class="hgt_20"></div>
                 <div class="qstn_hds">
-                  {{ active_mcq_index + 1 }}.{{
-                  " " + mcqs[active_mcq_index]["question"]
-                  }}
+                  <div innerHtml='{{ active_mcq_index + 1 }}.{{ " " + mcqs[active_mcq_index]["question"]}}'></div>
                 </div>
                 <mat-radio-group aria-label="Select an option" [(ngModel)]="mcqs[active_mcq_index]['selected_option']">
                   <mat-radio-button *ngFor="
@@ -542,9 +540,9 @@
               <ul>
                 <li *ngFor="let question of cases; let i = index"
                   class="{{ i == active_case_index ? 'act_qstnm' : '' }}">
-                  <span class="qstn_cnt" (click)="active_case_index = i" matTooltip='{{question["question"]}}'>{{ i + 1
-                    }} {{" "}}{{question["question"].length>25?question["question"].substring(0,25)+'...':
-                    question["question"]}}</span>
+                  <span class="qstn_cnt" (click)="active_case_index = i" matTooltip='{{question["question_string"]}}'>{{ i + 1
+                    }} {{" "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
+                    question["question_string"]}}</span>
                 </li>
               </ul>
             </div>
@@ -553,9 +551,7 @@
                 <div class="hgt_20"></div>
                 <div class="qstnof_cnt">{{active_case_index + 1}} / {{cases.length}}</div>
                 <div class="qstn_hds">
-                  {{ active_case_index + 1 }}.{{
-                  " " + cases[active_case_index]["question"]
-                  }}
+                  <div innerHtml='{{ active_case_index + 1 }}{{" " + cases[active_case_index]["question"]}}'></div>
                 </div>
                 <mat-radio-group aria-label="Select an option"
                   [(ngModel)]="cases[active_case_index]['selected_option']">
@@ -628,9 +624,9 @@
                 <li *ngFor="let question of short_answers; let i = index"
                   class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
                   <span class="qstn_cnt" (click)="active_short_answer_index = i"
-                    matTooltip='{{question["question"]}}'>{{ i + 1 }} {{"
-                    "}}{{question["question"].length>25?question["question"].substring(0,25)+'...':
-                    question["question"]}}</span>
+                    matTooltip='{{question["question_string"]}}'>{{ i + 1 }} {{"
+                    "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
+                    question["question_string"]}}</span>
                 </li>
               </ul>
             </div>
@@ -639,9 +635,9 @@
                 <div class="hgt_20"></div>
                 <div class="qstnof_cnt">{{active_short_answer_index + 1}} / {{short_answers.length}}</div>
                 <div class="qstn_hds">
-                  {{ active_short_answer_index + 1 }}.{{
-                  " " + short_answers[active_short_answer_index]["question"]
-                  }}
+                  <!--{{" " + short_answers[active_short_answer_index]["question"]}} -->
+                  <div [innerHtml]="(active_short_answer_index + 1)+' '+short_answers[active_short_answer_index]['question']">
+                  </div>
                 </div>
                 <mat-radio-group aria-label="Select an option" [(ngModel)]="
                 short_answers[active_short_answer_index]['selected_option']

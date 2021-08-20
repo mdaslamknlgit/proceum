@@ -7,6 +7,7 @@ import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { environment } from '../../environments/environment';
 
 //custom modules
@@ -267,6 +268,7 @@ const routes: Routes = [
       confirmButtonType: 'danger', // set defaults here
     }),
     CommonModule,
+    AngularEditorModule,
     CKEditorModule,
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

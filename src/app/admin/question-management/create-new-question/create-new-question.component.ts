@@ -12,7 +12,7 @@ import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import { ReplaySubject } from 'rxjs';
 import { Router } from '@angular/router';
-
+import { DomSanitizer } from '@angular/platform-browser';
 interface CurriculumNode {
   id?: number;
   name: string;
@@ -45,30 +45,8 @@ public video_types = environment.video_types;
 
   public Editor = Editor;
   public question_Qbank = false;
-  configEditor = {
-    Plugins: [],
-    placeholder: 'Enter Text',
-    toolbar: {
-      items: ['Alignment', 'FontColor', 'FontBackgroundColor', 'FontSize', 'underline', 'blockQuote', 'bulletedList', 'numberedList', 'SpecialCharacters'],
-    },
-    image: {
-      upload: ['png'],
-      toolbar: [
-        'imageStyle:alignLeft',
-        'imageStyle:full',
-        'imageStyle:alignRight',
-      ],
-      styles: ['full', 'alignLeft', 'alignRight'],
-    },
-    table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
-    },
-    mediaEmbed: {
-      previewsInData: true,
-    },
-    language: 'en',
-  };
-
+  public audio = new Audio();
+  liteEditorConfig = environment.liteEditorConfig;
   is_loaded = true;
   imageSrc = {};
   QTypes: any;
@@ -121,10 +99,7 @@ public video_types = environment.video_types;
     opt8FileName: any;
     user = [];
   
-  constructor(private http: CommonService,
-    private toster: ToastrService,
-    private router: Router,
-  ) { }
+  constructor(private http: CommonService,private domSanitizer: DomSanitizer, private toster: ToastrService, private router: Router,) { }
 
   hasChild = (_: number, node: CurriculumNode) =>
   !!node.children && node.children.length > 0;
@@ -213,7 +188,7 @@ public video_types = environment.video_types;
     this.question.q_check_type = null;
     let qtype = this.QTypes.find(i => i.id === e.value)['question_type'];
     
-    
+    this.removeAudio();
     switch (qtype) {
       case 'Single Option Selection':
         this.single_option = true;
@@ -225,14 +200,17 @@ public video_types = environment.video_types;
         this.free_text = true;
         break;
       case 'Audio Clip with Single Option Selection':
+        this.fileName="";
         this.audio_single_option = true;
         this.question.q_check_type = 'audio'
         break;
       case 'Audio Clip with Multiple Options Selection':
+        this.fileName="";
         this.audio_multiple_option = true;
         this.question.q_check_type = 'audio'
         break;
       case 'Audio Clip with Freetype Text Input':
+        this.fileName="";
         this.audio_clip_free_text = true;
         break;
       case 'Video Clip with Single Option Selection':
@@ -246,14 +224,17 @@ public video_types = environment.video_types;
         this.video_clicp_free_text = true;
         break;
       case 'Image with Single Option Selection':
+        this.fileName="";
         this.image_single_option = true;
         this.question.q_check_type = 'image'
         break;
       case 'Image with Multiple Options Selection':
+        this.fileName="";
         this.image_multiple_option = true;
-        this.question.q_check_type = 'image'
+        this.question.q_check_type = 'image';
         break;
       case 'Image with Freetype Text Input':
+        this.fileName="";
         this.image_free_text = true;
         break;
       default:
@@ -280,6 +261,7 @@ public video_types = environment.video_types;
   }
 
   onFileChange(event) {
+      this.removeAudio();
     let allowed_types = ['jpg', 'jpeg', 'bmp', 'gif', 'png'];
     if (this.image_single_option || this.image_multiple_option || this.image_free_text) {
       allowed_types = [
@@ -370,6 +352,20 @@ public video_types = environment.video_types;
     }
 
   }
+  playAudio(src){
+      if(!src)
+      return false;
+    this.audio.src = src;
+    this.audio.load();
+    this.audio.play();
+  }
+  pauseAudio(){
+    this.audio.pause();
+  }
+  removeAudio(){
+    this.audio.pause();
+    this.audio.remove();
+  }
   addOption(index){
     this.question.option_array.push(this.question.option_array.length);
   }
@@ -377,12 +373,9 @@ public video_types = environment.video_types;
     this.question.option_array.splice(index, 1);
     this.question['option'+(index+1)] = '';
     this['opt'+(index+1)+'FileName'] = '';
-    console.log(this.question.correct_ans_ids, "before");
     index = this.question.correct_ans_ids.indexOf(index+1);
-    console.log(index, "index")
     if(index >= 0){
         this.question.correct_ans_ids.splice(index, 1);
-        console.log(this.question.correct_ans_ids, 'after')
     }
   }
   createQList() {
