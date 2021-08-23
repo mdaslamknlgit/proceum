@@ -913,7 +913,7 @@ export class CreateContentComponent implements OnInit {
       title: this.highyield_title.trim(),
       content: this.highyield_content.trim(),
     };
-    if (this.highyield_index != '') {
+    if (this.highyield_index != '' && this.highyield_obj[Number(this.highyield_index)] != undefined) {
       this.highyield_obj[Number(this.highyield_index)]['title'] = this.highyield_title.trim();
       this.highyield_obj[Number(this.highyield_index)]['content'] = this.highyield_content.trim();
       this.highyield_obj[Number(this.highyield_index)]['status'] = '';
