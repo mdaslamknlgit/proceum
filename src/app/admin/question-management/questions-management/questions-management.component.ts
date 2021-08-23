@@ -89,6 +89,7 @@ export class QuestionsManagementComponent implements OnInit {
         };
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
+                this.applyFilters();
             let data = res['data'];
             this.level_options[1] = data['level_1'];
             this.all_level_options[1] = data['level_1'];
