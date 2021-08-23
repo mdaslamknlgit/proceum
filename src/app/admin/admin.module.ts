@@ -75,6 +75,7 @@ import { CreateSemesterComponent } from './manage-semesters/create-semester/crea
 import { ListGroupsComponent } from './manage-year-groups/list-groups/list-groups.component';
 import { CreateGroupComponent } from './manage-year-groups/create-group/create-group.component';
 import { StudyPlannerComponent } from './study-planner/study-planner.component';
+import { LabValuesComponent } from './question-management/lab-values/lab-values.component';
 
 const routes: Routes = [
   {
@@ -202,7 +203,7 @@ const routes: Routes = [
       { path: 'manage-year-groups', component: ListGroupsComponent },
       //study-planner
       { path: 'study-planner', component: StudyPlannerComponent },
-
+      { path: 'questions-mgt/lab-values', component: LabValuesComponent },
     ],
   },
 ];
@@ -258,6 +259,7 @@ const routes: Routes = [
     ListGroupsComponent,
     CreateGroupComponent,
     StudyPlannerComponent,
+    LabValuesComponent,
   ],
   imports: [
     MaterialModule,
