@@ -2,12 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 
+export interface PeriodicElement {
+  name: string;
+  position: number;
+  weight: number;
+  symbol: string;
+}
+
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'}, 
+  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'}, 
+];
+
+
 @Component({
     selector: 'app-lab-values',
     templateUrl: './lab-values.component.html',
     styleUrls: ['./lab-values.component.scss']
 })  
 export class LabValuesComponent implements OnInit {
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource = ELEMENT_DATA;
     public heading = '';
     public headings = [];
     public all_headings = [{pk_id:1, name: "one"}, {pk_id:2, name: "two"}, {pk_id:3, name: "three"}];

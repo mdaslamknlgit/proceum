@@ -4,69 +4,101 @@
     <hr>
     <div class="hgt_10"></div>
     <div class="dsh_brd_crds">
-        <form name="lab_values_form" #lab_values_form="ngForm" id="lab_values_form" (ngSubmit)="lab_values_form.valid && saveValues()"> 
-        <div class="cm_fltr_sc mr_1">
-            <div>Heading</div>
-            <mat-form-field class="example-full-width" appearance="fill">
-                <input required type="text" matInput placeholder="Heading" name="heading_name"  [matAutocomplete]="auto" [(ngModel)]="heading" (keyup)="headingFilter()">
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of headings" [value]="option['name']">
-                    {{option['name']}}
-                  </mat-option>
-                </mat-autocomplete>
-              </mat-form-field>
-            <!-- <mat-form-field appearance="outline">
-                <mat-select placeholder="Heading" required>
-                    <mat-option>
-                        <ngx-mat-select-search ngModel></ngx-mat-select-search>
+        <form name="lab_values_form" #lab_values_form="ngForm" id="lab_values_form"
+            (ngSubmit)="lab_values_form.valid && saveValues()">
+            <div class="cm_fltr_sc mr_1">
+                <div>Heading</div>
+                <mat-form-field appearance="outline">
+                    <input required matInput placeholder="Heading" name="heading_name" [matAutocomplete]="auto"
+                        [(ngModel)]="heading" (keyup)="headingFilter()">
+                </mat-form-field>
+                <mat-autocomplete #auto="matAutocomplete" appearance="outline">
+                    <mat-option *ngFor="let option of headings" [value]="option['name']">
+                        {{option['name']}}
                     </mat-option>
-                    <mat-option>Serum</mat-option>
-                </mat-select>
-            </mat-form-field> -->
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <div>Sub Heading</div>
-            <mat-form-field class="example-full-width" appearance="fill">
-                <input type="text" required matInput placeholder="Sub Heading" name="sub_heading_name" [matAutocomplete]="auto" [(ngModel)]="sub_heading" (keyup)="subHeadingFilter()">
-                <mat-autocomplete #auto="matAutocomplete">
-                  <mat-option *ngFor="let option of sub_headings" [value]="option['name']">
-                    {{option['name']}}
-                  </mat-option>
                 </mat-autocomplete>
-              </mat-form-field>
-            <!-- <mat-form-field appearance="outline">
-                <mat-select placeholder="Subheading" required>
-                    <mat-option>
-                        <ngx-mat-select-search ngModel></ngx-mat-select-search>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <div>Sub Heading</div>
+                <mat-form-field appearance="outline">
+                    <input required matInput placeholder="Sub Heading" name="sub_heading_name" [matAutocomplete]="auto"
+                        [(ngModel)]="sub_heading" (keyup)="subHeadingFilter()">
+                </mat-form-field>
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of sub_headings" [value]="option['name']">
+                        {{option['name']}}
                     </mat-option>
-                    <mat-option>Cholestor</mat-option>
-                </mat-select>
-            </mat-form-field> -->
+                </mat-autocomplete>
+
+            </div>
+            <div class="clear_fix"></div>
+            <div class="ulvd_inpts">
+                <div>
+                    <div>Parameter Name</div>
+                    <mat-form-field appearance="outline">
+                        <input required matInput placeholder="Parameter Name" [(ngModel)]="parameter_name"
+                            name="parameter_name" />
+                    </mat-form-field>
+                </div>
+                <div>
+                    <div>Ref Range</div>
+                    <mat-form-field appearance="outline">
+                        <input required matInput placeholder="Ref Range" [(ngModel)]="ref_range"
+                            name="ref_range_name" />
+                    </mat-form-field>
+                </div>
+                <div>
+                    <div>SI Reference</div>
+                    <mat-form-field appearance="outline">
+                        <input required matInput placeholder="SI Reference" [(ngModel)]="si_ref" name="si_ref_name" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="text_right">
+                <button mat-raised-button color="accent">Save</button>
+            </div>
+        </form>
+        <div class="rsp_tbl">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef> Parameter Name</th>
+                    <td mat-cell *matCellDef="let element"> Parameter Name </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Ref Range </th>
+                    <td mat-cell *matCellDef="let element">Ref Range</td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="weight">
+                    <th mat-header-cell *matHeaderCellDef> SI Reference </th>
+                    <td mat-cell *matCellDef="let element">SI Reference</td>
+                </ng-container>
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="symbol">
+                    <th mat-header-cell *matHeaderCellDef class="actions_tdh"> Actions </th>
+                    <td mat-cell *matCellDef="let element" class="actions_tdh">
+                        <button mat-icon-button color="accent" matTooltip="Click to edit">
+                            <mat-icon>edit_note</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" matTooltip="Click to Delete">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
         </div>
-        <div class="clear_fix"></div>
-        <div class="cm_fltr_sc mr_1">
-            <div>Parameter Name</div>
-            <mat-form-field appearance="outline">
-                <input required matInput placeholder="Parameter Name" [(ngModel)]="parameter_name" name="parameter_name" />
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <div>Ref Range</div>
-            <mat-form-field appearance="outline">
-                <input required matInput placeholder="Ref Range" [(ngModel)]="ref_range" name="ref_range_name" />
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <div>SI Reference</div>
-            <mat-form-field appearance="outline">
-                <input required matInput placeholder="SI Reference" [(ngModel)]="si_ref" name="si_ref_name" />
-            </mat-form-field>
-        </div>
-        <div class="mt_3px">
-            <div>&nbsp;</div>
-            <button mat-raised-button color="accent" class="mr_1">Save</button>
-            <!-- <button mat-raised-button color="warn"><mat-icon>delete_outline</mat-icon></button> -->
-        </div>
-    </form>
+
     </div>
 </div>
