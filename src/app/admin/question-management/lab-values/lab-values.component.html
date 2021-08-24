@@ -58,6 +58,14 @@
                 <button mat-raised-button color="accent">Save</button>
             </div>
         </form>
+        <div class="cm_fltr_sc mr_1" >
+            <div>Search</div>
+            <mat-form-field appearance="outline" class="w_100p">
+              <input matInput matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
+                placeholder="Search" placeholder="Search" />
+              <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
+            </mat-form-field>
+          </div>
         <div class="rsp_tbl">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -65,28 +73,43 @@
               The actual rendered columns are set as a property on the row definition" -->
 
                 <!-- Position Column -->
-                <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> Parameter Name</th>
-                    <td mat-cell *matCellDef="let element"> Parameter Name </td>
+                <ng-container matColumnDef="s_no">
+                    <th mat-header-cell *matHeaderCellDef> S.No</th>
+                    <td mat-cell *matCellDef="let element"> {{element['s_no']}} </td>
                 </ng-container>
 
                 <!-- Name Column -->
-                <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> Ref Range </th>
-                    <td mat-cell *matCellDef="let element">Ref Range</td>
+                <ng-container matColumnDef="heading">
+                    <th mat-header-cell *matHeaderCellDef> Heading </th>
+                    <td mat-cell *matCellDef="let element">{{element['heading']}}</td>
                 </ng-container>
 
                 <!-- Weight Column -->
-                <ng-container matColumnDef="weight">
-                    <th mat-header-cell *matHeaderCellDef> SI Reference </th>
-                    <td mat-cell *matCellDef="let element">SI Reference</td>
+                <ng-container matColumnDef="sub_heading">
+                    <th mat-header-cell *matHeaderCellDef> Sub Heading </th>
+                    <td mat-cell *matCellDef="let element">{{element['sub_heading']?element['sub_heading']:'N/A'}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element">{{element['parameter_name']}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="ref_range">
+                    <th mat-header-cell *matHeaderCellDef> Ref Range </th>
+                    <td mat-cell *matCellDef="let element">{{element['ref_range']}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="si_reference">
+                    <th mat-header-cell *matHeaderCellDef> Ref Range </th>
+                    <td mat-cell *matCellDef="let element">{{element['si_reference']}}</td>
                 </ng-container>
 
                 <!-- Symbol Column -->
-                <ng-container matColumnDef="symbol">
+                <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef class="actions_tdh"> Actions </th>
                     <td mat-cell *matCellDef="let element" class="actions_tdh">
-                        <button mat-icon-button color="accent" matTooltip="Click to edit">
+                        <button (click)="editValues(element)" mat-icon-button color="accent" matTooltip="Click to edit">
                             <mat-icon>edit_note</mat-icon>
                         </button>
                         <button mat-icon-button color="warn" matTooltip="Click to Delete">
@@ -97,8 +120,14 @@
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                    <td style="text-align: center; margin: 20px" class="mat-cell" colspan="7">
+                      No Records Found
+                    </td>
+                  </tr>
             </table>
         </div>
-
+        <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="page_size_options" [length]="values_count"
+            [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
     </div>
 </div>
