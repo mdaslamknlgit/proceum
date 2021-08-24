@@ -11,16 +11,19 @@ import { Observable } from 'rxjs';
 import { CommonService } from '../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class Loader {
   private requests: HttpRequest<any>[] = [];
-
+    public hide_loader = [];
   constructor(
     private loaderService: CommonService,
     private toster: ToastrService,
     private route: Router
-  ) {}
+  ) {
+      this.hide_loader = [environment.apiUrl+'get-sub-headings']
+  }
 
   removeRequest(req: HttpRequest<any>) {
     const i = this.requests.indexOf(req);
@@ -34,8 +37,12 @@ export class Loader {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    this.requests.push(req);
-    this.loaderService.isLoading.next(true);
+    if (this.hide_loader.indexOf(req.url) == -1) {
+        this.requests.push(req);
+        this.loaderService.isLoading.next(true);
+    }
+    //this.requests.push(req);
+    //this.loaderService.isLoading.next(true);
     return Observable.create((observer) => {
       const subscription = next.handle(req).subscribe(
         (event) => {

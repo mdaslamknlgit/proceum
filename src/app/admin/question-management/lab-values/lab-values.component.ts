@@ -23,7 +23,7 @@ export class LabValuesComponent implements OnInit {
     public dataSource = new MatTableDataSource();
     public heading = '';
     public headings = [];
-    public all_headings = [{pk_id:1, name: "one"}, {pk_id:2, name: "two"}, {pk_id:3, name: "three"}];
+    public all_headings = [];
     public sub_heading = '';
     public sub_headings = [];
     public all_sub_headings = [];
@@ -36,6 +36,7 @@ export class LabValuesComponent implements OnInit {
     public page = 0;
     public page_size_options = environment.page_size_options;
     public search_key = '';
+    public open_modal = false;
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     constructor(private http: CommonService, private toster: ToastrService) { }
@@ -43,9 +44,34 @@ export class LabValuesComponent implements OnInit {
         let params = {url: 'get-lab-values',"offset": 0, "limit": this.pageSize};
         this.http.post(params).subscribe((res) => {
             if (res['error'] == false) {
+                this.headings = res['data']['headings'];
+                this.all_headings = res['data']['headings'];
                 this.dataSource = new MatTableDataSource(res['data']['values']);
                 this.values_count =  res['values_count'];
                 this.dataSource.paginator = this.paginator;
+            }
+            else{
+                this.dataSource = new MatTableDataSource([]);
+            }
+        });
+    }
+    openModal(){
+        (<HTMLFormElement>document.getElementById('lab_values_form')).reset();
+        this.open_modal = true;
+    }
+    closeModal(){
+        this.open_modal = false;
+    }
+    getSubHeadings(heading){
+        let params = {url: 'get-sub-headings', heading: heading?heading:this.heading};
+        this.http.post(params).subscribe((res) => {
+            if (res['error'] == false) {
+                this.sub_headings = res['data']['sub_headings'];
+                this.all_sub_headings = res['data']['sub_headings'];
+            }
+            else{
+                this.sub_headings =[];
+                this.all_sub_headings = [];
             }
         });
     }
@@ -53,9 +79,14 @@ export class LabValuesComponent implements OnInit {
         let params = {url: 'get-lab-values',"offset": 0, "limit": this.pageSize, search: this.search_key};
         this.http.post(params).subscribe((res) => {
             if (res['error'] == false) {
+                this.headings = res['data']['headings'];
+                this.all_headings = res['data']['headings'];
                 this.dataSource = new MatTableDataSource(res['data']['values']);
                 this.values_count =  res['values_count'];
                 this.dataSource.paginator = this.paginator;
+            }
+            else{
+                this.dataSource = new MatTableDataSource([]);
             }
         });
     }
@@ -93,10 +124,20 @@ export class LabValuesComponent implements OnInit {
                 this.ref_range = '';
                 this.si_ref = '';
                 this.toster.success(res['message'], 'Success', { closeButton: true });
+                this.applyFilters();
              } else {
               this.toster.error(res['message'], 'Error', { closeButton: true });
             }
           });
+    }
+    deleteValue(id){
+        let params = {url: 'delete-lab-values', pk_id: id};
+        this.http.post(params).subscribe((res) => {
+            if (res['error'] == false) {
+                this.applyFilters();
+                this.toster.success(res['message'], 'Success', { closeButton: true });
+            }
+        });
     }
     editValues(element){
         this.heading = element['heading'];
@@ -105,6 +146,6 @@ export class LabValuesComponent implements OnInit {
         this.ref_range = element['ref_range'];
         this.si_ref = element['si_reference'];
         this.lab_value_id = Number(element['id']);
-
+        this.open_modal=true;
     }
 }
