@@ -1,7 +1,7 @@
 <style>
     ::ng-deep .mat-option:first-child .mat-pseudo-checkbox {
         display: none;
-    } 
+    }
 </style>
 <div class="mn_dshbrd">
     <div class="brd_crm">
@@ -23,7 +23,7 @@
                                         [(ngModel)]="question.curriculum_id"
                                         (ngModelChange)="getTopics(question.curriculum_id, '')"
                                         #curriculum_id_name="ngModel" ngModel required>
-                                        <mat-option *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                        <mat-option [matTooltip]="value['curriculumn_name']" *ngFor="let value of curriculums" [value]="value['pk_id']">
                                             {{value['curriculumn_name']}}</mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
@@ -47,7 +47,8 @@
                                                 [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic
                                             </ngx-mat-select-search>
                                         </mat-option>
-                                        <mat-option *ngFor="let value of topics | async" [value]="value['pk_id']">
+                                        <mat-option [matTooltip]="value['level_name']"
+                                            *ngFor="let value of topics | async" [value]="value['pk_id']">
                                             {{value['level_name']}}</mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
@@ -78,7 +79,7 @@
                                         [(ngModel)]="question.question_type_id" #question_type_id="ngModel" ngModel
                                         (selectionChange)="changeQType($event)" required readonly>
                                         <mat-option value="" disabled>Select question type</mat-option>
-                                        <mat-option *ngFor="let qtype of QTypes" [value]="qtype.id" disabled>{{
+                                        <mat-option [matTooltip]="qtype.question_type" *ngFor="let qtype of QTypes" [value]="qtype.id" disabled>{{
                                             qtype.question_type }}
                                         </mat-option>
                                     </mat-select>
@@ -93,8 +94,9 @@
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select disabled="true" placeholder="Select Question Category" name="question_flag"
-                                        [(ngModel)]="question.question_flag" #question_flag="ngModel" ngModel required>
+                                    <mat-select disabled="true" placeholder="Select Question Category"
+                                        name="question_flag" [(ngModel)]="question.question_flag"
+                                        #question_flag="ngModel" ngModel required>
                                         <mat-option value="mcq">MCQ</mat-option>
                                         <mat-option value="case">Case based Question</mat-option>
                                         <mat-option value="short_answer">Short Question</mat-option>
@@ -174,7 +176,10 @@
                             <div class="hgt_10"></div>
                             <div class="c_block_content">
                                 <div class="ck_editor cnq_ck">
-                                        <angular-editor id="question" required="true" [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig" name="question_text" #question_text="ngModel" [(ngModel)]="question.question_text"></angular-editor>
+                                    <angular-editor id="question" required="true"
+                                        [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
+                                        name="question_text" #question_text="ngModel"
+                                        [(ngModel)]="question.question_text"></angular-editor>
                                 </div>
                             </div>
                         </div>
@@ -188,10 +193,12 @@
                                 <div class="crt_prt_hd">Video Type <span class="required">*</span></div>
                                 <span class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel" ngModel
-                                            required="true" (ngModelChange)="question.q_source_value='';validateVideo()">
+                                        <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel"
+                                            ngModel required="true"
+                                            (ngModelChange)="question.q_source_value='';validateVideo()">
                                             <mat-option value="">Select Source</mat-option>
-                                            <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                            <mat-option *ngFor="let video_type of video_types"
+                                                [value]="video_type['value']">
                                                 {{video_type['name']}}</mat-option>
                                         </mat-select>
                                         <span class="prc_tltp" *ngIf=" (q_source.submitted || q_source.touched) &&
@@ -204,8 +211,8 @@
                                 <span class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <input (blur)="validateVideo()" [(ngModel)]="question.q_source_value"
-                                            #q_source_value="ngModel" name="q_source_value" matInput placeholder="Video ID/Link"
-                                            required />
+                                            #q_source_value="ngModel" name="q_source_value" matInput
+                                            placeholder="Video ID/Link" required />
                                         <span class="prc_tltp" *ngIf=" (q_source_value.submitted || q_source_value.touched) &&
                                         q_source_value.invalid">Video Source is Required</span>
                                     </mat-form-field>
@@ -214,12 +221,15 @@
                         </div>
                         <div class="w_50p">
                             <div class="cnq_vd">
-                                <iframe width="1350" height="480" src="https://www.youtube.com/embed/kA3quxNrnAI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                             </div>
+                                <iframe width="1350" height="480" src="https://www.youtube.com/embed/kA3quxNrnAI"
+                                    title="YouTube video player" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
                         </div>
                     </div>
-                  
-                   
+
+
                 </div>
                 <div class="crt_pr_dv w_100p" *ngIf="audio_single_option || 
                 audio_multiple_option || 
@@ -231,13 +241,15 @@
                     <div class="hgt_10"></div>
                     <div class="brnd_info_mn">
                         <div class="brnd_info_upld jc_fs">
-                            <div class="ql_img_thmb mr_1" *ngIf="image_single_option||image_multiple_option || image_free_text">
+                            <div class="ql_img_thmb mr_1"
+                                *ngIf="image_single_option||image_multiple_option || image_free_text">
                                 <img *ngIf="fileName && !imageSrc['file']" [src]="bucket_url+this['fileName']">
                                 <img *ngIf="fileName && imageSrc['file']" [src]="imageSrc['file']">
                                 <mat-icon *ngIf="!fileName">photo</mat-icon>
                             </div>
                             <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text">
-                                <span (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">play</span>
+                                <span
+                                    (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">play</span>
                                 <span (click)="pauseAudio()">Pause</span>
                             </div>
                             <mat-form-field appearance="outline" class="w_50p ">
@@ -306,13 +318,15 @@
                                 </div>
                             </mat-radio-group>
                         </div>
-                        <div class="ql_ca_mn"  *ngIf="image_single_option || image_multiple_option">
-                            
+                        <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
+
                             <div class="brnd_info_mn"
                                 *ngFor="let option_value of question.option_array;index as option;">
                                 <div class="ql_img_thmb">
-                                    <img *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']" [src]="bucket_url+this['opt'+(option+1)+'FileName']">
-                                    <img *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']" [src]="imageSrc['opt'+(option+1)+'Img']">
+                                    <img *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']"
+                                        [src]="bucket_url+this['opt'+(option+1)+'FileName']">
+                                    <img *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']"
+                                        [src]="imageSrc['opt'+(option+1)+'Img']">
                                     <mat-icon *ngIf="!this['opt'+(option+1)+'FileName']">photo</mat-icon>
                                 </div>
                                 <div class="brnd_info_upld">
@@ -336,8 +350,13 @@
 
                         </div>
                         <div class="ql_ca_mn">
-                            <div class="brnd_info_mn" *ngFor="let option_value of question.option_array;index as option;">
-                            <angular-editor id="option_{{option+1}}" [placeholder]="'Enter Option '+(option+1) +' Explanation'" [config]="liteEditorConfig" name="option_{{option+1}}" #option_{{option+1}}="ngModel" [(ngModel)]="question['option_explanation_'+(option+1)]"></angular-editor>
+                            <div class="brnd_info_mn"
+                                *ngFor="let option_value of question.option_array;index as option;">
+                                <angular-editor id="option_{{option+1}}"
+                                    [placeholder]="'Enter Option '+(option+1) +' Explanation'"
+                                    [config]="liteEditorConfig" name="option_{{option+1}}"
+                                    #option_{{option+1}}="ngModel"
+                                    [(ngModel)]="question['option_explanation_'+(option+1)]"></angular-editor>
                             </div>
                         </div>
                     </div>
@@ -354,7 +373,9 @@
                             <div class="hgt_10"></div>
                             <div class="c_block_content">
                                 <div class="ck_editor cnq_ck">
-                                    <angular-editor id="explanation" [placeholder]="'Enter Explanation text here...'" [config]="liteEditorConfig" name="explanation" #explanation="ngModel" [(ngModel)]="question.explanation"></angular-editor>
+                                    <angular-editor id="explanation" [placeholder]="'Enter Explanation text here...'"
+                                        [config]="liteEditorConfig" name="explanation" #explanation="ngModel"
+                                        [(ngModel)]="question.explanation"></angular-editor>
                                 </div>
                             </div>
                         </div>
