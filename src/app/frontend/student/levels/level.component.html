@@ -1,7 +1,7 @@
 <div class="mn_dshbrd">
-  <div class="pg_ttl">Curriculums</div>
+  <div class="pg_ttl">Courses</div>
   <!-- <div class="brd_crm mt_0">
-    <strong>Curriculums</strong>
+    <strong>Courses</strong>
   </div> 
   <div class="hgt_20"></div>-->
   <div class="dsh_brd_crds">
@@ -9,12 +9,12 @@
     <div class="clear_fix"></div>
     <mat-form-field appearance="outline" class="xl_srch">
       <input matInput [(ngModel)]="search" matInput (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-        placeholder="Search Curriculums" />
+        placeholder="Search Courses" />
       <mat-icon matSuffix color="accent" (click)="doFilter()">search</mat-icon>
     </mat-form-field>
   </div>
   <mat-tab-group *ngIf="is_loaded">
-    <mat-tab label="All">
+    <mat-tab label="My Courses">
       <div class="crs_sld_mn rtng_par ai_nrml">
         <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0">No Records Found</div>
         <div class="crs_sld_dv" *ngFor="let level of levels;let i=index">
@@ -71,7 +71,6 @@
                 favorite</mat-icon> Favorite
             </span>
             <span class="cs_bb"></span>
-            <span class="spacer"></span>
             <span class="cs_vw"
               routerLink="/student/curriculums/{{ level['id'] }}/{{level['labels'][0]['level_number']}}">View<mat-icon>
                 east</mat-icon></span>
@@ -177,6 +176,76 @@
             <span class="cs_vw" routerLink="/student/curriculums/{{ level['id'] }}/{{
                 level['labels'][0]['level_number']
               }}">View<mat-icon>east</mat-icon></span>
+          </span>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <mat-tab-group animationDuration="0.15s">
+    <mat-tab label="Question Banks">
+      <div class="crs_tbbd_mn no_desc_fnd" *ngIf="false">No Records Found</div>
+      <div class="crs_tbbd_mn">
+        <div class="crs_tbbd_dv">
+          <span class="ct_hd">Question Bank</span>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <hr>
+  <mat-tab-group *ngIf="is_loaded">
+    <mat-tab label="Recommended Courses">
+      <div class="crs_sld_mn rtng_par ai_nrml">
+        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0">No Records Found</div>
+        <div class="crs_sld_dv" *ngFor="let level of levels;let i=index">
+          <span class="cs_hd"
+            routerLink="/student/curriculums/{{ level['id'] }}/{{level['labels'][0]['level_number']}}">{{ level["name"]
+            }}</span>
+          <span class="ct_rtn">
+            <mat-icon class="{{level['rating'] > 0 ?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,0.5)">star</mat-icon>
+            <mat-icon class="hlf_str1 {{level['rating'] > 0.5 ?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,1)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 1 ?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,1.5)">star</mat-icon>
+            <mat-icon class="hlf_str2 {{level['rating'] > 1.5?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,2)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 2?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,2.5)">star</mat-icon>
+            <mat-icon class="hlf_str3 {{level['rating'] > 2.5?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,3)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 3 ?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,3.5)">star</mat-icon>
+            <mat-icon class="hlf_str4 {{level['rating'] > 3.5 ?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,4)">star</mat-icon>
+            <mat-icon class="{{level['rating'] > 4 ?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,4.5)">star</mat-icon>
+            <mat-icon class="hlf_str5 {{level['rating'] > 4.5?'ct_slctd':''}}"
+              (click)="manageStatistics('rating', level['id'], i,5)">star</mat-icon>
+            <!-- ct_slctd || add this class to the selected single star -->
+          </span>
+        
+          <span class="cs_rew" *ngIf="false">(3,150 reviews)</span>
+          <span class="cs_stc" *ngFor="let label of level['labels']">
+            <span class="cs_stc_hd">{{ label["display_label"] }}</span>
+            <span class="cs_stc_nm">{{
+              level["level_counts"]["level_" + label["level_number"]]
+              ? level["level_counts"]["level_" + label["level_number"]]
+              : 0
+              }}</span>
+          </span>
+          <span class="cs_av">
+            <span class="cs_af">
+              <mat-icon color="accent" (click)="manageStatistics('fav', level['id'], i)"
+                *ngIf="level['is_fav'] != 1 ? true : false" matTooltip="Make Favorite">
+                favorite_border</mat-icon>
+              <mat-icon color="accent" (click)="manageStatistics('fav', level['id'], i)"
+                *ngIf="level['is_fav'] == 1 ? true : false" matTooltip="Unfavourite">
+                favorite</mat-icon> Favorite
+            </span>
+            <span class="cs_bb"></span>
+            <span class="cs_vw"
+              routerLink="/student/curriculums/{{ level['id'] }}/{{level['labels'][0]['level_number']}}">View<mat-icon>
+                east</mat-icon></span>
           </span>
         </div>
       </div>
