@@ -1,71 +1,93 @@
 <div class="mn_dshbrd">
+
+    <div class="cust_mdl_par cust_mdl_50p cust_mdl_opn">
+        <div class="cust_mdl_chl">
+            <div class="pg_ttl">
+                Lab Values
+                <span class="spacer"></span>
+                <button mat-icon-button class="float_right">
+                    &#x2715;
+                </button>
+            </div>
+            <div class="tbbd_bdy dsh_brd_crds">
+                <div class="hgt_10"></div>
+                <form name="lab_values_form" #lab_values_form="ngForm" id="lab_values_form"
+                    (ngSubmit)="lab_values_form.valid && saveValues()">
+                    <div class="cm_fltr_sc mr_1">
+                        <div>Heading</div>
+                        <mat-form-field appearance="outline">
+                            <input required matInput placeholder="Heading" name="heading_name" [matAutocomplete]="auto"
+                                [(ngModel)]="heading" (keyup)="headingFilter()">
+                        </mat-form-field>
+                        <mat-autocomplete #auto="matAutocomplete" appearance="outline">
+                            <mat-option *ngFor="let option of headings" [value]="option['name']">
+                                {{option['name']}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+                    <div class="cm_fltr_sc mr_1">
+                        <div>Sub Heading</div>
+                        <mat-form-field appearance="outline">
+                            <input required matInput placeholder="Sub Heading" name="sub_heading_name"
+                                [matAutocomplete]="auto" [(ngModel)]="sub_heading" (keyup)="subHeadingFilter()">
+                        </mat-form-field>
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of sub_headings" [value]="option['name']">
+                                {{option['name']}}
+                            </mat-option>
+                        </mat-autocomplete>
+
+                    </div>
+                    <div class="clear_fix"></div>
+                    <div class="ulvd_inpts">
+                        <div>
+                            <div>Parameter Name</div>
+                            <mat-form-field appearance="outline">
+                                <input required matInput placeholder="Parameter Name" [(ngModel)]="parameter_name"
+                                    name="parameter_name" />
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <div>Ref Range</div>
+                            <mat-form-field appearance="outline">
+                                <input required matInput placeholder="Ref Range" [(ngModel)]="ref_range"
+                                    name="ref_range_name" />
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <div>SI Reference</div>
+                            <mat-form-field appearance="outline">
+                                <input required matInput placeholder="SI Reference" [(ngModel)]="si_ref"
+                                    name="si_ref_name" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="hgt_10"></div>
+                    <div class="text_right">
+                        <button mat-raised-button color="accent">Save</button>
+                    </div>
+                    <div class="hgt_20"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
     <div class="brd_crm">Proceum &nbsp;&raquo; <strong>Lab Values</strong></div>
     <div class="pg_ttl">Lab Values</div>
     <hr>
     <div class="hgt_10"></div>
     <div class="dsh_brd_crds">
-        <form name="lab_values_form" #lab_values_form="ngForm" id="lab_values_form"
-            (ngSubmit)="lab_values_form.valid && saveValues()">
-            <div class="cm_fltr_sc mr_1">
-                <div>Heading</div>
-                <mat-form-field appearance="outline">
-                    <input required matInput placeholder="Heading" name="heading_name" [matAutocomplete]="auto"
-                        [(ngModel)]="heading" (keyup)="headingFilter()">
-                </mat-form-field>
-                <mat-autocomplete #auto="matAutocomplete" appearance="outline">
-                    <mat-option *ngFor="let option of headings" [value]="option['name']">
-                        {{option['name']}}
-                    </mat-option>
-                </mat-autocomplete>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <div>Sub Heading</div>
-                <mat-form-field appearance="outline">
-                    <input required matInput placeholder="Sub Heading" name="sub_heading_name" [matAutocomplete]="auto"
-                        [(ngModel)]="sub_heading" (keyup)="subHeadingFilter()">
-                </mat-form-field>
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of sub_headings" [value]="option['name']">
-                        {{option['name']}}
-                    </mat-option>
-                </mat-autocomplete>
 
-            </div>
-            <div class="clear_fix"></div>
-            <div class="ulvd_inpts">
-                <div>
-                    <div>Parameter Name</div>
-                    <mat-form-field appearance="outline">
-                        <input required matInput placeholder="Parameter Name" [(ngModel)]="parameter_name"
-                            name="parameter_name" />
-                    </mat-form-field>
-                </div>
-                <div>
-                    <div>Ref Range</div>
-                    <mat-form-field appearance="outline">
-                        <input required matInput placeholder="Ref Range" [(ngModel)]="ref_range"
-                            name="ref_range_name" />
-                    </mat-form-field>
-                </div>
-                <div>
-                    <div>SI Reference</div>
-                    <mat-form-field appearance="outline">
-                        <input required matInput placeholder="SI Reference" [(ngModel)]="si_ref" name="si_ref_name" />
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="text_right">
-                <button mat-raised-button color="accent">Save</button>
-            </div>
-        </form>
-        <div class="cm_fltr_sc mr_1" >
+        <div class="cm_fltr_sc mr_1">
             <div>Search</div>
             <mat-form-field appearance="outline" class="w_100p">
-              <input matInput matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
-                placeholder="Search" placeholder="Search" />
-              <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
+                <input matInput matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
+                    placeholder="Search" placeholder="Search" />
+                <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
             </mat-form-field>
-          </div>
+        </div>
         <div class="rsp_tbl">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -122,9 +144,9 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                     <td style="text-align: center; margin: 20px" class="mat-cell" colspan="7">
-                      No Records Found
+                        No Records Found
                     </td>
-                  </tr>
+                </tr>
             </table>
         </div>
         <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="page_size_options" [length]="values_count"
