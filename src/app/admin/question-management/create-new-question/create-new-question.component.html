@@ -22,7 +22,7 @@
                                         [(ngModel)]="question.curriculum_id"
                                         (ngModelChange)="getTopics(question.curriculum_id, '')"
                                         #curriculum_id_name="ngModel" ngModel="curriculum_id_name" required>
-                                        <mat-option *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                        <mat-option [matTooltip]="value['curriculumn_name']" *ngFor="let value of curriculums" [value]="value['pk_id']">
                                             {{value['curriculumn_name']}}</mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf="(question_list_form.submitted || curriculum_id_name.touched) &&
@@ -40,12 +40,12 @@
                                         ngModel="topic" #topic="ngModel" required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'"
-                                                name="search_topic" ngModel
+                                                name="search_topic" ngModel 
                                                 (ngModelChange)="getTopics(question.curriculum_id, $event)"
                                                 [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic
                                             </ngx-mat-select-search>
                                         </mat-option>
-                                        <mat-option *ngFor="let value of topics | async" [value]="value['pk_id']">
+                                        <mat-option [matTooltip]="value['level_name']" *ngFor="let value of topics | async" [value]="value['pk_id']">
                                             {{value['level_name']}}</mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf=" (question_list_form.submitted || topic.touched) &&
@@ -75,7 +75,7 @@
                                     <mat-select placeholder="Select Question Type" name="qtype_name"
                                         [(ngModel)]="question.question_type_id" #qtype_name="ngModel" ngModel
                                         (selectionChange)="changeQType($event)" required>
-                                        <mat-option *ngFor="let qtype of QTypes" [value]="qtype.id">
+                                        <mat-option [matTooltip]="qtype.question_type" *ngFor="let qtype of QTypes" [value]="qtype.id">
                                             {{qtype.question_type}}
                                         </mat-option>
                                     </mat-select>
@@ -127,7 +127,7 @@
                         <div class="crt_prt_hd">Add question to QBank <span class="required">*</span></div>
                         <div class="crt_prt_cnt">
                             <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
+                                <mat-form-field appearance="outline" class="w_80p">
                                     <mat-select placeholder="Select QBank" name="qbank"
                                         [(ngModel)]="question.q_bank_ids" #qbank="ngModel" ngModel multiple required>
                                         <mat-option value="0">Select question bank(s)</mat-option>
@@ -239,14 +239,13 @@
                                     class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;">
                                     System will accept only jpg, jpeg, bmp, gif, png
                                 </mat-hint>
-                                <mat-hint *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text"
-                                    class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;">
+                                <mat-hint *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text" class="fl_frmt_info">
                                     System will accept only mp3
                                 </mat-hint>
                             </mat-form-field>
 
                             <button type="button" mat-raised-button onclick="document.getElementById('file').click()"
-                                color="accent" class="float_right mr_1 mt_5px">
+                                color="accent" class="float_right mr_1 mt_3px">
                                 <mat-icon>upload</mat-icon>
                                 Browse<input class="w_80p" (change)="onFileChange($event)"
                                     accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg,image/bmp':'.mp3'}}"
