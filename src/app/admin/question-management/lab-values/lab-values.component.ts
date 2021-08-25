@@ -52,6 +52,7 @@ export class LabValuesComponent implements OnInit {
             }
             else{
                 this.dataSource = new MatTableDataSource([]);
+                this.headings = res['data']['headings'];
             }
         });
     }
@@ -60,10 +61,14 @@ export class LabValuesComponent implements OnInit {
         this.open_modal = true;
     }
     closeModal(){
+        this.lab_value_id = 0;
         this.open_modal = false;
     }
     getSubHeadings(heading){
-        let params = {url: 'get-sub-headings', heading: heading?heading:this.heading};
+        this.sub_headings = [];
+        this.all_sub_headings = [];
+        heading = (<HTMLInputElement>document.getElementById("heading")).value;
+        let params = {url: 'get-sub-headings', heading: heading};
         this.http.post(params).subscribe((res) => {
             if (res['error'] == false) {
                 this.sub_headings = res['data']['sub_headings'];
@@ -125,6 +130,16 @@ export class LabValuesComponent implements OnInit {
                 this.si_ref = '';
                 this.toster.success(res['message'], 'Success', { closeButton: true });
                 this.applyFilters();
+                if(this.lab_value_id>0){
+                    this.closeModal();
+                }
+                else{
+                    (<HTMLFormElement>document.getElementById('lab_values_form')).reset();
+                    setTimeout(sto=>{
+                        this.heading = param['heading'];
+                        this.sub_heading = param['sub_heading'];
+                    }, 500);
+                }
              } else {
               this.toster.error(res['message'], 'Error', { closeButton: true });
             }
