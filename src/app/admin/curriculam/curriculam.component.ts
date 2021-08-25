@@ -18,7 +18,7 @@ export class CurriculamComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'name',
-    'Course_for',
+    'usage_type',
     'created_at',
     'updated_at',
     'actions',

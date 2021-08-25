@@ -135,7 +135,15 @@ export class QuestionsManagementComponent implements OnInit {
     public doFilter = () => {
         let value = this.search_box;
         this.dataSource.filter = value.trim().toLocaleLowerCase();
-    };
+    }
+    public resetFilters(){
+        this.search_key = '';
+        this.filter_array = {question_flag:'', question_usage:0, question_bank:'', curriculum_id:0, level_id:0};
+        this.selected_level = [];
+        this.level_options = [];
+        this.all_level_options = [];
+        this.applyFilters();
+    }
     public getServerData(event?: PageEvent) {
         this.pageSize = event.pageSize;
         this.page = (event.pageSize * event.pageIndex);
