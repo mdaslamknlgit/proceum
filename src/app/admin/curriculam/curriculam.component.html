@@ -17,37 +17,39 @@
               mandatory</span>
             <div class="hgt_20"></div>
             <div class="frm_dvs">
+              <span>Create Structure For <span class="required">*</span></span>
+              <span>
+                <span class="err_tltp_par">
+                  <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Structure For" name="course_usage_name" #course_usage_name="ngModel"
+                      [(ngModel)]="course_usage" required>
+                      <mat-option value="">Select Structure For</mat-option>
+                      <mat-option value="1">Course</mat-option>
+                      <mat-option value="2">QBank</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <span class="prc_tltp" *ngIf="
+                        (curriculum_form.submitted || course_usage_name.touched) &&
+                        course_usage_name.invalid
+                      ">Structure For is required</span>
+                </span></span>
+            </div>
+            <div class="frm_dvs">
               <span> Course Name <span class="required">*</span></span>
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
                     <input trim="blur" matInput maxlength="255" [(ngModel)]="curriculum_name"
-                      #curriculum_name_name="ngModel" name="curriculum_name_name" placeholder="Provide Curiculum Name"
+                      #curriculum_name_name="ngModel" name="curriculum_name_name" placeholder="Provide Course Name"
                       required />
                   </mat-form-field>
-                  <span class="prc_tltp" *ngIf="(curriculum_form.submitted || curriculum_name_name.touched) && curriculum_name_name.invalid">
+                  <span class="prc_tltp"
+                    *ngIf="(curriculum_form.submitted || curriculum_name_name.touched) && curriculum_name_name.invalid">
                     Course Name is required</span>
                 </span>
               </span>
             </div>
-            <div class="frm_dvs">
-                <span>Create Structure For <span class="required">*</span></span>
-                <span>
-                  <span class="err_tltp_par">
-                    <mat-form-field appearance="outline">
-                      <mat-select placeholder="Select Structure For" name="course_usage_name" #course_usage_name="ngModel"
-                        [(ngModel)]="course_usage" required>
-                        <mat-option value="">Select Structure For</mat-option>
-                        <mat-option value="1">Course</mat-option>
-                        <mat-option value="2">QBank</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <span class="prc_tltp" *ngIf="
-                        (curriculum_form.submitted || course_usage_name.touched) &&
-                        course_usage_name.invalid
-                      ">Structure For is required</span>
-                  </span></span>
-              </div>
+            
             <div class="frm_dvs">
               <h3>Placeholder for levels</h3>
               <span>&nbsp;</span>
@@ -209,7 +211,16 @@
     </div>
   </div>
   <div class="brd_crm">Proceum &nbsp;&raquo; <strong>Course</strong></div>
-  <div class="pg_ttl">Courses</div>
+  <div class="d-flex">
+    <div class="pg_ttl">Courses / QBank Management</div>
+    <div class="spacer"></div>
+    <div>
+      <button mat-raised-button color="accent" class="float_right margin-bottom_20" (click)="toggleModel()"
+        type="button"><mat-icon>add</mat-icon> Create New</button>
+    </div>
+  </div>
+  <hr>
+  <div class="hgt_10"></div>
   <div class="dsh_brd_crds">
     <mat-form-field appearance="outline">
       <input trim="blur" matInput maxlength="255" [(ngModel)]="search_text"
@@ -217,98 +228,190 @@
       <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button mat-raised-button color="accent" class="float_right margin-bottom_20" (click)="toggleModel()" type="button">
-      Create New
-    </button>
-    <div class="rsp_tbl">
-      <table mat-table [dataSource]="dataSource" matSort class="mat-table mat-elevation-z8">
-        <!-- Position Column -->
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef class="s_no">S.No</th>
-          <td mat-cell *matCellDef="let element" class="s_no">
-            {{ element.s_no }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Course Name
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <span (click)="navigateTo(element.id)" class="lnk_nav">{{
-              element.name
-              }}</span>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="usage_type">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+    <mat-tab-group>
+      <mat-tab label="Courses">
+        <div class="rsp_tbl">
+          <table mat-table [dataSource]="dataSource" matSort class="mat-table mat-elevation-z8">
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef class="s_no">S.No</th>
+              <td mat-cell *matCellDef="let element" class="s_no">
+                {{ element.s_no }}
+              </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Course Name
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <span (click)="navigateTo(element.id)" class="lnk_nav">{{
+                  element.name
+                  }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="usage_type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
                 Course_for
-            </th>
-            <td mat-cell *matCellDef="let element">
-              <span>{{element.usage_type == 1?'Course':''}}
-              {{element.usage_type == 2?'QBank':''}}</span>
-            </td>
-          </ng-container>
-        <ng-container matColumnDef="created_at">
-          <th mat-header-cell *matHeaderCellDef class="date_tdh">Created Date</th>
-          <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
-        </ng-container>
-
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="updated_at">
-          <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
-          <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
-          <td mat-cell *matCellDef="let element" class="actions_tdh">
-            <!-- <button mat-icon-button (click)="viewCurriculum(element)">
-              <mat-icon>view_list</mat-icon>
-            </button> -->
-            <button mat-icon-button (click)="editCurriculum(element)" matTooltip="Click to edit" color="accent">
-              <mat-icon>edit_note</mat-icon>
-            </button>
-
-            <!-- <button  color="accent" matTooltip="click here to {{
-                element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
-              }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
-                'Are you sure to change status of <b>' +
-                element.name +
-                '</b> Curriculum'
-              " placement="auto" (confirm)="deleteCurriculum(element.id, element.status)" confirmButtonType="danger"
-              cancelButtonType="outline-secondary">
-              <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
-              <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-            </button> -->
-          </td>
-        </ng-container>
-
-
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="status_tdh">Status</th>
-
-          <td mat-cell *matCellDef="let element" class="status_tdh">
-            <!-- <span matTooltip="Current Status is {{
-                element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-              }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-              "Inactive" }}</span> -->
-
-            <mat-slide-toggle (click)="deleteCurriculum(element.id, element.status)"
-              [checked]="element.status == 1 ? true : false"
-              matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-        <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-          <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumns.length">
-            No Records Found
-          </td>
-        </tr>
-      </table>
-    </div>
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <span>{{element.usage_type == 1?'Course':''}}
+                  {{element.usage_type == 2?'QBank':''}}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="created_at">
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Created Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
+            </ng-container>
+    
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="updated_at">
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
+            </ng-container>
+    
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
+              <td mat-cell *matCellDef="let element" class="actions_tdh">
+                <!-- <button mat-icon-button (click)="viewCurriculum(element)">
+                  <mat-icon>view_list</mat-icon>
+                </button> -->
+                <button mat-icon-button (click)="editCurriculum(element)" matTooltip="Click to edit" color="accent">
+                  <mat-icon>edit_note</mat-icon>
+                </button>
+    
+                <!-- <button  color="accent" matTooltip="click here to {{
+                    element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
+                  }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                    'Are you sure to change status of <b>' +
+                    element.name +
+                    '</b> Curriculum'
+                  " placement="auto" (confirm)="deleteCurriculum(element.id, element.status)" confirmButtonType="danger"
+                  cancelButtonType="outline-secondary">
+                  <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
+                  <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
+                </button> -->
+              </td>
+            </ng-container>
+    
+    
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="status_tdh">Status</th>
+    
+              <td mat-cell *matCellDef="let element" class="status_tdh">
+                <!-- <span matTooltip="Current Status is {{
+                    element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+                  }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+                  "Inactive" }}</span> -->
+    
+                <mat-slide-toggle (click)="deleteCurriculum(element.id, element.status)"
+                  [checked]="element.status == 1 ? true : false"
+                  matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
+              </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumns.length">
+                No Records Found
+              </td>
+            </tr>
+          </table>
+        </div>
+      </mat-tab>
+      <mat-tab label="QBanks">
+        <div class="rsp_tbl">
+          <table mat-table [dataSource]="dataSource" matSort class="mat-table mat-elevation-z8">
+            <!-- Position Column -->
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef class="s_no">S.No</th>
+              <td mat-cell *matCellDef="let element" class="s_no">
+                {{ element.s_no }}
+              </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Course Name
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <span (click)="navigateTo(element.id)" class="lnk_nav">{{
+                  element.name
+                  }}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="usage_type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Course_for
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <span>{{element.usage_type == 1?'Course':''}}
+                  {{element.usage_type == 2?'QBank':''}}</span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="created_at">
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Created Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
+            </ng-container>
+    
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="updated_at">
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
+              <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
+            </ng-container>
+    
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
+              <td mat-cell *matCellDef="let element" class="actions_tdh">
+                <!-- <button mat-icon-button (click)="viewCurriculum(element)">
+                  <mat-icon>view_list</mat-icon>
+                </button> -->
+                <button mat-icon-button (click)="editCurriculum(element)" matTooltip="Click to edit" color="accent">
+                  <mat-icon>edit_note</mat-icon>
+                </button>
+    
+                <!-- <button  color="accent" matTooltip="click here to {{
+                    element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
+                  }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                    'Are you sure to change status of <b>' +
+                    element.name +
+                    '</b> Curriculum'
+                  " placement="auto" (confirm)="deleteCurriculum(element.id, element.status)" confirmButtonType="danger"
+                  cancelButtonType="outline-secondary">
+                  <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
+                  <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
+                </button> -->
+              </td>
+            </ng-container>
+    
+    
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="status_tdh">Status</th>
+    
+              <td mat-cell *matCellDef="let element" class="status_tdh">
+                <!-- <span matTooltip="Current Status is {{
+                    element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+                  }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+                  "Inactive" }}</span> -->
+    
+                <mat-slide-toggle (click)="deleteCurriculum(element.id, element.status)"
+                  [checked]="element.status == 1 ? true : false"
+                  matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
+              </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+              <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumns.length">
+                No Records Found
+              </td>
+            </tr>
+          </table>
+        </div>
+      </mat-tab>
+    </mat-tab-group> 
     <mat-paginator [pageSizeOptions]="pageSizeOptions" showFirstLastButtons (page)="getServerData($event)">
     </mat-paginator>
   </div>

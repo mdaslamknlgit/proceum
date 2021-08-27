@@ -2,295 +2,389 @@
     ::ng-deep .mat-option:first-child .mat-pseudo-checkbox {
         display: none;
     }
-    </style>
-    <div class="mn_dshbrd">
-        <div class="brd_crm"> <span>Create New Question</span> </div>
-        <div class="pg_ttl">Create New Question</div>
-        <div class="crt_prtnr dsh_brd_crds">
-            <form #question_list_form="ngForm" id="question_list_form" name="question_list_form" (ngSubmit)="question_list_form.valid && createQList()" novalidate>
-                <div class="crt_pr_mn px-0 bg-0">
-                    <div class="w_100p">
-                        <div>
-                            <div class="crt_prt_hd">This Question is for:</div>
-                            <div class="crt_prt_cnt">
-                                <mat-radio-group name="questionUsageType" [(ngModel)]="question.questionUsageType" #questionUsageType="ngModel" ngModel required>
-                                    <mat-radio-button [value]="1" class="emh qif" (click)="changeQUsageType(1)">Assessment Only (This question will not visible for frontend in notes/content) </mat-radio-button>
-                                    <mat-radio-button [value]="2" class="emh qif" (click)="changeQUsageType(2)">Preparation Only (Available for Study mode to view questions and also in notes / content page) </mat-radio-button>
-                                    <mat-radio-button [value]="3" class="emh qif" (click)="changeQUsageType(3)">QBanks Only (Questions will be listed inside the Question banks as a separate list and will not be accessible as a free content) </mat-radio-button>
-                                </mat-radio-group>
-                            </div>
+</style>
+<div class="mn_dshbrd">
+    <div class="brd_crm"> <span>Create New Question</span> </div>
+    <div class="pg_ttl">Create New Question</div>
+    <div class="crt_prtnr dsh_brd_crds">
+        <form #question_list_form="ngForm" id="question_list_form" name="question_list_form"
+            (ngSubmit)="question_list_form.valid && createQList()" novalidate>
+            <div class="crt_pr_mn px-0 bg-0">
+                <div class="w_100p">
+                    <div>
+                        <div class="crt_prt_hd">This Question is for:</div>
+                        <div class="crt_prt_cnt">
+                            <mat-radio-group name="questionUsageType" [(ngModel)]="question.questionUsageType"
+                                #questionUsageType="ngModel" ngModel required>
+                                <mat-radio-button [value]="1" class="emh qif" (click)="changeQUsageType(1)">Assessment
+                                    Only (This question will not visible for frontend in notes/content)
+                                </mat-radio-button>
+                                <mat-radio-button [value]="2" class="emh qif" (click)="changeQUsageType(2)">Preparation
+                                    Only (Available for Study mode to view questions and also in notes / content page)
+                                </mat-radio-button>
+                                <mat-radio-button [value]="3" class="emh qif" (click)="changeQUsageType(3)">QBanks Only
+                                    (Questions will be listed inside the Question banks as a separate list and will not
+                                    be accessible as a free content) </mat-radio-button>
+                            </mat-radio-group>
                         </div>
-                        <div *ngIf="question_Qbank && false" class="mt_1">
-                            <div class="crt_prt_hd">Add question to QBank <span class="required">*</span></div>
-                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                    </div>
+                    <div *ngIf="question_Qbank && false" class="mt_1">
+                        <div class="crt_prt_hd">Add question to QBank <span class="required">*</span></div>
+                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_80p">
                                     <mat-select placeholder="Select QBank" name="qbank"
-                                    [(ngModel)]="question.q_bank_ids" #qbank="ngModel" ngModel multiple required>
-                                    <mat-option value="0">Select question bank(s)</mat-option>
-                                    <mat-option *ngFor="let qbank of QBanks" [value]="qbank.id">{{ qbank.q_bank_type
-                                    }}
-                                    </mat-option>
+                                        [(ngModel)]="question.q_bank_ids" #qbank="ngModel" ngModel multiple required>
+                                        <mat-option value="0">Select question bank(s)</mat-option>
+                                        <mat-option *ngFor="let qbank of QBanks" [value]="qbank.id">{{ qbank.q_bank_type
+                                            }}
+                                        </mat-option>
                                     </mat-select>
                                     <span class="prc_tltp"
                                         *ngIf=" (qbank.submitted || qbank.touched) && question.q_bank_ids==0">Please
-                                    select question bank(s)</span> </mat-form-field>
-                                </span>
-                            </div>
+                                        select question bank(s)</span>
+                                </mat-form-field>
+                            </span>
                         </div>
                     </div>
-                    <div class="crt_pr_dv w_45p rsp_100p">
-                        <div>
-                            <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span></div>
-                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                </div>
+                <div class="crt_pr_dv w_45p rsp_100p">
+                    <div>
+                        <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span></div>
+                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}" name="curriculum_id_name"
-                                    [(ngModel)]="question.curriculum_id"
-                                    (ngModelChange)="getTopics(question.curriculum_id, '')"
-                                    #curriculum_id_name="ngModel" ngModel="curriculum_id_name" required>
-                                    <mat-option [matTooltip]="value['curriculumn_name']" *ngFor="let value of curriculums" [value]="value['pk_id']">
-                                    {{value['curriculumn_name']}}</mat-option>
+                                    <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
+                                        name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
+                                        (ngModelChange)="getTopics(question.curriculum_id, '')"
+                                        #curriculum_id_name="ngModel" ngModel="curriculum_id_name" required>
+                                        <mat-option [matTooltip]="value['curriculumn_name']"
+                                            *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                            {{value['curriculumn_name']}}</mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf="(question_list_form.submitted || curriculum_id_name.touched) &&
-                                        curriculum_id_name.invalid">Course is Required</span> </mat-form-field>
-                                </span>
-                            </div>
+                                        curriculum_id_name.invalid">Course is Required</span>
+                                </mat-form-field>
+                            </span>
                         </div>
-                        <div>
-                            <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
-                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                    </div>
+                    <div>
+                        <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
+                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic" name="topic"
-                                    ngModel="topic" #topic="ngModel" required>
-                                    <mat-option>
-                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'"
-                                        name="search_topic" ngModel 
-                                        (ngModelChange)="getTopics(question.curriculum_id, $event)"
-                                        [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic
-                                        </ngx-mat-select-search>
-                                    </mat-option>
-                                    <mat-option [matTooltip]="value['level_name']" *ngFor="let value of topics | async" [value]="value['pk_id']">
-                                    {{value['level_name']}}</mat-option>
+                                    <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic"
+                                        name="topic" ngModel="topic" #topic="ngModel" required>
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'"
+                                                name="search_topic" ngModel
+                                                (ngModelChange)="getTopics(question.curriculum_id, $event)"
+                                                [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option [matTooltip]="value['level_name']"
+                                            *ngFor="let value of topics | async" [value]="value['pk_id']">
+                                            {{value['level_name']}}</mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf=" (question_list_form.submitted || topic.touched) &&
-                                        topic.invalid">Topic is Required</span> </mat-form-field>
-                                </span>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="crt_prt_hd">Difficulty level</div>
-                            <div class="crt_prt_cnt">
-                                <mat-radio-group name="difficulty_level" [(ngModel)]="question.difficulty_level_id" #difficulty_level="ngModel" ngModel required>
-                                    <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
-                                    <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
-                                    <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
-                                </mat-radio-group>
-                            </div>
+                                        topic.invalid">Topic is Required</span>
+                                </mat-form-field>
+                            </span>
                         </div>
                     </div>
-                    <div class="crt_pr_dv w_45p rsp_100p">
-                        <div>
-                            <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
-                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                    <div>
+                        <div class="crt_prt_hd">Difficulty level</div>
+                        <div class="crt_prt_cnt">
+                            <mat-radio-group name="difficulty_level" [(ngModel)]="question.difficulty_level_id"
+                                #difficulty_level="ngModel" ngModel required>
+                                <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
+                                <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
+                                <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="crt_pr_dv w_45p rsp_100p">
+                    <div>
+                        <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
+                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select Question Type" name="qtype_name"
-                                    [(ngModel)]="question.question_type_id" #qtype_name="ngModel" ngModel
-                                    (selectionChange)="changeQType($event)" required>
-                                    <mat-option [matTooltip]="qtype.question_type" *ngFor="let qtype of QTypes" [value]="qtype.id">
-                                    {{qtype.question_type}}
-                                    </mat-option>
+                                        [(ngModel)]="question.question_type_id" #qtype_name="ngModel" ngModel
+                                        (selectionChange)="changeQType($event)" required>
+                                        <mat-option [matTooltip]="qtype.question_type" *ngFor="let qtype of QTypes"
+                                            [value]="qtype.id">
+                                            {{qtype.question_type}}
+                                        </mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf=" (qtype_name.submitted || qtype_name.touched) &&
-                                        qtype_name.invalid">Question type is Required</span> </mat-form-field>
-                                </span>
-                            </div>
+                                        qtype_name.invalid">Question type is Required</span>
+                                </mat-form-field>
+                            </span>
                         </div>
-                        <div>
-                            <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
-                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                    </div>
+                    <div>
+                        <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
+                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select Question Category" name="question_flag"
-                                    [(ngModel)]="question.question_flag" #question_flag="ngModel" ngModel required>
-                                    <mat-option value="mcq">MCQ</mat-option>
-                                    <mat-option value="case">Case based Question</mat-option>
-                                    <mat-option value="short_answer">Short Question</mat-option>
+                                        [(ngModel)]="question.question_flag" #question_flag="ngModel" ngModel required>
+                                        <mat-option value="mcq">MCQ</mat-option>
+                                        <mat-option value="case">Case based Question</mat-option>
+                                        <mat-option value="short_answer">Short Question</mat-option>
                                     </mat-select>
                                     <span class="prc_tltp" *ngIf=" (question_flag.submitted || question_flag.touched) &&
-                                        question_flag.invalid">Question Category/Type is Required</span> </mat-form-field>
+                                        question_flag.invalid">Question Category/Type is Required</span>
+                                </mat-form-field>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hgt_20"></div>
+                <div class="cc_row w_100p">
+                    <div class="description_block">
+                        <div class="c_block">
+                            <div class="c_block_title">
+                                <label for="question-text"> Question Text <span class="required">*</span></label>
+                            </div>
+                            <div class="c_block_content mt_1">
+                                <div
+                                    class="ck_editor err_tltp_par cnq_ck {{question_list_form.submitted && question.question_text.trim()==''?'angular_editor_div':''}}">
+                                    <angular-editor id="question" required="true"
+                                        [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
+                                        name="question_text" #question_text="ngModel"
+                                        [(ngModel)]="question.question_text"></angular-editor> <span class="prc_tltp"
+                                        *ngIf="question_list_form.submitted && question.question_text.trim()==''">Question
+                                        Text is required</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w_100p" *ngIf="vidio_single_option || video_multiple_option || video_clicp_free_text">
+                    <div class="hgt_10"></div>
+                    <div class="d-flex">
+                        <div class="w_50p">
+                            <div class="w_100p">
+                                <div class="crt_prt_hd">Video Type <span class="required">*</span></div> <span
+                                    class="err_tltp_par ">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel"
+                                            ngModel required
+                                            (ngModelChange)="question.q_source_value='';validateVideo()">
+                                            <mat-option value="">Select Source</mat-option>
+                                            <mat-option *ngFor="let video_type of video_types"
+                                                [value]="video_type['value']">
+                                                {{video_type['name']}}</mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf=" (q_source.submitted || q_source.touched) &&
+                                            q_source.invalid">Video Source Required</span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                            <div class="w_100p">
+                                <div class="crt_prt_hd">Video Source <span class="required">*</span></div> <span
+                                    class="err_tltp_par">
+                                    <mat-form-field appearance="outline" class="w_100p">
+                                        <input [(ngModel)]="question.q_source_value" #q_source_value="ngModel"
+                                            name="q_source_value" matInput placeholder="Video ID/Link" required
+                                            (blur)="validateVideo()" />
+                                        <span class="prc_tltp" *ngIf=" (q_source_value.submitted || q_source_value.touched) &&
+                                            q_source_value.invalid">Video Source Value is Required</span>
+                                    </mat-form-field>
                                 </span>
                             </div>
                         </div>
-                    </div>
-                    <div class="hgt_20"></div>
-                    <div class="cc_row w_100p">
-                        <div class="description_block">
-                            <div class="c_block">
-                                <div class="c_block_title">
-                                    <label for="question-text"> Question Text <span class="required">*</span></label>
-                                </div>
-                                <div class="c_block_content mt_1">
-                                    <div class="ck_editor err_tltp_par cnq_ck {{question_list_form.submitted && question.question_text.trim()==''?'angular_editor_div':''}}">
-                                        <angular-editor id="question" required="true" [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig" name="question_text" #question_text="ngModel" [(ngModel)]="question.question_text"></angular-editor> <span class="prc_tltp" *ngIf="question_list_form.submitted && question.question_text.trim()==''">Question
-                                    Text is required</span> </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w_100p" *ngIf="vidio_single_option || video_multiple_option || video_clicp_free_text">
-                        <div class="hgt_10"></div>
-                        <div class="d-flex">
-                            <div class="w_50p">
-                                <div class="w_100p">
-                                    <div class="crt_prt_hd">Video Type <span class="required">*</span></div> <span class="err_tltp_par ">
-                                    <mat-form-field appearance="outline" class="w_100p">
-                                        <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel"
-                                        ngModel required
-                                        (ngModelChange)="question.q_source_value='';validateVideo()">
-                                        <mat-option value="">Select Source</mat-option>
-                                        <mat-option *ngFor="let video_type of video_types"
-                                        [value]="video_type['value']">
-                                        {{video_type['name']}}</mat-option>
-                                        </mat-select>
-                                        <span class="prc_tltp" *ngIf=" (q_source.submitted || q_source.touched) &&
-                                            q_source.invalid">Video Source Required</span> </mat-form-field>
-                                    </span>
-                                </div>
-                                <div class="w_100p">
-                                    <div class="crt_prt_hd">Video Source <span class="required">*</span></div> <span class="err_tltp_par">
-                                    <mat-form-field appearance="outline" class="w_100p">
-                                        <input [(ngModel)]="question.q_source_value" #q_source_value="ngModel"
-                                        name="q_source_value" matInput placeholder="Video ID/Link" required
-                                        (blur)="validateVideo()" />
-                                        <span class="prc_tltp" *ngIf=" (q_source_value.submitted || q_source_value.touched) &&
-                                            q_source_value.invalid">Video Source Value is Required</span> </mat-form-field>
-                                    </span>
-                                </div>
-                            </div>
-                            <!-- <div class="w_50p">
+                        <!-- <div class="w_50p">
                             <div class="cnq_vd">
                                <iframe width="1350" height="480" src="https://www.youtube.com/embed/kA3quxNrnAI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
-                            </div> --></div>
+                            </div> -->
                     </div>
-                    <div class="crt_pr_dv w_100p" *ngIf="audio_single_option || 
+                </div>
+                <div class="crt_pr_dv w_100p" *ngIf="audio_single_option || 
                     audio_multiple_option || 
                     image_single_option || 
                     image_multiple_option || 
                     audio_clip_free_text || 
                     image_free_text
                     ">
-                        <div class="hgt_10"></div>
-                        <div class="brnd_info_mn">
-                            <div class="brnd_info_upld">
-                                <div class="ql_img_thmb" *ngIf="image_single_option||image_multiple_option || image_free_text"> <img *ngIf="imageSrc['file']" [src]="imageSrc['file']">
-                                    <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon>
-                                </div>
-                                <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text"> <span (click)="playAudio(imageSrc['file'])">
+                    <div class="hgt_10"></div>
+                    <div class="brnd_info_mn">
+                        <div class="brnd_info_upld">
+                            <div class="ql_img_thmb"
+                                *ngIf="image_single_option||image_multiple_option || image_free_text"> <img
+                                    *ngIf="imageSrc['file']" [src]="imageSrc['file']">
+                                <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon>
+                            </div>
+                            <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text"> <span
+                                    (click)="playAudio(imageSrc['file'])">
                                     <mat-icon>play_arrow</mat-icon>
                                 </span> <span (click)="pauseAudio()">
                                     <mat-icon>pause</mat-icon>
                                 </span> </div>
-                                <mat-form-field appearance="outline" class="w_80p">
-                                    <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName" name="fileName" readonly required />
-                                    <mat-hint *ngIf="image_single_option || image_multiple_option|| image_free_text" class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System will accept only jpg, jpeg, bmp, gif, png </mat-hint>
-                                    <mat-hint *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text" class="fl_frmt_info"> System will accept only mp3 </mat-hint>
-                                </mat-form-field>
-                                <button type="button" mat-raised-button onclick="document.getElementById('file').click()" color="accent" class="float_right mr_1 mt_3px">
-                                    <mat-icon>upload</mat-icon> Browse
-                                    <input class="w_80p" (change)="onFileChange($event)" accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg,image/bmp':'.mp3'}}" id="file" type="file" style="display: none" /> </button>
-                            </div>
+                            <mat-form-field appearance="outline" class="w_80p">
+                                <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
+                                    name="fileName" readonly required />
+                                <mat-hint *ngIf="image_single_option || image_multiple_option|| image_free_text"
+                                    class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System will accept
+                                    only jpg, jpeg, bmp, gif, png </mat-hint>
+                                <mat-hint *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text"
+                                    class="fl_frmt_info"> System will accept only mp3 </mat-hint>
+                            </mat-form-field>
+                            <button type="button" mat-raised-button onclick="document.getElementById('file').click()"
+                                color="accent" class="float_right mr_1 mt_3px">
+                                <mat-icon>upload</mat-icon> Browse
+                                <input class="w_80p" (change)="onFileChange($event)"
+                                    accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg,image/bmp':'.mp3'}}"
+                                    id="file" type="file" style="display: none" />
+                            </button>
                         </div>
-                    </div>
-                    <div class="crt_pr_dv w_100p isca_mat" *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
-                        <div class="hgt_10"></div> <span> Is Correct Answer?</span>
-                        <div class="d-flex ql_ca">
-                            <div class="ql_ca_mn">
-                                <div class="brnd_info_mn addrmv_btn" *ngFor="let option_value of question.option_array;index as option">
-                                    <div class="brnd_info_upld">
-                                        <mat-checkbox color="accent" [value]="option+1" (change)="onCorrectAnsChange($event)"> </mat-checkbox>
-                                        <mat-form-field appearance="outline" class="w_100p hgt_100px">
-                                            <textarea [(ngModel)]="question['option'+(option+1)]" name="option_{{option+1}}" #option_{{option+1}}="ngModel" maxlength="255" matInput placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt" required></textarea>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="w_100p">
-                                        <angular-editor id="option_{{option+1}}" [placeholder]="'Enter Option '+(option+1) +' Explanation'" [config]="liteEditorConfig" name="option_{{option+1}}" #option_{{option+1}}="ngModel" [(ngModel)]="question['option_explanation_'+(option+1)]"> </angular-editor>
-                                    </div>
-                                    <div class="hgt_20"></div>
-                                    <button class="float_right mr_1" (click)="addOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length<8" mat-raised-button type="button" color="accent">Add option</button>
-                                    <button class="float_right mr_1" (click)="removeOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length>2" type="button" mat-raised-button color="warn">Remove Option</button>
-                                </div>
-                            </div>
-                            <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
-                                <div class="brnd_info_mn hgt_110px" *ngFor="let option_value of question.option_array;index as option;">
-                                    <div class="ql_img_thmb"> <img *ngIf="imageSrc['opt'+(option+1)+'Img']" [src]="imageSrc['opt'+(option+1)+'Img']">
-                                        <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
-                                    </div>
-                                    <div class="brnd_info_upld">
-                                        <mat-form-field appearance="outline" class="">
-                                            <input matInput placeholder="Upload Option {{option+1}} Image" [(ngModel)]="this['opt'+(option+1)+'FileName']" id="opt{{option+1}}FileName" name="opt{{option+1}}FileName" readonly />
-                                            <mat-hint *ngIf="image_option" class="fl_frmt_info"> System will accept only jpg, jpeg, bmp, gif, png </mat-hint>
-                                        </mat-form-field>
-                                        <button type="button" mat-raised-button (click)="openFileExplor((option+1))" color="accent" class="float_right">
-                                            <mat-icon>upload</mat-icon> Browse
-                                            <input class="w_80p" (change)="onFileChange($event)" accept="image/x-png,image/gif,image/jpeg,image/bmp" id="opt{{option+1}}Img" type="file" style="display: none" /> </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="crt_pr_dv w_100p" *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
-                        <div class="hgt_10"></div>
-                        <div>Is Correct Answer?</div>
-                        <div class="d-flex ql_ca">
-                            <div class="ql_ca_mn">
-                                <mat-radio-group [(ngModel)]="question.correct_ans_ids[0]" name="correct_options">
-                                    <div class="brnd_info_mn addrmv_btn" *ngFor="let option_value of question.option_array;index as option;">
-                                        <div class="brnd_info_upld">
-                                            <mat-radio-button class="mt_1" [value]="option+1" (change)="onCorrectAnsChange($event)"> </mat-radio-button>
-                                            <div class="w_100p fw_w">
-                                                <div class="w_100p">
-                                                    <mat-form-field appearance="outline" class="w_100p">
-                                                        <textarea [(ngModel)]="question['option'+(option+1)]" name="option{{option+1}}" #option{{option+1}}="ngModel" maxlength="255" matInput placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt" required></textarea>
-                                                    </mat-form-field>
-                                                </div>
-                                                <div class="w_100p">
-                                                    <angular-editor id="option_{{option+1}}" [placeholder]="'Enter Option '+(option+1) +' Explanation'" [config]="liteEditorConfig" name="option_{{option+1}}" #option_{{option+1}}="ngModel" [(ngModel)]="question['option_explanation_'+(option+1)]"> </angular-editor>
-                                                </div>
-                                                <div class="hgt_20"></div>
-                                            </div>
-                                        </div>
-                                        <button (click)="addOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length<8" mat-raised-button type="button" class="mr_1 float_right" color="accent">Add</button>
-                                        <button (click)="removeOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length>2" type="button" mat-raised-button color="warn" class="float_right mr_1">Remove</button>
-                                    </div>
-                                </mat-radio-group>
-                            </div>
-                            <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
-                                <div class="brnd_info_mn hgt_335px" *ngFor="let option_value of question.option_array;index as option;">
-                                    <div class="ql_img_thmb"> <img *ngIf="imageSrc['opt'+(option+1)+'Img']" [src]="imageSrc['opt'+(option+1)+'Img']">
-                                        <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
-                                    </div>
-                                    <div class="brnd_info_upld">
-                                        <mat-form-field appearance="outline" class="">
-                                            <input matInput placeholder="Upload Option {{option+1}} Image" [(ngModel)]="this['opt'+(option+1)+'FileName']" id="opt{{option+1}}FileName" name="opt{{option+1}}FileName" readonly />
-                                            <mat-hint *ngIf="image_option" class="fl_frmt_info"> System will accept only jpg, jpeg, bmp, gif, png </mat-hint>
-                                        </mat-form-field>
-                                        <button type="button" mat-raised-button (click)="openFileExplor((option+1))" color="accent" class="float_right">
-                                            <mat-icon>upload</mat-icon> Browse
-                                            <input class="w_80p" (change)="onFileChange($event)" accept="image/x-png,image/gif,image/jpeg,image/bmp" id="opt{{option+1}}Img" type="file" style="display: none" /> </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="text_right w_100p">
-                            <button (click)="addOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length<8" mat-raised-button type="button" class="mr_1" color="accent">Add Option</button>
-                            <button (click)="removeOption(option)" *ngIf="question.option_array.length == (option+1) && question.option_array.length>2" type="button" mat-raised-button color="warn">Remove Option</button>
-                        </div>
-                    </div>
-                    <div class="hgt_10"></div>
-                    <div class="text_right w_100p">
-                        <button class="gry_btn mr_1" (click)="navigateTo('questions-mgt/questions-list')" mat-raised-button>Cancel</button>
-                        <button color="accent" mat-raised-button>Submit</button>
                     </div>
                 </div>
-            </form>
-        </div>
+                <div class="crt_pr_dv w_100p isca_mat"
+                    *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
+                    <div class="hgt_10"></div> <span> Is Correct Answer?</span>
+                    <div class="d-flex ql_ca">
+                        <div class="ql_ca_mn">
+                            <div class="brnd_info_mn addrmv_btn"
+                                *ngFor="let option_value of question.option_array;index as option">
+                                <div class="brnd_info_upld">
+                                    <mat-checkbox color="accent" [value]="option+1"
+                                        (change)="onCorrectAnsChange($event)"> </mat-checkbox>
+                                    <mat-form-field appearance="outline" class="w_100p hgt_100px">
+                                        <textarea [(ngModel)]="question['option'+(option+1)]" name="option_{{option+1}}"
+                                            #option_{{option+1}}="ngModel" maxlength="255" matInput
+                                            placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt"
+                                            required></textarea>
+                                    </mat-form-field>
+                                </div>
+                                <div class="w_100p">
+                                    <angular-editor id="option_{{option+1}}"
+                                        [placeholder]="'Enter Option '+(option+1) +' Explanation'"
+                                        [config]="liteEditorConfig" name="option_{{option+1}}"
+                                        #option_{{option+1}}="ngModel"
+                                        [(ngModel)]="question['option_explanation_'+(option+1)]"> </angular-editor>
+                                </div>
+                                <div class="hgt_20"></div>
+                                <button class="float_right mr_1" (click)="addOption(option)"
+                                    *ngIf="question.option_array.length == (option+1) && question.option_array.length<8"
+                                    mat-raised-button type="button" color="accent">Add option</button>
+                                <button class="float_right mr_1" (click)="removeOption(option)"
+                                    *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
+                                    type="button" mat-raised-button color="warn">Remove Option</button>
+                            </div>
+                        </div>
+                        <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
+                            <div class="brnd_info_mn hgt_110px"
+                                *ngFor="let option_value of question.option_array;index as option;">
+                                <div class="ql_img_thmb"> <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
+                                        [src]="imageSrc['opt'+(option+1)+'Img']">
+                                    <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
+                                </div>
+                                <div class="brnd_info_upld">
+                                    <mat-form-field appearance="outline" class="">
+                                        <input matInput placeholder="Upload Option {{option+1}} Image"
+                                            [(ngModel)]="this['opt'+(option+1)+'FileName']" id="opt{{option+1}}FileName"
+                                            name="opt{{option+1}}FileName" readonly />
+                                        <mat-hint *ngIf="image_option" class="fl_frmt_info"> System will accept only
+                                            jpg, jpeg, bmp, gif, png </mat-hint>
+                                    </mat-form-field>
+                                    <button type="button" mat-raised-button (click)="openFileExplor((option+1))"
+                                        color="accent" class="float_right">
+                                        <mat-icon>upload</mat-icon> Browse
+                                        <input class="w_80p" (change)="onFileChange($event)"
+                                            accept="image/x-png,image/gif,image/jpeg,image/bmp" id="opt{{option+1}}Img"
+                                            type="file" style="display: none" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="crt_pr_dv w_100p"
+                    *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
+                    <div class="hgt_10"></div>
+                    <div>Is Correct Answer?</div>
+                    <div class="d-flex ql_ca">
+                        <div class="ql_ca_mn">
+                            <mat-radio-group [(ngModel)]="question.correct_ans_ids[0]" name="correct_options">
+                                <div class="brnd_info_mn addrmv_btn"
+                                    *ngFor="let option_value of question.option_array;index as option;">
+                                    <div class="brnd_info_upld">
+                                        <mat-radio-button class="mt_1" [value]="option+1"
+                                            (change)="onCorrectAnsChange($event)"> </mat-radio-button>
+                                        <div class="w_100p fw_w">
+                                            <div class="w_100p">
+                                                <mat-form-field appearance="outline" class="w_100p">
+                                                    <textarea [(ngModel)]="question['option'+(option+1)]"
+                                                        name="option{{option+1}}" #option{{option+1}}="ngModel"
+                                                        maxlength="255" matInput
+                                                        placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt"
+                                                        required></textarea>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="w_100p">
+                                                <angular-editor id="option_{{option+1}}"
+                                                    [placeholder]="'Enter Option '+(option+1) +' Explanation'"
+                                                    [config]="liteEditorConfig" name="option_{{option+1}}"
+                                                    #option_{{option+1}}="ngModel"
+                                                    [(ngModel)]="question['option_explanation_'+(option+1)]">
+                                                </angular-editor>
+                                            </div>
+                                            <div class="hgt_20"></div>
+                                        </div>
+                                    </div>
+                                    <button (click)="addOption(option)"
+                                        *ngIf="question.option_array.length == (option+1) && question.option_array.length<8"
+                                        mat-raised-button type="button" class="mr_1 float_right"
+                                        color="accent">Add</button>
+                                    <button (click)="removeOption(option)"
+                                        *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
+                                        type="button" mat-raised-button color="warn"
+                                        class="float_right mr_1">Remove</button>
+                                </div>
+                            </mat-radio-group>
+                        </div>
+                        <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
+                            <div class="brnd_info_mn hgt_335px"
+                                *ngFor="let option_value of question.option_array;index as option;">
+                                <div class="ql_img_thmb"> <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
+                                        [src]="imageSrc['opt'+(option+1)+'Img']">
+                                    <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
+                                </div>
+                                <div class="brnd_info_upld">
+                                    <mat-form-field appearance="outline" class="d_none">
+                                        <input matInput placeholder="Upload Option {{option+1}} Image"
+                                            [(ngModel)]="this['opt'+(option+1)+'FileName']" id="opt{{option+1}}FileName"
+                                            name="opt{{option+1}}FileName" readonly />
+                                        <mat-hint *ngIf="image_option" class="fl_frmt_info"> System will accept only
+                                            jpg, jpeg, bmp, gif, png </mat-hint>
+                                    </mat-form-field>
+                                    <button type="button" mat-raised-button (click)="openFileExplor((option+1))"
+                                        color="accent" class="float_right">
+                                        <mat-icon>upload</mat-icon> Browse
+                                        <input class="w_80p" (change)="onFileChange($event)"
+                                            accept="image/x-png,image/gif,image/jpeg,image/bmp" id="opt{{option+1}}Img"
+                                            type="file" style="display: none" />
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text_right w_100p">
+                        <button (click)="addOption(option)"
+                            *ngIf="question.option_array.length == (option+1) && question.option_array.length<8"
+                            mat-raised-button type="button" class="mr_1" color="accent">Add Option</button>
+                        <button (click)="removeOption(option)"
+                            *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
+                            type="button" mat-raised-button color="warn">Remove Option</button>
+                    </div>
+                </div>
+                <div class="hgt_10"></div>
+                <div class="text_right w_100p">
+                    <button class="gry_btn mr_1" (click)="navigateTo('questions-mgt/questions-list')"
+                        mat-raised-button>Cancel</button>
+                    <button color="accent" mat-raised-button>Submit</button>
+                </div>
+            </div>
+        </form>
     </div>
+</div>
