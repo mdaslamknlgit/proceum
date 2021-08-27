@@ -2,17 +2,25 @@
   <div class="brd_crm">
     <span>Question Management</span>
   </div>
-  <div class="pg_ttl">Question Management</div>
-  <!-- <div class="qm_srchhd">
-    Search
-  </div> -->
+  <div class="d-flex">
+    <div class="pg_ttl">Question Management</div>
+    <div class="spacer"></div>
+    <div>
+      <button mat-raised-button color="accent" routerLink="/admin/questions-mgt/create-question">
+        <mat-icon>add</mat-icon>
+        Add new Question
+      </button>
+    </div>
+  </div>
+  <hr>
+  <div class="hgt_10"></div>
   <div class="qm_srch">
     <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
       <div class="clear_fix"></div>
-      <div>Select Curriculum</div>
+      <div>Select Course</div>
       <mat-form-field appearance="outline">
         <mat-select [(ngModel)]="filter_array.curriculum_id" (ngModelChange)="getLabels()">
-          <mat-option [value]="0">Select Curriculum</mat-option>
+          <mat-option [value]="0">Select Course</mat-option>
           <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
             [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
           </mat-option>
@@ -37,7 +45,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="cm_fltr_sc mr_1" >
+    <div class="cm_fltr_sc mr_1">
       <div>Select Question Category</div>
       <mat-form-field appearance="outline">
         <mat-select placeholder="Select Question Category" [(ngModel)]="filter_array['question_flag']"
@@ -49,7 +57,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="cm_fltr_sc mr_1" >
+    <div class="cm_fltr_sc mr_1">
       <div>Select Question Usage</div>
       <mat-form-field appearance="outline">
         <mat-select placeholder="Select Question Usage" [(ngModel)]="filter_array['question_usage']"
@@ -61,7 +69,7 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="cm_fltr_sc mr_1" >
+    <div class="cm_fltr_sc mr_1">
       <span>Select QBank</span>
       <mat-form-field appearance="outline">
         <mat-select placeholder="Select Question Bank" [(ngModel)]="filter_array['question_bank']"
@@ -72,23 +80,23 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div class="cm_fltr_sc mr_1" >
+    <div class="cm_fltr_sc">
+      <div>&nbsp;</div>
+      <button mat-raised-button color="warn" class="mt_3px" (click)="resetFilters()" matTooltip="Reset">
+        <mat-icon>restart_alt</mat-icon>
+      </button>
+    </div>
+    <div class="clear_fix"></div>
+    <div class="w_50p">
       <div>Search</div>
-      <mat-form-field appearance="outline" class="w_100p">
+      <mat-form-field appearance="outline">
         <input matInput matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
           placeholder="Search" placeholder="Search" />
         <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
       </mat-form-field>
     </div>
-    <div class="cm_fltr_sc mr_1" >
-      <div>&nbsp;</div>
-      <button mat-raised-button color="accent" class="mt_3px mr_1" routerLink="/admin/questions-mgt/create-question">
-        <mat-icon>add</mat-icon>
-        Add new Question
-      </button>
-      <button mat-raised-button color="warn" (click)="resetFilters()" matTooltip="Reset"><mat-icon>restart_alt</mat-icon></button>
-    </div>
   </div>
+  <div class="hgt_20"></div>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
     <!--- Note that these columns can be defined in any order.
@@ -123,7 +131,8 @@
       <th mat-header-cell *matHeaderCellDef> Actions </th>
       <td mat-cell *matCellDef="let element">
         <button mat-icon-button color="accent" class="mr_1">
-          <mat-icon routerLink="/admin/questions-mgt/edit-question/{{element.id}}" matTooltip="Click to Edit">edit_notes</mat-icon>
+          <mat-icon routerLink="/admin/questions-mgt/edit-question/{{element.id}}" matTooltip="Click to Edit">edit_notes
+          </mat-icon>
         </button>
         <button mat-icon-button color="warn" matTooltip="Click to delete" mwlConfirmationPopover
           [popoverTitle]="'Delete Question ?'"

@@ -40,10 +40,10 @@
                     </div>
                     <div class="crt_pr_dv w_45p rsp_100p">
                         <div>
-                            <div class="crt_prt_hd">{{question_Qbank?'QBank':'Curriculum'}}<span class="required">*</span></div>
+                            <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
-                                        <mat-select placeholder="Select Curriculum" name="curriculum_id_name"
+                                        <mat-select placeholder="Select Course" name="curriculum_id_name"
                                             [(ngModel)]="question.curriculum_id"
                                             (ngModelChange)="getTopics(question.curriculum_id, '');question.topic='';"
                                             #curriculum_id_name="ngModel" ngModel required>
@@ -51,7 +51,7 @@
                                                 {{value['curriculumn_name']}}</mat-option>
                                         </mat-select>
                                         <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
-                                        curriculum_id_name.invalid">Curriculum is Required</span> </mat-form-field>
+                                        curriculum_id_name.invalid">Course is Required</span> </mat-form-field>
                                 </span>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
-                                        <mat-select placeholder="Select Topic" [(ngModel)]="question.topic" name="topic"
+                                        <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic" name="topic"
                                             ngModel="topic" #topic="ngModel" required>
                                             <mat-option>
                                                 <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'"
