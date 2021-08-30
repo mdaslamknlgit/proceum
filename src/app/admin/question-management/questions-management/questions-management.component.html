@@ -19,8 +19,7 @@
       <div class="clear_fix"></div>
       <div>Select Course</div>
       <mat-form-field appearance="outline">
-        <mat-select [(ngModel)]="filter_array.curriculum_id" (ngModelChange)="getLabels()">
-          <mat-option [value]="0">Select Course</mat-option>
+        <mat-select [(ngModel)]="filter_array.curriculum_id" placeholder="Select Course" (ngModelChange)="getLabels()">
           <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
             [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
           </mat-option>
@@ -50,7 +49,6 @@
       <mat-form-field appearance="outline">
         <mat-select placeholder="Select Question Category" [(ngModel)]="filter_array['question_flag']"
           (ngModelChange)="changeQSource()" name="question_flag" #question_flag="ngModel" ngModel>
-          <mat-option value="">Select Question Category</mat-option>
           <mat-option value="mcq">MCQ</mat-option>
           <mat-option value="case">Case based Question</mat-option>
           <mat-option value="short_answer">Short Question</mat-option>
@@ -62,7 +60,6 @@
       <mat-form-field appearance="outline">
         <mat-select placeholder="Select Question Usage" [(ngModel)]="filter_array['question_usage']"
           (ngModelChange)="changeQSource()" name="question_usage" #question_usage="ngModel" ngModel>
-          <mat-option value="0">Select Question Usage</mat-option>
           <mat-option value="1">Assessment</mat-option>
           <mat-option value="2">Preparation</mat-option>
           <mat-option value="3">QBanks</mat-option>
@@ -74,7 +71,6 @@
       <mat-form-field appearance="outline">
         <mat-select placeholder="Select Question Bank" [(ngModel)]="filter_array['question_bank']"
           (selectionChange)="changeQSource()" name="question_bank" #question_bank="ngModel" ngModel>
-          <mat-option value="">Select QBank</mat-option>
           <mat-option value="mcq" *ngFor="let value of q_banks" [value]="value['id']">{{value['q_bank_type']}}
           </mat-option>
         </mat-select>

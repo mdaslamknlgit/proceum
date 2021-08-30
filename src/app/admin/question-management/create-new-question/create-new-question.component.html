@@ -214,12 +214,10 @@
                                     *ngIf="imageSrc['file']" [src]="imageSrc['file']">
                                 <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon>
                             </div>
-                            <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text"> <span
-                                    (click)="playAudio(imageSrc['file'])">
-                                    <mat-icon>play_arrow</mat-icon>
-                                </span> <span (click)="pauseAudio()">
-                                    <mat-icon>pause</mat-icon>
-                                </span> </div>
+                            <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text" class="mt_8px">
+                                <mat-icon (click)="playAudio(imageSrc['file'])">play_arrow</mat-icon>
+                                <mat-icon (click)="pauseAudio()">pause</mat-icon>
+                            </div>
                             <mat-form-field appearance="outline" class="w_80p">
                                 <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
                                     name="fileName" readonly required />
@@ -227,7 +225,7 @@
                                     class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System will accept
                                     only jpg, jpeg, bmp, gif, png </mat-hint>
                                 <mat-hint *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text"
-                                    class="fl_frmt_info"> System will accept only mp3 </mat-hint>
+                                    class="fl_frmt_info"> System will accept only .mp3 format </mat-hint>
                             </mat-form-field>
                             <button type="button" mat-raised-button onclick="document.getElementById('file').click()"
                                 color="accent" class="float_right mr_1 mt_3px">
@@ -280,7 +278,7 @@
                                     <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
                                 </div>
                                 <div class="brnd_info_upld">
-                                    <mat-form-field appearance="outline" class="">
+                                    <mat-form-field appearance="outline" class="d_none">
                                         <input matInput placeholder="Upload Option {{option+1}} Image"
                                             [(ngModel)]="this['opt'+(option+1)+'FileName']" id="opt{{option+1}}FileName"
                                             name="opt{{option+1}}FileName" readonly />
