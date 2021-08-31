@@ -105,7 +105,7 @@
   <div class="cust_mdl_par cust_mdl_30p {{ schdule_publish ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
-        Set Publish Date & Time
+        Set Publish Date &amp; Time
         <span class="spacer"></span>
         <button (click)="CloseSchdulePublish()" mat-icon-button class="float_right">
           &#x2715;
@@ -123,6 +123,7 @@
           <mat-form-field appearance="outline" class="w_47p">
             <input type="time" matInput min="{{today.today.getHours()}+':'+today.getMinutes()}"
               [(ngModel)]="publish_time" name="publish_time">
+            <!-- <mat-icon matSuffix>schedule</mat-icon> -->
           </mat-form-field>
         </span>
         <hr>
@@ -163,11 +164,6 @@
   <div class="brd_crm">Proceum &raquo; <strong>{{ pgae_title }}</strong></div>
   <div class="pg_ttl ai_cntr">
     <div class="mr_1">{{ pgae_title }}</div>
-    <div class="fre_pid_dv mr_1">
-      <mat-slide-toggle [(ngModel)]="is_paid">
-        {{ is_paid == true ? 'Paid Content' : 'Free Content'}}
-      </mat-slide-toggle>
-    </div>
     <div class="cm_sts_info edt_cnt_sts_info" *ngIf="content_id>0">
       <span *ngIf="content_status == null" class="cpy">Copy</span>
       <span *ngIf="content_status == 'PUBLISHED'" class="pblshd">Published</span>
@@ -177,33 +173,45 @@
       <span
         *ngIf="content_status == 'REVIEW' && (content_reviewer_role==4 || econtent_reviewer_role==5 || content_reviewer_role==6)"
         class="rw_pndg">Review Pending</span>
-
     </div>
-   
   </div>
-  <!-- <section>
-                <mat-radio-button [checked]="is_paid==1?true:false" (click)="is_paid=1">Premium content</mat-radio-button>&nbsp; &nbsp;
-                <mat-radio-button [checked]="is_paid==0?true:false" (click)="is_paid=0">Free content</mat-radio-button> 
-            </section> -->
+
   <form (keydown.enter)="$event.preventDefault()" id="content_form" #content_create_form="ngForm"
     name="content_create_form" (ngSubmit)="content_create_form.valid && createContent(false)" novalidate>
     <div class="main_content_cc">
       <!-- Left content -->
       <div class="cc_left_content dsh_brd_crds">
-        <div class="cc_row err_tltp_par">
-          <mat-form-field appearance="outline" class="page_title_input {{
-              is_submit && title_name.invalid ? 'mat-form-field-invalid' : ''
-            }}">
-            <input matInput trim="blur" name="title_name" maxlength="250" [(ngModel)]="title"
-              placeholder="Enter Content Title" #title_name="ngModel" required />
-          </mat-form-field>
-          <span class="prc_tltp" *ngIf="
-              ((content_create_form.submitted || title_name.touched) &&
-                title_name.invalid) ||
-              (is_submit && title_name.invalid)
-            ">
-            Content Title is required</span>
+
+
+        <div class="d-flex">
+          <div class="w_47p mr_1">
+            <div>Content Title</div>
+            <div class="cc_row err_tltp_par">
+              <mat-form-field appearance="outline" class="page_title_input {{
+                  is_submit && title_name.invalid ? 'mat-form-field-invalid' : ''
+                }}">
+                <input matInput trim="blur" name="title_name" maxlength="250" [(ngModel)]="title"
+                  placeholder="Enter Content Title" #title_name="ngModel" required />
+              </mat-form-field>
+              <span class="prc_tltp" *ngIf="
+                  ((content_create_form.submitted || title_name.touched) &&
+                    title_name.invalid) ||
+                  (is_submit && title_name.invalid)
+                ">
+                Content Title is required</span>
+            </div>
+          </div>
+          <div>
+            <div>Free/Paid Content</div>
+            <div class="fre_pid_dv mt_3px">
+              <mat-slide-toggle [(ngModel)]="is_paid">
+                {{ is_paid == true ? 'Paid Content' : 'Free Content'}}
+              </mat-slide-toggle>
+            </div>
+          </div>
         </div>
+
+
         <!-- #Row1 -->
         <div class="cc_row">
           <!-- Intro video -->
@@ -630,7 +638,7 @@
                       <!-- <span class="lbl_cnt">(5)</span> -->
                     </ng-template>
                     <div class="hgt_20"></div>
-
+                    <div class="fl_frmt_info">Only .obj files allowed!</div>
                     <div class="ulvd_inpts">
                       <div>
                         <span class="err_tltp_par">
@@ -645,8 +653,8 @@
                         <span class="err_tltp_par">
                           <!-- <mat-form-field appearance="outline" class="{{video_value_error_5!='' || video_value_invalid_error_5!=''?'mat-form-field-invalid':''}}"> -->
                           <div style="padding-top: 10px;">
-                            <input type="file" #threed_object (change)="upload3dObject($event)" name="three_d_videos_value_5"
-                              placeholder="Select 3d objet" />
+                            <input type="file" #threed_object (change)="upload3dObject($event)"
+                              name="three_d_videos_value_5" placeholder="Select 3d objet" />
                           </div>
                           <!-- <input matInput [(ngModel)]="video_value_5" (blur)="CheckTitleValue(5,2)" name="video_value_5"
                               placeholder="Video URL/ID" /> -->
@@ -667,8 +675,7 @@
                       <div *ngFor="let video of three_d_videos; let video_index=index">
                         <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
                           <div class="kp_yt_img">
-                            <img
-                              src="../../../assets/images/{{video['source'] == '3D_OBJECT'?'obj.png':'obj.png'}}">
+                            <img src="../../../assets/images/{{video['source'] == '3D_OBJECT'?'obj.png':'obj.png'}}">
                           </div>
                           <div class="mr_1 fnt_bold">{{video['title']}}
                             <div class="vd_pth">
@@ -885,10 +892,10 @@
                       </div>
                       <div class="mt_1 text_right">
                         <button type="button"
-                        [disabled]="highyield_title.trim() == '' || highyield_content.trim() == ''"
-                        (click)="addHighyield()" mat-raised-button color="accent">
-                        <mat-icon>add</mat-icon> Add Notes
-                      </button>
+                          [disabled]="highyield_title.trim() == '' || highyield_content.trim() == ''"
+                          (click)="addHighyield()" mat-raised-button color="accent">
+                          <mat-icon>add</mat-icon> Add Notes
+                        </button>
                         <!-- <button type="button"
                           [disabled]="highyield_title.trim() == '' || highyield_content.trim() == '' || highyield_title_duplicate"
                           (click)="addHighyield()" mat-raised-button color="accent">
@@ -947,7 +954,9 @@
                             </ng-container>
                             <ng-container matColumnDef="question">
                               <td mat-cell *matCellDef="let element">
-                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> <div class="qsp_hd" [innerHtml]="element['question']"></div></a>
+                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank">
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                </a>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="action">
@@ -988,8 +997,10 @@
                             </ng-container>
                             <ng-container matColumnDef="question">
                               <td mat-cell *matCellDef="let element">
-                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> <div class="qsp_hd" [innerHtml]="element['question']"></div></a>
-                                
+                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank">
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                </a>
+
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="action">
@@ -1042,7 +1053,9 @@
                             </ng-container>
                             <ng-container matColumnDef="question">
                               <td mat-cell *matCellDef="let element">
-                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> <div class="qsp_hd" [innerHtml]="element['question']"></div></a>
+                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank">
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                </a>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="action">
@@ -1087,7 +1100,9 @@
                             </ng-container>
                             <ng-container matColumnDef="question">
                               <td mat-cell *matCellDef="let element">
-                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> <div class="qsp_hd" [innerHtml]="element['question']"></div></a>
+                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank">
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                </a>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="action">
@@ -1217,7 +1232,9 @@
                             </ng-container>
                             <ng-container matColumnDef="question">
                               <td mat-cell *matCellDef="let element">
-                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> <div class="qsp_hd" [innerHtml]="element['question']"></div></a>
+                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank">
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                </a>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="action">
@@ -1259,7 +1276,9 @@
                             </ng-container>
                             <ng-container matColumnDef="question">
                               <td mat-cell *matCellDef="let element">
-                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> <div class="qsp_hd" [innerHtml]="element['question']"></div></a>
+                                <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank">
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                </a>
                               </td>
                             </ng-container>
                             <ng-container matColumnDef="action">
