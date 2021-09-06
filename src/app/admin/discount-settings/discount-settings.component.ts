@@ -17,13 +17,13 @@ export class DiscountSettingsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'title',
-    'status',
     'university',
     'college',
     'course',
     'created_at',
     'updated_at',
     'actions',
+    'status',
   ];
   today_date = new Date();
   //form fields

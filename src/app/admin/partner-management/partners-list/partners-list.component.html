@@ -1,6 +1,17 @@
 <div class="mn_dshbrd">
     <div class="brd_crm">Proceum &raquo; <strong>Customers Database</strong></div>
-    <div class="pg_ttl">Customers Database</div>
+    <div class="d-flex rsp_fw">
+        <div class="pg_ttl">Customers Database</div>
+        <div class="spacer"></div>
+        <div>
+            <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm"
+                (click)="navigateTo('create-partner')">
+                <mat-icon>add</mat-icon>
+                Add New Partner
+            </button>
+        </div>
+    </div>
+
     <hr />
     <div class="dsh_brd_crds">
         <div class="d_flx_ac">
@@ -29,13 +40,8 @@
                 matTooltip="Reset">
                 <mat-icon>restart_alt</mat-icon>
             </button>
-            <div class="hgt_20"></div>
-            <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm"
-                (click)="navigateTo('create-partner')">
-                <mat-icon>add</mat-icon>
-                Add New Partner
-            </button>
         </div>
+        <div class="hgt_20"></div>
         <!-- <div class="d-flex">
             <div class="spacer"></div>
             <div class="mr_1">
@@ -107,21 +113,18 @@
                                 </th>
                                 <td mat-cell *matCellDef="let element">{{ element.package_name }}</td>
                             </ng-container>
-
                             <ng-container matColumnDef="licence_start_date">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>
                                     Licence Start
                                 </th>
                                 <td mat-cell *matCellDef="let element">{{ element.licence_start_date }}</td>
                             </ng-container>
-
                             <ng-container matColumnDef="licence_end_date">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>
                                     Licence End
                                 </th>
                                 <td mat-cell *matCellDef="let element">{{ element.licence_end_date }}</td>
                             </ng-container>
-
                             <ng-container matColumnDef="actions">
                                 <th mat-header-cell *matHeaderCellDef class="text_center">Actions</th>
                                 <td mat-cell *matCellDef="let element">
@@ -143,20 +146,21 @@
                                     </button> -->
                                 </td>
                             </ng-container>
-
                             <ng-container matColumnDef="status">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
                                 <td mat-cell *matCellDef="let element">
+
                                     <!-- <span matTooltip="Current Status is {{
                                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
                             }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ?
                                         "Active" :
                                         "Inactive" }}</span> -->
+
                                     <mat-slide-toggle (click)="deletePartner(element.pk_id, element.status)"
                                         [checked]="element.status == 1 ? true : false"
                                         matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
-                                        <!-- {{ element.status == 1 ? 'Active' : 'Inactive'}} -->
                                     </mat-slide-toggle>
+
                                 </td>
                             </ng-container>
 
@@ -208,54 +212,59 @@
                                     <span>{{ element.contact_number }}</span>
                                 </td>
                             </ng-container>
-
                             <ng-container matColumnDef="partner_email">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>
                                     Email
                                 </th>
                                 <td mat-cell *matCellDef="let element">{{ element.partner_email }}</td>
                             </ng-container>
-
                             <ng-container matColumnDef="package_name">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>
                                     Package
                                 </th>
                                 <td mat-cell *matCellDef="let element">{{ element.package_name }}</td>
                             </ng-container>
-
                             <ng-container matColumnDef="licence_start_date">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>
                                     Licence Start
                                 </th>
                                 <td mat-cell *matCellDef="let element">{{ element.licence_start_date }}</td>
                             </ng-container>
-
                             <ng-container matColumnDef="licence_end_date">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>
                                     Licence End
                                 </th>
                                 <td mat-cell *matCellDef="let element">{{ element.licence_end_date }}</td>
                             </ng-container>
-
                             <ng-container matColumnDef="status">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
                                 <td mat-cell *matCellDef="let element">
+
+                                    <mat-slide-toggle (click)="deletePartner(element.pk_id, element.status)"
+                                        [checked]="element.status == 1 ? true : false"
+                                        matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+                                    </mat-slide-toggle>
+
+                                    <!--                                     
                                     <span matTooltip="Current Status is {{
                                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
                             }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ?
                                         "Active" :
-                                        "Inactive" }}</span>
+                                        "Inactive" }}</span> -->
+
                                 </td>
                             </ng-container>
-
                             <ng-container matColumnDef="actions">
                                 <th mat-header-cell *matHeaderCellDef class="text_center">Actions</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <button mat-icon-button matTooltip="Click to edit"
+                                    <button mat-icon-button matTooltip="Click to edit" color="accent"
                                         (click)="navigateTo('create-partner/'+element.pk_id)">
-                                        <mat-icon>edit</mat-icon>
+                                        <mat-icon>edit_notes</mat-icon>
                                     </button>
-                                    <button matTooltip="click here to {{
+
+
+
+                                    <!-- <button matTooltip="click here to {{
                                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                             }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
                                         [popoverMessage]="
@@ -267,6 +276,7 @@
                                         <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
                                         <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
                                     </button>
+                                     -->
                                 </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -349,22 +359,30 @@
                             <ng-container matColumnDef="status">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <span matTooltip="Current Status is {{
+
+                                    <mat-slide-toggle (click)="deletePartner(element.pk_id, element.status)"
+                                        [checked]="element.status == 1 ? true : false"
+                                        matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+                                    </mat-slide-toggle>
+
+                                    <!-- <span matTooltip="Current Status is {{
                                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
                             }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ?
                                         "Active" :
-                                        "Inactive" }}</span>
+                                        "Inactive" }}</span> -->
+
                                 </td>
                             </ng-container>
 
                             <ng-container matColumnDef="actions">
-                                <th mat-header-cell *matHeaderCellDef class="text_center">Actions</th>
+                                <th mat-header-cell *matHeaderCellDef color="accent">Actions</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <button mat-icon-button matTooltip="Click to edit"
+                                    <button mat-icon-button matTooltip="Click to edit" color="accent"
                                         (click)="navigateTo('create-partner/'+element.pk_id)">
-                                        <mat-icon>edit</mat-icon>
+                                        <mat-icon>edit_notes</mat-icon>
                                     </button>
-                                    <button matTooltip="click here to {{
+
+                                    <!-- <button matTooltip="click here to {{
                                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                             }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
                                         [popoverMessage]="
@@ -375,7 +393,8 @@
                                         confirmButtonType="danger" cancelButtonType="outline-secondary">
                                         <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
                                         <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-                                    </button>
+                                    </button> -->
+
                                 </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -399,7 +418,6 @@
                                     {{ element.s_no }}
                                 </td>
                             </ng-container>
-
                             <ng-container matColumnDef="partner_type">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
                                     Partner Type
@@ -408,7 +426,6 @@
                                     <span>{{ element.partner_type }}</span>
                                 </td>
                             </ng-container>
-
                             <ng-container matColumnDef="partner_name">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
                                     Partner Name
@@ -454,26 +471,34 @@
                                 </th>
                                 <td mat-cell *matCellDef="let element">{{ element.licence_end_date }}</td>
                             </ng-container>
-
                             <ng-container matColumnDef="status">
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <span matTooltip="Current Status is {{
+
+                                    <mat-slide-toggle (click)="deletePartner(element.pk_id, element.status)"
+                                        [checked]="element.status == 1 ? true : false"
+                                        matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+                                    </mat-slide-toggle>
+
+
+                                    <!-- <span matTooltip="Current Status is {{
                                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
                             }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ?
                                         "Active" :
-                                        "Inactive" }}</span>
+                                        "Inactive" }}</span> -->
                                 </td>
                             </ng-container>
-
                             <ng-container matColumnDef="actions">
                                 <th mat-header-cell *matHeaderCellDef class="text_center">Actions</th>
                                 <td mat-cell *matCellDef="let element">
-                                    <button mat-icon-button matTooltip="Click to edit"
+                                    <button mat-icon-button matTooltip="Click to edit" color="accent"
                                         (click)="navigateTo('create-partner/'+element.pk_id)">
-                                        <mat-icon>edit</mat-icon>
+                                        <mat-icon>edit_notes</mat-icon>
                                     </button>
-                                    <button matTooltip="click here to {{
+
+
+
+                                    <!-- <button matTooltip="click here to {{
                                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
                             }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
                                         [popoverMessage]="
@@ -484,7 +509,7 @@
                                         confirmButtonType="danger" cancelButtonType="outline-secondary">
                                         <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
                                         <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-                                    </button>
+                                    </button> -->
                                 </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

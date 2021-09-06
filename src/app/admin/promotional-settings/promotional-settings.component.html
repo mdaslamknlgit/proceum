@@ -2,7 +2,16 @@
   <div class="brd_crm">
     Proceum &raquo; <strong>Promotional Settings</strong>
   </div>
-  <div class="pg_ttl">Promotional Settings</div>
+  <div class="d-flex">
+    <div class="pg_ttl">Promotional Settings</div>
+    <div class="spacer"></div>
+    <div>
+      <button mat-raised-button color="accent" class="float_right margin-bottom_20" (click)="toggleModel()"
+        type="button">
+        New Promotional
+      </button>
+    </div>
+  </div>
   <div class="hgt_20"></div>
   <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
@@ -29,7 +38,6 @@
                     <input required maxlength="15" pattern="[A-Za-z0-9]*" name="code_name" [(ngModel)]="code" matInput
                       placeholder="Promo/Coupon Code" #code_name="ngModel" (blur)="generateCoupon()" />
                   </mat-form-field>
-
                   <span class="prc_tltp" *ngIf="
                       (promotional_form.submitted || code_name.touched) &&
                       code_name.invalid
@@ -163,9 +171,7 @@
       <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
 
-    <button mat-raised-button color="accent" class="float_right margin-bottom_20" (click)="toggleModel()" type="button">
-      New Promotional
-    </button>
+
     <div class="rsp_tbl">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <!-- Position Column -->
@@ -184,7 +190,6 @@
             <span>{{ element.code }}</span>
           </td>
         </ng-container>
-
         <ng-container matColumnDef="course">
           <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
             Course
@@ -193,35 +198,41 @@
             <span>{{ element.course }}</span>
           </td>
         </ng-container>
-
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
           <td mat-cell *matCellDef="let element">
-            <span matTooltip="Current Status is {{
+
+            <mat-slide-toggle (click)="deletePromotional(element.pk_id, element.status)"
+            [checked]="element.status == 1 ? true : false"
+            matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+          </mat-slide-toggle>
+
+            <!-- <span matTooltip="Current Status is {{
                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
               }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-              "Inactive" }}</span>
+              "Inactive" }}</span> -->
+
           </td>
         </ng-container>
-
         <ng-container matColumnDef="created_at">
           <th mat-header-cell *matHeaderCellDef cdkDrag>Valid From</th>
           <td mat-cell *matCellDef="let element">{{ element.valid_from }}</td>
         </ng-container>
-
         <!-- Symbol Column -->
         <ng-container matColumnDef="updated_at">
           <th mat-header-cell *matHeaderCellDef cdkDrag>Valid To</th>
           <td mat-cell *matCellDef="let element">{{ element.valid_to }}</td>
         </ng-container>
-
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef class="text_center">Actions</th>
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
-            <button mat-icon-button (click)="editPromotional(element)" matTooltip="Click to edit">
+            <button mat-icon-button (click)="editPromotional(element)" color="accent" matTooltip="Click to edit">
               <mat-icon>edit</mat-icon>
             </button>
-            <button matTooltip="click here to {{
+
+           
+
+            <!-- <button matTooltip="click here to {{
                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
               }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                 'Are you sure to change status of <b>' +
@@ -231,7 +242,11 @@
               confirmButtonType="danger" cancelButtonType="outline-secondary">
               <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
               <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
-            </button>
+            </button> -->
+
+
+
+
           </td>
         </ng-container>
 

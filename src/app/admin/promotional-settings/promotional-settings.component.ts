@@ -16,11 +16,11 @@ export class PromotionalSettingsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'code',
-    'status',
     'course',
     'created_at',
     'updated_at',
     'actions',
+    'status',
   ];
 
   //form fields
