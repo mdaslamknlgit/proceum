@@ -10,24 +10,28 @@
                 <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
             </mat-form-field>
             <mat-form-field appearance="outline" class="mr_1">
-                <input matInput [max]="today" [matDatepicker]="from_picker" [(ngModel)]="from_date" readonly placeholder="From Date" />
+                <input matInput [max]="today" [matDatepicker]="from_picker" [(ngModel)]="from_date" readonly
+                    placeholder="From Date" />
                 <mat-datepicker-toggle matSuffix [for]="from_picker"></mat-datepicker-toggle>
                 <mat-datepicker #from_picker></mat-datepicker>
             </mat-form-field>
             <mat-form-field appearance="outline" class="mr_1">
-                <input matInput [min]="from_date" [matDatepicker]="to_picker" [(ngModel)]="to_date" [disabled]="!from_date" readonly placeholder="To Date" />
+                <input matInput [min]="from_date" [matDatepicker]="to_picker" [(ngModel)]="to_date"
+                    [disabled]="!from_date" readonly placeholder="To Date" />
                 <mat-datepicker-toggle matSuffix [for]="to_picker"></mat-datepicker-toggle>
                 <mat-datepicker #to_picker></mat-datepicker>
             </mat-form-field>
             <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm" (click)="doFilter()"
-            [disabled]="!from_date || !to_date">
-            Submit
+                [disabled]="!from_date || !to_date">
+                Submit
             </button>
-            <button mat-raised-button class="float_right mr_1 btn_st_frm" (click)="resetFilters()" color="warn"  matTooltip="Reset">
+            <button mat-raised-button class="float_right mr_1 btn_st_frm" (click)="resetFilters()" color="warn"
+                matTooltip="Reset">
                 <mat-icon>restart_alt</mat-icon>
             </button>
-            <div class="spacer"></div>
-            <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm" (click)="navigateTo('create-partner')">
+            <div class="hgt_20"></div>
+            <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm"
+                (click)="navigateTo('create-partner')">
                 <mat-icon>add</mat-icon>
                 Add New Partner
             </button>
@@ -148,9 +152,11 @@
                             }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ?
                                         "Active" :
                                         "Inactive" }}</span> -->
-                                        <mat-slide-toggle (click)="deletePartner(element.pk_id, element.status)" [checked]="element.status == 1 ? true : false" matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
-                                            <!-- {{ element.status == 1 ? 'Active' : 'Inactive'}} -->
-                                          </mat-slide-toggle>
+                                    <mat-slide-toggle (click)="deletePartner(element.pk_id, element.status)"
+                                        [checked]="element.status == 1 ? true : false"
+                                        matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+                                        <!-- {{ element.status == 1 ? 'Active' : 'Inactive'}} -->
+                                    </mat-slide-toggle>
                                 </td>
                             </ng-container>
 
