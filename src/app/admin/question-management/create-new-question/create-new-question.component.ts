@@ -368,7 +368,7 @@ export class CreateNewQuestionComponent implements OnInit {
                         this.myFiles['opt'+option+'Img'] = event.target.files[i];
                     }
                 }
-                switch (fileId) {
+                //switch (fileId) {
                     // case 'file':
                     //     this.myFiles.splice(this.myFiles.indexOf("file"), 1);
                     //     this.fileName = fileName;
@@ -411,7 +411,7 @@ export class CreateNewQuestionComponent implements OnInit {
                     // default:
                     //     console.log("No such file exists!");
                     //     break;
-                }
+                //}
 
 
             } else {
