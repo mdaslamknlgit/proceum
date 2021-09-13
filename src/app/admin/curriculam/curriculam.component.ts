@@ -69,7 +69,7 @@ export class CurriculamComponent implements OnInit {
     public course_usage = 1;
     public active_tab_index = 0;
     public tab_title = "Course";
-    public qbank_type = '';
+    //public qbank_type = '';
     constructor(
         private http: CommonService,
         public toster: ToastrService,
@@ -168,7 +168,7 @@ export class CurriculamComponent implements OnInit {
             curriculum_name: this.curriculum_name,
             usage_type: this.course_usage,
             curriculum_steps: steps,
-            qbank_type: this.qbank_type
+            //qbank_type: this.qbank_type
         };
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
@@ -195,7 +195,7 @@ export class CurriculamComponent implements OnInit {
         this.duplicate_error = false;
         this.edit_model_status = !this.edit_model_status;
         this.curriculum_name = param['name'];
-        this.qbank_type = param['qbank_type'];
+        //this.qbank_type = param['qbank_type'];
         this.course_usage = param['usage_type'];
         this.curriculum_id = param['id'];
         param['url'] = 'curriculum/get-steps/' + this.curriculum_id;
@@ -223,7 +223,7 @@ export class CurriculamComponent implements OnInit {
             url: 'curriculum/' + this.curriculum_id,
             curriculum_name: this.curriculum_name,
             curriculum_steps: steps,
-            qbank_type:this.qbank_type
+            //qbank_type:this.qbank_type
         };
         this.http.put(param).subscribe((res) => {
             if (res['error'] == false) {
