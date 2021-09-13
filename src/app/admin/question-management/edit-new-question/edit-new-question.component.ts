@@ -190,78 +190,84 @@ export class EditNewQuestionComponent implements OnInit {
                 if (options.length > 0) {
                     for (var i = 0; options.length > i; i++) {
                         this.question['option_explanation_' + (i + 1)] = options[i]['option_explanation'];
-                        switch (i) {
-                            case 0:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option1_crt_ans = 'checked';
-
-                                }
-                                this.question.option1_value = options[i]['pk_id'];
-                                this.opt1FileName = options[i]['option_image'];
-                                this.question.option1 = options[i]['option_text'];
-                                break;
-                            case 1:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option2_crt_ans = 'checked';
-
-                                }
-                                this.opt2FileName = options[i]['option_image'];
-                                this.question.option2_value = options[i]['pk_id'];
-                                this.question.option2 = options[i]['option_text'];
-                                break;
-                            case 2:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option3_crt_ans = 'checked';
-                                }
-                                this.opt3FileName = options[i]['option_image'];
-                                this.question.option3_value = options[i]['pk_id'];
-                                this.question.option3 = options[i]['option_text'];
-                                break;
-                            case 3:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option4_crt_ans = 'checked';
-                                }
-                                this.opt4FileName = options[i]['option_image'];
-                                this.question.option4_value = options[i]['pk_id'];
-                                this.question.option4 = options[i]['option_text'];
-                                break;
-                            case 4:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option5_crt_ans = 'checked';
-                                }
-                                this.opt5FileName = options[i]['option_image'];
-                                this.question.option5_value = options[i]['pk_id'];
-                                this.question.option5 = options[i]['option_text'];
-                                break;
-                            case 5:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option6_crt_ans = 'checked';
-                                }
-                                this.opt6FileName = options[i]['option_image'];
-                                this.question.option6_value = options[i]['pk_id'];
-                                this.question.option6 = options[i]['option_text'];
-                                break;
-                            case 6:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option7_crt_ans = 'checked';
-                                }
-                                this.opt7FileName = options[i]['option_image'];
-                                this.question.option7_value = options[i]['pk_id'];
-                                this.question.option7 = options[i]['option_text'];
-                                break;
-                            case 7:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option8_crt_ans = 'checked';
-                                }
-                                this.opt8FileName = options[i]['option_image'];
-                                this.question.option8_value = options[i]['pk_id'];
-                                this.question.option8 = options[i]['option_text'];
-                                break;
-                            default:
-                                console.log("No such type exists!");
-                                break;
-
+                        if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                            this.question['option'+(i + 1)+'_crt_ans'] = 'checked';
                         }
+                        this.question['option'+(i + 1)+'_value'] = options[i]['pk_id'];
+                        this['opt'+(i + 1)+'FileName'] = options[i]['option_image'];
+                        this.question['option'+(i + 1)] = options[i]['option_text'];
+                        // switch (i) {
+                        //     case 0:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option1_crt_ans = 'checked';
+
+                        //         }
+                        //         this.question.option1_value = options[i]['pk_id'];
+                        //         this.opt1FileName = options[i]['option_image'];
+                        //         this.question.option1 = options[i]['option_text'];
+                        //         break;
+                        //     case 1:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option2_crt_ans = 'checked';
+
+                        //         }
+                        //         this.opt2FileName = options[i]['option_image'];
+                        //         this.question.option2_value = options[i]['pk_id'];
+                        //         this.question.option2 = options[i]['option_text'];
+                        //         break;
+                        //     case 2:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option3_crt_ans = 'checked';
+                        //         }
+                        //         this.opt3FileName = options[i]['option_image'];
+                        //         this.question.option3_value = options[i]['pk_id'];
+                        //         this.question.option3 = options[i]['option_text'];
+                        //         break;
+                        //     case 3:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option4_crt_ans = 'checked';
+                        //         }
+                        //         this.opt4FileName = options[i]['option_image'];
+                        //         this.question.option4_value = options[i]['pk_id'];
+                        //         this.question.option4 = options[i]['option_text'];
+                        //         break;
+                        //     case 4:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option5_crt_ans = 'checked';
+                        //         }
+                        //         this.opt5FileName = options[i]['option_image'];
+                        //         this.question.option5_value = options[i]['pk_id'];
+                        //         this.question.option5 = options[i]['option_text'];
+                        //         break;
+                        //     case 5:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option6_crt_ans = 'checked';
+                        //         }
+                        //         this.opt6FileName = options[i]['option_image'];
+                        //         this.question.option6_value = options[i]['pk_id'];
+                        //         this.question.option6 = options[i]['option_text'];
+                        //         break;
+                        //     case 6:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option7_crt_ans = 'checked';
+                        //         }
+                        //         this.opt7FileName = options[i]['option_image'];
+                        //         this.question.option7_value = options[i]['pk_id'];
+                        //         this.question.option7 = options[i]['option_text'];
+                        //         break;
+                        //     case 7:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option8_crt_ans = 'checked';
+                        //         }
+                        //         this.opt8FileName = options[i]['option_image'];
+                        //         this.question.option8_value = options[i]['pk_id'];
+                        //         this.question.option8 = options[i]['option_text'];
+                        //         break;
+                        //     default:
+                        //         console.log("No such type exists!");
+                        //         break;
+
+                        // }
                     }
                 }
                 let qtype = res['q_type']['question_type'];
@@ -522,50 +528,66 @@ export class EditNewQuestionComponent implements OnInit {
                     this.imageSrc[fileId] = reader.result;
                     //this.imageSrc[fileId] = this.domSanitizer.bypassSecurityTrustUrl(''+reader.result);
                 }
-                switch (fileId) {
-                    case 'file':
-                        this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                        this.fileName = fileName;
-                        this.myFiles['file'] = event.target.files[i];
-                        break;
-                    case 'opt1Img':
-                        this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                        this.opt1FileName = fileName;
-                        this.myFiles['opt1Img'] = event.target.files[i];
-                        break;
-                    case 'opt2Img':
-                        this.opt2FileName = fileName;
-                        this.myFiles['opt2Img'] = event.target.files[i];
-                        break;
-                    case 'opt3Img':
-                        this.opt3FileName = fileName;
-                        this.myFiles['opt3Img'] = event.target.files[i];
-                        break;
-                    case 'opt4Img':
-                        this.opt4FileName = fileName;
-                        this.myFiles['opt4Img'] = event.target.files[i];
-                        break;
-                    case 'opt5Img':
-                        this.opt5FileName = fileName;
-                        this.myFiles['opt5Img'] = event.target.files[i];
-                        break;
-                    case 'opt6Img':
-                        this.opt6FileName = fileName;
-                        this.myFiles['opt6Img'] = event.target.files[i];
-                        break;
-                    case 'opt7Img':
-                        this.opt7FileName = fileName;
-                        this.myFiles['opt7Img'] = event.target.files[i];
-                        break;
-                    case 'opt8Img':
-                        this.opt8FileName = fileName;
-                        this.myFiles['opt8Img'] = event.target.files[i];
-                        break;
-
-                    default:
-                        console.log("No such type exists!");
-                        break;
+                if(fileId == 'file'){
+                    this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                    this.fileName = fileName;
+                    this.myFiles['file'] = event.target.files[i];
                 }
+                for(let option=1;option<=this.question.option_array.length;option++){
+                    if(option == 1 && fileId == 'opt1Img'){
+                        this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                        this['opt'+option+'FileName'] = fileName;
+                        this.myFiles['opt'+option+'Img'] = event.target.files[i];
+                    }
+                    if(fileId == 'opt'+option+'Img'){
+                        this['opt'+option+'FileName'] = fileName;
+                        this.myFiles['opt'+option+'Img'] = event.target.files[i];
+                    }
+                }
+                // switch (fileId) {
+                //     case 'file':
+                //         this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                //         this.fileName = fileName;
+                //         this.myFiles['file'] = event.target.files[i];
+                //         break;
+                //     case 'opt1Img':
+                //         this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                //         this.opt1FileName = fileName;
+                //         this.myFiles['opt1Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt2Img':
+                //         this.opt2FileName = fileName;
+                //         this.myFiles['opt2Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt3Img':
+                //         this.opt3FileName = fileName;
+                //         this.myFiles['opt3Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt4Img':
+                //         this.opt4FileName = fileName;
+                //         this.myFiles['opt4Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt5Img':
+                //         this.opt5FileName = fileName;
+                //         this.myFiles['opt5Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt6Img':
+                //         this.opt6FileName = fileName;
+                //         this.myFiles['opt6Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt7Img':
+                //         this.opt7FileName = fileName;
+                //         this.myFiles['opt7Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt8Img':
+                //         this.opt8FileName = fileName;
+                //         this.myFiles['opt8Img'] = event.target.files[i];
+                //         break;
+
+                //     default:
+                //         console.log("No such type exists!");
+                //         break;
+                // }
 
 
             } else {
