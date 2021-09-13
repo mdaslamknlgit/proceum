@@ -214,7 +214,8 @@
                                     *ngIf="imageSrc['file']" [src]="imageSrc['file']">
                                 <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon>
                             </div>
-                            <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text" class="mt_8px">
+                            <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text"
+                                class="mt_8px">
                                 <mat-icon (click)="playAudio(imageSrc['file'])">play_arrow</mat-icon>
                                 <mat-icon (click)="pauseAudio()">pause</mat-icon>
                             </div>
@@ -237,6 +238,113 @@
                         </div>
                     </div>
                 </div>
+                <div class="hgt_20"></div>
+                <div class="crt_pr_dv w_100p d-flex">
+                    <mat-radio-group>
+                        <div class="d-flex">
+                            <div class="mt_1 mr_1">
+                                <mat-radio-button value="0"></mat-radio-button>
+                            </div>
+                            <div class="d-flex optns_rdo w_100p">
+                                <div class="mr_1">
+                                    <div>
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <textarea matInput placeholder="Enter Option Text" class="hgt_100px"
+                                                required></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="text_right mb_1">
+                                        <button mat-raised-button type="button" color="accent">
+                                            <mat-icon>add</mat-icon> Add Explanation
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <angular-editor></angular-editor>
+                                    </div>
+                                    <div class="hgt_10"></div>
+                                    <div class="text_right mb_1">
+                                        <button mat-raised-button color="warn" type="button">
+                                            <mat-icon>remove_circle_outline</mat-icon> Remove Explanation
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="cnq_img_thmb text_center">
+                                        <div>
+                                            <button mat-fab class="cnq_upld_btn" type="button" color="accent">
+                                                <mat-icon>file_upload</mat-icon>
+                                            </button>
+                                            <div class="hgt_10"></div>
+                                            <div class="fs_16">Upload Image</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hgt_20"></div>
+                        <div class="d-flex">
+                            <div class="mt_1 mr_1">
+                                <mat-radio-button value="0"></mat-radio-button>
+                            </div>
+                            <div class="d-flex optns_rdo w_100p">
+                                <div class="mr_1 w_100p">
+                                    <div>
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <textarea matInput placeholder="Enter Option Text" class="hgt_100px"
+                                                required></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="text_right mb_1">
+                                        <button mat-raised-button type="button" color="accent">
+                                            <mat-icon>add</mat-icon> Add Explanation
+                                        </button>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hgt_20"></div>
+                        <div class="d-flex">
+                            <div class="mt_1 mr_1">
+                                <mat-radio-button value="0"></mat-radio-button>
+                            </div>
+                            <div class="d-flex optns_rdo w_100p">
+                                <div class="mr_1 w_100p">
+                                    <div>
+                                        <mat-form-field appearance="outline" class="w_100p">
+                                            <textarea matInput placeholder="Enter Option Text" class="hgt_100px"
+                                                required></textarea>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="text_right mb_1">
+                                        <button mat-raised-button type="button" color="accent">
+                                            <mat-icon>add</mat-icon> Add Explanation
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <angular-editor></angular-editor>
+                                    </div>
+                                    <div class="hgt_10"></div>
+                                    <div class="text_right mb_1">
+                                        <button mat-raised-button color="warn" type="button">
+                                            <mat-icon>remove_circle_outline</mat-icon> Remove Explanation
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-radio-group>
+                </div>
+                <div class="hgt_20"></div>
+                <div class="text_right mb_1 w_100p">
+                    <button mat-raised-button color="warn" type="button" class="mr_1">
+                        <mat-icon>remove_circle_outline</mat-icon> Remove Option
+                    </button>
+                    <button mat-raised-button type="button" color="accent">
+                        <mat-icon>add</mat-icon> Add Option
+                    </button>
+                </div>
+
+
                 <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
                     <div class="hgt_10"></div> <span> Is Correct Answer?</span>
@@ -297,10 +405,12 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="crt_pr_dv w_100p"
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
                     <div class="hgt_10"></div>
                     <div>Is Correct Answer?</div>
+
                     <div class="d-flex ql_ca">
                         <div class="ql_ca_mn">
                             <mat-radio-group [(ngModel)]="question.correct_ans_ids[0]" name="correct_options">
@@ -376,6 +486,7 @@
                             type="button" mat-raised-button color="warn">Remove Option</button>
                     </div>
                 </div>
+                <hr>
                 <div class="hgt_10"></div>
                 <div class="text_right w_100p">
                     <button class="gry_btn mr_1" (click)="navigateTo('questions-mgt/questions-list')"

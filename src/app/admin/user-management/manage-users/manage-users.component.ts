@@ -21,8 +21,8 @@ export class ManageUsersComponent implements OnInit {
     'role_name',
     'phone',
     'created_at',
-    'status',
     'actions',
+    'status',
   ];
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
