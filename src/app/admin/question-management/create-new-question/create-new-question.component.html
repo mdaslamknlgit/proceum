@@ -88,7 +88,29 @@
                                 </mat-form-field>
                             </span>
                         </div>
-                    </div>
+                    </div> 
+                    <!-- <div class="rsp_tbl">
+                        <table mat-table [dataSource]="dataSource">
+                            <ng-container matColumnDef="position">
+                              <th mat-header-cell *matHeaderCellDef> S.No</th>
+                              <td mat-cell *matCellDef="let element"> S.No </td>
+                            </ng-container>
+                            <ng-container matColumnDef="name">
+                              <th mat-header-cell *matHeaderCellDef>Course </th>
+                              <td mat-cell *matCellDef="let element">Course</td>
+                            </ng-container>
+                            <ng-container matColumnDef="weight">
+                              <th mat-header-cell *matHeaderCellDef>Topic </th>
+                              <td mat-cell *matCellDef="let element">Topic </td>
+                            </ng-container>
+                            <ng-container matColumnDef="symbol">
+                              <th mat-header-cell *matHeaderCellDef>Action</th>
+                              <td mat-cell *matCellDef="let element">Action</td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                          </table>
+                    </div> -->
                     <div>
                         <div class="crt_prt_hd">Difficulty level</div>
                         <div class="crt_prt_cnt">
@@ -210,8 +232,8 @@
                     <div class="brnd_info_mn">
                         <div class="brnd_info_upld">
                             <div class="ql_img_thmb"
-                                *ngIf="image_single_option||image_multiple_option || image_free_text"> <img
-                                    *ngIf="imageSrc['file']" [src]="imageSrc['file']">
+                                *ngIf="image_single_option||image_multiple_option || image_free_text">
+                                <img *ngIf="imageSrc['file']" [src]="imageSrc['file']">
                                 <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon>
                             </div>
                             <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text"
@@ -239,124 +261,202 @@
                     </div>
                 </div>
                 <div class="hgt_20"></div>
-                <div class="crt_pr_dv w_100p d-flex fw_w">
-                    <mat-radio-group>
-                        <div class="d-flex">
-                            <div class="mt_1 mr_1">
+                <div class="crt_pr_dv w_100p d-flex fw_w"
+                    *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
+                    <mat-radio-group class="w_100p">
+                        <div class="d-flex fw_w mb_1"
+                            *ngFor="let option_value of question.option_array;index as option;">
+                            <div class="mt_1 w_40px">
                                 <mat-radio-button value="0"></mat-radio-button>
                             </div>
-                            <div class="d-flex optns_rdo w_100p">
-                                <div class="mr_1">
+                            <div class="d-flex optns_rdo">
+                                <div class="mr_1 w_100p">
                                     <div>
-                                        <mat-form-field appearance="outline" class="w_100p">
-                                            <textarea matInput placeholder="Enter Option Text" class="hgt_100px"
-                                                required></textarea>
+                                        <mat-form-field appearance="outline" class="w_100p hgt_100px">
+                                            <textarea [(ngModel)]="question['option'+(option+1)]"
+                                                name="option_{{option+1}}" #option_{{option+1}}="ngModel"
+                                                maxlength="255" matInput placeholder="Enter Option {{option+1}} Text"
+                                                class="crt_prt_txt" required></textarea>
                                         </mat-form-field>
                                     </div>
-                                   
+                                    <div class="hgt_20"></div>
                                     <div>
-                                        <angular-editor></angular-editor>
+                                        <angular-editor id="option_{{option+1}}"
+                                            [placeholder]="'Enter Option '+(option+1) +' Explanation'"
+                                            [config]="liteEditorConfig" name="option_{{option+1}}"
+                                            #option_{{option+1}}="ngModel"
+                                            [(ngModel)]="question['option_explanation_'+(option+1)]"> </angular-editor>
                                     </div>
                                     <div class="hgt_10"></div>
                                     <div class="d-flex">
                                         <div class="spacer"></div>
-                                        <a class="d-flex ai_cntr"><mat-icon>add</mat-icon> <span> Add Explanation</span> / <mat-icon>remove_circle_outline</mat-icon> <span>Remove Explanation</span></a>
+                                        <a class="d-flex ai_cntr">
+                                            <mat-icon>add</mat-icon> <span> Add Explanation</span> / <mat-icon>
+                                                remove_circle_outline</mat-icon> <span>Remove Explanation</span>
+                                        </a>
                                     </div>
-                                    <!-- <div class="text_right mb_1">
-                                        <button mat-raised-button type="button" color="accent">
-                                            <mat-icon>add</mat-icon> Add Explanation
-                                        </button>
-                                    </div>
-                                    <div class="text_right mb_1">
-                                        <button mat-raised-button color="warn" type="button">
-                                            <mat-icon>remove_circle_outline</mat-icon> Remove Explanation
-                                        </button>
-                                    </div> -->
                                 </div>
                                 <div>
-                                    <div class="cnq_img_thmb text_center">
+                                    <div class="cnq_img_thmb text_center"
+                                        *ngIf="image_single_option || image_multiple_option">
                                         <div>
-                                            <button mat-fab class="cnq_upld_btn" type="button" color="accent">
+                                            <div class="cnq_delimg">
+                                                <mat-icon>remove_circle_outline</mat-icon>
+                                            </div>
+                                            <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
+                                                [src]="imageSrc['opt'+(option+1)+'Img']">
+                                            <button mat-fab class="cnq_upld_btn" (click)="openFileExplor((option+1))"
+                                                type="button" color="accent" *ngIf="!imageSrc['opt'+(option+1)+'Img']">
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
-                                            <div class="hgt_10"></div>
-                                            <div class="fs_16">Upload Image</div>
+                                            <div class="hgt_10" *ngIf="!imageSrc['opt'+(option+1)+'Img']"></div>
+                                            <div class="fs_16" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload Image
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d_none" *ngIf="image_single_option || image_multiple_option && false">
+                                        <div class="cnq_img_thmb">
+                                            <!-- *ngFor="let option_value of question.option_array;index as option;" -->
+                                            <div class="  ">
+                                                <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
+                                                    [src]="imageSrc['opt'+(option+1)+'Img']">
+                                                <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
+                                            </div>
+                                            <div class="brnd_info_upld">
+                                                <mat-form-field appearance="outline" class="d_none">
+                                                    <input matInput placeholder="Upload Option {{option+1}} Image"
+                                                        [(ngModel)]="this['opt'+(option+1)+'FileName']"
+                                                        id="opt{{option+1}}FileName" name="opt{{option+1}}FileName"
+                                                        readonly />
+                                                    <mat-hint *ngIf="image_option" class="fl_frmt_info"> System will
+                                                        accept only
+                                                        jpg, jpeg, bmp, gif, png </mat-hint>
+                                                </mat-form-field>
+                                                <button type="button" mat-raised-button
+                                                    (click)="openFileExplor((option+1))" color="accent"
+                                                    class="float_right">
+                                                    <mat-icon>upload</mat-icon> Browse
+                                                    <input class="w_80p" (change)="onFileChange($event)"
+                                                        accept="image/x-png,image/gif,image/jpeg,image/bmp"
+                                                        id="opt{{option+1}}Img" type="file" style="display: none" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="hgt_20"></div>
+                            <div class="w_100p">
+                                <button class="float_right mr_1" (click)="addOption(option)"
+                                    *ngIf="question.option_array.length == (option+1) && question.option_array.length<max_options"
+                                    mat-raised-button type="button" color="accent">Add option</button>
+                                <button class="float_right mr_1" (click)="removeOption(option)"
+                                    *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
+                                    type="button" mat-raised-button color="warn">Remove Option</button>
+                            </div>
+                        </div>
+                    </mat-radio-group>
+                </div>
+                <div class="crt_pr_dv w_100p d-flex fw_w"
+                    *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
+
+                    <div class="d-flex fw_w mb_1 w_100p"
+                        *ngFor="let option_value of question.option_array;index as option">
+                        <div class="mt_1 w_40px">
+                            <mat-checkbox color="accent" [value]="option+1" (change)="onCorrectAnsChange($event)">
+                            </mat-checkbox>
+                        </div>
+                        <div class="d-flex optns_rdo">
+                            <div class="mr_1 w_100p">
+                                <div>
+                                    <mat-form-field appearance="outline" class="w_100p hgt_100px">
+                                        <textarea [(ngModel)]="question['option'+(option+1)]" name="option_{{option+1}}"
+                                            #option_{{option+1}}="ngModel" maxlength="255" matInput
+                                            placeholder="Enter Option {{option+1}} Text" class="crt_prt_txt"
+                                            required></textarea>
+                                    </mat-form-field>
+                                </div>
+                                <div class="hgt_20"></div>
+                                <div>
+                                    <angular-editor id="option_{{option+1}}"
+                                        [placeholder]="'Enter Option '+(option+1) +' Explanation'"
+                                        [config]="liteEditorConfig" name="option_{{option+1}}"
+                                        #option_{{option+1}}="ngModel"
+                                        [(ngModel)]="question['option_explanation_'+(option+1)]"> </angular-editor>
+                                </div>
+                                <div class="hgt_10"></div>
+                                <div class="d-flex">
+                                    <div class="spacer"></div>
+                                    <a class="d-flex ai_cntr">
+                                        <mat-icon>add</mat-icon> <span> Add Explanation</span> / <mat-icon>
+                                            remove_circle_outline</mat-icon> <span>Remove Explanation</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="cnq_img_thmb text_center"
+                                    *ngIf="image_single_option || image_multiple_option">
+                                    <div>
+                                        <div class="cnq_delimg">
+                                            <mat-icon>remove_circle_outline</mat-icon>
+                                        </div>
+                                        <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
+                                            [src]="imageSrc['opt'+(option+1)+'Img']">
+                                        <button mat-fab class="cnq_upld_btn" (click)="openFileExplor((option+1))"
+                                            type="button" color="accent" *ngIf="!imageSrc['opt'+(option+1)+'Img']">
+                                            <mat-icon>file_upload</mat-icon>
+                                        </button>
+                                        <div class="hgt_10" *ngIf="!imageSrc['opt'+(option+1)+'Img']"></div>
+                                        <div class="fs_16" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload Image
+                                        </div>
+                                    </div>
+
+                                    <div class="brnd_info_mn d_none"
+                                        *ngFor="let option_value of question.option_array;index as option;">
+                                        <div class="ql_img_thmb">
+                                            <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
+                                                [src]="imageSrc['opt'+(option+1)+'Img']">
+                                            <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
+                                        </div>
+                                        <div class="d_none">
+                                            <mat-form-field appearance="outline" class="d_none">
+                                                <input matInput placeholder="Upload Option {{option+1}} Image"
+                                                    [(ngModel)]="this['opt'+(option+1)+'FileName']"
+                                                    id="opt{{option+1}}FileName" name="opt{{option+1}}FileName"
+                                                    readonly />
+                                                <mat-hint *ngIf="image_option" class="fl_frmt_info"> System will accept
+                                                    only
+                                                    jpg, jpeg, bmp, gif, png </mat-hint>
+                                            </mat-form-field>
+                                            <button type="button" mat-raised-button (click)="openFileExplor((option+1))"
+                                                color="accent" class="float_right">
+                                                <mat-icon>upload</mat-icon> Browse
+                                                <input class="w_80p" (change)="onFileChange($event)"
+                                                    accept="image/x-png,image/gif,image/jpeg,image/bmp"
+                                                    id="opt{{option+1}}Img" type="file" style="display: none" />
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="hgt_20"></div>
-                        <div class="d-flex">
-                            <div class="mt_1 mr_1">
-                                <mat-radio-button value="0"></mat-radio-button>
-                            </div>
-                            <div class="d-flex optns_rdo w_100p">
-                                <div class="mr_1 w_100p">
-                                    <div>
-                                        <mat-form-field appearance="outline" class="w_100p">
-                                            <textarea matInput placeholder="Enter Option Text" class="hgt_100px"
-                                                required></textarea>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="d-flex">
-                                        <div class="spacer"></div>
-                                        <a class="d-flex ai_cntr"><mat-icon>add</mat-icon> <span>Add Explanation</span> / <mat-icon>remove_circle_outline</mat-icon> <span>Remove Explanation</span></a>
-                                    </div>
-                                    <!-- <div class="text_right mb_1">
-                                        <button mat-raised-button type="button" color="accent">
-                                            <mat-icon>add</mat-icon> Add Explanation
-                                        </button>
-                                    </div>  -->
-                                </div>
-                            </div>
+                        <div class="w_100p">
+                            <button class="float_right mr_1" (click)="addOption(option)"
+                                *ngIf="question.option_array.length == (option+1) && question.option_array.length<max_options"
+                                mat-raised-button type="button" color="accent">Add option</button>
+                            <button class="float_right mr_1" (click)="removeOption(option)"
+                                *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
+                                type="button" mat-raised-button color="warn">Remove Option</button>
                         </div>
-                        <div class="hgt_20"></div>
-                        <div class="d-flex">
-                            <div class="mt_1 mr_1">
-                                <mat-radio-button value="0"></mat-radio-button>
-                            </div>
-                            <div class="d-flex optns_rdo w_100p">
-                                <div class="mr_1 w_100p">
-                                    <div>
-                                        <mat-form-field appearance="outline" class="w_100p">
-                                            <textarea matInput placeholder="Enter Option Text" class="hgt_100px"
-                                                required></textarea>
-                                        </mat-form-field>
-                                    </div>
-                                    <div>
-                                        <angular-editor></angular-editor>
-                                    </div>
-                                    <div class="hgt_10"></div>
-                                    <div class="d-flex">
-                                        <div class="spacer"></div>
-                                        <a class="d-flex ai_cntr"><mat-icon>add</mat-icon> <span> Add Explanation</span> / <mat-icon>remove_circle_outline</mat-icon> <span>Remove Explanation</span></a>
-                                    </div>
-                                    <!-- <div class="text_right mb_1">
-                                        <button mat-raised-button type="button" color="accent">
-                                             Add Explanation
-                                        </button>
-                                    </div>
-                                    <div class="text_right mb_1">
-                                        <button mat-raised-button color="warn" type="button">
-                                            <mat-icon>remove_circle_outline</mat-icon> Remove Explanation
-                                        </button>
-                                    </div> -->
-                                </div>
-                            </div>
-                        </div>
-                    </mat-radio-group>
-                    <div class="text_right mt_1 w_100p">
-                        <button mat-raised-button color="warn" type="button" class="mr_1">
-                            <mat-icon>remove_circle_outline</mat-icon> Remove Option
-                        </button>
-                        <button mat-raised-button type="button" color="accent">
-                            <mat-icon>add</mat-icon> Add Option
-                        </button>
                     </div>
+
                 </div>
+
+
+
                 <div class="crt_pr_dv w_100p isca_mat"
-                    *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
+                    *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option && false">
                     <div class="hgt_10"></div> <span> Is Correct Answer?</span>
                     <div class="d-flex ql_ca">
                         <div class="ql_ca_mn">
@@ -388,10 +488,11 @@
                                     type="button" mat-raised-button color="warn">Remove Option</button>
                             </div>
                         </div>
-                        <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
+                        <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option && false">
                             <div class="brnd_info_mn hgt_110px"
                                 *ngFor="let option_value of question.option_array;index as option;">
-                                <div class="ql_img_thmb"> <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
+                                <div class="ql_img_thmb">
+                                    <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
                                         [src]="imageSrc['opt'+(option+1)+'Img']">
                                     <mat-icon *ngIf="!imageSrc['opt'+(option+1)+'Img']">photo</mat-icon>
                                 </div>
@@ -417,7 +518,7 @@
                 </div>
 
                 <div class="crt_pr_dv w_100p"
-                    *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
+                    *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option && false">
                     <div class="hgt_10"></div>
                     <div>Is Correct Answer?</div>
 
@@ -461,7 +562,7 @@
                                 </div>
                             </mat-radio-group>
                         </div>
-                        <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
+                        <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option && false">
                             <div class="brnd_info_mn hgt_335px"
                                 *ngFor="let option_value of question.option_array;index as option;">
                                 <div class="ql_img_thmb"> <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
