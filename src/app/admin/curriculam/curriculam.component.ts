@@ -223,6 +223,7 @@ export class CurriculamComponent implements OnInit {
             url: 'curriculum/' + this.curriculum_id,
             curriculum_name: this.curriculum_name,
             curriculum_steps: steps,
+            usage_type: this.course_usage
             //qbank_type:this.qbank_type
         };
         this.http.put(param).subscribe((res) => {
@@ -236,7 +237,7 @@ export class CurriculamComponent implements OnInit {
                 this.edit_model_status = !this.edit_model_status;
                 this.getCurriculums();
             } else {
-                this.toster.error(res['errors']['curriculum_name'], res['message'], {
+                this.toster.error(res['errors'], res['message'], {
                     closeButton: true
                 });
             }
