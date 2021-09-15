@@ -63,7 +63,9 @@ interface CurriculumNode {
     styleUrls: ['./create-new-question.component.scss']
 })
 
-export class CreateNewQuestionComponent implements OnInit {   
+ 
+export class CreateNewQuestionComponent implements OnInit {    
+    displayedColumns: string[] = ['Sno', 'Course', 'Topic', 'Action']; 
     public max_options = 20;
     public video_types = environment.video_types;
     dataSource = new MatTableDataSource();
