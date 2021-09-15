@@ -5,7 +5,7 @@
 </style>
 <div class="mn_dshbrd">
     <div class="brd_crm"> <span>Create New Question</span> </div>
-    <div class="pg_ttl">Create New Question</div>
+    <div class="pg_ttl mb_0">Create New Question</div>
     <div class="crt_prtnr dsh_brd_crds">
         <form #question_list_form="ngForm" id="question_list_form" name="question_list_form"
             (ngSubmit)="question_list_form.valid && createQList()" novalidate>
@@ -47,21 +47,22 @@
                         </div>
                     </div>
                 </div>
-                <div class=" rsp_100p mb_0">
-                    <div>
-                        <div class="crt_prt_hd">Difficulty level</div>
-                        <div class="crt_prt_cnt">
-                            <mat-radio-group name="difficulty_level" [(ngModel)]="question.difficulty_level_id"
-                                #difficulty_level="ngModel" ngModel required>
-                                <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
-                                <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
-                                <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
+                <div class="mb_0 w_100p">
                     <div class="hgt_20"></div>
-                    <div class="d-flex fw_w">
-                        <div>
+                    <div class="d-flex">
+                        <div class="w_100p">
+                            <div class="crt_prt_hd">Difficulty level</div>
+                            <div class="hgt_5"></div>
+                            <div class="crt_prt_cnt">
+                                <mat-radio-group name="difficulty_level" [(ngModel)]="question.difficulty_level_id"
+                                    #difficulty_level="ngModel" ngModel required class="d-flex">
+                                    <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
+                                    <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
+                                    <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="w_100p">
                             <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
@@ -79,7 +80,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div>
+                        <div class="w_100p">
                             <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
@@ -96,11 +97,10 @@
                                 </span>
                             </div>
                         </div>
-
                     </div>
                     
-                    <div class="d-flex fw_w">
-                        <div>
+                    <div class="d-flex">
+                        <div class="w_100p">
                             <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span>
                             </div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
@@ -119,7 +119,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div>
+                        <div class="w_100p">
                             <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
@@ -144,10 +144,10 @@
                                 </span>
                             </div>
                         </div>
-                        <div>
+                        <div class="w_100px">
                             <div class="crt_prt_hd">&nbsp;</div>
                             <button mat-raised-button color="accent" type="button" class="mt_3px">
-                                <mat-icon>add</mat-icon> Add Course
+                                 Add  (+)
                             </button>
                         </div>
                     </div>
@@ -327,9 +327,6 @@
                             </div> -->
                     </div>
                 </div>
-
-
-
 
                 <div class="hgt_20"></div>
                 <div class="crt_pr_dv w_100p d-flex fw_w"

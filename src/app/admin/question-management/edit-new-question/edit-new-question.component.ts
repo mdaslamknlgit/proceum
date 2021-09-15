@@ -49,6 +49,8 @@ import {
     styleUrls: ['./edit-new-question.component.scss']
 })
 export class EditNewQuestionComponent implements OnInit {
+    
+    displayedColumns: string[] = ['Sno', 'Course', 'Topic', 'Action']; 
     public video_types = environment.video_types;
     dataSource = new MatTableDataSource();
     @ViewChild(MatPaginator, {

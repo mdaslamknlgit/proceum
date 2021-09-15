@@ -5,12 +5,13 @@
 </style>
 <div class="mn_dshbrd">
     <div class="brd_crm"> <span>Update Question</span> </div>
-    <div class="pg_ttl">Update Question</div>
+    <div class="pg_ttl mb_0">Update Question</div>
     <div class="crt_prtnr dsh_brd_crds">
         <form ngNativeValidate #question_list_form="ngForm" id="question_list_form" name="question_list_form"
             (ngSubmit)="question_list_form.valid && updateQList(question_list_form)" novalidate>
             <div class="crt_pr_mn px-0 bg-0">
                 <div class="w_100p">
+
                     <div>
                         <div class="crt_prt_hd">This Question is for:</div>
                         <div class="crt_prt_cnt">
@@ -47,98 +48,58 @@
                         </div>
                     </div>
                 </div>
-                <div class="crt_pr_dv w_45p rsp_100p">
-                    <div>
-                        <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span></div>
-                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Course" name="curriculum_id_name"
-                                        [(ngModel)]="question.curriculum_id"
-                                        (ngModelChange)="getTopics(question.curriculum_id, '');question.topic='';"
-                                        #curriculum_id_name="ngModel" ngModel required>
-                                        <mat-option [matTooltip]="value['curriculumn_name']"
-                                            *ngFor="let value of curriculums" [value]="value['pk_id']">
-                                            {{value['curriculumn_name']}}</mat-option>
-                                    </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
-                                        curriculum_id_name.invalid">Course is Required</span>
-                                </mat-form-field>
-                            </span>
+                <div class="mb_0 w_100p">
+                    <div class="hgt_20"></div>
+                    <div class="d-flex">
+                        <div class="w_100p">
+                            <div class="crt_prt_hd">Difficulty level</div>
+                            <div class="hgt_5"></div>
+                            <div class="crt_prt_cnt">
+                                <mat-radio-group name="difficulty_level_id" [(ngModel)]="question.difficulty_level_id"
+                                    #difficulty_level_id="ngModel" ngModel required class="d-flex">
+                                    <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
+                                    <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
+                                    <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
-                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic"
-                                        name="topic" ngModel="topic" #topic="ngModel" required>
-                                        <mat-option>
-                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'"
-                                                name="search_topic" ngModel
-                                                (ngModelChange)="getTopics(question.curriculum_id, $event)"
-                                                [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic
-                                            </ngx-mat-select-search>
-                                        </mat-option>
-                                        <mat-option [matTooltip]="value['level_name']"
-                                            *ngFor="let value of topics | async" [value]="value['pk_id']">
-                                            {{value['level_name']}}</mat-option>
-                                    </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
-                                        curriculum_id_name.invalid">Topic is Required</span>
-                                </mat-form-field>
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="crt_prt_hd">Difficulty level</div>
-                        <div class="crt_prt_cnt">
-                            <mat-radio-group name="difficulty_level_id" [(ngModel)]="question.difficulty_level_id"
-                                #difficulty_level_id="ngModel" ngModel required>
-                                <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
-                                <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
-                                <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                    </div>
-                </div>
-                <div class="crt_pr_dv w_45p rsp_100p">
-                    <div>
-                        <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
-                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select disabled="true" name="question_type_id"
-                                        [(ngModel)]="question.question_type_id" #question_type_id="ngModel" ngModel
-                                        (selectionChange)="changeQType($event)" required readonly>
-                                        <mat-option value="" disabled>Select question type</mat-option>
-                                        <mat-option [matTooltip]="qtype.question_type" *ngFor="let qtype of QTypes"
-                                            [value]="qtype.id" disabled>{{
-                                            qtype.question_type }}
-                                        </mat-option>
-                                    </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (question_type_id.submitted || question_type_id.touched) &&
+                        <div class="w_100p">
+                            <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
+                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select disabled="true" name="question_type_id"
+                                            [(ngModel)]="question.question_type_id" #question_type_id="ngModel" ngModel
+                                            (selectionChange)="changeQType($event)" required readonly>
+                                            <mat-option value="" disabled>Select question type</mat-option>
+                                            <mat-option [matTooltip]="qtype.question_type" *ngFor="let qtype of QTypes"
+                                                [value]="qtype.id" disabled>{{
+                                                qtype.question_type }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf=" (question_type_id.submitted || question_type_id.touched) &&
                                         question_type_id.invalid">Question type is Required</span>
-                                </mat-form-field>
-                            </span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
-                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select disabled="true" placeholder="Select Question Category"
-                                        name="question_flag" [(ngModel)]="question.question_flag"
-                                        #question_flag="ngModel" ngModel required>
-                                        <mat-option value="mcq">MCQ</mat-option>
-                                        <mat-option value="case">Case based Question</mat-option>
-                                        <mat-option value="short_answer">Short Question</mat-option>
-                                    </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (question_flag.submitted || question_flag.touched) &&
+                        <div class="w_100p">
+                            <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
+                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select disabled="true" placeholder="Select Question Category"
+                                            name="question_flag" [(ngModel)]="question.question_flag"
+                                            #question_flag="ngModel" ngModel required>
+                                            <mat-option value="mcq">MCQ</mat-option>
+                                            <mat-option value="case">Case based Question</mat-option>
+                                            <mat-option value="short_answer">Short Question</mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf=" (question_flag.submitted || question_flag.touched) &&
                                         question_flag.invalid">Question Category/Type is Required</span>
-                                </mat-form-field>
-                            </span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <!-- <div *ngIf="question_Qbank">
+                        <!-- <div *ngIf="question_Qbank">
                             <div class="crt_prt_hd">Add question to <span class="required">*</span></div>
                             <div class="crt_prt_cnt">
                                 <span class="err_tltp_par">
@@ -156,6 +117,81 @@
                                 </span>
                             </div>
                         </div> -->
+                    </div>
+                    <div class="d-flex">
+                        <div class="w_100p">
+                            <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span>
+                            </div>
+                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select Course" name="curriculum_id_name"
+                                            [(ngModel)]="question.curriculum_id"
+                                            (ngModelChange)="getTopics(question.curriculum_id, '');question.topic='';"
+                                            #curriculum_id_name="ngModel" ngModel required>
+                                            <mat-option [matTooltip]="value['curriculumn_name']"
+                                                *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                                {{value['curriculumn_name']}}</mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
+                                        curriculum_id_name.invalid">Course is Required</span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="w_100p">
+                            <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
+                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic"
+                                            name="topic" ngModel="topic" #topic="ngModel" required>
+                                            <mat-option>
+                                                <ngx-mat-select-search
+                                                    [noEntriesFoundLabel]="'No Topic / Subtopic found'"
+                                                    name="search_topic" ngModel
+                                                    (ngModelChange)="getTopics(question.curriculum_id, $event)"
+                                                    [placeholderLabel]="'Search Topic / Subtopic'">Select Topic /
+                                                    Subtopic
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option [matTooltip]="value['level_name']"
+                                                *ngFor="let value of topics | async" [value]="value['pk_id']">
+                                                {{value['level_name']}}</mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
+                                        curriculum_id_name.invalid">Topic is Required</span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="w_100px">
+                            <div class="crt_prt_hd">&nbsp;</div>
+                            <button mat-raised-button color="accent" type="button" class="mt_3px">
+                                Add (+)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="rsp_tbl">
+                    <table mat-table [dataSource]="dataSource">
+                        <ng-container matColumnDef="Sno">
+                            <th mat-header-cell *matHeaderCellDef> S.No</th>
+                            <td mat-cell *matCellDef="let element"> S.No </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Course">
+                            <th mat-header-cell *matHeaderCellDef>Course </th>
+                            <td mat-cell *matCellDef="let element">Course</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Topic">
+                            <th mat-header-cell *matHeaderCellDef>Topic </th>
+                            <td mat-cell *matCellDef="let element">Topic </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Action">
+                            <th mat-header-cell *matHeaderCellDef>Action</th>
+                            <td mat-cell *matCellDef="let element">Action</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
                 </div>
                 <div class="hgt_20"></div>
                 <div class="cc_row w_100p">
@@ -259,7 +295,7 @@
                 </div>
 
 
-                
+
 
 
                 <div class="crt_pr_dv w_100p isca_mat"
@@ -289,7 +325,9 @@
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
                     <div class="hgt_10"></div>
                     <div>Is Correct Answer? </div>
+
                     <div class="d-flex ql_ca">
+
                         <div class="ql_ca_mn">
                             <mat-radio-group [(ngModel)]="question.single_crt_ans" name="single_crt_ans">
                                 <div class="brnd_info_mn"
@@ -310,10 +348,10 @@
                         <div class="ql_ca_mn" *ngIf="image_single_option || image_multiple_option">
                             <div class="brnd_info_mn"
                                 *ngFor="let option_value of question.option_array;index as option;">
-                                <div class="ql_img_thmb"> <img
-                                        *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']"
-                                        [src]="bucket_url+this['opt'+(option+1)+'FileName']"> <img
-                                        *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']"
+                                <div class="ql_img_thmb">
+                                    <img *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']"
+                                        [src]="bucket_url+this['opt'+(option+1)+'FileName']">
+                                    <img *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']"
                                         [src]="imageSrc['opt'+(option+1)+'Img']">
                                     <mat-icon *ngIf="!this['opt'+(option+1)+'FileName']">photo</mat-icon>
                                 </div>
@@ -345,8 +383,10 @@
                                     [(ngModel)]="question['option_explanation_'+(option+1)]"></angular-editor>
                             </div>
                         </div>
+
                     </div>
                 </div>
+
                 <div class="hgt_20"></div>
                 <div class="cc_row w_100p">
                     <div class="description_block">
