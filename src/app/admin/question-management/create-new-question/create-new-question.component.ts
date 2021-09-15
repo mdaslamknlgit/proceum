@@ -44,7 +44,8 @@ export class CreateNewQuestionComponent implements OnInit {
     displayedColumns: string[] = ['Sno', 'Course', 'Topic', 'Action']; 
     public max_options = 20;
     public video_types = environment.video_types;
-    dataSource = [{pk_id:0, course_qbank:0, course_qbank_text: '', topic:0, topic_text:'', is_delete:0}];
+    public selected_topics = [];
+    public dataSource = new MatTableDataSource();
     @ViewChild(MatPaginator, {
         static: false
     }) paginator: MatPaginator;
@@ -108,8 +109,11 @@ export class CreateNewQuestionComponent implements OnInit {
     opt7FileName: any;
     opt8FileName: any;
     user = [];
+    selected_topic = '';
+    selected_course = '';
+    is_topic_exist = false;
 
-    constructor(private http: CommonService, private domSanitizer: DomSanitizer, private toster: ToastrService, private router: Router, ) {}
+    constructor(private http: CommonService, private domSanitizer: DomSanitizer, private toster: ToastrService, private router: Router) {}
     qtype: any;
     ngOnInit(): void {
         this.user = this.http.getUser();
@@ -167,7 +171,7 @@ export class CreateNewQuestionComponent implements OnInit {
             }
         });
     }
-    getTopics(curriculum_id, search) {
+    getTopics(curriculum_id, search,type) {
         this.question.q_bank_ids = [];
         this.question.q_bank_ids.push(curriculum_id);
         let params = {
@@ -183,6 +187,46 @@ export class CreateNewQuestionComponent implements OnInit {
                     this.topics.next([]);
             }
         });
+    }
+    setCourseText(args){ 
+        this.curriculums.forEach(res=>{
+            if(res['pk_id'] == args)
+            this.selected_course = res['curriculumn_name'];
+        })
+    }
+    setTopicText(args){ 
+        let sub = this.topics.subscribe(res=>{
+            res.forEach(res2=>{
+                if(res2['pk_id'] == args)
+                {
+                    this.selected_topic = res2['level_name'];
+                }
+            })
+        })
+        sub.unsubscribe();
+    }
+    addTopic(){
+         
+        this.selected_topics.forEach(res => {
+            if(res['course_qbank'] == this.question.curriculum_id && res['topic'] == this.question.topic){
+                this.toster.error("Topic exists", "Error", {closeButton:true});
+                this.is_topic_exist = true;
+                return false;
+            }
+        })
+        if(this.is_topic_exist != true){
+            let data = {pk_id:0, course_qbank:this.question.curriculum_id, course_qbank_text: this.selected_course, topic:this.question.topic, topic_text: this.selected_topic, is_delete:0};
+            this.selected_topics.push(data);
+            this.dataSource = new MatTableDataSource(this.selected_topics);
+            this.question.curriculum_id = '';
+            this.selected_course = '';
+            this.question.topic = '';
+            this.selected_topic = '';
+        }
+    }
+    removeTopic(index){
+        this.selected_topics.splice(index, 1);
+        this.dataSource = new MatTableDataSource(this.selected_topics);
     }
     //not using
     getQBanks() {

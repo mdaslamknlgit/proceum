@@ -107,7 +107,7 @@
                                     <mat-form-field appearance="outline">
                                         <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
                                             name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
-                                            (ngModelChange)="getTopics(question.curriculum_id, '')"
+                                            (ngModelChange)="getTopics(question.curriculum_id, '', 'course');setCourseText($event)"
                                             #curriculum_id_name="ngModel" ngModel="curriculum_id_name" required>
                                             <mat-option [matTooltip]="value['curriculumn_name']"
                                                 *ngFor="let value of curriculums" [value]="value['pk_id']">
@@ -124,12 +124,12 @@
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
                                         <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic"
-                                            name="topic" ngModel="topic" #topic="ngModel" required>
+                                            name="topic" ngModel="topic" #topic="ngModel" (ngModelChange)="setTopicText($event);is_topic_exist=false" required>
                                             <mat-option>
                                                 <ngx-mat-select-search
                                                     [noEntriesFoundLabel]="'No Topic / Subtopic found'"
                                                     name="search_topic" ngModel
-                                                    (ngModelChange)="getTopics(question.curriculum_id, $event)"
+                                                    (ngModelChange)="getTopics(question.curriculum_id, $event, '');"
                                                     [placeholderLabel]="'Search Topic / Subtopic'">Select Topic /
                                                     Subtopic
                                                 </ngx-mat-select-search>
@@ -146,8 +146,8 @@
                         </div>
                         <div>
                             <div class="crt_prt_hd">&nbsp;</div>
-                            <button mat-raised-button color="accent" type="button" class="mt_3px">
-                                <mat-icon>add</mat-icon> Add Course
+                            <button [disabled]="is_topic_exist || question.topic=='' || question.curriculum_id==''" (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
+                                <mat-icon>add</mat-icon> Add
                             </button>
                         </div>
                     </div>
@@ -157,22 +157,28 @@
                     <table mat-table [dataSource]="dataSource">
                         <ng-container matColumnDef="Sno">
                             <th mat-header-cell *matHeaderCellDef> S.No</th>
-                            <td mat-cell *matCellDef="let element"> S.No </td>
+                            <td mat-cell *matCellDef="let element; let s_no=index"> {{s_no+1}} </td>
                         </ng-container>
                         <ng-container matColumnDef="Course">
-                            <th mat-header-cell *matHeaderCellDef>Course </th>
-                            <td mat-cell *matCellDef="let element">Course</td>
+                            <th mat-header-cell *matHeaderCellDef>{{question_Qbank?'QBank':'Course'}} </th>
+                            <td mat-cell *matCellDef="let element">{{element.course_qbank_text}}</td>
                         </ng-container>
                         <ng-container matColumnDef="Topic">
-                            <th mat-header-cell *matHeaderCellDef>Topic </th>
-                            <td mat-cell *matCellDef="let element">Topic </td>
+                            <th mat-header-cell *matHeaderCellDef>Topic/Sub Topic </th>
+                            <td mat-cell *matCellDef="let element">{{element.topic_text}} </td>
                         </ng-container>
                         <ng-container matColumnDef="Action">
                             <th mat-header-cell *matHeaderCellDef>Action</th>
-                            <td mat-cell *matCellDef="let element">Action</td>
+                            <td mat-cell *matCellDef="let element; let topic_index=index"><span (click)="removeTopic(topic_index)">delete</span></td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                            <td style="text-align: center; margin: 20px" class="mat-cell"
+                              [attr.colspan]="displayedColumns.length">
+                              No Records Found
+                            </td>
+                          </tr>
                     </table>
                 </div>
                 <div class="hgt_20"></div>
