@@ -88,6 +88,10 @@ export class LabValuesComponent implements OnInit {
                 this.all_headings = res['data']['headings'];
                 this.dataSource = new MatTableDataSource(res['data']['values']);
                 this.values_count =  res['values_count'];
+                if (this.paginator != undefined) {
+                    this.paginator.pageIndex = 0;
+                    this.paginator.firstPage();
+                  }
             }
             else{
                 this.dataSource = new MatTableDataSource([]);

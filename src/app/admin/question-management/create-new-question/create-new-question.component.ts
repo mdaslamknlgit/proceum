@@ -11,15 +11,9 @@ import {
     ToastrService
 } from 'ngx-toastr';
 import {
-    CKEditorComponent
-} from '@ckeditor/ckeditor5-angular';
-import {
     environment
 } from 'src/environments/environment';
 import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
-import {
-    UploadAdapter
-} from '../../../classes/UploadAdapter';
 import {
     MatTableDataSource
 } from '@angular/material/table';
@@ -31,12 +25,6 @@ import {
     MatSort
 } from '@angular/material/sort';
 import {
-    NestedTreeControl
-} from '@angular/cdk/tree';
-import {
-    MatTreeNestedDataSource
-} from '@angular/material/tree';
-import {
     ReplaySubject
 } from 'rxjs';
 import {
@@ -45,18 +33,6 @@ import {
 import {
     DomSanitizer
 } from '@angular/platform-browser';
-interface CurriculumNode {
-    id ? : number;
-    name: string;
-    curriculum_id ? : number;
-    selected ? : boolean;
-    indeterminate ? : boolean;
-    parentid ? : number;
-    is_curriculum_root ? : boolean;
-    children ? : CurriculumNode[];
-    has_children ? : boolean;
-    ok ? : boolean;
-}
 @Component({
     selector: 'app-create-new-question',
     templateUrl: './create-new-question.component.html',
@@ -64,17 +40,16 @@ interface CurriculumNode {
 })
 
 export class CreateNewQuestionComponent implements OnInit {   
+    public displayedColumns = ['s_no', 'course_qbank', 'topic', 'action'];
     public max_options = 20;
     public video_types = environment.video_types;
-    dataSource = new MatTableDataSource();
+    dataSource = [{pk_id:0, course_qbank:0, course_qbank_text: '', topic:0, topic_text:'', is_delete:0}];
     @ViewChild(MatPaginator, {
         static: false
     }) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild('documents') documents_input: ElementRef;
     //Code starts here for course selection
-    treeControl = new NestedTreeControl < CurriculumNode > (node => node.children);
-    dataSource1 = new MatTreeNestedDataSource < CurriculumNode > ();
     page_size_options = environment.page_size_options;
 
     public Editor = Editor;
@@ -134,9 +109,6 @@ export class CreateNewQuestionComponent implements OnInit {
     user = [];
 
     constructor(private http: CommonService, private domSanitizer: DomSanitizer, private toster: ToastrService, private router: Router, ) {}
-
-    hasChild = (_: number, node: CurriculumNode) =>
-        !!node.children && node.children.length > 0;
     qtype: any;
     ngOnInit(): void {
         this.user = this.http.getUser();
@@ -145,23 +117,23 @@ export class CreateNewQuestionComponent implements OnInit {
         this.changeQUsageType(1)
     }
 
-    getQLists() {
-        let param = {
-            url: 'qbank'
-        };
-        this.http.get(param).subscribe((res) => {
-            if (res['error'] == false) {
-                this.dataSource = new MatTableDataSource(res['data']['qbanks']);
-                this.is_loaded = false;
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-            } else {
-                this.toster.error(res['message'], 'Error', {
-                    closeButton: true
-                });
-            }
-        });
-    }
+    // getQLists() {
+    //     let param = {
+    //         url: 'qbank'
+    //     };
+    //     this.http.get(param).subscribe((res) => {
+    //         if (res['error'] == false) {
+    //             this.dataSource = new MatTableDataSource(res['data']['qbanks']);
+    //             this.is_loaded = false;
+    //             this.dataSource.paginator = this.paginator;
+    //             this.dataSource.sort = this.sort;
+    //         } else {
+    //             this.toster.error(res['message'], 'Error', {
+    //                 closeButton: true
+    //             });
+    //         }
+    //     });
+    // }
 
 
     getQTypes() {
