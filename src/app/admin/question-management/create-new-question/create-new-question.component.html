@@ -47,70 +47,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="crt_pr_dv w_45p rsp_100p">
-                    <div>
-                        <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span></div>
-                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
-                                        name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
-                                        (ngModelChange)="getTopics(question.curriculum_id, '')"
-                                        #curriculum_id_name="ngModel" ngModel="curriculum_id_name" required>
-                                        <mat-option [matTooltip]="value['curriculumn_name']"
-                                            *ngFor="let value of curriculums" [value]="value['pk_id']">
-                                            {{value['curriculumn_name']}}</mat-option>
-                                    </mat-select>
-                                    <span class="prc_tltp" *ngIf="(question_list_form.submitted || curriculum_id_name.touched) &&
-                                        curriculum_id_name.invalid">Course is Required</span>
-                                </mat-form-field>
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
-                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic"
-                                        name="topic" ngModel="topic" #topic="ngModel" required>
-                                        <mat-option>
-                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Topic / Subtopic found'"
-                                                name="search_topic" ngModel
-                                                (ngModelChange)="getTopics(question.curriculum_id, $event)"
-                                                [placeholderLabel]="'Search Topic / Subtopic'">Select Topic / Subtopic
-                                            </ngx-mat-select-search>
-                                        </mat-option>
-                                        <mat-option [matTooltip]="value['level_name']"
-                                            *ngFor="let value of topics | async" [value]="value['pk_id']">
-                                            {{value['level_name']}}</mat-option>
-                                    </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (question_list_form.submitted || topic.touched) &&
-                                        topic.invalid">Topic is Required</span>
-                                </mat-form-field>
-                            </span>
-                        </div>
-                    </div> 
-                    <!-- <div class="rsp_tbl">
-                        <table mat-table [dataSource]="dataSource">
-                            <ng-container matColumnDef="position">
-                              <th mat-header-cell *matHeaderCellDef> S.No</th>
-                              <td mat-cell *matCellDef="let element"> S.No </td>
-                            </ng-container>
-                            <ng-container matColumnDef="name">
-                              <th mat-header-cell *matHeaderCellDef>Course </th>
-                              <td mat-cell *matCellDef="let element">Course</td>
-                            </ng-container>
-                            <ng-container matColumnDef="weight">
-                              <th mat-header-cell *matHeaderCellDef>Topic </th>
-                              <td mat-cell *matCellDef="let element">Topic </td>
-                            </ng-container>
-                            <ng-container matColumnDef="symbol">
-                              <th mat-header-cell *matHeaderCellDef>Action</th>
-                              <td mat-cell *matCellDef="let element">Action</td>
-                            </ng-container>
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                          </table>
-                    </div> -->
+                <div class=" rsp_100p mb_0">
                     <div>
                         <div class="crt_prt_hd">Difficulty level</div>
                         <div class="crt_prt_cnt">
@@ -122,45 +59,124 @@
                             </mat-radio-group>
                         </div>
                     </div>
+                    <div class="hgt_20"></div>
+                    <div class="d-flex fw_w">
+                        <div>
+                            <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
+                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select Question Type" name="qtype_name"
+                                            [(ngModel)]="question.question_type_id" #qtype_name="ngModel" ngModel
+                                            (selectionChange)="changeQType($event)" required>
+                                            <mat-option [matTooltip]="qtype.question_type" *ngFor="let qtype of QTypes"
+                                                [value]="qtype.id">
+                                                {{qtype.question_type}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf=" (qtype_name.submitted || qtype_name.touched) &&
+                    qtype_name.invalid">Question type is Required</span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
+                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select Question Category" name="question_flag"
+                                            [(ngModel)]="question.question_flag" #question_flag="ngModel" ngModel
+                                            required>
+                                            <mat-option value="mcq">MCQ</mat-option>
+                                            <mat-option value="case">Case based Question</mat-option>
+                                            <mat-option value="short_answer">Short Question</mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf=" (question_flag.submitted || question_flag.touched) &&
+                    question_flag.invalid">Question Category/Type is Required</span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <div class="d-flex fw_w">
+                        <div>
+                            <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span>
+                            </div>
+                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
+                                            name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
+                                            (ngModelChange)="getTopics(question.curriculum_id, '')"
+                                            #curriculum_id_name="ngModel" ngModel="curriculum_id_name" required>
+                                            <mat-option [matTooltip]="value['curriculumn_name']"
+                                                *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                                {{value['curriculumn_name']}}</mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf="(question_list_form.submitted || curriculum_id_name.touched) &&
+                                        curriculum_id_name.invalid">Course is Required</span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
+                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic"
+                                            name="topic" ngModel="topic" #topic="ngModel" required>
+                                            <mat-option>
+                                                <ngx-mat-select-search
+                                                    [noEntriesFoundLabel]="'No Topic / Subtopic found'"
+                                                    name="search_topic" ngModel
+                                                    (ngModelChange)="getTopics(question.curriculum_id, $event)"
+                                                    [placeholderLabel]="'Search Topic / Subtopic'">Select Topic /
+                                                    Subtopic
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option [matTooltip]="value['level_name']"
+                                                *ngFor="let value of topics | async" [value]="value['pk_id']">
+                                                {{value['level_name']}}</mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp" *ngIf=" (question_list_form.submitted || topic.touched) &&
+                                            topic.invalid">Topic is Required</span>
+                                    </mat-form-field>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="crt_prt_hd">&nbsp;</div>
+                            <button mat-raised-button color="accent" type="button" class="mt_3px">
+                                <mat-icon>add</mat-icon> Add Course
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="crt_pr_dv w_45p rsp_100p">
-                    <div>
-                        <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
-                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Question Type" name="qtype_name"
-                                        [(ngModel)]="question.question_type_id" #qtype_name="ngModel" ngModel
-                                        (selectionChange)="changeQType($event)" required>
-                                        <mat-option [matTooltip]="qtype.question_type" *ngFor="let qtype of QTypes"
-                                            [value]="qtype.id">
-                                            {{qtype.question_type}}
-                                        </mat-option>
-                                    </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (qtype_name.submitted || qtype_name.touched) &&
-                                        qtype_name.invalid">Question type is Required</span>
-                                </mat-form-field>
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="crt_prt_hd">Question Category/Type <span class="required">*</span></div>
-                        <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Question Category" name="question_flag"
-                                        [(ngModel)]="question.question_flag" #question_flag="ngModel" ngModel required>
-                                        <mat-option value="mcq">MCQ</mat-option>
-                                        <mat-option value="case">Case based Question</mat-option>
-                                        <mat-option value="short_answer">Short Question</mat-option>
-                                    </mat-select>
-                                    <span class="prc_tltp" *ngIf=" (question_flag.submitted || question_flag.touched) &&
-                                        question_flag.invalid">Question Category/Type is Required</span>
-                                </mat-form-field>
-                            </span>
-                        </div>
-                    </div>
+
+                <div class="rsp_tbl">
+                    <table mat-table [dataSource]="dataSource">
+                        <ng-container matColumnDef="Sno">
+                            <th mat-header-cell *matHeaderCellDef> S.No</th>
+                            <td mat-cell *matCellDef="let element"> S.No </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Course">
+                            <th mat-header-cell *matHeaderCellDef>Course </th>
+                            <td mat-cell *matCellDef="let element">Course</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Topic">
+                            <th mat-header-cell *matHeaderCellDef>Topic </th>
+                            <td mat-cell *matCellDef="let element">Topic </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Action">
+                            <th mat-header-cell *matHeaderCellDef>Action</th>
+                            <td mat-cell *matCellDef="let element">Action</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
                 </div>
                 <div class="hgt_20"></div>
-                <div class="cc_row w_100p">
+                <!-- <div class="cc_row w_100p">
                     <div class="description_block">
                         <div class="c_block">
                             <div class="c_block_title">
@@ -172,21 +188,110 @@
                                     <angular-editor id="question" required="true"
                                         [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
                                         name="question_text" #question_text="ngModel"
-                                        [(ngModel)]="question.question_text"></angular-editor> <span class="prc_tltp"
+                                        [(ngModel)]="question.question_text"></angular-editor>
+                                    <span class="prc_tltp"
                                         *ngIf="question_list_form.submitted && question.question_text.trim()==''">Question
                                         Text is required</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div> -->
+                <div class="crt_pr_dv w_100p d-flex fw_w">
+                    <div class="d-flex fw_w mb_1 w_100p">
+                        <div class="w_100p mb_1">
+                            <label for="question-text"> Question Text <span class="required">*</span></label>
+                        </div>
+                        <div class="d-flex w_100p">
+                            <div
+                                class="ck_editor err_tltp_par cnq_ck w_100p {{question_list_form.submitted && question.question_text.trim()==''?'angular_editor_div':''}}">
+                                <angular-editor id="question" required="true"
+                                    [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
+                                    name="question_text" #question_text="ngModel" [(ngModel)]="question.question_text">
+                                </angular-editor>
+                                <span class="prc_tltp"
+                                    *ngIf="question_list_form.submitted && question.question_text.trim()==''">Question
+                                    Text is required</span>
+                            </div>
+                            <div>
+                                <div class="d-flex" *ngIf="audio_single_option || 
+                                audio_multiple_option || 
+                                image_single_option || 
+                                image_multiple_option || 
+                                audio_clip_free_text || 
+                                image_free_text
+                                ">
+                                    <div class="">
+                                        <div class="cnq_img_thmb text_center"
+                                            *ngIf="image_single_option || image_multiple_option || image_free_text">
+                                            <div class="cnq_delimg">
+                                                <mat-icon>remove_circle_outline</mat-icon>
+                                            </div>
+                                            <img *ngIf="imageSrc['file']" [src]="imageSrc['file']">
+                                            <!-- <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon> -->
+                                            <button mat-fab class="cnq_upld_btn"
+                                                onclick="document.getElementById('file').click()" type="button"
+                                                color="accent" *ngIf="!imageSrc['file']">
+                                                <mat-icon>file_upload</mat-icon>
+                                            </button>
+                                            <div class="hgt_10" *ngIf="!imageSrc['file']">
+                                            </div>
+                                            <div class="fs_16" *ngIf="!imageSrc['file']">
+                                                Upload Image
+                                            </div>
+                                        </div>
+                                        <div class="cnq_img_thmb text_center"
+                                            *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text">
+                                            <button mat-fab class="cnq_upld_btn"
+                                                onclick="document.getElementById('file').click()" type="button"
+                                                color="accent">
+                                                <mat-icon>file_upload</mat-icon>
+                                            </button>
+                                            <div class="hgt_10"></div>
+                                            <div>
+                                                <mat-icon (click)="playAudio(imageSrc['file'])">play_arrow
+                                                </mat-icon>
+                                                <mat-icon (click)="pauseAudio()">pause</mat-icon>
+                                            </div>
+                                        </div>
+                                        <mat-form-field appearance="outline" class="w_80p d_none">
+                                            <input matInput placeholder="Upload File" [(ngModel)]="fileName"
+                                                id="fileName" name="fileName" readonly required />
+                                            <mat-hint
+                                                *ngIf="image_single_option || image_multiple_option|| image_free_text"
+                                                class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System
+                                                will accept
+                                                only jpg, jpeg, bmp, gif, png </mat-hint>
+                                            <mat-hint
+                                                *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text"
+                                                class="fl_frmt_info"> System will accept only .mp3 format
+                                            </mat-hint>
+                                        </mat-form-field>
+                                        <button type="button" mat-raised-button
+                                            onclick="document.getElementById('file').click()" color="accent"
+                                            class="float_right mr_1 mt_3px d_none">
+                                            <mat-icon>upload</mat-icon> Browse
+                                            <input class="w_80p" (change)="onFileChange($event)"
+                                                accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg,image/bmp':'.mp3'}}"
+                                                id="file" type="file" style="display: none" />
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+
                 <div class="w_100p" *ngIf="vidio_single_option || video_multiple_option || video_clicp_free_text">
                     <div class="hgt_10"></div>
                     <div class="d-flex">
                         <div class="w_50p">
                             <div class="w_100p">
-                                <div class="crt_prt_hd">Video Type <span class="required">*</span></div> <span
-                                    class="err_tltp_par ">
+                                <div class="crt_prt_hd">Video Type <span class="required">*</span></div>
+                                <span class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel"
                                             ngModel required
@@ -196,8 +301,9 @@
                                                 [value]="video_type['value']">
                                                 {{video_type['name']}}</mat-option>
                                         </mat-select>
-                                        <span class="prc_tltp" *ngIf=" (q_source.submitted || q_source.touched) &&
-                                            q_source.invalid">Video Source Required</span>
+                                        <span class="prc_tltp"
+                                            *ngIf=" (q_source.submitted || q_source.touched) && q_source.invalid">Video
+                                            Source Required</span>
                                     </mat-form-field>
                                 </span>
                             </div>
@@ -221,45 +327,10 @@
                             </div> -->
                     </div>
                 </div>
-                <div class="crt_pr_dv w_100p" *ngIf="audio_single_option || 
-                    audio_multiple_option || 
-                    image_single_option || 
-                    image_multiple_option || 
-                    audio_clip_free_text || 
-                    image_free_text
-                    ">
-                    <div class="hgt_10"></div>
-                    <div class="brnd_info_mn">
-                        <div class="brnd_info_upld">
-                            <div class="ql_img_thmb"
-                                *ngIf="image_single_option||image_multiple_option || image_free_text">
-                                <img *ngIf="imageSrc['file']" [src]="imageSrc['file']">
-                                <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon>
-                            </div>
-                            <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text"
-                                class="mt_8px">
-                                <mat-icon (click)="playAudio(imageSrc['file'])">play_arrow</mat-icon>
-                                <mat-icon (click)="pauseAudio()">pause</mat-icon>
-                            </div>
-                            <mat-form-field appearance="outline" class="w_80p">
-                                <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
-                                    name="fileName" readonly required />
-                                <mat-hint *ngIf="image_single_option || image_multiple_option|| image_free_text"
-                                    class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System will accept
-                                    only jpg, jpeg, bmp, gif, png </mat-hint>
-                                <mat-hint *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text"
-                                    class="fl_frmt_info"> System will accept only .mp3 format </mat-hint>
-                            </mat-form-field>
-                            <button type="button" mat-raised-button onclick="document.getElementById('file').click()"
-                                color="accent" class="float_right mr_1 mt_3px">
-                                <mat-icon>upload</mat-icon> Browse
-                                <input class="w_80p" (change)="onFileChange($event)"
-                                    accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg,image/bmp':'.mp3'}}"
-                                    id="file" type="file" style="display: none" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
+
+
+
                 <div class="hgt_20"></div>
                 <div class="crt_pr_dv w_100p d-flex fw_w"
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">

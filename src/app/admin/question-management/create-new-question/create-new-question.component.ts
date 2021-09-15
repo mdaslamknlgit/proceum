@@ -39,8 +39,9 @@ import {
     styleUrls: ['./create-new-question.component.scss']
 })
 
-export class CreateNewQuestionComponent implements OnInit {   
-    public displayedColumns = ['s_no', 'course_qbank', 'topic', 'action'];
+ 
+export class CreateNewQuestionComponent implements OnInit {    
+    displayedColumns: string[] = ['Sno', 'Course', 'Topic', 'Action']; 
     public max_options = 20;
     public video_types = environment.video_types;
     dataSource = [{pk_id:0, course_qbank:0, course_qbank_text: '', topic:0, topic_text:'', is_delete:0}];
