@@ -108,7 +108,7 @@
                                         <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
                                             name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
                                             (ngModelChange)="getTopics(question.curriculum_id, '', 'course');setCourseText($event)"
-                                            #curriculum_id_name="ngModel" ngModel="curriculum_id_name" required>
+                                            #curriculum_id_name="ngModel" ngModel="curriculum_id_name">
                                             <mat-option [matTooltip]="value['curriculumn_name']"
                                                 *ngFor="let value of curriculums" [value]="value['pk_id']">
                                                 {{value['curriculumn_name']}}</mat-option>
@@ -124,7 +124,7 @@
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
                                         <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic"
-                                            name="topic" ngModel="topic" #topic="ngModel" (ngModelChange)="setTopicText($event);is_topic_exist=false" required>
+                                            name="topic" ngModel="topic" #topic="ngModel" (ngModelChange)="setTopicText($event);is_topic_exist=false">
                                             <mat-option>
                                                 <ngx-mat-select-search
                                                     [noEntriesFoundLabel]="'No Topic / Subtopic found'"
@@ -336,11 +336,11 @@
                 <div class="hgt_20"></div>
                 <div class="crt_pr_dv w_100p d-flex fw_w"
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
-                    <mat-radio-group class="w_100p">
+                    <mat-radio-group class="w_100p" [(ngModel)]="question.correct_ans_ids[0]" name="correct_options"> 
                         <div class="d-flex fw_w mb_1"
                             *ngFor="let option_value of question.option_array;index as option;">
                             <div class="mt_1 w_40px">
-                                <mat-radio-button value="0"></mat-radio-button>
+                                <mat-radio-button [value]="option+1" (change)="onCorrectAnsChange($event)"></mat-radio-button>
                             </div>
                             <div class="d-flex optns_rdo">
                                 <div class="mr_1 w_100p">
@@ -353,7 +353,7 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="hgt_20"></div>
-                                    <div>
+                                    <div *ngIf="show_explanation[option] != undifined && show_explanation[option] == true">
                                         <angular-editor id="option_{{option+1}}"
                                             [placeholder]="'Enter Option '+(option+1) +' Explanation'"
                                             [config]="liteEditorConfig" name="option_{{option+1}}"
@@ -363,9 +363,11 @@
                                     <div class="hgt_10"></div>
                                     <div class="d-flex">
                                         <div class="spacer"></div>
-                                        <a class="d-flex ai_cntr">
-                                            <mat-icon>add</mat-icon> <span> Add Explanation</span> / <mat-icon>
-                                                remove_circle_outline</mat-icon> <span>Remove Explanation</span>
+                                        <a class="d-flex ai_cntr" *ngIf="show_explanation[option] != undifined && show_explanation[option] == true" (click)="show_explanation[option]=false">
+                                            <mat-icon>remove_circle_outline</mat-icon> <span>Hide Explanation</span>
+                                        </a>
+                                        <a class="d-flex ai_cntr" *ngIf="show_explanation[option] == undifined || show_explanation[option] == false" (click)="show_explanation[option]=true">
+                                            <mat-icon>add</mat-icon> <span> Add Explanation</span>
                                         </a>
                                     </div>
                                 </div>
@@ -450,7 +452,7 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="hgt_20"></div>
-                                <div>
+                                <div *ngIf="show_explanation[option] != undifined && show_explanation[option] == true">
                                     <angular-editor id="option_{{option+1}}"
                                         [placeholder]="'Enter Option '+(option+1) +' Explanation'"
                                         [config]="liteEditorConfig" name="option_{{option+1}}"
@@ -460,11 +462,20 @@
                                 <div class="hgt_10"></div>
                                 <div class="d-flex">
                                     <div class="spacer"></div>
+                                    <a class="d-flex ai_cntr" *ngIf="show_explanation[option] != undifined && show_explanation[option] == true" (click)="show_explanation[option]=false">
+                                        <mat-icon>remove_circle_outline</mat-icon> <span>Hide Explanation</span>
+                                    </a>
+                                    <a class="d-flex ai_cntr" *ngIf="show_explanation[option] == undifined || show_explanation[option] == false" (click)="show_explanation[option]=true">
+                                        <mat-icon>add</mat-icon> <span> Add Explanation</span>
+                                    </a>
+                                </div>
+                                <!-- <div class="d-flex">
+                                    <div class="spacer"></div>
                                     <a class="d-flex ai_cntr">
                                         <mat-icon>add</mat-icon> <span> Add Explanation</span> / <mat-icon>
                                             remove_circle_outline</mat-icon> <span>Remove Explanation</span>
                                     </a>
-                                </div>
+                                </div> -->
                             </div>
                             <div>
                                 <div class="cnq_img_thmb text_center"
@@ -528,7 +539,7 @@
 
 
 
-                <div class="crt_pr_dv w_100p isca_mat"
+                <!-- <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option && false">
                     <div class="hgt_10"></div> <span> Is Correct Answer?</span>
                     <div class="d-flex ql_ca">
@@ -669,7 +680,7 @@
                             *ngIf="question.option_array.length == (option+1) && question.option_array.length>2"
                             type="button" mat-raised-button color="warn">Remove Option</button>
                     </div>
-                </div>
+                </div> -->
                 <hr>
                 <div class="hgt_10"></div>
                 <div class="text_right w_100p">
