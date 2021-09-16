@@ -57,6 +57,7 @@ export class CreateNewQuestionComponent implements OnInit {
     public Editor = Editor;
     public question_Qbank = false;
     public audio = new Audio();
+    public show_explanation = [];
     liteEditorConfig = environment.liteEditorConfig;
     is_loaded = true;
     imageSrc = {};
@@ -80,7 +81,8 @@ export class CreateNewQuestionComponent implements OnInit {
         option4: null,
         correct_ans_ids: [],
         q_check_type: null,
-        option_array: [1, 2, 3, 4]
+        option_array: [1, 2, 3, 4],
+        selected_topics:[]
     }
     single_option = false;
     multiple_option = false;
@@ -173,7 +175,8 @@ export class CreateNewQuestionComponent implements OnInit {
     }
     getTopics(curriculum_id, search,type) {
         this.question.q_bank_ids = [];
-        this.question.q_bank_ids.push(curriculum_id);
+        if(!this.question.q_bank_ids.includes(curriculum_id))
+            this.question.q_bank_ids.push(curriculum_id);
         let params = {
             url: 'get-topics-by-curriculum',
             curriculum_id: curriculum_id,
@@ -481,6 +484,13 @@ export class CreateNewQuestionComponent implements OnInit {
             });
             return false;
         }
+        if (this.selected_topics.length == 0) {
+            this.toster.error("Please select atleast one topic", "Error", {
+                closeButton: true
+            });
+            return false;
+        }
+        this.question.selected_topics = this.selected_topics;
         let filesData = this.myFiles;
         const formData = new FormData();
 
