@@ -93,7 +93,9 @@ export class EditNewQuestionComponent implements OnInit {
         option3_value: '',
         option4_value: '',
         correct_ans_ids: [],
-        option_array: []
+        option_array: [],
+        selected_topics:[],
+        delete_topics:[]
     }
     q_type = '';
     public current_path = 'qlist';
@@ -128,6 +130,11 @@ export class EditNewQuestionComponent implements OnInit {
     user = [];
     public bucket_url = '';
     imageSrc = {};
+    selected_topic = '';
+    selected_course = '';
+    is_topic_exist = false;
+    public selected_topics = [];
+    public show_explanation = [];
     constructor(private http: CommonService, private router: Router, private domSanitizer: DomSanitizer,
         private toster: ToastrService,
         private activeRoute: ActivatedRoute,
@@ -151,6 +158,10 @@ export class EditNewQuestionComponent implements OnInit {
         this.http.get(param).subscribe((res) => {
             if (res['error'] == false) {
                 this.bucket_url = res['bucket_url'];
+                if(res['question_topics'].length > 0){
+                    this.selected_topics = res['question_topics'];
+                    this.dataSource = new MatTableDataSource(this.selected_topics);
+                }
                 let options = res['q_options'];
                 let questionData = res['question'];
                 this.question.question_flag = questionData['question_flag'];
@@ -398,6 +409,51 @@ export class EditNewQuestionComponent implements OnInit {
             }
         });
     }
+    setCourseText(args){ 
+        this.curriculums.forEach(res=>{
+            if(res['pk_id'] == args)
+            this.selected_course = res['curriculumn_name'];
+        })
+    }
+    setTopicText(args){ 
+        let sub = this.topics.subscribe(res=>{
+            res.forEach(res2=>{
+                if(res2['pk_id'] == args)
+                {
+                    this.selected_topic = res2['level_name'];
+                }
+            })
+        })
+        sub.unsubscribe();
+    }
+    addTopic(){
+         
+        this.selected_topics.forEach(res => {
+            if(res['course_qbank'] == this.question.curriculum_id && res['topic'] == this.question.topic){
+                this.toster.error("Topic exists", "Error", {closeButton:true});
+                this.is_topic_exist = true;
+                return false;
+            }
+        })
+        if(this.is_topic_exist != true){
+            let data = {pk_id:0, course_qbank:this.question.curriculum_id, course_qbank_text: this.selected_course, topic:this.question.topic, topic_text: this.selected_topic, is_delete:0};
+            this.selected_topics.push(data);
+            this.dataSource = new MatTableDataSource(this.selected_topics);
+            this.question.curriculum_id = '';
+            this.selected_course = '';
+            this.question.topic = '';
+            this.selected_topic = '';
+        }
+    }
+    removeTopic(index){
+        if(this.selected_topics[index]['pk_id'] > 0)
+        {
+            this.question.delete_topics.push(this.selected_topics[index]['pk_id']);
+        }
+        console.log(this.question.delete_topics);
+        this.selected_topics.splice(index, 1);
+        this.dataSource = new MatTableDataSource(this.selected_topics);
+    }
     //not using
     getQBanks() {
         this.QTypes = [];
@@ -611,6 +667,13 @@ export class EditNewQuestionComponent implements OnInit {
             });
             return false;
         }
+        if (this.selected_topics.length == 0) {
+            this.toster.error("Please select atleast one topic", "Error", {
+                closeButton: true
+            });
+            return false;
+        }
+        this.question.selected_topics = this.selected_topics;
         q_data = q_data.value;
         let filesData = this.myFiles;
         const formData = new FormData();
