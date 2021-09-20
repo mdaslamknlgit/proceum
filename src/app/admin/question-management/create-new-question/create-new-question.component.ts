@@ -263,7 +263,7 @@ export class CreateNewQuestionComponent implements OnInit {
         this.question.correct_ans_ids = [];
         this.question.q_check_type = null;
         let qtype = this.QTypes.find(i => i.id === e.value)['question_type'];
-
+        this.myFiles = [];
         this.removeAudio();
         switch (qtype) {
             case 'Single Option Selection':
@@ -345,7 +345,7 @@ export class CreateNewQuestionComponent implements OnInit {
                 'jpg', 'jpeg', 'bmp', 'gif', 'png'
             ];
         }
-        if (this.audio_single_option || this.audio_multiple_option || this.audio_clip_free_text || this.video_clicp_free_text) {
+        if (this.audio_single_option || this.audio_multiple_option || this.audio_clip_free_text) {
             allowed_types = ['mp3']
         }
 

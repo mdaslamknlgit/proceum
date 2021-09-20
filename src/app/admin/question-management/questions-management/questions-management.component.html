@@ -15,6 +15,17 @@
   <hr>
   <div class="hgt_10"></div>
   <div class="qm_srch">
+    <div class="cm_fltr_sc mr_1">
+        <div>Select Question Usage</div>
+        <mat-form-field appearance="outline">
+          <mat-select placeholder="Select Question Usage" [(ngModel)]="filter_array['question_usage']"
+            (ngModelChange)="getcurriculums(filter_array['question_usage'])" name="question_usage" #question_usage="ngModel" ngModel>
+            <mat-option [value]="1">Assessment</mat-option>
+            <mat-option [value]="2">Preparation</mat-option>
+            <mat-option [value]="3">QBanks</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
     <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
       <div class="clear_fix"></div>
       <div>Select Course/QBank</div>
@@ -52,17 +63,6 @@
           <mat-option value="mcq">MCQ</mat-option>
           <mat-option value="case">Case based Question</mat-option>
           <mat-option value="short_answer">Short Question</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="cm_fltr_sc mr_1">
-      <div>Select Question Usage</div>
-      <mat-form-field appearance="outline">
-        <mat-select placeholder="Select Question Usage" [(ngModel)]="filter_array['question_usage']"
-          (ngModelChange)="changeQSource()" name="question_usage" #question_usage="ngModel" ngModel>
-          <mat-option value="1">Assessment</mat-option>
-          <mat-option value="2">Preparation</mat-option>
-          <mat-option value="3">QBanks</mat-option>
         </mat-select>
       </mat-form-field>
     </div>

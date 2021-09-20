@@ -261,7 +261,7 @@
                                         </div>
                                         <mat-form-field appearance="outline" class="w_80p d_none">
                                             <input matInput placeholder="Upload File" [(ngModel)]="fileName"
-                                                id="fileName" name="fileName" readonly required />
+                                                id="fileName" name="fileName" readonly />
                                             <mat-hint
                                                 *ngIf="image_single_option || image_multiple_option|| image_free_text"
                                                 class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System
@@ -356,8 +356,8 @@
                                     <div *ngIf="show_explanation[option] != undifined && show_explanation[option] == true">
                                         <angular-editor id="option_{{option+1}}"
                                             [placeholder]="'Enter Option '+(option+1) +' Explanation'"
-                                            [config]="liteEditorConfig" name="option_{{option+1}}"
-                                            #option_{{option+1}}="ngModel"
+                                            [config]="liteEditorConfig" name="option_{{option+1}}_exp"
+                                            #option_{{option+1}}_exp="ngModel"
                                             [(ngModel)]="question['option_explanation_'+(option+1)]"> </angular-editor>
                                     </div>
                                     <div class="hgt_10"></div>
@@ -455,8 +455,8 @@
                                 <div *ngIf="show_explanation[option] != undifined && show_explanation[option] == true">
                                     <angular-editor id="option_{{option+1}}"
                                         [placeholder]="'Enter Option '+(option+1) +' Explanation'"
-                                        [config]="liteEditorConfig" name="option_{{option+1}}"
-                                        #option_{{option+1}}="ngModel"
+                                        [config]="liteEditorConfig" name="option_{{option+1}}_exp"
+                                        #option_{{option+1}}_exp="ngModel"
                                         [(ngModel)]="question['option_explanation_'+(option+1)]"> </angular-editor>
                                 </div>
                                 <div class="hgt_10"></div>
