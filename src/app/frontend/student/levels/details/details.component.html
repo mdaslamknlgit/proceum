@@ -294,17 +294,17 @@
                 <div class="hgt_20"></div>
                 <div class="qstnof_cnt"><strong>{{active_mcq_index + 1}}</strong> / {{mcqs.length}}</div>
                 <div class="qstn_hds">
-                  <!-- {{ active_mcq_index + 1 }} -->
-                  <div innerHtml='{{mcqs[active_mcq_index]["question"]}}'></div>
+                  <div *ngIf='mcqs[active_mcq_index]["question"]!=""' innerHtml='{{mcqs[active_mcq_index]["question"]}}'></div>
                   <div>
-                    <div class="mcb_aud">
-                      <mat-icon>play_arrow</mat-icon>
-                      <mat-icon>pause</mat-icon>
+                    <div class="mcb_aud" *ngIf='[4,5,6].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
+                      <audio controls controlsList="nodownload">
+                        <source [src]="bucket_url+mcqs[active_mcq_index]['q_source_value']" type="audio/mpeg">
+                      </audio>
                     </div>
-                    <div class="mcb_img">
-                      <img src="../../../assets/images/out-story-img.jpeg" alt="">
+                    <div class="mcb_img" *ngIf='[10,11,12].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
+                      <img [src]="bucket_url+mcqs[active_mcq_index]['q_source_value']" alt="">
                     </div>
-                    <div class="mcb_img">
+                    <div class="mcb_img" *ngIf='[7,8,9].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
                       <iframe src="https://www.youtube.com/embed/alVA9kV-33g" title="YouTube video player"
                         frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -330,10 +330,15 @@
                       : ''
                   }}">
                     {{ option["option_text"] }}
-                    <img *ngIf="option['option_image']" [src]="option['option_image']" />
+                    <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image']"
+                  [src]="bucket_url+option['option_image']" />
+                  <div *ngIf="mcqs[active_mcq_index]['selected_option'] != undefined && option['option_explanation']">
+                    <div class="qstn_hds">Explanation</div>
+                  <div [innerHtml]="option['option_explanation']"></div> 
+                </div>
                   </mat-radio-button>
                 </mat-radio-group>
-                <div class="mcb_cb">
+                <!-- <div class="mcb_cb" *ngIf="false">
                   <div>
                     <mat-checkbox class="crrct_rdo">Check me!</mat-checkbox>
                     <img src="../../../assets/images/out-story-img.jpeg" alt="">
@@ -341,11 +346,9 @@
                   <div>
                     <mat-checkbox class="wrng_rdo">Check</mat-checkbox>
                   </div>
-                </div>
+                </div> -->
 
-                <div class="hgt_20"></div>
-                <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'image'"
-                  [src]="mcqs[active_mcq_index]['q_source_value']" />
+                
                 <div class="hgt_20"></div>
                 <!-- <div class="qstn_hds">Explanation</div>
               <div [innerHtml]="mcqs[active_mcq_index]['explanation']">
@@ -570,9 +573,29 @@
               <div *ngIf="cases.length > 0">
                 <div class="hgt_20"></div>
                 <div class="qstnof_cnt">{{active_case_index + 1}} / {{cases.length}}</div>
-                <div class="qstn_hds">
+                <!-- <div class="qstn_hds">
                   <div innerHtml='{{ active_case_index + 1 }}{{" " + cases[active_case_index]["question"]}}'></div>
-                </div>
+                </div> -->
+                <div class="qstn_hds">
+                    <div *ngIf='cases[active_case_index]["question"]!=""' innerHtml='{{cases[active_case_index]["question"]}}'></div>
+                    <div>
+                      <div class="mcb_aud" *ngIf='[4,5,6].includes(cases[active_case_index]["q_type"]) && cases[active_case_index]["q_source_value"]'>
+                        <audio controls controlsList="nodownload">
+                          <source [src]="bucket_url+cases[active_case_index]['q_source_value']" type="audio/mpeg">
+                        </audio>
+                      </div>
+                      <div class="mcb_img" *ngIf='[10,11,12].includes(cases[active_case_index]["q_type"]) && cases[active_case_index]["q_source_value"]'>
+                        <img [src]="bucket_url+cases[active_case_index]['q_source_value']" alt="">
+                      </div>
+                      <div class="mcb_img" *ngIf='[7,8,9].includes(cases[active_case_index]["q_type"]) && cases[active_case_index]["q_source_value"]'>
+                        <iframe src="https://www.youtube.com/embed/alVA9kV-33g" title="YouTube video player"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen></iframe>
+                      </div>
+  
+                    </div>
+                  </div>
                 <mat-radio-group aria-label="Select an option"
                   [(ngModel)]="cases[active_case_index]['selected_option']">
                   <mat-radio-button *ngFor="
@@ -590,15 +613,15 @@
                       : ''
                   }}">
                     {{ option["option_text"] }}
-                    <img *ngIf="option['option_image']" [src]="option['option_image']" />
+                    <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image']"
+                  [src]="bucket_url+option['option_image']" />
+                  <div *ngIf="cases[active_case_index]['selected_option'] != undefined && option['option_explanation']">
+                    <div class="qstn_hds">Explanation</div>
+                  <div [innerHtml]="option['option_explanation']"></div> 
+                </div>
                   </mat-radio-button>
                 </mat-radio-group>
                 <div class="hgt_20"></div>
-                <img *ngIf="cases[active_case_index]['q_source'] == 'image'"
-                  [src]="cases[active_case_index]['q_source_value']" />
-                <div class="hgt_20"></div>
-                <!-- <div class="qstn_hds">Explanation</div>
-                  <div [innerHtml]="cases[active_case_index]['explanation']"></div> -->
               </div>
               <div class="pn_btns" *ngIf="cases.length > 1">
                 <button mat-raised-button color="accent" [disabled]="!active_case_index > 0" (click)="prevQuestion()"
@@ -647,12 +670,31 @@
               <div *ngIf="short_answers.length > 0">
                 <div class="hgt_20"></div>
                 <div class="qstnof_cnt">{{active_short_answer_index + 1}} / {{short_answers.length}}</div>
-                <div class="qstn_hds">
-                  <!--{{" " + short_answers[active_short_answer_index]["question"]}} -->
+                <!-- <div class="qstn_hds">
                   <div
                     [innerHtml]="(active_short_answer_index + 1)+' '+short_answers[active_short_answer_index]['question']">
                   </div>
-                </div>
+                </div> -->
+                <div class="qstn_hds">
+                    <div *ngIf='short_answers[active_short_answer_index]["question"]!=""' innerHtml='{{short_answers[active_short_answer_index]["question"]}}'></div>
+                    <div>
+                      <div class="mcb_aud" *ngIf='[4,5,6].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
+                        <audio controls controlsList="nodownload">
+                          <source [src]="bucket_url+short_answers[active_short_answer_index]['q_source_value']" type="audio/mpeg">
+                        </audio>
+                      </div>
+                      <div class="mcb_img" *ngIf='[10,11,12].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
+                        <img [src]="bucket_url+short_answers[active_short_answer_index]['q_source_value']" alt="">
+                      </div>
+                      <div class="mcb_img" *ngIf='[7,8,9].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
+                        <iframe src="https://www.youtube.com/embed/alVA9kV-33g" title="YouTube video player"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen></iframe>
+                      </div>
+  
+                    </div>
+                  </div>
                 <mat-radio-group aria-label="Select an option" [(ngModel)]="
                   short_answers[active_short_answer_index]['selected_option']
                 ">
@@ -676,13 +718,16 @@
                       : ''
                   }}">
                     {{ option["option_text"] }}
-                    <img *ngIf="option['option_image']" [src]="option['option_image']" />
+                    <img *ngIf="
+                  short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']" [src]="bucket_url+option['option_image']" />
+                  <div *ngIf="short_answers[active_short_answer_index]['selected_option'] != undefined && option['option_explanation']">
+                    <div class="qstn_hds">Explanation</div>
+                  <div [innerHtml]="option['option_explanation']"></div> 
+                </div>
                   </mat-radio-button>
                 </mat-radio-group>
                 <div class="hgt_20"></div>
-                <img *ngIf="
-                  short_answers[active_short_answer_index]['q_source'] == 'image'
-                " [src]="short_answers[active_short_answer_index]['q_source_value']" />
+                
                 <div class="hgt_20"></div>
                 <!-- <div class="qstn_hds">Explanation</div>
                       <div [innerHtml]="short_answers[active_short_answer_index]['explanation']"></div> -->
