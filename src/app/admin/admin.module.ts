@@ -77,12 +77,14 @@ import { CreateGroupComponent } from './manage-year-groups/create-group/create-g
 import { StudyPlannerComponent } from './study-planner/study-planner.component';
 import { LabValuesComponent } from './question-management/lab-values/lab-values.component';
 import { PocVideosComponent } from './poc-videos/poc-videos.component';
+import { NotFoundComponent } from '../shared/not-found/not-found.component';
 
 const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
     children: [
+        { path: '', component: NotFoundComponent },
       {
         path: 'dashboard',
         component: DashboardComponent,

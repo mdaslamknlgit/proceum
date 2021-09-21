@@ -49,6 +49,8 @@ import {
     styleUrls: ['./edit-new-question.component.scss']
 })
 export class EditNewQuestionComponent implements OnInit {
+    
+    displayedColumns: string[] = ['Sno', 'Course', 'Topic', 'Action']; 
     public video_types = environment.video_types;
     dataSource = new MatTableDataSource();
     @ViewChild(MatPaginator, {
@@ -91,7 +93,9 @@ export class EditNewQuestionComponent implements OnInit {
         option3_value: '',
         option4_value: '',
         correct_ans_ids: [],
-        option_array: []
+        option_array: [],
+        selected_topics:[],
+        delete_topics:[]
     }
     q_type = '';
     public current_path = 'qlist';
@@ -126,6 +130,11 @@ export class EditNewQuestionComponent implements OnInit {
     user = [];
     public bucket_url = '';
     imageSrc = {};
+    selected_topic = '';
+    selected_course = '';
+    is_topic_exist = false;
+    public selected_topics = [];
+    public show_explanation = [];
     constructor(private http: CommonService, private router: Router, private domSanitizer: DomSanitizer,
         private toster: ToastrService,
         private activeRoute: ActivatedRoute,
@@ -149,6 +158,10 @@ export class EditNewQuestionComponent implements OnInit {
         this.http.get(param).subscribe((res) => {
             if (res['error'] == false) {
                 this.bucket_url = res['bucket_url'];
+                if(res['question_topics'].length > 0){
+                    this.selected_topics = res['question_topics'];
+                    this.dataSource = new MatTableDataSource(this.selected_topics);
+                }
                 let options = res['q_options'];
                 let questionData = res['question'];
                 this.question.question_flag = questionData['question_flag'];
@@ -190,78 +203,84 @@ export class EditNewQuestionComponent implements OnInit {
                 if (options.length > 0) {
                     for (var i = 0; options.length > i; i++) {
                         this.question['option_explanation_' + (i + 1)] = options[i]['option_explanation'];
-                        switch (i) {
-                            case 0:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option1_crt_ans = 'checked';
-
-                                }
-                                this.question.option1_value = options[i]['pk_id'];
-                                this.opt1FileName = options[i]['option_image'];
-                                this.question.option1 = options[i]['option_text'];
-                                break;
-                            case 1:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option2_crt_ans = 'checked';
-
-                                }
-                                this.opt2FileName = options[i]['option_image'];
-                                this.question.option2_value = options[i]['pk_id'];
-                                this.question.option2 = options[i]['option_text'];
-                                break;
-                            case 2:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option3_crt_ans = 'checked';
-                                }
-                                this.opt3FileName = options[i]['option_image'];
-                                this.question.option3_value = options[i]['pk_id'];
-                                this.question.option3 = options[i]['option_text'];
-                                break;
-                            case 3:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option4_crt_ans = 'checked';
-                                }
-                                this.opt4FileName = options[i]['option_image'];
-                                this.question.option4_value = options[i]['pk_id'];
-                                this.question.option4 = options[i]['option_text'];
-                                break;
-                            case 4:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option5_crt_ans = 'checked';
-                                }
-                                this.opt5FileName = options[i]['option_image'];
-                                this.question.option5_value = options[i]['pk_id'];
-                                this.question.option5 = options[i]['option_text'];
-                                break;
-                            case 5:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option6_crt_ans = 'checked';
-                                }
-                                this.opt6FileName = options[i]['option_image'];
-                                this.question.option6_value = options[i]['pk_id'];
-                                this.question.option6 = options[i]['option_text'];
-                                break;
-                            case 6:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option7_crt_ans = 'checked';
-                                }
-                                this.opt7FileName = options[i]['option_image'];
-                                this.question.option7_value = options[i]['pk_id'];
-                                this.question.option7 = options[i]['option_text'];
-                                break;
-                            case 7:
-                                if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                                    this.question.option8_crt_ans = 'checked';
-                                }
-                                this.opt8FileName = options[i]['option_image'];
-                                this.question.option8_value = options[i]['pk_id'];
-                                this.question.option8 = options[i]['option_text'];
-                                break;
-                            default:
-                                console.log("No such type exists!");
-                                break;
-
+                        if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                            this.question['option'+(i + 1)+'_crt_ans'] = 'checked';
                         }
+                        this.question['option'+(i + 1)+'_value'] = options[i]['pk_id'];
+                        this['opt'+(i + 1)+'FileName'] = options[i]['option_image'];
+                        this.question['option'+(i + 1)] = options[i]['option_text'];
+                        // switch (i) {
+                        //     case 0:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option1_crt_ans = 'checked';
+
+                        //         }
+                        //         this.question.option1_value = options[i]['pk_id'];
+                        //         this.opt1FileName = options[i]['option_image'];
+                        //         this.question.option1 = options[i]['option_text'];
+                        //         break;
+                        //     case 1:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option2_crt_ans = 'checked';
+
+                        //         }
+                        //         this.opt2FileName = options[i]['option_image'];
+                        //         this.question.option2_value = options[i]['pk_id'];
+                        //         this.question.option2 = options[i]['option_text'];
+                        //         break;
+                        //     case 2:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option3_crt_ans = 'checked';
+                        //         }
+                        //         this.opt3FileName = options[i]['option_image'];
+                        //         this.question.option3_value = options[i]['pk_id'];
+                        //         this.question.option3 = options[i]['option_text'];
+                        //         break;
+                        //     case 3:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option4_crt_ans = 'checked';
+                        //         }
+                        //         this.opt4FileName = options[i]['option_image'];
+                        //         this.question.option4_value = options[i]['pk_id'];
+                        //         this.question.option4 = options[i]['option_text'];
+                        //         break;
+                        //     case 4:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option5_crt_ans = 'checked';
+                        //         }
+                        //         this.opt5FileName = options[i]['option_image'];
+                        //         this.question.option5_value = options[i]['pk_id'];
+                        //         this.question.option5 = options[i]['option_text'];
+                        //         break;
+                        //     case 5:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option6_crt_ans = 'checked';
+                        //         }
+                        //         this.opt6FileName = options[i]['option_image'];
+                        //         this.question.option6_value = options[i]['pk_id'];
+                        //         this.question.option6 = options[i]['option_text'];
+                        //         break;
+                        //     case 6:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option7_crt_ans = 'checked';
+                        //         }
+                        //         this.opt7FileName = options[i]['option_image'];
+                        //         this.question.option7_value = options[i]['pk_id'];
+                        //         this.question.option7 = options[i]['option_text'];
+                        //         break;
+                        //     case 7:
+                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
+                        //             this.question.option8_crt_ans = 'checked';
+                        //         }
+                        //         this.opt8FileName = options[i]['option_image'];
+                        //         this.question.option8_value = options[i]['pk_id'];
+                        //         this.question.option8 = options[i]['option_text'];
+                        //         break;
+                        //     default:
+                        //         console.log("No such type exists!");
+                        //         break;
+
+                        // }
                     }
                 }
                 let qtype = res['q_type']['question_type'];
@@ -390,6 +409,51 @@ export class EditNewQuestionComponent implements OnInit {
             }
         });
     }
+    setCourseText(args){ 
+        this.curriculums.forEach(res=>{
+            if(res['pk_id'] == args)
+            this.selected_course = res['curriculumn_name'];
+        })
+    }
+    setTopicText(args){ 
+        let sub = this.topics.subscribe(res=>{
+            res.forEach(res2=>{
+                if(res2['pk_id'] == args)
+                {
+                    this.selected_topic = res2['level_name'];
+                }
+            })
+        })
+        sub.unsubscribe();
+    }
+    addTopic(){
+         
+        this.selected_topics.forEach(res => {
+            if(res['course_qbank'] == this.question.curriculum_id && res['topic'] == this.question.topic){
+                this.toster.error("Topic exists", "Error", {closeButton:true});
+                this.is_topic_exist = true;
+                return false;
+            }
+        })
+        if(this.is_topic_exist != true){
+            let data = {pk_id:0, course_qbank:this.question.curriculum_id, course_qbank_text: this.selected_course, topic:this.question.topic, topic_text: this.selected_topic, is_delete:0};
+            this.selected_topics.push(data);
+            this.dataSource = new MatTableDataSource(this.selected_topics);
+            this.question.curriculum_id = '';
+            this.selected_course = '';
+            this.question.topic = '';
+            this.selected_topic = '';
+        }
+    }
+    removeTopic(index){
+        if(this.selected_topics[index]['pk_id'] > 0)
+        {
+            this.question.delete_topics.push(this.selected_topics[index]['pk_id']);
+        }
+        console.log(this.question.delete_topics);
+        this.selected_topics.splice(index, 1);
+        this.dataSource = new MatTableDataSource(this.selected_topics);
+    }
     //not using
     getQBanks() {
         this.QTypes = [];
@@ -494,7 +558,7 @@ export class EditNewQuestionComponent implements OnInit {
                 'jpg', 'jpeg', 'bmp', 'gif', 'png'
             ];
         }
-        if (this.audio_single_option || this.audio_multiple_option || this.audio_clip_free_text || this.video_clicp_free_text) {
+        if (this.audio_single_option || this.audio_multiple_option || this.audio_clip_free_text) {
             allowed_types = ['mp3']
         }
 
@@ -522,50 +586,66 @@ export class EditNewQuestionComponent implements OnInit {
                     this.imageSrc[fileId] = reader.result;
                     //this.imageSrc[fileId] = this.domSanitizer.bypassSecurityTrustUrl(''+reader.result);
                 }
-                switch (fileId) {
-                    case 'file':
-                        this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                        this.fileName = fileName;
-                        this.myFiles['file'] = event.target.files[i];
-                        break;
-                    case 'opt1Img':
-                        this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                        this.opt1FileName = fileName;
-                        this.myFiles['opt1Img'] = event.target.files[i];
-                        break;
-                    case 'opt2Img':
-                        this.opt2FileName = fileName;
-                        this.myFiles['opt2Img'] = event.target.files[i];
-                        break;
-                    case 'opt3Img':
-                        this.opt3FileName = fileName;
-                        this.myFiles['opt3Img'] = event.target.files[i];
-                        break;
-                    case 'opt4Img':
-                        this.opt4FileName = fileName;
-                        this.myFiles['opt4Img'] = event.target.files[i];
-                        break;
-                    case 'opt5Img':
-                        this.opt5FileName = fileName;
-                        this.myFiles['opt5Img'] = event.target.files[i];
-                        break;
-                    case 'opt6Img':
-                        this.opt6FileName = fileName;
-                        this.myFiles['opt6Img'] = event.target.files[i];
-                        break;
-                    case 'opt7Img':
-                        this.opt7FileName = fileName;
-                        this.myFiles['opt7Img'] = event.target.files[i];
-                        break;
-                    case 'opt8Img':
-                        this.opt8FileName = fileName;
-                        this.myFiles['opt8Img'] = event.target.files[i];
-                        break;
-
-                    default:
-                        console.log("No such type exists!");
-                        break;
+                if(fileId == 'file'){
+                    this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                    this.fileName = fileName;
+                    this.myFiles['file'] = event.target.files[i];
                 }
+                for(let option=1;option<=this.question.option_array.length;option++){
+                    if(option == 1 && fileId == 'opt1Img'){
+                        this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                        this['opt'+option+'FileName'] = fileName;
+                        this.myFiles['opt'+option+'Img'] = event.target.files[i];
+                    }
+                    if(fileId == 'opt'+option+'Img'){
+                        this['opt'+option+'FileName'] = fileName;
+                        this.myFiles['opt'+option+'Img'] = event.target.files[i];
+                    }
+                }
+                // switch (fileId) {
+                //     case 'file':
+                //         this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                //         this.fileName = fileName;
+                //         this.myFiles['file'] = event.target.files[i];
+                //         break;
+                //     case 'opt1Img':
+                //         this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                //         this.opt1FileName = fileName;
+                //         this.myFiles['opt1Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt2Img':
+                //         this.opt2FileName = fileName;
+                //         this.myFiles['opt2Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt3Img':
+                //         this.opt3FileName = fileName;
+                //         this.myFiles['opt3Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt4Img':
+                //         this.opt4FileName = fileName;
+                //         this.myFiles['opt4Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt5Img':
+                //         this.opt5FileName = fileName;
+                //         this.myFiles['opt5Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt6Img':
+                //         this.opt6FileName = fileName;
+                //         this.myFiles['opt6Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt7Img':
+                //         this.opt7FileName = fileName;
+                //         this.myFiles['opt7Img'] = event.target.files[i];
+                //         break;
+                //     case 'opt8Img':
+                //         this.opt8FileName = fileName;
+                //         this.myFiles['opt8Img'] = event.target.files[i];
+                //         break;
+
+                //     default:
+                //         console.log("No such type exists!");
+                //         break;
+                // }
 
 
             } else {
@@ -587,6 +667,19 @@ export class EditNewQuestionComponent implements OnInit {
             });
             return false;
         }
+        if (this.question.correct_ans_ids.length == 0 && (this.free_text == false && this.audio_clip_free_text == false && this.video_clicp_free_text == false && this.image_free_text == false)) {
+            this.toster.error("Please select correct answer", "Error", {
+                closeButton: true
+            });
+            return false;
+        }
+        if (this.selected_topics.length == 0) {
+            this.toster.error("Please select atleast one topic", "Error", {
+                closeButton: true
+            });
+            return false;
+        }
+        this.question.selected_topics = this.selected_topics;
         q_data = q_data.value;
         let filesData = this.myFiles;
         const formData = new FormData();

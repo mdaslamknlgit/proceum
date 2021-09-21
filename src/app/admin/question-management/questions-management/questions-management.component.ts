@@ -77,6 +77,26 @@ export class QuestionsManagementComponent implements OnInit {
         }
         });
     }
+    getcurriculums(type) {
+        this.level_options = [];
+        this.all_level_options = [];
+        this.selected_level = [];
+        this.filter_array.level_id=0;
+        this.filter_array.curriculum_id = 0;
+        this.curriculum_labels = [];
+        this.applyFilters();
+        let params = {
+            url: 'get-courses-or-qbanks', type: this.filter_array['question_usage'] == 3 ?2:1
+        };
+        this.http.post(params).subscribe((res) => {
+            if (res['error'] == false) {
+                if (res['data']['list'].length > 0)
+                    this.curriculum_list = res['data']['list'];
+                else
+                this.curriculum_list = [];
+            }
+        });
+    }
     getLabels(){
         this.applyFilters();
         this.level_options = [];
@@ -139,6 +159,7 @@ export class QuestionsManagementComponent implements OnInit {
     public resetFilters(){
         this.search_key = '';
         this.filter_array = {question_flag:'', question_usage:0, question_bank:'', curriculum_id:0, level_id:0};
+        this.curriculum_labels = [];
         this.selected_level = [];
         this.level_options = [];
         this.all_level_options = [];

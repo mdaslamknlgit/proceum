@@ -11,15 +11,9 @@ import {
     ToastrService
 } from 'ngx-toastr';
 import {
-    CKEditorComponent
-} from '@ckeditor/ckeditor5-angular';
-import {
     environment
 } from 'src/environments/environment';
 import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
-import {
-    UploadAdapter
-} from '../../../classes/UploadAdapter';
 import {
     MatTableDataSource
 } from '@angular/material/table';
@@ -31,12 +25,6 @@ import {
     MatSort
 } from '@angular/material/sort';
 import {
-    NestedTreeControl
-} from '@angular/cdk/tree';
-import {
-    MatTreeNestedDataSource
-} from '@angular/material/tree';
-import {
     ReplaySubject
 } from 'rxjs';
 import {
@@ -45,41 +33,31 @@ import {
 import {
     DomSanitizer
 } from '@angular/platform-browser';
-interface CurriculumNode {
-    id ? : number;
-    name: string;
-    curriculum_id ? : number;
-    selected ? : boolean;
-    indeterminate ? : boolean;
-    parentid ? : number;
-    is_curriculum_root ? : boolean;
-    children ? : CurriculumNode[];
-    has_children ? : boolean;
-    ok ? : boolean;
-}
 @Component({
     selector: 'app-create-new-question',
     templateUrl: './create-new-question.component.html',
     styleUrls: ['./create-new-question.component.scss']
 })
 
-
-export class CreateNewQuestionComponent implements OnInit {
+ 
+export class CreateNewQuestionComponent implements OnInit {    
+    displayedColumns: string[] = ['Sno', 'Course', 'Topic', 'Action']; 
+    public max_options = 20;
     public video_types = environment.video_types;
-    dataSource = new MatTableDataSource();
+    public selected_topics = [];
+    public dataSource = new MatTableDataSource();
     @ViewChild(MatPaginator, {
         static: false
     }) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild('documents') documents_input: ElementRef;
     //Code starts here for course selection
-    treeControl = new NestedTreeControl < CurriculumNode > (node => node.children);
-    dataSource1 = new MatTreeNestedDataSource < CurriculumNode > ();
     page_size_options = environment.page_size_options;
 
     public Editor = Editor;
     public question_Qbank = false;
     public audio = new Audio();
+    public show_explanation = [];
     liteEditorConfig = environment.liteEditorConfig;
     is_loaded = true;
     imageSrc = {};
@@ -103,7 +81,8 @@ export class CreateNewQuestionComponent implements OnInit {
         option4: null,
         correct_ans_ids: [],
         q_check_type: null,
-        option_array: [1, 2, 3, 4]
+        option_array: [1, 2, 3, 4],
+        selected_topics:[]
     }
     single_option = false;
     multiple_option = false;
@@ -132,11 +111,11 @@ export class CreateNewQuestionComponent implements OnInit {
     opt7FileName: any;
     opt8FileName: any;
     user = [];
+    selected_topic = '';
+    selected_course = '';
+    is_topic_exist = false;
 
-    constructor(private http: CommonService, private domSanitizer: DomSanitizer, private toster: ToastrService, private router: Router, ) {}
-
-    hasChild = (_: number, node: CurriculumNode) =>
-        !!node.children && node.children.length > 0;
+    constructor(private http: CommonService, private domSanitizer: DomSanitizer, private toster: ToastrService, private router: Router) {}
     qtype: any;
     ngOnInit(): void {
         this.user = this.http.getUser();
@@ -145,23 +124,23 @@ export class CreateNewQuestionComponent implements OnInit {
         this.changeQUsageType(1)
     }
 
-    getQLists() {
-        let param = {
-            url: 'qbank'
-        };
-        this.http.get(param).subscribe((res) => {
-            if (res['error'] == false) {
-                this.dataSource = new MatTableDataSource(res['data']['qbanks']);
-                this.is_loaded = false;
-                this.dataSource.paginator = this.paginator;
-                this.dataSource.sort = this.sort;
-            } else {
-                this.toster.error(res['message'], 'Error', {
-                    closeButton: true
-                });
-            }
-        });
-    }
+    // getQLists() {
+    //     let param = {
+    //         url: 'qbank'
+    //     };
+    //     this.http.get(param).subscribe((res) => {
+    //         if (res['error'] == false) {
+    //             this.dataSource = new MatTableDataSource(res['data']['qbanks']);
+    //             this.is_loaded = false;
+    //             this.dataSource.paginator = this.paginator;
+    //             this.dataSource.sort = this.sort;
+    //         } else {
+    //             this.toster.error(res['message'], 'Error', {
+    //                 closeButton: true
+    //             });
+    //         }
+    //     });
+    // }
 
 
     getQTypes() {
@@ -194,9 +173,10 @@ export class CreateNewQuestionComponent implements OnInit {
             }
         });
     }
-    getTopics(curriculum_id, search) {
+    getTopics(curriculum_id, search,type) {
         this.question.q_bank_ids = [];
-        this.question.q_bank_ids.push(curriculum_id);
+        if(!this.question.q_bank_ids.includes(curriculum_id))
+            this.question.q_bank_ids.push(curriculum_id);
         let params = {
             url: 'get-topics-by-curriculum',
             curriculum_id: curriculum_id,
@@ -210,6 +190,46 @@ export class CreateNewQuestionComponent implements OnInit {
                     this.topics.next([]);
             }
         });
+    }
+    setCourseText(args){ 
+        this.curriculums.forEach(res=>{
+            if(res['pk_id'] == args)
+            this.selected_course = res['curriculumn_name'];
+        })
+    }
+    setTopicText(args){ 
+        let sub = this.topics.subscribe(res=>{
+            res.forEach(res2=>{
+                if(res2['pk_id'] == args)
+                {
+                    this.selected_topic = res2['level_name'];
+                }
+            })
+        })
+        sub.unsubscribe();
+    }
+    addTopic(){
+         
+        this.selected_topics.forEach(res => {
+            if(res['course_qbank'] == this.question.curriculum_id && res['topic'] == this.question.topic){
+                this.toster.error("Topic exists", "Error", {closeButton:true});
+                this.is_topic_exist = true;
+                return false;
+            }
+        })
+        if(this.is_topic_exist != true){
+            let data = {pk_id:0, course_qbank:this.question.curriculum_id, course_qbank_text: this.selected_course, topic:this.question.topic, topic_text: this.selected_topic, is_delete:0};
+            this.selected_topics.push(data);
+            this.dataSource = new MatTableDataSource(this.selected_topics);
+            this.question.curriculum_id = '';
+            this.selected_course = '';
+            this.question.topic = '';
+            this.selected_topic = '';
+        }
+    }
+    removeTopic(index){
+        this.selected_topics.splice(index, 1);
+        this.dataSource = new MatTableDataSource(this.selected_topics);
     }
     //not using
     getQBanks() {
@@ -243,7 +263,7 @@ export class CreateNewQuestionComponent implements OnInit {
         this.question.correct_ans_ids = [];
         this.question.q_check_type = null;
         let qtype = this.QTypes.find(i => i.id === e.value)['question_type'];
-
+        this.myFiles = [];
         this.removeAudio();
         switch (qtype) {
             case 'Single Option Selection':
@@ -325,7 +345,7 @@ export class CreateNewQuestionComponent implements OnInit {
                 'jpg', 'jpeg', 'bmp', 'gif', 'png'
             ];
         }
-        if (this.audio_single_option || this.audio_multiple_option || this.audio_clip_free_text || this.video_clicp_free_text) {
+        if (this.audio_single_option || this.audio_multiple_option || this.audio_clip_free_text) {
             allowed_types = ['mp3']
         }
 
@@ -351,50 +371,66 @@ export class CreateNewQuestionComponent implements OnInit {
                 reader.onload = (event) => {
                     this.imageSrc[fileId] = reader.result;
                 }
-                switch (fileId) {
-                    case 'file':
-                        this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                        this.fileName = fileName;
-                        this.myFiles['file'] = event.target.files[i];
-                        break;
-                    case 'opt1Img':
-                        this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                        this.opt1FileName = fileName;
-                        this.myFiles['opt1Img'] = event.target.files[i];
-                        break;
-                    case 'opt2Img':
-                        this.opt2FileName = fileName;
-                        this.myFiles['opt2Img'] = event.target.files[i];
-                        break;
-                    case 'opt3Img':
-                        this.opt3FileName = fileName;
-                        this.myFiles['opt3Img'] = event.target.files[i];
-                        break;
-                    case 'opt4Img':
-                        this.opt4FileName = fileName;
-                        this.myFiles['opt4Img'] = event.target.files[i];
-                        break;
-                    case 'opt5Img':
-                        this.opt5FileName = fileName;
-                        this.myFiles['opt5Img'] = event.target.files[i];
-                        break;
-                    case 'opt6Img':
-                        this.opt6FileName = fileName;
-                        this.myFiles['opt6Img'] = event.target.files[i];
-                        break;
-                    case 'opt7Img':
-                        this.opt7FileName = fileName;
-                        this.myFiles['opt7Img'] = event.target.files[i];
-                        break;
-                    case 'opt8Img':
-                        this.opt8FileName = fileName;
-                        this.myFiles['opt8Img'] = event.target.files[i];
-                        break;
-
-                    default:
-                        console.log("No such file exists!");
-                        break;
+                if(fileId == 'file'){
+                    this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                    this.fileName = fileName;
+                    this.myFiles['file'] = event.target.files[i];
                 }
+                for(let option=1;option<=this.question.option_array.length;option++){
+                    if(option == 1 && fileId == 'opt1Img'){
+                        this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                        this['opt'+option+'FileName'] = fileName;
+                        this.myFiles['opt'+option+'Img'] = event.target.files[i];
+                    }
+                    if(fileId == 'opt'+option+'Img'){
+                        this['opt'+option+'FileName'] = fileName;
+                        this.myFiles['opt'+option+'Img'] = event.target.files[i];
+                    }
+                }
+                //switch (fileId) {
+                    // case 'file':
+                    //     this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                    //     this.fileName = fileName;
+                    //     this.myFiles['file'] = event.target.files[i];
+                    //     break;
+                    // case 'opt1Img':
+                    //     this.myFiles.splice(this.myFiles.indexOf("file"), 1);
+                    //     this.opt1FileName = fileName;
+                    //     this.myFiles['opt1Img'] = event.target.files[i];
+                    //     break;
+                    // case 'opt2Img':
+                    //     this.opt2FileName = fileName;
+                    //     this.myFiles['opt2Img'] = event.target.files[i];
+                    //     break;
+                    // case 'opt3Img':
+                    //     this.opt3FileName = fileName;
+                    //     this.myFiles['opt3Img'] = event.target.files[i];
+                    //     break;
+                    // case 'opt4Img':
+                    //     this.opt4FileName = fileName;
+                    //     this.myFiles['opt4Img'] = event.target.files[i];
+                    //     break;
+                    // case 'opt5Img':
+                    //     this.opt5FileName = fileName;
+                    //     this.myFiles['opt5Img'] = event.target.files[i];
+                    //     break;
+                    // case 'opt6Img':
+                    //     this.opt6FileName = fileName;
+                    //     this.myFiles['opt6Img'] = event.target.files[i];
+                    //     break;
+                    // case 'opt7Img':
+                    //     this.opt7FileName = fileName;
+                    //     this.myFiles['opt7Img'] = event.target.files[i];
+                    //     break;
+                    // case 'opt8Img':
+                    //     this.opt8FileName = fileName;
+                    //     this.myFiles['opt8Img'] = event.target.files[i];
+                    //     break;
+
+                    // default:
+                    //     console.log("No such file exists!");
+                    //     break;
+                //}
 
 
             } else {
@@ -424,7 +460,7 @@ export class CreateNewQuestionComponent implements OnInit {
         this.audio.remove();
     }
     addOption(index) {
-        this.question.option_array.push(this.question.option_array.length);
+        this.question.option_array.push(this.question.option_array.length+1);
     }
     removeOption(index) {
         this.question.option_array.splice(index, 1);
@@ -448,6 +484,13 @@ export class CreateNewQuestionComponent implements OnInit {
             });
             return false;
         }
+        if (this.selected_topics.length == 0) {
+            this.toster.error("Please select atleast one topic", "Error", {
+                closeButton: true
+            });
+            return false;
+        }
+        this.question.selected_topics = this.selected_topics;
         let filesData = this.myFiles;
         const formData = new FormData();
 
