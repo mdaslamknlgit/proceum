@@ -76,6 +76,7 @@ import { ListGroupsComponent } from './manage-year-groups/list-groups/list-group
 import { CreateGroupComponent } from './manage-year-groups/create-group/create-group.component';
 import { StudyPlannerComponent } from './study-planner/study-planner.component';
 import { LabValuesComponent } from './question-management/lab-values/lab-values.component';
+import { PocVideosComponent } from './poc-videos/poc-videos.component';
 
 const routes: Routes = [
   {
@@ -204,6 +205,9 @@ const routes: Routes = [
       //study-planner
       { path: 'study-planner', component: StudyPlannerComponent },
       { path: 'questions-mgt/lab-values', component: LabValuesComponent },
+
+      //Added by Phanindra 06-09-2021
+      { path: 'poc-videos', component: PocVideosComponent },
     ],
   },
 ];
@@ -260,6 +264,7 @@ const routes: Routes = [
     CreateGroupComponent,
     StudyPlannerComponent,
     LabValuesComponent,
+    PocVideosComponent,
   ],
   imports: [
     MaterialModule,
