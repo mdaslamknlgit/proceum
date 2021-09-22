@@ -282,7 +282,7 @@
               <div class="qstn_hds">Questions</div>
               <ul>
                 <li *ngFor="let question of mcqs; let i = index" class="{{ i == active_mcq_index ? 'act_qstnm' : '' }}">
-                  <span class="qstn_cnt" (click)="active_mcq_index = i" matTooltip='{{question["question_string"]}}'>{{
+                  <span class="qstn_cnt" (click)="active_mcq_index = i;getXtToken(question);" matTooltip='{{question["question_string"]}}'>{{
                     i + 1
                     }} {{" "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
                     question["question_string"]}}</span>
@@ -562,7 +562,7 @@
               <ul>
                 <li *ngFor="let question of cases; let i = index"
                   class="{{ i == active_case_index ? 'act_qstnm' : '' }}">
-                  <span class="qstn_cnt" (click)="active_case_index = i" matTooltip='{{question["question_string"]}}'>{{
+                  <span class="qstn_cnt" (click)="active_case_index = i;getXtToken(question);" matTooltip='{{question["question_string"]}}'>{{
                     i + 1
                     }} {{" "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
                     question["question_string"]}}</span>
@@ -669,7 +669,7 @@
               <ul>
                 <li *ngFor="let question of short_answers; let i = index"
                   class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
-                  <span class="qstn_cnt" (click)="active_short_answer_index = i"
+                  <span class="qstn_cnt" (click)="active_short_answer_index = i;getXtToken(question);"
                     matTooltip='{{question["question_string"]}}'>{{ i + 1 }} {{"
                     "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
                     question["question_string"]}}</span>
@@ -697,7 +697,11 @@
                         <img [src]="bucket_url+short_answers[active_short_answer_index]['q_source_value']" alt="">
                       </div>
                       <div class="mcb_img" *ngIf='[7,8,9].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
-                        <div><iframe [src]='short_answers[active_short_answer_index]["q_source_value"] | safe: "resourceUrl"' frameborder="0" allowfullscreen></iframe></div>
+                        <div *ngIf="short_answers[active_short_answer_index]['q_source'] == 'YOUTUBE'"><iframe [src]='short_answers[active_short_answer_index]["q_source_value"] | safe: "resourceUrl"' frameborder="0" allowfullscreen></iframe></div>
+                        <div *ngIf="short_answers[active_short_answer_index]['q_source'] == 'KPOINT'">
+                            
+                            <iframe  [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen mozallowFullScreen frameborder="0"></iframe>
+                        </div>
                       </div>
   
                     </div>

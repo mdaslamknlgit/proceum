@@ -497,25 +497,43 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   nextQuestion() {
     if (this.active_div == 1) {
       this.active_mcq_index = this.active_mcq_index + 1;
+      this.getXtToken(this.mcqs[this.active_mcq_index]);
     }
     if (this.active_div == 7) {
       this.active_case_index = this.active_case_index + 1;
+      this.getXtToken(this.cases[this.active_mcq_index]);
     }
     if (this.active_div == 10) {
       this.active_short_answer_index = this.active_short_answer_index + 1;
+      this.getXtToken(this.short_answers[this.active_mcq_index]);
     }
     
   }
   prevQuestion() {
     if (this.active_div == 1) {
       this.active_mcq_index = this.active_mcq_index - 1;
+      this.getXtToken(this.mcqs[this.active_mcq_index]);
     }
     if (this.active_div == 7) {
       this.active_case_index = this.active_case_index - 1;
+      this.getXtToken(this.cases[this.active_mcq_index]);
     }
     if (this.active_div == 10) {
       this.active_short_answer_index = this.active_short_answer_index - 1;
+      this.getXtToken(this.short_answers[this.active_mcq_index]);
     }
+  }
+  kpoint_iframe_url='';
+  getXtToken(question){
+      if(question['q_source'] == 'KPOINT'){
+        let param = {"url": "get-kpoint-token"};
+        this.xt = '';
+        this.http.post(param).subscribe(res=>{
+            this.xt = res['data']['xt'];
+            this.kpoint_iframe_url = "https://proceum.kpoint.com/kapsule/"+question['q_source_value']+"/nv3/embedded?xt="+this.xt;
+            
+        });
+      }
   }
   checkAnswer(event, option_id,question_id){
     if(event.checked == true){
