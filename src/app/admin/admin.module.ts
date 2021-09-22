@@ -77,6 +77,7 @@ import { CreateGroupComponent } from './manage-year-groups/create-group/create-g
 import { StudyPlannerComponent } from './study-planner/study-planner.component';
 import { LabValuesComponent } from './question-management/lab-values/lab-values.component';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
+//import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
   {
@@ -251,6 +252,7 @@ const routes: Routes = [
     EditNewQuestionComponent,
     PartnersListComponent,
     OrderByPipe,
+    //SafePipe,
     ManageUsersComponent,
     CreateUserComponent,
     PackageTestimonialsComponent,

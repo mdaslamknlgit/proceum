@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+//import { SafePipe } from './shared/pipes/safe.pipe';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { environment } from '../environments/environment';
     NotFoundComponent,
     DrawingBoardComponent,
     ProceumLibraryComponent,
+    //SafePipe,
   ],
   imports: [
     BrowserModule,

@@ -39,6 +39,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public main_desc = '';
   public mcqs = [];
   public active_mcq_index = 0;
+  public checked_options = [];
+  public validated_questions = [];
   public short_answers = [];
   public active_short_answer_index = 0;
   public cases = [];
@@ -104,7 +106,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: CommonService,
-    private sanitizer: DomSanitizer,
+    public sanitizer: DomSanitizer,
     private toster: ToastrService,
     private renderer: Renderer2
   ) {
@@ -502,6 +504,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     if (this.active_div == 10) {
       this.active_short_answer_index = this.active_short_answer_index + 1;
     }
+    
   }
   prevQuestion() {
     if (this.active_div == 1) {
@@ -512,6 +515,30 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     }
     if (this.active_div == 10) {
       this.active_short_answer_index = this.active_short_answer_index - 1;
+    }
+  }
+  checkAnswer(event, option_id,question_id){
+    if(event.checked == true){
+        if(this.checked_options[question_id] == undefined){
+            this.checked_options[question_id] = [];
+        }
+        this.checked_options[question_id].push(option_id);
+    }
+    else{
+        let index = this.checked_options[question_id].indexOf(option_id);
+        this.checked_options[question_id].splice(index,1);
+    }
+  }
+  ValidateAnswer(question_id){
+    this.validated_questions.push(question_id)
+  }
+  getOptionClass(question_id, correct_ans_ids, option_id){
+    let answers = correct_ans_ids.split(',');
+    if(this.validated_questions.includes(question_id) && answers.includes(''+option_id)){
+        return "crrct_rdo";
+    }
+    else if(this.validated_questions.includes(question_id) && !answers.includes(''+option_id)){
+        return "wrng_rdo";
     }
   }
   selectOption(value) {
