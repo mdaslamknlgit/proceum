@@ -16,15 +16,18 @@
                     <div>
                         <div class="crt_prt_hd">This Question is for:</div>
                         <div class="crt_prt_cnt">
-                            <mat-radio-group [disabled]="true" name="questionUsageType" [(ngModel)]="question.questionUsageType"
-                                #questionUsageType="ngModel" ngModel required>
-                                <mat-radio-button [value]="1" class="emh qif" (click)="false && changeQUsageType(1)">Assessment
+                            <mat-radio-group [disabled]="true" name="questionUsageType"
+                                [(ngModel)]="question.questionUsageType" #questionUsageType="ngModel" ngModel required>
+                                <mat-radio-button [value]="1" class="emh qif" (click)="false && changeQUsageType(1)">
+                                    Assessment
                                     Only (This question will not visible for frontend in notes/content)
                                 </mat-radio-button>
-                                <mat-radio-button [value]="2" class="emh qif" (click)="false && changeQUsageType(2)">Preparation
+                                <mat-radio-button [value]="2" class="emh qif" (click)="false && changeQUsageType(2)">
+                                    Preparation
                                     Only (Available for Study mode to view questions and also in notes / content page)
                                 </mat-radio-button>
-                                <mat-radio-button [value]="3" class="emh qif" (click)="false && changeQUsageType(3)">QBanks Only
+                                <mat-radio-button [value]="3" class="emh qif" (click)="false && changeQUsageType(3)">
+                                    QBanks Only
                                     (Questions will be listed inside the Question banks as a separate list and will not
                                     be accessible as a free content) </mat-radio-button>
                             </mat-radio-group>
@@ -144,7 +147,8 @@
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
                                         <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic"
-                                            name="topic" ngModel="topic" #topic="ngModel" (ngModelChange)="setTopicText($event);is_topic_exist=false">
+                                            name="topic" ngModel="topic" #topic="ngModel"
+                                            (ngModelChange)="setTopicText($event);is_topic_exist=false">
                                             <mat-option>
                                                 <ngx-mat-select-search
                                                     [noEntriesFoundLabel]="'No Topic / Subtopic found'"
@@ -166,7 +170,8 @@
                         </div>
                         <div class="w_100px">
                             <div class="crt_prt_hd">&nbsp;</div>
-                            <button [disabled]="is_topic_exist || question.topic=='' || question.curriculum_id==''" (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
+                            <button [disabled]="is_topic_exist || question.topic=='' || question.curriculum_id==''"
+                                (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
                                 Add (+)
                             </button>
                         </div>
@@ -189,40 +194,83 @@
                         </ng-container>
                         <ng-container matColumnDef="Action">
                             <th mat-header-cell *matHeaderCellDef>Action</th>
-                            <td mat-cell *matCellDef="let element; let topic_index=index"><span (click)="removeTopic(topic_index)">delete</span></td>
+                            <td mat-cell *matCellDef="let element; let topic_index=index"><span
+                                    (click)="removeTopic(topic_index)">
+                                    <mat-icon color="warn" matTooltip="Delete">remove_circle_outline</mat-icon>
+                                </span></td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                             <td style="text-align: center; margin: 20px" class="mat-cell"
-                              [attr.colspan]="displayedColumns.length">
-                              No Records Found
+                                [attr.colspan]="displayedColumns.length">
+                                No Records Found
                             </td>
-                          </tr>
+                        </tr>
                     </table>
                 </div>
-
-
                 <div class="hgt_20"></div>
-                <div class="cc_row w_100p">
-                    <div class="description_block">
-                        <div class="c_block">
-                            <div class="c_block_title">
-                                <label for="question-text"> Question Text <span class="required">*</span></label>
+                <div class="crt_pr_dv w_100p d-flex fw_w">
+                    <div class="mb_1">
+                        <label for="question-text">Question Text<span class="required">*</span></label>
+                    </div>
+                    <div class="d-flex w_100p">
+                        <div class="mr_1 w_100p">
+                            <div
+                                class="ck_editor err_tltp_par cnq_ck {{question_list_form.submitted && question.question_text.trim()==''?'angular_editor_div':''}}">
+                                <angular-editor id="question" required="true"
+                                    [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
+                                    name="question_text" #question_text="ngModel" [(ngModel)]="question.question_text">
+                                </angular-editor>
                             </div>
-                            <div class="hgt_10"></div>
-                            <div class="c_block_content">
-                                <div
-                                    class="ck_editor err_tltp_par cnq_ck {{question_list_form.submitted && question.question_text.trim()==''?'angular_editor_div':''}}">
-                                    <angular-editor id="question" required="true"
-                                        [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
-                                        name="question_text" #question_text="ngModel"
-                                        [(ngModel)]="question.question_text"></angular-editor>
+                        </div>
+                        <div>
+                            <div class="cnq_img_thmb text_center"
+                                *ngIf="audio_single_option || audio_multiple_option || image_single_option || image_multiple_option || audio_clip_free_text || image_free_text">
+                                <div>
+                                    <div class="hgt_10"></div>
+                                    <div *ngIf="image_single_option||image_multiple_option || image_free_text">
+                                        <img *ngIf="fileName && !imageSrc['file']" [src]="bucket_url+this['fileName']">
+                                        <img *ngIf="fileName && imageSrc['file']" [src]="imageSrc['file']">
+                                        <mat-icon *ngIf="!fileName">photo</mat-icon>
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg"
+                                            onclick="document.getElementById('file').click()" type="button"
+                                            color="accent">
+                                            <mat-icon>file_upload</mat-icon>
+                                        </button>
+                                    </div>
+                                    <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text">
+                                        <span
+                                            (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">play</span>
+                                        <span (click)="pauseAudio()">Pause</span>
+                                    </div>
+                                    <mat-form-field appearance="outline" class="w_50p d_none ">
+                                        <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
+                                            name="fileName" readonly />
+                                        <mat-hint *ngIf="image_single_option || image_multiple_option|| image_free_text"
+                                            class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System
+                                            will accept only jpg, jpeg, bmp, gif, png </mat-hint>
+                                        <mat-hint
+                                            *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text"
+                                            class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System
+                                            will accept only .MP3</mat-hint>
+                                    </mat-form-field>
+                                    <button type="button" mat-raised-button
+                                        onclick="document.getElementById('file').click()" color="accent"
+                                        class="float_right mr_1 mt_3px d_none">
+                                        <mat-icon>upload</mat-icon> Browse
+                                        <input class="w_80p" (change)="onFileChange($event)"
+                                            accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg, image/bmp':'.mp3'}}"
+                                            id="file" type="file" style="display: none" />
+                                    </button>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="hgt_20"></div>
+
                 <div class="w_100p" *ngIf="vidio_single_option || video_multiple_option || video_clicp_free_text">
                     <div class="hgt_10"></div>
                     <div class="d-flex">
@@ -268,50 +316,14 @@
                     </div>
                 </div>
 
-                <div class="crt_pr_dv w_100p"
-                    *ngIf="audio_single_option || audio_multiple_option || image_single_option || image_multiple_option || audio_clip_free_text || image_free_text">
-                    <div class="hgt_10"></div>
-                    <div class="brnd_info_mn">
-                        <div class="brnd_info_upld jc_fs">
-                            <div class="ql_img_thmb mr_1"
-                                *ngIf="image_single_option||image_multiple_option || image_free_text"> <img
-                                    *ngIf="fileName && !imageSrc['file']" [src]="bucket_url+this['fileName']"> <img
-                                    *ngIf="fileName && imageSrc['file']" [src]="imageSrc['file']">
-                                <mat-icon *ngIf="!fileName">photo</mat-icon>
-                            </div>
-                            <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text"> <span
-                                    (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">play</span>
-                                <span (click)="pauseAudio()">Pause</span>
-                            </div>
-                            <mat-form-field appearance="outline" class="w_50p ">
-                                <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
-                                    name="fileName" readonly />
-                                <mat-hint *ngIf="image_single_option || image_multiple_option|| image_free_text"
-                                    class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System will accept
-                                    only jpg, jpeg, bmp, gif, png </mat-hint>
-                                <mat-hint *ngIf="audio_single_option || audio_multiple_option || audio_clip_free_text"
-                                    class="fl_frmt_info" style="margin-top: 5px;margin-right: 25px;"> System will accept
-                                    only mp3 </mat-hint>
-                            </mat-form-field>
-                            <button type="button" mat-raised-button onclick="document.getElementById('file').click()"
-                                color="accent" class="float_right mr_1 mt_3px">
-                                <mat-icon>upload</mat-icon> Browse
-                                <input class="w_80p" (change)="onFileChange($event)"
-                                    accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg, image/bmp':'.mp3'}}"
-                                    id="file" type="file" style="display: none" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-
                 <div class="crt_pr_dv w_100p d-flex fw_w"
                     *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
                     <div class="hgt_10"></div>
                     {{option==0?'Is Correct Answer?':''}}
                     <div class="hgt_10"></div>
 
-                    <div class="d-flex fw_w mb_1 w_100p" *ngFor="let option_value of question.option_array;index as option;">
+                    <div class="d-flex fw_w mb_1 w_100p"
+                        *ngFor="let option_value of question.option_array;index as option;">
                         <div class="mt_1 w_40px">
                             <mat-checkbox color="accent" [value]='question["option"+(option+1)+"_value"]' class="mt_14p"
                                 name="option{{option+1}}_crt_ans" #option{{option+1}}_crt_ans="ngModel"
@@ -339,28 +351,61 @@
                                 <div class="hgt_10"></div>
                                 <div class="d-flex">
                                     <div class="spacer"></div>
-                                    <a class="d-flex ai_cntr" *ngIf="show_explanation[option] != undifined && show_explanation[option] == true" (click)="show_explanation[option]=false">
+                                    <a class="d-flex ai_cntr"
+                                        *ngIf="show_explanation[option] != undifined && show_explanation[option] == true"
+                                        (click)="show_explanation[option]=false">
                                         <mat-icon>remove_circle_outline</mat-icon> <span>Hide Explanation</span>
                                     </a>
-                                    <a class="d-flex ai_cntr" *ngIf="show_explanation[option] == undifined || show_explanation[option] == false" (click)="show_explanation[option]=true">
+                                    <a class="d-flex ai_cntr"
+                                        *ngIf="show_explanation[option] == undifined || show_explanation[option] == false"
+                                        (click)="show_explanation[option]=true">
                                         <mat-icon>add</mat-icon> <span> Show Explanation</span>
                                     </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="cnq_img_thmb text_center"
+                                    *ngIf="image_single_option || image_multiple_option">
+                                    <div>
+                                        <img *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']"
+                                            [src]="bucket_url+this['opt'+(option+1)+'FileName']">
+                                        <img *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']"
+                                            [src]="imageSrc['opt'+(option+1)+'Img']">
+                                        <!-- <mat-icon *ngIf="!this['opt'+(option+1)+'FileName']">photo</mat-icon> -->
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg"
+                                            (click)="openFileExplor((option+1))" type="button" color="accent">
+                                            <mat-icon>file_upload</mat-icon>
+                                        </button>
+                                        <div class="brnd_info_upld d_none">
+                                            <mat-form-field appearance="outline" class="w_80p">
+                                                <input matInput placeholder="Upload Option {{option+1}} Image"
+                                                    [(ngModel)]="this['opt'+(option+1)+'FileName']"
+                                                    id="opt{{option+1}}FileName" name="opt{{option+1}}FileName"
+                                                    readonly />
+                                                <mat-hint *ngIf="image_option" class="fl_frmt_info"> System will
+                                                    accept only
+                                                    jpg, jpeg, bmp, gif, png </mat-hint>
+                                            </mat-form-field>
+                                            <button type="button" mat-raised-button (click)="openFileExplor((option+1))"
+                                                color="accent" class="float_right mr_1 mt_5px">
+                                                <mat-icon>upload</mat-icon> Browse
+                                                <input class="w_80p" (change)="onFileChange($event)"
+                                                    accept="image/x-png,image/gif,image/jpeg,image/bmp"
+                                                    id="opt{{option+1}}Img" type="file" style="display: none" />
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
-
-
                 <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
                     <div class="hgt_10"></div>
-                    
 
                 </div>
-
-
                 <div class="crt_pr_dv w_100p d-flex fw_w"
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
                     <div class="hgt_10"></div>
@@ -383,8 +428,9 @@
                                                 class="crt_prt_txt" required rows="10"></textarea>
                                         </mat-form-field>
                                     </div>
-                                    <div class="hgt_20"></div>
-                                    <div *ngIf="show_explanation[option] != undifined && show_explanation[option] == true">
+
+                                    <div
+                                        *ngIf="show_explanation[option] != undifined && show_explanation[option] == true">
                                         <angular-editor id="option_{{option+1}}"
                                             [placeholder]="'Enter Option '+(option+1) +' Explanation'"
                                             [config]="liteEditorConfig" name="option_{{option+1}}_exp"
@@ -395,10 +441,14 @@
                                     <div class="hgt_10"></div>
                                     <div class="d-flex">
                                         <div class="spacer"></div>
-                                        <a class="d-flex ai_cntr" *ngIf="show_explanation[option] != undifined && show_explanation[option] == true" (click)="show_explanation[option]=false">
+                                        <a class="d-flex ai_cntr"
+                                            *ngIf="show_explanation[option] != undifined && show_explanation[option] == true"
+                                            (click)="show_explanation[option]=false">
                                             <mat-icon>remove_circle_outline</mat-icon> <span>Hide Explanation</span>
                                         </a>
-                                        <a class="d-flex ai_cntr" *ngIf="show_explanation[option] == undifined || show_explanation[option] == false" (click)="show_explanation[option]=true">
+                                        <a class="d-flex ai_cntr"
+                                            *ngIf="show_explanation[option] == undifined || show_explanation[option] == false"
+                                            (click)="show_explanation[option]=true">
                                             <mat-icon>add</mat-icon> <span> Add Explanation</span>
                                         </a>
                                     </div>
@@ -407,9 +457,6 @@
                                     <div class="cnq_img_thmb text_center"
                                         *ngIf="image_single_option || image_multiple_option">
                                         <div>
-                                            <!-- <div class="cnq_delimg">
-                                                <mat-icon>remove_circle_outline</mat-icon>
-                                            </div> -->
                                             <img *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']"
                                                 [src]="bucket_url+this['opt'+(option+1)+'FileName']">
                                             <img *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']"
@@ -419,7 +466,6 @@
                                                 (click)="openFileExplor((option+1))" type="button" color="accent">
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
-
                                             <div class="brnd_info_upld d_none">
                                                 <mat-form-field appearance="outline" class="w_80p">
                                                     <input matInput placeholder="Upload Option {{option+1}} Image"
@@ -440,12 +486,10 @@
                                                 </button>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                                 <!-- <div class="hgt_20"></div>
                                 <div class="w_100p">
-
                                 </div> -->
                             </div>
                         </div>

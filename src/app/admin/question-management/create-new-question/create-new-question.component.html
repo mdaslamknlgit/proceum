@@ -168,7 +168,7 @@
                         </ng-container>
                         <ng-container matColumnDef="Action">
                             <th mat-header-cell *matHeaderCellDef>Action</th>
-                            <td mat-cell *matCellDef="let element; let topic_index=index"><span (click)="removeTopic(topic_index)">delete</span></td>
+                            <td mat-cell *matCellDef="let element; let topic_index=index"><span (click)="removeTopic(topic_index)"><mat-icon color="warn" matTooltip="Delete">remove_circle_outline</mat-icon></span></td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -229,19 +229,17 @@
                                     <div class="">
                                         <div class="cnq_img_thmb text_center"
                                             *ngIf="image_single_option || image_multiple_option || image_free_text">
-                                            <div class="cnq_delimg">
-                                                <mat-icon>remove_circle_outline</mat-icon>
-                                            </div>
+                                            
                                             <img *ngIf="imageSrc['file']" [src]="imageSrc['file']">
                                             <!-- <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon> -->
-                                            <button mat-fab class="cnq_upld_btn"
+                                            <button mat-fab class="cnq_upld_btn cnq_delimg"
                                                 onclick="document.getElementById('file').click()" type="button"
-                                                color="accent" *ngIf="!imageSrc['file']">
+                                                color="accent">
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
                                             <div class="hgt_10" *ngIf="!imageSrc['file']">
                                             </div>
-                                            <div class="fs_16" *ngIf="!imageSrc['file']">
+                                            <div class="fs_16 mt_55px" *ngIf="!imageSrc['file']">
                                                 Upload Image
                                             </div>
                                         </div>
@@ -375,17 +373,15 @@
                                     <div class="cnq_img_thmb text_center"
                                         *ngIf="image_single_option || image_multiple_option">
                                         <div>
-                                            <div class="cnq_delimg">
-                                                <mat-icon>remove_circle_outline</mat-icon>
-                                            </div>
+                                            
                                             <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
                                                 [src]="imageSrc['opt'+(option+1)+'Img']">
-                                            <button mat-fab class="cnq_upld_btn" (click)="openFileExplor((option+1))"
-                                                type="button" color="accent" *ngIf="!imageSrc['opt'+(option+1)+'Img']">
+                                            <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openFileExplor((option+1))"
+                                                type="button" color="accent" >
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
                                             <div class="hgt_10" *ngIf="!imageSrc['opt'+(option+1)+'Img']"></div>
-                                            <div class="fs_16" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload Image
+                                            <div class="fs_16 mt_55px" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload Image
                                             </div>
                                         </div>
                                     </div>
@@ -481,17 +477,14 @@
                                 <div class="cnq_img_thmb text_center"
                                     *ngIf="image_single_option || image_multiple_option">
                                     <div>
-                                        <div class="cnq_delimg">
-                                            <mat-icon>remove_circle_outline</mat-icon>
-                                        </div>
                                         <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
                                             [src]="imageSrc['opt'+(option+1)+'Img']">
-                                        <button mat-fab class="cnq_upld_btn" (click)="openFileExplor((option+1))"
-                                            type="button" color="accent" *ngIf="!imageSrc['opt'+(option+1)+'Img']">
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openFileExplor((option+1))"
+                                            type="button" color="accent">
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                         <div class="hgt_10" *ngIf="!imageSrc['opt'+(option+1)+'Img']"></div>
-                                        <div class="fs_16" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload Image
+                                        <div class="fs_16 mt_55px" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload Image
                                         </div>
                                     </div>
 
