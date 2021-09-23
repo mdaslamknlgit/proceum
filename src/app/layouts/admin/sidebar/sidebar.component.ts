@@ -16,7 +16,6 @@ export class SidebarComponent implements OnInit {
     this.active_route = this.router.url;
     this.router.events.subscribe((ev) => {
         this.user = this.http.getUser();
-        console.log(this.router.url)
         if(this.user.length == 0 && this.router.url != '/login'){
             this.logout();
         }

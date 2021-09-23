@@ -395,6 +395,27 @@ export class DetailsComponent implements OnInit, AfterViewInit {
                 }
             }
         });
+        setTimeout(()=>{
+            if(this.intro_video.length == 0){
+                if(this.videos.length){
+                    if(this.two_d_videos[0] != undefined){
+                        this.playVideo(this.two_d_videos[0]);
+                    }
+                    else if(this.board_lecture_videos[0] != undefined){
+                        this.playVideo(this.board_lecture_videos[0]);
+                    }
+                    else if(this.clinical_videos[0] != undefined){
+                        this.playVideo(this.clinical_videos[0]);
+                    }
+                    else if(this.procedural_videos[0] != undefined){
+                        this.playVideo(this.procedural_videos[0]);
+                    }
+                    else if(this.three_d_videos[0] != undefined){
+                        this.playVideo(this.three_d_videos[0]);
+                    }
+                }
+            }
+        },1000)
         this.setDefaultDiv();
       } else {
         this.breadcome = res['data']['breadcome'];

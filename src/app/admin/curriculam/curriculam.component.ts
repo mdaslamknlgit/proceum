@@ -237,7 +237,7 @@ export class CurriculamComponent implements OnInit {
                 this.edit_model_status = !this.edit_model_status;
                 this.getCurriculums();
             } else {
-                this.toster.error(res['errors'], res['message'], {
+                this.toster.error(res['errors'], 'Error', {
                     closeButton: true
                 });
             }
