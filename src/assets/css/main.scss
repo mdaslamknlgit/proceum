@@ -625,6 +625,9 @@ app-root {
 img {
   max-width: 100%;
 }
+.p_0{
+  padding: 0;
+}
 .mr_1 {
   margin-right: 1em !important;
 }
@@ -746,6 +749,9 @@ img {
 }
 .tbbd_bdy {
   padding: 0 20px;
+  &.p_0{
+    padding: 0;
+  }
   .mat-checkbox-layout{
     white-space: normal;
   }
@@ -1307,6 +1313,15 @@ span.download_icons mat-icon {
   margin-right: 0;
 }
 
+.bg_trans{
+  background-color: transparent;
+}
+.days_mn .dys_dv.hvr_bg_wht{
+  &:hover{
+    background-color: white;
+  }
+}
+
 .mat-grid-tile {
   border: 1px solid rgba(0, 0, 0, 0.12);
 }
@@ -1395,7 +1410,6 @@ span.download_icons mat-icon {
   .bg_accrd {
     background-color: #fbfbfb;
   }
-
   .dsh_brd_crds {
     width: 100%;
   }
@@ -4236,14 +4250,18 @@ sup {
   display: flex;
   flex-wrap: wrap;
   .dys_dv{
-    width: calc(19% - 4px);
+    width: calc(19% - 6px);
     background-color: #fff;
     border-radius: 10px;
-    margin-right: 1%;
+    margin-right: 8px;
     min-height: 150px;
     padding-bottom: 10px;
     margin-bottom: 15px;
     border: 1px solid transparent;
+    &:hover{
+      background-color: #EFEFEF;
+      cursor: pointer;
+    }
     &.tst_dy{
       background-color: #E5E6E8;
       border: 1px solid #FA6058;
@@ -4259,8 +4277,12 @@ sup {
       margin-top: 15px;
     }
     .dys_tsks_dv{
-      padding: 0 15px;
-      margin-top: 5px;
+      padding: 0px 15px 10px 15px;
+      margin-top: 10px;
+      border-bottom: 1px solid #dfdede;
+      &:last-child{
+        border-bottom: 0;
+      }
       .tsk_hd{
         font-size: 16px;
         color: #41AB3C;
@@ -4281,7 +4303,7 @@ sup {
       }
     }
     .dys_hd{
-      border-bottom: 1px solid #f1f1f1;
+      border-bottom: 1px solid #dfdede;
       padding: 10px 15px;
       display: flex;
       align-items: center;
@@ -4301,9 +4323,29 @@ sup {
         justify-content: center;
       }
     }
-    
+  }
+  &.pp_dysmn{
+    .dys_dv{
+      margin-right: 0;
+      margin-bottom: 0;
+      .pp_dys_bdy{
+        max-height: 60vh;
+        overflow: auto;
+      }
+      .pp_tasks{
+        > div {
+          color: #41AB3C;
+          background-color: #F5F5F5;
+          padding: 5px 10px;
+          border-radius: 6px;
+          margin-bottom: 5px;
+        }
+      }
+    }
   }
 }
+
+
 .addrmv_btn{
   display: inline-block !important;
   width: 100%;
@@ -4361,23 +4403,19 @@ sup {
       margin-right: 20px;
       .sp_bdy{
         background-color: #fff;
+        min-height: 100%;
       }
     }
     .sp_cnt_rt{
       width: 75%;
       .days_mn{
         .dys_dv{
-          background-color: #eaeaea;
-          width: calc(33% - 8px);
+          background-color: #fff;
+          width: calc(33% - 10px);
           overflow: hidden;
-          .dys_tsks_dv{
-            .tsk_dv{
-              border-bottom: 1px solid #bfbfbf;
-              padding: 8px 10px;
-            }
-          }
-          .dys_hd{
-            background-color: #fff;
+          &:hover{
+            background-color: #EFEFEF;
+            cursor: pointer;
           }
         }
       }
