@@ -27,6 +27,9 @@ import { ListPackagesComponent } from './pricing-packages/list-packages/list-pac
 import { PackageDetailsComponent } from './pricing-packages/package-details/package-details.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { StudyPlannerStudentComponent } from './student/study-planner-student/study-planner-student.component';
+import { SafePipe } from '../shared/pipes/safe.pipe';
+import { SharedModule } from '../shared/shared.module';
+
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
 const routes: Routes = [
@@ -99,8 +102,8 @@ const routes: Routes = [
     LayoutsModule,
     CKEditorModule,
     ImageViewerModule.forRoot(),
-    PdfViewerModule
-    // StlModelViewerModule
+    PdfViewerModule,
+    SharedModule
   ],
   exports: [RouterModule],
 })
