@@ -214,16 +214,14 @@
                     <div class="mb_1">
                         <label for="question-text">Question Text<span class="required">*</span></label>
                     </div>
-                    <div class="d-flex optns_rdo w_100p">
+                    <div class="d-flex w_100p">
                         <div class="mr_1 w_100p">
-                            <div>
-                                <div
-                                    class="ck_editor err_tltp_par cnq_ck {{question_list_form.submitted && question.question_text.trim()==''?'angular_editor_div':''}}">
-                                    <angular-editor id="question" required="true"
-                                        [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
-                                        name="question_text" #question_text="ngModel"
-                                        [(ngModel)]="question.question_text"></angular-editor>
-                                </div>
+                            <div
+                                class="ck_editor err_tltp_par cnq_ck {{question_list_form.submitted && question.question_text.trim()==''?'angular_editor_div':''}}">
+                                <angular-editor id="question" required="true"
+                                    [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
+                                    name="question_text" #question_text="ngModel" [(ngModel)]="question.question_text">
+                                </angular-editor>
                             </div>
                         </div>
                         <div>
@@ -268,10 +266,8 @@
 
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
                 <div class="hgt_20"></div>
 
@@ -367,6 +363,40 @@
                                     </a>
                                 </div>
                             </div>
+                            <div>
+                                <div class="cnq_img_thmb text_center"
+                                    *ngIf="image_single_option || image_multiple_option">
+                                    <div>
+                                        <img *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']"
+                                            [src]="bucket_url+this['opt'+(option+1)+'FileName']">
+                                        <img *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']"
+                                            [src]="imageSrc['opt'+(option+1)+'Img']">
+                                        <!-- <mat-icon *ngIf="!this['opt'+(option+1)+'FileName']">photo</mat-icon> -->
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg"
+                                            (click)="openFileExplor((option+1))" type="button" color="accent">
+                                            <mat-icon>file_upload</mat-icon>
+                                        </button>
+                                        <div class="brnd_info_upld d_none">
+                                            <mat-form-field appearance="outline" class="w_80p">
+                                                <input matInput placeholder="Upload Option {{option+1}} Image"
+                                                    [(ngModel)]="this['opt'+(option+1)+'FileName']"
+                                                    id="opt{{option+1}}FileName" name="opt{{option+1}}FileName"
+                                                    readonly />
+                                                <mat-hint *ngIf="image_option" class="fl_frmt_info"> System will
+                                                    accept only
+                                                    jpg, jpeg, bmp, gif, png </mat-hint>
+                                            </mat-form-field>
+                                            <button type="button" mat-raised-button (click)="openFileExplor((option+1))"
+                                                color="accent" class="float_right mr_1 mt_5px">
+                                                <mat-icon>upload</mat-icon> Browse
+                                                <input class="w_80p" (change)="onFileChange($event)"
+                                                    accept="image/x-png,image/gif,image/jpeg,image/bmp"
+                                                    id="opt{{option+1}}Img" type="file" style="display: none" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -374,6 +404,7 @@
                 <div class="crt_pr_dv w_100p isca_mat"
                     *ngIf="multiple_option || audio_multiple_option || video_multiple_option || image_multiple_option">
                     <div class="hgt_10"></div>
+
                 </div>
                 <div class="crt_pr_dv w_100p d-flex fw_w"
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
@@ -397,7 +428,7 @@
                                                 class="crt_prt_txt" required rows="10"></textarea>
                                         </mat-form-field>
                                     </div>
-                                 
+
                                     <div
                                         *ngIf="show_explanation[option] != undifined && show_explanation[option] == true">
                                         <angular-editor id="option_{{option+1}}"
