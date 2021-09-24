@@ -521,9 +521,10 @@ export class CreateNewQuestionComponent implements OnInit {
             }
         });
     }
-
     public changeQUsageType(val) {
         this.question_Qbank = false;
+        this.selected_topics = [];
+        this.dataSource = new MatTableDataSource([]);
         if (val == 3) {
             this.getcurriculums(2);
             this.question_Qbank = true;

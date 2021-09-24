@@ -144,7 +144,10 @@
                         <button (click)="editValues(element)" mat-icon-button color="accent" matTooltip="Click to edit">
                             <mat-icon>edit_note</mat-icon>
                         </button>
-                        <button (click)="deleteValue(element['id'])" mat-icon-button color="warn" matTooltip="Click to Delete">
+                        <button mwlConfirmationPopover
+                        [popoverTitle]="'Delete Lab Value ?'"
+                        [popoverMessage]="'Are you sure, do you want to delete this Lab Value(It will be deleted from all Questions)?<br>Please confirm.'" placement="text_center"
+                        (confirm)="deleteValue(element['id'])" confirmButtonType="danger" cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Click to Delete">
                             <mat-icon>remove_circle_outline</mat-icon>
                         </button>
                     </td>
