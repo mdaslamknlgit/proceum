@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="cust_mdl_par cust_mdl_opn">
+    <div class="cust_mdl_par cust_mdl_cls">
         <div class="cust_mdl_chl">
             <div class="pg_ttl">
                 Day 1
@@ -111,10 +111,11 @@
     <hr />
 
     <div class="dsh_brd_crds">
+        <form>
         <span>Study plan name <span class="required">*</span></span>
         <div class="xl_srch err_tltp_par w_100p">
             <mat-form-field appearance="outline" class="w_100p">
-                <input matInput placeholder="Study plan name" />
+                <input matInput placeholder="Study plan name" name="name" #name="ngModel" [(ngModel)]="study_plan.name" required />
             </mat-form-field>
             <span class="prc_tltp">Required</span>
         </div>
@@ -124,13 +125,13 @@
                 <span>Select course <span class="required">*</span></span>
                 <div class="xl_srch err_tltp_par w_100p">
                     <mat-form-field appearance="outline" class="w_100p">
-                        <mat-select placeholder="Select Course">
+                        <mat-select placeholder="Select Course" multiple name="course" #course="ngModel" [(ngModel)]="study_plan.course" required>
                           <mat-option>
                             <ngx-mat-select-search 
                               [placeholderLabel]="'Search Course'"></ngx-mat-select-search>
                           </mat-option>
-                          <mat-option><mat-checkbox class="mx_1"></mat-checkbox>Course 1</mat-option>
-                          <mat-option><mat-checkbox class="mx_1"></mat-checkbox> Course 1</mat-option>
+                          <mat-option>Course 1</mat-option>
+                          <mat-option>Course 1</mat-option>
                         </mat-select>
                       </mat-form-field>
                     <span class="prc_tltp">Required</span>
@@ -140,16 +141,18 @@
                 <span>Duration <span class="required">*</span></span>
                 <div class="xl_srch err_tltp_par w_100p">
                     <mat-form-field appearance="outline" class="w_100p">
-                        <mat-select placeholder="Users">
-                            <mat-option value="0">30 Days</mat-option>
-                            <mat-option value="1">60 Days</mat-option>
+                        <mat-select placeholder="Duration" name="duration" #duration="ngModel" [(ngModel)]="study_plan.duration" required>
+                            <mat-option value="15">15 Days</mat-option>
+                            <mat-option value="30">30 Days</mat-option>
+                            <mat-option value="60">60 Days</mat-option>
+                            <mat-option value="90">90 Days</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <span class="prc_tltp">Required</span>
                 </div>
             </div>
         </div>
-
+    </form>
         <div class="days_mn">
             <div class="dys_dv">
                 <div class="dys_hd">
