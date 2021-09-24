@@ -19,7 +19,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./study-planner.component.scss']
 })
 export class StudyPlannerComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['SNo', 'Topic', 'MCQ', 'Cases', 'Shortans', 'Videos', 'Actions'];
   dataSource = ELEMENT_DATA;
   constructor() { }
 
