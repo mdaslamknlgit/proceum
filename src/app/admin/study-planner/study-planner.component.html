@@ -1,10 +1,10 @@
 <div class="mn_dshbrd">
-    <div class="cust_mdl_par cust_mdl_cls">
+    <div class="cust_mdl_par {{task_test_modal?'cust_mdl_opn':'cust_mdl_cls'}}">
         <div class="cust_mdl_chl w_50p">
             <div class="pg_ttl">
                 Assign Tasks / Tests
                 <span class="spacer"></span>
-                <button mat-icon-button class="float_right">
+                <button type="button" (click)="hideTaskTestModal()" mat-icon-button class="float_right">
                     &#x2715;
                 </button>
             </div>
@@ -12,19 +12,19 @@
                 <div class="hgt_50"></div>
                 <div class="d-flex fd_clmn text_center">
                     <div class="at_d_cnt">Day 365</div>
-                    <div class="mb_1"><button mat-raised-button color="accent">Assign Tasks</button></div>
+                    <div class="mb_1"><button mat-raised-button type="button" (click)="showTaskAssignModal()" color="accent">Assign Tasks</button></div>
                     <div><button mat-raised-button color="accent" class="hstst_btn">This day has a Test</button></div>
                 </div>
                 <div class="hgt_50"></div>
             </div>
         </div>
     </div>
-    <div class="cust_mdl_par cust_mdl_cls">
+    <div class="cust_mdl_par {{task_asign_modal==true?'cust_mdl_opn':'cust_mdl_cls'}}">
         <div class="cust_mdl_chl">
             <div class="pg_ttl">
                 Day 1
                 <span class="spacer"></span>
-                <button mat-icon-button class="float_right">
+                <button type="button" (click)="hideTaskAssignModal()" mat-icon-button class="float_right">
                     &#x2715;
                 </button>
             </div>
@@ -110,8 +110,8 @@
     <div class="pg_ttl">Study Planner</div>
     <hr />
 
+    <form #study_plan_form="ngForm" id="study_plan_form" name="study_plan_form" (ngSubmit)="study_plan_form.valid && store()" novalidate>
     <div class="dsh_brd_crds">
-        <form>
         <span>Study plan name <span class="required">*</span></span>
         <div class="xl_srch err_tltp_par w_100p">
             <mat-form-field appearance="outline" class="w_100p">
@@ -127,11 +127,10 @@
                     <mat-form-field appearance="outline" class="w_100p">
                         <mat-select placeholder="Select Course" multiple name="course" #course="ngModel" [(ngModel)]="study_plan.course" required>
                           <mat-option>
-                            <ngx-mat-select-search 
-                              [placeholderLabel]="'Search Course'"></ngx-mat-select-search>
+                            <ngx-mat-select-search (ngModelChange)="searchCourses($event)" [noEntriesFoundLabel]="'No Courses found'"
+                            name="search_course" ngModel [placeholderLabel]="'Search Course'"></ngx-mat-select-search>
                           </mat-option>
-                          <mat-option>Course 1</mat-option>
-                          <mat-option>Course 1</mat-option>
+                          <mat-option *ngFor="let course of courses" [value]="course['pk_id']">{{course['curriculumn_name']}}</mat-option>
                         </mat-select>
                       </mat-form-field>
                     <span class="prc_tltp">Required</span>
@@ -141,7 +140,7 @@
                 <span>Duration <span class="required">*</span></span>
                 <div class="xl_srch err_tltp_par w_100p">
                     <mat-form-field appearance="outline" class="w_100p">
-                        <mat-select placeholder="Duration" name="duration" #duration="ngModel" [(ngModel)]="study_plan.duration" required>
+                        <mat-select placeholder="Duration" name="duration" #duration="ngModel" [(ngModel)]="study_plan.duration" (ngModelChange)="setDuration()" required>
                             <mat-option value="15">15 Days</mat-option>
                             <mat-option value="30">30 Days</mat-option>
                             <mat-option value="60">60 Days</mat-option>
@@ -152,54 +151,23 @@
                 </div>
             </div>
         </div>
-    </form>
-        <div class="days_mn">
-            <div class="dys_dv">
+        
+        <div class="days_mn" *ngIf="study_plan.schdule.length>0">
+            <div class="dys_dv" *ngFor="let day of study_plan.schdule;let index=index;" (click)="showTaskTestModal(index)">
                 <div class="dys_hd">
                     <div class="dys_hd_txt">Day</div>
-                    <div class="dys_cnt">365</div>
+                    <div class="dys_cnt">{{day['day']}}</div>
                 </div>
                 <div>
                     <div class="slct_crs d-none">Select Course</div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Anatomy</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Biology</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dys_dv">
-                <div class="dys_hd">
-                    <div class="dys_hd_txt">Day</div>
-                    <div class="dys_cnt">365</div>
-                </div>
-                <div>
-                    <div class="slct_crs d-none">Select Course</div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Anatomy</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Biology</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
+                    <div>
+                        <div class="dys_tsks_dv" *ngFor="let course of day['courses']">
+                            <div class="tsk_hd">{{course['curriculumn_name']}}</div>
+                            <div class="tsk_dv">
+                                <div>Tasks</div>
+                                <div class="spacer"></div>
+                                <div class="tsk_cnt">10</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -214,107 +182,9 @@
 
                 </div>
             </div>
-            <div class="dys_dv">
-                <div class="dys_hd">
-                    <div class="dys_hd_txt">Day</div>
-                    <div class="dys_cnt">365</div>
-                </div>
-                <div>
-                    <div class="slct_crs d-none">Select Course</div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Anatomy</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Biology</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dys_dv">
-                <div class="dys_hd">
-                    <div class="dys_hd_txt">Day</div>
-                    <div class="dys_cnt">365</div>
-                </div>
-                <div>
-                    <div class="slct_crs d-none">Select Course</div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Anatomy</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Biology</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dys_dv">
-                <div class="dys_hd">
-                    <div class="dys_hd_txt">Day</div>
-                    <div class="dys_cnt">365</div>
-                </div>
-                <div>
-                    <div class="slct_crs d-none">Select Course</div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Anatomy</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Biology</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dys_dv">
-                <div class="dys_hd">
-                    <div class="dys_hd_txt">Day</div>
-                    <div class="dys_cnt">365</div>
-                </div>
-                <div>
-                    <div class="slct_crs d-none">Select Course</div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Anatomy</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                    <div class="dys_tsks_dv">
-                        <div class="tsk_hd">Biology</div>
-                        <div class="tsk_dv">
-                            <div>Tasks</div>
-                            <div class="spacer"></div>
-                            <div class="tsk_cnt">10</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
         </div>
     </div>
+    <button type="submit" mat-raised-button color="accent">Save</button>
+    </form>
 </div>
