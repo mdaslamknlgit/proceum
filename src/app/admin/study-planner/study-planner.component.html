@@ -10,19 +10,19 @@
             </div>
             <div class="tbbd_bdy dsh_brd_crds at_mn_dv">
                 <div class="hgt_50"></div>
-                <div class="d-flex fd_clmn text_center">
-                    <div class="at_d_cnt">Day 365</div>
+                <div class="d-flex fd_clmn text_center" *ngIf="study_plan.schdule[selected_day_index]!=undefined">
+                    <div class="at_d_cnt">Day {{study_plan.schdule[selected_day_index]['day']}}</div>
                     <div class="mb_1"><button mat-raised-button type="button" (click)="showTaskAssignModal()" color="accent">Assign Tasks</button></div>
-                    <div><button mat-raised-button color="accent" class="hstst_btn">This day has a Test</button></div>
+                    <div><button [disabled]="study_plan.schdule[selected_day_index]['day'] == 1" (click)="assignTest()" mat-raised-button color="accent" class="hstst_btn">This day has a Test</button></div>
                 </div>
                 <div class="hgt_50"></div>
             </div>
         </div>
     </div>
-    <div class="cust_mdl_par {{task_asign_modal==true?'cust_mdl_opn':'cust_mdl_cls'}}">
+    <div *ngIf="study_plan.schdule[selected_day_index]!=undefined && task_asign_modal == true" class="cust_mdl_par {{task_asign_modal==true?'cust_mdl_opn':'cust_mdl_cls'}}">
         <div class="cust_mdl_chl">
             <div class="pg_ttl">
-                Day 1
+                Day {{study_plan.schdule[selected_day_index]['day']}}
                 <span class="spacer"></span>
                 <button type="button" (click)="hideTaskAssignModal()" mat-icon-button class="float_right">
                     &#x2715;
@@ -30,58 +30,51 @@
             </div>
             <div class="tbbd_bdy dsh_brd_crds">
                 <div class="hgt_10"></div>
-                <mat-tab-group>
-                    <mat-tab label="Anatomy">
+                <mat-tab-group (selectedTabChange)="getActiveTabContent($event)">
+                    <mat-tab *ngFor="let course of study_plan.schdule[selected_day_index]['selected_courses']; let index = index" [label]="course['curriculumn_name']">
                         <div class="hgt_20"></div>
                         <div class="xl_srch w_100p">
-                            <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select Course" multiple name="course" required>
+                            <mat-form-field appearance="outline" class="w_80p">
+                                <mat-select placeholder="Select Topics" multiple name="topic" [(ngModel)]='selected_topics'>
                                   <mat-option>
-                                    <ngx-mat-select-search 
-                                    name="search_course" ngModel [placeholderLabel]="'Search Course'"></ngx-mat-select-search>
+                                    <ngx-mat-select-search name="search_topics" ngModel [(ngModel)]="search_topics" (ngModelChange)="searchTpoics($event)" [noEntriesFoundLabel]="'No Topics found'" [placeholderLabel]="'Search Topic'"></ngx-mat-select-search>
                                   </mat-option>
-                                  <mat-option>course Name</mat-option>
-                                  <mat-option>course Name</mat-option>
-                                  <mat-option>course Name</mat-option>
+                                  <mat-option *ngFor="let topic of topics" [value]="topic['pk_id']">{{topic['level_name']}}</mat-option>
                                 </mat-select>
                               </mat-form-field>
+                              <button type="button" class="w_20p" mat-raised-button color="accent" (click)="getSelectedTopics()">Save</button>
                         </div>
-
-                        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-                            <!--- Note that these columns can be defined in any order.
-                                  The actual rendered columns are set as a property on the row definition" -->
-
-                            <!-- Position Column -->
+                        
+                        <table mat-table [dataSource]="selected_topics_list[active_tab_index]" class="mat-elevation-z8">
                             <ng-container matColumnDef="SNo">
                                 <th mat-header-cell *matHeaderCellDef>S.No</th>
-                                <td mat-cell *matCellDef="let element"> S.No </td>
+                                <td mat-cell *matCellDef="let element">{{element['s_no']}} </td>
                             </ng-container>
 
                             <!-- Name Column -->
                             <ng-container matColumnDef="Topic">
                                 <th mat-header-cell *matHeaderCellDef> Topic </th>
-                                <td mat-cell *matCellDef="let element"> Topic </td>
+                                <td mat-cell *matCellDef="let element"> {{element['topic']}} </td>
                             </ng-container>
 
                             <!-- Weight Column -->
                             <ng-container matColumnDef="MCQ">
                                 <th mat-header-cell *matHeaderCellDef> MCQ’s </th>
-                                <td mat-cell *matCellDef="let element"> MCQ’s </td>
+                                <td mat-cell *matCellDef="let element"> {{element['mcqs_count']}} </td>
                             </ng-container>
 
                             <!-- Symbol Column -->
                             <ng-container matColumnDef="Cases">
                                 <th mat-header-cell *matHeaderCellDef> Cases </th>
-                                <td mat-cell *matCellDef="let element"> Cases </td>
+                                <td mat-cell *matCellDef="let element"> {{element['cases_count']}} </td>
                             </ng-container>
                             <ng-container matColumnDef="Shortans">
                                 <th mat-header-cell *matHeaderCellDef> Short Answers </th>
-                                <td mat-cell *matCellDef="let element"> Short Answers </td>
+                                <td mat-cell *matCellDef="let element"> {{element['short_answer_count']}} </td>
                             </ng-container>
                             <ng-container matColumnDef="Videos">
                                 <th mat-header-cell *matHeaderCellDef> Videos </th>
-                                <td mat-cell *matCellDef="let element"> Videos </td>
+                                <td mat-cell *matCellDef="let element"> {{element['videos_count']}} </td>
                             </ng-container>
                             <ng-container matColumnDef="Actions">
                                 <th mat-header-cell *matHeaderCellDef> Actions </th>
@@ -93,18 +86,12 @@
                         </table>
 
                     </mat-tab>
-                    <mat-tab label="Biology">
-
-                    </mat-tab>
                 </mat-tab-group>
                 <div class="hgt_20"></div>
                 <div class="d-flex ai_cntr">
                     <div class="spacer"></div>
-                    <button mat-raised-button class="gry_btn mr_1">
-                        Cancel
-                    </button>
-                    <button mat-raised-button color="accent">
-                        Submit
+                    <button (click)="hideTaskAssignModal()" mat-raised-button class="gry_btn mr_1">
+                        Close
                     </button>
                 </div>
                 <div class="hgt_20"></div>
@@ -112,9 +99,9 @@
         </div>
     </div>
     <div class="brd_crm">
-        Proceum &raquo; <strong>Study Planner</strong>
+        Proceum &raquo; <strong>{{pgae_title}}</strong>
     </div>
-    <div class="pg_ttl">Study Planner</div>
+    <div class="pg_ttl">{{pgae_title}}</div>
     <hr />
 
     <form #study_plan_form="ngForm" id="study_plan_form" name="study_plan_form" (ngSubmit)="study_plan_form.valid && store()" novalidate>
@@ -132,7 +119,7 @@
                 <span>Select course <span class="required">*</span></span>
                 <div class="xl_srch err_tltp_par w_100p">
                     <mat-form-field appearance="outline" class="w_100p">
-                        <mat-select placeholder="Select Course" multiple name="course" #course="ngModel" [(ngModel)]="study_plan.course" required>
+                        <mat-select placeholder="Select Course" multiple name="course" #course="ngModel" [(ngModel)]="study_plan.course" (ngModelChange)="setDuration()" required>
                           <mat-option>
                             <ngx-mat-select-search (ngModelChange)="searchCourses($event)" [noEntriesFoundLabel]="'No Courses found'"
                             name="search_course" ngModel [placeholderLabel]="'Search Course'"></ngx-mat-select-search>
@@ -143,7 +130,7 @@
                     <span class="prc_tltp">Required</span>
                 </div>
             </div>
-            <div class="w_50p">
+            <div class="w_50p" *ngIf="study_plan.course.length>0">
                 <span>Duration <span class="required">*</span></span>
                 <div class="xl_srch err_tltp_par w_100p">
                     <mat-form-field appearance="outline" class="w_100p">
@@ -167,19 +154,31 @@
                 </div>
                 <div>
                     <div class="slct_crs d-none">Select Course</div>
-                    <div>
-                        <div class="dys_tsks_dv" *ngFor="let course of day['courses']">
+                    <div  *ngFor="let course of day['selected_courses'];let course_index = index;">
+                        <div class="dys_tsks_dv" *ngIf="day['is_test_day'] == false">
                             <div class="tsk_hd">{{course['curriculumn_name']}}</div>
                             <div class="tsk_dv">
                                 <div>Tasks</div>
                                 <div class="spacer"></div>
-                                <div class="tsk_cnt">10</div>
+                                <div class="tsk_cnt" *ngIf="study_plan.schdule[index] != undefined && study_plan.schdule[index]['selected_topics_list'] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length>0">
+                                    <span >{{getTasksCount(study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'])}}</span></div>
+                                <div class="tsk_cnt" *ngIf="study_plan.schdule[index] == undefined || study_plan.schdule[index]['selected_topics_list'].length==0 || study_plan.schdule[index]['selected_topics_list'][course_index]==undefined || study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length == 0">0</div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="dys_dv tst_dy" *ngIf="day['is_test_day'] == true">
+                    <!--<div class="dys_hd">let tasks_count=count['mcqs_count']+count['cases_count']+count['short_answer_count']+count['videos_count']+tasks_count
+                         <div class="dys_hd_txt">Day</div> 
+                        <div class="dys_cnt">365</div>
+                    </div>-->
+                    <div>
+                        <div class="slct_crs">Test</div>
+    
+                    </div>
+                </div>
             </div>
-            <div class="dys_dv tst_dy">
+            <!-- <div class="dys_dv tst_dy">
                 <div class="dys_hd">
                     <div class="dys_hd_txt">Day</div>
                     <div class="dys_cnt">365</div>
@@ -188,7 +187,7 @@
                     <div class="slct_crs">Test</div>
 
                 </div>
-            </div>
+            </div> -->
 
         </div>
     </div>
