@@ -293,6 +293,9 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
     outline: none;
     cursor: pointer;
     margin: 0 2px;
+    &:first-child{
+      margin-left: 0;
+    }
     strong, &:hover{
       color: #41ab3c;
     }
@@ -2519,6 +2522,8 @@ div.cust_mdl_par div.mn_dshbrd {
     box-sizing: border-box;
     width: 100%;
     min-height: 360px;
+    display: flex;
+    flex-wrap: wrap;
     .crs_desc{
       .mat-expansion-panel{
         background: #fff;
@@ -2533,6 +2538,7 @@ div.cust_mdl_par div.mn_dshbrd {
       border-bottom: 1px solid #e6e6e6;
       margin-bottom: 10px;
       padding-right: 20px;
+      width: 100%;
     }
     .desc_in_hd {
       position: relative;
@@ -2553,6 +2559,14 @@ div.cust_mdl_par div.mn_dshbrd {
       background-color: #41ab3c;
     }
     .crs_desc_cnt {
+      .mcb_cb{
+        .mat-checkbox-layout{
+          white-space: normal;
+        }
+        .mat-checkbox-inner-container{
+          margin-top: 3px;
+        }
+      }
       padding: 0 20px 20px;
       .desc_mlti_fls{
         .mlti_fls_dv{
@@ -3172,11 +3186,9 @@ div.cust_mdl_par div.mn_dshbrd {
       padding:6px 8px;
       margin-right: 8px;
       min-width: 38px;
-      min-height: 36px;
+      min-height: 32px;
       box-sizing: border-box;
       display: flex;
-      align-items: center;
-      justify-content: center;
       margin-bottom: 10px;
       cursor: pointer;
       &.wrng_qstnm{
@@ -3199,12 +3211,13 @@ div.cust_mdl_par div.mn_dshbrd {
     max-width: 100%;
     iframe{
       width: 100%;
+      min-height:220px;
     }
   }
   .mcb_aud{
     background-color: #e7f4e7;
     border-radius: 15px;
-    width: 90px;
+    width:100%;
     text-align: center;
     padding: 5px 0 0 0;
   }
@@ -3262,9 +3275,7 @@ div.cust_mdl_par div.mn_dshbrd {
     width: 40%;
     ul{
       li{
-        width: 95%;
-        justify-content: flex-start;
-        align-items: flex-start;
+        width: 95%; 
         .qstn_cnt{
           margin-left: 10px;
           text-align: left;
@@ -3366,6 +3377,7 @@ div.cust_mdl_par div.mn_dshbrd {
           box-sizing: border-box;
           border-radius: 8px; 
           padding: 0px;
+          margin-right: 0;
           .mat-radio-label{
             padding: 15px;
             box-sizing: border-box;
@@ -3642,6 +3654,7 @@ sup {
 .innr_sd_mnu.ism_opn{z-index: 96;}
 } 
 .pn_btns{
+  padding:0 20px 20px;
   button{min-width: 100px;}
 }
 .mtvd_hds{
@@ -4465,4 +4478,11 @@ sup {
   padding: 10px;
   background-color: #f3f3f3;
   width: calc(100% - 65px);
+}
+.rdo_exp_txt{
+  color: #000;
+  margin-top: 8px;
+}
+.aud_upldd{
+  border: 2px solid #41ab3c;
 }
