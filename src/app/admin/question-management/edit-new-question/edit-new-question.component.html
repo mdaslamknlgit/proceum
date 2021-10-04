@@ -54,13 +54,13 @@
                 </div>
                 <div class="mb_0 w_100p">
                     <div class="hgt_20"></div>
-                    <div class="d-flex">
+                    <div class="d-flex fw_rsp_1100">
                         <div class="w_100p">
                             <div class="crt_prt_hd">Difficulty level</div>
                             <div class="hgt_5"></div>
                             <div class="crt_prt_cnt">
                                 <mat-radio-group name="difficulty_level_id" [(ngModel)]="question.difficulty_level_id"
-                                    #difficulty_level_id="ngModel" ngModel required class="d-flex">
+                                    #difficulty_level_id="ngModel" ngModel required class="d-flex fw_rsp_480">
                                     <mat-radio-button [value]="1" class="emh esy">Easy</mat-radio-button>
                                     <mat-radio-button [value]="2" class="emh mdm">Medium</mat-radio-button>
                                     <mat-radio-button [value]="3" class="emh hrd">Hard</mat-radio-button>
@@ -122,7 +122,7 @@
                             </div>
                         </div> -->
                     </div>
-                    <div class="d-flex">
+                    <div class="d-flex fw_rsp_599">
                         <div class="w_100p">
                             <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span>
                             </div>
@@ -169,7 +169,7 @@
                             </div>
                         </div>
                         <div class="w_100px">
-                            <div class="crt_prt_hd">&nbsp;</div>
+                            <div class="crt_prt_hd rsp_hd_599">&nbsp;</div>
                             <button [disabled]="is_topic_exist || question.topic=='' || question.curriculum_id==''"
                                 (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
                                 Add (+)
@@ -211,7 +211,7 @@
                 </div>
                 <div class="hgt_20"></div>
                 <div class="crt_pr_dv w_100p d-flex fw_w">
-                    <div class="mb_1">
+                    <div class="">
                         <label for="question-text">Question Text<span class="required">*</span></label>
                     </div>
                     <div class="d-flex w_100p">
@@ -226,23 +226,32 @@
                         </div>
                         <div>
                             <div class="cnq_img_thmb text_center"
+                                [ngClass]="{ aud_upldd: audio_single_option || audio_multiple_option || audio_clip_free_text}"
                                 *ngIf="audio_single_option || audio_multiple_option || image_single_option || image_multiple_option || audio_clip_free_text || image_free_text">
                                 <div>
                                     <div class="hgt_10"></div>
                                     <div *ngIf="image_single_option||image_multiple_option || image_free_text">
                                         <img *ngIf="fileName && !imageSrc['file']" [src]="bucket_url+this['fileName']">
                                         <img *ngIf="fileName && imageSrc['file']" [src]="imageSrc['file']">
-                                        <mat-icon *ngIf="!fileName">photo</mat-icon>
+                                        <!-- <mat-icon *ngIf="!fileName">photo</mat-icon> -->
                                         <button mat-fab class="cnq_upld_btn cnq_delimg"
                                             onclick="document.getElementById('file').click()" type="button"
                                             color="accent">
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                     </div>
+                                    <!-- <button mat-fab class="cnq_upld_btn" *ngif="audio_single_option || audio_multiple_option"
+                                        onclick="document.getElementById('file').click()" type="button" color="accent">
+                                        <mat-icon>file_upload</mat-icon>
+                                    </button> -->
                                     <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text">
-                                        <span
-                                            (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">play</span>
-                                        <span (click)="pauseAudio()">Pause</span>
+                                        <!-- <div class="d-flex w_100p mb_1">
+                                            <div class="fl_frmt_info">System will accent only .mp3</div>
+                                        </div> -->
+                                        <mat-icon
+                                            (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">
+                                            play_arrow</mat-icon>
+                                        <mat-icon (click)="pauseAudio()">pause</mat-icon>
                                     </div>
                                     <mat-form-field appearance="outline" class="w_50p d_none ">
                                         <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
@@ -263,14 +272,12 @@
                                             accept="{{image_single_option || image_multiple_option|| image_free_text?'image/x-png,image/gif,image/jpeg, image/bmp':'.mp3'}}"
                                             id="file" type="file" style="display: none" />
                                     </button>
-
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="hgt_20"></div>
-
                 <div class="w_100p" *ngIf="vidio_single_option || video_multiple_option || video_clicp_free_text">
                     <div class="hgt_10"></div>
                     <div class="d-flex">
@@ -359,7 +366,7 @@
                                     <a class="d-flex ai_cntr"
                                         *ngIf="show_explanation[option] == undifined || show_explanation[option] == false"
                                         (click)="show_explanation[option]=true">
-                                        <mat-icon>add</mat-icon> <span> Show Explanation</span>
+                                        <mat-icon>visibility</mat-icon>&nbsp;<span> Show Explanation</span>
                                     </a>
                                 </div>
                             </div>
@@ -449,7 +456,7 @@
                                         <a class="d-flex ai_cntr"
                                             *ngIf="show_explanation[option] == undifined || show_explanation[option] == false"
                                             (click)="show_explanation[option]=true">
-                                            <mat-icon>add</mat-icon> <span> Add Explanation</span>
+                                            <mat-icon>visibility</mat-icon>&nbsp;<span> Show Explanation </span>
                                         </a>
                                     </div>
                                 </div>

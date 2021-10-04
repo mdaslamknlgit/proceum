@@ -282,7 +282,8 @@
               <div class="qstn_hds">Questions</div>
               <ul>
                 <li *ngFor="let question of mcqs; let i = index" class="{{ i == active_mcq_index ? 'act_qstnm' : '' }}">
-                  <span class="qstn_cnt" (click)="active_mcq_index = i;getXtToken(question);" matTooltip='{{question["question_string"]}}'>{{
+                  <span class="qstn_cnt" (click)="active_mcq_index = i;getXtToken(question);"
+                    matTooltip='{{question["question_string"]}}'>{{
                     i + 1
                     }} {{" "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
                     question["question_string"]}}</span>
@@ -294,26 +295,40 @@
                 <div class="hgt_20"></div>
                 <div class="qstnof_cnt"><strong>{{active_mcq_index + 1}}</strong> / {{mcqs.length}}</div>
                 <div class="qstn_hds">
-                  <div *ngIf='mcqs[active_mcq_index]["question"]!=""' innerHtml='{{mcqs[active_mcq_index]["question"]}}'></div>
+                  <div *ngIf='mcqs[active_mcq_index]["question"]!=""'
+                    innerHtml='{{mcqs[active_mcq_index]["question"]}}'></div>
                   <div>
-                    <div class="mcb_aud" *ngIf='[4,5,6].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
+                    <div class="mcb_aud"
+                      *ngIf='[4,5,6].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
                       <audio controls controlsList="nodownload">
                         <source [src]="bucket_url+mcqs[active_mcq_index]['q_source_value']" type="audio/mpeg">
                       </audio>
                     </div>
-                    <div class="mcb_img" *ngIf='[10,11,12].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
+                    <div class="mcb_img"
+                      *ngIf='[10,11,12].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
                       <img [src]="bucket_url+mcqs[active_mcq_index]['q_source_value']" alt="">
                     </div>
-                    <div class="mcb_img" *ngIf='[7,8,9].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
-                        <div *ngIf="mcqs[active_mcq_index]['q_source'] == 'YOUTUBE'"><iframe [src]='mcqs[active_mcq_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"' frameborder="0" allowfullscreen></iframe></div>
-                        <div *ngIf="mcqs[active_mcq_index]['q_source'] == 'KPOINT'">
-                            
-                            <iframe  [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen mozallowFullScreen frameborder="0"></iframe>
-                        </div>
+
+                    <div class="mcb_img"
+                      *ngIf='[7,8,9].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
+                      
+                      <div *ngIf="mcqs[active_mcq_index]['q_source'] == 'YOUTUBE'">
+                        <iframe
+                          [src]='mcqs[active_mcq_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
+                          frameborder="0" allowfullscreen></iframe>
                       </div>
+
+                      <div *ngIf="mcqs[active_mcq_index]['q_source'] == 'KPOINT'">
+                        <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
+                          mozallowFullScreen frameborder="0"></iframe>
+                      </div>
+
+                    </div>
+                    
                   </div>
                 </div>
-                <mat-radio-group *ngIf='[1,3,4,6,7,9,10,12,13].includes(mcqs[active_mcq_index]["q_type"])' aria-label="Select an option" [(ngModel)]="mcqs[active_mcq_index]['selected_option']">
+                <mat-radio-group *ngIf='[1,3,4,6,7,9,10,12,13].includes(mcqs[active_mcq_index]["q_type"])'
+                  aria-label="Select an option" [(ngModel)]="mcqs[active_mcq_index]['selected_option']">
                   <mat-radio-button *ngFor="
                     let option of mcqs[active_mcq_index]['options'];
                     let i_option = index
@@ -331,45 +346,57 @@
                   }}">
                     {{ option["option_text"] }}
                     <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image']"
-                  [src]="bucket_url+option['option_image']" />
-                  <div *ngIf="mcqs[active_mcq_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                    <div class="qstn_hds">Explanation</div>
-                  <div [innerHtml]="option['option_explanation']"></div> 
-                </div>
+                      [src]="bucket_url+option['option_image']" />
+                    <div
+                      *ngIf="mcqs[active_mcq_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''"
+                      class="rdo_exp_txt">
+                      <div class="qstn_hds">Explanation</div>
+                      <div [innerHtml]="option['option_explanation']"></div>
+                    </div>
                   </mat-radio-button>
                 </mat-radio-group>
 
                 <div class="mcb_cb" *ngIf='[2,5,8,11].includes(mcqs[active_mcq_index]["q_type"])'>
                   <div *ngFor="let option of mcqs[active_mcq_index]['options']; let i_option = index">
-                    <mat-checkbox [checked]="checked_options[mcqs[active_mcq_index]['id']] != undefined && checked_options[mcqs[active_mcq_index]['id']].includes(option['pk_id'])" (change)="checkAnswer($event,option['pk_id'],mcqs[active_mcq_index]['id'])" class="{{getOptionClass(mcqs[active_mcq_index]['id'],mcqs[active_mcq_index]['s_no'],option['pk_id'])}}">{{ option["option_text"] }}</mat-checkbox>
+                    <mat-checkbox
+                      [checked]="checked_options[mcqs[active_mcq_index]['id']] != undefined && checked_options[mcqs[active_mcq_index]['id']].includes(option['pk_id'])"
+                      (change)="checkAnswer($event,option['pk_id'],mcqs[active_mcq_index]['id'])"
+                      class="{{getOptionClass(mcqs[active_mcq_index]['id'],mcqs[active_mcq_index]['s_no'],option['pk_id'])}}">
+                      {{ option["option_text"] }}</mat-checkbox>
                     <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image']"
-                  [src]="bucket_url+option['option_image']" />
-                  <div *ngIf="validated_questions.includes(mcqs[active_mcq_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                    <div class="qstn_hds">Explanation</div>
-                  <div [innerHtml]="option['option_explanation']"></div> 
-                </div>
+                      [src]="bucket_url+option['option_image']" />
+                    <div
+                      *ngIf="validated_questions.includes(mcqs[active_mcq_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                      <div class="qstn_hds">Explanation</div>
+                      <div [innerHtml]="option['option_explanation']"></div>
+                    </div>
                   </div>
                 </div>
 
-                
+
                 <div class="hgt_20"></div>
                 <!-- <div class="qstn_hds">Explanation</div>
               <div [innerHtml]="mcqs[active_mcq_index]['explanation']">
               </div> -->
               </div>
-              <div class="pn_btns" *ngIf="mcqs.length>1">
-                <button mat-raised-button color="accent" [disabled]="!active_mcq_index > 0" (click)="prevQuestion()"
-                  class="mr_1">
-                  <mat-icon>navigate_before</mat-icon> Prev
-                </button>
-                <button type="button" mat-raised-button *ngIf='[2,5,8,11].includes(mcqs[active_mcq_index]["q_type"])' (click)="ValidateAnswer(mcqs[active_mcq_index]['id'])" color="accent" [disabled]="checked_options[mcqs[active_mcq_index]['id']] == undefined || checked_options[mcqs[active_mcq_index]['id']].length == 0 || validated_questions.includes(mcqs[active_mcq_index]['id'])" class="mr_1">Submit Answer <mat-icon>subdirectory_arrow_right
-                  </mat-icon></button>
-                <button mat-raised-button color="accent" [disabled]="active_mcq_index + 1 >= mcqs.length"
-                  (click)="nextQuestion()">Next <mat-icon>navigate_next</mat-icon>
-                </button>
-              </div>
+
             </div>
             <div class="clear_fix"></div>
+            <div class="pn_btns" *ngIf="mcqs.length>1">
+              <button mat-raised-button color="accent" [disabled]="!active_mcq_index > 0" (click)="prevQuestion()"
+                class="mr_1">
+                <mat-icon>navigate_before</mat-icon> Prev
+              </button>
+              <button type="button" mat-raised-button *ngIf='[2,5,8,11].includes(mcqs[active_mcq_index]["q_type"])'
+                (click)="ValidateAnswer(mcqs[active_mcq_index]['id'])" color="accent"
+                [disabled]="checked_options[mcqs[active_mcq_index]['id']] == undefined || checked_options[mcqs[active_mcq_index]['id']].length == 0 || validated_questions.includes(mcqs[active_mcq_index]['id'])"
+                class="mr_1">Submit Answer <mat-icon>subdirectory_arrow_right
+                </mat-icon></button>
+              <button mat-raised-button color="accent" [disabled]="active_mcq_index + 1 >= mcqs.length"
+                (click)="nextQuestion()">Next <mat-icon>navigate_next</mat-icon>
+              </button>
+            </div>
+
           </div>
         </div>
       </div>
@@ -565,7 +592,8 @@
               <ul>
                 <li *ngFor="let question of cases; let i = index"
                   class="{{ i == active_case_index ? 'act_qstnm' : '' }}">
-                  <span class="qstn_cnt" (click)="active_case_index = i;getXtToken(question);" matTooltip='{{question["question_string"]}}'>{{
+                  <span class="qstn_cnt" (click)="active_case_index = i;getXtToken(question);"
+                    matTooltip='{{question["question_string"]}}'>{{
                     i + 1
                     }} {{" "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
                     question["question_string"]}}</span>
@@ -580,27 +608,35 @@
                   <div innerHtml='{{ active_case_index + 1 }}{{" " + cases[active_case_index]["question"]}}'></div>
                 </div> -->
                 <div class="qstn_hds">
-                    <div *ngIf='cases[active_case_index]["question"]!=""' innerHtml='{{cases[active_case_index]["question"]}}'></div>
-                    <div>
-                      <div class="mcb_aud" *ngIf='[4,5,6].includes(cases[active_case_index]["q_type"]) && cases[active_case_index]["q_source_value"]'>
-                        <audio controls controlsList="nodownload">
-                          <source [src]="bucket_url+cases[active_case_index]['q_source_value']" type="audio/mpeg">
-                        </audio>
-                      </div>
-                      <div class="mcb_img" *ngIf='[10,11,12].includes(cases[active_case_index]["q_type"]) && cases[active_case_index]["q_source_value"]'>
-                        <img [src]="bucket_url+cases[active_case_index]['q_source_value']" alt="">
-                      </div>
-                      <div class="mcb_img" *ngIf='[7,8,9].includes(cases[active_case_index]["q_type"]) && cases[active_case_index]["q_source_value"]'>
-                        <div *ngIf="cases[active_case_index]['q_source'] == 'YOUTUBE'"><iframe [src]='cases[active_case_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"' frameborder="0" allowfullscreen></iframe></div>
-                        <div *ngIf="cases[active_case_index]['q_source'] == 'KPOINT'">
-                            
-                            <iframe  [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen mozallowFullScreen frameborder="0"></iframe>
-                        </div>
-                      </div>
-  
+                  <div *ngIf='cases[active_case_index]["question"]!=""'
+                    innerHtml='{{cases[active_case_index]["question"]}}'></div>
+                  <div>
+                    <div class="mcb_aud"
+                      *ngIf='[4,5,6].includes(cases[active_case_index]["q_type"]) && cases[active_case_index]["q_source_value"]'>
+                      <audio controls controlsList="nodownload">
+                        <source [src]="bucket_url+cases[active_case_index]['q_source_value']" type="audio/mpeg">
+                      </audio>
                     </div>
+                    <div class="mcb_img"
+                      *ngIf='[10,11,12].includes(cases[active_case_index]["q_type"]) && cases[active_case_index]["q_source_value"]'>
+                      <img [src]="bucket_url+cases[active_case_index]['q_source_value']" alt="">
+                    </div>
+                    <div class="mcb_img"
+                      *ngIf='[7,8,9].includes(cases[active_case_index]["q_type"]) && cases[active_case_index]["q_source_value"]'>
+                      <div *ngIf="cases[active_case_index]['q_source'] == 'YOUTUBE'"><iframe
+                          [src]='cases[active_case_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
+                          frameborder="0" allowfullscreen></iframe></div>
+                      <div *ngIf="cases[active_case_index]['q_source'] == 'KPOINT'">
+
+                        <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
+                          mozallowFullScreen frameborder="0"></iframe>
+                      </div>
+                    </div>
+
                   </div>
-                <mat-radio-group aria-label="Select an option" *ngIf='[1,3,4,6,7,9,10,12,13].includes(cases[active_case_index]["q_type"])' 
+                </div>
+                <mat-radio-group aria-label="Select an option"
+                  *ngIf='[1,3,4,6,7,9,10,12,13].includes(cases[active_case_index]["q_type"])'
                   [(ngModel)]="cases[active_case_index]['selected_option']">
                   <mat-radio-button *ngFor="
                     let option of cases[active_case_index]['options'];
@@ -618,38 +654,48 @@
                   }}">
                     {{ option["option_text"] }}
                     <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image']"
-                  [src]="bucket_url+option['option_image']" />
-                  <div *ngIf="cases[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                    <div class="qstn_hds">Explanation</div>
-                  <div [innerHtml]="option['option_explanation']"></div> 
-                </div>
+                      [src]="bucket_url+option['option_image']" />
+                    <div
+                      *ngIf="cases[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                      <div class="qstn_hds">Explanation</div>
+                      <div [innerHtml]="option['option_explanation']"></div>
+                    </div>
                   </mat-radio-button>
                 </mat-radio-group>
                 <div class="mcb_cb" *ngIf='[2,5,8,11].includes(cases[active_case_index]["q_type"])'>
-                    <div *ngFor="let option of cases[active_case_index]['options']; let i_option = index">
-                      <mat-checkbox [checked]="checked_options[cases[active_case_index]['id']] != undefined && checked_options[cases[active_case_index]['id']].includes(option['pk_id'])" (change)="checkAnswer($event,option['pk_id'],cases[active_case_index]['id'])" class="{{getOptionClass(cases[active_case_index]['id'],cases[active_case_index]['s_no'],option['pk_id'])}}">{{ option["option_text"] }}</mat-checkbox>
-                      <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image']"
-                    [src]="bucket_url+option['option_image']" />
-                    <div *ngIf="validated_questions.includes(cases[active_case_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                  <div *ngFor="let option of cases[active_case_index]['options']; let i_option = index">
+                    <mat-checkbox
+                      [checked]="checked_options[cases[active_case_index]['id']] != undefined && checked_options[cases[active_case_index]['id']].includes(option['pk_id'])"
+                      (change)="checkAnswer($event,option['pk_id'],cases[active_case_index]['id'])"
+                      class="{{getOptionClass(cases[active_case_index]['id'],cases[active_case_index]['s_no'],option['pk_id'])}}">
+                      {{ option["option_text"] }}</mat-checkbox>
+                    <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image']"
+                      [src]="bucket_url+option['option_image']" />
+                    <div
+                      *ngIf="validated_questions.includes(cases[active_case_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                       <div class="qstn_hds">Explanation</div>
-                    <div [innerHtml]="option['option_explanation']"></div> 
-                  </div>
+                      <div [innerHtml]="option['option_explanation']"></div>
                     </div>
                   </div>
+                </div>
                 <div class="hgt_20"></div>
               </div>
-              <div class="pn_btns" *ngIf="cases.length > 1">
-                <button mat-raised-button color="accent" [disabled]="!active_case_index > 0" (click)="prevQuestion()"
-                  class="mr_1">
-                  <mat-icon>navigate_before</mat-icon> Prev
-                </button>
-                <button type="button" mat-raised-button *ngIf='[2,5,8,11].includes(cases[active_case_index]["q_type"])' (click)="ValidateAnswer(cases[active_case_index]['id'])" color="accent" [disabled]="checked_options[cases[active_case_index]['id']] == undefined || checked_options[cases[active_case_index]['id']].length == 0 || validated_questions.includes(cases[active_case_index]['id'])" class="mr_1">Submit Answer <mat-icon>subdirectory_arrow_right
+            </div>
+            <div class="clear_fix"></div>
+            <div class="pn_btns" *ngIf="cases.length > 1">
+              <button mat-raised-button color="accent" [disabled]="!active_case_index > 0" (click)="prevQuestion()"
+                class="mr_1">
+                <mat-icon>navigate_before</mat-icon> Prev
+              </button>
+              <button type="button" mat-raised-button *ngIf='[2,5,8,11].includes(cases[active_case_index]["q_type"])'
+                (click)="ValidateAnswer(cases[active_case_index]['id'])" color="accent"
+                [disabled]="checked_options[cases[active_case_index]['id']] == undefined || checked_options[cases[active_case_index]['id']].length == 0 || validated_questions.includes(cases[active_case_index]['id'])"
+                class="mr_1">Submit Answer <mat-icon>subdirectory_arrow_right
                 </mat-icon></button>
-                <button mat-raised-button color="accent" [disabled]="active_case_index + 1 >= cases.length"
-                  (click)="nextQuestion()">
-                  Next <mat-icon>navigate_next</mat-icon>
-                </button>
-              </div>
+              <button mat-raised-button color="accent" [disabled]="active_case_index + 1 >= cases.length"
+                (click)="nextQuestion()">
+                Next <mat-icon>navigate_next</mat-icon>
+              </button>
             </div>
           </div>
         </div>
@@ -693,27 +739,37 @@
                   </div>
                 </div> -->
                 <div class="qstn_hds">
-                    <div *ngIf='short_answers[active_short_answer_index]["question"]!=""' innerHtml='{{short_answers[active_short_answer_index]["question"]}}'></div>
-                    <div>
-                      <div class="mcb_aud" *ngIf='[4,5,6].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
-                        <audio controls controlsList="nodownload">
-                          <source [src]="bucket_url+short_answers[active_short_answer_index]['q_source_value']" type="audio/mpeg">
-                        </audio>
-                      </div>
-                      <div class="mcb_img" *ngIf='[10,11,12].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
-                        <img [src]="bucket_url+short_answers[active_short_answer_index]['q_source_value']" alt="">
-                      </div>
-                      <div class="mcb_img" *ngIf='[7,8,9].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
-                        <div *ngIf="short_answers[active_short_answer_index]['q_source'] == 'YOUTUBE'"><iframe [src]='short_answers[active_short_answer_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"' frameborder="0" allowfullscreen></iframe></div>
-                        <div *ngIf="short_answers[active_short_answer_index]['q_source'] == 'KPOINT'">
-                            
-                            <iframe  [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen mozallowFullScreen frameborder="0"></iframe>
-                        </div>
-                      </div>
-  
+                  <div *ngIf='short_answers[active_short_answer_index]["question"]!=""'
+                    innerHtml='{{short_answers[active_short_answer_index]["question"]}}'></div>
+                  <div>
+                    <div class="mcb_aud"
+                      *ngIf='[4,5,6].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
+                      <audio controls controlsList="nodownload">
+                        <source [src]="bucket_url+short_answers[active_short_answer_index]['q_source_value']"
+                          type="audio/mpeg">
+                      </audio>
                     </div>
+                    <div class="mcb_img"
+                      *ngIf='[10,11,12].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
+                      <img [src]="bucket_url+short_answers[active_short_answer_index]['q_source_value']" alt="">
+                    </div>
+                    <div class="mcb_img"
+                      *ngIf='[7,8,9].includes(short_answers[active_short_answer_index]["q_type"]) && short_answers[active_short_answer_index]["q_source_value"]'>
+                      <div *ngIf="short_answers[active_short_answer_index]['q_source'] == 'YOUTUBE'"><iframe
+                          [src]='short_answers[active_short_answer_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
+                          frameborder="0" allowfullscreen></iframe></div>
+                      <div *ngIf="short_answers[active_short_answer_index]['q_source'] == 'KPOINT'">
+
+                        <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
+                          mozallowFullScreen frameborder="0"></iframe>
+                      </div>
+                    </div>
+
                   </div>
-                <mat-radio-group aria-label="Select an option" *ngIf='[1,3,4,6,7,9,10,12,13].includes(short_answers[active_short_answer_index]["q_type"])'  [(ngModel)]="
+                </div>
+                <mat-radio-group aria-label="Select an option"
+                  *ngIf='[1,3,4,6,7,9,10,12,13].includes(short_answers[active_short_answer_index]["q_type"])'
+                  [(ngModel)]="
                   short_answers[active_short_answer_index]['selected_option']
                 ">
                   <mat-radio-button *ngFor="
@@ -737,43 +793,57 @@
                   }}">
                     {{ option["option_text"] }}
                     <img *ngIf="
-                  short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']" [src]="bucket_url+option['option_image']" />
-                  <div *ngIf="short_answers[active_short_answer_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                    <div class="qstn_hds">Explanation</div>
-                  <div [innerHtml]="option['option_explanation']"></div> 
-                </div>
+                  short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']"
+                      [src]="bucket_url+option['option_image']" />
+                    <div
+                      *ngIf="short_answers[active_short_answer_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                      <div class="qstn_hds">Explanation</div>
+                      <div [innerHtml]="option['option_explanation']"></div>
+                    </div>
                   </mat-radio-button>
                 </mat-radio-group>
                 <div class="mcb_cb" *ngIf='[2,5,8,11].includes(short_answers[active_short_answer_index]["q_type"])'>
-                    <div *ngFor="let option of short_answers[active_short_answer_index]['options']; let i_option = index">
-                      <mat-checkbox [checked]="checked_options[short_answers[active_short_answer_index]['id']] != undefined && checked_options[short_answers[active_short_answer_index]['id']].includes(option['pk_id'])" (change)="checkAnswer($event,option['pk_id'],short_answers[active_short_answer_index]['id'])" class="{{getOptionClass(short_answers[active_short_answer_index]['id'],short_answers[active_short_answer_index]['s_no'],option['pk_id'])}}">{{ option["option_text"] }}</mat-checkbox>
-                      <img *ngIf="short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']"
-                    [src]="bucket_url+option['option_image']" />
-                    <div *ngIf="validated_questions.includes(short_answers[active_short_answer_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                  <div *ngFor="let option of short_answers[active_short_answer_index]['options']; let i_option = index">
+                    <mat-checkbox
+                      [checked]="checked_options[short_answers[active_short_answer_index]['id']] != undefined && checked_options[short_answers[active_short_answer_index]['id']].includes(option['pk_id'])"
+                      (change)="checkAnswer($event,option['pk_id'],short_answers[active_short_answer_index]['id'])"
+                      class="{{getOptionClass(short_answers[active_short_answer_index]['id'],short_answers[active_short_answer_index]['s_no'],option['pk_id'])}}">
+                      {{ option["option_text"] }}</mat-checkbox>
+                    <img
+                      *ngIf="short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']"
+                      [src]="bucket_url+option['option_image']" />
+                    <div
+                      *ngIf="validated_questions.includes(short_answers[active_short_answer_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                       <div class="qstn_hds">Explanation</div>
-                    <div [innerHtml]="option['option_explanation']"></div> 
-                  </div>
+                      <div [innerHtml]="option['option_explanation']"></div>
                     </div>
                   </div>
+                </div>
                 <div class="hgt_20"></div>
-                
+
                 <div class="hgt_20"></div>
                 <!-- <div class="qstn_hds">Explanation</div>
                       <div [innerHtml]="short_answers[active_short_answer_index]['explanation']"></div> -->
               </div>
-              <div class="pn_btns" *ngIf="short_answers.length>1">
-                <button mat-raised-button color="accent" [disabled]="!active_short_answer_index > 0"
-                  (click)="prevQuestion()" class="mr_1">
-                  <mat-icon>navigate_before</mat-icon> Prev
-                </button>
-                <button type="button" mat-raised-button *ngIf='[2,5,8,11].includes(short_answers[active_short_answer_index]["q_type"])' (click)="ValidateAnswer(short_answers[active_short_answer_index]['id'])" color="accent" [disabled]="checked_options[short_answers[active_short_answer_index]['id']] == undefined || checked_options[short_answers[active_short_answer_index]['id']].length == 0 || validated_questions.includes(short_answers[active_short_answer_index]['id'])" class="mr_1">Submit Answer <mat-icon>subdirectory_arrow_right
-                </mat-icon></button>
-                <button mat-raised-button color="accent"
-                  [disabled]="active_short_answer_index + 1 >= short_answers.length" (click)="nextQuestion()">
-                  Next <mat-icon>navigate_next</mat-icon>
-                </button>
-              </div>
             </div>
+            <div class="clear_fix"></div>
+            <div class="pn_btns" *ngIf="short_answers.length>1">
+              <button mat-raised-button color="accent" [disabled]="!active_short_answer_index > 0"
+                (click)="prevQuestion()" class="mr_1">
+                <mat-icon>navigate_before</mat-icon> Prev
+              </button>
+              <button type="button" mat-raised-button
+                *ngIf='[2,5,8,11].includes(short_answers[active_short_answer_index]["q_type"])'
+                (click)="ValidateAnswer(short_answers[active_short_answer_index]['id'])" color="accent"
+                [disabled]="checked_options[short_answers[active_short_answer_index]['id']] == undefined || checked_options[short_answers[active_short_answer_index]['id']].length == 0 || validated_questions.includes(short_answers[active_short_answer_index]['id'])"
+                class="mr_1">Submit Answer <mat-icon>subdirectory_arrow_right
+                </mat-icon></button>
+              <button mat-raised-button color="accent"
+                [disabled]="active_short_answer_index + 1 >= short_answers.length" (click)="nextQuestion()">
+                Next <mat-icon>navigate_next</mat-icon>
+              </button>
+            </div>
+
           </div>
         </div>
       </div>
