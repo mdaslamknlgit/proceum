@@ -207,6 +207,8 @@ const routes: Routes = [
       { path: 'manage-year-groups', component: ListGroupsComponent },
       //study-planner
       { path: 'study-planner', component: StudyPlannerComponent },
+      { path: 'study-planner/create', component: StudyPlannerComponent },
+      { path: 'study-planner/edit/:id', component: StudyPlannerComponent },
       { path: 'questions-mgt/lab-values', component: LabValuesComponent },
 
       //Added by Phanindra 06-09-2021
