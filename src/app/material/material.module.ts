@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NumbersonlyDirective } from '../shared/directives/numbersonly.directive';
 import { AlphabetOnlyDirective } from '../shared/directives/alphabet-only.directive';
+import { AlphaNumericOnlyDirective } from '../shared/directives/alpha-numeric-only.directive';
 import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -39,7 +40,7 @@ import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
-  declarations: [NumbersonlyDirective, AlphabetOnlyDirective],
+  declarations: [NumbersonlyDirective, AlphabetOnlyDirective, AlphaNumericOnlyDirective],
   imports: [
     CommonModule,
     MatInputModule,
@@ -81,6 +82,7 @@ import {MatChipsModule} from '@angular/material/chips';
     MatIconModule,
     NumbersonlyDirective,
     AlphabetOnlyDirective,
+    AlphaNumericOnlyDirective,
     FormsModule,
     MatToolbarModule,
     MatSidenavModule,

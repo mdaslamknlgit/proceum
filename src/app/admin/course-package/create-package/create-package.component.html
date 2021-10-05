@@ -210,11 +210,14 @@
                                             <div class="cpm_pg_hd d-flex ai_cntr">
                                                 <div>Courses</div>
                                                 <div class="spacer"></div>
-                                                <div>
+                                                <div *ngIf="course_count">
                                                     <button mat-raised-button color="accent" type="button"
                                                         (click)="edit_model_status = true">
                                                         <mat-icon>add</mat-icon> Add Courses
                                                     </button>
+                                                </div>
+                                                <div *ngIf="!course_count">
+                                                    <mat-icon>warning</mat-icon> To select the courses, Create first from course section
                                                 </div>
                                             </div>
                                             <div class="cpm_pg_cnt">
