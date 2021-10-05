@@ -61,8 +61,12 @@ export class StudyPlannerComponent implements OnInit {
     getStudyPlan(){
         let param = {url: "study-plan/edit/"+this.study_plan_id};
         this.http.get(param).subscribe(res=>{
-            this.courses = res['data']['list'];
-            this.all_courses = res['data']['list'];
+            let study_plan = res['data'];
+            this.study_plan.name = study_plan['study_plan']['plan_name'];
+            this.study_plan.duration = study_plan['study_plan']['duration_days'];
+            this.study_plan.course = study_plan['selected_courses'].map(Number);
+            this.study_plan.schdule = study_plan['schedule'];
+            this.selected_courses = study_plan['courses'];
         });
     }
     searchCourses(search){
@@ -117,7 +121,7 @@ export class StudyPlannerComponent implements OnInit {
             this.http.post(param).subscribe(res=>{
                 this.all_topics = res['data']['topics'];
                 this.topics = res['data']['topics'];
-                this.selected_topics = this.study_plan.schdule[this.selected_day_index]["selected_topics"][this.active_tab_index]["selected_topics"];
+                this.selected_topics = this.study_plan.schdule[this.selected_day_index]["selected_topics"][this.active_tab_index]["selected_topics"].map(Number);;
                 this.getSelectedTopics();
             });
         }
@@ -148,6 +152,10 @@ export class StudyPlannerComponent implements OnInit {
             });
             return count;
         }
+        if(this.study_plan_id>0){
+            //let count = 0;
+            //count = topics['mcqs_count']+topics['cases_count']+topics['short_answer_count']+topics['videos_count']
+        }
     }
     assignTest(){
         this.study_plan.schdule[this.selected_day_index]['is_test_day'] = true;
@@ -161,7 +169,7 @@ export class StudyPlannerComponent implements OnInit {
             console.log(res)
         });
         setTimeout(res=>{
-            let param = {url:"study-plan/store", study_plan_name: this.study_plan.name, course: this.study_plan.course, duration: this.study_plan.duration, schedule: this.study_plan.schdule, study_plan:this.study_plan, schedule_json: JSON.stringify(this.study_plan.schdule)};
+            let param = {url:"study-plan/store", study_plan_name: this.study_plan.name, course: this.study_plan.course, duration: this.study_plan.duration, schedule: this.study_plan.schdule};
             this.http.post(param).subscribe(res=>{
 
         })
