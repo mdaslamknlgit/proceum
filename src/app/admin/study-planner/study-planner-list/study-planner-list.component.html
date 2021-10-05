@@ -1,0 +1,52 @@
+<div class="mn_dshbrd">
+    <div class="brd_crm">
+        Proceum &raquo; <strong>Study Planner List</strong>
+    </div>
+    <div class="d-flex">
+        <div class="pg_ttl">Study Planner List</div>
+        <div class="spacer"></div>
+        <div>
+            <button mat-raised-button color="accent" type="button">
+              <mat-icon>add</mat-icon> Create Study Planner
+            </button>
+          </div>
+    </div>
+   
+    <hr />
+    <div class="dsh_brd_crds">
+        <div class="rsp_tbl">
+            <table mat-table [dataSource]="dataSource"> 
+                <ng-container matColumnDef="SNo">
+                    <th mat-header-cell *matHeaderCellDef>S.No</th>
+                    <td mat-cell *matCellDef="let element"> S.No </td>
+                </ng-container>
+                <ng-container matColumnDef="Topic">
+                    <th mat-header-cell *matHeaderCellDef> Topic </th>
+                    <td mat-cell *matCellDef="let element"> Topic </td>
+                </ng-container>
+                <ng-container matColumnDef="MCQ">
+                    <th mat-header-cell *matHeaderCellDef> MCQ’s </th>
+                    <td mat-cell *matCellDef="let element"> MCQ’s </td>
+                </ng-container>
+                <ng-container matColumnDef="Cases">
+                    <th mat-header-cell *matHeaderCellDef> Cases </th>
+                    <td mat-cell *matCellDef="let element"> Cases </td>
+                </ng-container>
+                <ng-container matColumnDef="Shortans">
+                    <th mat-header-cell *matHeaderCellDef> Short Answers </th>
+                    <td mat-cell *matCellDef="let element"> Short Answers </td>
+                </ng-container>
+                <ng-container matColumnDef="Videos">
+                    <th mat-header-cell *matHeaderCellDef> Videos </th>
+                    <td mat-cell *matCellDef="let element"> Videos </td>
+                </ng-container>
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element"> <mat-icon color="warn">remove_circle_outline</mat-icon> </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+    </div>
