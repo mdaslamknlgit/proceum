@@ -208,13 +208,10 @@ const routes: Routes = [
       { path: 'manage-year-groups', component: ListGroupsComponent },
       //study-planner
       { path: 'study-planner', component: StudyPlannerComponent },
-<<<<<<< HEAD
-      { path: 'study-planner-list', component: StudyPlannerListComponent },
-=======
       { path: 'study-planner/create', component: StudyPlannerComponent },
       { path: 'study-planner/edit/:id', component: StudyPlannerComponent },
->>>>>>> a3244e52ed10276dabe23a8aba3d1188876d991f
       { path: 'questions-mgt/lab-values', component: LabValuesComponent },
+      { path: 'study-planner-list', component: StudyPlannerListComponent },
 
       //Added by Phanindra 06-09-2021
       { path: 'poc-videos', component: PocVideosComponent },
