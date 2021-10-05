@@ -45,7 +45,7 @@
                               <button type="button" class="w_20p" mat-raised-button color="accent" (click)="getSelectedTopics()">Save</button>
                         </div>
                         
-                        <table mat-table [dataSource]="selected_topics_list[active_tab_index]" class="mat-elevation-z8">
+                        <table mat-table [dataSource]="selected_topics_list[active_tab_index]" >
                             <ng-container matColumnDef="SNo">
                                 <th mat-header-cell *matHeaderCellDef>S.No</th>
                                 <td mat-cell *matCellDef="let element">{{element['s_no']}} </td>
@@ -131,14 +131,14 @@
                 </div>
             </div>
             <div class="w_50p" *ngIf="study_plan.course.length>0">
-                <span>Duration <span class="required">*</span></span>
+                <span>Duration  <span class="required">*</span></span>
                 <div class="xl_srch err_tltp_par w_100p">
                     <mat-form-field appearance="outline" class="w_100p">
                         <mat-select placeholder="Duration" name="duration" #duration="ngModel" [(ngModel)]="study_plan.duration" (ngModelChange)="setDuration()" required>
-                            <mat-option value="15">15 Days</mat-option>
-                            <mat-option value="30">30 Days</mat-option>
-                            <mat-option value="60">60 Days</mat-option>
-                            <mat-option value="90">90 Days</mat-option>
+                            <mat-option [value]="15">15 Days</mat-option>
+                            <mat-option [value]="30">30 Days</mat-option>
+                            <mat-option [value]="60">60 Days</mat-option>
+                            <mat-option [value]="90">90 Days</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <span class="prc_tltp">Required</span>
