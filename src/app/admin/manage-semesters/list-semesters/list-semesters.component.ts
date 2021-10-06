@@ -9,11 +9,11 @@ import { environment } from 'src/environments/environment';
 import { ReplaySubject } from 'rxjs';
 
 @Component({
-  selector: 'app-list-years',
-  templateUrl: './list-years.component.html',
-  styleUrls: ['./list-years.component.scss']
+  selector: 'app-list-semesters',
+  templateUrl: './list-semesters.component.html',
+  styleUrls: ['./list-semesters.component.scss']
 })
-export class ListYearsComponent implements OnInit {
+export class ListSemestersComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'name',
@@ -356,4 +356,6 @@ export class ListYearsComponent implements OnInit {
     }
   }
 }
+
+
 
