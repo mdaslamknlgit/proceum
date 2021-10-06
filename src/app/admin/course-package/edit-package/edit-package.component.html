@@ -215,11 +215,14 @@
                                             </div>
                                             <div class="cpm_pg_cnt">
                                                 <div>Courses</div>
-                                                <div class="text_right w_100p mt_1">
+                                                <div  *ngIf="course_count"  class="text_right w_100p mt_1">
                                                     <button mat-raised-button color="accent" type="button"
                                                         (click)="edit_model_status = true">
                                                         <mat-icon>add</mat-icon> Add More
                                                     </button>
+                                                </div>
+                                                <div *ngIf="!course_count" class="text_right w_100p mt_1">
+                                                    <mat-icon>warning</mat-icon> To select the courses, Create first from course section
                                                 </div>
                                                 <div class="mt_grd_dv mt_1" *ngIf="courses_div">
                                                     <div *ngFor="let course of selected_courses;let i = index">

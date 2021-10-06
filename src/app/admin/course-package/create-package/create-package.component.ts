@@ -49,6 +49,7 @@ export class CreatePackageComponent implements OnInit {
   public today_date = new Date();
   public edit_model_status = false;
   public courses_arr = [];
+  public course_count = 1;
   public courses_div = false;
   public selected_courses = [];
   public selected_countires = [];
@@ -168,7 +169,7 @@ export class CreatePackageComponent implements OnInit {
         return node;
       }
     }).map(x => x[3]);
-    console.log(this.selected_courses);
+    //console.log(this.selected_courses);
     if(this.selected_courses){
       this.courses_div = true;
       this.edit_model_status = false;
@@ -325,12 +326,14 @@ export class CreatePackageComponent implements OnInit {
     let params = { url: 'get-curriculumn-hierarchy'};
     this.http.post(params).subscribe((res) => {      
       if (res['error'] == false) {
+        this.course_count = res['data'].length;
         this.dataSource.data = res['data'];
-        Object.keys(this.dataSource.data).forEach(x => {
-          this.setParent(this.dataSource.data[x], null);
+        this.dataSource.data.forEach(x => {
+          this.setParent(x, null);
         });
       } else {
-          this.toster.error(res['message'], 'Error', { closeButton: true });
+          this.course_count = 0;
+          //this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }

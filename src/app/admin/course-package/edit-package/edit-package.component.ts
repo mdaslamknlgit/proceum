@@ -46,6 +46,7 @@ export class EditPackageComponent implements OnInit {
   public billing_frequency = '';
   public today_date = new Date();
   public edit_model_status = false;
+  public course_count = 1;
   public courses_arr = [];
   public courses_div = false;
   public selected_courses = [];
@@ -326,15 +327,17 @@ export class EditPackageComponent implements OnInit {
     this.http.post(params).subscribe((res) => {      
       if (res['error'] == false) {
         this.dataSource.data = res['data'];
-        Object.keys(this.dataSource.data).forEach(x => {
-          this.setParent(this.dataSource.data[x], null);
+        this.course_count = res['data'].length;
+        this.dataSource.data.forEach(x => {
+          this.setParent(x, null);
         });
         //Call below function for selected items should show on div
         if(this.courses_ids_csv != ""){
           this.submitCourses();
         }
       } else {
-          this.toster.error(res['message'], 'Error', { closeButton: true });
+          this.course_count = 0;
+          //this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
