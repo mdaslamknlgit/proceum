@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -10,11 +9,11 @@ import { environment } from 'src/environments/environment';
 import { ReplaySubject } from 'rxjs';
 
 @Component({
-  selector: 'app-list-semesters',
-  templateUrl: './list-semesters.component.html',
-  styleUrls: ['./list-semesters.component.scss']
+  selector: 'app-list-years',
+  templateUrl: './list-years.component.html',
+  styleUrls: ['./list-years.component.scss']
 })
-export class ListSemestersComponent implements OnInit {
+export class ListYearsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'name',
@@ -29,18 +28,23 @@ export class ListSemestersComponent implements OnInit {
   public sort_by: any;
   public search_box = '';
   public page = 0;
-  public page_title = "Semester";
+  public page_title = "Year";
+  public slug = "year";
   popoverTitle = '';
   popoverMessage = '';
   public model_status = false;
   public edit_model_status = false;
+  public self_or_other = "other"
+  public show_radio = false;
   public organization_type = '';
   public name_of = '';
-  public partner_id = '';
+  public partner_id: any = null;
+  public parent_id: number = null;
   public organization = '';
   public year_id = '';
   public semester_id = '';
   public group_id = '';
+  public user_role = 3;
   universities = [];
   colleges = [];
   institutes = [];
@@ -63,11 +67,13 @@ export class ListSemestersComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    const user = JSON.parse(atob(localStorage.getItem('user')));
+    this.show_radio = (user.role == 1) ? true : false;
     this.getData();
   }
 
   public getData() {
-    let param = { url: 'get-year-semester-group-by-slug','slug':'semester' };
+    let param = { url: 'get-year-semester-group-by-slug','slug':'year','partner_id':''};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
@@ -77,6 +83,40 @@ export class ListSemestersComponent implements OnInit {
         //this.toster.error(res['message'], 'Error');
       }
     });
+  }
+
+  public getRow(id) {
+    let param = { url: 'get-year-semester-group-by-id','id':id};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        let item = res['data'];
+        this.year_id = item.pk_id;
+        this.partner_id = item.partner_id;
+        this.parent_id = item.parent_id;
+        this.slug = item.slug;
+        this.name_of = item.name;
+        this.organization = item.partner_id;
+        this.self_or_other = (item.partner_id == null) ? 'self' : 'other';
+        this.show_radio = (item.partner_id == null) ? false : true;
+        this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
+        this.onOrganizationTypeChange();
+
+        //Finally open the model
+        this.model_status = true;
+        
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  public onAddingForChange(){
+    this.year_id = null;
+    this.partner_id = null;
+    this.parent_id = null;
+    this.name_of = '';
+    this.organization = '';
+    this.organization_type = '';
   }
 
   public doFilter() {
@@ -115,7 +155,7 @@ export class ListSemestersComponent implements OnInit {
 
   public changeStatus(package_id, status){
     let param = {
-      url: 'package-status',
+      url: 'year-semester-group-status',
       id: package_id,
       status: status,
     };
@@ -134,7 +174,7 @@ export class ListSemestersComponent implements OnInit {
 
   deleteRecord(id){
     let param = {
-      url: 'delete-package',
+      url: 'delete-year-semester-group',
       id: id,
     };
     this.http.post(param).subscribe((res) => {  
@@ -162,15 +202,19 @@ export class ListSemestersComponent implements OnInit {
   }
 
   toggleModel() {
-    this.model_status = !this.model_status;
-    (<HTMLFormElement>document.getElementById('discount_form')).reset();
+    this.show_radio = true;
+    this.self_or_other = 'other';
+    this.model_status = true;
+    // (<HTMLFormElement>document.getElementById('create_form')).reset();
+    // this.self_or_other = "other";
     //(<HTMLFormElement>document.getElementById('edit_discount_form')).reset();
   }
-  
+
+
   onOrganizationTypeChange(){
-    this.year_id = '';
-    this.semester_id = '';
-    this.group_id = '';
+    // this.year_id = '';
+    // this.semester_id = '';
+    // this.group_id = '';
     if(this.organization_type == '1'){ //University
       this.getUniversities();
     }else if(this.organization_type == '2'){ //College
@@ -285,6 +329,31 @@ export class ListSemestersComponent implements OnInit {
     });
   }
 
-  createNew(){}
+  createNew(){
+    let error = false;
+    if(this.name_of == ''){
+      error = true;
+    }
+    if(!error){
+    let param = { 
+      url: 'create-year-semester-group',
+      name: this.name_of, 
+      partner_id : this.organization, 
+      parent_id : this.parent_id, 
+      slug : 'year', 
+      id : this.year_id,
+      status : '1',
+     };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success');
+        this.getData();
+        this.model_status = false;
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+    }
+  }
 }
 

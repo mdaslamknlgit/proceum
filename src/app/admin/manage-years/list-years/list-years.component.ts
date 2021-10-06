@@ -29,14 +29,17 @@ export class ListYearsComponent implements OnInit {
   public search_box = '';
   public page = 0;
   public page_title = "Year";
+  public slug = "year";
   popoverTitle = '';
   popoverMessage = '';
   public model_status = false;
   public edit_model_status = false;
   public self_or_other = "other"
+  public show_radio = false;
   public organization_type = '';
   public name_of = '';
-  public partner_id = '';
+  public partner_id: any = null;
+  public parent_id: number = null;
   public organization = '';
   public year_id = '';
   public semester_id = '';
@@ -65,7 +68,7 @@ export class ListYearsComponent implements OnInit {
 
   ngOnInit(): void {
     const user = JSON.parse(atob(localStorage.getItem('user')));
-    this.user_role = user.role;
+    this.show_radio = (user.role == 1) ? true : false;
     this.getData();
   }
 
@@ -80,6 +83,40 @@ export class ListYearsComponent implements OnInit {
         //this.toster.error(res['message'], 'Error');
       }
     });
+  }
+
+  public getRow(id) {
+    let param = { url: 'get-year-semester-group-by-id','id':id};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        let item = res['data'];
+        this.year_id = item.pk_id;
+        this.partner_id = item.partner_id;
+        this.parent_id = item.parent_id;
+        this.slug = item.slug;
+        this.name_of = item.name;
+        this.organization = item.partner_id;
+        this.self_or_other = (item.partner_id == null) ? 'self' : 'other';
+        this.show_radio = (item.partner_id == null) ? false : true;
+        this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
+        this.onOrganizationTypeChange();
+
+        //Finally open the model
+        this.model_status = true;
+        
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  public onAddingForChange(){
+    this.year_id = null;
+    this.partner_id = null;
+    this.parent_id = null;
+    this.name_of = '';
+    this.organization = '';
+    this.organization_type = '';
   }
 
   public doFilter() {
@@ -118,7 +155,7 @@ export class ListYearsComponent implements OnInit {
 
   public changeStatus(package_id, status){
     let param = {
-      url: 'package-status',
+      url: 'year-semester-group-status',
       id: package_id,
       status: status,
     };
@@ -137,7 +174,7 @@ export class ListYearsComponent implements OnInit {
 
   deleteRecord(id){
     let param = {
-      url: 'delete-package',
+      url: 'delete-year-semester-group',
       id: id,
     };
     this.http.post(param).subscribe((res) => {  
@@ -165,7 +202,9 @@ export class ListYearsComponent implements OnInit {
   }
 
   toggleModel() {
-    this.model_status = !this.model_status;
+    this.show_radio = true;
+    this.self_or_other = 'other';
+    this.model_status = true;
     // (<HTMLFormElement>document.getElementById('create_form')).reset();
     // this.self_or_other = "other";
     //(<HTMLFormElement>document.getElementById('edit_discount_form')).reset();
@@ -173,9 +212,9 @@ export class ListYearsComponent implements OnInit {
 
 
   onOrganizationTypeChange(){
-    this.year_id = '';
-    this.semester_id = '';
-    this.group_id = '';
+    // this.year_id = '';
+    // this.semester_id = '';
+    // this.group_id = '';
     if(this.organization_type == '1'){ //University
       this.getUniversities();
     }else if(this.organization_type == '2'){ //College
@@ -296,9 +335,20 @@ export class ListYearsComponent implements OnInit {
       error = true;
     }
     if(!error){
-    let param = { url: 'create-year-semester-group',name: this.name_of, partner_id : this.organization, slug : 'year', status : '1' };
+    let param = { 
+      url: 'create-year-semester-group',
+      name: this.name_of, 
+      partner_id : this.organization, 
+      parent_id : this.parent_id, 
+      slug : 'year', 
+      id : this.year_id,
+      status : '1',
+     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success');
+        this.getData();
+        this.model_status = false;
       } else {
         this.toster.error(res['message'], 'Error');
       }
