@@ -68,10 +68,8 @@ import { PartnersListComponent } from './partner-management/partners-list/partne
 import { ManageUsersComponent } from './user-management/manage-users/manage-users.component';
 import { CreateUserComponent } from './user-management/create-user/create-user.component';
 import { PackageTestimonialsComponent } from './course-package/package-testimonials/package-testimonials.component';
-import { CreateYearComponent } from './manage-years/create-year/create-year.component';
 import { ListYearsComponent } from './manage-years/list-years/list-years.component';
 import { ListSemestersComponent } from './manage-semesters/list-semesters/list-semesters.component';
-import { CreateSemesterComponent } from './manage-semesters/create-semester/create-semester.component';
 import { ListGroupsComponent } from './manage-year-groups/list-groups/list-groups.component';
 import { CreateGroupComponent } from './manage-year-groups/create-group/create-group.component';
 import { StudyPlannerComponent } from './study-planner/study-planner.component';
@@ -195,12 +193,8 @@ const routes: Routes = [
       { path: 'manage-packages-testimonial', component: PackageTestimonialsComponent },
 
       //Years routes
-      { path: 'create-year', component: CreateYearComponent },
-      { path: 'edit-year/:id', component: CreateYearComponent },
       { path: 'manage-years', component:  ListYearsComponent},
       //Semester routes
-      { path: 'create-user', component: CreateSemesterComponent },
-      { path: 'edit-user/:id', component: CreateSemesterComponent },
       { path: 'manage-semesters', component: ListSemestersComponent },
       //Year Groups routes
       { path: 'create-year-group', component: CreateGroupComponent },
@@ -264,10 +258,8 @@ const routes: Routes = [
     ManageUsersComponent,
     CreateUserComponent,
     PackageTestimonialsComponent,
-    CreateYearComponent,
     ListYearsComponent,
     ListSemestersComponent,
-    CreateSemesterComponent,
     ListGroupsComponent,
     CreateGroupComponent,
     StudyPlannerComponent,
