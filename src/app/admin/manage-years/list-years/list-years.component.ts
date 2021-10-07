@@ -120,7 +120,7 @@ export class ListYearsComponent implements OnInit {
   }
 
   public doFilter() {
-    let param = { url: 'get-packages', search: this.search_box };
+    let param = { url: 'get-year-semester-group-by-slug', search: this.search_box, slug: this.slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
@@ -134,11 +134,12 @@ export class ListYearsComponent implements OnInit {
   public getServerData(event?: PageEvent) {
     this.page = event.pageSize * event.pageIndex;
     let param = {
-      url: 'get-packages',
+      url: 'get-year-semester-group-by-slug',
       offset: this.page,
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
+      slug: this.slug,
     };
     this.http.post(param).subscribe((res) => {
       //console.log(res['data']);

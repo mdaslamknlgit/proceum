@@ -17,6 +17,7 @@ export class ListSemestersComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'name',
+    'year_name',
     'organization_name',
     'partner_type',
     'actions',
@@ -28,8 +29,8 @@ export class ListSemestersComponent implements OnInit {
   public sort_by: any;
   public search_box = '';
   public page = 0;
-  public page_title = "Year";
-  public slug = "year";
+  public page_title = "Semester";
+  public slug = "semester";
   popoverTitle = '';
   popoverMessage = '';
   public model_status = false;
@@ -73,7 +74,7 @@ export class ListSemestersComponent implements OnInit {
   }
 
   public getData() {
-    let param = { url: 'get-year-semester-group-by-slug','slug':'year','partner_id':''};
+    let param = { url: 'get-year-semester-group-by-slug','slug':this.slug,'partner_id':''};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
@@ -90,17 +91,28 @@ export class ListSemestersComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let item = res['data'];
-        this.year_id = item.pk_id;
+        this.semester_id = item.pk_id;
         this.partner_id = item.partner_id;
         this.parent_id = item.parent_id;
+        this.year_id = item.parent_id;
         this.slug = item.slug;
         this.name_of = item.name;
         this.organization = item.partner_id;
         this.self_or_other = (item.partner_id == null) ? 'self' : 'other';
         this.show_radio = (item.partner_id == null) ? false : true;
         this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
-        this.onOrganizationTypeChange();
+        if(this.organization_type != ''){
+          //Get partners for dropdown
+          this.onOrganizationTypeChange();
+          //After partners dropdown get years dropdown options accordingly
+          this.getYears(this.partner_id,null);
+        }else{
+          //get PO - Years
+          this.getYears(null,null);
+        }
+        
 
+        
         //Finally open the model
         this.model_status = true;
         
@@ -111,16 +123,23 @@ export class ListSemestersComponent implements OnInit {
   }
 
   public onAddingForChange(){
+    if(this.self_or_other == 'self'){
+      this.getYears(null,null);
+    }else{
+      this.years = [];
+      this.all_years.next(this.years.slice());
+    }
     this.year_id = null;
     this.partner_id = null;
     this.parent_id = null;
     this.name_of = '';
     this.organization = '';
     this.organization_type = '';
+    
   }
 
   public doFilter() {
-    let param = { url: 'get-packages', search: this.search_box };
+    let param = { url: 'get-year-semester-group-by-slug', search: this.search_box, slug: this.slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
@@ -134,11 +153,12 @@ export class ListSemestersComponent implements OnInit {
   public getServerData(event?: PageEvent) {
     this.page = event.pageSize * event.pageIndex;
     let param = {
-      url: 'get-packages',
+      url: 'get-year-semester-group-by-slug',
       offset: this.page,
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
+      slug: this.slug,
     };
     this.http.post(param).subscribe((res) => {
       //console.log(res['data']);
@@ -314,12 +334,13 @@ export class ListSemestersComponent implements OnInit {
     );
   }
 
-  getYears(partner,parent_id){
-    this.partner_id = partner;
-    let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : 'year' };
+  getYears(partner_id,parent_id){
+    this.partner_id = partner_id;
+    let param = { url: 'get-year-semester-group',partner_id : partner_id, parent_id : parent_id, slug : 'year' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.years = res['data'];
+        console.log(this.years);
         if(this.years != undefined){
           this.all_years.next(this.years.slice()); 
         }
@@ -327,6 +348,20 @@ export class ListSemestersComponent implements OnInit {
         //this.toster.error(res['message'], 'Error');
       }
     });
+  }
+  filterYear(event) {
+    let search = event;
+    if (!search) {
+      this.all_years.next(this.years.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_years.next(
+      this.years.filter(
+        (year) => year.name.toLowerCase().indexOf(search) > -1
+      )
+    );
   }
 
   createNew(){
@@ -339,9 +374,9 @@ export class ListSemestersComponent implements OnInit {
       url: 'create-year-semester-group',
       name: this.name_of, 
       partner_id : this.organization, 
-      parent_id : this.parent_id, 
-      slug : 'year', 
-      id : this.year_id,
+      parent_id : this.year_id, 
+      slug : this.slug, 
+      id : this.semester_id,
       status : '1',
      };
     this.http.post(param).subscribe((res) => {
