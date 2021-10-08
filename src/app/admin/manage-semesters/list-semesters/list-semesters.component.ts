@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -18,6 +17,7 @@ export class ListSemestersComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'name',
+    'year_name',
     'organization_name',
     'partner_type',
     'actions',
@@ -30,17 +30,22 @@ export class ListSemestersComponent implements OnInit {
   public search_box = '';
   public page = 0;
   public page_title = "Semester";
+  public slug = "semester";
   popoverTitle = '';
   popoverMessage = '';
   public model_status = false;
   public edit_model_status = false;
+  public self_or_other = "other"
+  public show_radio = false;
   public organization_type = '';
   public name_of = '';
-  public partner_id = '';
+  public partner_id: any = null;
+  public parent_id: number = null;
   public organization = '';
   public year_id = '';
   public semester_id = '';
   public group_id = '';
+  public user_role = 3;
   universities = [];
   colleges = [];
   institutes = [];
@@ -63,11 +68,13 @@ export class ListSemestersComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    const user = JSON.parse(atob(localStorage.getItem('user')));
+    this.show_radio = (user.role == 1) ? true : false;
     this.getData();
   }
 
   public getData() {
-    let param = { url: 'get-year-semester-group-by-slug','slug':'semester' };
+    let param = { url: 'get-year-semester-group-by-slug','slug':this.slug,'partner_id':''};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
@@ -79,8 +86,60 @@ export class ListSemestersComponent implements OnInit {
     });
   }
 
+  public getRow(id) {
+    let param = { url: 'get-year-semester-group-by-id','id':id};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        let item = res['data'];
+        this.semester_id = item.pk_id;
+        this.partner_id = item.partner_id;
+        this.parent_id = item.parent_id;
+        this.year_id = item.parent_id;
+        this.slug = item.slug;
+        this.name_of = item.name;
+        this.organization = item.partner_id;
+        this.self_or_other = (item.partner_id == null) ? 'self' : 'other';
+        this.show_radio = (item.partner_id == null) ? false : true;
+        this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
+        if(this.organization_type != ''){
+          //Get partners for dropdown
+          this.onOrganizationTypeChange();
+          //After partners dropdown get years dropdown options accordingly
+          this.getYears(this.partner_id,null);
+        }else{
+          //get PO - Years
+          this.getYears(null,null);
+        }
+        
+
+        
+        //Finally open the model
+        this.model_status = true;
+        
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  public onAddingForChange(){
+    if(this.self_or_other == 'self'){
+      this.getYears(null,null);
+    }else{
+      this.years = [];
+      this.all_years.next(this.years.slice());
+    }
+    this.year_id = null;
+    this.partner_id = null;
+    this.parent_id = null;
+    this.name_of = '';
+    this.organization = '';
+    this.organization_type = '';
+    
+  }
+
   public doFilter() {
-    let param = { url: 'get-packages', search: this.search_box };
+    let param = { url: 'get-year-semester-group-by-slug', search: this.search_box, slug: this.slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
@@ -94,11 +153,12 @@ export class ListSemestersComponent implements OnInit {
   public getServerData(event?: PageEvent) {
     this.page = event.pageSize * event.pageIndex;
     let param = {
-      url: 'get-packages',
+      url: 'get-year-semester-group-by-slug',
       offset: this.page,
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
+      slug: this.slug,
     };
     this.http.post(param).subscribe((res) => {
       //console.log(res['data']);
@@ -115,7 +175,7 @@ export class ListSemestersComponent implements OnInit {
 
   public changeStatus(package_id, status){
     let param = {
-      url: 'package-status',
+      url: 'year-semester-group-status',
       id: package_id,
       status: status,
     };
@@ -134,7 +194,7 @@ export class ListSemestersComponent implements OnInit {
 
   deleteRecord(id){
     let param = {
-      url: 'delete-package',
+      url: 'delete-year-semester-group',
       id: id,
     };
     this.http.post(param).subscribe((res) => {  
@@ -162,15 +222,19 @@ export class ListSemestersComponent implements OnInit {
   }
 
   toggleModel() {
-    this.model_status = !this.model_status;
-    (<HTMLFormElement>document.getElementById('discount_form')).reset();
+    this.show_radio = true;
+    this.self_or_other = 'other';
+    this.model_status = true;
+    // (<HTMLFormElement>document.getElementById('create_form')).reset();
+    // this.self_or_other = "other";
     //(<HTMLFormElement>document.getElementById('edit_discount_form')).reset();
   }
-  
+
+
   onOrganizationTypeChange(){
-    this.year_id = '';
-    this.semester_id = '';
-    this.group_id = '';
+    // this.year_id = '';
+    // this.semester_id = '';
+    // this.group_id = '';
     if(this.organization_type == '1'){ //University
       this.getUniversities();
     }else if(this.organization_type == '2'){ //College
@@ -270,12 +334,13 @@ export class ListSemestersComponent implements OnInit {
     );
   }
 
-  getYears(partner,parent_id){
-    this.partner_id = partner;
-    let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : 'year' };
+  getYears(partner_id,parent_id){
+    this.partner_id = partner_id;
+    let param = { url: 'get-year-semester-group',partner_id : partner_id, parent_id : parent_id, slug : 'year' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.years = res['data'];
+        console.log(this.years);
         if(this.years != undefined){
           this.all_years.next(this.years.slice()); 
         }
@@ -284,7 +349,48 @@ export class ListSemestersComponent implements OnInit {
       }
     });
   }
+  filterYear(event) {
+    let search = event;
+    if (!search) {
+      this.all_years.next(this.years.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_years.next(
+      this.years.filter(
+        (year) => year.name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
 
-  createNew(){}
+  createNew(){
+    let error = false;
+    if(this.name_of == ''){
+      error = true;
+    }
+    if(!error){
+    let param = { 
+      url: 'create-year-semester-group',
+      name: this.name_of, 
+      partner_id : this.organization, 
+      parent_id : this.year_id, 
+      slug : this.slug, 
+      id : this.semester_id,
+      status : '1',
+     };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success');
+        this.getData();
+        this.model_status = false;
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+    }
+  }
 }
+
+
 
