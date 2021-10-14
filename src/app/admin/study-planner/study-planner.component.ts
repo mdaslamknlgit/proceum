@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -61,12 +61,18 @@ export class StudyPlannerComponent implements OnInit {
     getStudyPlan(){
         let param = {url: "study-plan/edit/"+this.study_plan_id};
         this.http.get(param).subscribe(res=>{
-            let study_plan = res['data'];
-            this.study_plan.name = study_plan['study_plan']['plan_name'];
-            this.study_plan.duration = study_plan['study_plan']['duration_days'];
-            this.study_plan.course = study_plan['selected_courses'].map(Number);
-            this.study_plan.schdule = study_plan['schedule'];
-            this.selected_courses = study_plan['courses'];
+            if(res['error'] == false){
+                let study_plan = res['data'];
+                this.study_plan.name = study_plan['study_plan']['plan_name'];
+                this.study_plan.duration = study_plan['study_plan']['duration_days'];
+                this.study_plan.course = study_plan['selected_courses'].map(Number);
+                this.study_plan.schdule = study_plan['schedule'];
+                this.selected_courses = study_plan['courses'];
+            }
+            else{
+                this.toster.error("Study Plan not found", "Error", {closeButton:true});
+                this.router.navigateByUrl("admin/study-planner");
+            }
         });
     }
     searchCourses(search){
@@ -78,9 +84,13 @@ export class StudyPlannerComponent implements OnInit {
             let param = {url: "get-courses-by-ids", ids: this.study_plan.course};
             this.http.post(param).subscribe(res=>{
                 this.selected_courses = res['data']['courses'];
+                this.study_plan.schdule = [];
                 for(let i=0; i<= (this.study_plan.duration-1); i++){
                     let day = {pk_id:0, day:i+1, is_test_day:false, selected_courses: this.selected_courses, selected_topics:[], selected_topics_list:[]};
                     this.study_plan.schdule[i] = day;
+                }
+                if(this.study_plan.schdule.length>this.study_plan.duration){
+
                 }
             });
         }
@@ -133,15 +143,27 @@ export class StudyPlannerComponent implements OnInit {
     getSelectedTopics(){
         if(this.selected_topics.length > 0)
         {
-            let param = {url: "study-plan/get-selected-topics", topics: this.selected_topics, curriculum_id: this.selected_courses[this.active_tab_index]['pk_id']};
-            this.http.post(param).subscribe(res=>{
-                this.study_plan.schdule[this.selected_day_index]["selected_topics"][this.active_tab_index]["selected_topics"] = this.selected_topics;
-                //this.study_plan.schdule[this.selected_day_index]["selected_topics_list"][this.active_tab_index]["selected_topics_list"] = res['data']['selected_topics'];
-                this.study_plan.schdule[this.selected_day_index]["selected_topics_list"].splice([this.active_tab_index], 1);
-                this.study_plan.schdule[this.selected_day_index]["selected_topics_list"].splice([this.active_tab_index], 0, {selected_topics_list:res['data']['selected_topics']});
-                this.study_plan.schdule[this.selected_day_index]['is_test_day'] = false;
-                this.selected_topics_list[this.active_tab_index] = new MatTableDataSource(res['data']['selected_topics']);
-            });   
+            this.getTopicsList();
+        }
+    }
+    getTopicsList(){
+        let param = {url: "study-plan/get-selected-topics", topics: this.selected_topics, curriculum_id: this.selected_courses[this.active_tab_index]['pk_id']};
+        this.http.post(param).subscribe(res=>{
+            this.study_plan.schdule[this.selected_day_index]["selected_topics"][this.active_tab_index]["selected_topics"] = this.selected_topics;
+            this.study_plan.schdule[this.selected_day_index]["selected_topics_list"].splice([this.active_tab_index], 1);
+            this.study_plan.schdule[this.selected_day_index]["selected_topics_list"].splice([this.active_tab_index], 0, {selected_topics_list:res['data']['selected_topics']});
+            this.study_plan.schdule[this.selected_day_index]['is_test_day'] = false;
+            this.selected_topics_list[this.active_tab_index] = new MatTableDataSource(res['data']['selected_topics']);
+        });
+    }
+    removeTopic(topic_id, selected_topics_input){
+        let selected_topics = this.selected_topics;
+        let index = selected_topics.indexOf(topic_id);
+        if(index >= 0){
+            selected_topics.splice(index, 1);
+            this.selected_topics = selected_topics;
+            selected_topics_input.writeValue(selected_topics); 
+            this.getTopicsList();
         }
     }
     getTasksCount(topics){
@@ -152,10 +174,6 @@ export class StudyPlannerComponent implements OnInit {
             });
             return count;
         }
-        if(this.study_plan_id>0){
-            //let count = 0;
-            //count = topics['mcqs_count']+topics['cases_count']+topics['short_answer_count']+topics['videos_count']
-        }
     }
     assignTest(){
         this.study_plan.schdule[this.selected_day_index]['is_test_day'] = true;
@@ -163,17 +181,16 @@ export class StudyPlannerComponent implements OnInit {
         this.hideTaskTestModal();
     }
     store(){
-        let schedule = this.study_plan.schdule;
-        console.log(schedule);
-        schedule.forEach(res=>{
-            console.log(res)
-        });
-        setTimeout(res=>{
-            let param = {url:"study-plan/store", study_plan_name: this.study_plan.name, course: this.study_plan.course, duration: this.study_plan.duration, schedule: this.study_plan.schdule};
-            this.http.post(param).subscribe(res=>{
-
+        let param = {url:"study-plan/store", study_plan_id: this.study_plan_id, study_plan_name: this.study_plan.name, course: this.study_plan.course, duration: this.study_plan.duration, schedule: this.study_plan.schdule};
+        this.http.post(param).subscribe(res=>{
+            if(res['error']==false){
+                this.toster.success(res['message'], "Success", {closeButton:true});
+                this.router.navigateByUrl("/admin/study-planner");
+            }
+            else{
+                this.toster.error(res['message'], "Error", {closeButton:true});
+            }
         })
-        },1000)
         
     }
 }
