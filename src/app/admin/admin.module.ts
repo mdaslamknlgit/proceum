@@ -77,6 +77,7 @@ import { LabValuesComponent } from './question-management/lab-values/lab-values.
 import { PocVideosComponent } from './poc-videos/poc-videos.component';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { StudyPlannerListComponent } from './study-planner/study-planner-list/study-planner-list.component';
+import { ManageYearsSemestersGroupsComponent } from './manage-years-semesters-groups/manage-years-semesters-groups.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -193,6 +194,7 @@ const routes: Routes = [
       { path: 'manage-packages-testimonial', component: PackageTestimonialsComponent },
 
       //Years routes
+      { path: 'manage-year-semester-group', component:  ManageYearsSemestersGroupsComponent},
       { path: 'manage-years', component:  ListYearsComponent},
       //Semester routes
       { path: 'manage-semesters', component: ListSemestersComponent },
@@ -266,6 +268,7 @@ const routes: Routes = [
     LabValuesComponent,
     PocVideosComponent,
     StudyPlannerListComponent,
+    ManageYearsSemestersGroupsComponent,
   ],
   imports: [
     MaterialModule,

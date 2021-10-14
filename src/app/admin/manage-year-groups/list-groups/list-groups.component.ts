@@ -90,7 +90,7 @@ export class ListGroupsComponent implements OnInit {
   }
 
   public getRow(id) {
-    let param = { url: 'get-year-semester-group-by-id','id':id};
+    let param = { url: 'get-year-semester-group-by-id','id':id, 'slug': this.slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let item = res['data'];
@@ -105,14 +105,22 @@ export class ListGroupsComponent implements OnInit {
         this.self_or_other = (item.partner_id == null) ? 'self' : 'other';
         this.show_radio = (item.partner_id == null) ? false : true;
         this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
-        if(this.organization_type != ''){
+        if(this.organization_type != '' && this.organization_type != null){
           //Get partners for dropdown
           this.onOrganizationTypeChange();
           //After partners dropdown get years dropdown options accordingly
           this.getYears(this.partner_id,null);
+          //get Semesters dropdown if slug is group
+          if(this.slug == 'group'){
+            this.getSemesters(this.partner_id,this.year_id);
+          }
         }else{
-          //get PO - Years
+          //get PO(Product owner) - Years
           this.getYears(null,null);
+          //get PO(Product owner) - Semesters if slug is group
+          if(this.slug == 'group'){
+            this.getSemesters(null,this.year_id);
+          }
         }
         
 

@@ -625,8 +625,8 @@ export class CreateUserComponent implements OnInit {
     this.http.post(params).subscribe((res) => {      
       if (res['error'] == false) {
         this.dataSource.data = res['data'];
-        Object.keys(this.dataSource.data).forEach(x => {
-          this.setParent(this.dataSource.data[x], null);
+        this.dataSource.data.forEach(x => {
+          this.setParent(x, null);
         });
         //Call below function for selected items should show on div
         if(this.subject_csv != ""){
