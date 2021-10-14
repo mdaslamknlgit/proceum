@@ -37,6 +37,10 @@ export class StudyPlannerComponent implements OnInit {
     public active_tab_index = 0;
     public study_plan_id = 0;
     public pgae_title = 'Create Study Planner';
+    public curriculum_labels = [];
+    public level_options = [];
+    public all_level_options = [];
+    public selected_level = [];
     constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((param) => {
@@ -116,6 +120,56 @@ export class StudyPlannerComponent implements OnInit {
         this.hideTaskTestModal();
         this.task_asign_modal = false;
     }
+    getLabels(){
+        this.level_options = [];
+        this.all_level_options = [];
+        this.selected_level = [];
+        let param = {
+            url: 'get-curriculum-labels',
+            curriculum_id: this.study_plan.schdule[this.selected_day_index]['selected_courses'][this.active_tab_index]['pk_id'],
+        };
+        this.http.post(param).subscribe((res) => {
+            if (res['error'] == false) {
+                let data = res['data'];
+                this.level_options[1] = data['level_1'];
+                this.all_level_options[1] = data['level_1'];
+                this.curriculum_labels = data['curriculum_labels'];
+                if(this.curriculum_labels.length == 0){
+                    this.level_options = [];
+                    this.all_level_options = [];
+                    this.selected_level = [];
+                }
+            }
+        });
+    }
+    ucFirst(string) {
+        return this.http.ucFirst(string);
+    }
+    getLevels(level_id) {
+        let param = {
+        url: 'get-levels-by-level',
+        step_id: this.selected_level[level_id],
+        };
+        this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+            let data = res['data'];
+            this.level_options[level_id + 1] = data['steps'];
+            this.all_level_options[level_id + 1] = data['steps'];
+            this.level_options.forEach((opt, index) => {
+            if (index > level_id + 1) this.level_options[index] = [];
+            });
+            this.selected_level.forEach((opt, index) => {
+                if (index > level_id) this.selected_level[index] = 0;
+            });
+        }
+        });
+    }
+    searchLevelByName(search,level){
+        let options = this.all_level_options[level];
+        this.level_options[level] = options.filter(
+            item => item.level_name.toLowerCase().includes(search.toLowerCase())
+        );
+    }
     getActiveTabContent(tab){
         if(this.task_asign_modal==true || true){
             this.active_tab_index = tab?tab.index:0;
@@ -133,6 +187,7 @@ export class StudyPlannerComponent implements OnInit {
                 this.topics = res['data']['topics'];
                 this.selected_topics = this.study_plan.schdule[this.selected_day_index]["selected_topics"][this.active_tab_index]["selected_topics"].map(Number);;
                 this.getSelectedTopics();
+                this.getLabels();
             });
         }
     }
@@ -143,7 +198,7 @@ export class StudyPlannerComponent implements OnInit {
     getSelectedTopics(){
         if(this.selected_topics.length > 0)
         {
-            this.getTopicsList();
+               this.getTopicsList();
         }
     }
     getTopicsList(){

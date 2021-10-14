@@ -1,5 +1,5 @@
 <div class="mn_dshbrd">
-    <div class="cust_mdl_par cust_mdl_cls">
+    <div class="cust_mdl_par {{show_details_modal?'cust_mdl_opn':'cust_mdl_cls'}}">
         <div class="cust_mdl_chl w_50p"> 
             <div class="tbbd_bdy dsh_brd_crds p_0">
                 <div class="days_mn pp_dysmn">
@@ -9,7 +9,7 @@
                             <div class="dys_cnt">365</div>
                             <div class="spacer"></div>
                             <div>
-                                <button mat-icon-button class="float_right">
+                                <button (click)="hideDetails()" mat-icon-button class="float_right">
                                     &#x2715;
                                 </button>
                             </div>
@@ -81,24 +81,15 @@
                 </div>
                 <div class="sp_bdy">
                     <ul class="">
-                        <li>
-                            <mat-icon>check</mat-icon>Anatomy
-                        </li>
-                        <li>
-                            <mat-icon>check</mat-icon>Pathology
-                        </li>
-                        <li>
-                            <mat-icon>check</mat-icon>Physiology
-                        </li>
-                        <li>
-                            <mat-icon>check</mat-icon>Bio Chemistry
+                        <li *ngFor="let plan of plans_list" (click)="getStudyPlan(plan['id'])">
+                            <mat-icon *ngIf="study_plan_id==plan['id']">check</mat-icon>{{plan['plan_name']}}
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="sp_cnt_rt">
                 <div class="sp_sbhd">
-                    Course Name - USMLE
+                    Study Plan Name - {{study_plan['name']}}
                 </div>
                 <!-- <div class="sp_bdy">
                     <div class="sp_sd d-flex ai_cntr fw_w">
@@ -124,8 +115,8 @@
                     </div>
                 </div> -->
                 <!-- <div class="hgt_10"></div> -->
-                <div class="days_mn">
-                    <div class="dys_dv">
+                <!-- <div class="days_mn">
+                    <div class="dys_dv" (click)="showDetails()">
                         <div class="dys_hd">
                             <div class="dys_hd_txt">Day</div>
                             <div class="dys_cnt">365</div>
@@ -253,6 +244,37 @@
                             </div>
                         </div>
                     </div>
+                </div> -->
+                <div class="days_mn" *ngIf="study_plan.schdule.length>0">
+                    <div class="dys_dv" *ngFor="let day of study_plan.schdule;let index=index;" (click)="showDetails()">
+                        <div class="dys_hd">
+                            <div class="dys_hd_txt">Day</div>
+                            <div class="dys_cnt">{{day['day']}}</div>
+                        </div>
+                        <div>
+                            <div class="slct_crs d-none">Select Course</div>
+                            <div  *ngFor="let course of day['selected_courses'];let course_index = index;">
+                                <div class="dys_tsks_dv" *ngIf="day['is_test_day'] == false">
+                                    <div class="tsk_hd">{{course['curriculumn_name']}}</div>
+                                    <div class="tsk_dv">
+                                        <div>Tasks</div>
+                                        <div class="spacer"></div>
+                                        <div class="tsk_cnt" *ngIf="study_plan.schdule[index] != undefined && study_plan.schdule[index]['selected_topics_list'] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length>0">
+                                            <span >{{getTasksCount(study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'])}}</span></div>
+                                        <div class="tsk_cnt" *ngIf="study_plan.schdule[index] == undefined || study_plan.schdule[index]['selected_topics_list'].length==0 || study_plan.schdule[index]['selected_topics_list'][course_index]==undefined || study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length == 0">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dys_dv tst_dy" *ngIf="day['is_test_day'] == true">
+                            
+                            <div>
+                                <div class="slct_crs">Test</div>
+            
+                            </div>
+                        </div>
+                    </div>
+        
                 </div>
             </div>
         </div>

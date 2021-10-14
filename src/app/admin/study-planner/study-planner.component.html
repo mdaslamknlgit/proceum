@@ -33,7 +33,26 @@
                 <mat-tab-group (selectedTabChange)="getActiveTabContent($event)">
                     <mat-tab *ngFor="let course of study_plan.schdule[selected_day_index]['selected_courses']; let index = index" [label]="course['curriculumn_name']">
                         <div class="hgt_20"></div>
-                        <div class="xl_srch w_100p">
+                        <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                            <span>{{ ucFirst(value["display_label"]) }}</span>
+                            <div class="clear_fix"></div>
+                            <mat-form-field appearance="outline">
+                              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                                [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                                <mat-option>
+                                  <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                    name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                    {{ucFirst(value['display_label'])}}
+                                  </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                                  [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <button type="button" class="w_20p" mat-raised-button color="accent" (click)="getSelectedTopics()">Add</button>
+                        <div class="xl_srch w_100p" *ngIf="false">
                             <mat-form-field appearance="outline" class="w_80p">
                                 <mat-select placeholder="Select Topics" #selected_topics_input multiple name="topic" [(ngModel)]='selected_topics'>
                                   <mat-option>
@@ -42,7 +61,6 @@
                                   <mat-option *ngFor="let topic of topics" [value]="topic['pk_id']">{{topic['level_name']}}</mat-option>
                                 </mat-select>
                               </mat-form-field>
-                              <button type="button" class="w_20p" mat-raised-button color="accent" (click)="getSelectedTopics()">Save</button>
                         </div>
                         
                         <table mat-table [dataSource]="selected_topics_list[active_tab_index]" >
@@ -181,16 +199,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="dys_dv tst_dy">
-                <div class="dys_hd">
-                    <div class="dys_hd_txt">Day</div>
-                    <div class="dys_cnt">365</div>
-                </div>
-                <div>
-                    <div class="slct_crs">Test</div>
-
-                </div>
-            </div> -->
 
         </div>
     </div>
