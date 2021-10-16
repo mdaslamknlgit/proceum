@@ -61,6 +61,10 @@ export const environment = {
     {value: '2', viewValue: 'College'},
     {value: '3', viewValue: 'Institute'}
   ],
+  DISCOUNT_TYPES: [
+    {value: 1, viewValue: 'Fixed Amount'},
+    {value: 2, viewValue: 'Percentage'}
+  ],
   
 
    //apiUrl: 'http://192.10.250.150:8000/api/',
