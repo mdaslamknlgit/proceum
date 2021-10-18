@@ -64,6 +64,9 @@ export class EditPackageComponent implements OnInit {
   public pk_id = 0;
   public question_error = '';
   public answer_error = '';
+  public addons_arr = [];
+  public addons_list = [];
+  public all_addons_list = [];
   all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   //Code starts here for course selection
@@ -195,6 +198,7 @@ export class EditPackageComponent implements OnInit {
     });
     this.getCurriculumnHierarchy();
     this.getCountries();
+    this.getAddons();
   }
 
   getPackage() {
@@ -212,6 +216,7 @@ export class EditPackageComponent implements OnInit {
         this.applicable_to_college = package_data.applicable_to_college;
         this.applicable_to_institute = package_data.applicable_to_institute;
         this.billing_frequency = package_data.billing_frequency;
+        
         //For reccuring datetime
         if(package_data.valid_up_to !== null){
           let valid_date = package_data.valid_up_to.split('-');
@@ -221,15 +226,15 @@ export class EditPackageComponent implements OnInit {
           );
           this.today_date = this.valid_up_to;
         }
+        this.addons_arr = res['data']['addons_arr'];
         // For package prices
         if(res['data']['package_prices_data'].length > 0){
           let prices = res['data']['package_prices_data'];
           this.selected_countires = prices.map(x => x.country_id);
-          console.log(this.selected_countires);
           this.package_prices = res['data']['package_prices_data'];
-          this.sample_videos = res['data']['sample_videos'];
-          this.faqs = res['data']['faqs'];
         }
+        this.sample_videos = res['data']['sample_videos'];
+        this.faqs = res['data']['faqs'];
       }
     });
   }
@@ -286,6 +291,7 @@ export class EditPackageComponent implements OnInit {
   }
 
   updatePackageService(){
+    
     if(this.applicable_to_university == '' && this.applicable_to_college == '' && this.applicable_to_institute == ''){
       this.toster.error("Applicable to is required", 'Error', { closeButton: true });
       return;
@@ -310,6 +316,7 @@ export class EditPackageComponent implements OnInit {
       applicable_to_institute : this.applicable_to_institute,
       valid_up_to : this.valid_up_to,
       billing_frequency : this.billing_frequency,
+      addons_arr : this.addons_arr,
     };
     let params = { url: 'update-package', form_data: form_data };
     this.http.post(params).subscribe((res) => {
@@ -548,5 +555,21 @@ export class EditPackageComponent implements OnInit {
     }else{
       return false;
     }
+  }
+
+  getAddons(){
+    let params = { url: 'get-addons'};
+    this.http.post(params).subscribe((res) => {      
+      if (res['error'] == false) {
+        this.addons_list = res['data'];
+        this.all_addons_list = res['data'];
+      } else {
+          //this.course_count = 0;
+          //this.toster.error(res['message'], 'Error', { closeButton: true });
+      }
+    });
+  }
+  searchAddon(search){
+    this.addons_list = this.all_addons_list.filter(item => item.curriculumn_name.toLowerCase().includes(search.toLowerCase()));
   }
 }
