@@ -81,6 +81,7 @@ const routes: Routes = [
   { path: 'student-curriculum', component: CurriculumComponent },
   { path: 'tests-page', component: TestsPageComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },
+  { path: 'tests-page', component: TestsPageComponent },
   { path: 'pricing-and-packages', component: ListPackagesComponent },
   { path: 'package-details/:id', component: PackageDetailsComponent },
   { path: 'not-found', component: NotFoundComponent },
