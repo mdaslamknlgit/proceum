@@ -49,7 +49,7 @@ export class ListPackagesComponent implements OnInit {
 
   public localPrice(prices){
     if(!prices.length){
-      return "No Price!";
+      return "Loading!";
     }
     this.user = this.http.getUser();
     let user_country_id = 1;
