@@ -13,6 +13,9 @@ export class ListPackagesComponent implements OnInit {
   public packages = [];
   public user = [];
   public search_box = '';
+  public user_id:any = '';
+  public ip:any = '';
+  public country_id:any = '';
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -20,15 +23,25 @@ export class ListPackagesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getPackages();
+    this.user = this.http.getUser(); 
+    if(this.user){
+      this.user_id = this.user['id'];
+    }
+    //get client ip
+    this.http.getClientIp().subscribe((res) => {
+      this.ip = res['ip'];
+      this.getPackages();
+    });     
   }
 
   public getPackages() {
-    let param = { url: 'get-all-packages', status: '1' };
+    let param = { url: 'get-packages-to-purchase', id: this.user_id, ip: this.ip, country_id: this.country_id };
     this.http.nonAuthenticatedPost(param).subscribe((res) => {
       //console.log(res);
       if (res['error'] == false) {
         this.packages = res['data']['packages'];
+        this.country_id = res['data']['country_id'];
+        this.user_id = res['data']['user_id'];
         //console.log(this.packages);
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -37,10 +50,12 @@ export class ListPackagesComponent implements OnInit {
   }
 
   public doFilter() {
-    let param = { url: 'get-packages', search: this.search_box };
+    let param = { url: 'get-packages-to-purchase', search: this.search_box, id: this.user_id, ip: this.ip, country_id: this.country_id };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.packages = res['data']['packages'];
+        this.country_id = res['data']['country_id'];
+        this.user_id = res['data']['user_id']; 
       } else {
         //this.toster.error(res['message'], 'Error');
       }
