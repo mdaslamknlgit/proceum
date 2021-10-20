@@ -13,6 +13,7 @@ export class CommonService {
   private apiURL: string;
   public kpoint_api_url = "https://proceum.kpoint.com/api/v1/xapi/";
   public menu_status: String;
+  ipResult : any;
   constructor(private http: HttpClient) {
     this.apiURL = environment.apiUrl;
   }
@@ -148,4 +149,13 @@ export class CommonService {
     let first = value.substr(0, 1).toUpperCase();
     return first + value.substr(1);
   }
+
+
+  getClientIp() {
+    return this.http.get('https://ipv4.jsonip.com').pipe(
+      map((res) => res),
+      catchError(this.errorHandler)
+    );
+  }
+
 }

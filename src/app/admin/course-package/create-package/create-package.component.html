@@ -242,6 +242,25 @@
                                                 </div>
                                             </div>
                                             <div class="hgt_20"></div>
+                                        
+                                            <!-- Addons -->
+                                            <div class="cpm_pg_cnt">
+                                                <div class="cpm_pg_hd">Addons</div>
+                                                <span>Select Addons</span>
+                                                <div class="err_tltp_par">
+                                                    <mat-form-field appearance="outline" class="w_100p">
+                                                        <mat-select placeholder="Select Addons" multiple name="addons" #addons="ngModel" [(ngModel)]="addons_arr">
+                                                          <mat-option>
+                                                            <ngx-mat-select-search (ngModelChange)="searchAddon($event)" [noEntriesFoundLabel]="'No Addons found'"
+                                                            name="search_addons" ngModel [placeholderLabel]="'Search Course'"></ngx-mat-select-search>
+                                                          </mat-option>
+                                                          <mat-option *ngFor="let addon of addons_list" [value]="addon['addon_id']">{{addon['addon_name']}}</mat-option>
+                                                        </mat-select>
+                                                      </mat-form-field>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="hgt_20"></div>
                                             <div class="cpm_pg_hd">
                                                 Package access
                                             </div>

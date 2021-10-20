@@ -29,6 +29,8 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { StudyPlannerStudentComponent } from './student/study-planner-student/study-planner-student.component';
 import { SafePipe } from '../shared/pipes/safe.pipe';
 import { SharedModule } from '../shared/shared.module';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { TestsPageComponent } from './student/tests-page/tests-page.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -94,6 +96,8 @@ const routes: Routes = [
     ListPackagesComponent,
     PackageDetailsComponent,
     StudyPlannerStudentComponent,
+    ShoppingCartComponent,
+    TestsPageComponent,
   ],
   imports: [
     CommonModule,

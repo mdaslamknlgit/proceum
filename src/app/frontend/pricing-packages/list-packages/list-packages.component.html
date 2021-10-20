@@ -3,20 +3,18 @@
 <app-sidemenu *ngIf="user!= undefined && (user['role'] == '2' || user['role'] == '11')"></app-sidemenu>
 <div class="mn_dshbrd">
     <div class="brd_crm">Proceum &raquo; <strong>Pricing & Packages</strong></div>
-    <div class="pg_ttl">Packages</div>
-    <div class="hgt_20"></div>
-    <div class="dsh_brd_crds">
-        <mat-form-field appearance="outline" class="float_right main_search">
+    <div class="pg_ttl">Packages</div> 
+    <div class="dsh_brd_crds xl_srch">
+        <mat-form-field appearance="outline" class="main_search w_100p">
             <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
                 placeholder="Search" />
             <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
         </mat-form-field>
     </div>
-    <div class="crs_par">
-        <div class="hgt_20"></div>
+    <div class="crs_par"> 
         <!-- item -->
         <div class="crs_chld" *ngFor="let package of packages">
-            <div class="crs_icn grn_bg" *ngIf="package.package_img">
+            <div class="crs_icn pkg_img_bg grn_bg" *ngIf="package.package_img">
                 <img src="{{ package.package_img }}" alt="">
             </div>
             <div class="crs_icn grn_bg" *ngIf="!package.package_img || package.package_img == null">
@@ -58,7 +56,7 @@
                     <mat-icon>play_circle</mat-icon> Preview
                 </div>
                 <div class="bn_btn_dv">
-                    <mat-icon>shopping_cart</mat-icon> Buy Now
+                    <mat-icon>shopping_cart</mat-icon> Add To Cart
                 </div>
             </div>
         </div>

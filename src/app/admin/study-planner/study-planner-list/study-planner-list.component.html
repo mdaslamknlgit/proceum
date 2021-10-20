@@ -2,17 +2,9 @@
     <div class="brd_crm">
         Proceum &raquo; <strong>Study Planner List</strong>
     </div>
-    <div class="d-flex">
+    <div class="d-flex fw_w">
         <div class="pg_ttl">Study Planner List</div>
-        <div class="spacer"></div>
-        <div class="w_50p">
-            <div>Search</div>
-            <mat-form-field appearance="outline">
-              <input matInput matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
-                placeholder="Search" placeholder="Search" />
-              <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
-            </mat-form-field>
-          </div>
+        <div class="spacer"></div> 
         <div>
             <button routerLink="/admin/study-planner/create" mat-raised-button color="accent" type="button">
               <mat-icon>add</mat-icon> Create Study Planner
@@ -20,9 +12,16 @@
           </div>
           <div class="clear_fix"></div>
     </div>
-   
     <hr />
+   
     <div class="dsh_brd_crds">
+        <div class="w_50p"> 
+            <mat-form-field appearance="outline">
+              <input matInput matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
+                placeholder="Search" placeholder="Search" />
+              <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
+            </mat-form-field>
+          </div>
         <div class="rsp_tbl">
             <table mat-table [dataSource]="dataSource"> 
                 <ng-container matColumnDef="s_no">
@@ -31,7 +30,7 @@
                 </ng-container>
                 <ng-container matColumnDef="plan_name">
                     <th mat-header-cell *matHeaderCellDef> Plan Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element['plan_name']}} </td>
+                    <td mat-cell *matCellDef="let element" class="ws_normal"> {{element['plan_name']}} </td>
                 </ng-container>
                 <ng-container matColumnDef="duration">
                     <th mat-header-cell *matHeaderCellDef> Duration</th>
