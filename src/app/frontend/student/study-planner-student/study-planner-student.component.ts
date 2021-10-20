@@ -13,6 +13,8 @@ export class StudyPlannerStudentComponent implements OnInit {
     public show_details_modal = false;
     public courses = [];
     public selected_courses = [];
+    public selected_course = [];
+    public selected_day_index = 0;
     public study_plan = {name:'', course:[], duration:0, schdule:[]};
     public study_plan_id = 6;
     public pageSize = environment.page_size;
@@ -20,6 +22,7 @@ export class StudyPlannerStudentComponent implements OnInit {
     public totalSize = 0;
     public page: number = 0;
     public plans_list = [];
+    public topics = [];
   constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
     ngOnInit(): void {
@@ -54,8 +57,8 @@ export class StudyPlannerStudentComponent implements OnInit {
                 this.selected_courses = study_plan['courses'];
             }
             else{
-                this.toster.error("Study Plan not found", "Error", {closeButton:true});
-                 //this.router.navigateByUrl("admin/study-planner");
+                this.toster.error(res['message'], "Error", {closeButton:true});
+                this.study_plan.schdule = [];
             }
         });
     }
@@ -68,10 +71,39 @@ export class StudyPlannerStudentComponent implements OnInit {
             return count;
         }
     }
-    showDetails(){
+    showDetails(topics, course, course_index, day_index){
+        if(topics[course_index]['selected_topics'][0].length==0){
+            return false;
+        }
+        console.log(topics, course);
+        console.log(course_index);
+        this.selected_day_index = day_index;
+        this.selected_course = course;
+        let param = {url: "study-plan/get-topics", topics:topics[course_index]['selected_topics'], curriculum_id: course['pk_id']};
+        this.http.post(param).subscribe(res=>{
+            if(res['error'] == false){
+                this.topics = res['data']['selected_topics'];
+            }
+            else{
+                this.toster.error(res['message'], "Error", {closeButton:true});
+                this.study_plan.schdule = [];
+            }
+        });
         this.show_details_modal = true;
     }
     hideDetails(){
         this.show_details_modal = false;
+    }
+    getTest(day){alert(day)
+        let param = {url: "study-plan/get-test-questions", day:day, plan_id: this.study_plan_id};
+        this.http.post(param).subscribe(res=>{
+            if(res['error'] == false){
+                
+            }
+            else{
+                this.toster.error(res['message'], "Error", {closeButton:true});
+                this.study_plan.schdule = [];
+            }
+        });
     }
 }
