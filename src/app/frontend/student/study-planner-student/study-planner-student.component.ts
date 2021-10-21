@@ -75,8 +75,6 @@ export class StudyPlannerStudentComponent implements OnInit {
         if(topics[course_index]['selected_topics'][0].length==0){
             return false;
         }
-        console.log(topics, course);
-        console.log(course_index);
         this.selected_day_index = day_index;
         this.selected_course = course;
         let param = {url: "study-plan/get-topics", topics:topics[course_index]['selected_topics'], curriculum_id: course['pk_id']};
@@ -94,16 +92,7 @@ export class StudyPlannerStudentComponent implements OnInit {
     hideDetails(){
         this.show_details_modal = false;
     }
-    getTest(day){alert(day)
-        let param = {url: "study-plan/get-test-questions", day:day, plan_id: this.study_plan_id};
-        this.http.post(param).subscribe(res=>{
-            if(res['error'] == false){
-                
-            }
-            else{
-                this.toster.error(res['message'], "Error", {closeButton:true});
-                this.study_plan.schdule = [];
-            }
-        });
+    startTest(day){
+        this.router.navigateByUrl('/student/study-planner/test/'+day+"/"+this.study_plan_id);
     }
 }

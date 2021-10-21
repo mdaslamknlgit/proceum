@@ -30,7 +30,7 @@ import { StudyPlannerStudentComponent } from './student/study-planner-student/st
 import { SafePipe } from '../shared/pipes/safe.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
-import { TestsPageComponent } from './student/tests-page/tests-page.component';
+import { TestsPageComponent } from './student/study-planner-student/tests-page/tests-page.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -70,6 +70,7 @@ const routes: Routes = [
         component: Level_listComponent,
       },
       { path: 'study-planner', component: StudyPlannerStudentComponent },
+      { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
     ],
   },
 ];
