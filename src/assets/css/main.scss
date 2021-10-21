@@ -2526,6 +2526,7 @@ div.cust_mdl_par div.mn_dshbrd {
 .crses_lft_mn {
     width: 60%;
     margin-right: 1%;
+    background-color: #fff;
   .crses_lft {
     background-color: #fff;
     box-sizing: border-box;
@@ -2712,7 +2713,6 @@ div.cust_mdl_par div.mn_dshbrd {
   // margin-top: 66px;
   box-sizing: border-box;
   display: inline-block;
-  margin-bottom: 64px;
   .intr_vd_hd {
     display: flex;
     align-items: center;
@@ -4281,17 +4281,20 @@ sup {
     min-height: 150px;
     padding-bottom: 10px;
     margin-bottom: 15px;
-    border: 1px solid transparent;
+    border: 1px solid transparent; 
     &:hover{
-      background-color: #EFEFEF;
-      cursor: pointer;
+      // background-color: #EFEFEF;
+      // cursor: pointer;
       border: 1px solid #d2ead2;
+      .dys_hd{
+        background-color: #fff;
+      }
     }
-    &.tst_dy{
-      background-color: #E5E6E8;
-      border: 1px solid #FA6058;
+    .tst_dy{  
       .slct_crs{
         color: #FA6058;
+        font-size: 24px;
+        text-transform: uppercase;
       }
     }
     .slct_crs{
@@ -4302,9 +4305,11 @@ sup {
       margin-top: 15px;
     }
     .dys_tsks_dv{
-      padding: 0px 15px 10px 15px;
-      margin-top: 10px;
+      padding: 10px 15px;
       border-bottom: 1px solid #d2ead2;
+      &:hover{
+        background-color: #e4ffe2;
+      }
       &:last-child{
         border-bottom: 0;
       }
@@ -4357,6 +4362,11 @@ sup {
       .pp_dys_bdy{
         max-height: 60vh;
         overflow: auto;
+        .dys_tsks_dv{
+          &:hover{
+            background-color: #fff;
+          }
+        }
       }
       .pp_tasks{
         > div {
@@ -4370,8 +4380,6 @@ sup {
     }
   }
 }
-
-
 .addrmv_btn{
   display: inline-block !important;
   width: 100%;
@@ -4441,10 +4449,10 @@ sup {
           width: calc(33% - 10px);
           overflow: hidden;
           &.cmpltd_dy_active{
-            background-color: #f4fff4;
+            background-color: #fff;
             border: 1px solid #d2ead2;
             position: relative;
-            .done_tick{
+            .done_tick, .undone_tick{
               left: 10px;
               right: 10px;
               width: 30px;
@@ -4455,6 +4463,9 @@ sup {
               border-radius: 50%;
               color: #fff;
               top: 12px;
+            }
+            .undone_tick{
+              opacity: 0.2;
             }
           }
           &:hover{
@@ -4655,6 +4666,7 @@ sup {
 .shpncrt_tpbr{
   display: flex;
   cursor: pointer;
+  margin-right: 15px;
   mat-icon{
     font-size: 20px;
   }
@@ -4735,11 +4747,11 @@ sup {
       width: 90%;
       justify-content: center;
       margin-top: 15px;
-      > div{
+     > button{
         display: flex;
         align-items: center;
         background-color: #41ab3c;
-        padding: 10px 30px;
+        padding:2px 30px;
         border-radius: 20px;
         color: #fff;
         font-size: 16px;
@@ -4747,34 +4759,66 @@ sup {
         &.skp_btn{
           background-color: #F0C442;
           color: #000;
+          &.gry_btn{
+            background-color: #797979;
+            color: #fff;
+            opacity: 0.5;
+          }
         }
       }
     }
     .tstsqst_hd{
       color: #41ab3c;
       font-size: 20px;
+      .qt_lbl{
+        background-color: #dedfe0;
+        color: #000;
+        font-size: 12px;
+        padding: 5px 12px;
+        border-radius: 8px;
+        margin-left: 10px;
+      }
     }
     .tstsqst_qst{
       max-width: 90%;
       .tstsqst_img{
-        margin-top: 15px;
         width: 100%;
         img{
-          max-width: 100%;
+          max-width: 150px;
+          border: 1px solid #94a393;
+          padding: 4px;
         }
       }
     }
     .tstsqst_ans{
       margin-top: 15px;
+      .tstsopt_img{
+        background: #fff;
+        width: 90%;
+        padding: 0 20px 20px;
+        box-sizing: border-box;
+        margin-top: -6px;
+        margin-bottom: 10px;
+        img{
+          max-width: 150px;
+          border: 1px solid #94a393;
+          padding: 4px;
+        }
+      }
       mat-radio-button, mat-checkbox{
         width: 90%;
         background-color: #fff;
         margin-bottom: 6px;
-        box-sizing: border-box;
+        box-sizing: border-box; 
         &.actvfr_dsc{
           background-color: #E2F2E1;
           margin-bottom: 0;
-          + .rdo_desc{
+          ~ .tstsopt_img{
+            background: #E2F2E1;
+            margin-bottom: 0px;
+            padding: 0 20px 20px;
+          }
+          ~ .rdo_desc{
             background-color: #E2F2E1;
             width: 90%;
             padding: 20px;
@@ -4782,12 +4826,19 @@ sup {
             border-top: 1px solid #c4c4c4;
             margin-bottom: 6px;
             .tstsqst_img{
-              margin-top: 15px;
               width: 100%;
               img{
-                max-width: 100%;
+                max-width: 150px;
+                border: 1px solid #94a393;
+                padding: 4px;
               }
             }
+          }
+        }
+        &.tstwrng_ans{
+          background-color: #f2e1e1;
+          ~ .rdo_desc{
+            background-color: #f2e1e1;
           }
         }
         .mat-radio-label, .mat-checkbox-layout{
