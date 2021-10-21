@@ -1,15 +1,22 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { environment } from 'src/environments/environment';
+import { CartCountService } from '../../../services/cart-count.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-topbar',
   templateUrl: './topbar.component.html',
   styleUrls: ['./topbar.component.scss'],
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent implements OnInit,OnDestroy {
+  //For cart badge
+  number: any;
+  subscription: Subscription;
+
+
   public sidemenu_status: String = '';
   public innerWidth: any;
   public isOpen = false;
@@ -20,12 +27,19 @@ export class TopbarComponent implements OnInit {
   subMenuCount: number = 0;
   isCustomMenuShow: boolean = true;
   sub_domain_data: any = [];
+  user_id='';
   constructor(
     private http: CommonService,
     private authHttp: AuthService,
     private route: Router,
-    private activeRoute: ActivatedRoute
-  ) {}
+    private activeRoute: ActivatedRoute,
+    private cartCountService:CartCountService,
+    
+  ) {
+    //for cart badge
+    this.subscription = this.cartCountService.getNumber().subscribe(number => { this.number = number });
+  }
+
   public user;
   id: number = undefined;
   ngOnInit(): void {
@@ -40,6 +54,9 @@ export class TopbarComponent implements OnInit {
     }
     this.http.menu_status = '';
     this.user = this.http.getUser();
+    if(this.user){
+      this.user_id = this.user['id'];
+    }
     this.innerWidth = window.innerWidth;
     this.getMenus();
     this.activeRoute.params.subscribe((routeParams) => {
@@ -98,9 +115,12 @@ export class TopbarComponent implements OnInit {
   }
 
   getMenus() {
-    let params = { url: 'get-menus' };
+    let params = { url: 'get-menus', id: this.user_id };
     this.authHttp.post(params).subscribe((res) => {
       this.menus = res['menus'];
+      if(res['cart_count'] != 0){
+        this.cartCountService.sendNumber(res['cart_count']);
+      }
     });
   }
 
@@ -131,5 +151,8 @@ export class TopbarComponent implements OnInit {
       }
       this.load_top_bar = true;
     });
+  }
+  ngOnDestroy(){
+    this.subscription.unsubscribe();
   }
 }

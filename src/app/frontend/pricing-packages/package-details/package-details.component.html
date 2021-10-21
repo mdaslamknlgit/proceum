@@ -36,7 +36,9 @@
                 </div>
                 <div class="hgt_10"></div>
                 <div class="crs_innr_prc">
-                    <span class="bld_txt_blk" [innerHtml]="localPrice(package_prices)"></span>
+                    <span class="bld_txt_blk">
+                        <span class="rpe_sym">{{ package_prices[0].currency_symbol}}</span>{{ package_prices[0].price_amount}}
+                    </span>
                 </div>
                 <div class="crs_dsc" *ngIf="package.package_desc">
                     {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' : (package.package_desc) }}
@@ -50,8 +52,8 @@
                         <mat-icon>favorite_border</mat-icon> 3445
                     </span> -->
                 </div>
-                <div class="bn_btn_dv grn_bg rsp_m_auto">
-                    <mat-icon>shopping_cart</mat-icon> Buy Now
+                <div class="bn_btn_dv grn_bg rsp_m_auto" *ngIf="admin_role_ids.indexOf(role_id) == -1">
+                    <mat-icon>shopping_cart</mat-icon> Add To Cart
                 </div>
             </div>
             <div class="crs_innr_dets">
