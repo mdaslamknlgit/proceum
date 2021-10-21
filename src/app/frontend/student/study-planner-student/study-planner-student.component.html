@@ -1,6 +1,6 @@
 <div class="mn_dshbrd">
     <div *ngIf="study_plan.schdule.length>0" class="cust_mdl_par {{show_details_modal?'cust_mdl_opn':'cust_mdl_cls'}}">
-        <div class="cust_mdl_chl w_50p"> 
+        <div class="cust_mdl_chl w_50p">
             <div class="tbbd_bdy dsh_brd_crds p_0">
                 <div class="days_mn pp_dysmn">
                     <div class="dys_dv w_100p hvr_bg_wht">
@@ -21,11 +21,13 @@
                                     <!-- <div class="w_100p">Videos:</div> -->
                                     <div class="hgt_10"></div>
                                     <div class="pp_tasks">
-                                        <div *ngFor="let topic of topics"><a target="_blank" [href]="'/student/curriculum/details/'+selected_course['pk_id']+'/'+topic['level_id']+'/'+topic['pk_id']">{{topic['topic']}}</a></div>
+                                        <div *ngFor="let topic of topics"><a target="_blank"
+                                                [href]="'/student/curriculum/details/'+selected_course['pk_id']+'/'+topic['level_id']+'/'+topic['pk_id']">{{topic['topic']}}</a>
+                                        </div>
                                     </div>
                                     <div class="hgt_10"></div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -212,35 +214,42 @@
                     </div>
                 </div> -->
                 <div class="days_mn" *ngIf="study_plan.schdule.length>0">
-                    <div class="dys_dv " *ngFor="let day of study_plan.schdule;let index=index;" >
+                    <div class="dys_dv cmpltd_dy_active" *ngFor="let day of study_plan.schdule;let index=index;">
+                        <div class="{{ true?'done_tick':'undone_tick'}}">
+                            <mat-icon color="accent">done</mat-icon>
+                        </div>
                         <div class="dys_hd">
                             <div class="dys_hd_txt">Day</div>
                             <div class="dys_cnt">{{day['day']}}</div>
                         </div>
                         <div>
                             <div class="slct_crs d-none">Select Course</div>
-                            <div  *ngFor="let course of day['selected_courses'];let course_index = index;" (click)="(study_plan.schdule[index] != undefined && study_plan.schdule[index]['selected_topics_list'] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length>0) && showDetails(study_plan.schdule[index]['selected_topics'], course, course_index, index)">
+                            <div *ngFor="let course of day['selected_courses'];let course_index = index;"
+                                (click)="(study_plan.schdule[index] != undefined && study_plan.schdule[index]['selected_topics_list'] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length>0) && showDetails(study_plan.schdule[index]['selected_topics'], course, course_index, index)">
                                 <div class="dys_tsks_dv" *ngIf="day['is_test_day'] == false">
                                     <div class="tsk_hd">{{course['curriculumn_name']}}</div>
                                     <div class="tsk_dv">
                                         <div>Tasks</div>
                                         <div class="spacer"></div>
-                                        <div class="tsk_cnt" *ngIf="study_plan.schdule[index] != undefined && study_plan.schdule[index]['selected_topics_list'] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length>0">
-                                            <span >{{getTasksCount(study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'])}}</span></div>
-                                        <div class="tsk_cnt" *ngIf="study_plan.schdule[index] == undefined || study_plan.schdule[index]['selected_topics_list'].length==0 || study_plan.schdule[index]['selected_topics_list'][course_index]==undefined || study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length == 0">0</div>
+                                        <div class="tsk_cnt"
+                                            *ngIf="study_plan.schdule[index] != undefined && study_plan.schdule[index]['selected_topics_list'] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length>0">
+                                            <span>{{getTasksCount(study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'])}}</span>
+                                        </div>
+                                        <div class="tsk_cnt"
+                                            *ngIf="study_plan.schdule[index] == undefined || study_plan.schdule[index]['selected_topics_list'].length==0 || study_plan.schdule[index]['selected_topics_list'][course_index]==undefined || study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length == 0">
+                                            0</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="tst_dy" *ngIf="day['is_test_day'] == true" (click)="startTest(day['day'])">
-                            
+
                             <div>
                                 <div class="slct_crs">Test</div>
-            
                             </div>
                         </div>
                     </div>
-        
+
                 </div>
             </div>
         </div>
