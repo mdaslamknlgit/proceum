@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
+import { CartCountService } from '../../../services/cart-count.service';
 
 interface CurriculumNode {
   id?: number;
@@ -43,6 +44,7 @@ export class PackageDetailsComponent implements OnInit {
   public country_id:any = '';
   public admin_role_ids:any = [];
   public role_id:any = '';
+  public cart_count:any; 
   
   //Tree controls for topics tab
   treeControl = new NestedTreeControl<CurriculumNode>(node => node.children);
@@ -54,6 +56,7 @@ export class PackageDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sanitizer: DomSanitizer,
+    private cartCountService:CartCountService,
 
   ) { }
 
@@ -191,5 +194,32 @@ export class PackageDetailsComponent implements OnInit {
     
   }
 
+  public addToCart(product_id){
+    if(this.user_id == ''){
+      this.router.navigateByUrl('/login');
+      return;
+    }
+    //Prepare post data
+    let cart_data = {
+      product_id : product_id,
+      user_id  : this.user_id,
+      product_type_id : 1, //Package
+    }
+    let param = { url: 'add-to-cart', cart_data :cart_data };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.cart_count = res['data']['cart_count'];
+        this.toster.success("Package added to cart successfully!", 'Success');
+        this.sendNumber();
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+      //console.log(res);
+    });
+  }
+
+  sendNumber() {
+    this.cartCountService.sendNumber(this.cart_count);
+  }
 
 }

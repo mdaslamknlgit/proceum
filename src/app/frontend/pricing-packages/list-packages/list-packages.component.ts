@@ -103,6 +103,7 @@ export class ListPackagesComponent implements OnInit {
     let cart_data = {
       product_id : product_id,
       user_id  : this.user_id,
+      product_type_id : 1, //Package
     }
     let param = { url: 'add-to-cart', cart_data :cart_data };
     this.http.post(param).subscribe((res) => {
@@ -113,7 +114,7 @@ export class ListPackagesComponent implements OnInit {
       } else {
         this.toster.error(res['message'], 'Error');
       }
-      console.log(res);
+      //console.log(res);
     });
   }
 

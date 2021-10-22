@@ -15,7 +15,7 @@ export class TopbarComponent implements OnInit,OnDestroy {
   //For cart badge
   number: any;
   subscription: Subscription;
-
+  user_id='';
 
   public sidemenu_status: String = '';
   public innerWidth: any;
@@ -27,7 +27,7 @@ export class TopbarComponent implements OnInit,OnDestroy {
   subMenuCount: number = 0;
   isCustomMenuShow: boolean = true;
   sub_domain_data: any = [];
-  user_id='';
+ 
   constructor(
     private http: CommonService,
     private authHttp: AuthService,
