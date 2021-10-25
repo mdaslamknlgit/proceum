@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { DashboardComponent } from './student/dashboard/dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
@@ -70,6 +71,7 @@ const routes: Routes = [
         component: Level_listComponent,
       },
       { path: 'study-planner', component: StudyPlannerStudentComponent },
+      { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
     ],
   },
@@ -103,6 +105,9 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    ConfirmationPopoverModule.forRoot({
+        confirmButtonType: 'danger', // set defaults here
+      }),
     MaterialModule,
     LayoutsModule,
     CKEditorModule,
