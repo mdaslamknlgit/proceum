@@ -1,12 +1,12 @@
 <app-topbar class="inner-header"></app-topbar>
 <app-sidemenu></app-sidemenu>
 <div class="mn_dshbrd">
-    <div class="cust_mdl_par cust_mdl_cls">
+    <div class="cust_mdl_par cust_mdl_cls" [ngClass]="{ cust_mdl_opn: model_status }">
         <div class="cust_mdl_chl w_50p rsp_90p">
             <div class="pg_ttl">
                 Add Billing Address
                 <span class="spacer"></span>
-                <button type="button" mat-icon-button class="float_right">
+                <button type="button" mat-icon-button class="float_right" (click)="toggleModel()">
                     &#x2715;
                 </button>
             </div>
@@ -71,7 +71,7 @@
                     </div> 
                 </div>
                <div class="text_center">
-                   <button class="mr_1" mat-raised-button>Cancel</button>
+                   <button class="mr_1" mat-raised-button (click)="toggleModel()">Cancel</button>
                    <button color="accent" mat-raised-button>Submit</button>
                </div>
                 <div class="hgt_50"></div>
@@ -79,7 +79,7 @@
         </div>
     </div>
     <div class="hgt_20"></div>
-    <div class="sp_mn shpcrt dsh_brd_crds">
+    <div class="sp_mn shpcrt dsh_brd_crds" *ngIf="cart_items.length">
         <div class="brdcrm_br p_1 d-flex ai_cntr">
             <mat-icon color="accent">home</mat-icon>
             <mat-icon>navigate_next</mat-icon>Shopping Cart
@@ -92,70 +92,39 @@
         </div>
         <div class="hgt_10"></div>
         <div class="shpcrt_lst">
-            <div class="shpcrt_mn_dv">
+            
+            <div class="shpcrt_mn_dv" *ngFor="let item of cart_items"> 
                 <div class="mr_1 crs_img">
-                    <img src="../../../assets/images/out-story-img.jpeg">
+                    <img src="{{ item.product_data.product_img != '' ? item.product_data.product_img : product_default_img  }}">
                 </div>
                 <div class="spacer">
                     <div class="shpcrt_mn_hd">
-                        Echocardiography Workshop
+                        {{ item.product_data.product_name }}
                     </div>
                     <div class="shpcrt_mn_cnt mb_1">
-                        Overcoming the limitation of conventional echo books, keeping in mind that the main
-                        distinguishing factor…
+                        {{ (item.product_data.product_desc && item.product_data.product_desc.length > 100) ? ( item.product_data.product_desc | slice:0:100 ) + '....' : (item.product_data.product_desc) }}
                     </div>
 
                     <div class="shpcrt_mn_btns">
-                        <div>
+                        <div [routerLink]="['/package-details', item.product_data.product_id]">
                             <mat-icon>subject</mat-icon>
                             View Details
                         </div>
-                        <div>
+                        <div (click)="movetoWishList(item.product_id, item.product_type_id)">
                             <mat-icon>playlist_add_check</mat-icon>
                             Move to Wishlist
                         </div>
-                        <div class="rmv_frm_crt">
+                        <div class="rmv_frm_crt"  (click)="removeCartItem(item.pk_id)">
                             <mat-icon>remove_circle_outline</mat-icon>
                             Remove From Cart
                         </div>
                     </div>
                 </div>
                 <div class="shp_crt_amnt amnt_pybl">
-                    <mat-icon>currency_rupee</mat-icon> 14,500
+                    {{ item.product_data.currency_symbol }} {{ item.product_data.price }}
                 </div>
             </div>
-            <div class="shpcrt_mn_dv">
-                <div class="mr_1 crs_img">
-                    <img src="../../../assets/images/out-story-img.jpeg">
-                </div>
-                <div class="spacer">
-                    <div class="shpcrt_mn_hd">
-                        Echocardiography Workshop
-                    </div>
-                    <div class="shpcrt_mn_cnt mb_1">
-                        Overcoming the limitation of conventional echo books, keeping in mind that the main
-                        distinguishing factor…
-                    </div>
 
-                    <div class="shpcrt_mn_btns">
-                        <div>
-                            <mat-icon>subject</mat-icon>
-                            View Details
-                        </div>
-                        <div>
-                            <mat-icon>playlist_add_check</mat-icon>
-                            Move to Wishlist
-                        </div>
-                        <div class="rmv_frm_crt">
-                            <mat-icon>remove_circle_outline</mat-icon>
-                            Remove From Cart
-                        </div>
-                    </div>
-                </div>
-                <div class="shp_crt_amnt amnt_pybl">
-                    <mat-icon>currency_rupee</mat-icon> 14,500
-                </div>
-            </div>
             <div class="shpcrt_mn_dv ba_ap">
                 <div class="spacer algn_s_fs">
                     <div class="ba_hd">
@@ -176,7 +145,7 @@
                         <div class="ad_nw_addrs">
                             <div class="spacer"></div>
                             <mat-icon matTooltip="Edit Address">edit_notes</mat-icon>
-                            <mat-icon matTooltip="Add New Address">add</mat-icon>
+                            <mat-icon matTooltip="Add New Address" (click)="toggleModel()">add</mat-icon>
                         </div>
                     </div>
                 </div>

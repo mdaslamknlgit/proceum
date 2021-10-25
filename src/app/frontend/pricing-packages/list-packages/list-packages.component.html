@@ -49,14 +49,16 @@
                 <!-- <span>
                     <mat-icon>favorite_border</mat-icon> 3445
                 </span> -->
-                <span class="bld_txt_blk" [innerHtml]="localPrice(package.prices)"></span>
+                <span class="bld_txt_blk">
+                    <span class="rpe_sym">{{ package.currency_symbol}}</span>{{ package.prices}}
+                </span>
             </div>
             <div class="crs_pr_bynw">
                 <div class="pr_btn_dv" [routerLink]="['/package-details', package.pk_id]">
                     <mat-icon>play_circle</mat-icon> Preview
                 </div>
-                <div class="bn_btn_dv">
-                    <mat-icon>shopping_cart</mat-icon> Add To Cart
+                <div class="bn_btn_dv" *ngIf="admin_role_ids.indexOf(role_id) == -1" (click)="addToCart(package.pk_id)">
+                    <mat-icon>shopping_cart</mat-icon> Add To Cart 
                 </div>
             </div>
         </div>

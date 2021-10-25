@@ -88,6 +88,7 @@ firebaseConfig : {
   * Below array used to check domian or subdomian from in app users or partners 
   */
     INAPP_DOMAINS_ARRAY: ["localhost","qa","uat","dev"],
+    PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',
   //uat firebase
 //   firebaseConfig : {
 //     apiKey: "AIzaSyDM_Q8stJkIGWMqZvvGW8MDp0nS8i_zgqg",
