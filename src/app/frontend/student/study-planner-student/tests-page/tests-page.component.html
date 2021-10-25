@@ -64,7 +64,7 @@
                     [(ngModel)]="active_question['answer'][0]">
                     <div *ngFor="let option of active_question['options']">
                         <mat-radio-button [value]="option['pk_id']"
-                            class="{{active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''?'actvfr_dsc':''}}">
+                            class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
                             {{ option["option_text"] }}
                         </mat-radio-button>
                         <div class="tstsopt_img"
@@ -80,7 +80,7 @@
                 <div *ngIf='[2,5,8,11].includes(active_question["q_type"])'>
                     <div *ngFor="let option of active_question['options']; let i_option = index">
                         <mat-checkbox
-                            class="{{active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''?'actvfr_dsc':''}} "
+                            class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}"
                             [checked]="active_question['answer'].includes(''+option['pk_id'])"
                             (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
                         <div class="tstsqst_img">
