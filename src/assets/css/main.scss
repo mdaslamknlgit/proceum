@@ -4283,8 +4283,6 @@ sup {
     margin-bottom: 15px;
     border: 1px solid transparent; 
     &:hover{
-      // background-color: #EFEFEF;
-      // cursor: pointer;
       border: 1px solid #d2ead2;
       .dys_hd{
         background-color: #fff;
@@ -4308,7 +4306,7 @@ sup {
       padding: 10px 15px;
       border-bottom: 1px solid #d2ead2;
       &:hover{
-        background-color: #e4ffe2;
+        background-color: #d2ead2;
       }
       &:last-child{
         border-bottom: 0;
@@ -4448,28 +4446,38 @@ sup {
           background-color: #fff;
           width: calc(33% - 10px);
           overflow: hidden;
+          position: relative;
+          .done_tick{
+            left: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            color: #fff;
+            top: 12px;
+            opacity: 0.2;
+          }
           &.cmpltd_dy_active{
-            background-color: #fff;
-            border: 1px solid #d2ead2;
+            background-color: #d2ead2;
+            border: 1px solid #779e77;
             position: relative;
-            .done_tick, .undone_tick{
-              left: 10px;
-              right: 10px;
-              width: 30px;
-              height: 30px;
-              position: absolute;
-              text-align: center;
-              line-height: 30px;
-              border-radius: 50%;
-              color: #fff;
-              top: 12px;
+            .done_tick{
+              opacity: 1;
             }
-            .undone_tick{
-              opacity: 0.2;
+            &:hover{
+              .dys_hd{
+                background-color: #d2ead2;
+              }
+              .dys_tsks_dv{
+                background-color: #d2ead2;
+              }
             }
           }
           &:hover{
-            background-color: #f4fff4;
+            background-color: #e6f8e6;
             cursor: pointer;
           }
         }
@@ -4673,7 +4681,6 @@ sup {
 }
 .tsts_mn{
   display: flex;
-   
   .tsts_qstns_nums{
     flex-basis: 30%;
     background-color: #fff;
@@ -4847,6 +4854,19 @@ sup {
         }
       }
       
+    }
+  }
+  &.tsts_collps{
+    .tsts_qstns_nums{
+      flex:auto;
+      background-color: transparent;
+      margin-right: 1%;
+      .tstsnms_hd, .tstsnms_cnt_dv{
+        display: none;
+      }
+    }
+    .tsts_qstns{
+      flex: 100%;
     }
   }
 }

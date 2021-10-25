@@ -1,14 +1,19 @@
-<!-- <app-topbar class="inner-header"></app-topbar>
-<app-sidemenu></app-sidemenu> -->
 <div class="mn_dshbrd">
     <div class="hgt_20"></div>
-    <div class="tsts_mn">
+    <div class="sp_mn">
+        <div class="brdcrm_br p_1 d-flex ai_cntr">
+            <mat-icon color="accent">home</mat-icon>
+            <mat-icon>navigate_next</mat-icon>Study Planner <mat-icon>navigate_next</mat-icon> MCI <mat-icon>navigate_next</mat-icon> Day - 3 <mat-icon>navigate_next</mat-icon> Test Page
+        </div>
+    </div>
+    <div class="hgt_20"></div>
+    <div class="tsts_mn  {{show_q_numbers == false ?  'tsts_collps' : '' }}" >
         <div class="tsts_qstns_nums">
             <div class="tstsnms_hd_dv">
                 <div class="tstsnms_hd">Questions ({{questions_list.length}})</div>
                 <div class="spacer"></div>
                 <div class="tsts_qst_swch">
-                    <mat-icon (click)="show_q_numbers = !show_q_numbers" color="accent">format_list_bulleted</mat-icon>
+                    <mat-icon (click)="show_q_numbers = !show_q_numbers" color="accent">menu_open</mat-icon>
                 </div>
             </div>
             <div class="hgt_20"></div>
@@ -62,7 +67,8 @@
                             class="{{active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''?'actvfr_dsc':''}}">
                             {{ option["option_text"] }}
                         </mat-radio-button>
-                        <div class="tstsopt_img" *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image']">
+                        <div class="tstsopt_img"
+                            *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image']">
                             <img [src]="bucket_url+option['option_image']" />
                         </div>
                         <div class="rdo_desc"
@@ -95,7 +101,8 @@
                     <mat-icon>arrow_left</mat-icon> Prev
                 </button>
                 <button [disabled]="active_question['answer'].length==0" mat-raised-button color="accent"
-                    (click)="checkAnswer()" class="skp_btn {{active_question['answer'].length==0?'gry_btn':''}}">Check Answer <mat-icon>subdirectory_arrow_right
+                    (click)="checkAnswer()" class="skp_btn {{active_question['answer'].length==0?'gry_btn':''}}">Check
+                    Answer <mat-icon>subdirectory_arrow_right
                     </mat-icon>
                 </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
