@@ -4283,8 +4283,6 @@ sup {
     margin-bottom: 15px;
     border: 1px solid transparent; 
     &:hover{
-      // background-color: #EFEFEF;
-      // cursor: pointer;
       border: 1px solid #d2ead2;
       .dys_hd{
         background-color: #fff;
@@ -4308,7 +4306,7 @@ sup {
       padding: 10px 15px;
       border-bottom: 1px solid #d2ead2;
       &:hover{
-        background-color: #e4ffe2;
+        background-color: #d2ead2;
       }
       &:last-child{
         border-bottom: 0;
@@ -4448,28 +4446,38 @@ sup {
           background-color: #fff;
           width: calc(33% - 10px);
           overflow: hidden;
+          position: relative;
+          .done_tick{
+            left: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            text-align: center;
+            line-height: 30px;
+            border-radius: 50%;
+            color: #fff;
+            top: 12px;
+            opacity: 0.2;
+          }
           &.cmpltd_dy_active{
-            background-color: #fff;
-            border: 1px solid #d2ead2;
+            background-color: #d2ead2;
+            border: 1px solid #779e77;
             position: relative;
-            .done_tick, .undone_tick{
-              left: 10px;
-              right: 10px;
-              width: 30px;
-              height: 30px;
-              position: absolute;
-              text-align: center;
-              line-height: 30px;
-              border-radius: 50%;
-              color: #fff;
-              top: 12px;
+            .done_tick{
+              opacity: 1;
             }
-            .undone_tick{
-              opacity: 0.2;
+            &:hover{
+              .dys_hd{
+                background-color: #d2ead2;
+              }
+              .dys_tsks_dv{
+                background-color: #d2ead2;
+              }
             }
           }
           &:hover{
-            background-color: #f4fff4;
+            background-color: #e6f8e6;
             cursor: pointer;
           }
         }
@@ -4673,7 +4681,6 @@ sup {
 }
 .tsts_mn{
   display: flex;
-   
   .tsts_qstns_nums{
     flex-basis: 30%;
     background-color: #fff;
@@ -4809,10 +4816,10 @@ sup {
         width: 90%;
         background-color: #fff;
         margin-bottom: 6px;
-        box-sizing: border-box; 
+        box-sizing: border-box;
         &.actvfr_dsc{
           background-color: #E2F2E1;
-          margin-bottom: 0;
+          pointer-events: none;
           ~ .tstsopt_img{
             background: #E2F2E1;
             margin-bottom: 0px;
@@ -4825,6 +4832,7 @@ sup {
             box-sizing: border-box;
             border-top: 1px solid #c4c4c4;
             margin-bottom: 6px;
+            margin-top: -6px;
             .tstsqst_img{
               width: 100%;
               img{
@@ -4837,8 +4845,35 @@ sup {
         }
         &.tstwrng_ans{
           background-color: #f2e1e1;
+          pointer-events: none;
+          ~ .tstsopt_img {
+            background-color: #f2e1e1;
+          }
+          .mat-radio-outer-circle{
+            border-color: #e83535b5;
+          }
+          .mat-radio-inner-circle{
+            background-color: #e83535b5;
+          }
+          .mat-checkbox-background{
+            background-color: #e83535b5;
+          }
           ~ .rdo_desc{
             background-color: #f2e1e1;
+            width: 90%;
+            padding: 20px;
+            box-sizing: border-box;
+            border-top: 1px solid #c4c4c4;
+            margin-bottom: 6px;
+            margin-top: -6px;
+            .tstsqst_img{
+              width: 100%;
+              img{
+                max-width: 150px;
+                border: 1px solid #94a393;
+                padding: 4px;
+              }
+            }
           }
         }
         .mat-radio-label, .mat-checkbox-layout{
@@ -4847,6 +4882,19 @@ sup {
         }
       }
       
+    }
+  }
+  &.tsts_collps{
+    .tsts_qstns_nums{
+      flex:auto;
+      background-color: transparent;
+      margin-right: 1%;
+      .tstsnms_hd, .tstsnms_cnt_dv{
+        display: none;
+      }
+    }
+    .tsts_qstns{
+      flex: 100%;
     }
   }
 }
