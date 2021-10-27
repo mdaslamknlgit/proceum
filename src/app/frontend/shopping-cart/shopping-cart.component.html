@@ -10,72 +10,101 @@
                     &#x2715;
                 </button>
             </div>
-            <div class="tbbd_bdy dsh_brd_crds">
-                <div class="hgt_10"></div>
-                <div class="d-flex fw_w">
-                    <div class="w_47p">
-                        <div>Name</div>
-                        <div>
-                            <mat-form-field appearance="outline">
-                                <input matInput placeholder="Name" autocomplete="off"/>
-                            </mat-form-field> 
+            <form id="address_form" #address_form="ngForm" name="address_form" (ngSubmit)="address_form.valid && toggleModel()" novalidate>
+                <div class="tbbd_bdy dsh_brd_crds">
+                    <div class="hgt_10"></div>
+                    <div class="d-flex fw_w">
+                        <div class="w_47p">
+                            <div>Name</div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="edit_contact_name" #edit_contact_name="ngModel" 
+                                    [(ngModel)]="contact_name" appAlphabetOnly placeholder="Name" required maxlength="30" autocomplete="off"/>
+                                </mat-form-field> 
+                            </div>
                         </div>
+                        <div class="w_47p">
+                            <div>Contact Number</div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="edit_phone" #edit_phone="ngModel" 
+                                    [(ngModel)]="phone" appNumbersonly placeholder="Contact Number" required maxlength="15"  autocomplete="off"/>
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+                        <div class="w_47p">
+                            <div>Country</div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select Country" name="edit_country_id" #edit_country_id="ngModel"
+                                        [(ngModel)]="country_id" (ngModelChange)="getStates(country_id)" required>
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
+                                                [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                                                (ngModelChange)="filterCountries($event)">
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">
+                                            {{ country["country_name"] }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+                        <div class="w_47p">
+                            <div>State</div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select State" #edit_state_id="ngModel" name="edit_state_id"
+                                        [(ngModel)]="state_id" (ngModelChange)="setStateName()" required>
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
+                                                [placeholderLabel]="'Search State'" name="search_state" ngModel
+                                                (ngModelChange)="filterStates($event)">
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let state of all_states | async" [value]="state['id']">
+                                            {{ state["state_name"] }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+                        <div class="w_47p">
+                            <div>City/Town</div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="edit_city" #edit_city="ngModel" 
+                                    [(ngModel)]="city" placeholder="City/Town" required maxlength="30" autocomplete="off" />
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+                        <div class="w_47p">
+                            <div>Pin Code</div>
+                            <div>
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="edit_zip_code" #edit_zip_code="ngModel" 
+                                    [(ngModel)]="zip_code" placeholder="Pin/Zip Code" required maxlength="10" autocomplete="off" />
+                                </mat-form-field> 
+                            </div>
+                        </div> 
+                        <div class="w_100p">
+                            <div>Address</div>
+                            <div>
+                                <mat-form-field appearance="outline" class="w_91p">
+                                    <textarea matInput name="edit_address" #edit_address="ngModel" 
+                                    [(ngModel)]="address" placeholder="Address" required></textarea>
+                                </mat-form-field> 
+                            </div>
+                        </div> 
                     </div>
-                    <div class="w_47p">
-                        <div>Contact Number</div>
-                        <div>
-                            <mat-form-field appearance="outline">
-                                <input matInput placeholder="Contact Number" autocomplete="off"/>
-                            </mat-form-field> 
-                        </div>
-                    </div> 
-                    <div class="w_47p">
-                        <div>Country</div>
-                        <div>
-                            <mat-form-field appearance="outline">
-                                <input matInput placeholder="Country" autocomplete="off"/>
-                            </mat-form-field> 
-                        </div>
-                    </div> 
-                    <div class="w_47p">
-                        <div>State</div>
-                        <div>
-                            <mat-form-field appearance="outline">
-                                <input matInput placeholder="State" autocomplete="off"/>
-                            </mat-form-field> 
-                        </div>
-                    </div> 
-                    <div class="w_47p">
-                        <div>City/Town</div>
-                        <div>
-                            <mat-form-field appearance="outline">
-                                <input matInput placeholder="City/Town" autocomplete="off"/>
-                            </mat-form-field> 
-                        </div>
-                    </div> 
-                    <div class="w_47p">
-                        <div>Pin Code</div>
-                        <div>
-                            <mat-form-field appearance="outline">
-                                <input matInput placeholder="Pin Code" autocomplete="off"/>
-                            </mat-form-field> 
-                        </div>
-                    </div> 
-                    <div class="w_100p">
-                        <div>Address</div>
-                        <div>
-                            <mat-form-field appearance="outline" class="w_91p">
-                                <textarea matInput placeholder="Address"></textarea>
-                            </mat-form-field> 
-                        </div>
-                    </div> 
+                   <div class="text_center">
+                       <button class="mr_1" mat-raised-button (click)="toggleModel()">Cancel</button>
+                       <button color="accent" mat-raised-button>Submit</button>
+                   </div>
+                    <div class="hgt_50"></div>
                 </div>
-               <div class="text_center">
-                   <button class="mr_1" mat-raised-button (click)="toggleModel()">Cancel</button>
-                   <button color="accent" mat-raised-button>Submit</button>
-               </div>
-                <div class="hgt_50"></div>
-            </div>
+            </form>
         </div>
     </div>
     <div class="hgt_20"></div>
@@ -121,7 +150,10 @@
                     </div>
                 </div>
                 <div class="shp_crt_amnt amnt_pybl">
-                    {{ item.product_data.currency_symbol }} {{ item.product_data.price }}
+                    {{ item.product_data.currency_symbol }} {{ item.final_prices.selling_price }}
+                    <span *ngIf="item.final_prices.discount_percent">
+                        {{ item.product_data.currency_symbol }} {{ item.final_prices.original_price }} | {{ item.final_prices.discount_percent }} % off
+                    </span>
                 </div>
             </div>
 
@@ -132,36 +164,61 @@
                     </div>
                     <div class="hgt_10"></div>
                     <div class="ba_add w_50p d-flex">
-                        <div>
-                            User Name<br>
-                            Dno: 999,<br>
-                            My Building Name,<br>
-                            My Area, My City, 100001,<br>
-                            My State,<br>
-                            +91-987654321,<br>
-                            myemailid.com
+                        <div *ngIf="user_address">
+                            {{ contact_name }}<br>
+                            {{ address }}<br>
+                            {{ city }}<br>
+                            {{ state_name }}<br>
+                            {{ country_name }}<br>
+                            {{ zip_code }}<br>
+                            {{ phone }}<br>
                         </div>
                         <div class="spacer"></div>
                         <div class="ad_nw_addrs">
                             <div class="spacer"></div>
-                            <mat-icon matTooltip="Edit Address">edit_notes</mat-icon>
-                            <mat-icon matTooltip="Add New Address" (click)="toggleModel()">add</mat-icon>
+                            <span *ngIf="user_address"><mat-icon matTooltip="Edit Address" (click)="toggleModel()">edit_notes</mat-icon></span>
+                            <span *ngIf="!user_address"><mat-icon matTooltip="Add New Address" (click)="toggleModel()" >add</mat-icon></span>
+                            
                         </div>
                     </div>
                 </div>
                 <div class="jc_fe d-flex fd_clmn">
-                    <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Total Amount<div class="amnt_pybl"><div class="cln_cntr">:</div><div class="spacer"></div><mat-icon>currency_rupee</mat-icon> 14,500</div></div>
+                    <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Total Amount
+                        <div class="amnt_pybl">
+                            <div class="cln_cntr">:</div>
+                            <div class="spacer"></div>
+                            {{cart_items[0].product_data.currency_symbol}} {{ total_amount }}
+                        </div>
+                    </div>
                     <div class="hgt_20"></div>
-                    <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">Coupon Applied<div class="amnt_pybl"><div class="cln_cntr">:</div><div class="spacer"></div><mat-icon>currency_rupee</mat-icon> 500</div></div>
-                    <div class="cpncd_appld d-flex ai_cntr jc_fe "><span class="act_cpncd">ACC-BDD-CQQACC-BDD-CQQ <mat-icon color="warn" matTooltip="Remove Coupon" class="rmv_cpn">close</mat-icon></span> <div class="amnt_pybl"></div></div>
+                    <span *ngIf="discount_applied">
+                        <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">Coupon Applied
+                            <div class="amnt_pybl">
+                                <div class="cln_cntr">:</div>
+                                <div class="spacer"></div>
+                                {{cart_items[0].product_data.currency_symbol}} {{ discount_amount }}</div>
+                            </div>
+                        <div class="cpncd_appld d-flex ai_cntr jc_fe ">
+                            <span class="act_cpncd">ACC-BDD-CQQACC-BDD-CQQ 
+                                <mat-icon color="warn" matTooltip="Remove Coupon" class="rmv_cpn">close</mat-icon>
+                            </span> 
+                            <div class="amnt_pybl"></div>
+                        </div>
+                    </span>
                 
                     <div class="hgt_5"></div>
-                    <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Amount Payable<div class="amnt_pybl"><div class="cln_cntr">:</div><div class="spacer"></div><mat-icon>currency_rupee</mat-icon> 14,000</div></div>
+                    <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Amount Payable
+                        <div class="amnt_pybl"><div class="cln_cntr">:</div>
+                        <div class="spacer"></div>
+                            {{cart_items[0].product_data.currency_symbol}} {{ total_payable }}
+                        </div>
+                    </div>
                     
                     <div class="hgt_10"></div>
                     <div>
-                        <div class="hv_cpncd jc_fe text_right">Have a Coupon code ?</div>
-                        <div class="jc_fe cupncd_inpt">
+                        <div class="hv_cpncd jc_fe text_right" (click)="have_coupon_code = true">Have a Coupon code ?</div>
+                        <div class="hgt_10"></div>
+                        <div class="jc_fe cupncd_inpt" *ngIf="have_coupon_code">
                             <mat-form-field appearance="outline">
                                 <input matInput placeholder="Enter Coupon Code" autocomplete="off"/>
                                 <mat-icon class="dn_chkr" matSuffix>done</mat-icon>

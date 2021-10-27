@@ -5,7 +5,7 @@
                 Packages</strong></span> &raquo;{{ package.package_name }}</div>
     <div class="pg_ttl">Package Details</div>
     <div class="hgt_20"></div>
-    <div class="crs_innr_par">
+    <div class="crs_innr_par" *ngIf="package">
         <div class="crs_innr_chld">
             <div class="crs_innr_lgo">
                 <div class="crs_icn pkg_img_bg  grn_bg m_auto" *ngIf="package.package_img">
@@ -37,7 +37,9 @@
                 <div class="hgt_10"></div>
                 <div class="crs_innr_prc">
                     <span class="bld_txt_blk">
-                        <span class="rpe_sym">{{ package_prices[0].currency_symbol}}</span>{{ package_prices[0].price_amount}}
+                        <span>{{ package_prices[0].currency_symbol}}</span>{{ package_prices[0].selling_price}}
+                        <span *ngIf="package_prices[0].discount_percent">{{ package_prices[0].currency_symbol}}</span>{{ package_prices[0].original_price}}
+                        <span *ngIf="package_prices[0].discount_percent"> {{ package_prices[0].discount_percent }}% off</span>
                     </span>
                 </div>
                 <div class="crs_dsc" *ngIf="package.package_desc">

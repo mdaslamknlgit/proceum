@@ -10,14 +10,14 @@
         <form ngNativeValidate #question_list_form="ngForm" id="question_list_form" name="question_list_form"
             (ngSubmit)="question_list_form.valid && updateQList(question_list_form)" novalidate>
             <div class="crt_pr_mn px-0 bg-0">
-
                 <div class="w_100p">
 
                     <div>
                         <div class="crt_prt_hd">This Question is for:</div>
-                        <div class="crt_prt_cnt">
-                            <mat-radio-group [disabled]="true" name="questionUsageType"
+                        <div class="crt_prt_cnt pe_nn">
+                            <mat-radio-group name="questionUsageType"
                                 [(ngModel)]="question.questionUsageType" #questionUsageType="ngModel" ngModel required>
+                                <!-- [disabled]="true" -->
                                 <mat-radio-button [value]="1" class="emh qif" (click)="false && changeQUsageType(1)">
                                     Assessment
                                     Only (This question will not visible for frontend in notes/content)
