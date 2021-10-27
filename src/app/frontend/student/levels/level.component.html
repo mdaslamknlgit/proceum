@@ -1,15 +1,11 @@
 <div class="mn_dshbrd">
-  <div class="pg_ttl">Courses</div>
-  <!-- <div class="brd_crm mt_0">
-    <strong>Courses</strong>
-  </div> 
-  <div class="hgt_20"></div>-->
+  <div class="pg_ttl">Courses & Qbanks</div>
   <div class="dsh_brd_crds">
     <span>Search</span>
     <div class="clear_fix"></div>
     <mat-form-field appearance="outline" class="xl_srch">
       <input matInput [(ngModel)]="search" matInput (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-        placeholder="Search Courses" />
+        placeholder="Search" />
       <mat-icon matSuffix color="accent" (click)="doFilter()">search</mat-icon>
     </mat-form-field>
   </div>
@@ -42,16 +38,7 @@
               (click)="manageStatistics('rating', level['id'], i,4.5)">star</mat-icon>
             <mat-icon class="hlf_str5 {{level['rating'] > 4.5?'ct_slctd':''}}"
               (click)="manageStatistics('rating', level['id'], i,5)">star</mat-icon>
-            <!-- ct_slctd || add this class to the selected single star -->
           </span>
-          <!-- <span class="cs_rtn">
-            <mat-icon class="ct_slctd">star</mat-icon>
-            <mat-icon class="ct_slctd">star</mat-icon>
-            <mat-icon class="ct_slctd">star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <mat-icon>star</mat-icon>
-            <span>3/5</span>
-          </span> -->
           <span class="cs_rew" *ngIf="false">(3,150 reviews)</span>
           <span class="cs_stc" *ngFor="let label of level['labels']">
             <span class="cs_stc_hd">{{ label["display_label"] }}</span>
@@ -78,7 +65,7 @@
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Most Popular" *ngIf="false">
+    <!--<mat-tab label="Most Popular" *ngIf="false">
       <div class="crs_sld_mn">
         <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0">No Records Found</div>
         <div class="crs_sld_dv" *ngFor="let level of levels">
@@ -112,7 +99,7 @@
         </div>
       </div>
     </mat-tab>
-    <mat-tab label="Most Rated" *ngIf="false">
+     <mat-tab label="Most Rated" *ngIf="false">
       <div class="crs_sld_mn">
         <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0">No Records Found</div>
         <div class="crs_sld_dv" *ngFor="let level of levels">
@@ -179,13 +166,13 @@
           </span>
         </div>
       </div>
-    </mat-tab>
+    </mat-tab> -->
   </mat-tab-group>
-  <mat-tab-group animationDuration="0.15s">
+  <mat-tab-group animationDuration="0.15s" *ngIf="q_is_loaded">
     <mat-tab label="Question Banks">
       <div class="crs_sld_mn rtng_par ai_nrml">
-        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0">No Records Found</div>
-        <div class="crs_sld_dv" *ngFor="let level of levels;let i=index">
+        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="q_levels.length == 0">No Records Found</div>
+        <div class="crs_sld_dv" *ngFor="let level of q_levels;let i=index">
           <span class="cs_hd"
             routerLink="/student/curriculums/{{ level['id'] }}/{{level['labels'][0]['level_number']}}">{{ level["name"]
             }}</span>
