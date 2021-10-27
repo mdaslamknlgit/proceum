@@ -4936,10 +4936,32 @@ sup {
     }
   }
   mat-radio-button, mat-checkbox{
+    position: relative;
+    padding-left: 20px;
     .mat-radio-container, .mat-checkbox-inner-container{
       display: none;
     }
-  } 
+    &::before{
+      font-family: "Material Icons";
+      left: 14px;
+      position: absolute;
+      top: 18px;
+      font-size: 20px;
+    }
+    &.wrng_rdo::before{
+      content: "\e5cd";
+      color: #e83535b5;
+    }
+    &.crrct_rdo::before{
+      color: #41ab3c;
+      content: "\e5ca";
+    }
+  }
+  mat-checkbox{
+    &::before{
+      top:20px;
+    }
+  }
 }
 .pe_nn{
   pointer-events: none;
