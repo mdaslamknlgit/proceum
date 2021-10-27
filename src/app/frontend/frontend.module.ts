@@ -32,6 +32,7 @@ import { SafePipe } from '../shared/pipes/safe.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { TestsPageComponent } from './student/study-planner-student/tests-page/tests-page.component';
+import { QbankComponent } from './student/levels/qbank/qbank.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -101,6 +102,7 @@ const routes: Routes = [
     StudyPlannerStudentComponent,
     ShoppingCartComponent,
     TestsPageComponent,
+    QbankComponent,
   ],
   imports: [
     CommonModule,

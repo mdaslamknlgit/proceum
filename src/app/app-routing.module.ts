@@ -20,6 +20,8 @@ import { ResetPasswordComponent } from './frontend/reset-password/reset-password
 import { ListPackagesComponent } from './frontend/pricing-packages/list-packages/list-packages.component';
 import { PackageDetailsComponent } from './frontend/pricing-packages/package-details/package-details.component';
 import { ShoppingCartComponent } from './frontend/shopping-cart/shopping-cart.component';
+import { QuestionBankComponent } from './admin/question-management/question-bank/question-bank.component';
+import { QbankComponent } from './frontend/student/levels/qbank/qbank.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -79,6 +81,7 @@ const routes: Routes = [
   },
   { path: 'student-curriculum', component: CurriculumComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },
+  { path: 'qbank', component: QbankComponent },
   
   { path: 'pricing-and-packages', component: ListPackagesComponent },
   { path: 'package-details/:id', component: PackageDetailsComponent },
