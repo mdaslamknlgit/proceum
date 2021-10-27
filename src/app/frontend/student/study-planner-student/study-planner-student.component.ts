@@ -16,17 +16,24 @@ export class StudyPlannerStudentComponent implements OnInit {
     public selected_course = [];
     public selected_day_index = 0;
     public study_plan = {name:'', course:[], duration:0, schdule:[]};
-    public study_plan_id = 6;
+    public study_plan_id = 0;
     public pageSize = environment.page_size;
     public page_size_options = environment.page_size_options;
     public totalSize = 0;
     public page: number = 0;
     public plans_list = [];
     public topics = [];
+    public user_data = [];
   constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
     ngOnInit(): void {
+        this.activatedRoute.params.subscribe((param) => {
+            this.study_plan_id = param.plan_id;
+            if(this.study_plan_id != null && this.study_plan_id >0)
+                this.getStudyPlan(this.study_plan_id);
+        });
         this.getPlansList();
+        this.user_data = this.http.getUser();
     }
     getPlansList(){
         let param = {
@@ -37,7 +44,7 @@ export class StudyPlannerStudentComponent implements OnInit {
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
                 this.plans_list = res['data']['plans_list'];
-                if(this.plans_list.length>0){
+                if(this.plans_list.length>0 && this.study_plan_id == null || this.study_plan_id == 0){
                     this.getStudyPlan(this.plans_list[0]['id']);
                 }
                 this.totalSize = res['data']['total_records'];
@@ -94,5 +101,17 @@ export class StudyPlannerStudentComponent implements OnInit {
     }
     startTest(day){
         this.router.navigateByUrl('/student/study-planner/test/'+day+"/"+this.study_plan_id);
+    }
+    markAsDayComplete(day){
+        let param = {url: "study-plan/day-complete", day: day, student_id: this.user_data['id'], plan_id: this.study_plan_id};
+        this.http.post(param).subscribe(res=>{
+            if(res['error'] == false){
+                this.toster.success(res['message'], "Success", {closeButton:true});
+                this.study_plan.schdule[day-1]['is_done'] = true;
+            }
+            else{
+                this.toster.error(res['message'], "Error", {closeButton:true});
+            }
+        });
     }
 }

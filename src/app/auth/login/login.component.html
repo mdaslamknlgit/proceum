@@ -6,12 +6,14 @@
         <p class="sgn_hd">Welcome</p>
         <form #login_id="ngForm" name="login_form" (ngSubmit)="doLogin()" novalidate>
           <div class="mail {{ login_id.submitted && (login.email == '' || user_email.invalid) ? 'err_tltp_par' : ''}}">
-            <input type="email" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email
+            <input type="email" style="display:none" name="user_email"/>
+              <input type="email" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email
               #user_email="ngModel" ngModel required />
             <span class="material-icons mail_icon">mail_outline</span>
             <span class="prc_tltp" *ngIf="login_id.submitted && (login.email == '' || email_check == false)">{{email_error}}</span>
           </div>
           <div class="psswrd {{ login_id.submitted && (login.password == '') ? 'err_tltp_par' : ''}}">
+            <input [type]="password_hide ? 'password' : 'text'" style="display:none" name="user_password"/>
             <input [type]="password_hide ? 'password' : 'text'" required [(ngModel)]="login.password"
               name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel />
             <span class="material-icons mail_icon">password</span>

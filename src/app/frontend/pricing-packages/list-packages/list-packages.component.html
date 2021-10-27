@@ -50,7 +50,12 @@
                     <mat-icon>favorite_border</mat-icon> 3445
                 </span> -->
                 <span class="bld_txt_blk">
-                    <span class="rpe_sym">{{ package.currency_symbol}}</span>{{ package.prices}}
+                    <span class="rpe_sym">{{ package.currency_symbol}}</span>{{ package.selling_price}} 
+                    <span *ngIf="package.discount_percent">
+                        <span class="rpe_sym">{{ package.currency_symbol}}</span>{{ package.original_price}} 
+                        {{ package.discount_percent}} % off
+                    </span>
+                    
                 </span>
             </div>
             <div class="crs_pr_bynw">

@@ -18,6 +18,7 @@ export class TestsPageComponent implements OnInit {
     public bucket_url = '';
     public kpoint_iframe_url = '';
     public xt = '';
+    public study_plan = [];
     constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
     ngOnInit(): void {
@@ -34,7 +35,9 @@ export class TestsPageComponent implements OnInit {
             if(res['error'] == false){
                 this.questions_list = res['data']['questions'];
                 this.bucket_url = res['data']['bucket_url'];
-                this.getQuestionOptions(0);
+                this.study_plan.push(res['data']['study_plan']);
+                if(this.questions_list.length > 0)
+                    this.getQuestionOptions(0);
             }
             else{
                 this.toster.error(res['message'], "Error", {closeButton:true});
@@ -80,8 +83,8 @@ export class TestsPageComponent implements OnInit {
         else{
             let index = this.active_question['answer'].indexOf(''+option_id);
             this.active_question['answer'].splice(index,1);
-            let index2 = this.questions_list[this.active_q_index].indexOf(''+option_id);
-            this.questions_list[this.active_q_index].splice(index2,1);
+            let index2 = this.questions_list[this.active_q_index]['answer'].indexOf(''+option_id);
+            this.questions_list[this.active_q_index]['answer'].splice(index2,1);
         }
     }
     checkAnswer(){

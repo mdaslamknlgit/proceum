@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CartCountService } from '../../services/cart-count.service';
 import { environment } from 'src/environments/environment';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -19,10 +20,31 @@ export class ShoppingCartComponent implements OnInit {
   //Cart item variables
   public cart_items:any = []; 
   public cart_count:any = '';
+  public total_amount:any = 0;
+  public total_payable:any = 0;
+  public discount_applied:any = false;
+  public discount_amount:any = 0;
+  public have_coupon_code:any = false;
   public product_default_img = environment.PACKAGE_DEFAULT_IMG;
 
   //Billing address model popup
   public model_status = false;
+  public user_address:any;
+  public contact_name = '';
+  public phone = '';
+  public country_id:any = '';
+  public country_name= '';
+  public state_id:any = '';
+  public state_name = '';
+  public city = '';
+  public address = '';
+  public zip_code = '';
+
+  //Country and state related data variables
+  public countrys = [];
+  public states = [];
+  all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
     private http: CommonService,
@@ -34,9 +56,11 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.http.getUser(); 
     if(this.user){
+      this.contact_name = this.user["name"];
       this.user_id = this.user['id'];
       this.role_id =  Number(this.user['role']);
       this.getCartItems();
+      this.getCountries();
     }
   }
 
@@ -47,6 +71,21 @@ export class ShoppingCartComponent implements OnInit {
       if (res['error'] == false) {
         if(res['data'].length){
           this.cart_items = res['data'];
+          this.user_address = res['user_address'];
+          if(this.user_address){
+            this.country_id = this.user_address["country_id"];
+            this.country_name = this.user_address["country_name"];
+            this.state_id = this.user_address["state_id"];
+            if(this.state_id > 0){
+              this.getStates(this.state_id);
+            }
+            this.state_name = this.user_address["state_name"];
+            this.city = this.user_address["city"];
+            this.address = this.user_address["address_line_1"]+ ' ' + this.user_address["address_line_2"];
+            this.zip_code = this.user_address["zip_code"];
+            this.phone = this.user_address["phone"];
+          }    
+          this.updateAmounts(res);      
         }else{
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
@@ -66,8 +105,7 @@ export class ShoppingCartComponent implements OnInit {
       if (res['error'] == false) {
         if(res['data'].length){
           this.cart_items = res['data'];
-          this.cartCountService.sendNumber(res['cart_count']);
-          this.toster.success("Moved To WishList!", 'Success');
+          this.updateAmounts(res);   
         }else{
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
@@ -88,6 +126,7 @@ export class ShoppingCartComponent implements OnInit {
           this.cart_items = res['data'];
           this.cartCountService.sendNumber(res['cart_count']);
           this.toster.success("Removed Item From Cart!", 'Success');
+          this.updateAmounts(res);   
         }else{
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to order!", 'Error');
@@ -100,8 +139,97 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   //Toggle model popup for billing address
-  toggleModel() {
+  public toggleModel() {
     this.model_status = !this.model_status;
+  }
+
+  public getCountries(){
+    let param = { url: 'get-countries' };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.countrys = res['data']['countries'];
+        if(this.countrys != undefined){
+          this.all_countrys.next(this.countrys.slice());
+        }
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  public filterCountries(event) {
+    let search = event;
+    if (!search) {
+      this.all_countrys.next(this.countrys.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_countrys.next(
+      this.countrys.filter(
+        (country) => country.country_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  public getStates(selected_country_id: number) {
+    if (selected_country_id > 0) {
+      //First set country_name
+      this.countrys.filter((item) => {
+        if(item.id == selected_country_id){
+          this.country_name = item.country_name;
+        }
+      });
+
+      let param = {
+        url: 'get-states',
+        country_id: selected_country_id,
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.states = res['data']['states'];
+          this.all_states.next(this.states.slice());
+        } else {
+          let message = res['errors']['title']
+            ? res['errors']['title']
+            : res['message'];
+          //this.toster.error(message, 'Error', { closeButton: true });
+        }
+      });
+    }
+  }
+
+  public filterStates(event) {
+    let search = event;
+    if (!search) {
+      this.all_states.next(this.states.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_states.next(
+      this.states.filter(
+        (state) => state.state_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  public setStateName(){
+    if (this.state_id > 0) {
+      //set state_name
+      this.states.filter((item) => {
+        if(item.id == this.state_id){
+          this.state_name = item.state_name;
+        }
+      });
+    }
+  }
+
+  public updateAmounts(res){
+    this.total_amount = res['total_amount'];
+    this.total_payable = res['total_payable'];
+    this.discount_applied = res['discount_applied'];
+    this.discount_amount = res['discount_amount'];
   }
 
 }

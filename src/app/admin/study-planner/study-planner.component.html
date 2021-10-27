@@ -154,7 +154,7 @@
             <span>Study plan name <span class="required">*</span></span>
             <div class="xl_srch err_tltp_par w_100p">
                 <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput placeholder="Study plan name" name="name" #name="ngModel"
+                    <input maxlength="60" matInput placeholder="Study plan name" name="name" #name="ngModel"
                         [(ngModel)]="study_plan.name" required />
                 </mat-form-field>
                 <span class="prc_tltp">Required</span>
@@ -238,6 +238,9 @@
 
             </div>
         </div>
-        <button type="submit" mat-raised-button color="accent">Save</button>
+        <button type="submit" [disabled]="study_plan.duration==0" mat-raised-button color="accent">Save</button>
+        <button routerLink="/admin/study-planner" type="button" mat-raised-button color="warn">
+            Close
+        </button>
     </form>
 </div>
