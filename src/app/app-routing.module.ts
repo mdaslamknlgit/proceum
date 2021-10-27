@@ -81,7 +81,6 @@ const routes: Routes = [
   },
   { path: 'student-curriculum', component: CurriculumComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },
-  { path: 'qbank', component: QbankComponent },
   
   { path: 'pricing-and-packages', component: ListPackagesComponent },
   { path: 'package-details/:id', component: PackageDetailsComponent },

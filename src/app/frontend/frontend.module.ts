@@ -74,6 +74,7 @@ const routes: Routes = [
       { path: 'study-planner', component: StudyPlannerStudentComponent },
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
+      { path: 'qbank', component: QbankComponent },
     ],
   },
 ];
