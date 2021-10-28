@@ -191,15 +191,15 @@
                         </div>
                     </div>
                     <div class="hgt_20"></div>
-                    <span *ngIf="discount_applied">
+                    <span *ngIf="coupon_applied">
                         <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">Coupon Applied
                             <div class="amnt_pybl">
                                 <div class="cln_cntr">:</div>
                                 <div class="spacer"></div>
-                                {{cart_items[0].product_data.currency_symbol}} {{ discount_amount }}</div>
+                                {{cart_items[0].product_data.currency_symbol}} {{ coupon_discount_amount }}</div>
                             </div>
                         <div class="cpncd_appld d-flex ai_cntr jc_fe ">
-                            <span class="act_cpncd">ACC-BDD-CQQACC-BDD-CQQ 
+                            <span class="act_cpncd">{{ this.coupon_code }}
                                 <mat-icon color="warn" matTooltip="Remove Coupon" class="rmv_cpn">close</mat-icon>
                             </span> 
                             <div class="amnt_pybl"></div>
@@ -219,13 +219,15 @@
                         <div class="hv_cpncd jc_fe text_right" (click)="have_coupon_code = true">Have a Coupon code ?</div>
                         <div class="hgt_10"></div>
                         <div class="jc_fe cupncd_inpt" *ngIf="have_coupon_code">
-                            <mat-form-field appearance="outline">
-                                <input matInput placeholder="Enter Coupon Code" autocomplete="off"/>
-                                <mat-icon class="dn_chkr" matSuffix>done</mat-icon>
-                            </mat-form-field> 
+                            <form id="coupon_form" #coupon_form="ngForm" name="coupon_form" (ngSubmit)="coupon_form.valid && applyCoupon()" novalidate>
+                                <mat-form-field appearance="outline">
+                                    <input matInput [(ngModel)]="coupon_code" name="edit_coupon_code" #edit_coupon_code="ngModel" placeholder="Enter Coupon Code" autocomplete="off" required/>
+                                    <mat-icon class="dn_chkr" matSuffix (click)="applyCoupon()">done</mat-icon>
+                                </mat-form-field> 
+                            </form>
                         </div>
                     </div>
-                    <button color="accent" mat-raised-button >Proceed to Payment</button>
+                    <button color="accent" mat-raised-button (click)="proceedPayment()">Proceed to Payment</button>
                 </div>
                 <div class="hgt_20"></div>
             </div>
