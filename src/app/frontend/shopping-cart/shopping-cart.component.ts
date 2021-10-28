@@ -28,6 +28,7 @@ export class ShoppingCartComponent implements OnInit {
   public coupon_description:any = '';
   public have_coupon_code:any = false;
   public coupon_code:any = '';
+  public disable_payment_button:any = false;
   public product_default_img = environment.PACKAGE_DEFAULT_IMG;
 
   //Billing address model popup
@@ -49,6 +50,8 @@ export class ShoppingCartComponent implements OnInit {
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
 
+  //Order related variable
+  public order_id:any = '';
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -287,6 +290,11 @@ export class ShoppingCartComponent implements OnInit {
    ************************************************************************/
   public proceedPayment(){
     //=========Create order in proceum database
+    //Disable Payment Button
+    if(this.disable_payment_button){
+      return;
+    }
+    this.disable_payment_button = true;
     //Prepare address details
     let adressDetails = {
       a_contact_name  : this.contact_name,
@@ -310,17 +318,18 @@ export class ShoppingCartComponent implements OnInit {
     }
     //Make a post request
     this.http.post(params).subscribe((res) => {
-      console.log(res);
       if (res['error'] == false) {
         //============PopUp Payment gateway
         this.payWithRazorpay(res['data']);
       } else {
         this.toster.error(res['message'], 'Error');
+        this.disable_payment_button = false;
       }
     });
   }
 
   public payWithRazorpay(data) {
+    this.order_id = data.order_id;
     const options: any = {
       key: data.razorpay_key,
       amount: data.amount,
@@ -338,20 +347,46 @@ export class ShoppingCartComponent implements OnInit {
       },
       theme: {
         color: '#41ab3c'
-      }
+      },
+      prefill : {
+          name: this.contact_name,
+          email: data.email,
+          contact: data.phone,
+      },
     };
     options.handler = ((response, error) => {
-      options.response = response;
-      console.log(response);
-      console.log(options);
       // call your backend api to verify payment signature & capture transaction
+      this.razorpayPaymentSuccess(response);
     });
     options.modal.ondismiss = (() => {
       // handle the case when user closes the form while transaction is in progress
+      this.disable_payment_button = false;
       console.log('Transaction cancelled.');
     });
     const rzp = new this.winRef.nativeWindow.Razorpay(options);
+    rzp.on('payment.failed', function (response){
+      this.toster.error("Payment Failed! "+response.error.reason, 'Error');
+      this.disable_payment_button = false;
+    });
     rzp.open();
+  }
+
+  public razorpayPaymentSuccess(response){
+    let params = {
+      url                             : 'razorpay-payment-success',
+      payment_gateway_order_id        : response.razorpay_order_id,
+      payment_gateway_payment_id      : response.razorpay_payment_id,
+      signature                       : response.razorpay_signature,
+      order_id                        : this.order_id,
+    }
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success("Congrats! Payment is success!", 'Success');  
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+      this.disable_payment_button = false;
+    });
   }
 
 }
