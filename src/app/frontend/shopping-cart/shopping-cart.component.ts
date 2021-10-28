@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CartCountService } from '../../services/cart-count.service';
 import { environment } from 'src/environments/environment';
 import { ReplaySubject } from 'rxjs';
+import { WindowRefService } from '../../services/window-ref.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -53,6 +54,7 @@ export class ShoppingCartComponent implements OnInit {
     public toster: ToastrService,
     private router: Router,
     private cartCountService:CartCountService,
+    private winRef: WindowRefService
   ) { }
 
   ngOnInit(): void {
@@ -247,7 +249,7 @@ export class ShoppingCartComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         if(res['data'].length){
-          this.cart_items = res['data'];
+          //this.cart_items = res['data'];
           this.updateAmounts(res);   
         }else{
           this.cartCountService.sendNumber(0);
@@ -260,6 +262,26 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
+  //remove Coupon
+  public removeCoupon(){
+    this.coupon_code = '';
+    let param = { url: 'get-cart-items', id: this.user_id};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        if(res['data'].length){
+          this.updateAmounts(res);      
+        }else{
+          this.cartCountService.sendNumber(0);
+          this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
+          this.router.navigateByUrl('/pricing-and-packages');
+        }
+      } else {
+        this.toster.error(res['message'], 'Error');
+        this.router.navigateByUrl('/pricing-and-packages');
+      }
+    });
+  }
+
   /************************************************************************
    ************** Payments related functionality starts here **************
    ************************************************************************/
@@ -267,13 +289,13 @@ export class ShoppingCartComponent implements OnInit {
     //=========Create order in proceum database
     //Prepare address details
     let adressDetails = {
-      country_name  : this.country_name,
-      state_name    : this.state_name,
-      city          : this.city,
-      address       : this.address,
-      zip_code      : this.zip_code,
-      phone         : this.phone,
-      contact_name  : this.contact_name
+      a_contact_name  : this.contact_name,
+      b_address       : this.address,
+      c_city          : this.city,
+      d_state_name    : this.state_name,
+      e_country_name  : this.country_name,
+      f_zip_code      : this.zip_code,
+      g_phone         : this.phone,
     }
     //Prepare main object to send
     let params = {
@@ -281,6 +303,7 @@ export class ShoppingCartComponent implements OnInit {
       cart_items      : this.cart_items,
       adress_details  : adressDetails,
       coupon_applied  : this.coupon_applied,
+      coupon_code     : this.coupon_code,
       total_amount    : this.total_amount,
       total_payable   : this.total_payable,
       coupon_discount_amount : this.coupon_discount_amount,
@@ -288,16 +311,47 @@ export class ShoppingCartComponent implements OnInit {
     //Make a post request
     this.http.post(params).subscribe((res) => {
       console.log(res);
-      
       if (res['error'] == false) {
-        
+        //============PopUp Payment gateway
+        this.payWithRazorpay(res['data']);
       } else {
         this.toster.error(res['message'], 'Error');
       }
     });
+  }
 
-
-    //============PopUp Payment gateway
+  public payWithRazorpay(data) {
+    const options: any = {
+      key: data.razorpay_key,
+      amount: data.amount,
+      currency: data.currency,
+      name: data.company_name,
+      description: data.company_description,
+      image: data.company_logo, 
+      order_id: data.id, 
+      modal: {
+        // We should prevent closing of the form when esc key is pressed.
+        escape: false,
+      },
+      notes: {
+        // include notes if any
+      },
+      theme: {
+        color: '#41ab3c'
+      }
+    };
+    options.handler = ((response, error) => {
+      options.response = response;
+      console.log(response);
+      console.log(options);
+      // call your backend api to verify payment signature & capture transaction
+    });
+    options.modal.ondismiss = (() => {
+      // handle the case when user closes the form while transaction is in progress
+      console.log('Transaction cancelled.');
+    });
+    const rzp = new this.winRef.nativeWindow.Razorpay(options);
+    rzp.open();
   }
 
 }
