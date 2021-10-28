@@ -9,8 +9,10 @@ import { CommonService } from 'src/app/services/common.service';
 })
 export class LevelComponent implements OnInit {
   public levels = [];
+  public q_levels = [];
   public search = '';
   public is_loaded = false;
+  public q_is_loaded = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService
@@ -18,12 +20,14 @@ export class LevelComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurriculums();
+    this.getQbanks();
   }
   getCurriculums() {
       this.is_loaded = false;
     let param = {
       url: 'curriculum-list',
       search: this.search,
+      type:1
     };
     this.http.post(param).subscribe((res) => {
         this.is_loaded = true;
@@ -35,6 +39,23 @@ export class LevelComponent implements OnInit {
       }
     });
   }
+  getQbanks() {
+    this.q_is_loaded = false;
+  let param = {
+    url: 'curriculum-list',
+    search: this.search,
+    type:2
+  };
+  this.http.post(param).subscribe((res) => {
+      this.q_is_loaded = true;
+    if (res['error'] == false) {
+      let data = res['data'];
+      this.q_levels = data['levels'];
+    } else {
+      this.q_levels = [];
+    }
+  });
+}
   manageStatistics(type, id, i, rating=0) {
   let param = {
     url: 'manage-curriculum-statistics',

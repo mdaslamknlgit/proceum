@@ -14,7 +14,7 @@ import { ProceumLibraryComponent } from './shared/proceum-library/proceum-librar
 import { ForgotPasswordComponent } from './frontend/forgot-password/forgot-password.component';
 import { EmailVerifiedComponent } from './frontend/email-verified/email-verified.component';
 import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscribe-email.component';
-import { CurriculumComponent } from './frontend/student/curriculum/curriculum.component';
+//import { CurriculumComponent } from './frontend/student/curriculum-bkp/curriculum.component';
 import { StaticPagesComponent } from './frontend/static-pages/static-pages.component';
 import { ResetPasswordComponent } from './frontend/reset-password/reset-password.component'; 
 import { ListPackagesComponent } from './frontend/pricing-packages/list-packages/list-packages.component';
@@ -81,7 +81,7 @@ const routes: Routes = [
       role: '2,1,3,4,5,6,7,8,9,10,11',
     },
   },
-  { path: 'student-curriculum', component: CurriculumComponent },
+  //{ path: 'student-curriculum', component: CurriculumComponent },
   { path: 'shopping-cart', component: ShoppingCartComponent },
   
   { path: 'pricing-and-packages', component: ListPackagesComponent },
