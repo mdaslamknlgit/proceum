@@ -22,9 +22,11 @@ export class ShoppingCartComponent implements OnInit {
   public cart_count:any = '';
   public total_amount:any = 0;
   public total_payable:any = 0;
-  public discount_applied:any = false;
-  public discount_amount:any = 0;
+  public coupon_applied:any = false;
+  public coupon_discount_amount:any = 0;
+  public coupon_description:any = '';
   public have_coupon_code:any = false;
+  public coupon_code:any = '';
   public product_default_img = environment.PACKAGE_DEFAULT_IMG;
 
   //Billing address model popup
@@ -143,6 +145,7 @@ export class ShoppingCartComponent implements OnInit {
     this.model_status = !this.model_status;
   }
 
+  //Get list of countries
   public getCountries(){
     let param = { url: 'get-countries' };
     this.http.post(param).subscribe((res) => {
@@ -156,7 +159,8 @@ export class ShoppingCartComponent implements OnInit {
       }
     });
   }
-
+  
+  //Filter countries by search string
   public filterCountries(event) {
     let search = event;
     if (!search) {
@@ -172,6 +176,7 @@ export class ShoppingCartComponent implements OnInit {
     );
   }
 
+  //Get list of states based on country selection 
   public getStates(selected_country_id: number) {
     if (selected_country_id > 0) {
       //First set country_name
@@ -199,6 +204,7 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+  //Filter states by search string
   public filterStates(event) {
     let search = event;
     if (!search) {
@@ -214,8 +220,9 @@ export class ShoppingCartComponent implements OnInit {
     );
   }
 
+  //Set state name by stateid 
   public setStateName(){
-    if (this.state_id > 0) {
+    if(this.state_id > 0) {
       //set state_name
       this.states.filter((item) => {
         if(item.id == this.state_id){
@@ -225,11 +232,72 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+  //Update cart amounts when there is any event occured related to cart
   public updateAmounts(res){
     this.total_amount = res['total_amount'];
     this.total_payable = res['total_payable'];
-    this.discount_applied = res['discount_applied'];
-    this.discount_amount = res['discount_amount'];
+    this.coupon_applied = res['coupon_applied'];
+    this.coupon_discount_amount = res['coupon_discount_amount'];
+    this.coupon_description = res['coupon_description'];
+  }
+
+  //Apply Coupon
+  public applyCoupon(){
+    let param = { url: 'apply-coupon', id: this.user_id, coupon_code: this.coupon_code};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        if(res['data'].length){
+          this.cart_items = res['data'];
+          this.updateAmounts(res);   
+        }else{
+          this.cartCountService.sendNumber(0);
+          this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
+          this.router.navigateByUrl('/pricing-and-packages');
+        }
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  /************************************************************************
+   ************** Payments related functionality starts here **************
+   ************************************************************************/
+  public proceedPayment(){
+    //=========Create order in proceum database
+    //Prepare address details
+    let adressDetails = {
+      country_name  : this.country_name,
+      state_name    : this.state_name,
+      city          : this.city,
+      address       : this.address,
+      zip_code      : this.zip_code,
+      phone         : this.phone,
+      contact_name  : this.contact_name
+    }
+    //Prepare main object to send
+    let params = {
+      url             : 'proceed-payment',
+      cart_items      : this.cart_items,
+      adress_details  : adressDetails,
+      coupon_applied  : this.coupon_applied,
+      total_amount    : this.total_amount,
+      total_payable   : this.total_payable,
+      coupon_discount_amount : this.coupon_discount_amount,
+    }
+    //Make a post request
+    this.http.post(params).subscribe((res) => {
+      console.log(res);
+      
+      if (res['error'] == false) {
+        
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+
+
+    //============PopUp Payment gateway
   }
 
 }

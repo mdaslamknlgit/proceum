@@ -66,41 +66,76 @@
                     ">Description is required</span>
                 </span></span>
             </div>
+          
+
             <div class="frm_dvs">
-              <span>Promotional Percent <span class="required">*</span></span>
-              <span>
-                <span class="err_tltp_par">
-                  <mat-form-field appearance="outline">
-                    <input required maxlength="5" name="promotional_percente_name" #promotional_percente_name="ngModel"
-                      [(ngModel)]="promotional_percente" matInput placeholder="Promotional Percente"
-                      (blur)="formatValue(promotional_percente)" />
-                  </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
-                      (promotional_form.submitted ||
-                        promotional_percente_name.touched) &&
-                      promotional_percente_name.invalid
-                    ">Promotional Percent is required and allowed max 2
-                    digits</span>
-                </span>
-              </span>
+              <div>Set Discount Amounts Country Wise</div>
+                <div *ngFor="let price of discount_amounts;let i = index">
+                    <div class="pkg_chkbx" *ngIf="price['status'] != '0'">
+                        <div class="w_45p mr_1">
+                            <div class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="mt_05">
+                                    <mat-select placeholder="Select Country"
+                                        [(ngModel)]="discount_amounts[i]['country_id']"
+                                        name="discount_amount_country_{{i}}" required>
+                                        <mat-option value="">Select Country</mat-option>
+                                        <ng-container
+                                            *ngFor="let country of all_countries | async">
+                                            <mat-option
+                                                [disabled]="selected_countires.indexOf(country['id']) !== -1"
+                                                [value]="country['id']"
+                                                (click)=" addCurrencyToField(country['currency_text'],i,country['id']);">
+                                                {{ country['country_name'] }}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="w_45p">
+                            <div class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="mt_05">
+                                    <input
+                                        [(ngModel)]="discount_amounts[i]['discount_amount']"
+                                        name="discount_amounts_{{i}}" matInput
+                                        placeholder="{{ discount_amounts[i]['placeholder'] }}"
+                                        maxlength="7" appNumbersonly required
+                                        [disabled]="discount_amounts[i]['country_id'] == ''" />
+                                    <span matPrefix></span>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="w_45p">
+                          <div class="err_tltp_par">
+                              <mat-form-field appearance="outline" class="mt_05">
+                                  <input
+                                      [(ngModel)]="discount_amounts[i]['min_order_amount']"
+                                      name="min_order_amount{{i}}" matInput
+                                      placeholder="Min order amount"
+                                      maxlength="7" appNumbersonly required
+                                      [disabled]="discount_amounts[i]['country_id'] == ''" />
+                                  <span matPrefix></span>
+                              </mat-form-field>
+                          </div>
+                      </div>
+                        <div class="mt_6px">
+                            <button type="button" (click)="removeDiscountAmountField(i)"
+                                mat-icon-button class="no_bxsdw" color="warn"
+                                *ngIf="i > 0">
+                                <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="text_right w_100p">
+                    <button mat-raised-button color="accent" type="button"
+                        (click)="addDiscountAmountField()">
+                        <mat-icon>add</mat-icon> Add More
+                    </button>
+                </div>
             </div>
-            <div class="frm_dvs">
-              <span>Course <span class="required">*</span></span>
-              <span>
-                <span class="err_tltp_par">
-                  <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select Course" name="course_name" #course_name="ngModel"
-                      [(ngModel)]="course" required>
-                      <mat-option value="1">Course1</mat-option>
-                      <mat-option value="2">Course2</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
-                      (promotional_form.submitted || course_name.touched) &&
-                      course_name.invalid
-                    ">Course is required</span>
-                </span></span>
-            </div>
+
             <div class="frm_dvs">
               <span>Valid From Date <span class="required">*</span></span>
               <span>
@@ -133,21 +168,6 @@
                       (promotional_form.submitted || valid_to_name.touched) &&
                       valid_to_name.invalid
                     ">To Date is required</span>
-                </span>
-              </span>
-            </div>
-            <div class="frm_dvs">
-              <span>Usage <span class="required">*</span></span>
-              <span>
-                <span class="err_tltp_par">
-                  <mat-form-field appearance="outline">
-                    <input required min="1" type="number" maxlength="4" name="usage_name" #usage_name="ngModel"
-                      [(ngModel)]="usage" matInput placeholder="Usage" />
-                  </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
-                      (promotional_form.submitted || usage_name.touched) &&
-                      usage_name.invalid
-                    ">Usage required</span>
                 </span>
               </span>
             </div>
@@ -188,14 +208,6 @@
           </th>
           <td mat-cell *matCellDef="let element">
             <span>{{ element.code }}</span>
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="course">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-            Course
-          </th>
-          <td mat-cell *matCellDef="let element">
-            <span>{{ element.course }}</span>
           </td>
         </ng-container>
         <ng-container matColumnDef="status">
@@ -314,42 +326,75 @@
                     ">Description is required</span>
                 </span></span>
             </div>
+            
             <div class="frm_dvs">
-              <span>Promotional Percent <span class="required">*</span></span>
-              <span>
-                <span class="err_tltp_par">
-                  <mat-form-field appearance="outline">
-                    <input required maxlength="5" name="promotional_percente_name_edit"
-                      #promotional_percente_name_edit="ngModel" [(ngModel)]="promotional_percente" matInput
-                      placeholder="Promotional Percente" (blur)="formatValue(promotional_percente)" />
-                  </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
-                      (edit_promotional_form.submitted ||
-                        promotional_percente_name_edit.touched) &&
-                      promotional_percente_name_edit.invalid
-                    ">Promotional Percent is required and allowed max 2
-                    digits</span>
-                </span>
-              </span>
+              <div>Set Discount Amounts Country Wise</div>
+                <div *ngFor="let price of discount_amounts;let i = index">
+                    <div class="pkg_chkbx" *ngIf="price['status'] != '0'">
+                        <div class="w_45p mr_1">
+                            <div class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="mt_05">
+                                    <mat-select placeholder="Select Country"
+                                        [(ngModel)]="discount_amounts[i]['country_id']"
+                                        name="discount_amount_country_{{i}}" required>
+                                        <mat-option value="">Select Country</mat-option>
+                                        <ng-container
+                                            *ngFor="let country of all_countries | async">
+                                            <mat-option
+                                                [disabled]="selected_countires.indexOf(country['id']) !== -1"
+                                                [value]="country['id']"
+                                                (click)=" addCurrencyToField(country['currency_text'],i,country['id']);">
+                                                {{ country['country_name'] }}
+                                            </mat-option>
+                                        </ng-container>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="w_45p">
+                            <div class="err_tltp_par">
+                                <mat-form-field appearance="outline" class="mt_05">
+                                    <input
+                                        [(ngModel)]="discount_amounts[i]['discount_amount']"
+                                        name="discount_amounts_{{i}}" matInput
+                                        placeholder="{{ discount_amounts[i]['placeholder'] }}"
+                                        maxlength="7" appNumbersonly required
+                                        [disabled]="discount_amounts[i]['country_id'] == ''" />
+                                    <span matPrefix></span>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="w_45p">
+                          <div class="err_tltp_par">
+                              <mat-form-field appearance="outline" class="mt_05">
+                                  <input
+                                      [(ngModel)]="discount_amounts[i]['min_order_amount']"
+                                      name="min_order_amount_{{i}}" matInput
+                                      placeholder="Min order amount"
+                                      maxlength="7" appNumbersonly required
+                                      [disabled]="discount_amounts[i]['country_id'] == ''" />
+                                  <span matPrefix></span>
+                              </mat-form-field>
+                          </div>
+                      </div>
+                        <div class="mt_6px">
+                            <button type="button" (click)="removeDiscountAmountField(i)"
+                                mat-icon-button class="no_bxsdw" color="warn"
+                                *ngIf="i > 0">
+                                <mat-icon>remove_circle_outline</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="text_right w_100p">
+                    <button mat-raised-button color="accent" type="button"
+                        (click)="addDiscountAmountField()">
+                        <mat-icon>add</mat-icon> Add More
+                    </button>
+                </div>
             </div>
-            <div class="frm_dvs">
-              <span>Course <span class="required">*</span></span>
-              <span>
-                <span class="err_tltp_par">
-                  <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select Course" name="course_name_edit" #course_name_edit="ngModel"
-                      [(ngModel)]="course" required>
-                      <mat-option value="1">Course1</mat-option>
-                      <mat-option value="2">Course2</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
-                      (edit_promotional_form.submitted ||
-                        course_name_edit.touched) &&
-                      course_name_edit.invalid
-                    ">Course is required</span>
-                </span></span>
-            </div>
+
             <div class="frm_dvs">
               <span>Valid From Date <span class="required">*</span></span>
               <span>
@@ -384,21 +429,6 @@
                         valid_to_name_edit.touched) &&
                       valid_to_name_edit.invalid
                     ">To Date is required</span>
-                </span>
-              </span>
-            </div>
-            <div class="frm_dvs">
-              <span>Usage <span class="required">*</span></span>
-              <span>
-                <span class="err_tltp_par">
-                  <mat-form-field appearance="outline">
-                    <input required type="number" name="usage_name" #usage_name="ngModel" [(ngModel)]="usage" matInput
-                      placeholder="Usage" />
-                  </mat-form-field>
-                  <span class="prc_tltp" *ngIf="
-                      (promotional_form.submitted || usage_name.touched) &&
-                      (usage_name.invalid || usage == '')
-                    ">Promotional Percent is required</span>
                 </span>
               </span>
             </div>
