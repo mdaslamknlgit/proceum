@@ -303,6 +303,7 @@ export class CreateContentComponent implements OnInit {
     this.http.post(data).subscribe((res) => {
         if (res['error'] == false) {
             this.reviewers = res['data']['reviewers'];
+            this.curriculum_list = res['data']['curriculums'];
             this.bucket_url = res['data']['bucket_url'];
         }
     })
@@ -969,6 +970,13 @@ export class CreateContentComponent implements OnInit {
     this.case_tab = 0;
     this.search_question = '';
     this.all_or_selected = 'all';
+    //level filters clear
+    this.curriculum_labels = [];
+    this.level_options = [];
+    this.all_level_options = [];
+    this.selected_level = [];
+    this.filter_array.level_id=0;
+    this.filter_array.curriculum_id=0;
     if (tab_index == 3) {
       this.active_tab_type = 'mcq';
       let data = {
@@ -1007,7 +1015,13 @@ export class CreateContentComponent implements OnInit {
   questionsTab(tab) {
     let tab_index = tab.index;
     this.search_question = '';
-    //this.question_tab = tab_index;
+    //level filters clear
+    this.level_options = [];
+    this.all_level_options = [];
+    this.selected_level = [];
+    this.filter_array.level_id=0;
+    this.filter_array.curriculum_id=0;
+    this.curriculum_labels = [];
     if (tab_index == 0) {
       this.all_or_selected = 'all';
       let data = {
@@ -1066,6 +1080,16 @@ export class CreateContentComponent implements OnInit {
   }
   searchQuestions() {
     this.resetPagination();
+    let question_ids = [];
+      if (this.active_tab_type == 'mcq') {
+        question_ids = this.selected_mcqs;
+      }
+      if (this.active_tab_type == 'short_answer') {
+        question_ids = this.selected_short_questions;
+      }
+      if (this.active_tab_type == 'case') {
+        question_ids = this.selected_cases;
+      }
     let param = {
       url: 'questions-list',
       type: this.active_tab_type,
@@ -1073,6 +1097,9 @@ export class CreateContentComponent implements OnInit {
       limit: this.limit,
       search: this.search_question,
       all_or_selected: this.all_or_selected,
+      question_ids: question_ids,
+      curriculum_id: this.filter_array.curriculum_id,
+      level_id: this.filter_array.level_id
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -1086,6 +1113,67 @@ export class CreateContentComponent implements OnInit {
       }
     });
   }
+  public curriculum_list = [];
+  public curriculum_labels = [];
+  public level_options = [];
+  public all_level_options = [];
+  public selected_level = [];
+  public filter_array = {question_flag:'', question_usage:0, question_bank:'', curriculum_id:0, level_id:0};
+  getLabels(){
+    this.searchQuestions();
+    this.level_options = [];
+    this.all_level_options = [];
+    this.selected_level = [];
+    this.filter_array.level_id=0;
+    let param = {
+        url: 'get-curriculum-labels',
+        curriculum_id: this.filter_array.curriculum_id,
+    };
+    this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+            //this.applyFilters();
+        let data = res['data'];
+        this.level_options[1] = data['level_1'];
+        this.all_level_options[1] = data['level_1'];
+        this.curriculum_labels = data['curriculum_labels'];
+            if(this.curriculum_labels.length == 0){
+                this.level_options = [];
+                this.all_level_options = [];
+                this.selected_level = [];
+            }
+        }
+    });
+}
+ucFirst(string) {
+    return this.http.ucFirst(string);
+}
+getLevels(level_id) {
+    this.filter_array.level_id = this.selected_level[level_id];
+    this.searchQuestions();
+    let param = {
+    url: 'get-levels-by-level',
+    step_id: this.selected_level[level_id],
+    };
+    this.http.post(param).subscribe((res) => {
+    if (res['error'] == false) {
+        let data = res['data'];
+        this.level_options[level_id + 1] = data['steps'];
+        this.all_level_options[level_id + 1] = data['steps'];
+        this.level_options.forEach((opt, index) => {
+        if (index > level_id + 1) this.level_options[index] = [];
+        });
+        this.selected_level.forEach((opt, index) => {
+            if (index > level_id) this.selected_level[index] = 0;
+        });
+    }
+    });
+}
+searchLevelByName(search,level){
+    let options = this.all_level_options[level];
+    this.level_options[level] = options.filter(
+        item => item.level_name.toLowerCase().includes(search.toLowerCase())
+    );
+}
   resetPagination() {
     //console.log(this.all_questions.paginator.page);
     if (this.paginator != undefined) {
