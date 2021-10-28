@@ -22,7 +22,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { PaymentsComponent } from './payments/payments.component';
-import { CartCountService } from './services/cart-count.service';
+import { CartCountService } from './services/cart-count.service'; 
 //import { SafePipe } from './shared/pipes/safe.pipe';
 @NgModule({
   declarations: [

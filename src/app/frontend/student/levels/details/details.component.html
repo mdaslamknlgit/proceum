@@ -319,7 +319,7 @@
                       </div>
 
                       <div *ngIf="mcqs[active_mcq_index]['q_source'] == 'KPOINT'">
-                        <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
+                        <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' data-video-params=' "hide": "search, share, like"' allowFullScreen webkitallowFullScreen
                           mozallowFullScreen frameborder="0"></iframe>
                       </div>
 
@@ -777,7 +777,7 @@
                       'options'
                     ];
                     let i_option = index
-                  " (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
+                  " (change)="selectOption(option['pk_id'])" [value]="option['pk_id']" class="{{
                     short_answers[active_short_answer_index]['selected_option'] !=
                       undefined &&
                     short_answers[active_short_answer_index]['s_no'] ==
@@ -795,7 +795,7 @@
                     <img *ngIf="
                   short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']"
                       [src]="bucket_url+option['option_image']" />
-                    <div
+                    <div class="rdo_exp_txt"
                       *ngIf="short_answers[active_short_answer_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                       <div class="qstn_hds">Explanation</div>
                       <div [innerHtml]="option['option_explanation']"></div>

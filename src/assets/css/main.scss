@@ -2639,6 +2639,12 @@ div.cust_mdl_par div.mn_dshbrd {
         &.wrng_rdo{
           color: #e83535b5;
           pointer-events: none;
+          .mat-radio-outer-circle{
+            border-color: #e83535b5;
+          }
+          .mat-radio-inner-circle{
+            background-color: #e83535b5;
+          }
         }
         &.crrct_rdo{
           pointer-events: none;
@@ -4897,4 +4903,66 @@ sup {
       flex: 100%;
     }
   }
+}
+.qbnk_mn{
+  .tsts_qstns_nums {
+    .tstsnms_cnt_dv{
+      ul {
+        li{
+          border: 0;
+          flex-basis:auto;
+          width: 100%;
+          text-align: left;
+          background-color: #f5f7f9;
+          padding: 8px 10px;
+          > ul{
+            display: none;
+            margin-top: 10px;
+            li{
+              background-color: transparent;
+              &:hover{
+                background-color: #f5f7f9;
+                color: #000;
+              }
+            }
+          }
+          &:hover{
+            > ul{
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+  mat-radio-button, mat-checkbox{
+    position: relative;
+    padding-left: 20px;
+    .mat-radio-container, .mat-checkbox-inner-container{
+      display: none;
+    }
+    &::before{
+      font-family: "Material Icons";
+      left: 14px;
+      position: absolute;
+      top: 18px;
+      font-size: 20px;
+    }
+    &.wrng_rdo::before{
+      content: "\e5cd";
+      color: #e83535b5;
+    }
+    &.crrct_rdo::before{
+      color: #41ab3c;
+      content: "\e5ca";
+    }
+  }
+  mat-checkbox{
+    &::before{
+      top:20px;
+    }
+  }
+}
+.pe_nn{
+  pointer-events: none;
 }

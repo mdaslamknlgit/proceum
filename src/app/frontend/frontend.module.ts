@@ -15,7 +15,7 @@ import { MyAccountComponent } from './student/my-account/my-account.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { EmailVerifiedComponent } from './email-verified/email-verified.component';
 import { UnsubscribeEmailComponent } from './unsubscribe-email/unsubscribe-email.component';
-import { CurriculumComponent } from './student/curriculum/curriculum.component';
+//import { CurriculumComponent } from './student/curriculum-bkp/curriculum.component';
 import { StaticPagesComponent } from './static-pages/static-pages.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { StudentComponent } from './student.component';
@@ -32,6 +32,7 @@ import { SafePipe } from '../shared/pipes/safe.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { TestsPageComponent } from './student/study-planner-student/tests-page/tests-page.component';
+import { QbankComponent } from './student/levels/qbank/qbank.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -73,6 +74,7 @@ const routes: Routes = [
       { path: 'study-planner', component: StudyPlannerStudentComponent },
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
+      { path: 'qbank', component: QbankComponent },
     ],
   },
 ];
@@ -90,7 +92,7 @@ const routes: Routes = [
     ForgotPasswordComponent,
     EmailVerifiedComponent,
     UnsubscribeEmailComponent,
-    CurriculumComponent,
+    //CurriculumComponent,
     ResetPasswordComponent,
     StaticPagesComponent,
     DetailsComponent,
@@ -101,6 +103,7 @@ const routes: Routes = [
     StudyPlannerStudentComponent,
     ShoppingCartComponent,
     TestsPageComponent,
+    QbankComponent,
   ],
   imports: [
     CommonModule,
