@@ -22,6 +22,7 @@ import { PackageDetailsComponent } from './frontend/pricing-packages/package-det
 import { ShoppingCartComponent } from './frontend/shopping-cart/shopping-cart.component';
 import { QuestionBankComponent } from './admin/question-management/question-bank/question-bank.component';
 import { QbankComponent } from './frontend/student/levels/qbank/qbank.component';
+import { CreateExamComponent } from './admin/exam-modes/create-exam/create-exam.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -42,6 +43,7 @@ const routes: Routes = [
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'email-verification/:hash', component: EmailVerifiedComponent },
   { path: 'unsubscription', component: UnsubscribeEmailComponent },
+  
   {
     path: 'mcicirriculam/:id',
     component: StaticPagesComponent,
