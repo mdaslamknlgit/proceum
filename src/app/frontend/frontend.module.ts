@@ -71,10 +71,13 @@ const routes: Routes = [
         path: 'curriculums/:curriculum_id/:level_id/:level_parent_id',
         component: Level_listComponent,
       },
+      {
+        path: 'qbank/:curriculum_id/:level_id/:level_parent_id',
+        component: QbankComponent,
+      },
       { path: 'study-planner', component: StudyPlannerStudentComponent },
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
-      { path: 'qbank', component: QbankComponent },
     ],
   },
 ];
