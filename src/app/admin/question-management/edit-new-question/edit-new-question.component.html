@@ -130,7 +130,7 @@
                                     <mat-form-field appearance="outline">
                                         <mat-select placeholder="Select Course" name="curriculum_id_name"
                                             [(ngModel)]="question.curriculum_id"
-                                            (ngModelChange)="getTopics(question.curriculum_id, '');question.topic='';setCourseText($event);"
+                                            (ngModelChange)="getLabels();setCourseText($event);"
                                             #curriculum_id_name="ngModel" ngModel>
                                             <mat-option [matTooltip]="value['curriculumn_name']"
                                                 *ngFor="let value of curriculums" [value]="value['pk_id']">
@@ -142,7 +142,27 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="w_100p">
+                        <div class="w_100p" *ngFor="let value of curriculum_labels; let i = index">
+                            <span class="crt_prt_hd">{{ ucFirst(value["display_label"]) }}</span>
+                            <div class="clear_fix"></div>
+                            <div class="crt_prt_cnt">
+                            <mat-form-field appearance="outline">
+                              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="level_{{value['level_number']}}"
+                                [(ngModel)]="selected_level[value['level_number']]" (ngModelChange)="getLevels(value['level_number']);">
+                                <mat-option>
+                                  <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                    name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                    {{ucFirst(value['display_label'])}}
+                                  </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                                  [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                        </div>
+                          </div>
+                        <!-- <div class="w_100p">
                             <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
@@ -167,10 +187,10 @@
                                     </mat-form-field>
                                 </span>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="w_100px">
                             <div class="crt_prt_hd rsp_hd_599">&nbsp;</div>
-                            <button [disabled]="is_topic_exist || question.topic=='' || question.curriculum_id==''"
+                            <button [disabled]="is_topic_exist || (level_options[level_id+1] != undefined && level_options[level_id+1].length>0) || question.curriculum_id==''"
                                 (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
                                 Add (+)
                             </button>
@@ -189,7 +209,7 @@
                             <td mat-cell *matCellDef="let element">{{element.course_qbank_text}}</td>
                         </ng-container>
                         <ng-container matColumnDef="Topic">
-                            <th mat-header-cell *matHeaderCellDef>Topic/Sub Topic </th>
+                            <th mat-header-cell *matHeaderCellDef>Topic Path </th>
                             <td mat-cell *matCellDef="let element">{{element.topic_text}} </td>
                         </ng-container>
                         <ng-container matColumnDef="Action">
