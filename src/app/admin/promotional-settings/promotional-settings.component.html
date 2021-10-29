@@ -7,7 +7,7 @@
     <div class="spacer"></div>
     <div>
       <button mat-raised-button color="accent" (click)="toggleModel()" type="button">
-        New Promotional
+        <mat-icon>add</mat-icon> New Promotional
       </button>
     </div>
   </div>
@@ -236,11 +236,8 @@
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button (click)="editPromotional(element)" color="accent" matTooltip="Click to edit">
-              <mat-icon>edit</mat-icon>
+              <mat-icon>edit-notes</mat-icon>
             </button>
-
-
-
             <!-- <button matTooltip="click here to {{
                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
               }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
@@ -252,13 +249,8 @@
               <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
               <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
             </button> -->
-
-
-
-
           </td>
         </ng-container>
-
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
