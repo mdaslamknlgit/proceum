@@ -87,7 +87,7 @@ export class Level_listComponent implements OnInit {
             let data = res['data'];
             this.curriculum = data['curriculum'];
             if(this.curriculum['usage_type'] == 2){
-                let url = '/student/curriculum/qbank/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
+                let url = '/student/qbank/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
                 this.route.navigateByUrl(url);
             }
             else{

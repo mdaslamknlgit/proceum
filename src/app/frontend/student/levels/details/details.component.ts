@@ -1,10 +1,9 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
 import * as Editor from '../../../../../assets/ckeditor5';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
-import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from '../../../../../assets/3d-model-viewer/js-3d-model-viewer.min';
 declare var kPoint: any;
@@ -107,8 +106,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     private router: Router,
     private http: CommonService,
     public sanitizer: DomSanitizer,
-    private toster: ToastrService,
-    private renderer: Renderer2
+    private toster: ToastrService
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
@@ -119,17 +117,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.pdf_rotation = this.pdf_rotation+90;
         if(direction == 'prev')
             this.pdf_rotation = this.pdf_rotation-90;
-        // if(this.pdf_rotation == 0)
-        //     this.pdf_rotation = 90;
-        // else if(this.pdf_rotation == 90){
-        //     this.pdf_rotation = 180;
-        // }
-        // else if(this.pdf_rotation == 180){
-        //     this.pdf_rotation = 270;
-        // }
-        // else{
-        //     this.pdf_rotation = 0;
-        // }
     }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {

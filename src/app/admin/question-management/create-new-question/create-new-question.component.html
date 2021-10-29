@@ -107,19 +107,47 @@
                                     <mat-form-field appearance="outline">
                                         <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
                                             name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
-                                            (ngModelChange)="getTopics(question.curriculum_id, '', 'course');setCourseText($event)"
+                                            (ngModelChange)="setCourseText($event);getLabels();"
                                             #curriculum_id_name="ngModel" ngModel="curriculum_id_name">
                                             <mat-option [matTooltip]="value['curriculumn_name']"
                                                 *ngFor="let value of curriculums" [value]="value['pk_id']">
                                                 {{value['curriculumn_name']}}</mat-option>
                                         </mat-select>
+                                        <!-- <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
+                                            name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
+                                            (ngModelChange)="getTopics(question.curriculum_id, '', 'course');setCourseText($event);getLabels();"
+                                            #curriculum_id_name="ngModel" ngModel="curriculum_id_name">
+                                            <mat-option [matTooltip]="value['curriculumn_name']"
+                                                *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                                {{value['curriculumn_name']}}</mat-option>
+                                        </mat-select> -->
                                         <span class="prc_tltp" *ngIf="(question_list_form.submitted || curriculum_id_name.touched) &&
                                         curriculum_id_name.invalid">Course is Required</span>
                                     </mat-form-field>
                                 </span>
                             </div>
                         </div>
-                        <div class="w_100p">
+                        <div class="w_100p" *ngFor="let value of curriculum_labels; let i = index">
+                            <span class="crt_prt_hd">{{ ucFirst(value["display_label"]) }}</span>
+                            <div class="clear_fix"></div>
+                            <div class="crt_prt_cnt">
+                            <mat-form-field appearance="outline">
+                              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="level_{{value['level_number']}}"
+                                [(ngModel)]="selected_level[value['level_number']]" (ngModelChange)="getLevels(value['level_number']);">
+                                <mat-option>
+                                  <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                    name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                    {{ucFirst(value['display_label'])}}
+                                  </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                                  [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                        </div>
+                          </div>
+                        <!-- <div class="w_100p">
                             <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
@@ -143,10 +171,10 @@
                                     </mat-form-field>
                                 </span>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="w_100px">
                             <div class="crt_prt_hd">&nbsp;</div>
-                            <button [disabled]="is_topic_exist || question.topic=='' || question.curriculum_id==''" (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
+                            <button [disabled]="is_topic_exist || (level_options[level_id+1] != undefined && level_options[level_id+1].length>0) || question.curriculum_id==''" (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
                                 Add  (+)
                             </button>
                         </div>
@@ -163,7 +191,7 @@
                             <td mat-cell *matCellDef="let element">{{element.course_qbank_text}}</td>
                         </ng-container>
                         <ng-container matColumnDef="Topic">
-                            <th mat-header-cell *matHeaderCellDef>Topic/Sub Topic </th>
+                            <th mat-header-cell *matHeaderCellDef>Topic Path </th>
                             <td mat-cell *matCellDef="let element">{{element.topic_text}} </td>
                         </ng-container>
                         <ng-container matColumnDef="Action">
