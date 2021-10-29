@@ -23,6 +23,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { PaymentsComponent } from './payments/payments.component';
 import { CartCountService } from './services/cart-count.service'; 
+import { ReplaceUnderscorePipe } from './shared/pipes/replace-underscore-pipe';
+import { ReplacePipe } from './shared/pipes/replace-pipe';
 //import { SafePipe } from './shared/pipes/safe.pipe';
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { CartCountService } from './services/cart-count.service';
     DrawingBoardComponent,
     ProceumLibraryComponent,
     PaymentsComponent,
+    ReplaceUnderscorePipe,
+    ReplacePipe,
     //SafePipe,
   ],
   imports: [
