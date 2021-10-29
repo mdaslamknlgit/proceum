@@ -90,6 +90,7 @@
             </div> -->
 
             <!-- If discount type is percentage -->
+
             <div class="frm_dvs" *ngIf="discount_type == 2">
                 <span>Discount Percentage (in %)<span class="required">*</span></span>
                 <span>
@@ -164,7 +165,6 @@
                           name="fixed_amounts_country_{{i}}" placeholder="{{price['country_name']}}" required>
                       </mat-select>
                     </mat-form-field>
-                    
                     <mat-form-field appearance="outline" class="mt_05 {{ (discount_form.submitted && (fixed_amounts[i]['discount_amount'] > price['price_amount'])) ? 'mat-form-field-invalid' : ''}}">
                       <input
                           [(ngModel)]="fixed_amounts[i]['discount_amount']"
@@ -541,7 +541,7 @@
 
             <!-- If discount type is percentage, Restrict the maximunm discount amount by Counrty wise--->
             <div class="frm_dvs" *ngIf="discount_type == 2">
-              <span>Maximum Discount Amount<span class="required">*</span></span>
+              <span>Maximum Discount Amount.<span class="required">*</span></span>
               <div *ngFor="let price of package_prices;let i = index">
                   <div class="" *ngIf="price['status'] != '0'">
                     <mat-form-field appearance="outline" class="mt_05">
