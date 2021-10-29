@@ -19,7 +19,6 @@ export class TestsPageComponent implements OnInit {
     public kpoint_iframe_url = '';
     public xt = '';
     public study_plan = [];
-    public show_details_modal = false;
     constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
     ngOnInit(): void {
@@ -67,24 +66,19 @@ export class TestsPageComponent implements OnInit {
     }
     getXtToken(){
         if(this.active_question['q_source'] == 'KPOINT'){
-            let param = {"url": "get-kpoint-token"};
-            this.xt = '';
-            this.http.post(param).subscribe(res=>{
-                this.xt = res['data']['xt'];
-                this.kpoint_iframe_url = "https://proceum.kpoint.com/kapsule/"+this.active_question['q_source_value']+"/nv3/embedded?xt="+this.xt;
-                
-            });
+          let param = {"url": "get-kpoint-token"};
+          this.xt = '';
+          this.http.post(param).subscribe(res=>{
+              this.xt = res['data']['xt'];
+              this.kpoint_iframe_url = "https://proceum.kpoint.com/kapsule/"+this.active_question['q_source_value']+"/nv3/embedded?xt="+this.xt;
+              
+          });
         }
     }
     setAnswer(event, option_id){
         if(event.checked == true){
-            console.log(this.active_question['answer'].indexOf(""+option_id))
-            if(this.active_question['answer'].indexOf(""+option_id) == -1){
-                //this.active_question['answer'].push(''+option_id);
-                this.questions_list[this.active_q_index]['answer'].push(''+option_id);
-                this.active_question = this.questions_list[this.active_q_index];
-                console.log(this.questions_list[this.active_q_index]['answer'])
-            }
+            this.active_question['answer'].push(''+option_id);
+            this.questions_list[this.active_q_index]['answer'].push(''+option_id);
         }
         else{
             let index = this.active_question['answer'].indexOf(''+option_id);
@@ -92,43 +86,6 @@ export class TestsPageComponent implements OnInit {
             let index2 = this.questions_list[this.active_q_index]['answer'].indexOf(''+option_id);
             this.questions_list[this.active_q_index]['answer'].splice(index2,1);
         }
-    }
-    hideDetails(){
-        this.show_details_modal = false;
-    }
-    public correct_answers = 0;
-    public wrong_answers = 0;
-    public not_answered = 0;
-    public free_text_qs = 0;
-    showResult(){
-        let check = false;
-        this.questions_list.forEach((q,index)=>{
-            this.questions_list[index]['show_answer'] = true;
-            console.log(q['answer'], q['s_no']);
-            if([3,6,9,12].includes(q['q_type'])){
-                this.free_text_qs = this.free_text_qs+1;
-                return true;
-            }
-            if(q['answer'].length == 0){
-                this.not_answered = this.not_answered+1;
-            }
-            else if(q['s_no'].length == q['answer'].length){
-                const array2Sorted = q['answer'].slice().sort();
-                check = q['s_no'].length === q['answer'].length && q['s_no'].slice().sort().every(function(value, index) {
-                    return value === array2Sorted[index];
-                });
-                if(check == true){
-                    this.correct_answers = this.correct_answers+1;
-                }
-                else{
-                    this.wrong_answers = this.wrong_answers+1;
-                }
-            }
-            else{
-                this.wrong_answers = this.wrong_answers+1;
-            }
-        });
-        this.show_details_modal = true;
     }
     checkAnswer(){
         this.active_question['show_answer'] = true;
