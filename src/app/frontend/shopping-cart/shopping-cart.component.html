@@ -200,7 +200,7 @@
                             </div>
                         <div class="cpncd_appld d-flex ai_cntr jc_fe ">
                             <span class="act_cpncd">{{ this.coupon_code }}
-                                <mat-icon color="warn" matTooltip="Remove Coupon" class="rmv_cpn">close</mat-icon>
+                                <mat-icon color="warn" matTooltip="Remove Coupon" class="rmv_cpn" (click)="removeCoupon()">close</mat-icon>
                             </span> 
                             <div class="amnt_pybl"></div>
                         </div>
@@ -215,7 +215,7 @@
                     </div>
                     
                     <div class="hgt_10"></div>
-                    <div>
+                    <div *ngIf="!coupon_applied">
                         <div class="hv_cpncd jc_fe text_right" (click)="have_coupon_code = true">Have a Coupon code ?</div>
                         <div class="hgt_10"></div>
                         <div class="jc_fe cupncd_inpt" *ngIf="have_coupon_code">
@@ -227,7 +227,7 @@
                             </form>
                         </div>
                     </div>
-                    <button color="accent" mat-raised-button (click)="proceedPayment()">Proceed to Payment</button>
+                    <button color="accent" mat-raised-button (click)="proceedPayment()" [disabled]="disable_payment_button">Proceed to Payment</button>
                 </div>
                 <div class="hgt_20"></div>
             </div>

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CartCountService } from '../../services/cart-count.service';
 import { environment } from 'src/environments/environment';
 import { ReplaySubject } from 'rxjs';
+import { WindowRefService } from '../../services/window-ref.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -27,6 +28,7 @@ export class ShoppingCartComponent implements OnInit {
   public coupon_description:any = '';
   public have_coupon_code:any = false;
   public coupon_code:any = '';
+  public disable_payment_button:any = false;
   public product_default_img = environment.PACKAGE_DEFAULT_IMG;
 
   //Billing address model popup
@@ -48,11 +50,14 @@ export class ShoppingCartComponent implements OnInit {
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
 
+  //Order related variable
+  public order_id:any = '';
   constructor(
     private http: CommonService,
     public toster: ToastrService,
     private router: Router,
     private cartCountService:CartCountService,
+    private winRef: WindowRefService
   ) { }
 
   ngOnInit(): void {
@@ -247,7 +252,7 @@ export class ShoppingCartComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         if(res['data'].length){
-          this.cart_items = res['data'];
+          //this.cart_items = res['data'];
           this.updateAmounts(res);   
         }else{
           this.cartCountService.sendNumber(0);
@@ -260,20 +265,45 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
+  //remove Coupon
+  public removeCoupon(){
+    this.coupon_code = '';
+    let param = { url: 'get-cart-items', id: this.user_id};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        if(res['data'].length){
+          this.updateAmounts(res);      
+        }else{
+          this.cartCountService.sendNumber(0);
+          this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
+          this.router.navigateByUrl('/pricing-and-packages');
+        }
+      } else {
+        this.toster.error(res['message'], 'Error');
+        this.router.navigateByUrl('/pricing-and-packages');
+      }
+    });
+  }
+
   /************************************************************************
    ************** Payments related functionality starts here **************
    ************************************************************************/
   public proceedPayment(){
     //=========Create order in proceum database
+    //Disable Payment Button
+    if(this.disable_payment_button){
+      return;
+    }
+    this.disable_payment_button = true;
     //Prepare address details
     let adressDetails = {
-      country_name  : this.country_name,
-      state_name    : this.state_name,
-      city          : this.city,
-      address       : this.address,
-      zip_code      : this.zip_code,
-      phone         : this.phone,
-      contact_name  : this.contact_name
+      a_contact_name  : this.contact_name,
+      b_address       : this.address,
+      c_city          : this.city,
+      d_state_name    : this.state_name,
+      e_country_name  : this.country_name,
+      f_zip_code      : this.zip_code,
+      g_phone         : this.phone,
     }
     //Prepare main object to send
     let params = {
@@ -281,23 +311,82 @@ export class ShoppingCartComponent implements OnInit {
       cart_items      : this.cart_items,
       adress_details  : adressDetails,
       coupon_applied  : this.coupon_applied,
+      coupon_code     : this.coupon_code,
       total_amount    : this.total_amount,
       total_payable   : this.total_payable,
       coupon_discount_amount : this.coupon_discount_amount,
     }
     //Make a post request
     this.http.post(params).subscribe((res) => {
-      console.log(res);
-      
       if (res['error'] == false) {
-        
+        //============PopUp Payment gateway
+        this.payWithRazorpay(res['data']);
+      } else {
+        this.toster.error(res['message'], 'Error');
+        this.disable_payment_button = false;
+      }
+    });
+  }
+
+  public payWithRazorpay(data) {
+    this.order_id = data.order_id;
+    const options: any = {
+      key: data.razorpay_key,
+      amount: data.amount,
+      currency: data.currency,
+      name: data.company_name,
+      description: data.company_description,
+      image: data.company_logo, 
+      order_id: data.id, 
+      modal: {
+        // We should prevent closing of the form when esc key is pressed.
+        escape: false,
+      },
+      notes: {
+        // include notes if any
+      },
+      theme: {
+        color: '#41ab3c'
+      },
+      prefill : {
+          name: this.contact_name,
+          email: data.email,
+          contact: data.phone,
+      },
+    };
+    options.handler = ((response, error) => {
+      // call your backend api to verify payment signature & capture transaction
+      this.razorpayPaymentSuccess(response);
+    });
+    options.modal.ondismiss = (() => {
+      // handle the case when user closes the form while transaction is in progress
+      this.disable_payment_button = false;
+      console.log('Transaction cancelled.');
+    });
+    const rzp = new this.winRef.nativeWindow.Razorpay(options);
+    rzp.on('payment.failed', function (response){
+      this.toster.error("Payment Failed! "+response.error.reason, 'Error');
+      this.disable_payment_button = false;
+    });
+    rzp.open();
+  }
+
+  public razorpayPaymentSuccess(response){
+    let params = {
+      url                             : 'razorpay-payment-success',
+      payment_gateway_order_id        : response.razorpay_order_id,
+      payment_gateway_payment_id      : response.razorpay_payment_id,
+      signature                       : response.razorpay_signature,
+      order_id                        : this.order_id,
+    }
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success("Congrats! Payment is success!", 'Success');  
       } else {
         this.toster.error(res['message'], 'Error');
       }
+      this.disable_payment_button = false;
     });
-
-
-    //============PopUp Payment gateway
   }
 
 }

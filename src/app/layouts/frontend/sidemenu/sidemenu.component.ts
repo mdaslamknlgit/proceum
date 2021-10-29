@@ -22,7 +22,7 @@ export class SidemenuComponent implements OnInit {
         if(this.user.length == 0){
             this.logout();
         }
-        if(!this.user['role'] || this.user['role'] != '2'){
+        if(!this.user['role'] || (this.user['role'] != '2' && this.user['role'] != '11')){
             this.allowed_urls.forEach(url=>{
                 if(!this.router.url.includes(url)){
                     let login_id = JSON.parse(atob(localStorage.getItem('user'))).login_id;
