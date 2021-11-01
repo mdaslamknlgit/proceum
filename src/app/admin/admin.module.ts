@@ -79,6 +79,7 @@ import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { StudyPlannerListComponent } from './study-planner/study-planner-list/study-planner-list.component';
 import { ManageYearsSemestersGroupsComponent } from './manage-years-semesters-groups/manage-years-semesters-groups.component';
 import { ShoppingCartComponent } from '../frontend/shopping-cart/shopping-cart.component';
+import { CreateExamComponent } from './exam-modes/create-exam/create-exam.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -211,6 +212,7 @@ const routes: Routes = [
       { path: 'study-planner-list', component: StudyPlannerListComponent },
       //Added by Phanindra 06-09-2021
       { path: 'poc-videos', component: PocVideosComponent },
+      { path: 'create-exam', component: CreateExamComponent},
     ],
   },
 ];
@@ -269,6 +271,7 @@ const routes: Routes = [
     PocVideosComponent,
     StudyPlannerListComponent,
     ManageYearsSemestersGroupsComponent,
+    CreateExamComponent,
   ],
   imports: [
     MaterialModule,

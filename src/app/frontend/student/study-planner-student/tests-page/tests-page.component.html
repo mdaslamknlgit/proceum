@@ -17,16 +17,21 @@
                         <div class="pp_dys_bdy">
                             <div class="dys_tsks_dv">
                                 <!-- <div class="tsk_hd">{{selected_course['curriculumn_name']}}</div> -->
-                                <div class="tsk_dv fw_w">
-                                    <div class="w_100p">Total Questions: {{questions_list.length}}</div>
-                                    <div class="w_100p">Correct Answers: {{correct_answers}}</div>
-                                    <div class="w_100p">Wrong Answers: {{wrong_answers}}</div>
-                                    <div class="w_100p" *ngIf="not_answered>0">Not Answered: {{not_answered}}</div>
-                                    <div class="w_100p" *ngIf="free_text_qs>0">Free Type Text Questions: {{free_text_qs}}</div>
-                                    
-                                    <div class="hgt_10"></div>
+                                <div class="hgt_20"></div>
+                                <div class="sbmtd_ans_dv">
+                                    <div><span>Total Questions:</span><span class="spacer"></span> <span class="dys_cnt">{{questions_list.length}}</span></div>
+                                    <div><span>Correct Answers:</span> <span class="spacer"></span><span class="dys_cnt">{{correct_answers}}</span></div>
+                                    <div><span>Wrong Answers:</span><span class="spacer"></span> <span class="dys_cnt wrng_ans">{{wrong_answers}}</span></div>
+                                    <div *ngIf="not_answered>0"><span>Not Answered:</span> <span class="spacer"></span><span class="dys_cnt nt_ans">{{not_answered}}</span></div>
+                                    <div *ngIf="free_text_qs>0"><span>Free Type Text Questions:</span> <span class="spacer"></span><span class="dys_cnt"> {{free_text_qs}}</span></div>
                                 </div>
-
+                                <div class="hgt_20"></div>
+                                <div class="d-flex jc_cnt">
+                                    <button mat-raised-button class="gry_btn mr_1" (click)="hideDetails()">Close</button>
+                                    <button mat-raised-button color="accent" class="mr_1 skp_btn">Review Answers</button>
+                                    <button mat-raised-button color="accent">Go to Study Plan</button>
+                                </div>
+                                <div class="hgt_20"></div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +70,18 @@
             </div>
         </div>
         <div class="tsts_qstns" *ngIf="questions_list.length>0">
-            <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
+            <div class="d-flex w_90p">
+                <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
+                <div class="spacer"></div>
+                <div>
+                    <button [disabled]="active_question['answer'].length==0" mat-raised-button (click)="checkAnswer();showResult()" 
+                    class="skp_btn {{active_question['answer'].length==0 ? 'gry_btn':''}}">Submit Test<mat-icon>subdirectory_arrow_right
+                    </mat-icon>
+                </button>
+                </div>
+                
+            </div>
+            
             <div class="hgt_20"></div>
             <div class="tstsqst_qst">
                 <span [innerHTML]="active_question['question']"></span>
@@ -134,11 +150,6 @@
                 <button mat-raised-button color="accent" [disabled]="active_q_index == 0"
                     (click)="getQuestionOptions(active_q_index-1)">
                     <mat-icon>arrow_left</mat-icon> Prev
-                </button>
-                <button [disabled]="active_question['answer'].length==0" mat-raised-button color="accent"
-                    (click)="checkAnswer();showResult()" class="skp_btn {{active_question['answer'].length==0?'gry_btn':''}}">Check
-                    Answer <mat-icon>subdirectory_arrow_right
-                    </mat-icon>
                 </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
                     (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
