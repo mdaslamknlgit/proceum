@@ -21,7 +21,7 @@ import { ListPackagesComponent } from './frontend/pricing-packages/list-packages
 import { PackageDetailsComponent } from './frontend/pricing-packages/package-details/package-details.component';
 import { ShoppingCartComponent } from './frontend/shopping-cart/shopping-cart.component';
 import { QuestionBankComponent } from './admin/question-management/question-bank/question-bank.component';
-import { QbankComponent } from './frontend/student/levels/qbank/qbank.component';
+//import { QbankComponent } from './frontend/student/levels/qbank-backup/qbank.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },

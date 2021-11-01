@@ -1,9 +1,16 @@
 <div class="mn_dshbrd">
     <div class="hgt_20"></div>
     <div class="sp_mn">
-        <div class="brdcrm_br p_1 d-flex ai_cntr" *ngIf="study_plan.length>0">
+        <div class="brdcrm_br p_1 d-flex ai_cntr" >
             <mat-icon color="accent">home</mat-icon>
-            <mat-icon>navigate_next</mat-icon><span routerLink="/student/study-planner">Study Plans</span> <mat-icon>navigate_next</mat-icon> <span routerLink="/student/study-planner/{{study_plan[0]['pk_id']}}">{{study_plan[0]['plan_name']}}</span> <mat-icon>navigate_next</mat-icon> Test Page (Day - {{day}})
+            <mat-icon>navigate_next</mat-icon>
+            <span routerLink="/student/curriculums">Courses & QBanks</span> 
+            <span *ngIf="curriculum.length>0" routerLink="/student/curriculums/{{ curriculum[0]['pk_id'] }}"><mat-icon>navigate_next</mat-icon> {{curriculum[0]['curriculumn_name']}}</span>
+            <span *ngFor="let bread of breadcome; let i = index"><mat-icon>navigate_next</mat-icon> <span routerLink="/student/curriculums/{{
+                curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
+              }}">{{ bread["name"] }}</span><mat-icon>navigate_next</mat-icon>
+            <strong *ngIf="i == breadcome.length - 1">
+                Questions</strong></span>
         </div>
     </div>
     <div class="hgt_20"></div>
@@ -100,11 +107,11 @@
                     (click)="getQuestionOptions(active_q_index-1)">
                     <mat-icon>arrow_left</mat-icon> Prev
                 </button>
-                <!-- <button [disabled]="active_question['answer'].length==0" mat-raised-button color="accent"
+                <button [disabled]="active_question['answer'].length==0" mat-raised-button color="accent"
                     (click)="checkAnswer()" class="skp_btn {{active_question['answer'].length==0?'gry_btn':''}}">Check
                     Answer <mat-icon>subdirectory_arrow_right
                     </mat-icon>
-                </button> -->
+                </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
                     (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
                 </button>
