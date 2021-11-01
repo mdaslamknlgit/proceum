@@ -4,11 +4,11 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
-  selector: 'app-tests-page',
-  templateUrl: './tests-page.component.html',
-  styleUrls: ['./tests-page.component.scss']
+  selector: 'app-qbank-tests-page',
+  templateUrl: './qbank-tests-page.component.html',
+  styleUrls: ['./qbank-tests-page.component.scss']
 })
-export class TestsPageComponent implements OnInit {
+export class QbankTestsPageComponent implements OnInit {
     public show_q_numbers = true;
     public study_plan_id = 0;
     public day = 0;
@@ -18,24 +18,32 @@ export class TestsPageComponent implements OnInit {
     public bucket_url = '';
     public kpoint_iframe_url = '';
     public xt = '';
-    public study_plan = [];
+    public breadcome = [];
+    public curriculum = [];
+    public curriculum_id = 0;
+    public level_id = 0;
+    public level_parent_id = 0;
     constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((param) => {
-            this.day = param.day;
-            this.study_plan_id = param.plan_id;
+            this.curriculum_id = param.curriculum_id;
+            this.level_id = param.level_id ? param.level_id : 0;
+            this.level_parent_id = param.level_parent_id ? param.level_parent_id : 0;
+            //this.day = param.day;
+            //this.study_plan_id = param.plan_id;
             this.getTestQuestions();
         });
         
     }
     getTestQuestions(){
-        let param = {url: "study-plan/get-test-questions", day:this.day, plan_id: this.study_plan_id};
+        let param = {url: "qbank/get-qbank-test-questions", curriculum_id:this.curriculum_id, level_parent_id: this.level_parent_id, level_id: this.level_id};
         this.http.post(param).subscribe(res=>{
             if(res['error'] == false){
                 this.questions_list = res['data']['questions'];
                 this.bucket_url = res['data']['bucket_url'];
-                this.study_plan.push(res['data']['study_plan']);
+                this.breadcome = res['data']['breadcome'];
+                this.curriculum.push(res['data']['curriculum'])
                 if(this.questions_list.length > 0)
                     this.getQuestionOptions(0);
             }

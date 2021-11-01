@@ -732,12 +732,12 @@ export class EditNewQuestionComponent implements OnInit {
 
     }
     updateQList(q_data) {
-        if (this.question_Qbank && this.question.q_bank_ids.length == 0) {
-            this.toster.error("Please select Question bank(s)", "Error", {
-                closeButton: true
-            });
-            return false;
-        }
+        // if (this.question_Qbank && this.question.q_bank_ids.length == 0) {
+        //     this.toster.error("Please select Question bank(s)", "Error", {
+        //         closeButton: true
+        //     });
+        //     return false;
+        // }
         if (this.question.correct_ans_ids.length == 0 && (this.free_text == false && this.audio_clip_free_text == false && this.video_clicp_free_text == false && this.image_free_text == false)) {
             this.toster.error("Please select correct answer", "Error", {
                 closeButton: true

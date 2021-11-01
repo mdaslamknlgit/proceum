@@ -15,7 +15,6 @@ import { MyAccountComponent } from './student/my-account/my-account.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { EmailVerifiedComponent } from './email-verified/email-verified.component';
 import { UnsubscribeEmailComponent } from './unsubscribe-email/unsubscribe-email.component';
-//import { CurriculumComponent } from './student/curriculum-bkp/curriculum.component';
 import { StaticPagesComponent } from './static-pages/static-pages.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { StudentComponent } from './student.component';
@@ -32,7 +31,8 @@ import { SafePipe } from '../shared/pipes/safe.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { TestsPageComponent } from './student/study-planner-student/tests-page/tests-page.component';
-import { QbankComponent } from './student/levels/qbank/qbank.component';
+import { QbankTestsPageComponent } from './student/levels/qbank-tests-page/qbank-tests-page.component';
+//import { QbankComponent } from './student/levels/qbank/qbank.component';
 import { StudyModeComponent } from './student/exams/study-mode/study-mode.component';
 import { ExamModeComponent } from './student/exams/exam-mode/exam-mode.component';
 import { LiveModeComponent } from './student/exams/live-mode/live-mode.component';
@@ -76,7 +76,7 @@ const routes: Routes = [
       },
       {
         path: 'qbank/:curriculum_id/:level_id/:level_parent_id',
-        component: QbankComponent,
+        component: QbankTestsPageComponent,
       },
       { path: 'study-planner', component: StudyPlannerStudentComponent },
       { path: 'study-mode', component: StudyModeComponent },
@@ -101,18 +101,18 @@ const routes: Routes = [
     ForgotPasswordComponent,
     EmailVerifiedComponent,
     UnsubscribeEmailComponent,
-    //CurriculumComponent,
     ResetPasswordComponent,
     StaticPagesComponent,
     DetailsComponent,
     LevelComponent,
     Level_listComponent,
+    QbankTestsPageComponent,
     ListPackagesComponent,
     PackageDetailsComponent,
     StudyPlannerStudentComponent,
     ShoppingCartComponent,
     TestsPageComponent,
-    QbankComponent,
+    //QbankComponent,
     StudyModeComponent,
     ExamModeComponent,
     LiveModeComponent,
