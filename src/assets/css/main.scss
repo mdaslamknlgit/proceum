@@ -4874,6 +4874,19 @@ sup {
 }
 .tsts_mn{
   display: flex;
+  &.stdy_md_qstns{
+    .qstn_elb{
+      display: none;
+    }
+  }
+  .rot_90{
+    transform: rotate(-180deg);
+    transition-duration: 0.4s;
+  }
+  .rot_0{
+    transform: rotate(0deg);
+    transition-duration: 0.4s;
+  }
   .tsts_qstns_nums{
     flex-basis: 30%;
     background-color: #fff;
@@ -4930,6 +4943,9 @@ sup {
         align-items: center;
         justify-content: center;
         cursor: pointer;
+        &.grd_lst_vw{
+          margin-right: 5px;
+        }
         mat-icon{
           color: #fff;
         }
@@ -5085,7 +5101,7 @@ sup {
       flex:auto;
       background-color: transparent;
       margin-right: 1%;
-      .tstsnms_hd, .tstsnms_cnt_dv{
+      .tstsnms_hd, .tstsnms_cnt_dv, .grd_lst_vw{
         display: none;
       }
     }
@@ -5096,7 +5112,7 @@ sup {
 }
 .qbnk_mn{
   .tsts_qstns_nums {
-    .tstsnms_cnt_dv{
+    .tstsnms_cnt_dv {
       ul {
         li{
           border: 0;
@@ -5124,6 +5140,60 @@ sup {
         }
       }
     }
+  }
+  &.stdy_md_qstns{
+    .qstn_elb{
+      display: inline;
+    }
+    .tsts_qstns_nums{
+      .tstsnms_cnt_dv{
+        ul{
+          li{
+            padding-right: 35px;
+            background-color: transparent;
+            position: relative;
+            color: var(--primary-color);
+            &:hover{
+              background-color: #f5f7f9;
+            }
+            &::after{
+              content: "";
+              position: absolute;
+              width: 10px;
+              height: 10px;
+              background-color: transparent;
+              right: 15px;
+              top: 50%;
+              border-radius: 50%;
+              transform: translateY(-50%);
+            }
+            &.grn{
+              &::after{
+                background-color: var(--accent-color);
+              }
+            }
+            &.rd{
+              &::after{
+                background-color: #FF0000;
+              }
+            }
+            &.orng{
+              &::after{
+                background-color: #FF6F00;
+              }
+            }
+            &.gry{
+              &::after{
+                background-color: #7C7C7C;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  &.exm_md_qstns{
+    
   }
   mat-radio-button, mat-checkbox{
     position: relative;
