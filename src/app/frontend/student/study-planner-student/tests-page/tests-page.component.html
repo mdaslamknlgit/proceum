@@ -28,8 +28,8 @@
                                 <div class="hgt_20"></div>
                                 <div class="d-flex jc_cnt">
                                     <button mat-raised-button class="gry_btn mr_1" (click)="hideDetails()">Close</button>
-                                    <button mat-raised-button color="accent" class="mr_1 skp_btn">Review Answers</button>
-                                    <button mat-raised-button color="accent">Go to Study Plan</button>
+                                    <button mat-raised-button color="accent" (click)="reviewQuestions()" class="mr_1 skp_btn">Show Answers</button>
+                                    <button mat-raised-button routerLink="/student/study-planner" color="accent">Go to Study Plan</button>
                                 </div>
                                 <div class="hgt_20"></div>
                             </div>
@@ -74,9 +74,13 @@
                 <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
                 <div class="spacer"></div>
                 <div>
-                    <button [disabled]="active_question['answer'].length==0" mat-raised-button (click)="checkAnswer();showResult()" 
-                    class="skp_btn {{active_question['answer'].length==0 ? 'gry_btn':''}}">Submit Test<mat-icon>subdirectory_arrow_right
-                    </mat-icon>
+                    <button
+                    (click)="checkAnswer();showResult();" *ngIf="is_test_end == false" [disabled]="!allow_end_test" mat-raised-button 
+                    class="skp_btn {{allow_end_test == false ? 'gry_btn':''}}">End Test
+                </button>
+                <button *ngIf="is_test_end == true"
+                    (click)="showDetails()" [disabled]="!allow_end_test" mat-raised-button 
+                    class="skp_btn {{allow_end_test == false ? 'gry_btn':''}}">View Report
                 </button>
                 </div>
                 
