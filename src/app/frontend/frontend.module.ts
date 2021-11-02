@@ -36,6 +36,7 @@ import { QbankTestsPageComponent } from './student/levels/qbank-tests-page/qbank
 import { StudyModeComponent } from './student/exams/study-mode/study-mode.component';
 import { ExamModeComponent } from './student/exams/exam-mode/exam-mode.component';
 import { LiveModeComponent } from './student/exams/live-mode/live-mode.component';
+import { ExamPrepmodeComponent } from './student/exams/exam-prepmode/exam-prepmode.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -83,6 +84,7 @@ const routes: Routes = [
       { path: 'exam-mode', component: ExamModeComponent },
       { path: 'live-mode', component: LiveModeComponent },
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
+      { path: 'exam-prepmode', component: ExamPrepmodeComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
     ],
   },
@@ -116,6 +118,7 @@ const routes: Routes = [
     StudyModeComponent,
     ExamModeComponent,
     LiveModeComponent,
+    ExamPrepmodeComponent,
   ],
   imports: [
     CommonModule,
