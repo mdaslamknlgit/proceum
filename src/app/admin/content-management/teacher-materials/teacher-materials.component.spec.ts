@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LiveModeComponent } from './live-mode.component';
+import { TeacherMaterialsComponent } from './teacher-materials.component';
 
-describe('LiveModeComponent', () => {
-  let component: LiveModeComponent;
-  let fixture: ComponentFixture<LiveModeComponent>;
+describe('TeacherMaterialsComponent', () => {
+  let component: TeacherMaterialsComponent;
+  let fixture: ComponentFixture<TeacherMaterialsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LiveModeComponent ]
+      declarations: [ TeacherMaterialsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LiveModeComponent);
+    fixture = TestBed.createComponent(TeacherMaterialsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
