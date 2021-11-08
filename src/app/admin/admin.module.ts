@@ -77,6 +77,7 @@ import { LabValuesComponent } from './question-management/lab-values/lab-values.
 import { PocVideosComponent } from './poc-videos/poc-videos.component';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { StudyPlannerListComponent } from './study-planner/study-planner-list/study-planner-list.component';
+import { TeacherMaterialsComponent } from './teacher-materials/teacher-materials.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -209,6 +210,9 @@ const routes: Routes = [
 
       //Added by Phanindra 06-09-2021
       { path: 'poc-videos', component: PocVideosComponent },
+
+      //Teacher materials routes, Added by Sandeep kumar
+      { path: 'materials', component: TeacherMaterialsComponent },
     ],
   },
 ];
@@ -266,6 +270,7 @@ const routes: Routes = [
     LabValuesComponent,
     PocVideosComponent,
     StudyPlannerListComponent,
+    TeacherMaterialsComponent,
   ],
   imports: [
     MaterialModule,
