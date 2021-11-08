@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
+import { CartCountService } from '../../../services/cart-count.service';
 
 interface CurriculumNode {
   id?: number;
@@ -26,7 +27,6 @@ interface CurriculumNode {
 })
 export class PackageDetailsComponent implements OnInit {
   public package_id = 0;
-  public user_id = 0;
   public package_prices = [];
   public sample_videos = [];
   public testimonials = [];
@@ -39,6 +39,12 @@ export class PackageDetailsComponent implements OnInit {
   public review = '';
   public package_avg_rating:any = 0;
   public review_error = false;
+  public user_id:any = '';
+  public ip:any = '';
+  public country_id:any = '';
+  public admin_role_ids:any = [];
+  public role_id:any = '';
+  public cart_count:any; 
   
   //Tree controls for topics tab
   treeControl = new NestedTreeControl<CurriculumNode>(node => node.children);
@@ -50,29 +56,38 @@ export class PackageDetailsComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private sanitizer: DomSanitizer,
+    private cartCountService:CartCountService,
 
   ) { }
 
   hasChild = (_: number, node: CurriculumNode) => !!node.children && node.children.length > 0;
 
   ngOnInit(): void {
-    let user = this.http.getUser();
-    if(user){
-      this.user_id = user.id;
+    this.user = this.http.getUser();
+    if(this.user){
+      this.user_id = this.user['id'];
+      this.role_id =  Number(this.user['role']);
     }
+      
     this.activatedRoute.params.subscribe((param) => {
       this.package_id = param.id;
       if (this.package_id != undefined) {
-        this.getPackage();
+        //this.getPackage();
       }
       else{
           this.package_id = 0;
       }
     });
+
+     //get client ip
+     this.http.getClientIp().subscribe((res) => {
+      this.ip = res['ip'];
+      this.getPackage();
+    });  
   }
 
   public getPackage() {
-    let data = { url: 'get-package/' + this.package_id , status: '1'};
+    let data = { url: 'get-package-details',  package_id : this.package_id , status: '1',id: this.user_id, ip: this.ip, country_id: this.country_id };
     this.http.nonAuthenticatedPost(data).subscribe((res) => {
       if (res['error'] == false) {
         this.package = res['data']['package_data'];        
@@ -89,12 +104,14 @@ export class PackageDetailsComponent implements OnInit {
         this.faqs = res['data']['faqs'];        
         this.testimonials = res['data']['testimonials']; 
         this.package_avg_rating = res['data']['package_avg_rating']; 
+        this.admin_role_ids = res['data']['avoid_roles']; 
         //Get the topics if package courses not empty
         if(this.package.courses_ids_csv != ''){
           this.getPackageTopicsHierarchy();
         }
-        
-        //console.log(this.package)
+      }else{
+        this.toster.error(res['message'], 'Error', { closeButton: true });
+        this.router.navigateByUrl('/pricing-and-packages');
       }
     });
   }
@@ -177,5 +194,32 @@ export class PackageDetailsComponent implements OnInit {
     
   }
 
+  public addToCart(product_id){
+    if(this.user_id == ''){
+      this.router.navigateByUrl('/login');
+      return;
+    }
+    //Prepare post data
+    let cart_data = {
+      product_id : product_id,
+      user_id  : this.user_id,
+      product_type_id : 1, //Package
+    }
+    let param = { url: 'add-to-cart', cart_data :cart_data };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.cart_count = res['data']['cart_count'];
+        this.toster.success("Package added to cart successfully!", 'Success');
+        this.sendNumber();
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+      //console.log(res);
+    });
+  }
+
+  sendNumber() {
+    this.cartCountService.sendNumber(this.cart_count);
+  }
 
 }

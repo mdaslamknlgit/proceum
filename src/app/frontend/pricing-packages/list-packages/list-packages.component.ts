@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { count } from 'rxjs/operators';
+import { CartCountService } from '../../../services/cart-count.service';
 
 @Component({
   selector: 'app-list-packages',
@@ -13,43 +13,66 @@ export class ListPackagesComponent implements OnInit {
   public packages = [];
   public user = [];
   public search_box = '';
+  public user_id:any = '';
+  public ip:any = '';
+  public country_id:any = '';
+  public admin_role_ids:any = [];
+  public role_id:any = '';
+  public cart_count:any; 
   constructor(
     private http: CommonService,
     public toster: ToastrService,
-    private router: Router
+    private router: Router,
+    private cartCountService:CartCountService,
   ) { }
 
   ngOnInit(): void {
-    this.getPackages();
+    this.user = this.http.getUser(); 
+    if(this.user){
+      this.user_id = this.user['id'];
+      this.role_id =  Number(this.user['role']);
+    }
+    //get client ip
+    this.http.getClientIp().subscribe((res) => {
+      this.ip = res['ip'];
+      this.getPackages();
+    });     
   }
 
   public getPackages() {
-    let param = { url: 'get-all-packages', status: '1' };
+    let param = { url: 'get-packages-to-purchase', id: this.user_id, ip: this.ip, country_id: this.country_id };
     this.http.nonAuthenticatedPost(param).subscribe((res) => {
       //console.log(res);
       if (res['error'] == false) {
         this.packages = res['data']['packages'];
-        //console.log(this.packages);
+        this.country_id = res['data']['country_id'];
+        this.user_id = res['data']['user_id'];
+        this.admin_role_ids = res['data']['avoid_roles'];
       } else {
-        //this.toster.error(res['message'], 'Error');
+        this.toster.error(res['message'], 'Error');
+        this.router.navigateByUrl('/');
       }
     });
   }
 
   public doFilter() {
-    let param = { url: 'get-packages', search: this.search_box };
+    let param = { url: 'get-packages-to-purchase', search: this.search_box, id: this.user_id, ip: this.ip, country_id: this.country_id };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.packages = res['data']['packages'];
+        this.country_id = res['data']['country_id'];
+        this.user_id = res['data']['user_id']; 
+        this.admin_role_ids = res['data']['avoid_roles'];
       } else {
-        //this.toster.error(res['message'], 'Error');
+        this.toster.error(res['message'], 'Error');
+        this.router.navigateByUrl('/');
       }
     });
   }
 
   public localPrice(prices){
     if(!prices.length){
-      return "No Price!";
+      return "Loading!";
     }
     this.user = this.http.getUser();
     let user_country_id = 1;
@@ -69,5 +92,33 @@ export class ListPackagesComponent implements OnInit {
       let amount = prices[0]['price_amount'];
       return '<span class="rpe_sym">'+ symbol +'</span>'+ amount;
     }
+  }
+
+  public addToCart(product_id){
+    if(this.user_id == ''){
+      this.router.navigateByUrl('/login');
+      return;
+    }
+    //Prepare post data
+    let cart_data = {
+      product_id : product_id,
+      user_id  : this.user_id,
+      product_type_id : 1, //Package
+    }
+    let param = { url: 'add-to-cart', cart_data :cart_data };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.cart_count = res['data']['cart_count'];
+        this.toster.success("Package added to cart successfully!", 'Success');
+        this.sendNumber();
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+      //console.log(res);
+    });
+  }
+
+  sendNumber() {
+    this.cartCountService.sendNumber(this.cart_count);
   }
 }

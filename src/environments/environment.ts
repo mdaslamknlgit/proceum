@@ -61,11 +61,14 @@ export const environment = {
     {value: '2', viewValue: 'College'},
     {value: '3', viewValue: 'Institute'}
   ],
-  
+  DISCOUNT_TYPES: [
+    {value: 1, viewValue: 'Fixed Amount'},
+    {value: 2, viewValue: 'Percentage'}
+  ],
+    //apiUrl: 'http://192.10.250.150:8000/api/',
+    //apiUrl: 'http://127.0.0.1:8000/api/',
+    apiUrl: 'https://apiqa.proceum.com/api/',
 
-   //apiUrl: 'http://192.10.250.150:8000/api/',
-     apiUrl: 'http://127.0.0.1:8000/api/',
-    //apiUrl: 'https://apiqa.proceum.com/api/',
     firebaseConfig : {
         apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
         authDomain: "proceum-dev-62a30.firebaseapp.com",
@@ -79,6 +82,7 @@ export const environment = {
       * Below array used to check domian or subdomian from in app users or partners 
       */
       INAPP_DOMAINS_ARRAY: ["localhost","qa","uat","dev"],
+      PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',
 };
 
 /*

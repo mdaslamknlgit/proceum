@@ -204,7 +204,7 @@
           <div>
             <div>Free/Paid Content</div>
             <div class="fre_pid_dv mt_3px">
-              <mat-slide-toggle [(ngModel)]="is_paid">
+              <mat-slide-toggle [(ngModel)]="is_paid" name="is_paid_name">
                 {{ is_paid == true ? 'Paid Content' : 'Free Content'}}
               </mat-slide-toggle>
             </div>
@@ -931,7 +931,37 @@
                       <mat-tab-group (selectedTabChange)="questionsTab($event)" [(selectedIndex)]="question_tab"
                         animationDuration="0.15s">
                         <mat-tab label="All Questions">
+                            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                                <div class="clear_fix"></div>
+                                <div>Select Course</div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id" placeholder="Select Course" (ngModelChange)="getLabels()">
+                                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                      [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                                <span>{{ ucFirst(value["display_label"]) }}</span>
+                                <div class="clear_fix"></div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_{{value['level_number']}}"
+                                    [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                                    <mat-option>
+                                      <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}" [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                        name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                        {{ucFirst(value['display_label'])}}
+                                      </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                                      [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
                           <div class="dsh_brd_crds">
+
                             <mat-form-field appearance="outline" class="w_100p">
                               <input [(ngModel)]="search_question" name="search_question" (keyup)="
                                   $event.keyCode == 13 ? searchQuestions() : ''
@@ -977,6 +1007,35 @@
                             showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
                         </mat-tab>
                         <mat-tab label="Selected Questions">
+                            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                                <div class="clear_fix"></div>
+                                <div>Select Course</div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id" placeholder="Select Course" (ngModelChange)="getLabels()">
+                                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                      [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                                <span>{{ ucFirst(value["display_label"]) }}</span>
+                                <div class="clear_fix"></div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_{{value['level_number']}}"
+                                    [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                                    <mat-option>
+                                      <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}" [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                        name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                        {{ucFirst(value['display_label'])}}
+                                      </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                                      [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
                               <input [(ngModel)]="search_question" name="search_question" (keyup)="
@@ -1030,6 +1089,35 @@
                       <mat-tab-group (selectedTabChange)="questionsTab($event)" [(selectedIndex)]="short_answer_tab"
                         animationDuration="0.15s">
                         <mat-tab label="All Questions">
+                            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                                <div class="clear_fix"></div>
+                                <div>Select Course</div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id" placeholder="Select Course" (ngModelChange)="getLabels()">
+                                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                      [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                                <span>{{ ucFirst(value["display_label"]) }}</span>
+                                <div class="clear_fix"></div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_{{value['level_number']}}"
+                                    [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                                    <mat-option>
+                                      <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}" [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                        name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                        {{ucFirst(value['display_label'])}}
+                                      </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                                      [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
                               <input [(ngModel)]="search_question" name="search_question" (keyup)="
@@ -1076,6 +1164,35 @@
                             (page)="getServerData($event)"></mat-paginator>
                         </mat-tab>
                         <mat-tab label="Selected Questions">
+                            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                                <div class="clear_fix"></div>
+                                <div>Select Course</div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id" placeholder="Select Course" (ngModelChange)="getLabels()">
+                                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                      [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                                <span>{{ ucFirst(value["display_label"]) }}</span>
+                                <div class="clear_fix"></div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_{{value['level_number']}}"
+                                    [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                                    <mat-option>
+                                      <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}" [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                        name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                        {{ucFirst(value['display_label'])}}
+                                      </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                                      [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
                               <input [(ngModel)]="search_question" name="search_question" (keyup)="
@@ -1209,6 +1326,35 @@
                       <mat-tab-group (selectedTabChange)="questionsTab($event)" [(selectedIndex)]="case_tab"
                         animationDuration="0.15s">
                         <mat-tab label="All Questions">
+                            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                                <div class="clear_fix"></div>
+                                <div>Select Course</div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id" placeholder="Select Course" (ngModelChange)="getLabels()">
+                                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                      [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                                <span>{{ ucFirst(value["display_label"]) }}</span>
+                                <div class="clear_fix"></div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_{{value['level_number']}}"
+                                    [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                                    <mat-option>
+                                      <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}" [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                        name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                        {{ucFirst(value['display_label'])}}
+                                      </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                                      [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
                               <input [(ngModel)]="search_question" name="search_question" (keyup)="
@@ -1255,6 +1401,35 @@
                             (page)="getServerData($event)"></mat-paginator>
                         </mat-tab>
                         <mat-tab label="Selected Questions">
+                            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                                <div class="clear_fix"></div>
+                                <div>Select Course</div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id" placeholder="Select Course" (ngModelChange)="getLabels()">
+                                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                      [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                                <span>{{ ucFirst(value["display_label"]) }}</span>
+                                <div class="clear_fix"></div>
+                                <mat-form-field appearance="outline">
+                                  <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_{{value['level_number']}}"
+                                    [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                                    <mat-option>
+                                      <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}" [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                        name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                        {{ucFirst(value['display_label'])}}
+                                      </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                                      [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
                           <div class="dsh_brd_crds">
                             <mat-form-field appearance="outline" class="w_100p">
                               <input [(ngModel)]="search_question" name="search_question" (keyup)="

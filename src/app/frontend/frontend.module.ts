@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { DashboardComponent } from './student/dashboard/dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
@@ -14,7 +15,6 @@ import { MyAccountComponent } from './student/my-account/my-account.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { EmailVerifiedComponent } from './email-verified/email-verified.component';
 import { UnsubscribeEmailComponent } from './unsubscribe-email/unsubscribe-email.component';
-import { CurriculumComponent } from './student/curriculum/curriculum.component';
 import { StaticPagesComponent } from './static-pages/static-pages.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { StudentComponent } from './student.component';
@@ -27,8 +27,19 @@ import { ListPackagesComponent } from './pricing-packages/list-packages/list-pac
 import { PackageDetailsComponent } from './pricing-packages/package-details/package-details.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { StudyPlannerStudentComponent } from './student/study-planner-student/study-planner-student.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SafePipe } from '../shared/pipes/safe.pipe';
 import { SharedModule } from '../shared/shared.module';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { TestsPageComponent } from './student/study-planner-student/tests-page/tests-page.component';
+import { QbankTestsPageComponent } from './student/levels/qbank-tests-page/qbank-tests-page.component';
+//import { QbankComponent } from './student/levels/qbank/qbank.component';
+import { StudyModeComponent } from './student/exams/study-mode/study-mode.component';
+import { ExamModeComponent } from './student/exams/exam-mode/exam-mode.component';
+import { LiveModeComponent } from './student/exams/live-mode/live-mode.component';
+import { ExamPrepmodeComponent } from './student/exams/exam-prepmode/exam-prepmode.component';
+import { TeacherMaterialComponent } from './student/learning-notes/teacher-material/teacher-material.component';
+import { MaterialDescriptionComponent } from './student/learning-notes/material-description/material-description.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -67,7 +78,19 @@ const routes: Routes = [
         path: 'curriculums/:curriculum_id/:level_id/:level_parent_id',
         component: Level_listComponent,
       },
+      {
+        path: 'qbank/:curriculum_id/:level_id/:level_parent_id',
+        component: QbankTestsPageComponent,
+      },
       { path: 'study-planner', component: StudyPlannerStudentComponent },
+      { path: 'study-mode', component: StudyModeComponent },
+      { path: 'exam-mode', component: ExamModeComponent },
+      { path: 'live-mode', component: LiveModeComponent },
+      { path: 'teacher-material', component: TeacherMaterialComponent },
+      { path: 'material-description', component: MaterialDescriptionComponent },
+      { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
+      { path: 'exam-prepmode', component: ExamPrepmodeComponent },
+      { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
     ],
   },
 ];
@@ -85,19 +108,32 @@ const routes: Routes = [
     ForgotPasswordComponent,
     EmailVerifiedComponent,
     UnsubscribeEmailComponent,
-    CurriculumComponent,
     ResetPasswordComponent,
     StaticPagesComponent,
     DetailsComponent,
     LevelComponent,
     Level_listComponent,
+    QbankTestsPageComponent,
     ListPackagesComponent,
     PackageDetailsComponent,
     StudyPlannerStudentComponent,
+    ShoppingCartComponent,
+    TestsPageComponent,
+    //QbankComponent,
+    StudyModeComponent,
+    ExamModeComponent,
+    LiveModeComponent,
+    ExamPrepmodeComponent,
+    TeacherMaterialComponent,
+    MaterialDescriptionComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
+    ConfirmationPopoverModule.forRoot({
+        confirmButtonType: 'danger', // set defaults here
+      }),
+      SweetAlert2Module.forRoot(),
     MaterialModule,
     LayoutsModule,
     CKEditorModule,

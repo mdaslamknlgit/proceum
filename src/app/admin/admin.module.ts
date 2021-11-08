@@ -78,6 +78,9 @@ import { PocVideosComponent } from './poc-videos/poc-videos.component';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { StudyPlannerListComponent } from './study-planner/study-planner-list/study-planner-list.component';
 import { TeacherMaterialsComponent } from './teacher-materials/teacher-materials.component';
+import { ManageYearsSemestersGroupsComponent } from './manage-years-semesters-groups/manage-years-semesters-groups.component';
+import { ShoppingCartComponent } from '../frontend/shopping-cart/shopping-cart.component';
+import { CreateExamComponent } from './exam-modes/create-exam/create-exam.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -194,6 +197,7 @@ const routes: Routes = [
       { path: 'manage-packages-testimonial', component: PackageTestimonialsComponent },
 
       //Years routes
+      { path: 'manage-year-semester-group', component:  ManageYearsSemestersGroupsComponent},
       { path: 'manage-years', component:  ListYearsComponent},
       //Semester routes
       { path: 'manage-semesters', component: ListSemestersComponent },
@@ -207,12 +211,12 @@ const routes: Routes = [
       { path: 'study-planner/edit/:id', component: StudyPlannerComponent },
       { path: 'questions-mgt/lab-values', component: LabValuesComponent },
       { path: 'study-planner-list', component: StudyPlannerListComponent },
-
       //Added by Phanindra 06-09-2021
       { path: 'poc-videos', component: PocVideosComponent },
 
       //Teacher materials routes, Added by Sandeep kumar
       { path: 'materials', component: TeacherMaterialsComponent },
+      { path: 'create-exam', component: CreateExamComponent},
     ],
   },
 ];
@@ -270,6 +274,8 @@ const routes: Routes = [
     LabValuesComponent,
     PocVideosComponent,
     StudyPlannerListComponent,
+    ManageYearsSemestersGroupsComponent,
+    CreateExamComponent,
     TeacherMaterialsComponent,
   ],
   imports: [

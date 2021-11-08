@@ -7,6 +7,21 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ReplaySubject } from 'rxjs';
+import {MatTreeNestedDataSource} from '@angular/material/tree';
+import {NestedTreeControl} from '@angular/cdk/tree';
+
+interface CurriculumNode {
+  id?: number;
+  name: any;
+  curriculum_id?: number;
+  selected?: boolean;
+  indeterminate?: boolean;
+  parentid?: number;
+  is_curriculum_root?: boolean;
+  children?: CurriculumNode[];
+  has_children?: boolean;
+  ok?: boolean;
+}
 
 @Component({
   selector: 'app-list-years',
@@ -45,6 +60,12 @@ export class ListYearsComponent implements OnInit {
   public semester_id = '';
   public group_id = '';
   public user_role = 3;
+  public expand_course = true;
+  public selected_courses:any;
+  public courses_div = false;
+  public courses_ids_csv = '';
+  public courses_arr = [];
+  public course_count = 0;
   universities = [];
   colleges = [];
   institutes = [];
@@ -59,17 +80,125 @@ export class ListYearsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
+  //Code starts here for course selection
+  treeControl = new NestedTreeControl<CurriculumNode>(node => node.children);
+  dataSourceForNestedTree = new MatTreeNestedDataSource<CurriculumNode>();
   constructor(
     private http: CommonService,
     public toster: ToastrService,
     private router: Router
     ) { }
+  
+    hasChild = (_: number, node: CurriculumNode) =>
+    !!node.children && node.children.length > 0;
 
+  setParent(data, parent) {
+   
+    if(data.children === undefined){
+      data.has_children = false;
+    }else{
+      data.has_children = true;
+    }
+    data.parent = parent;
+    if (data.children) {
+      data.children.forEach(x => {
+        this.setParent(x, data);
+      });
+    }
+  }
+
+  checkAllParents(node) {
+    if (node.parent) {
+      const descendants = this.treeControl.getDescendants(node.parent);
+      node.parent.selected = descendants.every(child => child.selected);
+      node.parent.indeterminate = descendants.some(child => child.selected);
+      this.checkAllParents(node.parent);
+    }
+  }
+
+  todoItemSelectionToggle(checked, node) {
+    node.selected = checked;
+    if (node.children) {
+      node.children.forEach(x => {
+        this.todoItemSelectionToggle(checked, x);
+      });
+    }
+    this.checkAllParents(node);
+  }
+
+  setChildOk(text: string, node: any) {
+    node.forEach(x => {
+      x.ok = x.name.indexOf(text) >= 0;
+      if (x.parent) this.setParentOk(text, x.parent, x.ok);
+      if (x.children) this.setChildOk(text, x.children);
+    });
+  }
+  
+  setParentOk(text, node, ok) {
+    node.ok = ok || node.ok || node.name.indexOf(text) >= 0;
+    if (node.parent) this.setParentOk(text, node.parent, node.ok);
+  }
+
+  //For check the values
+  getList2(node: any, result: any = null) {
+    result = result || {};
+    node.forEach(x => {
+      result[x.name] = {};
+      result[x.name].ok = x.ok;
+      if (x.children) result[x.name].children = this.getList2(x.children);
+    });
+    return result;
+  }
+  //Another way to check the values, we can not use {{datasource.node}}
+  getList(node: any) {
+    return node.map(x => {
+      const r: any = {
+        name: x.name + ' - ' + x.ok,
+        children: x.children ? this.getList(x.children) : null
+      };
+      if (!r.children) delete r.children;
+      return r;
+    });
+  }
+
+  submitCourses() {
+    let result = [];let selected_ids = [];
+    this.dataSourceForNestedTree.data.forEach(node => {
+      result = result.concat(
+        this.treeControl
+          .getDescendants(node)
+          .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children,x.name,x.parentid])
+      );
+      selected_ids = selected_ids.concat(
+        this.treeControl
+          .getDescendants(node)
+          .filter(x => x.selected && x.id).map(x => x.id)
+      );
+    });
+    this.selected_courses = result.filter(function(node) {
+      if(selected_ids.indexOf(node[4]) == -1){
+        return node;
+      }
+    }).map(x => x[3]);
+    //console.log(this.selected_courses);
+    if(this.selected_courses){
+      this.courses_div = true;
+      this.courses_ids_csv = selected_ids.join();
+      this.courses_arr = result;
+    }else{
+      this.courses_div = false;
+      this.edit_model_status = false;
+      this.courses_ids_csv = '';
+      this.courses_arr = result;
+    }
+    
+  }
+  
   ngOnInit(): void {
     const user = JSON.parse(atob(localStorage.getItem('user')));
     this.show_radio = (user.role == 1) ? true : false;
     this.getData();
+    this.getCurriculumnHierarchy();
   }
 
   public getData() {
@@ -85,7 +214,26 @@ export class ListYearsComponent implements OnInit {
     });
   }
 
+  getCurriculumnHierarchy(){
+    let params = { url: 'get-curriculumn-hierarchy','previous_selected_ids' : this.courses_ids_csv};
+    this.http.post(params).subscribe((res) => {      
+      if (res['error'] == false) {
+        this.course_count = res['data'].length;
+        this.dataSourceForNestedTree.data = res['data'];
+        this.dataSourceForNestedTree.data.forEach(x => {
+          this.setParent(x, null);
+        });
+        if(this.courses_ids_csv != ''){
+          //this.submitCourses();  
+        }
+      } else {
+          this.course_count = 0;
+          //this.toster.error(res['message'], 'Error', { closeButton: true });
+      }
+    });
+  }
   public getRow(id) {
+    this.courses_ids_csv = ''; 
     let param = { url: 'get-year-semester-group-by-id','id':id};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -100,7 +248,10 @@ export class ListYearsComponent implements OnInit {
         this.show_radio = (item.partner_id == null) ? false : true;
         this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
         this.onOrganizationTypeChange();
-
+        if(item.subject_ids_csv != '' && item.subject_ids_csv != null){
+          this.courses_ids_csv = item.subject_ids_csv;
+          this.getCurriculumnHierarchy();
+        }
         //Finally open the model
         this.model_status = true;
         
@@ -117,6 +268,7 @@ export class ListYearsComponent implements OnInit {
     this.name_of = '';
     this.organization = '';
     this.organization_type = '';
+    this.courses_ids_csv = '';
   }
 
   public doFilter() {
@@ -335,6 +487,11 @@ export class ListYearsComponent implements OnInit {
     if(this.name_of == ''){
       error = true;
     }
+    this.submitCourses();
+    if(this.courses_ids_csv == ''){
+      error = true;
+      this.toster.error("Select Subjects!", 'Error');
+    }
     if(!error){
     let param = { 
       url: 'create-year-semester-group',
@@ -343,6 +500,7 @@ export class ListYearsComponent implements OnInit {
       parent_id : this.parent_id, 
       slug : 'year', 
       id : this.year_id,
+      subject_ids_csv : this.courses_ids_csv,
       status : '1',
      };
     this.http.post(param).subscribe((res) => {

@@ -65,6 +65,9 @@ export class CreatePackageComponent implements OnInit {
   public faqs_index = -1;
   public question_error = '';
   public answer_error = '';
+  public addons_arr = [];
+  public addons_list = [];
+  public all_addons_list = [];
   all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
   
   //Code starts here for course selection
@@ -199,6 +202,7 @@ export class CreatePackageComponent implements OnInit {
   ngOnInit(): void {
     this.getCountries();
     this.getCurriculumnHierarchy();
+    this.getAddons();
   }
 
   getPackage() {
@@ -310,6 +314,7 @@ export class CreatePackageComponent implements OnInit {
       applicable_to_institute : this.applicable_to_institute,
       valid_up_to : this.valid_up_to,
       billing_frequency : this.billing_frequency,
+      addons_arr : this.addons_arr,
     };
     let params = { url: 'create-package', form_data: form_data };
     this.http.post(params).subscribe((res) => {
@@ -388,25 +393,6 @@ export class CreatePackageComponent implements OnInit {
     let prices = this.package_prices;
     this.selected_countires = prices.map(x => x.country_id);
   }
-
-  // addVideo(){
-  //   if(this.source_type != "" && this.title != "" && this.video_source != ""){
-  //     let form_data = {
-  //       source_type : this.source_type,
-  //       title : this.title,
-  //       video_source : this.video_source,
-  //     };
-  //     let params = { url: 'add-package-video', form_data: form_data };
-  //     this.http.post(params).subscribe((res) => {
-  //       if (res['error'] == false) {
-  //         this.toster.success(res['message'], 'Success', { closeButton: true });
-  //         //this.navigateTo('prices-package-management');
-  //       } else {
-  //           this.toster.error(res['message'], 'Error', { closeButton: true });
-  //       }
-  //     });
-  //   }
-  // }
 
   addVideo(){
     if(this.source_type != "" && this.title != "" && this.video_source != ""){
@@ -586,5 +572,21 @@ export class CreatePackageComponent implements OnInit {
     }else{
       return false;
     }
+  }
+
+  getAddons(){
+    let params = { url: 'get-addons'};
+    this.http.post(params).subscribe((res) => {      
+      if (res['error'] == false) {
+        this.addons_list = res['data'];
+        this.all_addons_list = res['data'];
+      } else {
+          //this.course_count = 0;
+          //this.toster.error(res['message'], 'Error', { closeButton: true });
+      }
+    });
+  }
+  searchAddon(search){
+    this.addons_list = this.all_addons_list.filter(item => item.curriculumn_name.toLowerCase().includes(search.toLowerCase()));
   }
 }

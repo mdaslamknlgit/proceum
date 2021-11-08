@@ -21,6 +21,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+import { PaymentsComponent } from './payments/payments.component';
+import { CartCountService } from './services/cart-count.service'; 
+import { ReplaceUnderscorePipe } from './shared/pipes/replace-underscore-pipe';
+import { ReplacePipe } from './shared/pipes/replace-pipe';
 //import { SafePipe } from './shared/pipes/safe.pipe';
 @NgModule({
   declarations: [
@@ -29,6 +33,9 @@ import { environment } from '../environments/environment';
     NotFoundComponent,
     DrawingBoardComponent,
     ProceumLibraryComponent,
+    PaymentsComponent,
+    ReplaceUnderscorePipe,
+    ReplacePipe,
     //SafePipe,
   ],
   imports: [
@@ -53,6 +60,7 @@ import { environment } from '../environments/environment';
     PdfViewerModule
   ],
   providers: [
+    CartCountService,
     { provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true },
     {
       provide: 'SocialAuthServiceConfig',

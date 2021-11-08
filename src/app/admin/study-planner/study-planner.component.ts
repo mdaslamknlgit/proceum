@@ -4,13 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 
-export interface PeriodicElement {
-    name: string;
-    position: number;
-    weight: number;
-    symbol: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [{position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'}];
 
 
 
@@ -20,8 +13,7 @@ const ELEMENT_DATA: PeriodicElement[] = [{position: 1, name: 'Hydrogen', weight:
   styleUrls: ['./study-planner.component.scss']
 })
 export class StudyPlannerComponent implements OnInit {
-    displayedColumns: string[] = ['SNo', 'Topic', 'MCQ', 'Cases', 'Shortans', 'Videos', 'Actions'];
-    dataSource = ELEMENT_DATA;
+    public displayedColumns: string[] = ['SNo', 'Topic', 'MCQ', 'Cases', 'Shortans', 'Videos', 'Actions'];
     public study_plan = {name:'', course:[], duration:0, schdule:[]};
     public courses = [];
     public all_courses = [];
@@ -37,6 +29,11 @@ export class StudyPlannerComponent implements OnInit {
     public active_tab_index = 0;
     public study_plan_id = 0;
     public pgae_title = 'Create Study Planner';
+    public curriculum_labels = [];
+    public level_options = [];
+    public all_level_options = [];
+    public selected_level = [];
+    public selected_level_number = 0;
     constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((param) => {
@@ -116,6 +113,57 @@ export class StudyPlannerComponent implements OnInit {
         this.hideTaskTestModal();
         this.task_asign_modal = false;
     }
+    getLabels(){
+        this.level_options = [];
+        this.all_level_options = [];
+        this.selected_level = [];
+        let param = {
+            url: 'get-curriculum-labels',
+            curriculum_id: this.study_plan.schdule[this.selected_day_index]['selected_courses'][this.active_tab_index]['pk_id'],
+        };
+        this.http.post(param).subscribe((res) => {
+            if (res['error'] == false) {
+                let data = res['data'];
+                this.level_options[1] = data['level_1'];
+                this.all_level_options[1] = data['level_1'];
+                this.curriculum_labels = data['curriculum_labels'];
+                if(this.curriculum_labels.length == 0){
+                    this.level_options = [];
+                    this.all_level_options = [];
+                    this.selected_level = [];
+                }
+            }
+        });
+    }
+    ucFirst(string) {
+        return this.http.ucFirst(string);
+    }
+    getLevels(level_id) {
+        this.selected_level_number = level_id;
+        let param = {
+        url: 'get-levels-by-level',
+        step_id: this.selected_level[level_id],
+        };
+        this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+            let data = res['data'];
+            this.level_options[level_id + 1] = data['steps'];
+            this.all_level_options[level_id + 1] = data['steps'];
+            this.level_options.forEach((opt, index) => {
+            if (index > level_id + 1) this.level_options[index] = [];
+            });
+            this.selected_level.forEach((opt, index) => {
+                if (index > level_id) this.selected_level[index] = 0;
+            });
+        }
+        });
+    }
+    searchLevelByName(search,level){
+        let options = this.all_level_options[level];
+        this.level_options[level] = options.filter(
+            item => item.level_name.toLowerCase().includes(search.toLowerCase())
+        );
+    }
     getActiveTabContent(tab){
         if(this.task_asign_modal==true || true){
             this.active_tab_index = tab?tab.index:0;
@@ -127,13 +175,20 @@ export class StudyPlannerComponent implements OnInit {
                 this.study_plan.schdule[this.selected_day_index]["selected_topics_list"][this.active_tab_index] = [];
                 this.study_plan.schdule[this.selected_day_index]["selected_topics_list"][this.active_tab_index]["selected_topics_list"] = [];
             }
-            let param = {url: "get-topics-by-curriculum", curriculum_id: this.study_plan.schdule[this.selected_day_index]['selected_courses'][this.active_tab_index]['pk_id'], search:''};
-            this.http.post(param).subscribe(res=>{
-                this.all_topics = res['data']['topics'];
-                this.topics = res['data']['topics'];
-                this.selected_topics = this.study_plan.schdule[this.selected_day_index]["selected_topics"][this.active_tab_index]["selected_topics"].map(Number);;
-                this.getSelectedTopics();
-            });
+            // let param = {url: "get-topics-by-curriculum", curriculum_id: this.study_plan.schdule[this.selected_day_index]['selected_courses'][this.active_tab_index]['pk_id'], search:''};
+            // this.http.post(param).subscribe(res=>{
+            //     this.all_topics = res['data']['topics'];
+            //     this.topics = res['data']['topics'];
+            //     this.selected_topics = this.study_plan.schdule[this.selected_day_index]["selected_topics"][this.active_tab_index]["selected_topics"].map(Number);
+            //     this.getSelectedTopics();
+            //     this.getLabels();
+            // });
+            this.selected_topics = this.study_plan.schdule[this.selected_day_index]["selected_topics"][this.active_tab_index]["selected_topics"].map(Number);
+            if(this.selected_topics.length > 0)
+            {
+                this.getTopicsList();
+            }
+            this.getLabels();
         }
     }
     searchTpoics(search){
@@ -141,10 +196,15 @@ export class StudyPlannerComponent implements OnInit {
         this.topics = options.filter(item => item.level_name.toLowerCase().includes(search.toLowerCase()));
     }
     getSelectedTopics(){
-        if(this.selected_topics.length > 0)
-        {
-            this.getTopicsList();
-        }
+        let selected_level_pk_id = this.selected_level[this.selected_level_number];
+        let param = {url: "study-plan/get-topics-by-id", selected_topics: this.selected_topics, selected_level_pk_id: selected_level_pk_id};
+        this.http.post(param).subscribe(res=>{
+            if(res['error'] == false){
+                this.selected_topics = res['data']['topic_ids'].map(Number);
+                this.getTopicsList();
+            }
+        });
+        
     }
     getTopicsList(){
         let param = {url: "study-plan/get-selected-topics", topics: this.selected_topics, curriculum_id: this.selected_courses[this.active_tab_index]['pk_id']};
@@ -156,13 +216,12 @@ export class StudyPlannerComponent implements OnInit {
             this.selected_topics_list[this.active_tab_index] = new MatTableDataSource(res['data']['selected_topics']);
         });
     }
-    removeTopic(topic_id, selected_topics_input){
+    removeTopic(topic_id){
         let selected_topics = this.selected_topics;
         let index = selected_topics.indexOf(topic_id);
         if(index >= 0){
             selected_topics.splice(index, 1);
             this.selected_topics = selected_topics;
-            selected_topics_input.writeValue(selected_topics); 
             this.getTopicsList();
         }
     }
@@ -176,6 +235,10 @@ export class StudyPlannerComponent implements OnInit {
         }
     }
     assignTest(){
+        if(this.selected_day_index > 0 && this.study_plan.schdule[this.selected_day_index-1]['is_test_day'] == true){
+            this.toster.error("Test not allowed for this day", "Not Allowed", {closeButton:true});
+            return false;
+        }
         this.study_plan.schdule[this.selected_day_index]['is_test_day'] = true;
         this.study_plan.schdule[this.selected_day_index]["selected_topics"] = [];
         this.hideTaskTestModal();
