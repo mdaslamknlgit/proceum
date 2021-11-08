@@ -1,0 +1,114 @@
+<app-topbar class="inner-header"></app-topbar>
+<app-sidemenu></app-sidemenu>
+<div class="mn_dshbrd">
+    <div class="hgt_20"></div>
+    <div class="sp_mn shpcrt dsh_brd_crds" *ngIf="order_items.length">
+        <div class="brdcrm_br p_1 d-flex ai_cntr">
+            <mat-icon color="accent">home</mat-icon>
+            <mat-icon>navigate_next</mat-icon>Order Details
+        </div>
+        <div class="hgt_20"></div>
+        <div class="d-flex ai_cntr">
+            <div class="shpcrt_hd">Course/Package</div>
+            <span class="download_icons">
+                <a
+                href="{{ api_url }}download-order-invoice/{{ order_details.order_id }}/{{order_details.user_id}}"
+                mat-icon-button
+                color="accent"
+                class="float_right mr_1"
+                type="button"
+                matTooltip="Download PDF"
+                matTooltipPosition="above"
+                ><mat-icon>picture_as_pdf</mat-icon></a>
+            </span>
+            <div class="spacer"></div>
+            <div class="shpcrt_amnt">Amount</div>
+        </div>
+        <div class="hgt_10"></div>
+        <div class="shpcrt_lst">
+            
+            <div class="shpcrt_mn_dv" *ngFor="let item of order_items"> 
+                <div class="mr_1 crs_img">
+                    <img src="{{ item.cart_item.product_data.product_img != '' ? item.cart_item.product_data.product_img : product_default_img  }}">
+                </div>
+                <div class="spacer">
+                    <div class="shpcrt_mn_hd">
+                        {{ item.cart_item.product_data.product_name }}
+                    </div>
+                    <div class="shpcrt_mn_cnt mb_1">
+                        {{ (item.cart_item.product_data.product_desc && item.cart_item.product_data.product_desc.length > 100) ? ( item.cart_item.product_data.product_desc | slice:0:100 ) + '....' : (item.cart_item.product_data.product_desc) }}
+                    </div>
+
+                    <!-- <div class="shpcrt_mn_btns">
+                        <div [routerLink]="['/package-details', item.cart_item.product_data.product_id]">
+                            <mat-icon>subject</mat-icon>
+                            View Details
+                        </div>
+                        <div (click)="movetoWishList(item.product_id, item.product_type_id)">
+                            <mat-icon>playlist_add_check</mat-icon>
+                            Move to Wishlist
+                        </div>
+                        <div class="rmv_frm_crt"  (click)="removeCartItem(item.pk_id)">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                            Remove From Cart
+                        </div>
+                    </div> -->
+                </div>
+                <div class="shp_crt_amnt amnt_pybl">
+                    {{ item.cart_item.product_data.currency_symbol }} {{ item.cart_item.final_prices.selling_price }}
+                    <span *ngIf="item.cart_item.final_prices.discount_percent">
+                        {{ item.cart_item.product_data.currency_symbol }} {{ item.cart_item.final_prices.original_price }} | {{ item.cart_item.final_prices.discount_percent }} % off
+                    </span>
+                </div>
+            </div>
+
+            <div class="shpcrt_mn_dv ba_ap">
+                <div class="spacer algn_s_fs">
+                    <div class="ba_hd">
+                        Billing Address
+                    </div>
+                    <div class="hgt_10"></div>
+                    <div class="ba_add w_50p d-flex">
+                        <div [innerHTML]="order_details.billing_address">
+                        </div>
+                        <div class="spacer"></div>
+                    </div>
+                </div>
+                <div class="jc_fe d-flex fd_clmn">
+                    <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Total Amount
+                        <div class="amnt_pybl">
+                            <div class="cln_cntr">:</div>
+                            <div class="spacer"></div>
+                            {{order_details.currency_symbol}} {{ order_details.total }}
+                        </div>
+                    </div>
+                    <div class="hgt_20"></div>
+                    <span *ngIf="order_details.coupon_discount_amount">
+                        <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">Coupon Applied
+                            <div class="amnt_pybl">
+                                <div class="cln_cntr">:</div>
+                                <div class="spacer"></div>
+                                {{order_details.currency_symbol}} {{ order_details.coupon_discount_amount }}</div>
+                            </div>
+                        <div class="cpncd_appld d-flex ai_cntr jc_fe ">
+                            <span class="act_cpncd">{{ order_details.coupon_code }}
+                            </span> 
+                            <div class="amnt_pybl"></div>
+                        </div>
+                    </span>
+                
+                    <div class="hgt_5"></div>
+                    <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Amount Paid
+                        <div class="amnt_pybl"><div class="cln_cntr">:</div>
+                        <div class="spacer"></div>
+                            {{order_details.currency_symbol}} {{ order_details.paid_amount }}
+                        </div>
+                    </div>
+                    
+                    <div class="hgt_10"></div>
+                </div>
+                <div class="hgt_20"></div>
+            </div>
+        </div>
+    </div>
+</div>

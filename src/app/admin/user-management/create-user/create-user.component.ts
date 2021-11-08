@@ -599,13 +599,20 @@ export class CreateUserComponent implements OnInit {
           .getDescendants(node)
           .filter(x => x.selected && x.id).map(x => x.id)
       );
+      //Trying to select all items if childs are selected or indetermine
+      this.treeControl
+          .getDescendants(node)
+          .filter((x) => {
+            if(x.selected && x.id){
+              this.todoItemSelectionToggle(x.selected,x);
+            }
+          })
     });
     this.selected_courses = result.filter(function(node) {
       if(selected_ids.indexOf(node[4]) == -1){
         return node;
       }
     }).map(x => x[3]);
-    //console.log(this.selected_courses);
     if(this.selected_courses){
       this.courses_div = true;
       this.edit_model_status = false;

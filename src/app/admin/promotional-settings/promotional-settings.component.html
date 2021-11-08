@@ -36,7 +36,7 @@
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
                     <input required maxlength="15" pattern="[A-Za-z0-9]*" name="code_name" [(ngModel)]="code" matInput
-                      placeholder="Promo/Coupon Code" #code_name="ngModel" (blur)="generateCoupon()" />
+                      placeholder="Promo/Coupon Code" #code_name="ngModel" (blur)="generateCoupon(code)" />
                   </mat-form-field>
                   <span class="prc_tltp" *ngIf="
                       (promotional_form.submitted || code_name.touched) &&
@@ -44,9 +44,9 @@
                     ">Promo/Coupon Code is required and allowed Alphanumeric only
                   </span>
                 </span>
-                <button (click)="generateCoupon()" mat-raised-button color="accent" class="ml_1 margin-bottom_20"
+                <button (click)="generateCoupon('')" mat-raised-button color="accent" class="ml_1 margin-bottom_20"
                   type="button">
-                  Generate
+                  Auto Generate
                 </button>
               </span>
             </div>

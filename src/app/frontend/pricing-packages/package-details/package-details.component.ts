@@ -45,6 +45,7 @@ export class PackageDetailsComponent implements OnInit {
   public admin_role_ids:any = [];
   public role_id:any = '';
   public cart_count:any; 
+  public addons_arr:any; 
   
   //Tree controls for topics tab
   treeControl = new NestedTreeControl<CurriculumNode>(node => node.children);
@@ -83,6 +84,9 @@ export class PackageDetailsComponent implements OnInit {
      this.http.getClientIp().subscribe((res) => {
       this.ip = res['ip'];
       this.getPackage();
+    },
+    error => {
+      this.toster.error("Looks your internet is off!", 'Error', { closeButton: true });
     });  
   }
 
@@ -103,6 +107,7 @@ export class PackageDetailsComponent implements OnInit {
         }    
         this.faqs = res['data']['faqs'];        
         this.testimonials = res['data']['testimonials']; 
+        this.addons_arr = res['data']['addons_arr']; 
         this.package_avg_rating = res['data']['package_avg_rating']; 
         this.admin_role_ids = res['data']['avoid_roles']; 
         //Get the topics if package courses not empty
