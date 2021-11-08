@@ -21,7 +21,6 @@ import { PackageDetailsComponent } from './frontend/pricing-packages/package-det
 import { ShoppingCartComponent } from './frontend/shopping-cart/shopping-cart.component';
 import { QuestionBankComponent } from './admin/question-management/question-bank/question-bank.component';
 import { CreateExamComponent } from './admin/exam-modes/create-exam/create-exam.component';
-import { TeacherMaterialsComponent } from './admin/content-management/teacher-materials/teacher-materials.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
