@@ -6,14 +6,11 @@
     <div>
       <button mat-raised-button color="accent" class="float_right margin-bottom_20" (click)="toggleModel()"
         type="button">
-        Create New Discount
+        <mat-icon>add</mat-icon> Create New Discount
       </button>
     </div>
   </div>
-
-
   <hr /> 
-  <div class="hgt_20"></div>
   <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
@@ -71,7 +68,6 @@
               </span>
               </span>
             </div>
-            
             <!-- Min order amount to grab the discount-->
             <!-- <div class="frm_dvs">
               <span>Minimum Order Amount<span class="required">*</span></span>
@@ -88,7 +84,6 @@
                 </span>
               </span>
             </div> -->
-
             <!-- If discount type is percentage -->
             <div class="frm_dvs" *ngIf="discount_type == 2">
                 <span>Discount Percentage (in %)<span class="required">*</span></span>
@@ -153,50 +148,60 @@
                     </button>
                 </div>
             </div> -->
+
             <div class="frm_dvs" *ngIf="discount_type == 1 && course">
-              <span>Set Fixed Discount Amounts<span class="required">*</span></span>
-              <div *ngFor="let price of fixed_amounts;let i = index">
+              <span class="w_100p">Set Fixed Discount Amounts<span class="required">*</span></span>
+              <div class="hgt_5"></div>
+              <div class="w_80p d-flex">
+                <div class="w_45p mr_1p">Country</div>
+                <div class="w_45p">Discount Amount</div>
+              </div>
+              <div *ngFor="let price of fixed_amounts;let i = index" class="w_80p">
                   <div class="" *ngIf="price['status'] != '0'">
-                    <mat-form-field appearance="outline" class="mt_05">
+                    <mat-form-field appearance="outline" class="mt_05 w_45p mr_1p">
                       <mat-select disabled
                           [(ngModel)]="price['country_id']"
                           name="fixed_amounts_country_{{i}}" placeholder="{{price['country_name']}}" required>
                       </mat-select>
                     </mat-form-field>
-                    
-                    <mat-form-field appearance="outline" class="mt_05 {{ (discount_form.submitted && (fixed_amounts[i]['discount_amount'] > price['price_amount'])) ? 'mat-form-field-invalid' : ''}}">
+                    <mat-form-field appearance="outline" class="mt_05 w_45p prfx_tp_0 {{ (discount_form.submitted && (fixed_amounts[i]['discount_amount'] > price['price_amount'])) ? 'mat-form-field-invalid' : ''}}">
                       <input
                           [(ngModel)]="fixed_amounts[i]['discount_amount']"
                           name="fixed_amounts_{{i}}" matInput
                           placeholder="{{ ' Give max discount amount < '+price['price_amount'] }}"
                           maxlength="price['price_amount'].length" appNumbersonly required
                           [disabled]="price['country_id'] == ''" />
-                      <span matPrefix>{{ price['currency_text']+' ' }}</span>
+                      <span matPrefix>{{ price['currency_symbol']+' ' }}</span>
                     </mat-form-field>
                 </div>
               </div>
             </div>
 
             <!-- If discount type is percentage, Restrict the maximunm discount amount by Counrty wise--->
-            <div class="frm_dvs" *ngIf="discount_type == 2  && course">
-              <span>Maximum Discount Amount<span class="required">*</span></span>
-              <div *ngFor="let price of package_prices;let i = index">
+            <div class="frm_dvs" *ngIf="discount_type == 2 && course">
+              <span class="w_100p">Maximum Discount Amount<span class="required">*</span></span>
+              <div class="hgt_5"></div>
+              <div class="w_80p d-flex">
+                <div class="w_45p mr_1p">Country</div>
+                <div class="w_45p">Discount Amount</div>
+              </div>
+              <div *ngFor="let price of package_prices;let i = index" class="w_80p">
                   <div class="" *ngIf="price['status'] != '0'">
-                    <mat-form-field appearance="outline" class="mt_05">
+                    <mat-form-field appearance="outline" class="mt_05 w_45p mr_1p">
                       <mat-select disabled
                           [(ngModel)]="price['country_id']"
                           name="package_price_country_{{i}}" placeholder="{{price['country_name']}}" required>
                       </mat-select>
                     </mat-form-field>
                     
-                    <mat-form-field appearance="outline" class="mt_05 {{ (discount_form.submitted && (package_prices[i]['discount_amount'] > price['price_amount'])) ? 'mat-form-field-invalid' : ''}}">
+                    <mat-form-field appearance="outline" class="mt_05 w_45p prfx_tp_0 {{ (discount_form.submitted && (package_prices[i]['discount_amount'] > price['price_amount'])) ? 'mat-form-field-invalid' : ''}}">
                       <input
                           [(ngModel)]="package_prices[i]['discount_amount']"
                           name="package_price__amount_{{i}}" matInput
                           placeholder="{{ ' Give max discount amount < '+price['price_amount'] }}"
                           maxlength="7" appNumbersonly required
                           [disabled]="price['country_id'] == ''" />
-                      <span matPrefix>{{ price['currency_text']+' ' }}</span>
+                      <span matPrefix>{{ price['currency_symbol']+' ' }}</span>
                     </mat-form-field>
                 </div>
               </div>
@@ -515,54 +520,60 @@
             </div> -->
 
             <div class="frm_dvs" *ngIf="discount_type == 1 && course">
-              <span>Set Fixed Discount Amoumts<span class="required">*</span></span>
-              <div *ngFor="let price of fixed_amounts;let i = index">
+              <span class="w_100p">Set Fixed Discount Amounts<span class="required">*</span></span>
+              <div class="hgt_5"></div>
+              <div class="w_80p d-flex">
+                <div class="w_45p mr_1p">Country</div>
+                <div class="w_45p">Discount Amount</div>
+              </div>
+              <div *ngFor="let price of fixed_amounts;let i = index" class="w_80p">
                   <div class="" *ngIf="price['status'] != '0'">
-                    <mat-form-field appearance="outline" class="mt_05">
+                    <mat-form-field appearance="outline" class="mt_05 w_45p mr_1p">
                       <mat-select disabled
                           [(ngModel)]="price['country_id']"
                           name="fixed_amounts_country_{{i}}" placeholder="{{price['country_name']}}" required>
                       </mat-select>
                     </mat-form-field>
-                    
-                    <mat-form-field appearance="outline" class="mt_05 {{ (discount_form.submitted && (fixed_amounts[i]['discount_amount'] > price['price_amount'])) ? 'mat-form-field-invalid' : ''}}">
+                    <mat-form-field appearance="outline" class="mt_05 w_45p prfx_tp_0 {{ (discount_form.submitted && (fixed_amounts[i]['discount_amount'] > price['price_amount'])) ? 'mat-form-field-invalid' : ''}}">
                       <input
                           [(ngModel)]="fixed_amounts[i]['discount_amount']"
                           name="fixed_amounts_{{i}}" matInput
                           placeholder="{{ ' Give max discount amount < '+price['price_amount'] }}"
                           maxlength="price['price_amount'].length" appNumbersonly required
                           [disabled]="price['country_id'] == ''" />
-                      <span matPrefix>{{ price['currency_text']+' ' }}</span>
+                      <span matPrefix>{{ price['currency_symbol']+' ' }}</span>
                     </mat-form-field>
                 </div>
               </div>
             </div>
-
             <!-- If discount type is percentage, Restrict the maximunm discount amount by Counrty wise--->
             <div class="frm_dvs" *ngIf="discount_type == 2 && course">
-              <span>Maximum Discount Amount<span class="required">*</span></span>
-              <div *ngFor="let price of package_prices;let i = index">
+              <span class="w_100p">Maximum Discount Amount<span class="required">*</span></span>
+              <div class="hgt_5"></div>
+              <div class="w_80p d-flex">
+                <div class="w_45p mr_1p">Country</div>
+                <div class="w_45p">Discount Amount</div>
+              </div>
+              <div *ngFor="let price of package_prices;let i = index" class="w_80p">
                   <div class="" *ngIf="price['status'] != '0'">
-                    <mat-form-field appearance="outline" class="mt_05">
+                    <mat-form-field appearance="outline" class="mt_05 w_45p mr_1p">
                       <mat-select disabled
                           [(ngModel)]="price['country_id']"
                           name="package_price_country_{{i}}" placeholder="{{price['country_name']}}" required>
                       </mat-select>
-                    </mat-form-field>
-                    
-                    <mat-form-field appearance="outline" class="mt_05 {{ (discount_form.submitted && (package_prices[i]['discount_amount'] > price['price_amount'])) ? 'mat-form-field-invalid' : ''}}">
+                    </mat-form-field>                    
+                    <mat-form-field appearance="outline" class="mt_05 w_45p prfx_tp_0 {{ (discount_form.submitted && (package_prices[i]['discount_amount'] > price['price_amount'])) ? 'mat-form-field-invalid' : ''}}">
                       <input
                           [(ngModel)]="package_prices[i]['discount_amount']"
                           name="package_price__amount_{{i}}" matInput
                           placeholder="{{ ' Give max discount amount < '+price['price_amount'] }}"
                           maxlength="7" appNumbersonly required
                           [disabled]="price['country_id'] == ''" />
-                      <span matPrefix>{{ price['currency_text']+' ' }}</span>
+                      <span matPrefix>{{ price['currency_symbol']+' ' }}</span>
                     </mat-form-field>
                 </div>
               </div>
             </div>
-
             <!-- Description -->
             <div class="frm_dvs">
               <span>Description</span>

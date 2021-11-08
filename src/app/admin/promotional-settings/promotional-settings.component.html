@@ -6,13 +6,13 @@
     <div class="pg_ttl">Promotional Settings</div>
     <div class="spacer"></div>
     <div>
-      <button mat-raised-button color="accent" class="float_right margin-bottom_20" (click)="toggleModel()"
-        type="button">
-        New Promotional
+      <button mat-raised-button color="accent" (click)="toggleModel()" type="button">
+        <mat-icon>add</mat-icon> New Promotional
       </button>
     </div>
   </div>
-  <div class="hgt_20"></div>
+  <hr>
+  <div class="hgt_10"></div>
   <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
@@ -66,74 +66,71 @@
                     ">Description is required</span>
                 </span></span>
             </div>
-          
-
-            <div class="frm_dvs">
-              <div>Set Discount Amounts Country Wise</div>
-                <div *ngFor="let price of discount_amounts;let i = index">
-                    <div class="pkg_chkbx" *ngIf="price['status'] != '0'">
-                        <div class="w_45p mr_1">
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="mt_05">
-                                    <mat-select placeholder="Select Country"
-                                        [(ngModel)]="discount_amounts[i]['country_id']"
-                                        name="discount_amount_country_{{i}}" required>
-                                        <mat-option value="">Select Country</mat-option>
-                                        <ng-container
-                                            *ngFor="let country of all_countries | async">
-                                            <mat-option
-                                                [disabled]="selected_countires.indexOf(country['id']) !== -1"
-                                                [value]="country['id']"
-                                                (click)=" addCurrencyToField(country['currency_text'],i,country['id']);">
-                                                {{ country['country_name'] }}
-                                            </mat-option>
-                                        </ng-container>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="w_45p">
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="mt_05">
-                                    <input
-                                        [(ngModel)]="discount_amounts[i]['discount_amount']"
-                                        name="discount_amounts_{{i}}" matInput
-                                        placeholder="{{ discount_amounts[i]['placeholder'] }}"
-                                        maxlength="7" appNumbersonly required
-                                        [disabled]="discount_amounts[i]['country_id'] == ''" />
-                                    <span matPrefix></span>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="w_45p">
-                          <div class="err_tltp_par">
-                              <mat-form-field appearance="outline" class="mt_05">
-                                  <input
-                                      [(ngModel)]="discount_amounts[i]['min_order_amount']"
-                                      name="min_order_amount{{i}}" matInput
-                                      placeholder="Min order amount"
-                                      maxlength="7" appNumbersonly required
-                                      [disabled]="discount_amounts[i]['country_id'] == ''" />
-                                  <span matPrefix></span>
-                              </mat-form-field>
-                          </div>
-                      </div>
-                        <div class="mt_6px">
-                            <button type="button" (click)="removeDiscountAmountField(i)"
-                                mat-icon-button class="no_bxsdw" color="warn"
-                                *ngIf="i > 0">
-                                <mat-icon>remove_circle_outline</mat-icon>
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="text_right w_100p">
-                    <button mat-raised-button color="accent" type="button"
-                        (click)="addDiscountAmountField()">
-                        <mat-icon>add</mat-icon> Add More
+            <div class="frm_dvs w_100p">
+              Set Discount Amounts Country Wise
+            </div>
+            <div class="hgt_10"></div>
+            <div class="frm_dvs slct_dsc_amnt">
+              <div class="w_30p mr_1p">
+                  Country
+              </div>
+              <div class="w_30p mr_1p">
+                  Discount Amount
+              </div>
+              <div class="w_30p mr_1p">
+                  Min. Order Amount
+              </div>
+              <div class="w_7p">
+                  &nbsp;
+              </div>
+            </div>
+            <div class="frm_dvs slct_dsc_amnt">
+              <div *ngFor="let price of discount_amounts;let i = index" class="w_100p">
+                <div class="w_100p" *ngIf="price['status'] != '0'">
+                  <div class="w_30p mr_1p">
+                    <mat-form-field appearance="outline" class="mt_05">
+                      <mat-select placeholder="Select Country" [(ngModel)]="discount_amounts[i]['country_id']"
+                        name="discount_amount_country_{{i}}" required>
+                        <mat-option value="">Select Country</mat-option>
+                        <ng-container *ngFor="let country of all_countries | async">
+                          <mat-option [disabled]="selected_countires.indexOf(country['id']) !== -1"
+                            [value]="country['id']"
+                            (click)=" addCurrencyToField(country['currency_text'],i,country['id']);">
+                            {{ country['country_name'] }}
+                          </mat-option>
+                        </ng-container>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="w_30p mr_1p">
+                      <mat-form-field appearance="outline" class="mt_05">
+                        <input [(ngModel)]="discount_amounts[i]['discount_amount']" name="discount_amounts_{{i}}"
+                          matInput placeholder="{{ discount_amounts[i]['placeholder'] }}" maxlength="7" appNumbersonly
+                          required [disabled]="discount_amounts[i]['country_id'] == ''" />
+                        <span matPrefix></span>
+                      </mat-form-field>
+                  </div>
+                  <div class="w_30p mr_1p">
+                      <mat-form-field appearance="outline" class="mt_05">
+                        <input [(ngModel)]="discount_amounts[i]['min_order_amount']" name="min_order_amount{{i}}"
+                          matInput placeholder="Min order amount" maxlength="7" appNumbersonly required
+                          [disabled]="discount_amounts[i]['country_id'] == ''" />
+                        <span matPrefix></span>
+                      </mat-form-field>
+                  </div>
+                  <div class="mt_6px w_7p">
+                    <button type="button" (click)="removeDiscountAmountField(i)" mat-icon-button class="no_bxsdw"
+                      color="warn" *ngIf="i > 0">
+                      <mat-icon>remove_circle_outline</mat-icon>
                     </button>
+                  </div>
                 </div>
+              </div>
+              <div class="text_right w_100p">
+                <button mat-raised-button color="accent" type="button" (click)="addDiscountAmountField()">
+                  <mat-icon>add</mat-icon> Add More
+                </button>
+              </div>
             </div>
 
             <div class="frm_dvs">
@@ -215,9 +212,9 @@
           <td mat-cell *matCellDef="let element">
 
             <mat-slide-toggle (click)="deletePromotional(element.pk_id, element.status)"
-            [checked]="element.status == 1 ? true : false"
-            matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
-          </mat-slide-toggle>
+              [checked]="element.status == 1 ? true : false"
+              matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+            </mat-slide-toggle>
 
             <!-- <span matTooltip="Current Status is {{
                 element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
@@ -239,11 +236,8 @@
           <th mat-header-cell *matHeaderCellDef>Actions</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button (click)="editPromotional(element)" color="accent" matTooltip="Click to edit">
-              <mat-icon>edit</mat-icon>
+              <mat-icon>edit-notes</mat-icon>
             </button>
-
-           
-
             <!-- <button matTooltip="click here to {{
                 element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
               }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
@@ -255,13 +249,8 @@
               <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
               <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
             </button> -->
-
-
-
-
           </td>
         </ng-container>
-
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
@@ -326,74 +315,81 @@
                     ">Description is required</span>
                 </span></span>
             </div>
-            
             <div class="frm_dvs">
               <div>Set Discount Amounts Country Wise</div>
-                <div *ngFor="let price of discount_amounts;let i = index">
-                    <div class="pkg_chkbx" *ngIf="price['status'] != '0'">
-                        <div class="w_45p mr_1">
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="mt_05">
-                                    <mat-select placeholder="Select Country"
-                                        [(ngModel)]="discount_amounts[i]['country_id']"
-                                        name="discount_amount_country_{{i}}" required>
-                                        <mat-option value="">Select Country</mat-option>
-                                        <ng-container
-                                            *ngFor="let country of all_countries | async">
-                                            <mat-option
-                                                [disabled]="selected_countires.indexOf(country['id']) !== -1"
-                                                [value]="country['id']"
-                                                (click)=" addCurrencyToField(country['currency_text'],i,country['id']);">
-                                                {{ country['country_name'] }}
-                                            </mat-option>
-                                        </ng-container>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="w_45p">
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="mt_05">
-                                    <input
-                                        [(ngModel)]="discount_amounts[i]['discount_amount']"
-                                        name="discount_amounts_{{i}}" matInput
-                                        placeholder="{{ discount_amounts[i]['placeholder'] }}"
-                                        maxlength="7" appNumbersonly required
-                                        [disabled]="discount_amounts[i]['country_id'] == ''" />
-                                    <span matPrefix></span>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="w_45p">
-                          <div class="err_tltp_par">
-                              <mat-form-field appearance="outline" class="mt_05">
-                                  <input
-                                      [(ngModel)]="discount_amounts[i]['min_order_amount']"
-                                      name="min_order_amount_{{i}}" matInput
-                                      placeholder="Min order amount"
-                                      maxlength="7" appNumbersonly required
-                                      [disabled]="discount_amounts[i]['country_id'] == ''" />
-                                  <span matPrefix></span>
-                              </mat-form-field>
-                          </div>
-                      </div>
-                        <div class="mt_6px">
-                            <button type="button" (click)="removeDiscountAmountField(i)"
-                                mat-icon-button class="no_bxsdw" color="warn"
-                                *ngIf="i > 0">
-                                <mat-icon>remove_circle_outline</mat-icon>
-                            </button>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="text_right w_100p">
-                    <button mat-raised-button color="accent" type="button"
-                        (click)="addDiscountAmountField()">
-                        <mat-icon>add</mat-icon> Add More
-                    </button>
-                </div>
             </div>
+            <div class="hgt_10"></div>
+            <div class="frm_dvs slct_dsc_amnt">
+              <div class="w_30p mr_1p">
+                  Country
+              </div>
+              <div class="w_30p mr_1p">
+                  Discount Amount
+              </div>
+              <div class="w_30p mr_1p">
+                  Min. Order Amount
+              </div>
+              <div class="w_7p">
+                  &nbsp;
+              </div>
+            </div>
+            <div class="frm_dvs slct_dsc_amnt">
+               <div *ngFor="let price of discount_amounts;let i = index" class="w_100p">
+                <div class="w_100p" *ngIf="price['status'] != '0'">
+                  <div class="w_30p mr_1p">
+                    <div class="err_tltp_par">
+                      <mat-form-field appearance="outline" class="mt_05">
+                        <mat-select placeholder="Select Country" [(ngModel)]="discount_amounts[i]['country_id']"
+                          name="discount_amount_country_{{i}}" required>
+                          <mat-option value="">Select Country</mat-option>
+                          <ng-container *ngFor="let country of all_countries | async">
+                            <mat-option [disabled]="selected_countires.indexOf(country['id']) !== -1"
+                              [value]="country['id']"
+                              (click)=" addCurrencyToField(country['currency_text'],i,country['id']);">
+                              {{ country['country_name'] }}
+                            </mat-option>
+                          </ng-container>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="w_30p mr_1p">
+                    <div class="err_tltp_par">
+                      <mat-form-field appearance="outline" class="mt_05">
+                        <input [(ngModel)]="discount_amounts[i]['discount_amount']" name="discount_amounts_{{i}}"
+                          matInput placeholder="{{ discount_amounts[i]['placeholder'] }}" maxlength="7" appNumbersonly
+                          required [disabled]="discount_amounts[i]['country_id'] == ''" />
+                        <span matPrefix></span>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="w_30p mr_1p">
+                    <div class="err_tltp_par">
+                      <mat-form-field appearance="outline" class="mt_05">
+                        <input [(ngModel)]="discount_amounts[i]['min_order_amount']" name="min_order_amount_{{i}}"
+                          matInput placeholder="Min order amount" maxlength="7" appNumbersonly required
+                          [disabled]="discount_amounts[i]['country_id'] == ''" />
+                        <span matPrefix></span>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="mt_6px w_7p">
+                    <button type="button" (click)="removeDiscountAmountField(i)" mat-icon-button class="no_bxsdw"
+                      color="warn" *ngIf="i > 0">
+                      <mat-icon>remove_circle_outline</mat-icon>
+                    </button>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="text_right w_100p">
+                <button mat-raised-button color="accent" type="button" (click)="addDiscountAmountField()">
+                  <mat-icon>add</mat-icon> Add More
+                </button>
+              </div>
+            </div>
+
 
             <div class="frm_dvs">
               <span>Valid From Date <span class="required">*</span></span>

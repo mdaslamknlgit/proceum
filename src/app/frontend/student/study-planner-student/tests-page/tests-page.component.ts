@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
-
+import Swal from 'sweetalert2';
+//import Swal from 'sweetalert2/dist/sweetalert2.js';
+//import 'sweetalert2/src/sweetalert2.scss'
 @Component({
   selector: 'app-tests-page',
   templateUrl: './tests-page.component.html',
@@ -19,7 +21,15 @@ export class TestsPageComponent implements OnInit {
     public kpoint_iframe_url = '';
     public xt = '';
     public study_plan = [];
-    constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
+    public show_details_modal = false;
+    public is_test_end = false;
+    public allow_end_test: boolean = false;
+    @HostListener('window:beforeunload', ['$event'])
+unloadHandler(event: Event) {alert()
+    // Your logic on beforeunload
+}
+    constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { 
+    }
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((param) => {
@@ -66,19 +76,24 @@ export class TestsPageComponent implements OnInit {
     }
     getXtToken(){
         if(this.active_question['q_source'] == 'KPOINT'){
-          let param = {"url": "get-kpoint-token"};
-          this.xt = '';
-          this.http.post(param).subscribe(res=>{
-              this.xt = res['data']['xt'];
-              this.kpoint_iframe_url = "https://proceum.kpoint.com/kapsule/"+this.active_question['q_source_value']+"/nv3/embedded?xt="+this.xt;
-              
-          });
+            let param = {"url": "get-kpoint-token"};
+            this.xt = '';
+            this.http.post(param).subscribe(res=>{
+                this.xt = res['data']['xt'];
+                this.kpoint_iframe_url = "https://proceum.kpoint.com/kapsule/"+this.active_question['q_source_value']+"/nv3/embedded?xt="+this.xt;
+                
+            });
         }
     }
     setAnswer(event, option_id){
+        this.allow_end_test = true;
         if(event.checked == true){
-            this.active_question['answer'].push(''+option_id);
-            this.questions_list[this.active_q_index]['answer'].push(''+option_id);
+            if(this.active_question['answer'].indexOf(""+option_id) == -1){
+                //this.active_question['answer'].push(''+option_id);
+                this.questions_list[this.active_q_index]['answer'].push(''+option_id);
+                this.active_question = this.questions_list[this.active_q_index];
+                console.log(this.questions_list[this.active_q_index]['answer'])
+            }
         }
         else{
             let index = this.active_question['answer'].indexOf(''+option_id);
@@ -87,8 +102,67 @@ export class TestsPageComponent implements OnInit {
             this.questions_list[this.active_q_index]['answer'].splice(index2,1);
         }
     }
+    showDetails(){
+        this.show_details_modal = true;
+    }
+    hideDetails(){
+        this.show_details_modal = false;
+    }
+    public correct_answers = 0;
+    public wrong_answers = 0;
+    public not_answered = 0;
+    public free_text_qs = 0;
+    showResult(){
+         Swal.fire({
+            title: 'Are you sure?',
+            text: 'Are you sure to end this test?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.value) {
+                this.is_test_end = true;
+                let check = false;
+                this.questions_list.forEach((q,index)=>{
+                    //this.questions_list[index]['show_answer'] = true;
+                    if([3,6,9,12].includes(q['q_type'])){
+                        this.free_text_qs = this.free_text_qs+1;
+                        return true;
+                    }
+                    if(q['answer'].length == 0){
+                        this.not_answered = this.not_answered+1;
+                    }
+                    else if(q['s_no'].length == q['answer'].length){
+                        const array2Sorted = q['answer'].slice().sort();
+                        check = q['s_no'].length === q['answer'].length && q['s_no'].slice().sort().every(function(value, index) {
+                            return value === array2Sorted[index];
+                        });
+                        if(check == true){
+                            this.correct_answers = this.correct_answers+1;
+                        }
+                        else{
+                            this.wrong_answers = this.wrong_answers+1;
+                        }
+                    }
+                    else{
+                        this.wrong_answers = this.wrong_answers+1;
+                    }
+                });
+                this.show_details_modal = true;
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                
+            }
+        });
+    }
+    reviewQuestions(){
+        this.questions_list.forEach((q,index)=>{
+            this.questions_list[index]['show_answer'] = true;
+        });
+        this.hideDetails();
+    }
     checkAnswer(){
-        this.active_question['show_answer'] = true;
-        this.questions_list[this.active_q_index]['show_answer'] = true;
+        //this.active_question['show_answer'] = true;
+        //this.questions_list[this.active_q_index]['show_answer'] = true;
     }
 }

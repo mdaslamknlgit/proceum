@@ -10,7 +10,8 @@
                     &#x2715;
                 </button>
             </div>
-            <form id="address_form" #address_form="ngForm" name="address_form" (ngSubmit)="address_form.valid && toggleModel()" novalidate>
+            <form id="address_form" #address_form="ngForm" name="address_form"
+                (ngSubmit)="address_form.valid && toggleModel()" novalidate>
                 <div class="tbbd_bdy dsh_brd_crds">
                     <div class="hgt_10"></div>
                     <div class="d-flex fw_w">
@@ -18,39 +19,43 @@
                             <div>Name</div>
                             <div>
                                 <mat-form-field appearance="outline">
-                                    <input matInput name="edit_contact_name" #edit_contact_name="ngModel" 
-                                    [(ngModel)]="contact_name" appAlphabetOnly placeholder="Name" required maxlength="30" autocomplete="off"/>
-                                </mat-form-field> 
+                                    <input matInput name="edit_contact_name" #edit_contact_name="ngModel"
+                                        [(ngModel)]="contact_name" appAlphabetOnly placeholder="Name" required
+                                        maxlength="30" autocomplete="off" />
+                                </mat-form-field>
                             </div>
                         </div>
                         <div class="w_47p">
                             <div>Contact Number</div>
                             <div>
                                 <mat-form-field appearance="outline">
-                                    <input matInput name="edit_phone" #edit_phone="ngModel" 
-                                    [(ngModel)]="phone" appNumbersonly placeholder="Contact Number" required maxlength="15"  autocomplete="off"/>
-                                </mat-form-field> 
+                                    <input matInput name="edit_phone" #edit_phone="ngModel" [(ngModel)]="phone"
+                                        appNumbersonly placeholder="Contact Number" required maxlength="15"
+                                        autocomplete="off" />
+                                </mat-form-field>
                             </div>
-                        </div> 
+                        </div>
                         <div class="w_47p">
                             <div>Country</div>
                             <div>
                                 <mat-form-field appearance="outline">
-                                    <mat-select placeholder="Select Country" name="edit_country_id" #edit_country_id="ngModel"
-                                        [(ngModel)]="country_id" (ngModelChange)="getStates(country_id)" required>
+                                    <mat-select placeholder="Select Country" name="edit_country_id"
+                                        #edit_country_id="ngModel" [(ngModel)]="country_id"
+                                        (ngModelChange)="getStates(country_id)" required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
                                                 [placeholderLabel]="'Search Country'" name="search_country" ngModel
                                                 (ngModelChange)="filterCountries($event)">
                                             </ngx-mat-select-search>
                                         </mat-option>
-                                        <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">
+                                        <mat-option *ngFor="let country of all_countrys | async"
+                                            [value]="country['id']">
                                             {{ country["country_name"] }}
                                         </mat-option>
                                     </mat-select>
-                                </mat-form-field> 
+                                </mat-form-field>
                             </div>
-                        </div> 
+                        </div>
                         <div class="w_47p">
                             <div>State</div>
                             <div>
@@ -67,41 +72,41 @@
                                             {{ state["state_name"] }}
                                         </mat-option>
                                     </mat-select>
-                                </mat-form-field> 
+                                </mat-form-field>
                             </div>
-                        </div> 
+                        </div>
                         <div class="w_47p">
                             <div>City/Town</div>
                             <div>
                                 <mat-form-field appearance="outline">
-                                    <input matInput name="edit_city" #edit_city="ngModel" 
-                                    [(ngModel)]="city" placeholder="City/Town" required maxlength="30" autocomplete="off" />
-                                </mat-form-field> 
+                                    <input matInput name="edit_city" #edit_city="ngModel" [(ngModel)]="city"
+                                        placeholder="City/Town" required maxlength="30" autocomplete="off" />
+                                </mat-form-field>
                             </div>
-                        </div> 
+                        </div>
                         <div class="w_47p">
                             <div>Pin Code</div>
                             <div>
                                 <mat-form-field appearance="outline">
-                                    <input matInput name="edit_zip_code" #edit_zip_code="ngModel" 
-                                    [(ngModel)]="zip_code" placeholder="Pin/Zip Code" required maxlength="10" autocomplete="off" />
-                                </mat-form-field> 
+                                    <input matInput name="edit_zip_code" #edit_zip_code="ngModel" [(ngModel)]="zip_code"
+                                        placeholder="Pin/Zip Code" required maxlength="10" autocomplete="off" />
+                                </mat-form-field>
                             </div>
-                        </div> 
+                        </div>
                         <div class="w_100p">
                             <div>Address</div>
                             <div>
                                 <mat-form-field appearance="outline" class="w_91p">
-                                    <textarea matInput name="edit_address" #edit_address="ngModel" 
-                                    [(ngModel)]="address" placeholder="Address" required></textarea>
-                                </mat-form-field> 
+                                    <textarea matInput name="edit_address" #edit_address="ngModel" [(ngModel)]="address"
+                                        placeholder="Address" required></textarea>
+                                </mat-form-field>
                             </div>
-                        </div> 
+                        </div>
                     </div>
-                   <div class="text_center">
-                       <button class="mr_1" mat-raised-button (click)="toggleModel()">Cancel</button>
-                       <button color="accent" mat-raised-button>Submit</button>
-                   </div>
+                    <div class="text_center">
+                        <button class="mr_1 gry_btn" mat-raised-button (click)="toggleModel()">Cancel</button>
+                        <button color="accent" mat-raised-button>Submit</button>
+                    </div>
                     <div class="hgt_50"></div>
                 </div>
             </form>
@@ -121,17 +126,18 @@
         </div>
         <div class="hgt_10"></div>
         <div class="shpcrt_lst">
-            
-            <div class="shpcrt_mn_dv" *ngFor="let item of cart_items"> 
+            <div class="shpcrt_mn_dv" *ngFor="let item of cart_items">
                 <div class="mr_1 crs_img">
-                    <img src="{{ item.product_data.product_img != '' ? item.product_data.product_img : product_default_img  }}">
+                    <img
+                        src="{{ item.product_data.product_img != '' ? item.product_data.product_img : product_default_img  }}">
                 </div>
                 <div class="spacer">
                     <div class="shpcrt_mn_hd">
                         {{ item.product_data.product_name }}
                     </div>
                     <div class="shpcrt_mn_cnt mb_1">
-                        {{ (item.product_data.product_desc && item.product_data.product_desc.length > 100) ? ( item.product_data.product_desc | slice:0:100 ) + '....' : (item.product_data.product_desc) }}
+                        {{ (item.product_data.product_desc && item.product_data.product_desc.length > 100) ? (
+                        item.product_data.product_desc | slice:0:100 ) + '....' : (item.product_data.product_desc) }}
                     </div>
 
                     <div class="shpcrt_mn_btns">
@@ -143,17 +149,30 @@
                             <mat-icon>playlist_add_check</mat-icon>
                             Move to Wishlist
                         </div>
-                        <div class="rmv_frm_crt"  (click)="removeCartItem(item.pk_id)">
+                        <div class="rmv_frm_crt" (click)="removeCartItem(item.pk_id)">
                             <mat-icon>remove_circle_outline</mat-icon>
                             Remove From Cart
                         </div>
                     </div>
                 </div>
-                <div class="shp_crt_amnt amnt_pybl">
-                    {{ item.product_data.currency_symbol }} {{ item.final_prices.selling_price }}
-                    <span *ngIf="item.final_prices.discount_percent">
-                        {{ item.product_data.currency_symbol }} {{ item.final_prices.original_price }} | {{ item.final_prices.discount_percent }} % off
-                    </span>
+                <div class="shp_crt_amnt amnt_pybl {{item.final_prices.discount_percent? 'amnt_wth_dsc':''}}">
+
+                    <div *ngIf="item.final_prices.discount_percent" class="wth_dsc">
+                        <div class="d-flex ai_cntr jc_fe amnt_pybl"><span class="strk">Actual Price</span>
+                            <div class="amnt_pybl">
+                                <div class="cln_cntr">:</div>
+                                <div class="spacer"></div>
+                                <div class="wth_dsc_hd">{{ item.product_data.currency_symbol }} {{item.final_prices.original_price }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex ai_cntr jc_fe amnt_pybl"><div *ngIf="item.final_prices.discount_percent" class="d-flex">Discount Price <div class="wth_dsc_per" *ngIf="item.final_prices.discount_percent">{{ item.final_prices.discount_percent }}% off</div></div>
+                        <div class="amnt_pybl">
+                            <div class="cln_cntr" *ngIf="item.final_prices.discount_percent">:</div>
+                            <div class="spacer" *ngIf="item.final_prices.discount_percent"></div>
+                            <div>{{ item.product_data.currency_symbol }}{{ item.final_prices.selling_price }} </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -176,9 +195,13 @@
                         <div class="spacer"></div>
                         <div class="ad_nw_addrs">
                             <div class="spacer"></div>
-                            <span *ngIf="user_address"><mat-icon matTooltip="Edit Address" (click)="toggleModel()">edit_notes</mat-icon></span>
-                            <span *ngIf="!user_address"><mat-icon matTooltip="Add New Address" (click)="toggleModel()" >add</mat-icon></span>
-                            
+                            <span *ngIf="user_address">
+                                <mat-icon matTooltip="Edit Address" (click)="toggleModel()">edit_notes</mat-icon>
+                            </span>
+                            <span *ngIf="!user_address">
+                                <mat-icon matTooltip="Add New Address" (click)="toggleModel()">add</mat-icon>
+                            </span>
+
                         </div>
                     </div>
                 </div>
@@ -196,38 +219,46 @@
                             <div class="amnt_pybl">
                                 <div class="cln_cntr">:</div>
                                 <div class="spacer"></div>
-                                {{cart_items[0].product_data.currency_symbol}} {{ coupon_discount_amount }}</div>
+                                {{cart_items[0].product_data.currency_symbol}} {{ coupon_discount_amount }}
                             </div>
+                        </div>
                         <div class="cpncd_appld d-flex ai_cntr jc_fe ">
                             <span class="act_cpncd">{{ this.coupon_code }}
-                                <mat-icon color="warn" matTooltip="Remove Coupon" class="rmv_cpn" (click)="removeCoupon()">close</mat-icon>
-                            </span> 
+                                <mat-icon color="warn" matTooltip="Remove Coupon" class="rmv_cpn"
+                                    (click)="removeCoupon()">close</mat-icon>
+                            </span>
                             <div class="amnt_pybl"></div>
                         </div>
                     </span>
-                
+
                     <div class="hgt_5"></div>
                     <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Amount Payable
-                        <div class="amnt_pybl"><div class="cln_cntr">:</div>
-                        <div class="spacer"></div>
+                        <div class="amnt_pybl">
+                            <div class="cln_cntr">:</div>
+                            <div class="spacer"></div>
                             {{cart_items[0].product_data.currency_symbol}} {{ total_payable }}
                         </div>
                     </div>
-                    
+
                     <div class="hgt_10"></div>
                     <div *ngIf="!coupon_applied">
-                        <div class="hv_cpncd jc_fe text_right" (click)="have_coupon_code = true">Have a Coupon code ?</div>
+                        <div class="hv_cpncd jc_fe text_right" (click)="have_coupon_code = true">Have a Coupon code ?
+                        </div>
                         <div class="hgt_10"></div>
                         <div class="jc_fe cupncd_inpt" *ngIf="have_coupon_code">
-                            <form id="coupon_form" #coupon_form="ngForm" name="coupon_form" (ngSubmit)="coupon_form.valid && applyCoupon()" novalidate>
+                            <form id="coupon_form" #coupon_form="ngForm" name="coupon_form"
+                                (ngSubmit)="coupon_form.valid && applyCoupon()" novalidate>
                                 <mat-form-field appearance="outline">
-                                    <input matInput [(ngModel)]="coupon_code" name="edit_coupon_code" #edit_coupon_code="ngModel" placeholder="Enter Coupon Code" autocomplete="off" required/>
+                                    <input matInput [(ngModel)]="coupon_code" name="edit_coupon_code"
+                                        #edit_coupon_code="ngModel" placeholder="Enter Coupon Code" autocomplete="off"
+                                        required />
                                     <mat-icon class="dn_chkr" matSuffix (click)="applyCoupon()">done</mat-icon>
-                                </mat-form-field> 
+                                </mat-form-field>
                             </form>
                         </div>
                     </div>
-                    <button color="accent" mat-raised-button (click)="proceedPayment()" [disabled]="disable_payment_button">Proceed to Payment</button>
+                    <button color="accent" mat-raised-button (click)="proceedPayment()"
+                        [disabled]="disable_payment_button">Proceed to Payment</button>
                 </div>
                 <div class="hgt_20"></div>
             </div>
