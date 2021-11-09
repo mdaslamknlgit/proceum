@@ -85,10 +85,11 @@ export class PromotionalSettingsComponent implements OnInit {
     (<HTMLFormElement>document.getElementById('promotional_form')).reset();
     (<HTMLFormElement>document.getElementById('edit_promotional_form')).reset();
   }
-  generateCoupon() {
-    let param = { url: 'promotional/generate-coupon', code: this.code };
+  generateCoupon(code) {
+    let param = { url: 'promotional/generate-coupon', code: code };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
+        this.code = '';
         this.code = res['code'];
       } else {
         let message = res['message'];
@@ -96,6 +97,7 @@ export class PromotionalSettingsComponent implements OnInit {
       }
     });
   }
+  
   createPromotional() {
     let param = {
       url: 'promotional',

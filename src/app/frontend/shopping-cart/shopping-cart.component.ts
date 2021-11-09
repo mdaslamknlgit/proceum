@@ -289,6 +289,12 @@ export class ShoppingCartComponent implements OnInit {
    ************** Payments related functionality starts here **************
    ************************************************************************/
   public proceedPayment(){
+    //Validate user billing address
+    if(this.contact_name == '' || this.address == '' || this.city == '' || this.state_name == '' || 
+    this.country_name == '' || this.zip_code == '' || this.phone == ''){
+      this.toster.error("Please provide required fields of billing address!", 'Error');
+      return;
+    }
     //=========Create order in proceum database
     //Disable Payment Button
     if(this.disable_payment_button){
@@ -361,7 +367,7 @@ export class ShoppingCartComponent implements OnInit {
     options.modal.ondismiss = (() => {
       // handle the case when user closes the form while transaction is in progress
       this.disable_payment_button = false;
-      console.log('Transaction cancelled.');
+      //console.log('Transaction cancelled.');
     });
     const rzp = new this.winRef.nativeWindow.Razorpay(options);
     rzp.on('payment.failed', function (response){

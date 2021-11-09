@@ -32,6 +32,8 @@ import { SafePipe } from '../shared/pipes/safe.pipe';
 import { SharedModule } from '../shared/shared.module';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { TestsPageComponent } from './student/study-planner-student/tests-page/tests-page.component';
+import { OrderListComponent } from './student/purchases/order-list/order-list.component';
+import { OrderDetailsComponent } from './student/purchases/order-details/order-details.component';
 import { QbankTestsPageComponent } from './student/levels/qbank-tests-page/qbank-tests-page.component';
 //import { QbankComponent } from './student/levels/qbank/qbank.component';
 import { StudyModeComponent } from './student/exams/study-mode/study-mode.component';
@@ -91,6 +93,8 @@ const routes: Routes = [
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'exam-prepmode', component: ExamPrepmodeComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
+      { path: 'purchased-orders', component: OrderListComponent },
+      { path: 'order-details/:order_id', component: OrderDetailsComponent},
     ],
   },
 ];
