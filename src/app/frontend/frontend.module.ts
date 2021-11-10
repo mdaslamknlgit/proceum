@@ -130,6 +130,8 @@ const routes: Routes = [
     ExamPrepmodeComponent,
     TeacherMaterialComponent,
     MaterialDescriptionComponent,
+    OrderListComponent,
+    OrderDetailsComponent,
   ],
   imports: [
     CommonModule,
