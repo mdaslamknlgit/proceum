@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LiveModeComponent } from './live-mode.component';
+import { OrderListComponent } from './order-list.component';
 
-describe('LiveModeComponent', () => {
-  let component: LiveModeComponent;
-  let fixture: ComponentFixture<LiveModeComponent>;
+describe('OrderListComponent', () => {
+  let component: OrderListComponent;
+  let fixture: ComponentFixture<OrderListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LiveModeComponent ]
+      declarations: [ OrderListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LiveModeComponent);
+    fixture = TestBed.createComponent(OrderListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

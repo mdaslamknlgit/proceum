@@ -1,10 +1,17 @@
 <app-topbar class="inner-header"></app-topbar>
 <app-sidemenu *ngIf="user!= undefined && (user['role'] == '2' || user['role'] == '11')"></app-sidemenu>
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <span routerLink="/pricing-and-packages"><strong>Pricing &
-                Packages</strong></span> &raquo;{{ package.package_name }}</div>
-    <div class="pg_ttl">Package Details</div>
     <div class="hgt_20"></div>
+    <div class="sp_mn">
+        <div class="brdcrm_br p_1 d-flex ai_cntr">
+            <mat-icon color="accent" routerLink="/">home</mat-icon>
+            <mat-icon>navigate_next</mat-icon>
+            <strong routerLink="/pricing-and-packages">Pricing &amp; Packages</strong>
+            <mat-icon>navigate_next</mat-icon> {{ package.package_name }}
+        </div>
+    </div>
+    <!-- <div class="pg_ttl">Package Details</div> -->
+    <div class="hgt_10"></div>
     <div class="crs_innr_par" *ngIf="package">
         <div class="crs_innr_chld">
             <div class="crs_innr_lgo">
@@ -23,38 +30,39 @@
                 <div class="rtng_par">
                     <div class="crs_rtng str_slctd">
                         <mat-icon class="{{package_avg_rating > 0 ?'ct_slctd':''}}">star</mat-icon>
-                        <mat-icon class="hlf_str1 {{package_avg_rating > 0.5 ?'ct_slctd':''}}" >star</mat-icon>
+                        <mat-icon class="hlf_str1 {{package_avg_rating > 0.5 ?'ct_slctd':''}}">star</mat-icon>
                         <mat-icon class="{{package_avg_rating > 1 ?'ct_slctd':''}}">star</mat-icon>
-                        <mat-icon class="hlf_str2 {{package_avg_rating > 1.5?'ct_slctd':''}}" >star</mat-icon>
+                        <mat-icon class="hlf_str2 {{package_avg_rating > 1.5?'ct_slctd':''}}">star</mat-icon>
                         <mat-icon class="{{package_avg_rating > 2?'ct_slctd':''}}">star</mat-icon>
-                        <mat-icon class="hlf_str3 {{package_avg_rating > 2.5?'ct_slctd':''}}" >star</mat-icon>
+                        <mat-icon class="hlf_str3 {{package_avg_rating > 2.5?'ct_slctd':''}}">star</mat-icon>
                         <mat-icon class="{{package_avg_rating > 3 ?'ct_slctd':''}}">star</mat-icon>
-                        <mat-icon class="hlf_str4 {{package_avg_rating > 3.5 ?'ct_slctd':''}}" >star</mat-icon>
+                        <mat-icon class="hlf_str4 {{package_avg_rating > 3.5 ?'ct_slctd':''}}">star</mat-icon>
                         <mat-icon class="{{package_avg_rating > 4 ?'ct_slctd':''}}">star</mat-icon>
-                        <mat-icon class="hlf_str5 {{package_avg_rating > 4.5?'ct_slctd':''}}" >star</mat-icon>
+                        <mat-icon class="hlf_str5 {{package_avg_rating > 4.5?'ct_slctd':''}}">star</mat-icon>
                     </div>
                 </div>
                 <div class="hgt_10"></div>
                 <div class="crs_innr_prc">
-                    <span class="bld_txt_blk">
-                        <span>{{ package_prices[0].currency_symbol}}</span>{{ package_prices[0].selling_price}}
-                        <span *ngIf="package_prices[0].discount_percent">{{ package_prices[0].currency_symbol}} {{ package_prices[0].original_price}}</span>
-                        <span *ngIf="package_prices[0].discount_percent"> {{ package_prices[0].discount_percent }}% off</span>
-                    </span>
+                    <div class="pc_dsc_mn">
+                        <span class="{{package_prices[0].discount_percent ? 'strk_price':''}}">{{ package_prices[0].currency_symbol}} {{ package_prices[0].selling_price}}</span>
+                        <span *ngIf="package_prices[0].discount_percent">
+                            {{ package_prices[0].currency_symbol}} {{ package_prices[0].original_price}}
+                            <span class="grn_clr">{{ package_prices[0].discount_percent }}% off</span>
+                        </span>
+                    </div>
                 </div>
                 <div class="crs_dsc" *ngIf="package.package_desc">
-                    {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' : (package.package_desc) }}
+                    {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' :
+                    (package.package_desc) }}
                 </div>
                 <hr class="wht_hr">
                 <div class="crs_d_r_p">
                     <span *ngIf="package.converted_duration">
                         <mat-icon>timelapse</mat-icon> {{ package.converted_duration }}
                     </span>
-                    <!-- <span>
-                        <mat-icon>favorite_border</mat-icon> 3445
-                    </span> -->
                 </div>
-                <div class="bn_btn_dv grn_bg rsp_m_auto" *ngIf="admin_role_ids.indexOf(role_id) == -1" (click)="addToCart(package.pk_id)">
+                <div class="bn_btn_dv grn_bg rsp_m_auto" *ngIf="admin_role_ids.indexOf(role_id) == -1"
+                    (click)="addToCart(package.pk_id)">
                     <mat-icon>shopping_cart</mat-icon> Add To Cart
                 </div>
             </div>
@@ -109,22 +117,44 @@
                             <!-- This is the tree node template for expandable nodes -->
                             <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
                                 <div class="mat-tree-node">
-                                  <button mat-icon-button matTreeNodeToggle
-                                          [attr.aria-label]="'Toggle ' + node.name">
-                                    <mat-icon class="mat-icon-rtl-mirror">
-                                      {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-                                    </mat-icon>
-                                  </button>
-                                  {{node.name}}
+                                    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                                        <mat-icon class="mat-icon-rtl-mirror">
+                                            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                        </mat-icon>
+                                    </button>
+                                    {{node.name}}
                                 </div>
                                 <!-- There is inline padding applied to this div using styles.
                                     This padding value depends on the mat-icon-button width.  -->
-                                <div [class.example-tree-invisible]="!treeControl.isExpanded(node)"
-                                    role="group">
-                                  <ng-container matTreeNodeOutlet></ng-container>
-                              </div>
+                                <div [class.example-tree-invisible]="!treeControl.isExpanded(node)" role="group">
+                                    <ng-container matTreeNodeOutlet></ng-container>
+                                </div>
                             </mat-nested-tree-node>
-                          </mat-tree>   
+                        </mat-tree>
+                    </div>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
+                        <mat-icon>library_books</mat-icon>
+                        Addons
+                    </ng-template>
+                    <div class="crs_tbbs_cnt">
+                        <mat-accordion>
+                            <mat-expansion-panel *ngFor="let addon of addons_arr">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                    {{ addon.key }}
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <mat-list *ngFor="let item of addon.value">
+                                    <mat-list-item> 
+                                        <mat-icon>fiber_manual_record</mat-icon> 
+                                        {{ item }}
+                                    </mat-list-item>
+                                </mat-list>
+                              
+                            </mat-expansion-panel>
+                        </mat-accordion>
                     </div>
                 </mat-tab>
                 <mat-tab>
@@ -147,20 +177,30 @@
                                     </div>
                                     <div class="testi_rt">
                                         <div>
-                                            {{ testimonial.first_name}}  {{testimonial.last_name }}
+                                            {{ testimonial.first_name}} {{testimonial.last_name }}
                                         </div>
                                         <div class="rtng_par">
                                             <div class="crs_rtng">
-                                                <mat-icon class="{{testimonial.rating > 0 ?'ct_slctd':''}}">star</mat-icon>
-                                                <mat-icon class="hlf_str1 {{testimonial.rating > 0.5 ?'ct_slctd':''}}" >star</mat-icon>
-                                                <mat-icon class="{{testimonial.rating > 1 ?'ct_slctd':''}}">star</mat-icon>
-                                                <mat-icon class="hlf_str2 {{testimonial.rating > 1.5?'ct_slctd':''}}" >star</mat-icon>
-                                                <mat-icon class="{{testimonial.rating > 2?'ct_slctd':''}}">star</mat-icon>
-                                                <mat-icon class="hlf_str3 {{testimonial.rating > 2.5?'ct_slctd':''}}" >star</mat-icon>
-                                                <mat-icon class="{{testimonial.rating > 3 ?'ct_slctd':''}}">star</mat-icon>
-                                                <mat-icon class="hlf_str4 {{testimonial.rating > 3.5 ?'ct_slctd':''}}" >star</mat-icon>
-                                                <mat-icon class="{{testimonial.rating > 4 ?'ct_slctd':''}}">star</mat-icon>
-                                                <mat-icon class="hlf_str5 {{testimonial.rating > 4.5?'ct_slctd':''}}" >star</mat-icon>
+                                                <mat-icon class="{{testimonial.rating > 0 ?'ct_slctd':''}}">star
+                                                </mat-icon>
+                                                <mat-icon class="hlf_str1 {{testimonial.rating > 0.5 ?'ct_slctd':''}}">
+                                                    star</mat-icon>
+                                                <mat-icon class="{{testimonial.rating > 1 ?'ct_slctd':''}}">star
+                                                </mat-icon>
+                                                <mat-icon class="hlf_str2 {{testimonial.rating > 1.5?'ct_slctd':''}}">
+                                                    star</mat-icon>
+                                                <mat-icon class="{{testimonial.rating > 2?'ct_slctd':''}}">star
+                                                </mat-icon>
+                                                <mat-icon class="hlf_str3 {{testimonial.rating > 2.5?'ct_slctd':''}}">
+                                                    star</mat-icon>
+                                                <mat-icon class="{{testimonial.rating > 3 ?'ct_slctd':''}}">star
+                                                </mat-icon>
+                                                <mat-icon class="hlf_str4 {{testimonial.rating > 3.5 ?'ct_slctd':''}}">
+                                                    star</mat-icon>
+                                                <mat-icon class="{{testimonial.rating > 4 ?'ct_slctd':''}}">star
+                                                </mat-icon>
+                                                <mat-icon class="hlf_str5 {{testimonial.rating > 4.5?'ct_slctd':''}}">
+                                                    star</mat-icon>
                                             </div>
                                             <div>
                                                 {{ testimonial.rating }}/5
@@ -185,22 +225,33 @@
                         <div class="testi_hd">
                             Write Review
                         </div>
-                        <form #review_form="ngForm" name="review_form" (ngSubmit)="review_form.valid && addReview()" autocomplete="off">
+                        <form #review_form="ngForm" name="review_form" (ngSubmit)="review_form.valid && addReview()"
+                            autocomplete="off">
                             <div class="wr_mn dsh_brd_crds">
                                 <div class="wr_yr mt_1">
                                     <div>Your Rating</div>
                                     <div class="rtng_par bb_0">
                                         <div class="crs_rtng">
-                                            <mat-icon class="{{rating > 0 ?'ct_slctd':''}}" (click)="setRating(0.5)">star</mat-icon>
-                                            <mat-icon class="hlf_str1 {{rating > 0.5 ?'ct_slctd':''}}" (click)="setRating(1)">star</mat-icon>
-                                            <mat-icon class="{{rating > 1 ?'ct_slctd':''}}" (click)="setRating(1.5)">star</mat-icon>
-                                            <mat-icon class="hlf_str2 {{rating > 1.5?'ct_slctd':''}}" (click)="setRating(2)">star</mat-icon>
-                                            <mat-icon class="{{rating > 2?'ct_slctd':''}}" (click)="setRating(2.5)">star</mat-icon>
-                                            <mat-icon class="hlf_str3 {{rating > 2.5?'ct_slctd':''}}" (click)="setRating(3)">star</mat-icon>
-                                            <mat-icon class="{{rating > 3 ?'ct_slctd':''}}" (click)="setRating(3.5)">star</mat-icon>
-                                            <mat-icon class="hlf_str4 {{rating > 3.5 ?'ct_slctd':''}}" (click)="setRating(4)">star</mat-icon>
-                                            <mat-icon class="{{rating > 4 ?'ct_slctd':''}}" (click)="setRating(4.5)">star</mat-icon>
-                                            <mat-icon class="hlf_str5 {{rating > 4.5?'ct_slctd':''}}" (click)="setRating(5)">star</mat-icon>
+                                            <mat-icon class="{{rating > 0 ?'ct_slctd':''}}" (click)="setRating(0.5)">
+                                                star</mat-icon>
+                                            <mat-icon class="hlf_str1 {{rating > 0.5 ?'ct_slctd':''}}"
+                                                (click)="setRating(1)">star</mat-icon>
+                                            <mat-icon class="{{rating > 1 ?'ct_slctd':''}}" (click)="setRating(1.5)">
+                                                star</mat-icon>
+                                            <mat-icon class="hlf_str2 {{rating > 1.5?'ct_slctd':''}}"
+                                                (click)="setRating(2)">star</mat-icon>
+                                            <mat-icon class="{{rating > 2?'ct_slctd':''}}" (click)="setRating(2.5)">star
+                                            </mat-icon>
+                                            <mat-icon class="hlf_str3 {{rating > 2.5?'ct_slctd':''}}"
+                                                (click)="setRating(3)">star</mat-icon>
+                                            <mat-icon class="{{rating > 3 ?'ct_slctd':''}}" (click)="setRating(3.5)">
+                                                star</mat-icon>
+                                            <mat-icon class="hlf_str4 {{rating > 3.5 ?'ct_slctd':''}}"
+                                                (click)="setRating(4)">star</mat-icon>
+                                            <mat-icon class="{{rating > 4 ?'ct_slctd':''}}" (click)="setRating(4.5)">
+                                                star</mat-icon>
+                                            <mat-icon class="hlf_str5 {{rating > 4.5?'ct_slctd':''}}"
+                                                (click)="setRating(5)">star</mat-icon>
                                         </div>
                                         <div>
                                             {{rating}}/5
@@ -208,10 +259,15 @@
                                     </div>
                                     <div class="mt_1">Write Your Review</div>
                                     <div class="err_tltp_par">
-                                        <mat-form-field appearance="outline" class=" w_100p {{ ((review_form.submitted || rating_review.touched) && review_error) ? 'mat-form-field-invalid' : ''}}">
-                                            <textarea matInput class="hgt_100px" placeholder="Write Your Review" [(ngModel)]="review" name="rating_review" #rating_review="ngModel" ></textarea>
+                                        <mat-form-field appearance="outline"
+                                            class=" w_100p {{ ((review_form.submitted || rating_review.touched) && review_error) ? 'mat-form-field-invalid' : ''}}">
+                                            <textarea matInput class="hgt_100px" placeholder="Write Your Review"
+                                                [(ngModel)]="review" name="rating_review"
+                                                #rating_review="ngModel"></textarea>
                                         </mat-form-field>
-                                        <span class="prc_tltp" *ngIf="(review_form.submitted || rating_review.touched) && review_error">Please write some review!</span>
+                                        <span class="prc_tltp"
+                                            *ngIf="(review_form.submitted || rating_review.touched) && review_error">Please
+                                            write some review!</span>
                                     </div>
 
                                     <div class="text_right">
@@ -224,7 +280,8 @@
 
                     </div>
                 </mat-tab>
-
+                
+                <!-- sample videos -->
                 <mat-tab *ngIf="sample_videos.length > 0">
                     <ng-template mat-tab-label>
                         <mat-icon>videocam</mat-icon>
@@ -233,15 +290,14 @@
                     <div class="crs_par smpl_vds">
                         <div class="crs_chld" *ngFor="let video of sample_videos">
                             <div *ngIf="video.source_type=='YOUTUBE'">
-                                <iframe [width]="iframe_width" [height]="iframe_height" [src]="video.embed_link" allowfullscreen></iframe>
+                                <iframe [width]="iframe_width" [height]="iframe_height" [src]="video.embed_link"
+                                    allowfullscreen></iframe>
                                 <span>{{video.title}}</span>
                             </div>
                         </div>
 
                     </div>
                 </mat-tab>
-
-
                 <mat-tab *ngIf="faqs.length > 0">
                     <ng-template mat-tab-label>
                         <mat-icon>help_outline</mat-icon>
@@ -252,15 +308,15 @@
                         <mat-accordion *ngFor="let faq of faqs;let i = index">
                             <mat-expansion-panel [expanded]="true">
                                 <mat-expansion-panel-header>
-                                  <mat-panel-title>
-                                    Q :   {{ faq.question }}
-                                  </mat-panel-title>
+                                    <mat-panel-title>
+                                        Q : {{ faq.question }}
+                                    </mat-panel-title>
                                 </mat-expansion-panel-header>
                                 <div>Ans: {{ faq.answer }}</div>
-                              </mat-expansion-panel>
+                            </mat-expansion-panel>
                         </mat-accordion>
 
-                      
+
                     </div>
                 </mat-tab>
             </mat-tab-group>

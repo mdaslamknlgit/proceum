@@ -352,14 +352,15 @@
                 <span>{{ page_title }} Name<span class="required">*</span></span>
                 <span>
                   <span class="err_tltp_par">
-                    <mat-form-field appearance="outline">
-                      <input maxlength="30" appAlphaNumericWithSpaces required name="title" [(ngModel)]="name_of" matInput
-                        placeholder="{{ page_title }} Name" #title="ngModel" />
+                    <mat-form-field appearance="outline" *ngIf="slug == 'year'" >
+                        <input maxlength="30" appAlphaNumericWithSpaces required name="title" [(ngModel)]="name_of" matInput placeholder="{{ page_title }} Name" #title="ngModel" />
+                        <span class="prc_tltp" *ngIf="(create_form.submitted || title.touched) && title.invalid">{{ page_title }} name is required</span>
                     </mat-form-field>
-                    <span class="prc_tltp" *ngIf="
-                        (create_form.submitted || title.touched) &&
-                        title.invalid
-                      ">{{ page_title }} name is required</span>
+                    <mat-form-field appearance="outline" *ngIf="slug == 'semester' || slug == 'group'">
+                        <input maxlength="30" appNumbersonly required name="title" [(ngModel)]="name_of" matInput placeholder="{{ page_title }} Name" #title="ngModel" />
+                        <span class="prc_tltp" *ngIf="(create_form.submitted || title.touched) && title.invalid">{{ page_title }} name is required</span>
+                    </mat-form-field>
+                    
                   </span>
                 </span>
             </div>
@@ -504,7 +505,7 @@
                 </div>
             </div>
 
-            <div class="frm_dvs" *ngIf="(self_or_other == 'other' && (organization != '' && organization != null) && slug != 'year') || (self_or_other == 'self' && slug != 'year' && (organization != '' && organization != null))">
+            <div class="frm_dvs" *ngIf="(self_or_other == 'other' && (organization != '' && organization != null) && slug != 'year') || (self_or_other == 'self' && slug != 'year')">
                 <span>Select Year <span class="required">*</span></span>
                 <span>
                     <span class="err_tltp_par">
