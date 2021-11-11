@@ -39,7 +39,7 @@ import { QbankTestsPageComponent } from './student/levels/qbank-tests-page/qbank
 import { StudyModeComponent } from './student/levels/exams/study-mode/study-mode.component';
 import { ExamModeComponent } from './student/levels/exams/exam-mode/exam-mode.component';
 import { LiveModeComponent } from './student/exams/live-mode/live-mode.component';
-import { ExamPrepmodeComponent } from './student/exams/exam-prepmode/exam-prepmode.component';
+// import { ExamPrepmodeComponent } from './student/exams/exam-prepmode/exam-prepmode.component';
 import { TeacherMaterialComponent } from './student/learning-notes/teacher-material/teacher-material.component';
 import { MaterialDescriptionComponent } from './student/learning-notes/material-description/material-description.component';
 import { UploadDetailsComponent } from './social-share/upload-details/upload-details.component';
@@ -81,7 +81,7 @@ const routes: Routes = [
         path: 'curriculums/:curriculum_id/:level_id/:level_parent_id',
         component: Level_listComponent,
       },
-      { path: 'qbank/create-exam/:qbank_id', component: ExamPrepmodeComponent },
+      // { path: 'qbank/create-exam/:qbank_id', component: ExamPrepmodeComponent },
       { path: 'qbank/study-mode/:qbank_id/:source_id', component: StudyModeComponent },
       { path: 'qbank/exam-mode/:qbank_id/:exam_id', component: ExamModeComponent },
       { path: 'qbank/:curriculum_id/:level_id/:level_parent_id', component: QbankTestsPageComponent },
@@ -127,7 +127,7 @@ const routes: Routes = [
     StudyModeComponent,
     ExamModeComponent,
     LiveModeComponent,
-    ExamPrepmodeComponent,
+    // ExamPrepmodeComponent,
     TeacherMaterialComponent,
     MaterialDescriptionComponent,
     OrderListComponent,
