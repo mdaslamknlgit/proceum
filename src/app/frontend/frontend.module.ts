@@ -36,8 +36,8 @@ import { OrderListComponent } from './student/purchases/order-list/order-list.co
 import { OrderDetailsComponent } from './student/purchases/order-details/order-details.component';
 import { QbankTestsPageComponent } from './student/levels/qbank-tests-page/qbank-tests-page.component';
 //import { QbankComponent } from './student/levels/qbank/qbank.component';
-import { StudyModeComponent } from './student/exams/study-mode/study-mode.component';
-import { ExamModeComponent } from './student/exams/exam-mode/exam-mode.component';
+import { StudyModeComponent } from './student/levels/exams/study-mode/study-mode.component';
+import { ExamModeComponent } from './student/levels/exams/exam-mode/exam-mode.component';
 import { LiveModeComponent } from './student/exams/live-mode/live-mode.component';
 import { ExamPrepmodeComponent } from './student/exams/exam-prepmode/exam-prepmode.component';
 import { TeacherMaterialComponent } from './student/learning-notes/teacher-material/teacher-material.component';
@@ -81,19 +81,17 @@ const routes: Routes = [
         path: 'curriculums/:curriculum_id/:level_id/:level_parent_id',
         component: Level_listComponent,
       },
-      {
-        path: 'qbank/:curriculum_id/:level_id/:level_parent_id',
-        component: QbankTestsPageComponent,
-      },
+      { path: 'qbank/create-exam/:qbank_id', component: ExamPrepmodeComponent },
+      { path: 'qbank/study-mode/:qbank_id/:source_id', component: StudyModeComponent },
+      { path: 'qbank/exam-mode/:qbank_id/:exam_id', component: ExamModeComponent },
+      { path: 'qbank/:curriculum_id/:level_id/:level_parent_id', component: QbankTestsPageComponent },
       { path: 'study-planner', component: StudyPlannerStudentComponent },
-      { path: 'study-mode', component: StudyModeComponent },
-      { path: 'exam-mode', component: ExamModeComponent },
+      //{ path: 'exam-mode', component: ExamModeComponent },
       { path: 'live-mode', component: LiveModeComponent },
       { path: 'upload-details', component: UploadDetailsComponent },
       { path: 'teacher-material', component: TeacherMaterialComponent },
       { path: 'material-description', component: MaterialDescriptionComponent },
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
-      { path: 'exam-prepmode', component: ExamPrepmodeComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
       { path: 'purchased-orders', component: OrderListComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
