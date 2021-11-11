@@ -1,91 +1,39 @@
+ 
 <div class="mn_dshbrd">
-    <div class="cust_mdl_par {{show_details_modal?'cust_mdl_opn':'cust_mdl_cls'}}">
-        <div class="cust_mdl_chl w_50p">
-            <div class="tbbd_bdy dsh_brd_crds p_0">
-                <div class="days_mn pp_dysmn">
-                    <div class="dys_dv w_100p hvr_bg_wht">
-                        <div class="dys_hd">
-                            <div class="dys_hd_txt">Test Report for Day </div>
-                            <div class="dys_cnt">{{day}}</div>
-                            <div class="spacer"></div>
-                            <div>
-                                <button (click)="hideDetails()" mat-icon-button class="float_right">
-                                    &#x2715;
-                                </button>
-                            </div>
-                        </div>
-                        <div class="pp_dys_bdy">
-                            <div class="dys_tsks_dv">
-                                <!-- <div class="tsk_hd">{{selected_course['curriculumn_name']}}</div> -->
-                                <div class="hgt_20"></div>
-                                <div class="sbmtd_ans_dv">
-                                    <div><span>Total Questions:</span><span class="spacer"></span> <span class="dys_cnt">{{questions_list.length}}</span></div>
-                                    <div><span>Correct Answers:</span> <span class="spacer"></span><span class="dys_cnt">{{correct_answers}}</span></div>
-                                    <div><span>Wrong Answers:</span><span class="spacer"></span> <span class="dys_cnt wrng_ans">{{wrong_answers}}</span></div>
-                                    <div *ngIf="not_answered>0"><span>Not Answered:</span> <span class="spacer"></span><span class="dys_cnt nt_ans">{{not_answered}}</span></div>
-                                    <div *ngIf="free_text_qs>0"><span>Free Type Text Questions:</span> <span class="spacer"></span><span class="dys_cnt"> {{free_text_qs}}</span></div>
-                                </div>
-                                <div class="hgt_20"></div>
-                                <div class="d-flex jc_cnt">
-                                    <button mat-raised-button class="gry_btn mr_1" (click)="hideDetails()">Close</button>
-                                    <button mat-raised-button color="accent" (click)="reviewQuestions()" class="mr_1 skp_btn">Show Answers</button>
-                                    <button mat-raised-button routerLink="/student/study-planner" color="accent">Go to Study Plan</button>
-                                </div>
-                                <div class="hgt_20"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="hgt_20"></div>
     <div class="sp_mn">
-        <div class="brdcrm_br p_1 d-flex ai_cntr" *ngIf="study_plan.length>0">
+        <div class="brdcrm_br p_1 d-flex ai_cntr" *ngIf="curriculum.length>0">
             <mat-icon color="accent">home</mat-icon>
-            <mat-icon>navigate_next</mat-icon><span routerLink="/student/study-planner">Study Plans</span> <mat-icon>navigate_next</mat-icon> <span routerLink="/student/study-planner/{{study_plan[0]['pk_id']}}">{{study_plan[0]['plan_name']}}</span> <mat-icon>navigate_next</mat-icon> Test Page (Day - {{day}})
+            <mat-icon>navigate_next</mat-icon><span routerLink="/student/curriculums">QBanks</span> 
+            <mat-icon>navigate_next</mat-icon><span routerLink="/student/qbank/create-exam/{{curriculum[0]['pk_id']}}">{{curriculum[0]['curriculumn_name']}}</span> 
+            <mat-icon>navigate_next</mat-icon><strong>Study Mode</strong>
         </div>
     </div>
     <div class="hgt_20"></div>
-    <div class="tsts_mn {{show_q_numbers == false ?  'tsts_collps' : '' }}" >
+    <div class="tsts_mn stdy_md_qstns {{show_q_numbers == false ? 'tsts_collps':''}} {{ lst_grdclk == false ? '':'qbnk_mn'}}">
         <div class="tsts_qstns_nums">
             <div class="tstsnms_hd_dv">
-                <div class="tstsnms_hd">Questions ({{questions_list.length}})</div>
+                <div class="tstsnms_hd">Questions {{questions_list.length}}</div>
                 <div class="spacer"></div>
-                <div class="tsts_qst_swch" (click)="show_q_numbers = !show_q_numbers">
-                    <mat-icon color="accent">menu_open</mat-icon>
+                <div class="tsts_qst_swch grd_lst_vw" (click)="lst_grdclk = !lst_grdclk">
+                    <mat-icon color="accent" matTooltip="{{lst_grdclk == false ? 'List View':'Grid View'}}" >{{lst_grdclk == false ? 'list':'grid_view'}}</mat-icon>
+                </div>
+                <div class="tsts_qst_swch {{show_q_numbers == false ? 'rot_90':'rot_0'}}">
+                    <mat-icon color="accent" (click)="show_q_numbers = !show_q_numbers">menu_open</mat-icon>
                 </div>
             </div>
             <div class="hgt_20"></div>
             <div class="tstsnms_cnt_dv">
                 <ul>
-                    <!-- <li class="grn">1</li>
-                    <li class="rd">2</li>
-                    <li class="orng">3</li>
-                    <li class="gry">4</li> -->
                     <li *ngFor="let q of questions_list; let question_index=index;"
-                        class="{{question_index == active_q_index?'grn':''}} {{(q['answer'].length>0) && (question_index != active_q_index)?'gry':''}}"
-                        (click)="getQuestionOptions(question_index)">{{question_index+1}}</li>
+                        class=" {{q['result']}} {{question_index == active_q_index?'gry':''}}"
+                        (click)="getQuestionOptions(question_index)">{{question_index+1}} <span class="qstn_elb"><span [innerHTML]="q['question']"></span></span>
+                    </li>
                 </ul>
             </div>
         </div>
         <div class="tsts_qstns" *ngIf="questions_list.length>0">
-            <div class="d-flex w_90p">
-                <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
-                <div class="spacer"></div>
-                <div>
-                    <button
-                    (click)="checkAnswer();showResult();" *ngIf="is_test_end == false" [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button 
-                    class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">End Test
-                </button>
-                <button *ngIf="is_test_end == true"
-                    (click)="showDetails()" [disabled]="!allow_end_test" mat-raised-button 
-                    class="skp_btn {{allow_end_test == false ? 'gry_btn':''}}">View Report
-                </button>
-                </div>
-                
-            </div>
-            
+            <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
             <div class="hgt_20"></div>
             <div class="tstsqst_qst">
                 <span [innerHTML]="active_question['question']"></span>
@@ -155,10 +103,60 @@
                     (click)="getQuestionOptions(active_q_index-1)">
                     <mat-icon>arrow_left</mat-icon> Prev
                 </button>
+                <button [disabled]="active_question['answer'].length==0" mat-raised-button color="accent"
+                    (click)="checkAnswer()" class="skp_btn {{active_question['answer'].length==0?'gry_btn':''}}">Check
+                    Answer <mat-icon>subdirectory_arrow_right
+                    </mat-icon>
+                </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
                     (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
                 </button>
             </div>
         </div>
+        <!-- <div class="tsts_qstns">
+            <div class="tstsqst_hd d-flex">
+                <div>Question (5/40)</div>
+                <div class="qt_lbl">
+                    MCQ Question
+                </div>
+            </div>
+            <div class="hgt_10"></div>
+            <div class="tstsqst_qst">
+                An 86-year-old woman is brought to the emergency department by her niece because the patient felt like
+                she was spinning and about to topple over. This occurred around 4 hours ago, and although symptoms have
+                improved, she still feels like she is being pulled to the right side. Her vital signs include: blood
+                pressure 116/75 mm Hg, pulse 90/min, and SpO2 99% on room air. Physical examination reveals right-sided
+                limb ataxia along with hypoalgesia and decreased temperature sensation on the right side of the face and
+                left side of the body. An urgent noncontrast CT scan of the head shows no evidence of hemorrhage. What
+                other finding is most likely to be present in this patient?
+                <div class="tstsqst_img">
+                    <img src="../../../assets/images/testimonial-img-1.png">
+                </div>
+            </div>
+            <div class="tstsqst_ans">
+                <mat-radio-group>
+                    <mat-radio-button value="1" class="tstwrng_ans wrng_rdo">Option 1</mat-radio-button>
+                    <mat-radio-button value="2" class="actvfr_dsc crrct_rdo">Option 2</mat-radio-button>
+                    <mat-radio-button value="3" class="tstwrng_ans wrng_rdo">Option 2</mat-radio-button>
+                    <mat-radio-button value="4" class="actvfr_dsc crrct_rdo">Option 2</mat-radio-button>
+                    <div class="rdo_desc">Zwei flinke Boxer jagen die quirlige Eva und ihren Mops durch Sylt. Franz jagt
+                        im komplett verwahrlosten Taxi quer durch Bayern. Zwölf Boxkämpfer jagen Viktor quer über den
+                        großen Sylter Deich. Vogel Quax zwickt Johnys Pferd Bim. Sylvia wagt quick den Jux bei
+                        Pforzheim. Polyfon zwitschernd aßen Mäxchens Vögel Rüben, Joghurt und Quark. "Fix, Schwyz!"
+                        quäkt Jürgen blöd vom Paß. Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.
+                        Falsches Üben von Xylophonmusik quält jeden größeren Zwerg. Heizölrückstoßabdämpfung</div>
+                </mat-radio-group>
+                <mat-checkbox class="wrng_rdo">Checkbox 1</mat-checkbox>
+                <mat-checkbox>Checkbox 1</mat-checkbox>
+                <mat-checkbox>Checkbox 1</mat-checkbox>
+            </div>
+            <div class="tstsqst_navs">
+                <button mat-raised-button color="accent">
+                    <mat-icon>arrow_left</mat-icon> Prev
+                </button>
+                <button mat-raised-button color="accent" >Next <mat-icon>arrow_right</mat-icon>
+                </button>
+            </div>
+        </div> -->
     </div>
 </div>
