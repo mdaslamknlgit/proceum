@@ -42,6 +42,7 @@ import { LiveModeComponent } from './student/exams/live-mode/live-mode.component
 import { ExamPrepmodeComponent } from './student/exams/exam-prepmode/exam-prepmode.component';
 import { TeacherMaterialComponent } from './student/learning-notes/teacher-material/teacher-material.component';
 import { MaterialDescriptionComponent } from './student/learning-notes/material-description/material-description.component';
+import { UploadDetailsComponent } from './social-share/upload-details/upload-details.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -88,6 +89,7 @@ const routes: Routes = [
       { path: 'study-mode', component: StudyModeComponent },
       { path: 'exam-mode', component: ExamModeComponent },
       { path: 'live-mode', component: LiveModeComponent },
+      { path: 'upload-details', component: UploadDetailsComponent },
       { path: 'teacher-material', component: TeacherMaterialComponent },
       { path: 'material-description', component: MaterialDescriptionComponent },
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
@@ -132,6 +134,7 @@ const routes: Routes = [
     MaterialDescriptionComponent,
     OrderListComponent,
     OrderDetailsComponent,
+    UploadDetailsComponent,
   ],
   imports: [
     CommonModule,
