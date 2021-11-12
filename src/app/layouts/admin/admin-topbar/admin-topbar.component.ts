@@ -31,7 +31,7 @@ export class AdminTopbarComponent implements OnInit {
     //check subdomain
     let sub_domain = window.location.hostname;
     //static sub domain
-    sub_domain = 'ntr';
+    //sub_domain = 'ntr';
     //If subdomain not exist in in app domains then check for partner domain
     if(environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1){
       if(!localStorage.getItem('header_logo')){
