@@ -62,6 +62,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   public sort_by: any;
   public search_box = '';
   public page = 0;
+  public add_or_edit = "Add New";
   public page_title = "Year";
   public slug = "year";
   popoverTitle = '';
@@ -300,6 +301,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
 
   public getRow(id) {
+    this.add_or_edit = 'Edit';
     this.self_or_other = 'self';
     this.courses_ids_csv = '';
     let param = { url: 'get-year-semester-group-by-id','id':id, 'slug': this.slug };
@@ -457,7 +459,20 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   }
 
   toggleModel() {
+    //empty the table data first
+    this.dataSource = new MatTableDataSource([]);
+    this.year_id = null;
+    this.semester_id = null;
+    this.group_id = null;
+    this.partner_id = null;
+    this.parent_id = null;
+    this.name_of = '';
+    this.organization = '';
+    this.organization_type = '';
+    this.courses_ids_csv = '';
+    this.self_or_other = 'self';
     this.show_radio = true;
+    this.add_or_edit = 'Add New';
     //this.self_or_other = 'other';
     this.model_status = true;
      //(<HTMLFormElement>document.getElementById('create_form')).reset();
