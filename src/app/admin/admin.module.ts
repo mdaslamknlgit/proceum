@@ -80,6 +80,7 @@ import { StudyPlannerListComponent } from './study-planner/study-planner-list/st
 import { ManageYearsSemestersGroupsComponent } from './manage-years-semesters-groups/manage-years-semesters-groups.component';
 import { ShoppingCartComponent } from '../frontend/shopping-cart/shopping-cart.component';
 import { CreateExamComponent } from './exam-modes/create-exam/create-exam.component';
+import { SocialApprovalComponent } from './social-share/social-approval/social-approval.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -171,6 +172,7 @@ const routes: Routes = [
       { path: 'create-content', component: CreateContentComponent },
 
       { path: 'whiteboard-gallery', component: WhiteboardgalleryComponent },
+      { path: 'social-approval', component: SocialApprovalComponent },
 
       //{ path: 'createnewquestion', component: CreateNewQuestionComponent },
       //{ path: 'questionmanagement', component: QuestionsManagementComponent },
@@ -272,6 +274,7 @@ const routes: Routes = [
     StudyPlannerListComponent,
     ManageYearsSemestersGroupsComponent,
     CreateExamComponent,
+    SocialApprovalComponent,
   ],
   imports: [
     MaterialModule,
