@@ -21,7 +21,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
-import { PaymentsComponent } from './payments/payments.component';
 import { CartCountService } from './services/cart-count.service'; 
 import { ReplaceUnderscorePipe } from './shared/pipes/replace-underscore-pipe';
 import { ReplacePipe } from './shared/pipes/replace-pipe';
@@ -33,7 +32,6 @@ import { ReplacePipe } from './shared/pipes/replace-pipe';
     NotFoundComponent,
     DrawingBoardComponent,
     ProceumLibraryComponent,
-    PaymentsComponent,
     ReplaceUnderscorePipe,
     ReplacePipe,
     //SafePipe,

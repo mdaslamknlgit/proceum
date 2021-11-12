@@ -3,6 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { Router } from '@angular/router';
 import { CartCountService } from '../../../services/cart-count.service';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-student-topbar',
   templateUrl: './student-topbar.component.html',
@@ -15,6 +16,7 @@ export class StudentTopbarComponent implements OnInit {
   number: any;
   subscription: Subscription;
   user_id='';
+  load_top_bar = false;
 
   constructor(
     private http: CommonService, 
@@ -26,6 +28,21 @@ export class StudentTopbarComponent implements OnInit {
     this.subscription = this.cartCountService.getNumber().subscribe(number => { this.number = number });
   }
   ngOnInit(): void {
+    //check subdomain
+    let sub_domain = window.location.hostname;
+    //static sub domain
+    //sub_domain = 'ntr';
+    //If subdomain not exist in in app domains then check for partner domain
+    if(environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1){
+      if(!localStorage.getItem('header_logo')){
+        this.getSubDomainDetails(sub_domain);
+      }else{
+        this.load_top_bar = true;
+      }
+    }else{
+      localStorage.setItem('header_logo','');
+      this.load_top_bar = true;
+    }
     this.user = this.http.getUser();
     if(this.user){
       this.user_id = this.user['id'];
@@ -65,4 +82,30 @@ export class StudentTopbarComponent implements OnInit {
       this.route.navigate(['/login']);
     });
   }
+
+  getSubDomainDetails(sub_domain){
+    let params = {
+      url: 'get-subdomain-details',
+      sub_domain: sub_domain,
+    };
+    this.http.post(params).subscribe((res) => {
+      if(!res['error']){
+        localStorage.setItem('header_logo', res['data']['header_logo']);
+        //console.log(this.sub_domain_data);
+      }else{
+        console.log("No subdomain data found");
+      }
+      this.load_top_bar = true;
+    });
+  }
+  
+  getHeaderLogo(){
+    let header_logo = localStorage.getItem('header_logo');
+    if(header_logo){
+      return header_logo;
+    }else{
+      return "./assets/images/ProceumLogo.png";
+    }
+  }
+
 }
