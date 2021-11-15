@@ -11,7 +11,7 @@
             <div class="tbbd_bdy">
                 <div class="hgt_20"></div>
                 <div class="img_prp">
-                    <img src="../../../../assets/images/apple_logo.svg" alt="" />
+                    <img src="../../../../assets/images/wc-img-4.png" alt="" />
                 </div>
                 <div class="img_prp_dets">
                     <ul>
@@ -34,11 +34,7 @@
                 <hr />
                 <div class="img_prp_btns">
                     <div>
-                        <button type="button" mat-raised-button color="accent" class="float_right mr_1">Approve
-                        </button>
-                    </div>
-                    <div>
-                        <button mat-raised-button class="float_right mr_1 gry_btn">
+                        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">
                             Close
                         </button>
                     </div>
@@ -47,29 +43,29 @@
             </div>
         </div>
     </div>
-    <div class="brd_crm">
-        Proceum &raquo; <strong>Social Approval</strong>
+    <div class="hgt_20"></div>
+    <div class="sp_mn ">
+        <div class="brdcrm_br">
+            <mat-icon color="accent">home</mat-icon>
+            <mat-icon>navigate_next</mat-icon>
+            Social Sharing
+        </div>
     </div>
-    <div class="pg_ttl">Social Approval</div>
     <hr />
     <div class="dsh_brd_crds">
+        <div class="w_100p d-flex">
+            <div class="spacer"></div>
+            <div>
+                <button mat-raised-button color="accent" routerLink="/student/upload-details">
+                    <mat-icon>add</mat-icon> Create New
+                </button>
+            </div>
+        </div>
         <div class="rsp_tbl">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 <ng-container matColumnDef="sno">
                     <th mat-header-cell *matHeaderCellDef> S.No. </th>
                     <td mat-cell *matCellDef="let element"> {{element.sno}} </td>
-                </ng-container>
-                <ng-container matColumnDef="username">
-                    <th mat-header-cell *matHeaderCellDef> User Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-                </ng-container>
-                <ng-container matColumnDef="email">
-                    <th mat-header-cell *matHeaderCellDef> Email </th>
-                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-                </ng-container>
-                <ng-container matColumnDef="phone">
-                    <th mat-header-cell *matHeaderCellDef> Phone </th>
-                    <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
                 </ng-container>
                 <ng-container matColumnDef="platform">
                     <th mat-header-cell *matHeaderCellDef> Platform </th>
@@ -82,13 +78,13 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button color="accent" matTooltip="Click to Approve">
-                            <mat-icon>done</mat-icon>
+                        <button mat-icon-button color="accent" matTooltip="Edit">
+                            <mat-icon>edit_notes</mat-icon>
                         </button>
-                        <button mat-icon-button color="accent" (click)="toggleModel()" matTooltip="Click to View">
+                        <button mat-icon-button color="accent" (click)="toggleModel()" matTooltip="View">
                             <mat-icon>visibility</mat-icon>
                         </button>
-                        <button mat-icon-button color="warn" matTooltip="Click to Delete">
+                        <button mat-icon-button color="warn" matTooltip="Delete">
                             <mat-icon>delete</mat-icon>
                         </button>
 
@@ -97,18 +93,13 @@
                 <ng-container matColumnDef="aproval_status">
                     <th mat-header-cell *matHeaderCellDef> Approval Status </th>
                     <td mat-cell *matCellDef="let element">
-                        <span matTooltip="Current Status is Approved" class="sts_grn">Approved</span>
-                        <!-- <span matTooltip="Current Status is {{
-                            element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
-                          }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
-                          "Inactive" }}</span> -->
+                        <span matTooltip="Current Status is {{true ? 'Approved':'Declined'}}"
+                            class="{{true ? 'sts_grn':'sts_rd'}}">{{true ? 'Approved':'Declined'}}</span>
                     </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-
-
         </div>
     </div>
 

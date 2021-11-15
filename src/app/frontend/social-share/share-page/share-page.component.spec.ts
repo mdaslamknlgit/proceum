@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UploadDetailsComponent } from './upload-details.component';
+import { SharePageComponent } from './share-page.component';
 
-describe('UploadDetailsComponent', () => {
-  let component: UploadDetailsComponent;
-  let fixture: ComponentFixture<UploadDetailsComponent>;
+describe('SharePageComponent', () => {
+  let component: SharePageComponent;
+  let fixture: ComponentFixture<SharePageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UploadDetailsComponent ]
+      declarations: [ SharePageComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UploadDetailsComponent);
+    fixture = TestBed.createComponent(SharePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
