@@ -37,7 +37,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public font_size = 14;
   public main_desc = '';
   public mcqs = [];
+  public flash_cards = [];
   public active_mcq_index = 0;
+  public active_flash_cards_index = 0;
   public checked_options = [];
   public validated_questions = [];
   public short_answers = [];
@@ -327,6 +329,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.highyields = data['highyields'];
         this.learning_notes = data['learning_notes'];
         this.mcqs = data['mcqs'];
+        this.flash_cards = data['flash_cards'];
         this.short_answers = data['short_answers'];
         this.cases = data['cases'];
         this.main_content = this.sanitizer.bypassSecurityTrustHtml(
@@ -431,6 +434,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         else if(this.cases != undefined && this.cases.length > 0){
             this.showDiv(7);
         }
+        else if(this.flash_cards != undefined && this.flash_cards.length > 0){
+            this.showDiv(11);
+        }
         else if(this.content['external_ref_content'] != undefined && this.content['external_ref_content'].trim() != ''){
             this.showDiv(8);
         }
@@ -515,6 +521,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       this.active_short_answer_index = this.active_short_answer_index + 1;
       this.getXtToken(this.short_answers[this.active_mcq_index]);
     }
+    if (this.active_div == 11) {
+      this.active_flash_cards_index = this.active_flash_cards_index + 1;
+      this.getXtToken(this.flash_cards[this.active_mcq_index]);
+    }
     
   }
   prevQuestion() {
@@ -529,6 +539,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     if (this.active_div == 10) {
       this.active_short_answer_index = this.active_short_answer_index - 1;
       this.getXtToken(this.short_answers[this.active_mcq_index]);
+    }
+    if (this.active_div == 11) {
+      this.active_flash_cards_index = this.active_flash_cards_index - 1;
+      this.getXtToken(this.flash_cards[this.active_mcq_index]);
     }
   }
   kpoint_iframe_url='';
@@ -582,8 +596,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   viewContent(content_id) {
     this.content = [];
     this.mcqs = [];
+    this.flash_cards = [];
     this.short_answers = [];
     this.cases = [];
+    this.flash_cards = [];
     this.show_content_list = !this.show_content_list;
     this.router.navigateByUrl(
       '/student/curriculum/details/' +

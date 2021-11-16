@@ -38,7 +38,7 @@ export class StudyModeComponent implements OnInit {
                 this.questions_list = res['data']['questions'];
                 this.bucket_url = res['data']['bucket_url'];
                 this.breadcome = res['data']['breadcome'];
-                this.curriculum.push(res['data']['curriculum'])
+                this.curriculum.push(res['data']['curriculum']);
                 if(this.questions_list.length > 0)
                     this.getQuestionOptions(0);
             }

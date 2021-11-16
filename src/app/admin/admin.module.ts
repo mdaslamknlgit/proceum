@@ -81,6 +81,8 @@ import { ManageYearsSemestersGroupsComponent } from './manage-years-semesters-gr
 import { ShoppingCartComponent } from '../frontend/shopping-cart/shopping-cart.component';
 import { CreateExamComponent } from './exam-modes/create-exam/create-exam.component';
 import { SocialApprovalComponent } from './social-share/social-approval/social-approval.component';
+import { ManageFlashCardsComponent } from './flash-cards/manage-flash-cards/manage-flash-cards.component';
+import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-cards/create-new-flash-cards.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -215,6 +217,9 @@ const routes: Routes = [
       //Added by Phanindra 06-09-2021
       { path: 'poc-videos', component: PocVideosComponent },
       { path: 'create-exam', component: CreateExamComponent},
+      //Added by Phanindra 28-20-2021
+      { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
+      { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
     ],
   },
 ];
@@ -275,6 +280,8 @@ const routes: Routes = [
     ManageYearsSemestersGroupsComponent,
     CreateExamComponent,
     SocialApprovalComponent,
+    ManageFlashCardsComponent,
+    CreateNewFlashCardsComponent,
   ],
   imports: [
     MaterialModule,

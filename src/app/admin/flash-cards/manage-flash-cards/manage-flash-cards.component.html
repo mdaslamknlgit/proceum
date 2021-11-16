@@ -1,0 +1,279 @@
+<div class="mn_dshbrd">
+
+    <div style="z-index: 10000;" class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
+      <div class="cust_mdl_chl">
+        <div class="pg_ttl">
+          Proceum Library
+          <span class="spacer"></span>
+          <button (click)="CloseModal()" mat-icon-button class="float_right">
+            &#x2715;
+          </button>
+        </div>
+        <div class="tbbd_bdy" *ngIf="library_popup">
+          <app-assets-library [data]="{ modal_view: true, active_tab: active_tab, 'library_purpose': library_purpose }">
+          </app-assets-library>
+
+          <hr />
+          <button mat-raised-button color="accent" class="float_right mr_1">
+            Select
+          </button>
+
+          <button mat-raised-button class="float_right mr_1 gry_btn" (click)="CloseModal()">
+            Close
+          </button>
+          <div class="hgt_20"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_edit_status }">
+      <div class="cust_mdl_chl">
+        <div class="pg_ttl">
+          Edit Questions
+          <span class="spacer"></span>
+          <button mat-icon-button (click)="toggleModel()" class="float_right">
+            &#x2715;
+          </button>
+        </div>
+
+        <div class="tbbd_bdy">
+          <div class="hgt_20"></div>
+          <form id="flash_cards_form" #flash_cards_form="ngForm" name="flash_cards_form" (ngSubmit)="flash_cards_form.valid && saveFlashCards()" novalidate >
+            <div class="grd_2c no_bxsdw">
+              <div  class="frm_dvs" *ngIf="curriculum_list == undefined">
+                No Courses Found
+              </div> 
+              <div class="frm_dvs" *ngIf="curriculum_list != undefined">             
+                <span>COURSE <span class="required">*</span> </span>
+                <span>
+                  <span class="err_tltp_par">
+                    <mat-form-field appearance="outline">
+                      <mat-select placeholder="Select Course" [(ngModel)]="curriculum_id" name="course_list_0" #course_list_0="ngModel" (ngModelChange)="applyCourseFilters(0)" required>
+                        <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']" [matTooltip]="value['curriculumn_name']" >{{ value["curriculumn_name"] }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <span class="prc_tltp" *ngIf="(flash_cards_form.submitted || curriculum_id.touched) && curriculum_id.invalid">Course is Required</span>
+                  </span>
+                </span>
+              </div> 
+              <!-- Level wise code -->
+              <div class="frm_dvs" *ngFor="let value of curriculum_labels; let i = index">
+                <span *ngIf="i < curriculum_labels.length - 1">{{ ucFirst(value["display_label"]) }}<span *ngIf="level_options[value['level_number']] != undefined && level_options[value['level_number']].length > 0" class="required">*</span> </span>
+                <span *ngIf="i < curriculum_labels.length - 1">
+                  <span class="err_tltp_par">
+                    <mat-form-field appearance="outline">
+                      <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" [(ngModel)]="selected_level[value['level_number']]" name="course_list_{{i+1}}" #course_list_{{i+1}}="ngModel" (ngModelChange)="applyCourseFilters(value['level_number']);getLevels(value['level_number'])" [required]="level_options[value['level_number']] != undefined && level_options[value['level_number']].length > 0">
+                        <mat-option>
+                          <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                              name="search_topic" ngModel
+                              (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                              [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select {{ucFirst(value['display_label'])}}
+                          </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                          [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </span>
+                </span>
+              </div> 
+              <!-- Editor -->
+              <div class="frm_dvs">
+                <span> Question <span class="required">*</span> </span>
+                <span class="edtr_frm">
+                  <span class="oc_w100p {{flash_cards_form.submitted && question_name==''?'angular_editor_div':''}}">
+                    <angular-editor [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
+                            name="question_name" #question_name="ngModel" [(ngModel)]="question_description" required></angular-editor>
+                            <span class="prc_tltp" *ngIf="(flash_cards_form.submitted || question_name.touched) && question_name.invalid">Question Text is required</span>                    
+                  </span>
+                </span>
+              </div>
+
+              <div class="frm_dvs">
+                <span class="edtr_frm">
+                  <span class="oc_w100p">
+                    <div class="upld_attchmnts">
+                      <div class="c_block">
+                        <div class="c_block_title">
+                          <mat-icon>wallpaper</mat-icon>
+                          <label for="Intro video"> Upload images</label>
+                          <span class="spacer"></span>
+                          <mat-icon (click)="openAssetsLibrary('images', 'question_images')">add</mat-icon>
+                        </div>
+                        <div class="c_block_content" *ngIf="question_images.length == 0">
+                          <div class="upload_placeholder">
+                            <div class="place_block">
+                              <span>Click + icon to add Documents</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="c_block_content">
+                          <ul>
+                            <li *ngFor="let file of question_images; let i = index">
+                              <img [src]="file['path']" alt="{{
+                                  file['file_path'].substring(
+                                    file['file_path'].lastIndexOf('/') + 1
+                                  )
+                                }}" />
+                              <span class="upldd_hd">{{
+                                file["file_path"].substring(
+                                file["file_path"].lastIndexOf("/") + 1
+                                )
+                                }}</span>
+                              <span class="spacer"></span>
+                              <mat-icon class="vd_dl_icn" (click)="removeFile(i, 'question_images')">remove_circle_outline
+                              </mat-icon>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </span>
+              </div>
+
+              <div class="frm_dvs">
+                <span> Answer <span class="required">*</span> </span>
+                <span class="edtr_frm">
+                  <span class="oc_w100p {{flash_cards_form.submitted && answer_name==''?'angular_editor_div':''}}">
+                    <angular-editor [placeholder]="'Enter Answer text here...'" [config]="liteEditorConfig"
+                            name="answer_name" #answer_name="ngModel" [(ngModel)]="answer_description" required></angular-editor>
+                            <span class="prc_tltp">Answer Text is required</span>                    
+                  </span>
+                </span>
+              </div>
+
+              <div class="frm_dvs">
+                <span class="edtr_frm">
+                  <span class="oc_w100p">
+                    <div class="upld_attchmnts">
+                      <div class="c_block">
+                        <div class="c_block_title">
+                          <mat-icon>wallpaper</mat-icon>
+                          <label for="Intro video"> Upload images</label>
+                          <span class="spacer"></span>
+                          <mat-icon (click)="openAssetsLibrary('images', 'answer_images')">add</mat-icon>
+                        </div>
+                        <div class="c_block_content" *ngIf="answer_images.length == 0">
+                          <div class="upload_placeholder">
+                            <div class="place_block">
+                              <span>Click + icon to add Documents</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="c_block_content">
+                          <ul>
+                            <li *ngFor="let file of answer_images; let i = index">
+                              <img [src]="file['path']" alt="{{
+                                  file['file_path'].substring(
+                                    file['file_path'].lastIndexOf('/') + 1
+                                  )
+                                }}" />
+                              <span class="upldd_hd">{{
+                                file["file_path"].substring(
+                                file["file_path"].lastIndexOf("/") + 1
+                                )
+                                }}</span>
+                              <span class="spacer"></span>
+                              <mat-icon class="vd_dl_icn" (click)="removeFile(i, 'answer_images')">remove_circle_outline
+                              </mat-icon>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </span>
+                </span>
+              </div>
+
+            </div>
+            <hr />
+            <button mat-raised-button color="accent" class="float_right mr_1">
+              Submit
+            </button>
+          </form>
+          <button mat-raised-button class="float_right mr_1 gry_btn" (click)="toggleModel()">
+            Close
+          </button>
+          <div class="hgt_20"></div>
+        </div>
+
+      </div> 
+    </div>
+
+
+    <div class="brd_crm">Proceum &raquo; <strong>Flash Cards</strong></div>
+    <div class="d-flex">
+        <div class="pg_ttl">Flash Cards</div>
+        <div class="spacer"></div>
+        <div>
+          <button mat-raised-button color="accent" routerLink="/admin/create-flash-cards">
+            <mat-icon>add</mat-icon>
+            Add new Flash Cards
+          </button>
+        </div>
+      </div>
+    <hr />
+    
+
+    <div>
+      <div class="rsp_tbl" >
+        <table mat-table [dataSource]="dataSource">
+          
+          <ng-container matColumnDef="s_no">
+            <th mat-header-cell *matHeaderCellDef>S.No</th>
+            <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="question_text">
+            <th mat-header-cell *matHeaderCellDef>Question</th>
+            <td mat-cell *matCellDef="let element"> <div [innerHtml]="element.question_text"></div></td>
+          </ng-container>
+
+          <ng-container matColumnDef="status_text">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">{{ element.status_text }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="created_by">
+            <th mat-header-cell *matHeaderCellDef>Created By</th>
+            <td mat-cell *matCellDef="let element">{{ element.created_by }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="created_at">
+            <th mat-header-cell *matHeaderCellDef>Created at</th>
+            <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element;">
+
+              <button mat-icon-button color="accent" class="mr_1">
+                <mat-icon matTooltip="Click here to Edit Question" (click)="openEditModel(element)">edit_notes
+                </mat-icon>
+              </button>
+
+              <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                  'Are you sure to delete '
+                  " placement="auto" (confirm)="deleteContentData(element.pk_id)" confirmButtonType="danger"
+                  cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                  <mat-icon>remove_circle_outline</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsRow"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsRow"></tr>
+          <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+            <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="displayedColumnsRow.length">
+              No Records Found
+            </td>
+          </tr>
+        </table>
+      </div>
+      <mat-paginator #paginator [pageSizeOptions]="page_size_options" [length]="num_rows" [pageSize]="pageSize"
+        showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
+    </div>
+  </div>
