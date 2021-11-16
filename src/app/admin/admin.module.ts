@@ -79,6 +79,8 @@ import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { StudyPlannerListComponent } from './study-planner/study-planner-list/study-planner-list.component';
 import { ManageYearsSemestersGroupsComponent } from './manage-years-semesters-groups/manage-years-semesters-groups.component';
 import { ShoppingCartComponent } from '../frontend/shopping-cart/shopping-cart.component';
+import { ManageFlashCardsComponent } from './flash-cards/manage-flash-cards/manage-flash-cards.component';
+import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-cards/create-new-flash-cards.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -211,6 +213,9 @@ const routes: Routes = [
       { path: 'study-planner-list', component: StudyPlannerListComponent },
       //Added by Phanindra 06-09-2021
       { path: 'poc-videos', component: PocVideosComponent },
+      //Added by Phanindra 28-20-2021
+      { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
+      { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
     ],
   },
 ];
@@ -269,6 +274,8 @@ const routes: Routes = [
     PocVideosComponent,
     StudyPlannerListComponent,
     ManageYearsSemestersGroupsComponent,
+    ManageFlashCardsComponent,
+    CreateNewFlashCardsComponent,
   ],
   imports: [
     MaterialModule,
