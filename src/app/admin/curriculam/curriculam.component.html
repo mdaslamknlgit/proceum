@@ -41,6 +41,23 @@
                 </span>
               </span>
             </div>
+            <div class="frm_dvs" *ngIf="course_usage==2"> <span>Exam Template <span class="required">*</span></span> <span>
+                <span class="err_tltp_par">
+                  <mat-form-field appearance="outline">
+                    <mat-select placeholder="Exam Template" name="exam_template_name" #exam_template_name="ngModel" [(ngModel)]="exam_template" required>
+                      <mat-option [value]="1">Default Template</mat-option>
+                      <mat-option [value]="2">MARROW Template</mat-option>
+                      <mat-option [value]="3">AMBOSS/PASTEST/OSMOSIS/UWORLD Template</mat-option>
+                      <mat-option [value]="4">PLAB Template</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <span class="prc_tltp" *ngIf="
+                          (curriculum_form.submitted || exam_template_name.touched) &&
+                          exam_template_name.invalid
+                        ">Exam Template is required</span>
+                </span>
+              </span>
+            </div>
             <!-- <div class="frm_dvs" *ngIf="course_usage==2"> <span>QBank Type <span class="required">*</span></span> <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
@@ -306,6 +323,23 @@
               </span>
             </span>
           </div>
+          <div class="frm_dvs" *ngIf="course_usage==2"> <span>Exam Template <span class="required">*</span></span> <span>
+            <span class="err_tltp_par">
+              <mat-form-field appearance="outline">
+                <mat-select placeholder="Exam Template" name="exam_template_name" #exam_template_name="ngModel" [(ngModel)]="exam_template" required>
+                  <mat-option [value]="1">Default Template</mat-option>
+                  <mat-option [value]="2">MARROW Template</mat-option>
+                  <mat-option [value]="3">AMBOSS/PASTEST/OSMOSIS/UWORLD Template</mat-option>
+                  <mat-option [value]="4">PLAB Template</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <span class="prc_tltp" *ngIf="
+                      (curriculum_form.submitted || exam_template_name.touched) &&
+                      exam_template_name.invalid
+                    ">Exam Template is required</span>
+            </span>
+          </span>
+        </div>
           <!--
           <div class="frm_dvs" *ngIf="course_usage==2"> <span>QBank Type <span class="required">*</span></span> <span>
               <span class="err_tltp_par">

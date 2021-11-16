@@ -27,6 +27,7 @@ export class ExamModeComponent implements OnInit {
     public allow_end_test: boolean = false;
     public remain_time = '';
     public seconds = 0;
+    public curriculum = [];
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService) { }
 
     ngOnInit(): void {
@@ -44,14 +45,24 @@ export class ExamModeComponent implements OnInit {
                 this.exam.push(res['data']['exam']);
                 this.bucket_url = res['data']['bucket_url'];
                 this.study_plan.push(res['data']['study_plan']);
+                this.curriculum.push(res['data']['curriculum']);
                 if(this.questions_list.length > 0)
                 {
                     this.getQuestionOptions(0);
                     let minutes = this.exam[0]['question_duration'] * this.questions_list.length;
                     this.seconds = minutes*60;
-                    setInterval(res=>{
+                    let set_interval = setInterval(res=>{
                         this.seconds = this.seconds-1;
-                        this.startTimer(this.seconds);
+                        if(this.seconds >= 0)
+                            this.startTimer(this.seconds);
+                            if(this.seconds == 60){
+                                this.toster.info("This Test will end in a minute", "Remain Time", {closeButton:true});
+                            }
+                        else{
+                            clearInterval(set_interval);
+                            this.toster.info("Test time completed", "Time up", {closeButton:true});
+                            this.caluculateResult();
+                        }
                     },1000);
                 }
             }
@@ -159,37 +170,39 @@ export class ExamModeComponent implements OnInit {
             cancelButtonText: 'No'
         }).then((result) => {
             if (result.value) {
-                this.is_test_end = true;
-                let check = false;
-                this.questions_list.forEach((q,index)=>{
-                    //this.questions_list[index]['show_answer'] = true;
-                    if([3,6,9,12].includes(q['q_type'])){
-                        this.free_text_qs = this.free_text_qs+1;
-                        return true;
-                    }
-                    if(q['answer'].length == 0){
-                        this.not_answered = this.not_answered+1;
-                    }
-                    else if(q['s_no'].length == q['answer'].length){
-                        const array2Sorted = q['answer'].slice().sort();
-                        check = q['s_no'].length === q['answer'].length && q['s_no'].slice().sort().every(function(value, index) {
-                            return value === array2Sorted[index];
-                        });
-                        if(check == true){
-                            this.correct_answers = this.correct_answers+1;
-                        }
-                        else{
-                            this.wrong_answers = this.wrong_answers+1;
-                        }
-                    }
-                    else{
-                        this.wrong_answers = this.wrong_answers+1;
-                    }
-                });
-                this.show_details_modal = true;
+                this.caluculateResult();
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 
             }
         });
+    }
+    caluculateResult(){
+        this.is_test_end = true;
+        let check = false;
+        this.questions_list.forEach((q,index)=>{
+            if([3,6,9,12].includes(q['q_type'])){
+                this.free_text_qs = this.free_text_qs+1;
+                return true;
+            }
+            if(q['answer'].length == 0){
+                this.not_answered = this.not_answered+1;
+            }
+            else if(q['s_no'].length == q['answer'].length){
+                const array2Sorted = q['answer'].slice().sort();
+                check = q['s_no'].length === q['answer'].length && q['s_no'].slice().sort().every(function(value, index) {
+                    return value === array2Sorted[index];
+                });
+                if(check == true){
+                    this.correct_answers = this.correct_answers+1;
+                }
+                else{
+                    this.wrong_answers = this.wrong_answers+1;
+                }
+            }
+            else{
+                this.wrong_answers = this.wrong_answers+1;
+            }
+        });
+        this.show_details_modal = true;
     }
 }
