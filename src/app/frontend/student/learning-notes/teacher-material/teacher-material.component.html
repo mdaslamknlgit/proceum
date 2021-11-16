@@ -8,35 +8,80 @@
         </div>
     </div>
     <div class="hgt_10"></div>
-    <div class="dsh_brd_crds">
+    <div class="dsh_brd_crds shpcrt">
+        <div class="d-flex">
+            <div>
+            <div *ngIf="curriculum_list == undefined">
+                No Courses Found
+            </div>
+            <div *ngIf="curriculum_list != undefined" class="cm_fltr_sc mr_1">
+                <span>Select Course</span>
+                <div class="clear_fix"></div>
+                <mat-form-field appearance="outline">
+                    <mat-select [(ngModel)]="curriculum_id" (ngModelChange)="applyCourseFilters(0)">
+                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']" [matTooltip]="value['curriculumn_name']" >{{ value["curriculumn_name"] }}
+                    </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                <span>{{ ucFirst(value["display_label"]) }}</span>
+                <div class="clear_fix"></div>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                    [(ngModel)]="selected_level[value['level_number']]" (ngModelChange)="getLevels(value['level_number'])">
+                    <mat-option>
+                        <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                                        name="search_topic" ngModel
+                                                        (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select {{ucFirst(value['display_label'])}}
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                        [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            </div>
+            <!--<div>
+                <button mat-raised-button color="accent" class="mt_3px"><mat-icon>filter_list</mat-icon></button>
+            </div>-->
+        </div>
         <div class="xl_srch">
             <mat-form-field appearance="outline" class="main_search w_100p">
-                <input matInput placeholder="Search" />
-                <mat-icon matSuffix>search</mat-icon>
+                <input [(ngModel)]="search" matInput (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                placeholder="Search" />
+                <mat-icon matSuffix (click)="doFilter()">search</mat-icon>
             </mat-form-field>
         </div>
-        <div class="tchr_mat_stu">
-            <div class="tchr_mat_mn">
-                <div class="tchr_ttl fnt_bold">Page Title
-                    <div class="vd_pth"> Test Description</div>
+        <hr>
+        <div class="hgt_5"></div>
+        <div class="shpcrt_lst">
+            <div class="shpcrt_mn_dv" *ngFor="let material of materials;let i=index">
+                <div class="tm_mn_hd">
+                    <div>{{ material["title"] }}</div>
+                    <div class="spacer"></div>
+                    <div class="upld_by">
+                        Uploaded By: {{ material["uploaded_by"] }}<br>Date: {{ material["updated_at"] }}
+                    </div>
                 </div>
-                <div class="spacer"></div>
-                <div class="tchr_actn">
-                    <mat-icon class="mr_1" matTooltip="View Description">visibility</mat-icon>
-                    <mat-icon matTooltip="Download Material">save_alt</mat-icon>
+                <div class="shpcrt_mn_cnt mb_1" [innerHtml]="(material['description'].length>500)? (material['description'] | slice:0:500)+'..':(material['description'])">
                 </div>
-            </div>
-            <div class="tchr_mat_mn">
-                <div class="tchr_ttl fnt_bold">Page Title
-                    <div class="vd_pth"> Test Description</div>
+                <div class="hgt_5"></div>
+                <div class="shpcrt_mn_btns jc_fe">
+                    <div routerLink="/student/material-details/{{ material['pk_id'] }}">
+                        <mat-icon>subject</mat-icon>
+                        View Details
+                    </div>
+                    <div *ngIf="material['download_flag'] == 1 && material['attachments'].length > 0" (click)="downlodAttachments(material['pk_id'])">
+                        <mat-icon>file_download</mat-icon>
+                        Download
+                    </div>
                 </div>
-                <div class="spacer"></div>
-                <div class="tchr_actn">
-                    <mat-icon class="mr_1" matTooltip="View Description">visibility</mat-icon>
-                    <mat-icon matTooltip="Download Material">save_alt</mat-icon>
-                </div>
-            </div>
+            </div>           
+        </div>
+        <div class="tm_pgntn">
+            <mat-paginator [pageSize]="pageSize" [pageSizeOptions]="page_size_options" [length]="total_records" (page)="getServerData($event)" [showFirstLastButtons]="true"></mat-paginator>            
         </div>
     </div>
-
 </div>

@@ -87,7 +87,7 @@ const routes: Routes = [
       { path: 'exam-mode', component: ExamModeComponent },
       { path: 'live-mode', component: LiveModeComponent },
       { path: 'teacher-material', component: TeacherMaterialComponent },
-      { path: 'material-description', component: MaterialDescriptionComponent },
+      { path: 'material-details/:material_id', component: MaterialDescriptionComponent },
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'exam-prepmode', component: ExamPrepmodeComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
