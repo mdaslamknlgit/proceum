@@ -409,25 +409,86 @@ export class EditNewQuestionComponent implements OnInit {
             }
         });
     }
+    getLabels(){
+        this.level_options = [];
+        this.all_level_options = [];
+        this.selected_level = [];
+        this.level_id=0;
+        let param = {
+            url: 'get-curriculum-labels',
+            curriculum_id: this.question.curriculum_id,
+        };
+        this.http.post(param).subscribe((res) => {
+            if (res['error'] == false) {
+                //this.applyFilters();
+            let data = res['data'];
+            this.level_options[1] = data['level_1'];
+            this.all_level_options[1] = data['level_1'];
+            this.curriculum_labels = data['curriculum_labels'];
+                if(this.curriculum_labels.length == 0){
+                    this.level_options = [];
+                    this.all_level_options = [];
+                    this.selected_level = [];
+                }
+            }
+        });
+    }
+    ucFirst(string) {
+        return this.http.ucFirst(string);
+    }
+    public curriculum_labels = [];
+    public level_options = [];
+    public all_level_options = [];
+    public selected_level = [];
+    public level_id = 0;
+    getLevels(level_id) {
+        this.level_id = level_id;
+        this.question.topic = this.selected_level[level_id];
+        this.is_topic_exist = false;
+        let param = {
+        url: 'get-levels-by-level',
+        step_id: this.selected_level[level_id],
+        };
+        this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+            let data = res['data'];
+            this.level_options[level_id + 1] = data['steps'];
+            this.all_level_options[level_id + 1] = data['steps'];
+            this.level_options.forEach((opt, index) => {
+            if (index > level_id + 1) this.level_options[index] = [];
+            });
+            this.selected_level.forEach((opt, index) => {
+                if (index > level_id) this.selected_level[index] = 0;
+            });
+        }
+        });
+    }
+    searchLevelByName(search,level){
+        let options = this.all_level_options[level];
+        this.level_options[level] = options.filter(
+            item => item.level_name.toLowerCase().includes(search.toLowerCase())
+        );
+    }
     setCourseText(args){ 
         this.curriculums.forEach(res=>{
             if(res['pk_id'] == args)
             this.selected_course = res['curriculumn_name'];
         })
     }
-    setTopicText(args){ 
-        let sub = this.topics.subscribe(res=>{
-            res.forEach(res2=>{
-                if(res2['pk_id'] == args)
-                {
-                    this.selected_topic = res2['level_name'];
-                }
-            })
-        })
-        sub.unsubscribe();
-    }
+    // public level_names = [];
+    // setTopicText(args, level_id){ 
+    //     this.level_options[level_id].forEach(res2=>{
+    //         if(res2['pk_id'] == args)
+    //         {
+    //             if(this.selected_topic != ''){
+    //                 this.selected_topic += ' / '+res2['level_name'];
+    //             }
+    //             else
+    //                 this.selected_topic = res2['level_name'];
+    //         }
+    //     })
+    // }
     addTopic(){
-         
         this.selected_topics.forEach(res => {
             if(res['course_qbank'] == this.question.curriculum_id && res['topic'] == this.question.topic){
                 this.toster.error("Topic exists", "Error", {closeButton:true});
@@ -436,13 +497,23 @@ export class EditNewQuestionComponent implements OnInit {
             }
         })
         if(this.is_topic_exist != true){
-            let data = {pk_id:0, course_qbank:this.question.curriculum_id, course_qbank_text: this.selected_course, topic:this.question.topic, topic_text: this.selected_topic, is_delete:0};
-            this.selected_topics.push(data);
-            this.dataSource = new MatTableDataSource(this.selected_topics);
-            this.question.curriculum_id = '';
-            this.selected_course = '';
-            this.question.topic = '';
-            this.selected_topic = '';
+            let param = {url: "get-topic-path", curriculum_id: this.question.curriculum_id, topic_id: this.question.topic};
+            this.http.post(param).subscribe((res) => {
+                if (res['error'] == false) {
+                    let data = {pk_id:0, course_qbank:this.question.curriculum_id, course_qbank_text: this.selected_course, topic:this.question.topic, topic_text: res['data']['path'], is_delete:0};
+                    this.selected_topics.push(data);
+                    this.dataSource = new MatTableDataSource(this.selected_topics);
+                    this.question.curriculum_id = '';
+                    this.selected_course = '';
+                    this.question.topic = '';
+                    this.selected_topic = '';
+                    this.level_options = [];
+                    this.all_level_options = [];
+                    this.selected_level = [];
+                    this.level_id=0;
+                    this.curriculum_labels = [];    
+                }
+            });
         }
     }
     removeTopic(index){
@@ -661,12 +732,12 @@ export class EditNewQuestionComponent implements OnInit {
 
     }
     updateQList(q_data) {
-        if (this.question_Qbank && this.question.q_bank_ids.length == 0) {
-            this.toster.error("Please select Question bank(s)", "Error", {
-                closeButton: true
-            });
-            return false;
-        }
+        // if (this.question_Qbank && this.question.q_bank_ids.length == 0) {
+        //     this.toster.error("Please select Question bank(s)", "Error", {
+        //         closeButton: true
+        //     });
+        //     return false;
+        // }
         if (this.question.correct_ans_ids.length == 0 && (this.free_text == false && this.audio_clip_free_text == false && this.video_clicp_free_text == false && this.image_free_text == false)) {
             this.toster.error("Please select correct answer", "Error", {
                 closeButton: true

@@ -112,14 +112,7 @@
                             </ng-container>
                             <ng-container matColumnDef="Actions">
                                 <th mat-header-cell *matHeaderCellDef> Actions </th>
-<<<<<<< HEAD
-                                <td mat-cell *matCellDef="let element">
-                                    <mat-icon (click)="removeTopic(element.pk_id,selected_topics_input)" color="warn">
-                                        remove_circle_outline</mat-icon>
-                                </td>
-=======
                                 <td mat-cell *matCellDef="let element"> <mat-icon (click)="removeTopic(element.pk_id)" color="warn">remove_circle_outline</mat-icon> </td>
->>>>>>> 94e9b01b981e583a98a8151be489392b4f86cc7d
                             </ng-container>
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -199,12 +192,14 @@
             </div>
 
             <div class="days_mn" *ngIf="study_plan.schdule.length>0">
-                <div class="dys_dv" *ngFor="let day of study_plan.schdule;let index=index;"
-                    (click)="showTaskTestModal(index)">
+                <div class="dys_dv {{day['is_test_day'] == true ? 'tst_dy':''}}" *ngFor="let day of study_plan.schdule;let index=index;"
+                    (click)="showTaskTestModal(index)" >
                     <div class="dys_hd">
                         <div class="dys_hd_txt">Day</div>
                         <div class="dys_cnt">{{day['day']}}</div>
                     </div>
+                    <div class="opn_bkicn"><mat-icon color="accent">auto_stories</mat-icon></div>
+                    <div class="exm_icn"><mat-icon>content_paste</mat-icon></div>
                     <div>
                         <div class="slct_crs d-none">Select Course</div>
                         <div *ngFor="let course of day['selected_courses'];let course_index = index;">
@@ -224,7 +219,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="dys_dv tst_dy" *ngIf="day['is_test_day'] == true">
+                    <div class="tst_dy_cnt" *ngIf="day['is_test_day'] == true">
                         <!--<div class="dys_hd">let tasks_count=count['mcqs_count']+count['cases_count']+count['short_answer_count']+count['videos_count']+tasks_count
                          <div class="dys_hd_txt">Day</div> 
                         <div class="dys_cnt">365</div>
@@ -238,9 +233,10 @@
 
             </div>
         </div>
-        <button type="submit" [disabled]="study_plan.duration==0" mat-raised-button color="accent">Save</button>
-        <button routerLink="/admin/study-planner" type="button" mat-raised-button color="warn">
+        <button routerLink="/admin/study-planner" type="button" mat-raised-button class="gry_btn mr_1">
             Close
         </button>
+        <button type="submit" [disabled]="study_plan.duration==0" mat-raised-button color="accent">Save</button>
+       
     </form>
 </div>

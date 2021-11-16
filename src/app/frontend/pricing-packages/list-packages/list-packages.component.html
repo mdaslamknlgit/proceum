@@ -1,9 +1,15 @@
 <app-topbar class="inner-header"></app-topbar>
-
 <app-sidemenu *ngIf="user!= undefined && (user['role'] == '2' || user['role'] == '11')"></app-sidemenu>
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <strong>Pricing & Packages</strong></div>
-    <div class="pg_ttl">Packages</div> 
+    <div class="hgt_20"></div>
+    <div class="sp_mn">
+        <div class="brdcrm_br">
+            <mat-icon color="accent" routerLink="/">home</mat-icon>
+            <mat-icon>navigate_next</mat-icon>
+            <strong>Pricing &amp; Packages</strong>
+        </div>
+    </div>
+    <div class="hgt_10"></div>
     <div class="dsh_brd_crds xl_srch">
         <mat-form-field appearance="outline" class="main_search w_100p">
             <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
@@ -20,13 +26,12 @@
             <div class="crs_icn grn_bg" *ngIf="!package.package_img || package.package_img == null">
                 <mat-icon>work_outline</mat-icon>
             </div>
-            
             <div class="crs_hdng">
                 {{ package.package_name }}
             </div>
             <div class="rtng_par">
                 <div class="crs_rtng str_slctd">
-                    <mat-icon class="{{package.package_avg_rating > 0 ?'ct_slctd':''}}">star</mat-icon>
+                        <mat-icon class="{{package.package_avg_rating > 0 ?'ct_slctd':''}}">star</mat-icon>
                         <mat-icon class="hlf_str1 {{package.package_avg_rating > 0.5 ?'ct_slctd':''}}" >star</mat-icon>
                         <mat-icon class="{{package.package_avg_rating > 1 ?'ct_slctd':''}}">star</mat-icon>
                         <mat-icon class="hlf_str2 {{package.package_avg_rating > 1.5?'ct_slctd':''}}" >star</mat-icon>
@@ -38,25 +43,20 @@
                         <mat-icon class="hlf_str5 {{package.package_avg_rating > 4.5?'ct_slctd':''}}" >star</mat-icon>
                 </div>
             </div>
-            <div class="crs_dsc" *ngIf="package.package_desc">
-               
+            <div class="crs_dsc" *ngIf="package.package_desc">       
                 {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' : (package.package_desc) }}
             </div>
             <div class="crs_d_r_p">
-                <span *ngIf="package.duration">
-                    <mat-icon>timelapse</mat-icon> {{ package.duration }}
-                </span>
-                <!-- <span>
-                    <mat-icon>favorite_border</mat-icon> 3445
-                </span> -->
-                <span class="bld_txt_blk">
-                    <span class="rpe_sym">{{ package.currency_symbol}}</span>{{ package.selling_price}} 
+                <div class="d-flex ai_cntr w_100p" *ngIf="package.duration">
+                    <mat-icon class="mr_5px">timelapse</mat-icon> {{ package.duration }}
+                </div>
+                <div class="spacer"></div>
+                <div class="pc_dsc_mn">
+                    <span class="{{package.discount_percent ? 'strk_price':''}}">{{package.discount_percent ? 'Actual Price':'Total Price'}} {{ package.currency_symbol}} {{ package.selling_price}}</span>
                     <span *ngIf="package.discount_percent">
-                        <span class="rpe_sym">{{ package.currency_symbol}}</span>{{ package.original_price}} 
-                        {{ package.discount_percent}} % off
+                        <span class="fnt_16px">Discounted Price <span class="per_dsc">{{ package.discount_percent}}% off</span></span><strong>{{ package.currency_symbol}} {{ package.original_price}}</strong>
                     </span>
-                    
-                </span>
+                </div>
             </div>
             <div class="crs_pr_bynw">
                 <div class="pr_btn_dv" [routerLink]="['/package-details', package.pk_id]">
@@ -69,6 +69,5 @@
         </div>
         <!-- item End-->
     </div>
-    
 </div>
 <app-footer></app-footer>

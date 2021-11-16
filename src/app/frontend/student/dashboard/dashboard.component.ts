@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit {
         if(res['data'].length){
           this.wish_list = res['data'];
         }else{
-          this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
+          //this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
         }
       } else {
         this.toster.error(res['message'], 'Error');

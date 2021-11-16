@@ -185,9 +185,32 @@
     </div>
   </div>
   <div class="mn_dshbrd crs_dshbrd {{view_type==1 && videos.length > 0?'view_1':'view_2'}}">
+
+    <div class="hgt_20"></div>
+    <div class="sp_mn" *ngIf="curriculum">
+      <div class="brdcrm_br fw_w">
+        <mat-icon color="accent" routerLink="/">home</mat-icon>
+        <mat-icon>navigate_next</mat-icon>
+        <span routerLink="/student/curriculums">Courses </span>
+        <mat-icon>navigate_next</mat-icon>
+          <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
+            curriculum["curriculumn_name"]
+            }}</span>
+          <span *ngFor="let bread of breadcome; let i = index">
+            <mat-icon>navigate_next</mat-icon>
+            <span matTooltip='{{bread["name"]}}' *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
+                curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
+              }}">{{ bread["name"].length>10?bread["name"].substring(0,9)+'...': bread["name"]}}</span>
+            <strong *ngIf="i == breadcome.length - 1">
+              {{ setTitle(bread["name"]) }}</strong></span>
+      </div>
+    </div>
+
+
     <div class="d-flex align-items-center rsp767_fw mb_1">
       <div class="page-title-part rsp767_100">
-        <div class="brd_crm" *ngIf="curriculum">
+
+        <!-- <div class="brd_crm" *ngIf="curriculum">
           <span routerLink="/student/curriculums">Courses / </span>
           <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
             curriculum["curriculumn_name"]
@@ -199,7 +222,7 @@
               }}">{{ bread["name"].length>10?bread["name"].substring(0,9)+'...': bread["name"]}}</span>
             <strong *ngIf="i == breadcome.length - 1">
               {{ setTitle(bread["name"]) }}</strong></span>
-        </div>
+        </div> -->
         <div class="hgt_20"></div>
         <div class="prv_cnt" *ngIf="is_preview">Preview Content</div>
         <div class="pg_ttl" *ngIf="content != undefined">
@@ -314,7 +337,7 @@
 
                     <div class="mcb_img"
                       *ngIf='[7,8,9].includes(mcqs[active_mcq_index]["q_type"]) && mcqs[active_mcq_index]["q_source_value"]'>
-                      
+
                       <div *ngIf="mcqs[active_mcq_index]['q_source'] == 'YOUTUBE'">
                         <iframe
                           [src]='mcqs[active_mcq_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
@@ -322,12 +345,13 @@
                       </div>
 
                       <div *ngIf="mcqs[active_mcq_index]['q_source'] == 'KPOINT'">
-                        <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
+                        <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"'
+                          data-video-params=' "hide": "search, share, like"' allowFullScreen webkitallowFullScreen
                           mozallowFullScreen frameborder="0"></iframe>
                       </div>
 
                     </div>
-                    
+
                   </div>
                 </div>
                 <mat-radio-group *ngIf='[1,3,4,6,7,9,10,12,13].includes(mcqs[active_mcq_index]["q_type"])'
@@ -368,19 +392,14 @@
                       {{ option["option_text"] }}</mat-checkbox>
                     <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image']"
                       [src]="bucket_url+option['option_image']" />
-                    <div
+                    <div class="rdo_exp_txt"
                       *ngIf="validated_questions.includes(mcqs[active_mcq_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                       <div class="qstn_hds">Explanation</div>
                       <div [innerHtml]="option['option_explanation']"></div>
                     </div>
                   </div>
                 </div>
-
-
                 <div class="hgt_20"></div>
-                <!-- <div class="qstn_hds">Explanation</div>
-              <div [innerHtml]="mcqs[active_mcq_index]['explanation']">
-              </div> -->
               </div>
 
             </div>
@@ -635,7 +654,6 @@
                           mozallowFullScreen frameborder="0"></iframe>
                       </div>
                     </div>
-
                   </div>
                 </div>
                 <mat-radio-group aria-label="Select an option"
@@ -658,9 +676,9 @@
                     {{ option["option_text"] }}
                     <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image']"
                       [src]="bucket_url+option['option_image']" />
-                    <div
+                    <div class="rdo_exp_txt"
                       *ngIf="cases[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                      <div class="qstn_hds">Explanation</div>
+                      <div class="qstn_hds">Explanations</div>
                       <div [innerHtml]="option['option_explanation']"></div>
                     </div>
                   </mat-radio-button>
@@ -674,7 +692,7 @@
                       {{ option["option_text"] }}</mat-checkbox>
                     <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image']"
                       [src]="bucket_url+option['option_image']" />
-                    <div
+                    <div class="rdo_exp_txt"
                       *ngIf="validated_questions.includes(cases[active_case_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                       <div class="qstn_hds">Explanation</div>
                       <div [innerHtml]="option['option_explanation']"></div>
@@ -780,7 +798,7 @@
                       'options'
                     ];
                     let i_option = index
-                  " (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{
+                  " (change)="selectOption(option['pk_id'])" [value]="option['pk_id']" class="{{
                     short_answers[active_short_answer_index]['selected_option'] !=
                       undefined &&
                     short_answers[active_short_answer_index]['s_no'] ==
@@ -798,7 +816,7 @@
                     <img *ngIf="
                   short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']"
                       [src]="bucket_url+option['option_image']" />
-                    <div
+                    <div class="rdo_exp_txt"
                       *ngIf="short_answers[active_short_answer_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                       <div class="qstn_hds">Explanation</div>
                       <div [innerHtml]="option['option_explanation']"></div>
@@ -815,7 +833,7 @@
                     <img
                       *ngIf="short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']"
                       [src]="bucket_url+option['option_image']" />
-                    <div
+                    <div class="rdo_exp_txt"
                       *ngIf="validated_questions.includes(short_answers[active_short_answer_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                       <div class="qstn_hds">Explanation</div>
                       <div [innerHtml]="option['option_explanation']"></div>
@@ -825,8 +843,6 @@
                 <div class="hgt_20"></div>
 
                 <div class="hgt_20"></div>
-                <!-- <div class="qstn_hds">Explanation</div>
-                      <div [innerHtml]="short_answers[active_short_answer_index]['explanation']"></div> -->
               </div>
             </div>
             <div class="clear_fix"></div>

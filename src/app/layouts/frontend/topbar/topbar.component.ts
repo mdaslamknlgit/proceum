@@ -45,11 +45,17 @@ export class TopbarComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     //check subdomain
     let sub_domain = window.location.hostname;
-    //sub_domain = 'aiimst';
+    //static sub domain
+    //sub_domain = 'ntr';
     //If subdomain not exist in in app domains then check for partner domain
     if(environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1){
-      this.getSubDomainDetails(sub_domain);
+      if(!localStorage.getItem('header_logo')){
+        this.getSubDomainDetails(sub_domain);
+      }else{
+        this.load_top_bar = true;
+      }
     }else{
+      localStorage.setItem('header_logo','');
       this.load_top_bar = true;
     }
     this.http.menu_status = '';
@@ -144,7 +150,7 @@ export class TopbarComponent implements OnInit,OnDestroy {
     this.authHttp.post(params).subscribe((res) => {
       if(!res['error']){
         this.sub_domain_data = res['data'];
-        localStorage.setItem('sub_domain_data', this.sub_domain_data);
+        localStorage.setItem('header_logo', res['data']['header_logo']);
         //console.log(this.sub_domain_data);
       }else{
         console.log("No subdomain data found");
@@ -152,7 +158,20 @@ export class TopbarComponent implements OnInit,OnDestroy {
       this.load_top_bar = true;
     });
   }
+  
+  getHeaderLogo(){
+    let header_logo = localStorage.getItem('header_logo');
+    if(header_logo){
+      return header_logo;
+    }else{
+      return "./assets/images/ProceumLogo.png";
+    }
+  }
+
   ngOnDestroy(){
     this.subscription.unsubscribe();
   }
+
+  
+
 }

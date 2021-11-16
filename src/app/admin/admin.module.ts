@@ -79,6 +79,8 @@ import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { StudyPlannerListComponent } from './study-planner/study-planner-list/study-planner-list.component';
 import { ManageYearsSemestersGroupsComponent } from './manage-years-semesters-groups/manage-years-semesters-groups.component';
 import { ShoppingCartComponent } from '../frontend/shopping-cart/shopping-cart.component';
+import { CreateExamComponent } from './exam-modes/create-exam/create-exam.component';
+import { SocialApprovalComponent } from './social-share/social-approval/social-approval.component';
 import { ManageFlashCardsComponent } from './flash-cards/manage-flash-cards/manage-flash-cards.component';
 import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-cards/create-new-flash-cards.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
@@ -172,6 +174,7 @@ const routes: Routes = [
       { path: 'create-content', component: CreateContentComponent },
 
       { path: 'whiteboard-gallery', component: WhiteboardgalleryComponent },
+      { path: 'social-approval', component: SocialApprovalComponent },
 
       //{ path: 'createnewquestion', component: CreateNewQuestionComponent },
       //{ path: 'questionmanagement', component: QuestionsManagementComponent },
@@ -213,6 +216,7 @@ const routes: Routes = [
       { path: 'study-planner-list', component: StudyPlannerListComponent },
       //Added by Phanindra 06-09-2021
       { path: 'poc-videos', component: PocVideosComponent },
+      { path: 'create-exam', component: CreateExamComponent},
       //Added by Phanindra 28-20-2021
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
       { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
@@ -274,6 +278,8 @@ const routes: Routes = [
     PocVideosComponent,
     StudyPlannerListComponent,
     ManageYearsSemestersGroupsComponent,
+    CreateExamComponent,
+    SocialApprovalComponent,
     ManageFlashCardsComponent,
     CreateNewFlashCardsComponent,
   ],

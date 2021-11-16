@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-promotional-settings',
@@ -16,7 +17,6 @@ export class PromotionalSettingsComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'code',
-    'course',
     'created_at',
     'updated_at',
     'actions',
@@ -25,8 +25,6 @@ export class PromotionalSettingsComponent implements OnInit {
 
   //form fields
   description = '';
-  course = '';
-  usage: any;
   promotional_percente = '';
   valid_from = new Date();
   valid_to = new Date();
@@ -47,6 +45,12 @@ export class PromotionalSettingsComponent implements OnInit {
   public edit_model_status = false;
   popoverTitle = '';
   popoverMessage = '';
+  //Added by shash
+  public countries = [];
+  public selected_countires = [];
+  all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public discount_amounts = [{pk_id:0, country_id:'', discount_amount:'', min_order_amount:'', status:'1', placeholder:'Amount'}];
+
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -54,6 +58,7 @@ export class PromotionalSettingsComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.getPromotionals();
+    this.getCountries();
   }
   onItemSelect(item: any) {
     console.log(item);
@@ -61,6 +66,7 @@ export class PromotionalSettingsComponent implements OnInit {
   onSelectAll(items: any) {
     console.log(items);
   }
+
   getPromotionals() {
     let param = { url: 'get-promotionals' };
     this.http.post(param).subscribe((res) => {
@@ -79,10 +85,11 @@ export class PromotionalSettingsComponent implements OnInit {
     (<HTMLFormElement>document.getElementById('promotional_form')).reset();
     (<HTMLFormElement>document.getElementById('edit_promotional_form')).reset();
   }
-  generateCoupon() {
-    let param = { url: 'promotional/generate-coupon', code: this.code };
+  generateCoupon(code) {
+    let param = { url: 'promotional/generate-coupon', code: code };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
+        this.code = '';
         this.code = res['code'];
       } else {
         let message = res['message'];
@@ -90,16 +97,15 @@ export class PromotionalSettingsComponent implements OnInit {
       }
     });
   }
+  
   createPromotional() {
     let param = {
       url: 'promotional',
       code: this.code,
       description: this.description,
-      course: this.course,
-      promotional_percente: this.promotional_percente,
+      discount_amounts: this.discount_amounts,
       valid_from: this.valid_from,
       valid_to: this.valid_to,
-      usage: this.usage,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -114,27 +120,42 @@ export class PromotionalSettingsComponent implements OnInit {
       }
     });
   }
-  editPromotional(param) {
-    this.edit_model_status = !this.edit_model_status;
-    this.code = param['code'];
-    this.promotional_id = param['pk_id'];
-    this.description = '' + param['description'];
-    this.course = '' + param['course_id'];
-    this.promotional_percente = param['promotional_percent'];
-    let valid_from = param['valid_from'].split('-');
-    this.valid_from = new Date(
-      Number(valid_from[2]),
-      Number(valid_from[1]) - 1,
-      Number(valid_from[0])
-    ); // param['valid_from'];
-    this.today_date = this.valid_from;
-    let valid_to = param['valid_to'].split('-');
-    this.valid_to = new Date(
-      Number(valid_to[2]),
-      Number(valid_to[1]) - 1,
-      Number(valid_to[0])
-    ); //param['valid_to'];
-    this.usage = param['usage'];
+  editPromotional(item) {
+    let params = {
+      url: 'get-promotion',
+      id: item['pk_id'],
+    };
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        let param = res['data'];
+        this.edit_model_status = !this.edit_model_status;
+        this.code = param['code'];
+        this.promotional_id = param['pk_id'];
+        this.description = param['description'];
+        this.discount_amounts = param['discount_amounts'];
+        //set selected countries
+        this.selected_countires = this.discount_amounts.map(x => x.country_id);
+        let valid_from = param['valid_from'].split('-');
+        this.valid_from = new Date(
+          Number(valid_from[2]),
+          Number(valid_from[1]) - 1,
+          Number(valid_from[0])
+        ); // param['valid_from'];
+        this.today_date = this.valid_from;
+        let valid_to = param['valid_to'].split('-');
+        this.valid_to = new Date(
+          Number(valid_to[2]),
+          Number(valid_to[1]) - 1,
+          Number(valid_to[0])
+        ); //param['valid_to'];
+      } else {
+        let message = res['errors']['code']
+          ? res['errors']['code']
+          : res['message'];
+        this.toster.error(message, 'Error', { closeButton: true });
+      }
+    });
+    
   }
   formatValue(promotional_percente) {
     this.promotional_percente = this.http.setToDecimal(promotional_percente);
@@ -144,11 +165,9 @@ export class PromotionalSettingsComponent implements OnInit {
       url: 'promotional/' + this.promotional_id,
       code: this.code,
       description: this.description,
-      course: this.course,
-      promotional_percente: this.promotional_percente,
+      discount_amounts: this.discount_amounts,
       valid_from: this.valid_from,
       valid_to: this.valid_to,
-      usage: this.usage,
     };
     this.http.put(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -213,4 +232,46 @@ export class PromotionalSettingsComponent implements OnInit {
       }
     });
   }
+  //Added by shash
+  public addCurrencyToField(currency,index,currency_id){
+    if(this.selected_countires.indexOf(currency_id) === -1){
+      this.discount_amounts[index]['placeholder'] = currency.toUpperCase();
+      this.prepareSelectedCountriesArr();
+    }
+  }
+  public prepareSelectedCountriesArr(){
+    this.selected_countires = [];
+    let amounts = this.discount_amounts;
+    this.selected_countires = amounts.map(x => x.country_id);
+  }
+
+  public addDiscountAmountField(){
+    this.discount_amounts.push({pk_id:0, country_id:'', discount_amount:'', min_order_amount:'', status:'1', placeholder:'Amount'});
+  }
+
+  public removeDiscountAmountField(index){
+    this.discount_amounts[index]['status'] = "0";
+    //Remove countryid from selected counties 
+    let country_id = this.discount_amounts[index]['country_id'];
+    let position = this.selected_countires.indexOf(country_id);
+    if (position > -1) {
+      this.selected_countires.splice(position, 1);
+      //this.country_dropdown_used_length--;
+    }
+  }
+
+  public getCountries(){
+    let param = { url: 'get-countries' };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.countries = res['data']['countries'];
+        if(this.countries != undefined){
+          this.all_countries.next(this.countries.slice());
+        }
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
 }

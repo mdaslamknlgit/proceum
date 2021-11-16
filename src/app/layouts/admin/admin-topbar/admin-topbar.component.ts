@@ -3,7 +3,7 @@ import { CommonService } from '../../../services/common.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-admin-topbar',
   templateUrl: './admin-topbar.component.html',
@@ -15,6 +15,7 @@ export class AdminTopbarComponent implements OnInit {
   public user;
   private subscription:Subscription;
   public content_notifications = [];
+  public load_top_bar:boolean;
   public show_notifications = false;
   width: any;
   @HostListener('window:load', ['$event'])
@@ -27,6 +28,21 @@ export class AdminTopbarComponent implements OnInit {
     // this.http.menu_status = localStorage.getItem('sidemenu');
   }
   ngOnInit(): void {
+    //check subdomain
+    let sub_domain = window.location.hostname;
+    //static sub domain
+    //sub_domain = 'ntr';
+    //If subdomain not exist in in app domains then check for partner domain
+    if(environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1){
+      if(!localStorage.getItem('header_logo')){
+        this.getSubDomainDetails(sub_domain);
+      }else{
+        this.load_top_bar = true;
+      }
+    }else{
+      localStorage.setItem('header_logo','');
+      this.load_top_bar = true;
+    }
     this.user = this.http.getUser();
     this.route.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
@@ -76,5 +92,29 @@ export class AdminTopbarComponent implements OnInit {
       url = "/reviewer/"+url;
   }
     this.route.navigateByUrl(url);
-}
+  }
+  getSubDomainDetails(sub_domain){
+    let params = {
+      url: 'get-subdomain-details',
+      sub_domain: sub_domain,
+    };
+    this.http.post(params).subscribe((res) => {
+      if(!res['error']){
+        localStorage.setItem('header_logo', res['data']['header_logo']);
+        //console.log(this.sub_domain_data);
+      }else{
+        console.log("No subdomain data found");
+      }
+      this.load_top_bar = true;
+    });
+  }
+  
+  getHeaderLogo(){
+    let header_logo = localStorage.getItem('header_logo');
+    if(header_logo){
+      return header_logo;
+    }else{
+      return "./assets/images/ProceumLogo.png";
+    }
+  }
 }

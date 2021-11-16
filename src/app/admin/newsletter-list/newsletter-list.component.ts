@@ -28,9 +28,9 @@ export class NewsletterListComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'email_address',
-    'status',
     'created_at',
     'action',
+    'status',
   ];
   dataSource: any = [];
   apiURL: string;

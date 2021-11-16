@@ -37,10 +37,24 @@
     </div>
     <div class="hgt_20"></div>
     <div class="sp_mn">
-        <div class="brdcrm_br p_1 d-flex ai_cntr">
+        <div class="brdcrm_br">
             <mat-icon color="accent">home</mat-icon>
             <mat-icon>navigate_next</mat-icon>Study Planner
         </div>
+        <!-- 
+            <div class="hgt_20"></div>
+            <div class="stdy_prg_mn">
+            <div>Study Plan Progress</div>
+            <div>
+                <div class="prg_div">
+                    <span class="prg_sp">
+                        <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="65">
+                        </mat-progress-bar>
+                    </span>
+                    <span class="cnt_sp">65%</span>
+                </div>
+            </div>
+        </div> -->
         <div class="hgt_20"></div>
         <div class="sp_cnt d-flex dsh_brd_crds">
             <div class="sp_cnt_lft">
@@ -51,6 +65,14 @@
                     <ul class="">
                         <li *ngFor="let plan of plans_list" (click)="getStudyPlan(plan['id'])">
                             <mat-icon *ngIf="study_plan_id==plan['id']">check</mat-icon>{{plan['plan_name']}}
+                            <div class="clear_fix"></div>
+                            <div class="prg_div">
+                                <span class="prg_sp">
+                                    <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="5">
+                                    </mat-progress-bar>
+                                </span>
+                                <span class="cnt_sp">5%</span>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -59,175 +81,29 @@
                 <div class="sp_sbhd">
                     Study Plan Name - {{study_plan['name']}}
                 </div>
-                <!-- <div class="sp_bdy">
-                    <div class="sp_sd d-flex ai_cntr fw_w">
-                        Select Duration:
-                        <mat-radio-group aria-label="Select an option" class="ml_1">
-                            <div>
-                                <mat-radio-button value="1">90 Days</mat-radio-button>
-                            </div>
-                            <div>
-                                <mat-radio-button value="2">180 Days</mat-radio-button>
-                            </div>
-                            <div>
-                                <mat-radio-button value="2">280 Days</mat-radio-button>
-                            </div>
-                            <div>
-                                <mat-radio-button value="2"></mat-radio-button>
-                                <mat-form-field appearance="outline" class="mr_1 w_60px sd_cust_inp">
-                                    <input matInput />
-                                </mat-form-field>
-                                Days
-                            </div>
-                        </mat-radio-group>
-                    </div>
-                </div> -->
-                <!-- <div class="hgt_10"></div> -->
-                <!-- <div class="days_mn">
-                    <div class="dys_dv" (click)="showDetails()">
-                        <div class="dys_hd">
-                            <div class="dys_hd_txt">Day</div>
-                            <div class="dys_cnt">365</div>
-                        </div>
-                        <div>
-                            <div class="slct_crs d-none">Select Course</div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dys_dv cmpltd_dy_active">
-                        <div class="done_tick">
-                            <mat-icon color="accent">done</mat-icon>
-                        </div>
-                        <div class="dys_hd">
-                            <div class="dys_hd_txt">Day</div>
-                            <div class="dys_cnt">365</div>
-                        </div>
-                        <div>
-                            <div class="slct_crs d-none">Select Course</div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dys_dv">
-                        <div class="dys_hd">
-                            <div class="dys_hd_txt">Day</div>
-                            <div class="dys_cnt">365</div>
-                        </div>
-                        <div>
-                            <div class="slct_crs d-none">Select Course</div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dys_dv">
-                        <div class="dys_hd">
-                            <div class="dys_hd_txt">Day</div>
-                            <div class="dys_cnt">365</div>
-                        </div>
-                        <div>
-                            <div class="slct_crs d-none">Select Course</div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dys_dv">
-                        <div class="dys_hd">
-                            <div class="dys_hd_txt">Day</div>
-                            <div class="dys_cnt">365</div>
-                        </div>
-                        <div>
-                            <div class="slct_crs d-none">Select Course</div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                            <div class="dys_tsks_dv">
-                                <div class="tsk_hd">Anatomy</div>
-                                <div class="tsk_dv">
-                                    <div>Tasks</div>
-                                    <div class="spacer"></div>
-                                    <div class="tsk_cnt">10</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="days_mn" *ngIf="study_plan.schdule.length>0">
-                    <div *ngFor="let day of study_plan.schdule;let index=index;" class="dys_dv {{day['is_done']==true?'cmpltd_dy_active':''}}">
+                    <div *ngFor="let day of study_plan.schdule;let index=index;"
+                        class="dys_dv {{day['is_done']==true?'cmpltd_dy_active':''}} {{day['is_test_day'] == 1 ? 'tst_dy':''}}">
                         <!-- "cmpltd_dy_active" day completed class  -->
-                        <div class="done_tick" matTooltip="Mark as Done" mwlConfirmationPopover
-                        [popoverTitle]="'Is tasks complete ?'"
-                        [popoverMessage]="'Are you sure, do you want to mark as complete this day?<br>Please confirm.'" placement="auto"
-                        (confirm)="markAsDayComplete(day['day'])" confirmButtonType="danger" cancelButtonType="outline-secondary" *ngIf="day['is_test_day'] == 0 && !day['is_done']">
+                        <div class="done_tick" matTooltip="Mark as Done"
+                            [swal]="{title:'Is tasks complete ?', text: 'Are you sure, do you want to mark as complete this day?Please confirm.', showCancelButton: true}"
+                            (confirm)="markAsDayComplete(day['day'])"
+                            *ngIf="day['is_test_day'] == 0 && !day['is_done']">
                             <mat-icon color="accent">done</mat-icon>
                         </div>
-                        <div class="done_tick" matTooltip="Tasks completed" *ngIf="day['is_test_day'] == 0 && day['is_done']">
+                        <div class="done_tick" matTooltip="Tasks completed"
+                            *ngIf="day['is_test_day'] == 0 && day['is_done']">
                             <mat-icon color="accent">check</mat-icon>
                         </div>
                         <div class="dys_hd">
                             <div class="dys_hd_txt">Day</div>
                             <div class="dys_cnt">{{day['day']}}</div>
+                        </div>
+                        <div class="opn_bkicn">
+                            <mat-icon color="accent">auto_stories</mat-icon>
+                        </div>
+                        <div class="exm_icn">
+                            <mat-icon>content_paste</mat-icon>
                         </div>
                         <div>
                             <div class="slct_crs d-none">Select Course</div>
@@ -249,14 +125,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tst_dy" *ngIf="day['is_test_day'] == 1" (click)="startTest(day['day'])">
-
+                        <div class="tst_dy_cnt" *ngIf="day['is_test_day'] == 1" (click)="startTest(day['day'])">
                             <div>
                                 <div class="slct_crs">Test</div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

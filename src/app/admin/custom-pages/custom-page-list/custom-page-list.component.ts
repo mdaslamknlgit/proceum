@@ -12,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./custom-page-list.component.scss']
 })
 export class CustomPageListComponent implements OnInit {
-  displayedColumns: string[] = ['pk_id', 'menu_name', 'page_name', 'show_menu', 'created_at', 'action'];
+  displayedColumns: string[] = ['pk_id', 'menu_name', 'page_name', 'created_at', 'action', 'show_menu'];
   dataSource: any = [];
   apiURL: string;
   customPageList:any;

@@ -13,6 +13,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
 import { SidemenuComponent } from './frontend/sidemenu/sidemenu.component';
 import { RouterModule } from '@angular/router';
 import { StudentTopbarComponent } from './frontend/student-topbar/student-topbar.component';
+import { SidebarPartnerComponent } from './admin/sidebar-partner/sidebar-partner.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { StudentTopbarComponent } from './frontend/student-topbar/student-topbar
     AdminTopbarComponent,
     WhiteBoardComponent,
     SidemenuComponent,
-    StudentTopbarComponent
+    StudentTopbarComponent,
+    SidebarPartnerComponent
   ],
   imports: [
     CommonModule,

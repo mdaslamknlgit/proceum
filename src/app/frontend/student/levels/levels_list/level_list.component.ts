@@ -66,40 +66,39 @@ export class Level_listComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
         this.is_loaded = true;
-      if (res['error'] == false) {
-        let data = res['data'];
-        this.curriculum = data['curriculum'];
-        this.levels = data['levels'];
-        this.total_items = res['total_records'];
-        this.breadcome = res['breadcome'];
-        if (this.breadcome.length > 0) {
-          this.breadcome.forEach((val) => {
-            this.title = val['name'];
-          });
+        if (res['error'] == false) {
+            let data = res['data'];
+            this.curriculum = data['curriculum'];
+            this.levels = data['levels'];
+            this.total_items = res['total_records'];
+            this.breadcome = res['breadcome'];
+            if (this.breadcome.length > 0) {
+            this.breadcome.forEach((val) => {
+                this.title = val['name'];
+            });
+            } else {
+            this.title = this.curriculum['curriculumn_name'];
+            }
         } else {
-          this.title = this.curriculum['curriculumn_name'];
-        }
-      } else {
         this.breadcome = res['breadcome'];
         this.levels = [];
         this.total_items = 0;
         if (res['check_data'] == 0) {
-          if (res['check_content'] == 0) {
-            this.toster.error('No content Found', 'Error', {
-              closeButton: true,
-            });
-            this.location.back();
-            //this.route.navigateByUrl(this.previousUrl);
-          } else {
-            let url =
-              '/student/curriculum/details/' +
-              this.curriculum_id +
-              '/' +
-              this.level_id +
-              '/' +
-              this.level_parent_id;
-            this.route.navigateByUrl(url);
-          }
+            let data = res['data'];
+            this.curriculum = data['curriculum'];
+            if(this.curriculum['usage_type'] == 2){
+                let url = '/student/qbank/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
+                this.route.navigateByUrl(url);
+            }
+            else{
+                if (res['check_content'] == 0) {
+                    this.toster.error('No content Found', 'Error', {closeButton: true});
+                    this.location.back();
+                } else {
+                    let url = '/student/curriculum/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
+                    this.route.navigateByUrl(url);
+                }
+            }
         }
       }
     });
