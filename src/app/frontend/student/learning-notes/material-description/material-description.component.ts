@@ -34,7 +34,7 @@ export class MaterialDescriptionComponent implements OnInit {
           this.materials = res['data']['materials'];
           this.bucket_url = res['data']['bucket_url'];
           this.breadcome = res['data']['breadcome'];
-          console.log(this.breadcome);
+          //console.log(this.breadcome);
           this.hrefZIP = environment.apiUrl + 'download-attachments/' + this.material_id;
           this.curriculumn = res['data']['curriculum'];
           this.description=this.sanitizer.bypassSecurityTrustHtml(this.materials[0]['description']);

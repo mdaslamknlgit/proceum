@@ -62,13 +62,14 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   public sort_by: any;
   public search_box = '';
   public page = 0;
+  public add_or_edit = "Add New";
   public page_title = "Year";
   public slug = "year";
   popoverTitle = '';
   popoverMessage = '';
   public model_status = false;
   public edit_model_status = false;
-  public self_or_other = "other"
+  public self_or_other = "self"
   public show_radio = false;
   public organization_type = '';
   public name_of = '';
@@ -195,6 +196,14 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
           .getDescendants(node)
           .filter(x => x.selected && x.id).map(x => x.id)
       );
+      //Trying to select all items if childs are selected or indetermine
+      this.treeControl
+          .getDescendants(node)
+          .filter((x) => {
+            if(x.selected && x.id){
+              this.todoItemSelectionToggle(x.selected,x);
+            }
+          })
     });
     this.selected_courses = result.filter(function(node) {
       if(selected_ids.indexOf(node[4]) == -1){
@@ -235,6 +244,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.organization = '';
     this.organization_type = '';
     this.courses_ids_csv = '';
+    this.self_or_other = 'self';
     //Years tab
     if(tab.index == 0){
       this.slug = 'year';
@@ -244,6 +254,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     if(tab.index == 1){
       this.slug = 'semester';
       this.page_title = 'Semester';
+      //Call years for self
+      if(this.self_or_other == "self"){
+        this.getYears(null,null);
+      }
     }
     //Groups tab
     if(tab.index == 2){
@@ -276,7 +290,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
           this.setParent(x, null);
         });
         if(this.courses_ids_csv != ''){
-          //this.submitCourses();  
+          this.submitCourses();  
         }
       } else {
           this.course_count = 0;
@@ -287,6 +301,8 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
 
   public getRow(id) {
+    this.add_or_edit = 'Edit';
+    this.self_or_other = 'self';
     this.courses_ids_csv = '';
     let param = { url: 'get-year-semester-group-by-id','id':id, 'slug': this.slug };
     this.http.post(param).subscribe((res) => {
@@ -304,13 +320,13 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
 
         if(this.slug == 'year'){
-          this.year_id = item.pk_id;
+          this.year_id = id;
         }
         if(this.slug == 'semester'){
-          this.semester_id = item.pk_id;
+          this.semester_id = id;
         }
         if(this.slug == 'group'){
-          this.group_id = item.pk_id;
+          this.group_id = id;
         }
         if(this.organization_type != '' && this.organization_type != null){
           //Get partners for dropdown
@@ -443,11 +459,24 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   }
 
   toggleModel() {
+    //empty the table data first
+    this.dataSource = new MatTableDataSource([]);
+    this.year_id = null;
+    this.semester_id = null;
+    this.group_id = null;
+    this.partner_id = null;
+    this.parent_id = null;
+    this.name_of = '';
+    this.organization = '';
+    this.organization_type = '';
+    this.courses_ids_csv = '';
+    this.self_or_other = 'self';
     this.show_radio = true;
-    this.self_or_other = 'other';
+    this.add_or_edit = 'Add New';
+    //this.self_or_other = 'other';
     this.model_status = true;
-     (<HTMLFormElement>document.getElementById('create_form')).reset();
-     (<HTMLFormElement> document.getElementById("mat-radio-9")).checked = true;
+     //(<HTMLFormElement>document.getElementById('create_form')).reset();
+     //(<HTMLFormElement> document.getElementById("mat-radio-9")).checked = true;
     // this.self_or_other = "other";
     //(<HTMLFormElement>document.getElementById('edit_discount_form')).reset();
   }
@@ -631,16 +660,16 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     let parent_id = this.semester_id;
     let id = this.group_id;
     if(this.slug == 'year'){
-      let parent_id = null;
-      let id = this.year_id;
+      parent_id = null;
+      id = this.year_id;
     }
     if(this.slug == 'semester'){
-      let parent_id = this.year_id;
-      let id = this.semester_id;
+      parent_id = this.year_id;
+      id = this.semester_id;
     }
     if(this.slug == 'group'){
-      let parent_id = this.semester_id;
-      let id = this.group_id;
+      parent_id = this.semester_id;
+      id = this.group_id;
     }
     if(!error){
       let param = { 

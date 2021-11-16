@@ -107,6 +107,8 @@ export class EditPackageComponent implements OnInit {
     }
   }
 
+
+
   todoItemSelectionToggle(checked, node) {
     node.selected = checked;
     if (node.children) {
@@ -164,8 +166,18 @@ export class EditPackageComponent implements OnInit {
       selected_ids = selected_ids.concat(
         this.treeControl
           .getDescendants(node)
-          .filter(x => x.selected && x.id).map(x => x.id)
+          .filter(x => x.selected && x.id)
+          .map(x => x.id)
       );
+      //Trying to select all items if childs are selected or indetermine
+      this.treeControl
+          .getDescendants(node)
+          .filter((x) => {
+            if(x.selected && x.id){
+              this.todoItemSelectionToggle(x.selected,x);
+            }
+          })
+      
     });
     this.selected_courses = result.filter(function(node) {
       if(selected_ids.indexOf(node[4]) == -1){

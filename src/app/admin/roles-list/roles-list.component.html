@@ -1,10 +1,21 @@
 <div class="mn_dshbrd">
   <div class="brd_crm">Proceum &raquo; <strong>Roles </strong></div>
-  <div class="pg_ttl">Roles</div>
+  <div class="d-flex ai_cntr">
+    <div class="pg_ttl">Roles</div>
+    <div class="spacer"></div>
+    <div>
+      <button mat-raised-button color="accent" (click)="toggleModel()"
+        type="button">
+        <mat-icon>add</mat-icon>
+        Create Role
+      </button>
+    </div>
+  </div>
+  <hr>
   <!-- <div class="hgt_20"></div> -->
   <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
-     
+
       <div class="pg_ttl">
         Create Role
         <span class="spacer"></span>
@@ -12,7 +23,7 @@
           &#x2715;
         </button>
       </div>
-      
+
       <form id="role_form" #role_form="ngForm" name="role_form" (ngSubmit)="role_form.valid && createRole()" novalidate>
         <div class="tbbd_bdy">
           <div class="grd_2c no_bxsdw">
@@ -65,10 +76,6 @@
       <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''" placeholder="Search" />
       <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
     </mat-form-field>
-
-    <button mat-raised-button color="accent" class="float_right margin-bottom_20" (click)="toggleModel()" type="button">
-      Create Role
-    </button>
     <div class="rsp_tbl">
       <table mat-table [dataSource]="dataSource" matSort>
         <!-- Position Column -->
@@ -86,7 +93,7 @@
           </td>
         </ng-container>
 
-      
+
 
         <ng-container matColumnDef="created_at">
           <th mat-header-cell *matHeaderCellDef cdkDrag class="date_tdh">Created Date</th>
@@ -127,7 +134,9 @@
               "Inactive" }}</span>
           </td> -->
           <td mat-cell *matCellDef="let element" class="status_tdh">
-            <mat-slide-toggle (click)="deleteRole(element.id, element.status)" [checked]="element.status == 1 ? true : false" matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+            <mat-slide-toggle (click)="deleteRole(element.id, element.status)"
+              [checked]="element.status == 1 ? true : false"
+              matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
               <!-- {{ element.status == 1 ? 'Active' : 'Inactive'}} -->
             </mat-slide-toggle>
           </td>

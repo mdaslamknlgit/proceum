@@ -3,7 +3,7 @@
 <div class="mn_dshbrd">
     <div class="hgt_20"></div>
     <div class="sp_mn">
-        <div class="brdcrm_br p_1 d-flex ai_cntr">
+        <div class="brdcrm_br">
             <mat-icon color="accent" routerLink="/">home</mat-icon>
             <mat-icon>navigate_next</mat-icon>
             <strong routerLink="/pricing-and-packages">Pricing &amp; Packages</strong>
@@ -135,6 +135,30 @@
                 </mat-tab>
                 <mat-tab>
                     <ng-template mat-tab-label>
+                        <mat-icon>library_books</mat-icon>
+                        Addons
+                    </ng-template>
+                    <div class="crs_tbbs_cnt">
+                        <mat-accordion>
+                            <mat-expansion-panel *ngFor="let addon of addons_arr">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                    {{ addon.key }}
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <mat-list *ngFor="let item of addon.value">
+                                    <mat-list-item> 
+                                        <mat-icon>fiber_manual_record</mat-icon> 
+                                        {{ item }}
+                                    </mat-list-item>
+                                </mat-list>
+                              
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                </mat-tab>
+                <mat-tab>
+                    <ng-template mat-tab-label>
                         <mat-icon>person</mat-icon>
                         Testimonials
                     </ng-template>
@@ -256,7 +280,8 @@
 
                     </div>
                 </mat-tab>
-
+                
+                <!-- sample videos -->
                 <mat-tab *ngIf="sample_videos.length > 0">
                     <ng-template mat-tab-label>
                         <mat-icon>videocam</mat-icon>
@@ -273,8 +298,6 @@
 
                     </div>
                 </mat-tab>
-
-
                 <mat-tab *ngIf="faqs.length > 0">
                     <ng-template mat-tab-label>
                         <mat-icon>help_outline</mat-icon>

@@ -1,9 +1,10 @@
 <div class="mn_dshbrd">
     <div class="hgt_20"></div>
     <div class="sp_mn">
-        <div class="brdcrm_br p_1 d-flex ai_cntr">
+        <div class="brdcrm_br">
             <mat-icon color="accent">home</mat-icon>
-            <mat-icon>navigate_next</mat-icon><span>Exam / Prep. Modes</span>
+            <mat-icon>navigate_next</mat-icon><span routerLink="/student/curriculums">QBanks</span>
+            <mat-icon>navigate_next</mat-icon><span><strong>Create Exam</strong></span>
         </div>
     </div>
     <hr />
@@ -11,8 +12,8 @@
         <div class="slct_exm_mds">
             <div class="slct_stdy_md">
                 <div class="mt_1">
-                    <mat-radio-group aria-label="Select an option">
-                        <mat-radio-button value="1"></mat-radio-button>
+                    <mat-radio-group aria-label="Select an option" name="exam_type_name" [(ngModel)]="exam_type">
+                        <mat-radio-button [value]="1"></mat-radio-button>
                     </mat-radio-group>
                 </div>
                 <div class="grn_clr">
@@ -24,11 +25,9 @@
             </div>
             <div class="slct_exm_md">
                 <div class="mt_1">
-                    <div>
-                        <mat-radio-group aria-label="Select an option">
-                            <mat-radio-button value="1"></mat-radio-button>
-                        </mat-radio-group>
-                    </div>
+                    <mat-radio-group aria-label="Select an option" name="exam_type_name" [(ngModel)]="exam_type">
+                        <mat-radio-button [value]="2"></mat-radio-button>
+                    </mat-radio-group>
                 </div>
                 <div class="grn_clr">
                     <mat-icon>assignment</mat-icon> Exam Mode
@@ -40,8 +39,8 @@
             </div>
             <div class="slct_lv_md">
                 <div class="mt_1">
-                    <mat-radio-group aria-label="Select an option">
-                        <mat-radio-button value="1"></mat-radio-button>
+                    <mat-radio-group aria-label="Select an option" name="exam_type_name" [(ngModel)]="exam_type">
+                        <mat-radio-button [value]="3"></mat-radio-button>
                     </mat-radio-group>
                 </div>
                 <div class="grn_clr">
@@ -54,7 +53,7 @@
             </div>
         </div>
         <div class="hgt_10"></div>
-        <div class="drtn_eq d-flex">
+        <!-- <div class="drtn_eq d-flex">
             <div class="drtn_eq_hd">Choose question bank(s)</div>
         </div>
         <div class="drtn_eq d-flex ">
@@ -75,8 +74,8 @@
                 <mat-radio-button [value]="1">USMLE</mat-radio-button>
                 <mat-radio-button [value]="2">USMLEUSMLEU</mat-radio-button>
             </mat-radio-group>
-        </div>
-        <div class="hgt_10"></div>
+        </div> -->
+        <!-- <div class="hgt_10"></div>
         <div class="drtn_eq d-flex">
             <div class="drtn_eq_hd">Questions type</div>
             <div class="drtn_eq_rdo">
@@ -86,36 +85,54 @@
                     <mat-radio-button [value]="3">Short questions based</mat-radio-button>
                 </mat-radio-group>
             </div>
-        </div>
+        </div> -->
         <div class="hgt_10"></div>
-        <div class="drtn_eq d-flex">
+        <div class="drtn_eq d-flex" *ngIf="exam_type==2 || exam_type ==3">
             <div class="drtn_eq_hd">Duration for each question : </div>
             <div class="drtn_eq_rdo">
-                <mat-radio-group class="d-flex fw_w">
+                <mat-radio-group class="d-flex fw_w" name="duration_name" [(ngModel)]="duration">
                     <mat-radio-button [value]="1">1 min</mat-radio-button>
                     <mat-radio-button [value]="2">2 mins</mat-radio-button>
                     <mat-radio-button [value]="3">3 mins</mat-radio-button>
-                    <mat-radio-button [value]="1">4 mins</mat-radio-button>
-                    <mat-radio-button [value]="2">5 mins</mat-radio-button>
+                    <mat-radio-button [value]="4">4 mins</mat-radio-button>
+                    <mat-radio-button [value]="5">5 mins</mat-radio-button>
                 </mat-radio-group>
             </div>
         </div>
         <div class="hgt_10"></div>
-        <div class="drtn_eq d-flex ai_cntr">
+        <div class="drtn_eq d-flex ai_cntr" *ngIf="exam_type==2 || exam_type ==3">
             <div class="drtn_eq_hd">Difficulty level : </div>
             <div class="drtn_eq_rdo">
-                <mat-radio-group class="d-flex fw_w nemh">
-                    <mat-radio-button [value]="1" class="nrml">Normal</mat-radio-button>
-                    <mat-radio-button [value]="2" class="esy">Easy</mat-radio-button>
-                    <mat-radio-button [value]="3" class="mdm">Medium</mat-radio-button>
-                    <mat-radio-button [value]="4" class="hrd">Hard</mat-radio-button>
+                <mat-radio-group class="d-flex fw_w nemh" name="difficulty_level_name" [(ngModel)]="difficulty_level">
+                    <mat-radio-button [value]="0" class="esy">Any</mat-radio-button>
+                    <mat-radio-button [value]="1" class="esy">Easy</mat-radio-button>
+                    <mat-radio-button [value]="2" class="mdm">Medium</mat-radio-button>
+                    <mat-radio-button [value]="3" class="hrd">Hard</mat-radio-button>
                 </mat-radio-group>
             </div>
         </div>
         <div class="hgt_10"></div>
         <div class="slct_sub_cpt">
             <div class="slct_sub_on">
-                <div class="w_49p mr_1p">
+                <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                    <span>{{ ucFirst(value["display_label"]) }}</span>
+                    <div class="clear_fix"></div>
+                    <mat-form-field appearance="outline">
+                      <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                        [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                        <mat-option>
+                          <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                            name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                            [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                            {{ucFirst(value['display_label'])}}
+                          </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                          [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                <!-- <div class="w_49p mr_1p">
                     <span>
                         Subject
                     </span>
@@ -158,59 +175,70 @@
                             <mat-option>One</mat-option>
                         </mat-select>
                     </mat-form-field>
-                </div>
+                </div> -->
             </div>
-            <div class="slct_sub_tw">
+            <div class="slct_sub_tw" *ngIf="exam_type == 2 || exam_type == 3">
                 <div class="w_100p">
                     <span>
                         Total Questions
                     </span>
                     <mat-form-field appearance="outline" class="w_100p sffx_tp_0">
-                        <input matInput placeholder="" />
-                        <div matSuffix>/10</div>
+                        <input type="number" [max]="questions_count" matInput placeholder="" name="selected_q_count_name" [(ngModel)]="selected_q_count" />
+                        <div matSuffix>/{{questions_count}}</div>
                     </mat-form-field>
                 </div>
                 <div class="w_100p">
-                    <span>
-                        Date and Time
-                    </span>
-                    <mat-form-field appearance="outline" class="w_100p">
-                        <input matInput [matDatepicker]="picker">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </div>
-                <div class="w_100p">
-                    <button mat-raised-button type="button" class="w_100p" color="accent">
+                    <button [disabled]="selected_q_count==0 || questions_count==0" mat-raised-button type="button" class="w_100p" color="accent" (click)="addTopic()">
                         Add
                     </button>
                 </div>
             </div>
         </div>
         <div class="hgt_10"></div>
-        <div class="drtn_eq d-flex">
+        <div class="drtn_eq d-flex" *ngIf="exam_type == 2 || exam_type == 3">
             <div class="drtn_eq_hd">Selected questions</div>
         </div>
-        <div class="tbl_rsp">
+        <div class="tbl_rsp" *ngIf="exam_type == 2 || exam_type == 3">
             <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="Sno">
+                    <th mat-header-cell *matHeaderCellDef> S.No</th>
+                    <td mat-cell *matCellDef="let element; let s_no=index"> {{s_no+1}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Topic">
+                    <th mat-header-cell *matHeaderCellDef>Topic Path </th>
+                    <td mat-cell *matCellDef="let element">{{element.topic_text}} </td>
+                </ng-container>
+                <ng-container matColumnDef="q_count">
+                    <th mat-header-cell *matHeaderCellDef>Questions </th>
+                    <td mat-cell *matCellDef="let element">{{element.q_count}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef>Action</th>
+                    <td mat-cell *matCellDef="let element; let topic_index=index"><span (click)="removeTopic(topic_index)"><mat-icon color="warn" matTooltip="Delete">remove_circle_outline</mat-icon></span></td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                    <td style="text-align: center; margin: 20px" class="mat-cell"
+                      [attr.colspan]="displayedColumns.length">
+                      No Records Found
+                    </td>
+                  </tr>
+            </table>
+            <!-- <table mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="sno">
                     <th mat-header-cell *matHeaderCellDef>S.no </th>
                     <td mat-cell *matCellDef="let element"> 1 </td>
                 </ng-container>
-
-                <!-- Name Column -->
                 <ng-container matColumnDef="Subject">
                     <th mat-header-cell *matHeaderCellDef> Subject </th>
                     <td mat-cell *matCellDef="let element"> Subject </td>
                 </ng-container>
-
-                <!-- Weight Column -->
                 <ng-container matColumnDef="Chapter">
                     <th mat-header-cell *matHeaderCellDef> Chapter </th>
                     <td mat-cell *matCellDef="let element"> Chapter </td>
                 </ng-container>
-
-                <!-- Symbol Column -->
+                
                 <ng-container matColumnDef="Topic">
                     <th mat-header-cell *matHeaderCellDef> Topic </th>
                     <td mat-cell *matCellDef="let element"> Topic </td>
@@ -232,7 +260,10 @@
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
+            </table> -->
         </div>
+        <button [disabled]="(exam_type == 1 && filter_array.level_id == 0) || (exam_type == 2 && selected_topics.length == 0)" *ngIf="exam_type == 1 || exam_type == 2" (click)="startTest()" mat-raised-button type="button" class="w_100p" color="accent">
+            Start
+        </button>
     </div>
 </div>

@@ -3,10 +3,10 @@
 <div class="mn_dshbrd">
     <div class="hgt_20"></div>
     <div class="sp_mn">
-        <div class="brdcrm_br p_1 d-flex ai_cntr">
+        <div class="brdcrm_br">
             <mat-icon color="accent" routerLink="/">home</mat-icon>
             <mat-icon>navigate_next</mat-icon>
-            <strong >Pricing &amp; Packages</strong>
+            <strong>Pricing &amp; Packages</strong>
         </div>
     </div>
     <div class="hgt_10"></div>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="spacer"></div>
                 <div class="pc_dsc_mn">
-                    <span class="{{package.discount_percent ? 'strk_price':''}}">Actual Price {{ package.currency_symbol}} {{ package.selling_price}}</span>
+                    <span class="{{package.discount_percent ? 'strk_price':''}}">{{package.discount_percent ? 'Actual Price':'Total Price'}} {{ package.currency_symbol}} {{ package.selling_price}}</span>
                     <span *ngIf="package.discount_percent">
                         <span class="fnt_16px">Discounted Price <span class="per_dsc">{{ package.discount_percent}}% off</span></span><strong>{{ package.currency_symbol}} {{ package.original_price}}</strong>
                     </span>
