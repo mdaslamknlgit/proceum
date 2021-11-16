@@ -253,6 +253,13 @@ $warn_clr: #e83535b5;
 .warn{
   color: $warn_clr;
 }
+$red_clr: red;
+.red_clr{
+  color: $red_clr;
+}
+.itlic{
+  font-style: italic;
+}
 $accent_clr:#41AB3C;
 $accent_clr_drk:#24851f;
 
@@ -651,6 +658,9 @@ img {
 }
 .p_15px{
   padding: 15px;
+}
+.px_1{
+  padding:0 1em;
 }
 .m_02{
   margin: 0.2em;
@@ -4805,14 +4815,14 @@ sup {
     .tm_mn_hd{
       display: flex;
       width: 100%;
-      align-items: center;
-      flex-wrap: wrap;
+      align-items: center; 
       font-size: 20px;
       margin-bottom: 1em;
       .upld_by{
         color: $accent_clr;
         font-size: 14px;
         text-align: right;
+        white-space: nowrap;
       }
     }
     .crs_img{
@@ -4999,6 +5009,140 @@ sup {
 }
 .tsts_mn{
   display: flex;
+  flex-wrap: wrap;
+  &.mrrw_exm{
+    .mrw_hd{
+      display: flex;
+      width: 100%;
+    }
+    .intro_instru{
+      display: flex;
+      width: 100%;
+      .intro_lft{
+        width: 70%;
+        .intro_lft_hd{
+          background-color: #bce8f5;
+          padding: 10px;
+        }
+        .intro_lft_cnt{
+          background-color: #fff;
+          padding: 15px 0;
+          .mrrw_exm_aa{
+            display: flex;
+          }
+          .mrrw_exm_ab{
+            display: flex;
+            color: $red_clr;
+            border: 1px solid #ccc;
+            padding: 10px;
+          }
+          .mrrw_exm_ac{
+            height: 60vh;
+            overflow: auto;
+            padding: 0 12px;
+            border: 1px solid #ccc;
+            border-top: 0;
+            .mrrw_exm_bb{
+              mat-radio-group{
+                flex-direction: column;
+                display: flex;
+                .mat-radio-label{
+                  padding: 12px 0; 
+                }
+              }
+            }
+          }
+          .rd_instr{
+            overflow: auto;
+            height: 60vh;
+            padding: 0 10px;
+            ul{
+              li{
+                display: flex;
+              }
+              &.lst_non{
+                li{
+                  list-style: none;
+                  .rd_btns{
+                    background-image: url(../../assets/images/questions-sprite.png);
+                    background-repeat: no-repeat;
+                    color: #fff;
+                    line-height: 15px;
+                    text-align: center;
+                    border: 0;
+                    margin-right: 6px;
+                    margin-bottom: 6px;
+                    background-position: -7px -55px;
+                    height: 26px;
+                    line-height: 20px;
+                    width: 29px;
+                    padding-top: 3px;
+                    font-size: 12px;
+                  }
+                  .q-not-visited{
+                    background-position: -107px -56px;
+                    color: #000;
+                  }
+                  .q-not-answered{
+                    background-position: -42px -56px;
+                  }
+                  .q-answered{
+                    background-position: -7px -55px;
+                  }
+                  .q-marked{
+                    background-position: -75px -54px;
+                  }
+                  .q-answered-marked{
+                    background-position: -9px -87px;
+                  }
+                }
+              }
+            }
+            .rd_instr_hd{
+              text-decoration: underline;
+              font-weight: bold;
+            }
+          }
+        }
+      }
+      .intro_rgt{
+        width: 30%;
+        .intro_dp{
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: column;
+          align-items: center;
+          margin-top: 15px;
+          img{
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 4px;
+            width: 150px;
+          }
+          span{
+            text-align: center;
+          }
+        }
+      }
+    }
+    .mrw_hd{
+      height: 50px;
+      background-color: $accent_clr;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      > div{
+        display: flex;
+        align-items: center;
+        color: #fff;
+        margin-right: 1em;
+        cursor: pointer;
+        mat-icon{
+          margin-right: 3px;
+        }
+      }
+    }
+  }
   &.plbble_mn{
     background-color: #fff;
     padding: 20px;

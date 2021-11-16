@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LiveModeComponent implements OnInit {
   public show_q_numbers = true;
-  public rvrsClr = true; 
+  public rvrsClr = true;
+  public qstnsPup = false;
+  public instrPup = false;
   constructor() { }
 
   ngOnInit(): void {
