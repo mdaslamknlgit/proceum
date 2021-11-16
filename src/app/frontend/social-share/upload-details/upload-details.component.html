@@ -6,25 +6,48 @@
         <div class="brdcrm_br">
             <mat-icon color="accent">home</mat-icon>
             <mat-icon>navigate_next</mat-icon>
-            Social Share
+            <strong routerLink="/student/sharing">Social Sharing</strong>
             <mat-icon>navigate_next</mat-icon>
             Upload Sharing Details
         </div>
     </div>
+    <hr />
     <div class="dsh_brd_crds">
         <div class="hgt_20"></div>
+        <div class="d-flex">
+            <div class="mr_1">
+                <span>Select Platform <span class="required">*</span></span><br>
+                <mat-form-field appearance="outline">
+                    <mat-select value="0">
+                        <mat-option value="0">Select Platform</mat-option>
+                        <mat-option value="">Facebook</mat-option>
+                        <mat-option value="">Twitter</mat-option>
+                        <mat-option value="">Whatsapp</mat-option>
+                        <mat-option value="">Insta</mat-option>
+                        <mat-option value="">Linked In</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div>
+                <span>Select Publish Date <span class="required">*</span></span><br>
+                <mat-form-field appearance="outline">
+                    <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+            </div>
+        </div> 
         <div>
-            <span>Select Platform</span><br>
-            <mat-form-field appearance="outline">
-                <mat-select>
-                    <mat-option value="">Select Platform</mat-option>
-                    <mat-option value="">Facebook</mat-option>
-                    <mat-option value="">Twitter</mat-option>
-                    <mat-option value="">Whatsapp</mat-option>
-                    <mat-option value="">Insta</mat-option>
-                    <mat-option value="">Linked In</mat-option>
-                </mat-select>
-            </mat-form-field>
+            <span>Publish URL <span class="required">*</span></span><br>
+            <mat-form-field appearance="outline" class="w_100p">
+                <textarea matInput placeholder="Publish URL"></textarea>
+              </mat-form-field>
+        </div>
+        <div>
+            <span>Description</span><br>
+            <mat-form-field appearance="outline" class="w_100p">
+                <textarea matInput placeholder="Description"></textarea>
+              </mat-form-field>
         </div>
         <div class="hgt_20"></div>
         <div class="cc_row">
@@ -32,9 +55,9 @@
                 <div class="c_block">
                     <div class="c_block_title">
                         <mat-icon>wallpaper</mat-icon>
-                        <label for="Intro video"> Upload Screenshots</label>
+                        <label for="Intro video"> Upload Screenshots <span class="required">*</span></label>
                         <span class="spacer"></span>
-                        <mat-icon>add</mat-icon>
+                        <mat-icon matTooltip="Click to Upload Image">add</mat-icon>
                     </div>
                     <div class="c_block_content">
                         <div class="upload_placeholder">
@@ -62,14 +85,8 @@
             </div>
         </div>
         <div>
-            <span>Description</span><br>
-            <mat-form-field appearance="outline" class="w_100p">
-                <textarea matInput placeholder="Description"></textarea>
-              </mat-form-field>
-        </div>
-        <div>
-            <span class="fl_frmt_info">
-                Upload the social sharing screenshot in detial. Screenshot should be clearly visible (Your identity name/email/pone number, date & time etc). Subject to approval.
+            <span class="fl_frmt_info wrn_bg">
+                Upload the social sharing screenshot in detail. Screenshot should be clearly visible (Your identity name/email/pone number, date & time etc). Subject to approval.
             </span>
         </div>
         <div class="w_100p d-flex">

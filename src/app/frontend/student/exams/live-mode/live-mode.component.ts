@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./live-mode.component.scss']
 })
 export class LiveModeComponent implements OnInit {
+  public show_q_numbers = true;
   public rvrsClr = true; 
   constructor() { }
 

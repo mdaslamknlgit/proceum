@@ -362,7 +362,12 @@ export class ShoppingCartComponent implements OnInit {
     };
     options.handler = ((response, error) => {
       // call your backend api to verify payment signature & capture transaction
-      this.razorpayPaymentSuccess(response);
+      if(response){
+        this.razorpayPaymentSuccess(response);
+      }
+      if(error){
+        console.log(error);
+      }
     });
     options.modal.ondismiss = (() => {
       // handle the case when user closes the form while transaction is in progress
