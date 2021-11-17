@@ -83,6 +83,8 @@ import { CreateExamComponent } from './exam-modes/create-exam/create-exam.compon
 import { SocialApprovalComponent } from './social-share/social-approval/social-approval.component';
 import { ManageFlashCardsComponent } from './flash-cards/manage-flash-cards/manage-flash-cards.component';
 import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-cards/create-new-flash-cards.component';
+import { PromoteComponent } from './manage-students/promote/promote.component';
+import { DownloadComponent } from './manage-students/download/download.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -282,6 +284,8 @@ const routes: Routes = [
     SocialApprovalComponent,
     ManageFlashCardsComponent,
     CreateNewFlashCardsComponent,
+    PromoteComponent,
+    DownloadComponent,
   ],
   imports: [
     MaterialModule,
