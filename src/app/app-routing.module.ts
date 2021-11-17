@@ -71,6 +71,15 @@ const routes: Routes = [
     },
   },
   {
+    path: 'teacher',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+    canActivate: [AuthGuard],
+    data: {
+      role: '3,4,5,6,7,12',
+    },
+  },
+  {
     path: 'student',
     loadChildren: () =>
       import('./frontend/frontend.module').then((m) => m.FrontendModule),

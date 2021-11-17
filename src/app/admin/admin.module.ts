@@ -77,6 +77,7 @@ import { LabValuesComponent } from './question-management/lab-values/lab-values.
 import { PocVideosComponent } from './poc-videos/poc-videos.component';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { StudyPlannerListComponent } from './study-planner/study-planner-list/study-planner-list.component';
+import { TeacherMaterialsComponent } from './teacher-materials/teacher-materials.component';
 import { ManageYearsSemestersGroupsComponent } from './manage-years-semesters-groups/manage-years-semesters-groups.component';
 import { ShoppingCartComponent } from '../frontend/shopping-cart/shopping-cart.component';
 import { CreateExamComponent } from './exam-modes/create-exam/create-exam.component';
@@ -216,6 +217,9 @@ const routes: Routes = [
       { path: 'study-planner-list', component: StudyPlannerListComponent },
       //Added by Phanindra 06-09-2021
       { path: 'poc-videos', component: PocVideosComponent },
+
+      //Teacher materials routes, Added by Sandeep kumar
+      { path: 'materials', component: TeacherMaterialsComponent },
       { path: 'create-exam', component: CreateExamComponent},
       //Added by Phanindra 28-20-2021
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
@@ -282,6 +286,7 @@ const routes: Routes = [
     SocialApprovalComponent,
     ManageFlashCardsComponent,
     CreateNewFlashCardsComponent,
+    TeacherMaterialsComponent
   ],
   imports: [
     MaterialModule,
