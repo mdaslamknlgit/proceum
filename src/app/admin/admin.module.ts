@@ -286,6 +286,7 @@ const routes: Routes = [
     SocialApprovalComponent,
     ManageFlashCardsComponent,
     CreateNewFlashCardsComponent,
+    TeacherMaterialsComponent
   ],
   imports: [
     MaterialModule,
