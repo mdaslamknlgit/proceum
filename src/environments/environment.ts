@@ -66,7 +66,7 @@ export const environment = {
       {value: 2, viewValue: 'Percentage'}
     ],
       //apiUrl: 'http://192.10.250.150:8000/api/',
-     // apiUrl: 'http://127.0.0.1:8000/api/',
+      //apiUrl: 'http://127.0.0.1:8000/api/',
         apiUrl: 'https://apiqa.proceum.com/api/',
   
       firebaseConfig : {
