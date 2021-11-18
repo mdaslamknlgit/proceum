@@ -128,5 +128,13 @@ export class ExamPrepmodeComponent implements OnInit {
                 }
             });
         }
+        else if(this.exam_type == 3){
+            let param = {url: "qbank/create-exam", qbank_id: this.filter_array.qbank_id, exam_type: this.exam_type, duration: this.duration, difficulty_level: this.difficulty_level, selected_topics: this.selected_topics};
+            this.http.post(param).subscribe((res) => {
+                if (res['error'] == false) {
+                    this.router.navigateByUrl("/student/qbank/live-mode/"+this.filter_array.qbank_id+"/"+res['data']['exam_id']);
+                }
+            });
+        }
     }
 }
