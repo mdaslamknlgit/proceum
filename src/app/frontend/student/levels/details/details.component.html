@@ -179,7 +179,8 @@
           </mat-icon>
         </li>
         <li *ngIf="flash_cards != undefined && flash_cards.length > 0" (click)="showDiv(11)">
-          <mat-icon class="ism_icn {{ active_div == 11 ? 'ism_actv_btn' : '' }}" matTooltip="Flash Cards">style</mat-icon>
+          <mat-icon class="ism_icn {{ active_div == 11 ? 'ism_actv_btn' : '' }}" matTooltip="Flash Cards">style
+          </mat-icon>
         </li>
       </ul>
     </div>
@@ -193,16 +194,17 @@
         <mat-icon>navigate_next</mat-icon>
         <span routerLink="/student/curriculums">Courses </span>
         <mat-icon>navigate_next</mat-icon>
-          <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
-            curriculum["curriculumn_name"]
-            }}</span>
-          <span *ngFor="let bread of breadcome; let i = index">
-            <mat-icon>navigate_next</mat-icon>
-            <span matTooltip='{{bread["name"]}}' *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
+        <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
+          curriculum["curriculumn_name"]
+          }}</span>
+        <span *ngFor="let bread of breadcome; let i = index">
+          <mat-icon>navigate_next</mat-icon>
+          <span matTooltip='{{bread["name"]}}' *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
                 curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
               }}">{{ bread["name"].length>10?bread["name"].substring(0,9)+'...': bread["name"]}}</span>
-            <strong *ngIf="i == breadcome.length - 1">
-              {{ setTitle(bread["name"]) }}</strong></span>
+          <strong *ngIf="i == breadcome.length - 1">
+            {{ setTitle(bread["name"]) }}</strong>
+        </span>
       </div>
     </div>
 
@@ -916,7 +918,7 @@
         </div>
       </div>
       <!-- Flash Card  code start here -->
-      <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 11">
+      <div class="crses_lft_mn qstn_lng {{active_div == 11 ? 'w_100p':''}}" *ngIf="active_div == 11">
         <div class="crses_lft">
           <div class="crs_desc_hd">
             <span class="desc_in_hd">
@@ -927,10 +929,11 @@
             No Flash Cards Found
           </div>
           <div class="crs_desc" *ngIf="flash_cards.length > 0">
-            <div class="qstn_nms">
+            <!-- <div class="qstn_nms">
               <div class="qstn_hds">Questions</div>
               <ul>
-                <li *ngFor="let question of flash_cards; let i = index" class="{{ i == active_flash_cards_index ? 'act_qstnm' : '' }}">
+                <li *ngFor="let question of flash_cards; let i = index"
+                  class="{{ i == active_flash_cards_index ? 'act_qstnm' : '' }}">
                   <span class="qstn_cnt" (click)="active_flash_cards_index = i;getXtToken(question);"
                     matTooltip='{{question["question_text"]}}'>{{
                     i + 1
@@ -938,32 +941,45 @@
                     question["question_text"]}}</span>
                 </li>
               </ul>
-            </div>
+            </div> -->
 
             <div class="crs_desc_cnt mcb_desc">
               <div *ngIf="flash_cards.length > 0">
                 <div class="hgt_20"></div>
-                <div class="qstnof_cnt"><strong>{{active_flash_cards_index + 1}}</strong> / {{flash_cards.length}}</div>                 
+                <div class="qstnof_cnt"><strong>{{active_flash_cards_index + 1}}</strong> / {{flash_cards.length}}</div>
                 <div class="qstn_hds">
+                  <!-- <div class="qstn_hds"><strong>Question</strong> </div> -->
+                  <!-- <div class="qstn_hds"><strong>Answer</strong> </div> -->
                   <div class="hgt_15"></div>
-                  <div class="qstn_hds"><strong>Question</strong> </div>  
+
+                  <div class="flpcrd_mn">
+                    <div class="flpcrd_innr">
+                        <div class="flpcrd_frnt">
+                          front
+                        </div>
+                        <div class="flpcrd_bk">
+                          back
+                        </div>
+                    </div>
+                  </div>
+
                   <div *ngIf='flash_cards[active_flash_cards_index]["question_text"]!=""'
-                    innerHtml='{{flash_cards[active_flash_cards_index]["question_text"]}}'></div>
-                    <div class="hgt_5"></div>
-                    <div class="qstn_hds"><strong>Answer</strong> </div> 
+                    innerHtml='{{flash_cards[active_flash_cards_index]["question_text"]}}'>
+                  </div>
                   <div *ngIf='flash_cards[active_flash_cards_index]["answer_text"]!=""'
-                    innerHtml='{{flash_cards[active_flash_cards_index]["answer_text"]}}'></div>
-                  
+                    innerHtml='{{flash_cards[active_flash_cards_index]["answer_text"]}}'>
+                  </div>
+
                 </div>
               </div>
 
-              
+
             </div>
 
             <div class="clear_fix"></div>
             <div class="pn_btns" *ngIf="flash_cards.length>1">
-              <button mat-raised-button color="accent" [disabled]="!active_flash_cards_index > 0" (click)="prevQuestion()"
-                class="mr_1">
+              <button mat-raised-button color="accent" [disabled]="!active_flash_cards_index > 0"
+                (click)="prevQuestion()" class="mr_1">
                 <mat-icon>navigate_before</mat-icon> Prev
               </button>
               <button mat-raised-button color="accent" [disabled]="active_flash_cards_index + 1 >= flash_cards.length"
@@ -976,11 +992,9 @@
       <!-- Flash Card  code end here -->
 
 
-      <div class="crses_rgt" *ngIf="videos.length>0">
+      <div class="crses_rgt" *ngIf="videos.length>0 && active_div != 11">
         <div class="intr_vd_hd">
-
           <div>
-
             <mat-icon>videocam</mat-icon>
             {{video_title}}
           </div>
