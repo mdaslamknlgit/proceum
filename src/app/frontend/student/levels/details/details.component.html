@@ -374,7 +374,7 @@
                       : ''
                   }}">
                     {{ option["option_text"] }}
-                    <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image']"
+                    <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div
                       *ngIf="mcqs[active_mcq_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''"
@@ -392,7 +392,7 @@
                       (change)="checkAnswer($event,option['pk_id'],mcqs[active_mcq_index]['id'])"
                       class="{{getOptionClass(mcqs[active_mcq_index]['id'],mcqs[active_mcq_index]['s_no'],option['pk_id'])}}">
                       {{ option["option_text"] }}</mat-checkbox>
-                    <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image']"
+                    <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image']  || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div class="rdo_exp_txt"
                       *ngIf="validated_questions.includes(mcqs[active_mcq_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
@@ -676,7 +676,7 @@
                       : ''
                   }}">
                     {{ option["option_text"] }}
-                    <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image']"
+                    <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div class="rdo_exp_txt"
                       *ngIf="cases[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
@@ -692,7 +692,7 @@
                       (change)="checkAnswer($event,option['pk_id'],cases[active_case_index]['id'])"
                       class="{{getOptionClass(cases[active_case_index]['id'],cases[active_case_index]['s_no'],option['pk_id'])}}">
                       {{ option["option_text"] }}</mat-checkbox>
-                    <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image']"
+                    <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div class="rdo_exp_txt"
                       *ngIf="validated_questions.includes(cases[active_case_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
@@ -816,7 +816,7 @@
                   }}">
                     {{ option["option_text"] }}
                     <img *ngIf="
-                  short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']"
+                  short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div class="rdo_exp_txt"
                       *ngIf="short_answers[active_short_answer_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
@@ -833,7 +833,7 @@
                       class="{{getOptionClass(short_answers[active_short_answer_index]['id'],short_answers[active_short_answer_index]['s_no'],option['pk_id'])}}">
                       {{ option["option_text"] }}</mat-checkbox>
                     <img
-                      *ngIf="short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image']"
+                      *ngIf="short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div class="rdo_exp_txt"
                       *ngIf="validated_questions.includes(short_answers[active_short_answer_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
