@@ -232,7 +232,7 @@
           <div class="spacer"></div>
         </div>
       </div>
-      <div *ngIf="content != undefined">
+      <div *ngIf="content != undefined  && active_div != 11">
         <div class="d-flex content_buttons">
           <button *ngIf="content_list.length > 1" matTooltip="More Content"
             (click)="show_content_list = !show_content_list" mat-mini-fab color="accent"
@@ -919,7 +919,7 @@
       </div>
       <!-- Flash Card  code start here -->
       <div class="crses_lft_mn qstn_lng {{active_div == 11 ? 'w_100p':''}}" *ngIf="active_div == 11">
-        <div class="crses_lft">
+        <div class="crses_lft hgt_auto_imp">
           <div class="crs_desc_hd">
             <span class="desc_in_hd">
               <mat-icon>style</mat-icon>Flash Cards
@@ -946,46 +946,41 @@
             <div class="crs_desc_cnt mcb_desc">
               <div *ngIf="flash_cards.length > 0">
                 <div class="hgt_20"></div>
-                <div class="qstnof_cnt"><strong>{{active_flash_cards_index + 1}}</strong> / {{flash_cards.length}}</div>
+                <div class="qstnof_cnt">Question(s) <strong>{{active_flash_cards_index + 1}}</strong> / {{flash_cards.length}}</div>
+                <div class="hgt_20"></div>
+                <div class="pn_btns px_0" *ngIf="flash_cards.length>1">
+                  <button mat-raised-button color="accent" [disabled]="!active_flash_cards_index > 0"
+                    (click)="prevQuestion()" class="mr_1">
+                    <mat-icon>navigate_before</mat-icon> Prev
+                  </button>
+                  <button mat-raised-button color="accent"
+                    [disabled]="active_flash_cards_index + 1 >= flash_cards.length" (click)="nextQuestion()">Next
+                    <mat-icon>navigate_next</mat-icon>
+                  </button>
+                </div>
+                <div class="hgt_10"></div>
                 <div class="qstn_hds">
-                  <!-- <div class="qstn_hds"><strong>Question</strong> </div> -->
-                  <!-- <div class="qstn_hds"><strong>Answer</strong> </div> -->
-                  <div class="hgt_15"></div>
-
                   <div class="flpcrd_mn">
                     <div class="flpcrd_innr">
-                        <div class="flpcrd_frnt">
-                          front
+                      <div class="flpcrd_frnt">
+                        <div class="qstn_hds">Questions</div>
+                        <div class="px_1 my_1" *ngIf='flash_cards[active_flash_cards_index]["question_text"]!=""'
+                          innerHtml='{{flash_cards[active_flash_cards_index]["question_text"]}}'>
                         </div>
-                        <div class="flpcrd_bk">
-                          back
+                      </div>
+                      <div class="flpcrd_bk">
+                        <div class="qstn_hds">Answer</div>
+                        <div class="px_1 my_1" *ngIf='flash_cards[active_flash_cards_index]["answer_text"]!=""'
+                          innerHtml='{{flash_cards[active_flash_cards_index]["answer_text"]}}'>
                         </div>
+                      </div>
                     </div>
                   </div>
-
-                  <div *ngIf='flash_cards[active_flash_cards_index]["question_text"]!=""'
-                    innerHtml='{{flash_cards[active_flash_cards_index]["question_text"]}}'>
-                  </div>
-                  <div *ngIf='flash_cards[active_flash_cards_index]["answer_text"]!=""'
-                    innerHtml='{{flash_cards[active_flash_cards_index]["answer_text"]}}'>
-                  </div>
-
                 </div>
               </div>
-
-
             </div>
 
-            <div class="clear_fix"></div>
-            <div class="pn_btns" *ngIf="flash_cards.length>1">
-              <button mat-raised-button color="accent" [disabled]="!active_flash_cards_index > 0"
-                (click)="prevQuestion()" class="mr_1">
-                <mat-icon>navigate_before</mat-icon> Prev
-              </button>
-              <button mat-raised-button color="accent" [disabled]="active_flash_cards_index + 1 >= flash_cards.length"
-                (click)="nextQuestion()">Next <mat-icon>navigate_next</mat-icon>
-              </button>
-            </div>
+
           </div>
         </div>
       </div>
