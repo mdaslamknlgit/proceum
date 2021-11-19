@@ -54,10 +54,12 @@ export class ExamModeComponent implements OnInit {
                     let set_interval = setInterval(res=>{
                         this.seconds = this.seconds-1;
                         if(this.seconds >= 0)
+                        {
                             this.startTimer(this.seconds);
                             if(this.seconds == 60){
                                 this.toster.info("This Test will end in a minute", "Remain Time", {closeButton:true});
                             }
+                        }
                         else{
                             clearInterval(set_interval);
                             this.toster.info("Test time completed", "Time up", {closeButton:true});
