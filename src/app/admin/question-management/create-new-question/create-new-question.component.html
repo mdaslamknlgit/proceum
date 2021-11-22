@@ -98,55 +98,48 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="d-flex fw_rsp_599">
-                        <div class="w_100p">
-                            <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span>
-                            </div>
-                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                    <mat-form-field appearance="outline">
-                                        <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
-                                            name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
-                                            (ngModelChange)="setCourseText($event);getLabels();"
-                                            #curriculum_id_name="ngModel" ngModel="curriculum_id_name">
-                                            <mat-option [matTooltip]="value['curriculumn_name']"
-                                                *ngFor="let value of curriculums" [value]="value['pk_id']">
-                                                {{value['curriculumn_name']}}</mat-option>
-                                        </mat-select>
-                                        <!-- <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
-                                            name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
-                                            (ngModelChange)="getTopics(question.curriculum_id, '', 'course');setCourseText($event);getLabels();"
-                                            #curriculum_id_name="ngModel" ngModel="curriculum_id_name">
-                                            <mat-option [matTooltip]="value['curriculumn_name']"
-                                                *ngFor="let value of curriculums" [value]="value['pk_id']">
-                                                {{value['curriculumn_name']}}</mat-option>
-                                        </mat-select> -->
-                                        <span class="prc_tltp" *ngIf="(question_list_form.submitted || curriculum_id_name.touched) &&
-                                        curriculum_id_name.invalid">Course is Required</span>
-                                    </mat-form-field>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="w_100p" *ngFor="let value of curriculum_labels; let i = index">
-                            <span class="crt_prt_hd">{{ ucFirst(value["display_label"]) }}</span>
-                            <div class="clear_fix"></div>
+
+                    <div class="d-flex fw_rsp_599 fw_w">
+                        <div class="cm_fltr_sc mr_1">
+                            <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span></div>
                             <div class="crt_prt_cnt">
-                            <mat-form-field appearance="outline">
-                              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="level_{{value['level_number']}}"
-                                [(ngModel)]="selected_level[value['level_number']]" (ngModelChange)="getLevels(value['level_number']);">
-                                <mat-option>
-                                  <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
-                                    name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
-                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
-                                    {{ucFirst(value['display_label'])}}
-                                  </ngx-mat-select-search>
-                                </mat-option>
-                                <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
-                                  [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
-                              </mat-select>
-                            </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
+                                        name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
+                                        (ngModelChange)="setCourseText($event);getLabels();"
+                                        #curriculum_id_name="ngModel" ngModel="curriculum_id_name">
+                                        <mat-option [matTooltip]="value['curriculumn_name']"
+                                            *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                            {{value['curriculumn_name']}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                         </div>
-                          </div>
+
+                        <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                            <span class="crt_prt_hd">{{ ucFirst(value["display_label"]) }} <span class="required">*</span></span>
+                            <div class="crt_prt_cnt">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                                        name="level_{{value['level_number']}}"
+                                        [(ngModel)]="selected_level[value['level_number']]"
+                                        (ngModelChange)="getLevels(value['level_number']);">
+                                        <mat-option>
+                                            <ngx-mat-select-search
+                                                [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                                name="search_topic" ngModel
+                                                (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                                [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                                {{ucFirst(value['display_label'])}}
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let level of level_options[value['level_number']]"
+                                            [value]="level['pk_id']" [matTooltip]="level['level_name']">
+                                            {{level["level_name"] }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
                         <!-- <div class="w_100p">
                             <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
@@ -174,8 +167,10 @@
                         </div> -->
                         <div class="w_100px">
                             <div class="crt_prt_hd">&nbsp;</div>
-                            <button [disabled]="is_topic_exist || (level_options[level_id+1] != undefined && level_options[level_id+1].length>0) || question.curriculum_id==''" (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
-                                Add  (+)
+                            <button
+                                [disabled]="is_topic_exist || (level_options[level_id+1] != undefined && level_options[level_id+1].length>0) || question.curriculum_id==''"
+                                (click)="addTopic()" mat-raised-button color="accent" type="button">
+                                Add (+)
                             </button>
                         </div>
                     </div>
@@ -192,20 +187,23 @@
                         </ng-container>
                         <ng-container matColumnDef="Topic">
                             <th mat-header-cell *matHeaderCellDef>Topic Path </th>
-                            <td mat-cell *matCellDef="let element">{{element.topic_text}} </td>
+                            <td mat-cell *matCellDef="let element" class="ws_normal">{{element.topic_text}} </td>
                         </ng-container>
                         <ng-container matColumnDef="Action">
                             <th mat-header-cell *matHeaderCellDef>Action</th>
-                            <td mat-cell *matCellDef="let element; let topic_index=index"><span (click)="removeTopic(topic_index)"><mat-icon color="warn" matTooltip="Delete">remove_circle_outline</mat-icon></span></td>
+                            <td mat-cell *matCellDef="let element; let topic_index=index"><span
+                                    (click)="removeTopic(topic_index)">
+                                    <mat-icon color="warn" matTooltip="Delete">remove_circle_outline</mat-icon>
+                                </span></td>
                         </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                             <td style="text-align: center; margin: 20px" class="mat-cell"
-                              [attr.colspan]="displayedColumns.length">
-                              No Records Found
+                                [attr.colspan]="displayedColumns.length">
+                                No Records Found
                             </td>
-                          </tr>
+                        </tr>
                     </table>
                 </div>
                 <div class="hgt_20"></div>
@@ -238,9 +236,9 @@
                         <div class="d-flex w_100p">
                             <div
                                 class="ck_editor err_tltp_par cnq_ck w_100p {{question_list_form.submitted && question.question_text.trim()==''?'angular_editor_div':''}}">
-                                <angular-editor id="question" required="true" 
+                                <angular-editor id="question" required="true"
                                     [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
-                                    name="question_text" #question_text="ngModel" [(ngModel)]="question.question_text" > 
+                                    name="question_text" #question_text="ngModel" [(ngModel)]="question.question_text">
                                 </angular-editor>
                                 <span class="prc_tltp"
                                     *ngIf="question_list_form.submitted && question.question_text.trim()==''">Question
@@ -257,7 +255,7 @@
                                     <div class="">
                                         <div class="cnq_img_thmb text_center"
                                             *ngIf="image_single_option || image_multiple_option || image_free_text">
-                                            
+
                                             <img *ngIf="imageSrc['file']" [src]="imageSrc['file']">
                                             <!-- <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon> -->
                                             <button mat-fab class="cnq_upld_btn cnq_delimg"
@@ -364,11 +362,12 @@
                 <div class="hgt_20"></div>
                 <div class="crt_pr_dv w_100p d-flex fw_w"
                     *ngIf="single_option || vidio_single_option || audio_single_option || image_single_option">
-                    <mat-radio-group class="w_100p" [(ngModel)]="question.correct_ans_ids[0]" name="correct_options"> 
+                    <mat-radio-group class="w_100p" [(ngModel)]="question.correct_ans_ids[0]" name="correct_options">
                         <div class="d-flex fw_w mb_1"
                             *ngFor="let option_value of question.option_array;index as option;">
                             <div class="mt_1 w_40px">
-                                <mat-radio-button [value]="option+1" (change)="onCorrectAnsChange($event)"></mat-radio-button>
+                                <mat-radio-button [value]="option+1" (change)="onCorrectAnsChange($event)">
+                                </mat-radio-button>
                             </div>
                             <div class="d-flex optns_rdo">
                                 <div class="mr_1 w_100p">
@@ -381,7 +380,8 @@
                                         </mat-form-field>
                                     </div>
                                     <div class="hgt_20"></div>
-                                    <div *ngIf="show_explanation[option] != undifined && show_explanation[option] == true">
+                                    <div
+                                        *ngIf="show_explanation[option] != undifined && show_explanation[option] == true">
                                         <angular-editor id="option_{{option+1}}"
                                             [placeholder]="'Enter Option '+(option+1) +' Explanation'"
                                             [config]="liteEditorConfig" name="option_{{option+1}}_exp"
@@ -391,10 +391,14 @@
                                     <div class="hgt_10"></div>
                                     <div class="d-flex">
                                         <div class="spacer"></div>
-                                        <a class="d-flex ai_cntr" *ngIf="show_explanation[option] != undifined && show_explanation[option] == true" (click)="show_explanation[option]=false">
+                                        <a class="d-flex ai_cntr"
+                                            *ngIf="show_explanation[option] != undifined && show_explanation[option] == true"
+                                            (click)="show_explanation[option]=false">
                                             <mat-icon>remove_circle_outline</mat-icon> <span>Hide Explanation</span>
                                         </a>
-                                        <a class="d-flex ai_cntr" *ngIf="show_explanation[option] == undifined || show_explanation[option] == false" (click)="show_explanation[option]=true">
+                                        <a class="d-flex ai_cntr"
+                                            *ngIf="show_explanation[option] == undifined || show_explanation[option] == false"
+                                            (click)="show_explanation[option]=true">
                                             <mat-icon>add</mat-icon> <span> Add Explanation</span>
                                         </a>
                                     </div>
@@ -403,18 +407,20 @@
                                     <div class="cnq_img_thmb text_center"
                                         *ngIf="image_single_option || image_multiple_option">
                                         <div>
-                                            
+
                                             <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
                                                 [src]="imageSrc['opt'+(option+1)+'Img']">
-                                            <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openFileExplor((option+1))"
-                                                type="button" color="accent" >
+                                            <button mat-fab class="cnq_upld_btn cnq_delimg"
+                                                (click)="openFileExplor((option+1))" type="button" color="accent">
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
-                                            <button mat-fab class="cnq_upld_btn cnq_delimg" type="button" color="accent" >
+                                            <button mat-fab class="cnq_upld_btn cnq_delimg" type="button"
+                                                color="accent">
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
                                             <div class="hgt_10" *ngIf="!imageSrc['opt'+(option+1)+'Img']"></div>
-                                            <div class="fs_16 mt_55px" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload Image
+                                            <div class="fs_16 mt_55px" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload
+                                                Image
                                             </div>
                                         </div>
                                     </div>
@@ -491,10 +497,14 @@
                                 <div class="hgt_10"></div>
                                 <div class="d-flex">
                                     <div class="spacer"></div>
-                                    <a class="d-flex ai_cntr" *ngIf="show_explanation[option] != undifined && show_explanation[option] == true" (click)="show_explanation[option]=false">
+                                    <a class="d-flex ai_cntr"
+                                        *ngIf="show_explanation[option] != undifined && show_explanation[option] == true"
+                                        (click)="show_explanation[option]=false">
                                         <mat-icon>remove_circle_outline</mat-icon> <span>Hide Explanation</span>
                                     </a>
-                                    <a class="d-flex ai_cntr" *ngIf="show_explanation[option] == undifined || show_explanation[option] == false" (click)="show_explanation[option]=true">
+                                    <a class="d-flex ai_cntr"
+                                        *ngIf="show_explanation[option] == undifined || show_explanation[option] == false"
+                                        (click)="show_explanation[option]=true">
                                         <mat-icon>add</mat-icon> <span> Add Explanation</span>
                                     </a>
                                 </div>
@@ -512,12 +522,13 @@
                                     <div>
                                         <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
                                             [src]="imageSrc['opt'+(option+1)+'Img']">
-                                        <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openFileExplor((option+1))"
-                                            type="button" color="accent">
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg"
+                                            (click)="openFileExplor((option+1))" type="button" color="accent">
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                         <div class="hgt_10" *ngIf="!imageSrc['opt'+(option+1)+'Img']"></div>
-                                        <div class="fs_16 mt_55px" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload Image
+                                        <div class="fs_16 mt_55px" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload
+                                            Image
                                         </div>
                                     </div>
 
