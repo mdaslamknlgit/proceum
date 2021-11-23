@@ -1,79 +1,23 @@
 <!-- USMLE design  -->
 <div class="mn_dshbrd" *ngIf="curriculum.length>0 && curriculum[0]['exam_template'] == 3">
-    <div class="cust_mdl_par cust_mdl_cls">
+    <div class="cust_mdl_par {{qstnsPup ? 'cust_mdl_opn':''}}">
         <div class="cust_mdl_chl w_80p rsp_90p">
             <div class="pg_ttl">
                 Question Paper
                 <span class="spacer"></span>
-                <button type="button" mat-icon-button class="float_right">
+                <button type="button" (click)="qstnsPup=!qstnsPup" mat-icon-button class="float_right">
                     &#x2715;
                 </button>
             </div>
             <div class="p_15px">
-                Question Paper Mode (50 Questions)
+                Question Paper Mode ({{questions_list.length}} Questions)
             </div>
             <div class="qp_lvmd_cnt">
                 <div>
                     <ul>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
+                        <li *ngFor="let q of questions_list; let question_index=index;">
+                            <span>{{question_index+1}}</span>
+                            <span [innerHtml]="q['question']"></span>
                         </li>
                     </ul>
                     <div class="hgt_10"></div>
@@ -85,32 +29,14 @@
     <div class="lv_md_mn  {{rvrsClr == false ? 'rvrs_clr':''}}">
         <div class="lv_md_nms">
             <ul>
-                <li class="lvmd_actvqst">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
+                <!-- <li class="lvmd_actvqst">1</li> -->
+                <li *ngFor="let q of questions_list; let question_index=index;" (click)="getQuestionOptions(question_index)" class="{{active_q_index==question_index?'lvmd_actvqst':''}}">{{question_index+1}}</li>
             </ul>
         </div>
         <div class="lv_md_qstn">
             <div class="lvmd_hd">
                 <div class="lvmd_hd_aa mr_1">
-                    Question 1 of 40 <br>
-                    ID: 128
+                    Question {{active_q_index+1}} of {{questions_list.length}} <br>
                 </div>
                 <div class="lvmd_hd_ab">
                     <img src="../../../assets/images/mark.png" alt="" /><br>
@@ -118,25 +44,25 @@
                 </div>
                 <div class="spacer"></div>
                 <div class="lvmd_hd_ac">
-                    <div class="mr_1">
+                    <div class="mr_1" (click)="active_q_index>0 && getQuestionOptions(active_q_index-1)">
                         <img src="../../../assets/images/previous_lv.png" alt="" /><br>
                         Previous
                     </div>
-                    <div>
+                    <div (click)="(questions_list.length-1) > active_q_index && getQuestionOptions(active_q_index+1)">
                         <img src="../../../assets/images/next_lv.png" alt="" /><br>
                         Next
                     </div>
                 </div>
                 <div class="spacer"></div>
                 <div class="lvmd_hd_ad">
-                    <div>
+                    <div (click)="qstnsPup=true">
                         <img src="../../../assets/images/auto_translate.png" alt="" /><br>
                         Question Paper
                     </div>
-                    <div>
+                    <!-- <div>
                         <img src="../../../assets/images/auto_translate.png" alt="" /><br>
                         Auto Translate
-                    </div>
+                    </div> -->
                     <div>
                         <img src="../../../assets/images/lav_values.png" alt="" /><br>
                         Lab Values
@@ -157,53 +83,103 @@
             </div>
             <div class="lvmd_cnt">
                 <div class="w_47p">
-                    <div class="lvmd_cnt_aa">
+                    <!-- <div class="lvmd_cnt_aa">
                         <div>You are using the free Qbank. Go Premium to get all content and features!</div>
                         <div>
                             <button mat-raised-button color="accent">Get Premium</button>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="lvmd_cnt_ab">
                         <div class="actv_txt">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.
+                            <span [innerHTML]="questions_list[active_q_index]['question']"></span>
+                            <div class="tstsqst_img" *ngIf='[10,11,12].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+                            <img [src]="bucket_url+questions_list[active_q_index]['q_source_value']" alt="">
+                        </div>
+                        <div class="tstsqst_img"
+                            *ngIf='[4,5,6].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+                            <audio controls controlsList="nodownload">
+                                <source [src]="bucket_url+questions_list[active_q_index]['q_source_value']" type="audio/mpeg">
+                            </audio>
+                        </div>
+                        <div class="tstsqst_img"
+                            *ngIf='[7,8,9].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+
+                            <div *ngIf="questions_list[active_q_index]['q_source'] == 'YOUTUBE'">
+                                <iframe
+                                    [src]='questions_list[active_q_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
+                                    frameborder="0" allowfullscreen></iframe>
+                            </div>
+
+                            <div *ngIf="questions_list[active_q_index]['q_source'] == 'KPOINT'">
+                                <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
+                                    mozallowFullScreen frameborder="0"></iframe>
+                            </div>
+                        </div>
                         </div>
                     </div>
                     <div class="lvmd_cnt_ac">
-                        <mat-radio-group aria-label="Select an option">
-                            <mat-radio-button value="1">Option 1</mat-radio-button>
-                            <mat-radio-button value="2">Option 2</mat-radio-button>
-                            <mat-radio-button value="2">Option 2</mat-radio-button>
-                            <mat-radio-button value="2">Option 2</mat-radio-button>
-                        </mat-radio-group>
+                        <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(questions_list[active_q_index]["q_type"])'
+                    [(ngModel)]="questions_list[active_q_index]['answer'][0]">
+                    <div *ngFor="let option of questions_list[active_q_index]['options']">
+                        <mat-radio-button [value]="''+option['pk_id']" (click)="questions_list[active_q_index]['result'] = ''"
+                            class="{{questions_list[active_q_index]['show_answer'] && questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions_list[active_q_index]['show_answer'] && !questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
+                            {{ option["option_text"] }}
+                        </mat-radio-button>
+                        <div class="tstsopt_img"
+                            *ngIf="questions_list[active_q_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
+                            <img [src]="bucket_url+option['option_image']" />
+                        </div>
+                        <div class="rdo_desc"
+                            *ngIf="questions_list[active_q_index]['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                            <span [innerHtml]="option['option_explanation']"></span>
+                        </div>
+                    </div>
+                </mat-radio-group>
+                <div *ngIf='[2,5,8,11].includes(questions_list[active_q_index]["q_type"])'>
+                    <div *ngFor="let option of questions_list[active_q_index]['options']; let i_option = index">
+                        <mat-checkbox
+                            class="{{questions_list[active_q_index]['show_answer'] && questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions_list[active_q_index]['show_answer'] && !questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}"
+                            [checked]="questions_list[active_q_index]['answer'].includes(''+option['pk_id'])"
+                            (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
+                        <div class="tstsqst_img">
+                            <img *ngIf="questions_list[active_q_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+                                [src]="bucket_url+option['option_image']" />
+                        </div>
+                        <div class="rdo_desc"
+                            *ngIf="questions_list[active_q_index]['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                            <div class="qstn_hds">Explanation</div>
+                            <div [innerHtml]="option['option_explanation']"></div>
+                        </div>
+                    </div>
+                </div>
                     </div>
                     <div class="lvmd_cnt_ad">
-                        <button mat-raised-button>Submit answer and show explanation</button>
+                        <button [disabled]="(questions_list.length-1) == active_q_index" (click)="getQuestionOptions(active_q_index+1)" mat-raised-button>Proceed to Next Item</button>
                     </div>
                 </div>
                 <div class="spacer"></div>
-                <div class="w_40p">
+                <div class="w_40p" *ngIf="lab_values.length>0">
                     <div class="lb_vles">
                         <div>Lab Values</div>
                         <div class="hgt_10"></div>
-                        <div class="lb_vles_cnt">
+                        <div class="lb_vles_cnt" *ngFor="let heading of lab_values_headings;let heading_index = index;">
                             <ul>
                                 <li class="lb_vles_hd">
-                                    <span>Serum</span>
+                                    <span>{{heading['name']}}</span>
                                     <span>Reference Range</span>
                                     <span>SI Reference</span>
                                 </li>
-                                <li>
-                                    <span>Alanine aminotransferase (ALT)</span>
-                                    <span>10-40 U/L</span>
-                                    <span>10-40 U/L</span>
-                                </li>
-                                <li>
+                                <span *ngFor="let sub_heading of lab_values[heading['pk_id']];let sub_index=index;">
+                                    <li *ngIf="lab_values[heading['pk_id']][sub_index]['sub_heading']!=''" class="hs_sbhd">
+                                        <span>{{lab_values[heading['pk_id']][sub_index]['sub_heading']}}</span>
+                                    </li>
+                                    <li *ngFor="let sh of lab_values[heading['pk_id']][sub_heading['']][sub_index]['sub_headings'];">
+                                        <span>{{sh['name']}}</span>
+                                        <span>{{sh['ref_range']}}</span>
+                                        <span>{{sh['si_reference']}}</span>
+                                    </li>
+                                </span>
+                                <!-- <li>
                                     <span>Alanine aminotransferase (ALT)</span>
                                     <span>10-40 U/L</span>
                                     <span>10-40 U/L</span>
@@ -255,7 +231,7 @@
                                     <span>Alanine aminotransferase (ALT)</span>
                                     <span>10-40 U/L</span>
                                     <span>10-40 U/L</span>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </div>
@@ -442,26 +418,77 @@
     <div class="tsts_mn plbble_mn">
         <div class="tsts_qstns">
             <div class="tstsqst_hd d-flex">
-                <div>Question (5/40)</div>
+                <div>Question ({{(active_q_index+1)}}/{{questions_list.length}})</div>
                 <div class="qt_lbl">
-                    MCQ Question
+                    {{questions_list[active_q_index]['question_flag'] == 'mcq'?"MCQ":""}}
+                            {{questions_list[active_q_index]['question_flag'] == 'case'?"CASE":""}}
+                            {{questions_list[active_q_index]['question_flag'] == 'short_answer'?"Short Answer":""}} Question
                 </div>
             </div>
             <div class="hgt_10"></div>
             <div class="tstsqst_qst">
-                An 86-year-old woman is brought to the emergency department by her niece because the patient felt like
-                she was spinning and about to topple over. This occurred around 4 hours ago, and although symptoms have
-                improved, she still feels like she is being pulled to the right side. Her vital signs include: blood
-                pressure 116/75 mm Hg, pulse 90/min, and SpO2 99% on room air. Physical examination reveals right-sided
-                limb ataxia along with hypoalgesia and decreased temperature sensation on the right side of the face and
-                left side of the body. An urgent noncontrast CT scan of the head shows no evidence of hemorrhage. What
-                other finding is most likely to be present in this patient?
-                <div class="tstsqst_img">
-                    <img src="../../../assets/images/testimonial-img-1.png">
+                <span [innerHTML]="questions_list[active_q_index]['question']"></span>
+                <div class="tstsqst_img"
+                    *ngIf='[10,11,12].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+                    <img [src]="bucket_url+questions_list[active_q_index]['q_source_value']" alt="">
+                </div>
+                <div class="tstsqst_img"
+                    *ngIf='[4,5,6].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+                    <audio controls controlsList="nodownload">
+                        <source [src]="bucket_url+questions_list[active_q_index]['q_source_value']" type="audio/mpeg">
+                    </audio>
+                </div>
+                <div class="tstsqst_img"
+                    *ngIf='[7,8,9].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+
+                    <div *ngIf="questions_list[active_q_index]['q_source'] == 'YOUTUBE'">
+                        <iframe
+                            [src]='questions_list[active_q_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
+                            frameborder="0" allowfullscreen></iframe>
+                    </div>
+
+                    <div *ngIf="questions_list[active_q_index]['q_source'] == 'KPOINT'">
+                        <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
+                            mozallowFullScreen frameborder="0"></iframe>
+                    </div>
                 </div>
             </div>
             <div class="tstsqst_ans">
-                <mat-radio-group>
+                <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(questions_list[active_q_index]["q_type"])'
+                [(ngModel)]="questions_list[active_q_index]['answer'][0]">
+                <div *ngFor="let option of questions_list[active_q_index]['options']">
+                    <mat-radio-button [value]="''+option['pk_id']" (click)="questions_list[active_q_index]['result'] = ''"
+                        class="{{questions_list[active_q_index]['show_answer'] && questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions_list[active_q_index]['show_answer'] && !questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
+                        {{ option["option_text"] }}
+                    </mat-radio-button>
+                    <div class="tstsopt_img"
+                        *ngIf="questions_list[active_q_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
+                        <img [src]="bucket_url+option['option_image']" />
+                    </div>
+                    <div class="rdo_desc"
+                        *ngIf="questions_list[active_q_index]['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                        <span [innerHtml]="option['option_explanation']"></span>
+                    </div>
+                </div>
+            </mat-radio-group>
+            <div *ngIf='[2,5,8,11].includes(questions_list[active_q_index]["q_type"])'>
+                <div *ngFor="let option of questions_list[active_q_index]['options']; let i_option = index">
+                    <mat-checkbox
+                        class="{{questions_list[active_q_index]['show_answer'] && questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions_list[active_q_index]['show_answer'] && !questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}"
+                        [checked]="questions_list[active_q_index]['answer'].includes(''+option['pk_id'])"
+                        (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
+                    <div class="tstsqst_img">
+                        <img *ngIf="questions_list[active_q_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+                            [src]="bucket_url+option['option_image']" />
+                    </div>
+                    <div class="rdo_desc"
+                        *ngIf="questions_list[active_q_index]['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                        <div class="qstn_hds">Explanation</div>
+                        <div [innerHtml]="option['option_explanation']"></div>
+                    </div>
+                </div>
+            </div>
+                <!-- <mat-radio-group>
                     <mat-radio-button value="1" class="wrng_rdo_ani">This is the logn test This is the logn test This is
                         the logn test This is the logn test This is the logn test
                         <span class="spacer"></span>
@@ -491,10 +518,10 @@
                     <span class="fnl_pecnt">65%</span>
                     <span class="prcnt_clr" style="width:13%"></span>
                 </mat-checkbox>
-                <mat-checkbox>Checkbox 1</mat-checkbox>
+                <mat-checkbox>Checkbox 1</mat-checkbox> -->
             </div>
             <div class="tstsqst_navs">
-                <button mat-mini-fab color="accent" class="no_bxsdw">
+                <button (click)="getQuestionOptions(active_q_index-1)" [disabled]="active_q_index == 0" mat-mini-fab color="accent" class="no_bxsdw">
                     <mat-icon>arrow_left</mat-icon>
                 </button>
                 <div class="pbl_sbmtans">
@@ -502,13 +529,13 @@
                         Submit Answer
                     </div>
                 </div>
-                <button mat-mini-fab color="accent" class="no_bxsdw">
+                <button (click)="getQuestionOptions(active_q_index+1)" [disabled]="active_q_index == (questions_list.length-1)" mat-mini-fab color="accent" class="no_bxsdw">
                     <mat-icon>arrow_right</mat-icon>
                 </button>
             </div>
             <div class="hgt_20"></div>
             <hr>
-            <div>
+            <!-- <div>
                 An 86-year-old woman is brought to the emergency department by her niece because the patient felt like
                 she was spinning and about to topple over. This occurred around 4 hours ago, and although symptoms have
                 improved, she still feels like she is being pulled to the right side. Her vital signs include: blood
@@ -520,27 +547,17 @@
                 <div>
                     <button mat-raised-button color="accent">Lorem Ipsum</button>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="tsts_qstns_nums">
             <div class="tstsnms_cnt_dv">
                 <ul>
-                    <li class="grn">1</li>
+                    <!-- <li class="grn">1</li>
                     <li class="rd">2</li>
                     <li>3</li>
                     <li>4</li>
-                    <li class="actv_qtn">4</li>
-                    <li>4</li>
-                    <li>4</li>
-                    <li>4</li>
-                    <li>4</li>
-                    <li>4</li>
-                    <li>4</li>
-                    <li>4</li>
-                    <li>4</li>
-                    <li>4</li>
-                    <li>4</li>
-                    <li>4</li>
+                    <li class="actv_qtn">4</li> -->
+                    <li *ngFor="let q of questions_list; let question_index=index;" class="{{active_q_index == question_index?'actv_qtn':''}}" (click)="getQuestionOptions(question_index)">{{question_index+1}}</li>
                 </ul>
             </div>
             <div class="plble_lbvl">Lab Values</div>
@@ -584,70 +601,14 @@
                 </button>
             </div>
             <div class="p_15px">
-                Question Paper Mode (50 Questions)
+                Question Paper Mode ({{questions_list.length}} Questions)
             </div>
             <div class="qp_lvmd_cnt">
                 <div>
                     <ul>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500sLorem Ipsum is simply dummy
-                                text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
-                        </li>
-                        <li>
-                            <span>1</span>
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                has
-                                been the industry's standard dummy text ever since the 1500s</span>
+                        <li *ngFor="let q of questions_list; let question_index=index;">
+                            <span>{{question_index+1}}</span>
+                            <span [innerHtml]="q['question']"></span>
                         </li>
                     </ul>
                     <div class="hgt_10"></div>
@@ -847,11 +808,11 @@
                        </div>
                        <div class="hgt_10"></div>
                        <div class="d-flex">
-                           <div>
+                           <!-- <div>
                                <button mat-raised-button color="accent" class="ml_1">Previous</button>
                            </div>
-                           <div class="spacer"></div>
-                           <div><button mat-raised-button color="accent">I am ready to begin</button></div>
+                           <div class="spacer"></div> -->
+                           <div><button mat-raised-button (click)="instrPup = !instrPup" color="accent">Continue</button></div>
                            <div class="spacer"></div>
                        </div>
                    </div>
@@ -1069,7 +1030,7 @@
             <div class="intro_rgt d-none-imp">
                 <div class="intro_dp">
                     <img src="../../../../../assets/images/avatar-square.png" />
-                    <span>mohan</span>
+                    <span>{{user['name']}}</span>
                 </div>
             </div>
         </div>
@@ -1079,59 +1040,77 @@
                     <div class="mrrw_exm_mn px_1">
                         <div class="mrrw_exm_aa">
                             <div class="spacer"></div>
-                            Time Left : (180m:30s)
+                            Time Left : ({{remain_time}})
                         </div>
                         <div class="mrrw_exm_ab">
-                            Question type : MCQ
+                            Question type : {{questions_list[active_q_index]['question_flag'] == 'mcq'?"MCQ":""}}
+                            {{questions_list[active_q_index]['question_flag'] == 'case'?"CASE":""}}
+                            {{questions_list[active_q_index]['question_flag'] == 'short_answer'?"Short Answer":""}}
                         </div>
                         <div class="mrrw_exm_ac">
                             <div class="mrrw_exm_ba">
-                                Question no : 1
+                                Question no : {{active_q_index+1}}
                             </div>
                             <div class="mrrw_exm_bb">
-                                A 34-year-old woman who was on a diet consisting predominantly of packaged and reheated
-                                meals presents with iron-deficiency anemia, painful and tender joints, and bleeding
-                                manifestations. Which of the following antioxidant deficiency can lead to these
-                                symptoms?
-                                <div class="w_100p">
-                                    <img src="../../../../../assets/images/avatar-square.png" />
+                                <span [innerHTML]="questions_list[active_q_index]['question']"></span>
+                                <div class="tstsqst_img" *ngIf='[10,11,12].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+                                <img [src]="bucket_url+questions_list[active_q_index]['q_source_value']" alt="">
+                            </div>
+                            <div class="tstsqst_img"
+                                *ngIf='[4,5,6].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+                                <audio controls controlsList="nodownload">
+                                    <source [src]="bucket_url+questions_list[active_q_index]['q_source_value']" type="audio/mpeg">
+                                </audio>
+                            </div>
+                            <div class="tstsqst_img"
+                                *ngIf='[7,8,9].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+
+                                <div *ngIf="questions_list[active_q_index]['q_source'] == 'YOUTUBE'">
+                                    <iframe
+                                        [src]='questions_list[active_q_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
+                                        frameborder="0" allowfullscreen></iframe>
                                 </div>
-                                
 
-                                <img src="../../../../../assets/images/avatar-square.png" />
-                                <img src="../../../../../assets/images/avatar-square.png" />
-
-                                A 34-year-old woman who was on a diet consisting predominantly of packaged and reheated
-                                meals presents with iron-deficiency anemia, painful and tender joints, and bleeding
-                                manifestations. Which of the following antioxidant deficiency can lead to these
-                                symptoms?
-                                A 34-year-old woman who was on a diet consisting predominantly of packaged and reheated
-                                meals presents with iron-deficiency anemia, painful and tender joints, and bleeding
-                                manifestations. Which of the following antioxidant deficiency can lead to these
-                                symptoms?A 34-year-old woman who was on a diet consisting predominantly of packaged and
-                                reheated
-                                meals presents with iron-deficiency anemia, painful and tender joints, and bleeding
-                                manifestations. Which of the following antioxidant deficiency can lead to these
-                                symptoms?A 34-year-old woman who was on a diet consisting predominantly of packaged and
-                                reheated
-                                meals presents with iron-deficiency anemia, painful and tender joints, and bleeding
-                                manifestations. Which of the following antioxidant deficiency can lead to these
-                                symptoms?A 34-year-old woman who was on a diet consisting predominantly of packaged and
-                                reheated
-                                meals presents with iron-deficiency anemia, painful and tender joints, and bleeding
-                                manifestations. Which of the following antioxidant deficiency can lead to these
-                                symptoms?A 34-year-old woman who was on a diet consisting predominantly of packaged and
-                                reheated
-                                meals presents with iron-deficiency anemia, painful and tender joints, and bleeding
-                                manifestations. Which of the following antioxidant deficiency can lead to these
-                                symptoms?
-                                <mat-radio-group>
-                                    <mat-radio-button value="1">Option 1</mat-radio-button>
-                                    <mat-radio-button value="2">Option 2</mat-radio-button>
-                                    <mat-radio-button value="1">Option 1</mat-radio-button>
-                                    <mat-radio-button value="2">Option 2</mat-radio-button>
-                                </mat-radio-group>
-                                <div class="hgt_20"></div>
+                                <div *ngIf="questions_list[active_q_index]['q_source'] == 'KPOINT'">
+                                    <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
+                                        mozallowFullScreen frameborder="0"></iframe>
+                                </div>
+                            </div>
+                            <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(questions_list[active_q_index]["q_type"])'
+                            [(ngModel)]="questions_list[active_q_index]['answer'][0]">
+                            <div *ngFor="let option of questions_list[active_q_index]['options']">
+                                <mat-radio-button [value]="''+option['pk_id']" (click)="questions_list[active_q_index]['result'] = ''"
+                                    class="{{questions_list[active_q_index]['show_answer'] && questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions_list[active_q_index]['show_answer'] && !questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
+                                    {{ option["option_text"] }}
+                                </mat-radio-button>
+                                <div class="tstsopt_img"
+                                    *ngIf="questions_list[active_q_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
+                                    <img [src]="bucket_url+option['option_image']" />
+                                </div>
+                                <div class="rdo_desc"
+                                    *ngIf="questions_list[active_q_index]['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                                    <span [innerHtml]="option['option_explanation']"></span>
+                                </div>
+                            </div>
+                        </mat-radio-group>
+                        <div *ngIf='[2,5,8,11].includes(questions_list[active_q_index]["q_type"])'>
+                            <div *ngFor="let option of questions_list[active_q_index]['options']; let i_option = index">
+                                <mat-checkbox
+                                    class="{{questions_list[active_q_index]['show_answer'] && questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions_list[active_q_index]['show_answer'] && !questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}"
+                                    [checked]="questions_list[active_q_index]['answer'].includes(''+option['pk_id'])"
+                                    (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
+                                <div class="tstsqst_img">
+                                    <img *ngIf="questions_list[active_q_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+                                        [src]="bucket_url+option['option_image']" />
+                                </div>
+                                <div class="rdo_desc"
+                                    *ngIf="questions_list[active_q_index]['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                                    <div class="qstn_hds">Explanation</div>
+                                    <div [innerHtml]="option['option_explanation']"></div>
+                                </div>
+                            </div>
+                        </div>
+                                <!-- <div class="hgt_20"></div>
                                 <div class="d-flex">
                                     <mat-checkbox class="mr_1">I am guessing this</mat-checkbox>
                                     <mat-icon color="accent" matTooltip="Which of the following antioxidant deficiency can lead to these
@@ -1139,7 +1118,7 @@
                                     meals presents with iron-deficiency anemia, painful and tender joints, and bleeding
                                     manifestations. Which of the following antioxidant deficiency can lead to these
                                     symptoms?">info</mat-icon>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -1147,10 +1126,10 @@
                     <div class="d-flex">
                         <div>
                             <button mat-raised-button color="accent" class="ml_1">Mark for Review &amp; Next</button>
-                            <button mat-raised-button color="accent" class="ml_1">Clear Response</button>
+                            <!-- <button mat-raised-button color="accent" class="ml_1">Clear Response</button> -->
                         </div>
                         <div class="spacer"></div>
-                        <div><button mat-raised-button color="accent" class="mr_1">Save and Next</button></div>
+                        <div><button (click)="getQuestionOptions(active_q_index+1)" mat-raised-button color="accent" class="mr_1">Save and Next</button></div>
                     </div>
                 </div>
             </div>
@@ -1161,12 +1140,12 @@
                             <img src="../../../../../assets/images/avatar-square.png" />
                         </div>
                         <div>
-                            <span>mohan</span>
+                            <span>{{user['name']}}</span>
                         </div>
                     </div>
                     <div class="prfl_tbl_ab">
                         <div><span class="q-answered rd_btns">0</span> Answered</div>
-                        <div><span class="q-not-answered rd_btns">1</span> Answered</div>
+                        <div><span class="q-not-answered rd_btns">1</span> Not Answered</div>
                     </div>
                     <div class="prfl_tbl_ab">
                         <div><span class="q-not-visited rd_btns">0</span> Not Visited</div>
@@ -1182,7 +1161,7 @@
                     </div>
                     <div class="prfl_tbl_ac">
                         <ul class="lst_non">
-                            <li>
+                            <!-- <li>
                                 <span class="rd_btns q-not-visited">999</span>
                             </li>
                             <li>
@@ -1196,72 +1175,9 @@
                             </li>
                             <li>
                                 <span class="rd_btns q-answered-marked">5</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-visited">1</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-visited">1</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-answered">2</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-answered">3</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-marked">4</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-answered-marked">5</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-visited">1</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-visited">1</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-answered">2</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-answered">3</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-marked">4</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-answered-marked">5</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-visited">1</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-answered">2</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-answered">3</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-marked">4</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-answered-marked">5</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-visited">1</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-not-answered">2</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-answered">3</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-marked">4</span>
-                            </li>
-                            <li>
-                                <span class="rd_btns q-answered-marked">5</span>
+                            </li> -->
+                            <li *ngFor="let q of questions_list; let question_index=index;">
+                                <span (click)="getQuestionOptions(question_index)" class="rd_btns {{q['answer'].length>0?'q-answered':'q-not-visited'}}">{{question_index+1}}</span>
                             </li>
                         </ul>
                     </div>
@@ -1278,53 +1194,7 @@
 
 <!-- Default exam Design  -->
 <div class="mn_dshbrd" *ngIf="curriculum.length>0 && curriculum[0]['exam_template'] == 1">
-    <div class="cust_mdl_par {{show_details_modal?'cust_mdl_opn':'cust_mdl_cls'}}">
-        <div class="cust_mdl_chl w_50p">
-            <div class="tbbd_bdy dsh_brd_crds p_0">
-                <div class="days_mn pp_dysmn">
-                    <div class="dys_dv w_100p hvr_bg_wht">
-                        <div class="dys_hd">
-                            <div class="dys_hd_txt">Exam Report </div>
-                            <div class="spacer"></div>
-                            <div>
-                                <button (click)="hideDetails()" mat-icon-button class="float_right">
-                                    &#x2715;
-                                </button>
-                            </div>
-                        </div>
-                        <div class="pp_dys_bdy">
-                            <div class="dys_tsks_dv">
-                                <!-- <div class="tsk_hd">{{selected_course['curriculumn_name']}}</div> -->
-                                <div class="hgt_20"></div>
-                                <div class="sbmtd_ans_dv">
-                                    <div><span>Total Questions:</span><span class="spacer"></span> <span
-                                            class="dys_cnt">{{questions_list.length}}</span></div>
-                                    <div><span>Correct Answers:</span> <span class="spacer"></span><span
-                                            class="dys_cnt">{{correct_answers}}</span></div>
-                                    <div><span>Wrong Answers:</span><span class="spacer"></span> <span
-                                            class="dys_cnt wrng_ans">{{wrong_answers}}</span></div>
-                                    <div *ngIf="not_answered>0"><span>Not Answered:</span> <span
-                                            class="spacer"></span><span class="dys_cnt nt_ans">{{not_answered}}</span>
-                                    </div>
-                                    <div *ngIf="free_text_qs>0"><span>Free Type Text Questions:</span> <span
-                                            class="spacer"></span><span class="dys_cnt"> {{free_text_qs}}</span>
-                                    </div>
-                                </div>
-                                <div class="hgt_20"></div>
-                                <div class="d-flex jc_cnt">
-                                    <button mat-raised-button class="gry_btn mr_1"
-                                        (click)="hideDetails()">Close</button>
-                                    <!-- <button mat-raised-button color="accent" (click)="reviewQuestions()" class="mr_1 skp_btn">Show Answers</button> -->
-
-                                </div>
-                                <div class="hgt_20"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <div class="hgt_20"></div>
     <div class="sp_mn">
         <div class="brdcrm_br p_1 d-flex ai_cntr" *ngIf="curriculum.length>0">
@@ -1338,31 +1208,6 @@
     <div class="hgt_20"></div>
     <div
         class="tsts_mn stdy_md_qstns {{show_q_numbers == false ? 'tsts_collps':''}} {{ lst_grdclk == false ? '':'qbnk_mn'}}">
-        <!-- <div class="tsts_qstns_nums">
-            <div class="tstsnms_hd_dv">
-                <div class="tstsnms_hd">Questions 40</div>
-                <div class="spacer"></div>
-                <div class="tsts_qst_swch grd_lst_vw" (click)="lst_grdclk = !lst_grdclk">
-                    <mat-icon color="accent" matTooltip="{{lst_grdclk == false ? 'List View':'Grid View'}}" >{{lst_grdclk == false ? 'list':'grid_view'}}</mat-icon>
-                </div>
-                <div class="tsts_qst_swch {{show_q_numbers == false ? 'rot_90':'rot_0'}}">
-                    <mat-icon color="accent" (click)="show_q_numbers = !show_q_numbers">menu_open</mat-icon>
-                </div>
-            </div>
-            <div class="hgt_20"></div>
-            <div class="tstsnms_cnt_dv">
-                <ul>
-                    <li class="grn">1 <span class="qstn_elb">this is test questions ?</span></li>
-                    <li class="rd">2 <span class="qstn_elb">this is test questions and with long question also ?</span></li>
-                    <li class="orng">3 <span class="qstn_elb">this is test questions and with long question alsothis is test questions and with long question also ?</span></li>
-                    <li class="gry">4 <span class="qstn_elb">this is test questions and with long question alsothis is test questions and with long question also ?</span></li>
-                    <li>4 <span class="qstn_elb">this is test questions and with long question alsothis is test questions and with long question also ?</span></li>
-                    <li>4 <span class="qstn_elb">this is test questions and with long question alsothis is test questions and with long question also ?</span></li>
-                    <li>4 <span class="qstn_elb">this is test questions and with long question alsothis is test questions and with long question also ?</span></li>
-                    <li>4 <span class="qstn_elb">this is test questions and with long question alsothis is test questions and with long question also ?</span></li>
-                </ul>
-            </div>
-        </div> -->
         <div class="tsts_qstns_nums">
             <div class="tstsnms_hd_dv">
                 <div class="tstsnms_hd">Questions {{questions_list.length}}</div>
@@ -1393,8 +1238,8 @@
                 <div>Remain Time: {{remain_time}}</div>
                 <div>
                     <button (click)="showResult();" *ngIf="is_test_end == false"
-                        [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button
-                        class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">End
+                        [disabled]="!allow_end_test && questions_list[active_q_index]['answer'].length == 0" mat-raised-button
+                        class="skp_btn {{allow_end_test == false && questions_list[active_q_index]['answer'].length == 0 ? 'gry_btn':''}}">End
                         Test
                     </button>
                     <button *ngIf="is_test_end == true" (click)="showDetails()" mat-raised-button class="skp_btn">View
@@ -1406,63 +1251,63 @@
 
             <div class="hgt_20"></div>
             <div class="tstsqst_qst">
-                <span [innerHTML]="active_question['question']"></span>
+                <span [innerHTML]="questions_list[active_q_index]['question']"></span>
                 <div class="tstsqst_img"
-                    *ngIf='[10,11,12].includes(active_question["q_type"]) && active_question["q_source_value"]'>
-                    <img [src]="bucket_url+active_question['q_source_value']" alt="">
+                    *ngIf='[10,11,12].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
+                    <img [src]="bucket_url+questions_list[active_q_index]['q_source_value']" alt="">
                 </div>
                 <div class="tstsqst_img"
-                    *ngIf='[4,5,6].includes(active_question["q_type"]) && active_question["q_source_value"]'>
+                    *ngIf='[4,5,6].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
                     <audio controls controlsList="nodownload">
-                        <source [src]="bucket_url+active_question['q_source_value']" type="audio/mpeg">
+                        <source [src]="bucket_url+questions_list[active_q_index]['q_source_value']" type="audio/mpeg">
                     </audio>
                 </div>
                 <div class="tstsqst_img"
-                    *ngIf='[7,8,9].includes(active_question["q_type"]) && active_question["q_source_value"]'>
+                    *ngIf='[7,8,9].includes(questions_list[active_q_index]["q_type"]) && questions_list[active_q_index]["q_source_value"]'>
 
-                    <div *ngIf="active_question['q_source'] == 'YOUTUBE'">
+                    <div *ngIf="questions_list[active_q_index]['q_source'] == 'YOUTUBE'">
                         <iframe
-                            [src]='active_question["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
+                            [src]='questions_list[active_q_index]["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
                             frameborder="0" allowfullscreen></iframe>
                     </div>
 
-                    <div *ngIf="active_question['q_source'] == 'KPOINT'">
+                    <div *ngIf="questions_list[active_q_index]['q_source'] == 'KPOINT'">
                         <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
                             mozallowFullScreen frameborder="0"></iframe>
                     </div>
                 </div>
             </div>
             <div class="tstsqst_ans">
-                <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(active_question["q_type"])'
-                    [(ngModel)]="active_question['answer'][0]">
-                    <div *ngFor="let option of active_question['options']">
+                <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(questions_list[active_q_index]["q_type"])'
+                    [(ngModel)]="questions_list[active_q_index]['answer'][0]">
+                    <div *ngFor="let option of questions_list[active_q_index]['options']">
                         <mat-radio-button [value]="''+option['pk_id']"
                             (click)="questions_list[active_q_index]['result'] = ''"
-                            class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
+                            class="{{questions_list[active_q_index]['show_answer'] && questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions_list[active_q_index]['show_answer'] && !questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
                             {{ option["option_text"] }}
                         </mat-radio-button>
                         <div class="tstsopt_img"
-                            *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
+                            *ngIf="questions_list[active_q_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
                             <img [src]="bucket_url+option['option_image']" />
                         </div>
                         <div class="rdo_desc"
-                            *ngIf="active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                            *ngIf="questions_list[active_q_index]['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                             <span [innerHtml]="option['option_explanation']"></span>
                         </div>
                     </div>
                 </mat-radio-group>
-                <div *ngIf='[2,5,8,11].includes(active_question["q_type"])'>
-                    <div *ngFor="let option of active_question['options']; let i_option = index">
+                <div *ngIf='[2,5,8,11].includes(questions_list[active_q_index]["q_type"])'>
+                    <div *ngFor="let option of questions_list[active_q_index]['options']; let i_option = index">
                         <mat-checkbox
-                            class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}"
-                            [checked]="active_question['answer'].includes(''+option['pk_id'])"
+                            class="{{questions_list[active_q_index]['show_answer'] && questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions_list[active_q_index]['show_answer'] && !questions_list[active_q_index]['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}"
+                            [checked]="questions_list[active_q_index]['answer'].includes(''+option['pk_id'])"
                             (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
                         <div class="tstsqst_img">
-                            <img *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+                            <img *ngIf="questions_list[active_q_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                                 [src]="bucket_url+option['option_image']" />
                         </div>
                         <div class="rdo_desc"
-                            *ngIf="active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                            *ngIf="questions_list[active_q_index]['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                             <div class="qstn_hds">Explanation</div>
                             <div [innerHtml]="option['option_explanation']"></div>
                         </div>
@@ -1484,3 +1329,51 @@
         </div>
     </div>
 </div>
+<div class="cust_mdl_par {{show_details_modal?'cust_mdl_opn':'cust_mdl_cls'}}">
+    <div class="cust_mdl_chl w_50p">
+        <div class="tbbd_bdy dsh_brd_crds p_0">
+            <div class="days_mn pp_dysmn">
+                <div class="dys_dv w_100p hvr_bg_wht">
+                    <div class="dys_hd">
+                        <div class="dys_hd_txt">Exam Report </div>
+                        <div class="spacer"></div>
+                        <div>
+                            <button (click)="hideDetails()" mat-icon-button class="float_right">
+                                &#x2715;
+                            </button>
+                        </div>
+                    </div>
+                    <div class="pp_dys_bdy">
+                        <div class="dys_tsks_dv">
+                            <!-- <div class="tsk_hd">{{selected_course['curriculumn_name']}}</div> -->
+                            <div class="hgt_20"></div>
+                            <div class="sbmtd_ans_dv">
+                                <div><span>Total Questions:</span><span class="spacer"></span> <span
+                                        class="dys_cnt">{{questions_list.length}}</span></div>
+                                <div><span>Correct Answers:</span> <span class="spacer"></span><span
+                                        class="dys_cnt">{{correct_answers}}</span></div>
+                                <div><span>Wrong Answers:</span><span class="spacer"></span> <span
+                                        class="dys_cnt wrng_ans">{{wrong_answers}}</span></div>
+                                <div *ngIf="not_answered>0"><span>Not Answered:</span> <span
+                                        class="spacer"></span><span class="dys_cnt nt_ans">{{not_answered}}</span>
+                                </div>
+                                <div *ngIf="free_text_qs>0"><span>Free Type Text Questions:</span> <span
+                                        class="spacer"></span><span class="dys_cnt"> {{free_text_qs}}</span>
+                                </div>
+                            </div>
+                            <div class="hgt_20"></div>
+                            <div class="d-flex jc_cnt">
+                                <button mat-raised-button class="gry_btn mr_1"
+                                    (click)="hideDetails()">Close</button>
+                                <!-- <button mat-raised-button color="accent" (click)="reviewQuestions()" class="mr_1 skp_btn">Show Answers</button> -->
+
+                            </div>
+                            <div class="hgt_20"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-calculator></ng-calculator>

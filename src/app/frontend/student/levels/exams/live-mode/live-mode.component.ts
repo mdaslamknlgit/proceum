@@ -14,7 +14,6 @@ export class LiveModeComponent implements OnInit {
   public rvrsClr = true;
   public qstnsPup = false;
   public instrPup = false;
-
   public lst_grdclk = true;
   public filter_array = {qbank_id:0, exam_id:0};
   public questions_list = [];
@@ -31,9 +30,13 @@ export class LiveModeComponent implements OnInit {
   public remain_time = '';
   public seconds = 0;
   public curriculum = [];
+  public user = [];
+  public lab_values = [];
+  public lab_values_headings = [];
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService) { }
 
   ngOnInit(): void {
+      this.user = this.http.getUser();
       this.activatedRoute.params.subscribe((param) => {
           this.filter_array.qbank_id = param.qbank_id;
           this.filter_array.exam_id = param.exam_id;
@@ -41,7 +44,7 @@ export class LiveModeComponent implements OnInit {
       });
   }
   getTestQuestions(){
-      let param = {url: "qbank/get-exam-mode-questions", qbank_id:this.filter_array.qbank_id, exam_id: this.filter_array.exam_id};
+      let param = {url: "qbank/get-live-mode-questions", qbank_id:this.filter_array.qbank_id, exam_id: this.filter_array.exam_id};
       this.http.post(param).subscribe(res=>{
           if(res['error'] == false){
               this.questions_list = res['data']['questions'];
@@ -52,6 +55,8 @@ export class LiveModeComponent implements OnInit {
               if(this.questions_list.length > 0)
               {
                   this.getQuestionOptions(0);
+                  this.lab_values = res['data']['lab_values'];
+                  this.lab_values_headings = res['data']['headings'];
                   let minutes = this.exam[0]['question_duration'] * this.questions_list.length;
                   this.seconds = minutes*60;
                   let set_interval = setInterval(res=>{
@@ -113,8 +118,9 @@ export class LiveModeComponent implements OnInit {
       let m = new String(minutes);
       let f_minutes = m.length == 1?'0'+minutes:minutes;
       let h = new String(hours);
-      let f_hours = h.length == 1?'0'+hours:hours;
-      this.remain_time = f_hours+" : "+f_minutes+" : "+f_seconds;
+      let f_hours = h.length == 1?'0'+hours+':':hours;
+      f_hours = f_hours=='00:'?'':f_hours;
+      this.remain_time = f_hours+''+f_minutes+" : "+f_seconds;
   }
   getXtToken(){
       if(this.active_question['q_source'] == 'KPOINT'){
