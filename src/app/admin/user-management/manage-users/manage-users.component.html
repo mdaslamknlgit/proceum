@@ -13,23 +13,23 @@
     </div>
     <hr />
     <div class="dsh_brd_crds">
-        <div class="d-flex rsp_flx_aa">
-            <div class="xl_srch mr_1">
-                <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-                        placeholder="Search" />
-                    <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
-                </mat-form-field>
-            </div>
-        </div>
+       
         <div class="cm_fltr_sc mr_1">
             <span>Role</span>
             <mat-form-field appearance="outline">
                 <mat-select value="0">
-                    <mat-option value="0">Student</mat-option>
+                    <mat-option value="0">All</mat-option>
                     <mat-option value="0">Student</mat-option>
                     <mat-option value="0">Student</mat-option>
                 </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="cm_fltr_sc mr_1">
+            <span>Search</span>
+            <mat-form-field appearance="outline" class="w_100p">
+                <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                    placeholder="Search" />
+                <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
             </mat-form-field>
         </div>
         <div class="clear_fix"></div>
@@ -71,7 +71,9 @@
             </mat-form-field>
         </div>
         <div class="cm_fltr_sc mt_18px">
-            <button mat-raised-button  class="mt_6px" color="warn"><mat-icon>autorenew</mat-icon></button>
+            <button mat-raised-button class="mt_6px" color="warn">
+                <mat-icon>autorenew</mat-icon>
+            </button>
         </div>
         <div>
             <div class="rsp_tbl">

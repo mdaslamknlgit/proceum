@@ -220,6 +220,8 @@ const routes: Routes = [
 
       //Teacher materials routes, Added by Sandeep kumar
       { path: 'materials', component: TeacherMaterialsComponent },
+      { path: 'teacher-material', component: TeacherMaterialsComponent },
+
       { path: 'create-exam', component: CreateExamComponent},
       //Added by Phanindra 28-20-2021
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},

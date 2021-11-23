@@ -16,7 +16,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
   styleUrls: ['./teacher-materials.component.scss']
 })
 export class TeacherMaterialsComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'title', 'created_at', 'updated_at', 'action', 'status', 'download_flag'];
+  displayedColumns: string[] = ['id', 'title', 'uploaded_by', 'created_at', 'updated_at', 'action', 'status', 'download_flag'];
+  displayedTeacherColumns: string[] = ['id', 'title', 'created_at', 'updated_at', 'action', 'status', 'download_flag'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -45,12 +46,15 @@ export class TeacherMaterialsComponent implements OnInit {
   public level_options = [];
   public all_level_options = [];
   public user = [];
+  public usersList = [];
+  public teacher_id = 0;
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
   }
 
   public Editor = ClassicEditor;
 
   ngOnInit(): void {
+    this.user = this.http.getUser();
     let params={url: 'get-all-materials'};
     this.http.post(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['materials']);
@@ -177,6 +181,15 @@ export class TeacherMaterialsComponent implements OnInit {
   }
 
   openEditModel(param:any){
+    if(this.user['role'] == 1){
+      let params = { url: 'get-user-list', role : 12 };
+      this.http.post(params).subscribe((res) => {
+        if (res['error'] == false) {
+          this.usersList = res['data'];
+          this.teacher_id = param.uploaded_by_user_id;
+        }
+      });
+    }
     this.model_status = true;
     this.model_edit_status = true;
     this.material_id = param.pk_id;
@@ -239,6 +252,15 @@ export class TeacherMaterialsComponent implements OnInit {
   }
 
   openAddModel() {
+    if(this.user['role'] == 1){
+      let params = { url: 'get-user-list', role : 12 };
+      this.http.post(params).subscribe((res) => {
+        if (res['error'] == false) {
+          this.usersList = res['data'];
+          this.teacher_id = res['data'][0]['id']?res['data'][0]['id']:0;
+        }
+      });
+    }
     this.model_status = true;  
     this.model_edit_status = false;
     this.material_name ="";
@@ -268,8 +290,12 @@ export class TeacherMaterialsComponent implements OnInit {
   saveMaterial(){
     this.selected_level.shift();
     this.subject_csv = this.selected_level.join();
-    this.user = this.http.getUser();
-    let params={url: 'save-teacher-material',curriculum_id:this.curriculum_id,subject_csv:this.subject_csv,user_id:this.user['id'],role_id:this.user['role'],material_name:this.material_name,material_description:this.material_description,attachments: this.attachments};
+    if(this.user['role'] == 12){
+      var user_id = this.user['id'];
+    }else{
+      var user_id = this.teacher_id;
+    }
+    let params={url: 'save-teacher-material',curriculum_id:this.curriculum_id,subject_csv:this.subject_csv,user_id:user_id,role_id:this.user['role'],material_name:this.material_name,material_description:this.material_description,attachments: this.attachments};
     this.http.post(params).subscribe((res: Response) => {
       if (res.error) {
         this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
@@ -284,7 +310,12 @@ export class TeacherMaterialsComponent implements OnInit {
   updateMaterial(){
     this.selected_level.shift();
     this.subject_csv = this.selected_level.join();
-    let params={url: 'update-teacher-material',material_name:this.material_name,material_description:this.material_description,attachments: this.attachments,subject_csv: this.subject_csv,curriculum_id:this.curriculum_id,material_id:this.material_id};
+    if(this.user['role'] == 12){
+      var user_id = this.user['id'];
+    }else{
+      var user_id = this.teacher_id;
+    }
+    let params={url: 'update-teacher-material',material_name:this.material_name,user_id:user_id,role_id:this.user['role'],material_description:this.material_description,attachments: this.attachments,subject_csv: this.subject_csv,curriculum_id:this.curriculum_id,material_id:this.material_id};
     this.http.post(params).subscribe((res: Response) => {
       if (res.error) {
         this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
