@@ -17,6 +17,8 @@ import { PdfViewerComponent } from 'ng2-pdf-viewer';
 export class DetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
+  public shwAns = false;
+  public shwQst = true;
   public view_type = 1;
   public title = '';
   public curriculum = [];

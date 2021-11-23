@@ -374,7 +374,8 @@
                       : ''
                   }}">
                     {{ option["option_text"] }}
-                    <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+                    <img
+                      *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div
                       *ngIf="mcqs[active_mcq_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''"
@@ -392,7 +393,8 @@
                       (change)="checkAnswer($event,option['pk_id'],mcqs[active_mcq_index]['id'])"
                       class="{{getOptionClass(mcqs[active_mcq_index]['id'],mcqs[active_mcq_index]['s_no'],option['pk_id'])}}">
                       {{ option["option_text"] }}</mat-checkbox>
-                    <img *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image']  || option['option_image'] != null"
+                    <img
+                      *ngIf="mcqs[active_mcq_index]['q_source'] == 'IMAGE' && option['option_image']  || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div class="rdo_exp_txt"
                       *ngIf="validated_questions.includes(mcqs[active_mcq_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
@@ -676,7 +678,8 @@
                       : ''
                   }}">
                     {{ option["option_text"] }}
-                    <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+                    <img
+                      *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div class="rdo_exp_txt"
                       *ngIf="cases[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
@@ -692,7 +695,8 @@
                       (change)="checkAnswer($event,option['pk_id'],cases[active_case_index]['id'])"
                       class="{{getOptionClass(cases[active_case_index]['id'],cases[active_case_index]['s_no'],option['pk_id'])}}">
                       {{ option["option_text"] }}</mat-checkbox>
-                    <img *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+                    <img
+                      *ngIf="cases[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div class="rdo_exp_txt"
                       *ngIf="validated_questions.includes(cases[active_case_index]['id']) && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
@@ -815,7 +819,8 @@
                       : ''
                   }}">
                     {{ option["option_text"] }}
-                    <img *ngIf="
+                    <img
+                      *ngIf="
                   short_answers[active_short_answer_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                       [src]="bucket_url+option['option_image']" />
                     <div class="rdo_exp_txt"
@@ -946,7 +951,8 @@
             <div class="crs_desc_cnt mcb_desc">
               <div *ngIf="flash_cards.length > 0">
                 <div class="hgt_20"></div>
-                <div class="qstnof_cnt">Question(s) <strong>{{active_flash_cards_index + 1}}</strong> / {{flash_cards.length}}</div>
+                <div class="qstnof_cnt">Question(s) <strong>{{active_flash_cards_index + 1}}</strong> /
+                  {{flash_cards.length}}</div>
                 <div class="hgt_20"></div>
                 <div class="pn_btns px_0" *ngIf="flash_cards.length>1">
                   <button mat-raised-button color="accent" [disabled]="!active_flash_cards_index > 0"
@@ -961,18 +967,18 @@
                 <div class="hgt_10"></div>
                 <div class="qstn_hds">
                   <div class="flpcrd_mn">
-                    <div class="flpcrd_innr">
+                    <div class="flpcrd_innr {{shwAns ? 'flip_frnt':'flip_bck'}}">
                       <div class="flpcrd_frnt">
-                        <div class="qstn_hds">Questions</div>
-                        <div class="px_1 my_1" *ngIf='flash_cards[active_flash_cards_index]["question_text"]!=""'
+                        <div class="p_1" *ngIf='flash_cards[active_flash_cards_index]["question_text"]!=""'
                           innerHtml='{{flash_cards[active_flash_cards_index]["question_text"]}}'>
                         </div>
+                        <div class="shw_ans"><span (click)="shwAns = !shwAns">Show Answer</span></div>
                       </div>
                       <div class="flpcrd_bk">
-                        <div class="qstn_hds">Answer</div>
-                        <div class="px_1 my_1" *ngIf='flash_cards[active_flash_cards_index]["answer_text"]!=""'
+                        <div class="p_1" *ngIf='flash_cards[active_flash_cards_index]["answer_text"]!=""'
                           innerHtml='{{flash_cards[active_flash_cards_index]["answer_text"]}}'>
                         </div>
+                        <div class="shw_ans"><span (click)="shwAns = !shwAns">Show Question</span></div>
                       </div>
                     </div>
                   </div>
