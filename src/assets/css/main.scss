@@ -1989,6 +1989,9 @@ span.w_100p {
 .float_left {
   float: left;
 }
+.flt_none{
+  float: none !important;
+}
 .w_40px{
   width: 40px;
 }
@@ -2701,22 +2704,24 @@ div.cust_mdl_par div.mn_dshbrd {
           position: relative;
           width: 100%;
           height: 100%; 
-          transition: transform 0.4s;
+          transition: transform 0.8s;
           box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
           border-radius: 8px;
           .shw_ans{
             padding: 0 1em 1em;
             text-align: right;
             > span{
-              padding: 5px 8px;
+              padding: 3px 8px;
+              border: 1px dashed #9f9f9f;
+              border-radius: 8px;
+              font-size: 12px;
+              color: #424242;
+              cursor: pointer;
             }
           }
-          .flpcrd_frnt{
-            background-color:#fff3f3b5;
-          }
-          .flpcrd_bk{ 
-            background-color: #e5fde4;
+          .flpcrd_bk{
             transform: rotateY(180deg);
+            transition-timing-function: ease-in-out;
           }
           .flpcrd_frnt, .flpcrd_bk{ 
             height: 100%;
@@ -2725,7 +2730,6 @@ div.cust_mdl_par div.mn_dshbrd {
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             border-radius: 8px;
-            border:1px solid #ddd;
             border-radius: 8px;
             .qstn_hds{
               background-color: $accent_clr;
@@ -2736,17 +2740,29 @@ div.cust_mdl_par div.mn_dshbrd {
             }
           }
           &.flip_frnt{
+            background-color:#fff3f3b5;
             .flpcrd_bk{
               font-size: inherit;
             }
             .flpcrd_frnt{
               font-size: 0;
+              .shw_ans{
+                span{
+                  font-size: 0;
+                }
+              }
             }
             transform: rotateY(180deg);
           }
           &.flip_bck{
+            background-color: #e5fde4;
             .flpcrd_bk{
               font-size: 0;
+              .shw_ans{
+                span{
+                  font-size: 0;
+                }
+              }
             }
             .flpcrd_frnt{
               font-size: inherit;
