@@ -2731,6 +2731,9 @@ div.cust_mdl_par div.mn_dshbrd {
             backface-visibility: hidden;
             border-radius: 8px;
             border-radius: 8px;
+            img{
+              margin:0 auto 15px auto;
+            }
             .qstn_hds{
               background-color: $accent_clr;
               color: #fff;
@@ -2740,12 +2743,19 @@ div.cust_mdl_par div.mn_dshbrd {
             }
           }
           &.flip_frnt{
-            background-color:#fff3f3b5;
+            background-color: #e5fde4;
             .flpcrd_bk{
               font-size: inherit;
+              img{
+                display: block;
+              }
             }
             .flpcrd_frnt{
               font-size: 0;
+              display: none;
+              img{
+                display: none;
+              }
               .shw_ans{
                 span{
                   font-size: 0;
@@ -2755,9 +2765,12 @@ div.cust_mdl_par div.mn_dshbrd {
             transform: rotateY(180deg);
           }
           &.flip_bck{
-            background-color: #e5fde4;
+            background-color:#fff3f3b5;
             .flpcrd_bk{
               font-size: 0;
+              img{
+                display: none;
+              }
               .shw_ans{
                 span{
                   font-size: 0;
@@ -2766,6 +2779,9 @@ div.cust_mdl_par div.mn_dshbrd {
             }
             .flpcrd_frnt{
               font-size: inherit;
+              img{
+                display: block;
+              }
             }
           }
         }
@@ -3437,7 +3453,7 @@ div.cust_mdl_par div.mn_dshbrd {
     padding: 5px 0 0 0;
   }
 }
-.qstnof_cnt{font-size: 14x; text-align: left;}
+.qstnof_cnt{font-size: 14x; text-align: left; display: flex; align-items: center;}
 .hyt_lst_dv{
   display: flex;
   align-items: center;
@@ -6481,24 +6497,23 @@ sup {
 
 /* Calculator CSS starts*/
 
-
 .clc_mn{
   width: 300px;
   background-color: #ddd;
-  padding: 10px;
+  padding: 15px 2px 0px 10px;
   .clc_op{
     width: 100%;
     input[type=text]{
       width: 96%;
       box-sizing: border-box;
       margin: 0 1%;
-      padding: 10px;
+      padding:15px 10px;
       border: 1px solid #ddd;
       outline: none;
       margin-bottom: 8px;
       text-align: right;
-      border-radius:6px;
       user-select: none;
+      font-size: 22px;
     }
   }
   .clc_ip{
@@ -6511,7 +6526,7 @@ sup {
       li{
         float: left;
         width: 24%;
-        margin:0 0.5% 8px 0.5%;
+        margin:0 0.5% 12px 0.5%;
         list-style: none;
         &.w_49p{
           width: 49%;
@@ -6521,5 +6536,21 @@ sup {
         }
       }
     }
+  }
+}
+
+/* Calculator CSS Ends */
+
+.lvmd_tggls{
+  width: 350px;
+  height: auto; 
+  position: fixed;
+  // right: -300px;
+  right: 0px;
+  bottom: 50px;
+  transition: 0.5s;
+  z-index: 99;
+  &:hover{
+    //right: 0px;
   }
 }

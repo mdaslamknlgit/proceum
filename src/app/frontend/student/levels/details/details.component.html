@@ -951,18 +951,20 @@
             <div class="crs_desc_cnt mcb_desc m_auto_imp flt_none">
               <div *ngIf="flash_cards.length > 0">
                 <div class="hgt_20"></div>
-                <div class="qstnof_cnt">Question(s) <strong>{{active_flash_cards_index + 1}}</strong> /
-                  {{flash_cards.length}}</div>
-                <div class="hgt_20"></div>
-                <div class="pn_btns px_0" *ngIf="flash_cards.length>1">
-                  <button mat-raised-button color="accent" [disabled]="!active_flash_cards_index > 0"
-                    (click)="prevQuestion()" class="mr_1">
-                    <mat-icon>navigate_before</mat-icon> Prev
-                  </button>
-                  <button mat-raised-button color="accent"
-                    [disabled]="active_flash_cards_index + 1 >= flash_cards.length" (click)="nextQuestion()">Next
-                    <mat-icon>navigate_next</mat-icon>
-                  </button>
+                <div class="qstnof_cnt">
+                  <div class="fs_16">Question(s) <strong>{{active_flash_cards_index + 1}}</strong> /
+                    {{flash_cards.length}}</div>
+                  <div class="spacer"></div>
+                  <div *ngIf="flash_cards.length>1">
+                    <button mat-raised-button color="accent"  [disabled]="!active_flash_cards_index > 0"
+                      (click)="prevQuestion()" (click)="shwAns = false" class="mr_1">
+                      <mat-icon>navigate_before</mat-icon> Prev
+                    </button>
+                    <button mat-raised-button color="accent"
+                      [disabled]="active_flash_cards_index + 1 >= flash_cards.length" (click)="shwAns = false" (click)="nextQuestion()">Next
+                      <mat-icon>navigate_next</mat-icon>
+                    </button>
+                  </div>
                 </div>
                 <div class="hgt_10"></div>
                 <div class="qstn_hds">
@@ -978,6 +980,7 @@
                         <div class="p_1" *ngIf='flash_cards[active_flash_cards_index]["answer_text"]!=""'
                           innerHtml='{{flash_cards[active_flash_cards_index]["answer_text"]}}'>
                         </div>
+                        <img src="../../../../../assets/images/vid_smpl.jpg" />
                         <div class="shw_ans"><span (click)="shwAns = !shwAns">Show Question</span></div>
                       </div>
                     </div>
