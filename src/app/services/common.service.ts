@@ -14,6 +14,7 @@ export class CommonService {
   public kpoint_api_url = "https://proceum.kpoint.com/api/v1/xapi/";
   public menu_status: String;
   ipResult : any;
+  public lang = "en";
   constructor(private http: HttpClient) {
     this.apiURL = environment.apiUrl;
   }

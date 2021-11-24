@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { timeInterval } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-live-mode',
   templateUrl: './live-mode.component.html',
@@ -33,9 +34,17 @@ export class LiveModeComponent implements OnInit {
   public user = [];
   public lab_values = [];
   public lab_values_headings = [];
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService) { }
+  public set_interval: any;
+  public notes = '';
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService) {
+    this.translate.setDefaultLang(this.http.lang);
+    
+   }
 
   ngOnInit(): void {
+    this.translate.get('login').subscribe((data:any)=> {
+        console.log(data);
+       });
       this.user = this.http.getUser();
       this.activatedRoute.params.subscribe((param) => {
           this.filter_array.qbank_id = param.qbank_id;
@@ -59,7 +68,7 @@ export class LiveModeComponent implements OnInit {
                   this.lab_values_headings = res['data']['headings'];
                   let minutes = this.exam[0]['question_duration'] * this.questions_list.length;
                   this.seconds = minutes*60;
-                  let set_interval = setInterval(res=>{
+                  this.set_interval = setInterval(res=>{
                       this.seconds = this.seconds-1;
                       if(this.seconds >= 0)
                       {
@@ -69,7 +78,7 @@ export class LiveModeComponent implements OnInit {
                           }
                       }
                       else{
-                          clearInterval(set_interval);
+                          clearInterval(this.set_interval);
                           this.toster.info("Test time completed", "Time up", {closeButton:true});
                           this.caluculateResult();
                       }
@@ -181,6 +190,7 @@ export class LiveModeComponent implements OnInit {
           cancelButtonText: 'No'
       }).then((result) => {
           if (result.value) {
+            clearInterval(this.set_interval);
               this.caluculateResult();
           } else if (result.dismiss === Swal.DismissReason.cancel) {
               

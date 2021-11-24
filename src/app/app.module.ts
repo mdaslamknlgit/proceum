@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+
+
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { MaterialModule } from './material/material.module';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
 import { Loader } from './classes/loader';
 import { LayoutsModule } from './layouts/layouts.module';
@@ -24,6 +26,8 @@ import { environment } from '../environments/environment';
 import { CartCountService } from './services/cart-count.service'; 
 import { ReplaceUnderscorePipe } from './shared/pipes/replace-underscore-pipe';
 import { ReplacePipe } from './shared/pipes/replace-pipe';
+import { SharedModule } from './shared/shared.module';
+
 //import { SafePipe } from './shared/pipes/safe.pipe';
 @NgModule({
   declarations: [
@@ -55,7 +59,9 @@ import { ReplacePipe } from './shared/pipes/replace-pipe';
     MatIconModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    PdfViewerModule
+    PdfViewerModule,
+    HttpClientModule,
+    SharedModule
   ],
   providers: [
     CartCountService,
