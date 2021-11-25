@@ -36,6 +36,8 @@ export class LiveModeComponent implements OnInit {
   public lab_values_headings = [];
   public set_interval: any;
   public notes = '';
+  public show_calculater = false;
+  public show_notes = false;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService) {
     this.translate.setDefaultLang(this.http.lang);
     

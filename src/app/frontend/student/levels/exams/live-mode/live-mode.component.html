@@ -68,11 +68,11 @@
                         <img src="../../../assets/images/lav_values.png" alt="" /><br>
                         Lab Values
                     </div>
-                    <div>
+                    <div (click)="show_notes=true;show_calculater=false;">
                         <img src="../../../assets/images/notes.png" alt="" /><br>
                         Notes
                     </div>
-                    <div>
+                    <div (click)="show_notes=false;show_calculater=true;">
                         <img src="../../../assets/images/calculator.png" alt="" /><br>
                         Calculator
                     </div>
@@ -244,6 +244,19 @@
                             </ul>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="mn_dshbrd">
+                <div class="lvmd_tggls" *ngIf="show_notes || show_calculater">
+                    <span *ngIf="show_notes">
+                        <mat-form-field appearance="outline">
+                            <textarea matInput name="notes_name" [(ngModel)]="notes"></textarea>
+                        </mat-form-field>
+                        <button (click)="notes=''" mat-raised-button color="primary">Clear</button>
+                    </span>
+                    <span *ngIf="show_calculater">
+                        <ng-calculator></ng-calculator>
+                    </span>
                 </div>
             </div>
             <div class="btm_aa">
@@ -1458,14 +1471,4 @@
         </div>
     </div>
 </div>
-<div class="mn_dshbrd">
-    <form class="example-form">
-    <mat-form-field appearance="outline">
-    <textarea matInput name="notes_name" [(ngModel)]="notes"></textarea>
-    </mat-form-field>
-</form>
-    <button (click)="notes=''" mat-raised-button color="primary">Clear</button>
-    <div class="lvmd_tggls">
-        <ng-calculator></ng-calculator>
-    </div>
-</div>
+
