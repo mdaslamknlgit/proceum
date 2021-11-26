@@ -78,6 +78,7 @@ export class CreateUserComponent implements OnInit {
   universities = [];
   colleges = [];
   institutes = [];
+  user = [];
   public organization_types = environment.ORGANIZATION_TYPES;
 
   
@@ -94,7 +95,8 @@ export class CreateUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.domain = location.origin;
-    this.getAdminSpecificRoles();
+    this.user = this.http.getUser();
+    this.getAdminSpecificRoles(this.user['role']);
     this.activatedRoute.params.subscribe((param) => {
       this.user_id = param.id;
       if (this.user_id != undefined) {
@@ -119,8 +121,8 @@ export class CreateUserComponent implements OnInit {
     }
   }
 
-  getAdminSpecificRoles(){
-    let param = { url: 'get-admin-specific-roles',is_admin_specific_role : '1'};
+  getAdminSpecificRoles(role){
+    let param = { url: 'get-admin-specific-roles',role : role};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.roles = res['data']['roles'];
@@ -411,7 +413,7 @@ export class CreateUserComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.navigateTo('manage-users');
+        this.navigateTo('admin/manage-users');
       } else {
           this.toster.error(res['message'], 'Error', { closeButton: true });
       }

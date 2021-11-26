@@ -47,6 +47,7 @@ export class StepsComponent implements OnInit {
   public breadcome = [];
   public curriculum_obj = [];
   public order_number = 0;
+  public enable_add_level_button = false;
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -78,6 +79,8 @@ export class StepsComponent implements OnInit {
         this.curriculum_label_id = res['data']['result']['pk_id'];
         this.step_number = res['data']['result']['level_number'];
         this.getSteps(true);
+      }else{
+        this.toster.error(res['message'], 'error');
       }
     });
   }
@@ -111,6 +114,7 @@ export class StepsComponent implements OnInit {
         //this.toster.info(res['message'], 'Info');
         this.dataSource = new MatTableDataSource([]);
       }
+      this.enable_add_level_button = res['edit_access'];
     });
   }
   public getServerData(event?: PageEvent) {

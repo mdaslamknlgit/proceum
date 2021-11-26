@@ -116,7 +116,7 @@ export class ManageUsersComponent implements OnInit {
 
   navigateTo(url){
       let user = this.http.getUser();
-      if(user['role']== '1'){
+      if(user['role'] == '1' || user['role'] == '8' || user['role'] == '9' || user['role'] == '10'){
           url = "/admin/"+url;
       }
       //Later we must change this

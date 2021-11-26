@@ -68,10 +68,6 @@ import { PartnersListComponent } from './partner-management/partners-list/partne
 import { ManageUsersComponent } from './user-management/manage-users/manage-users.component';
 import { CreateUserComponent } from './user-management/create-user/create-user.component';
 import { PackageTestimonialsComponent } from './course-package/package-testimonials/package-testimonials.component';
-import { ListYearsComponent } from './manage-years/list-years/list-years.component';
-import { ListSemestersComponent } from './manage-semesters/list-semesters/list-semesters.component';
-import { ListGroupsComponent } from './manage-year-groups/list-groups/list-groups.component';
-import { CreateGroupComponent } from './manage-year-groups/create-group/create-group.component';
 import { StudyPlannerComponent } from './study-planner/study-planner.component';
 import { LabValuesComponent } from './question-management/lab-values/lab-values.component';
 import { PocVideosComponent } from './poc-videos/poc-videos.component';
@@ -87,7 +83,7 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     children: [
-        { path: '', component: NotFoundComponent },
+      { path: '', component: NotFoundComponent },
       {
         path: 'dashboard',
         component: DashboardComponent,
@@ -197,13 +193,6 @@ const routes: Routes = [
 
       //Years routes
       { path: 'manage-year-semester-group', component:  ManageYearsSemestersGroupsComponent},
-      { path: 'manage-years', component:  ListYearsComponent},
-      //Semester routes
-      { path: 'manage-semesters', component: ListSemestersComponent },
-      //Year Groups routes
-      { path: 'create-year-group', component: CreateGroupComponent },
-      { path: 'edit-year-group/:id', component: CreateGroupComponent },
-      { path: 'manage-year-groups', component: ListGroupsComponent },
       //study-planner
       { path: 'study-planner', component: StudyPlannerListComponent },
       { path: 'study-planner/create', component: StudyPlannerComponent },
@@ -262,10 +251,6 @@ const routes: Routes = [
     ManageUsersComponent,
     CreateUserComponent,
     PackageTestimonialsComponent,
-    ListYearsComponent,
-    ListSemestersComponent,
-    ListGroupsComponent,
-    CreateGroupComponent,
     StudyPlannerComponent,
     LabValuesComponent,
     PocVideosComponent,

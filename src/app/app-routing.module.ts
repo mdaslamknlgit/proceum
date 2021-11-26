@@ -58,7 +58,7 @@ const routes: Routes = [
       import('./admin/admin.module').then((m) => m.AdminModule),
     canActivate: [AuthGuard],
     data: {
-      role: '1',
+      role: '1,8,9,10',
     },
   },
   {
@@ -76,7 +76,7 @@ const routes: Routes = [
       import('./frontend/frontend.module').then((m) => m.FrontendModule),
     canActivate: [AuthGuard],
     data: {
-      role: '2,1,3,4,5,6,7,8,9,10,11',
+      role: '2,1,3,4,5,6,7,11',
     },
   },
   { path: 'shopping-cart', component: ShoppingCartComponent },
