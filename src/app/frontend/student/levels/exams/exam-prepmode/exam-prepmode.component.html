@@ -204,7 +204,7 @@
         <div>
             <button
                 [disabled]="(exam_type == 1 && filter_array.level_id == 0) || ((exam_type == 2 || exam_type == 3) && selected_topics.length == 0)"
-                (click)="startTest()" mat-raised-button type="button" class="w_100px float_right" color="accent">
+                (click)="openFullscreen()" mat-raised-button type="button" class="w_100px float_right" color="accent">
                 Start&nbsp;&nbsp;<mat-icon>start</mat-icon>
             </button>
         </div>
@@ -212,13 +212,11 @@
         <div class="drtn_eq d-flex" *ngIf="exam_type == 2 || exam_type == 3">
             <div class="drtn_eq_hd">Selected questions</div>
             <div class="spacer"></div>
-                <button
-                    [disabled]="(exam_type == 1 && filter_array.level_id == 0) || ((exam_type == 2 || exam_type == 3) && selected_topics.length == 0)"
-                    (click)="openFullscreen()" mat-raised-button type="button" class="w_100p" color="accent">
-                    Start&nbsp;&nbsp;<mat-icon>start</mat-icon>
-                </button>
-            </div>
+            
         </div>
+        <div class="tbl_rsp" *ngIf="exam_type == 2 || exam_type == 3">
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="Sno">
                     <th mat-header-cell *matHeaderCellDef> S.No</th>
                     <td mat-cell *matCellDef="let element; let s_no=index"> {{s_no+1}} </td>
                 </ng-container>
