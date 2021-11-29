@@ -1663,8 +1663,8 @@
                     </div>
                     <div class="hgt_10"></div>
                     <div class="d-flex">
-                        <div *ngIf="false">
-                            <button mat-raised-button color="accent" class="ml_1">Mark for Review &amp; Next</button>
+                        <div>
+                            <button (click)="markQuestion(active_q_index);getQuestionOptions(active_q_index+1)" mat-raised-button color="accent" class="ml_1">Mark for Review &amp; Next</button>
                             <!-- <button mat-raised-button color="accent" class="ml_1">Clear Response</button> -->
                         </div>
                         <div class="spacer"></div>
@@ -1684,12 +1684,12 @@
                         </div>
                     </div>
                     <div class="prfl_tbl_ab">
-                        <div><span class="q-answered rd_btns">0</span> Answered</div>
-                        <div><span class="q-not-answered rd_btns">1</span> Not Answered</div>
+                        <div><span class="q-answered rd_btns">{{getCounts('answered')}}</span> Answered</div>
+                        <div><span class="q-not-answered rd_btns">{{getCounts('not_answered')}}</span> Not Answered</div>
                     </div>
                     <div class="prfl_tbl_ab">
-                        <div><span class="q-not-visited rd_btns">0</span> Not Visited</div>
-                        <div><span class="q-marked rd_btns">1</span> Marked for Review</div>
+                        <div><span class="q-not-visited rd_btns">{{getCounts('not_visited')}}</span> Not Visited</div>
+                        <div><span class="q-marked rd_btns">{{getCounts('marked')}}</span> Marked for Review</div>
                     </div>
                     <div class="prfl_tbl_ab">
                         <div class="w_100p"><span class="q-answered-marked rd_btns w_42px">0</span>Answered &amp; Marked
@@ -1716,9 +1716,7 @@
                             <li>
                                 <span class="rd_btns q-answered-marked">5</span>
                             </li> -->
-                            <li *ngFor="let q of questions_list; let question_index=index;">
-                                <span (click)="getQuestionOptions(question_index)"
-                                    class="rd_btns {{q['answer'].length>0?'q-answered':'q-not-visited'}}">{{question_index+1}}</span>
+                            <li *ngFor="let q of questions_list; let question_index=index;"><span (click)="getQuestionOptions(question_index)" class="rd_btns {{q['answer'].length>0?'q-answered':'q-not-visited'}}">{{question_index+1}}</span>
                             </li>
                         </ul>
                     </div>
