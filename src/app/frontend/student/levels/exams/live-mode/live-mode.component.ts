@@ -5,6 +5,7 @@ import { timeInterval } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
+import { DOCUMENT } from '@angular/common';
 @Component({
   selector: 'app-live-mode',
   templateUrl: './live-mode.component.html',
@@ -38,26 +39,43 @@ export class LiveModeComponent implements OnInit {
   public notes = '';
   public show_calculater = false;
   public show_notes = false;
+  elem: any;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService) {
     this.translate.setDefaultLang(this.http.lang);
     
    }
 
-  ngOnInit(): void {
-    this.translate.get('login').subscribe((data:any)=> {
-        console.log(data);
-       });
-      this.user = this.http.getUser();
-      this.activatedRoute.params.subscribe((param) => {
-          this.filter_array.qbank_id = param.qbank_id;
-          this.filter_array.exam_id = param.exam_id;
-          this.getTestQuestions();
-      });
-  }
+    ngOnInit(): void {
+        this.user = this.http.getUser();
+        this.elem = document.documentElement;
+        this.activatedRoute.params.subscribe((param) => {
+            this.filter_array.qbank_id = param.qbank_id;
+            this.filter_array.exam_id = param.exam_id;
+            this.getTestQuestions();
+        });
+    }
+  
+
+/* View in fullscreen */
+ openFullscreen() {
+    if (this.elem.requestFullscreen) {
+        this.elem.requestFullscreen();
+      } else if (this.elem.mozRequestFullScreen) {
+        /* Firefox */
+        this.elem.mozRequestFullScreen();
+      } else if (this.elem.webkitRequestFullscreen) {
+        /* Chrome, Safari and Opera */
+        this.elem.webkitRequestFullscreen();
+      } else if (this.elem.msRequestFullscreen) {
+        /* IE/Edge */
+        this.elem.msRequestFullscreen();
+      }
+}
   getTestQuestions(){
       let param = {url: "qbank/get-live-mode-questions", qbank_id:this.filter_array.qbank_id, exam_id: this.filter_array.exam_id};
       this.http.post(param).subscribe(res=>{
           if(res['error'] == false){
+              //this.openFullscreen();
               this.questions_list = res['data']['questions'];
               this.exam.push(res['data']['exam']);
               this.bucket_url = res['data']['bucket_url'];

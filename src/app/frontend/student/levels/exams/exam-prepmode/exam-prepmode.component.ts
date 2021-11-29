@@ -114,6 +114,24 @@ export class ExamPrepmodeComponent implements OnInit {
             });
         }
     }
+    /* View in fullscreen */
+    elem: any;
+ openFullscreen() {
+    this.elem = document.documentElement;
+    if (this.elem.requestFullscreen) {
+        this.elem.requestFullscreen();this.startTest();
+      } else if (this.elem.mozRequestFullScreen) {
+        /* Firefox */
+        this.elem.mozRequestFullScreen();this.startTest();
+      } else if (this.elem.webkitRequestFullscreen) {
+        /* Chrome, Safari and Opera */
+        
+        this.elem.webkitRequestFullscreen();this.startTest();
+      } else if (this.elem.msRequestFullscreen) {
+        /* IE/Edge */
+        this.elem.msRequestFullscreen();this.startTest();
+      }
+}
     startTest(){
         if(this.exam_type == 1){
             if(this.filter_array.level_id > 0){
