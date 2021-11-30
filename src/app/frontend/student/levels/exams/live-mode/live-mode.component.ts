@@ -37,6 +37,7 @@ export class LiveModeComponent implements OnInit {
   public notes = '';
   public show_calculater = false;
   public show_notes = false;
+  public show_lab_values = false;
   elem: any;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService) {
     this.translate.setDefaultLang(this.http.lang);

@@ -64,15 +64,15 @@
                         <img src="../../../assets/images/auto_translate.png" alt="" /><br>
                         Auto Translate
                     </div> -->
-                    <div>
+                    <div (click)="show_lab_values=!show_lab_values">
                         <img src="../../../assets/images/lav_values.png" alt="" /><br>
                         Lab Values
                     </div>
-                    <div (click)="show_notes=true;show_calculater=false;">
+                    <div (click)="show_notes=!show_notes;show_calculater=false;">
                         <img src="../../../assets/images/notes.png" alt="" /><br>
                         Notes
                     </div>
-                    <div (click)="show_notes=false;show_calculater=true;">
+                    <div (click)="show_notes=false;show_calculater=!show_calculater;">
                         <img src="../../../assets/images/calculator.png" alt="" /><br>
                         Calculator
                     </div>
@@ -166,7 +166,7 @@
                     </div>
                 </div>
                 <div class="spacer"></div>
-                <div class="w_40p lb_vles_rgt">
+                <div *ngIf="show_lab_values  == true" class="w_40p lb_vles_rgt">
                     <!-- *ngIf="lab_values.length>0" -->
                     <div class="lb_vles">
                         <div>Lab Values</div>
@@ -1691,11 +1691,11 @@
                         <div><span class="q-not-visited rd_btns">{{getCounts('not_visited')}}</span> Not Visited</div>
                         <div><span class="q-marked rd_btns">{{getCounts('marked')}}</span> Marked for Review</div>
                     </div>
-                    <div class="prfl_tbl_ab">
+                    <!-- <div class="prfl_tbl_ab">
                         <div class="w_100p"><span class="q-answered-marked rd_btns w_42px">0</span>Answered &amp; Marked
                             for
                             Review (will NOT be considered for evaluation)</div>
-                    </div>
+                    </div> -->
                     <div class="prfl_tbl_ab">
                         <div class="w_100p all_qst_aa">All questions</div>
                     </div>
@@ -1716,7 +1716,8 @@
                             <li>
                                 <span class="rd_btns q-answered-marked">5</span>
                             </li> -->
-                            <li *ngFor="let q of questions_list; let question_index=index;"><span (click)="getQuestionOptions(question_index)" class="rd_btns {{q['answer'].length>0?'q-answered':'q-not-visited'}}">{{question_index+1}}</span>
+                            <li *ngFor="let q of questions_list; let question_index=index;"><span *ngIf="q['is_marked'] == false" (click)="getQuestionOptions(question_index)" class="rd_btns {{q['answer'].length>0?'q-answered':'q-not-visited'}}">{{question_index+1}}</span>
+                                <span *ngIf="q['is_marked'] == true" (click)="getQuestionOptions(question_index)" class="rd_btns q-marked">{{question_index+1}}</span>
                             </li>
                         </ul>
                     </div>
