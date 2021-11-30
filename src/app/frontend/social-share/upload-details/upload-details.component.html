@@ -12,41 +12,46 @@
         </div>
     </div>
     <hr />
+    <form id="social_sharing_form" #social_sharing_form="ngForm" name="social_sharing_form"
+        (ngSubmit)="social_sharing_form.valid && createSocialSharing()" novalidate>
     <div class="dsh_brd_crds">
         <div class="hgt_20"></div>
         <div class="d-flex">
             <div class="mr_1">
                 <span>Select Platform <span class="required">*</span></span><br>
                 <mat-form-field appearance="outline">
-                    <mat-select value="0">
-                        <mat-option value="0">Select Platform</mat-option>
-                        <mat-option value="">Facebook</mat-option>
-                        <mat-option value="">Twitter</mat-option>
-                        <mat-option value="">Whatsapp</mat-option>
-                        <mat-option value="">Insta</mat-option>
-                        <mat-option value="">Linked In</mat-option>
+                    <mat-select placeholder="Select Platform" [(ngModel)]="platform_value" name="platform_name" #platform_name="ngModel" (ngModelChange)="changePlatform()" required>
+                        <mat-option value="FACEBOOK">Facebook</mat-option>
+                        <mat-option value="TWITTER">Twitter</mat-option>
+                        <mat-option value="WHATSAPP">Whatsapp</mat-option>
+                        <mat-option value="INSTAGRAM">Instagram</mat-option>
+                        <mat-option value="LINKEDIN">Linkedin</mat-option>
                     </mat-select>
                 </mat-form-field>
+                <span class="prc_tltp" *ngIf="(social_sharing_form.submitted || platform_name.touched) && platform_name.invalid">Platform is required</span>
             </div>
-            <div>
+            <div class="mr_1">
                 <span>Select Publish Date <span class="required">*</span></span><br>
-                <mat-form-field appearance="outline">
-                    <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY">
+                <mat-form-field appearance="outline" class="cal_wdth" color="accent">
+                    <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY" required name="publish_date_name" #publish_date_name="ngModel"
+                    [(ngModel)]="publish_date" autocomplete="off" [max]="today_date">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
+                  <span class="prc_tltp" *ngIf="(social_sharing_form.submitted || publish_date_name.touched) && publish_date_name.invalid">Publish Date is required</span>
+            </div>
+            <div class="w_100p" *ngIf="publish_url_div == true">
+                <span>Publish URL <span class="required">*</span></span><br>
+                <mat-form-field appearance="outline" class="w_100p">
+                    <input matInput placeholder="Publish URL" [(ngModel)]="publish_url" name="publish_url_name" #publish_url_name="ngModel" required>
+                </mat-form-field>
+                <span class="prc_tltp" *ngIf="(social_sharing_form.submitted || publish_url_name.touched) && publish_url_name.invalid">Publish URL is required</span>
             </div>
         </div> 
         <div>
-            <span>Publish URL <span class="required">*</span></span><br>
-            <mat-form-field appearance="outline" class="w_100p">
-                <textarea matInput placeholder="Publish URL"></textarea>
-              </mat-form-field>
-        </div>
-        <div>
             <span>Description</span><br>
             <mat-form-field appearance="outline" class="w_100p">
-                <textarea matInput placeholder="Description"></textarea>
+                <textarea style="height: 50px;" (keyup)="autoGrowTextZone($event)" matInput placeholder="Description" [(ngModel)]="description" name="description_name" #description_name="ngModel"></textarea>
               </mat-form-field>
         </div>
         <div class="hgt_20"></div>
@@ -57,26 +62,21 @@
                         <mat-icon>wallpaper</mat-icon>
                         <label for="Intro video"> Upload Screenshots <span class="required">*</span></label>
                         <span class="spacer"></span>
-                        <mat-icon matTooltip="Click to Upload Image">add</mat-icon>
+                        <mat-icon onclick="document.getElementById('imageToUpload').click()" matTooltip="Click to Upload Image">add</mat-icon>
+                        <input (change)="uploadFiles($event)" multiple="true" accept="image/x-png,image/gif,image/jpeg"
+                        id="imageToUpload" type="file" style="display: none" />
                     </div>
-                    <div class="c_block_content">
+                    <div *ngIf="imageSrc.length == 0" class="c_block_content">
                         <div class="upload_placeholder">
                             <div class="place_block">
                                 <span>Click + icon to add Attachements</span>
                             </div>
                         </div>
                     </div>
-                    <div class="c_block_content upld_det_imgs">
-                        <div class="upld_det_imgs_dv">
-                            <img
-                                src="../../../../assets/images/wc-img-3.png" />
-                            <button mat-mini-fab class="img_dl_btn" color="warn">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </div>
-                        <div class="upld_det_imgs_dv">
-                            <img src="../../../../assets/images/wc-img-4.png" />
-                            <button mat-mini-fab class="img_dl_btn" color="warn">
+                    <div *ngIf="imageSrc.length > 0" class="c_block_content upld_det_imgs">
+                        <div class="upld_det_imgs_dv" *ngFor="let image of imageSrc; let i = index">
+                            <img style="height: inherit;" src="{{image}}" />
+                            <button type="button" mat-mini-fab class="img_dl_btn" (click)="removeFile(i)" color="warn">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div>
@@ -96,4 +96,5 @@
             </div>
         </div>
     </div>
+</form>
 </div>

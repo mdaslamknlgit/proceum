@@ -44,6 +44,9 @@ import { TeacherMaterialComponent } from './student/learning-notes/teacher-mater
 import { MaterialDescriptionComponent } from './student/learning-notes/material-description/material-description.component';
 import { UploadDetailsComponent } from './social-share/upload-details/upload-details.component';
 import { SharePageComponent } from './social-share/share-page/share-page.component';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
+import { DatePipe } from '@angular/common';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -92,6 +95,7 @@ const routes: Routes = [
       
       { path: 'sharing', component: SharePageComponent },
       { path: 'upload-details', component: UploadDetailsComponent },
+      { path: 'upload-details/:upload_id', component: UploadDetailsComponent },
       { path: 'teacher-material', component: TeacherMaterialComponent },
       { path: 'material-details/:material_id', component: MaterialDescriptionComponent },
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
@@ -151,6 +155,10 @@ const routes: Routes = [
     ImageViewerModule.forRoot(),
     PdfViewerModule,
     SharedModule
+  ],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    DatePipe,
   ],
   exports: [RouterModule],
 })
