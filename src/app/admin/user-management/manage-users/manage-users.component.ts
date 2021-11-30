@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ManageUsersComponent implements OnInit {
   displayedColumns: string[] = [
+    'CB',
     'id',
     'name',
     'email',

@@ -17,6 +17,8 @@ import { PdfViewerComponent } from 'ng2-pdf-viewer';
 export class DetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
+  public shwAns = false;
+  public shwQst = true;
   public view_type = 1;
   public title = '';
   public curriculum = [];
@@ -69,6 +71,11 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public timeline:any;
   public library_popup = false;
   public image_index = 0;
+  public flashCardsArray = [];
+  public flash_card_popup = false;
+  public flash_index = 0;
+  public flash_card_index = 0;
+  public flash_card_type = '';
   public is_loaded = false;
   public is_preview = false;
   public editorConfig = {link: {decorators: {openInNewTab: {mode: 'manual',label: 'Open in a new tab',defaultValue: true, attributes: {target: '_blank', rel: 'noopener noreferrer'}}}}}
@@ -329,7 +336,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.highyields = data['highyields'];
         this.learning_notes = data['learning_notes'];
         this.mcqs = data['mcqs'];
-        this.flash_cards = data['flash_cards'];
+        this.flash_cards = data['flash_cards'];        
         this.short_answers = data['short_answers'];
         this.cases = data['cases'];
         this.main_content = this.sanitizer.bypassSecurityTrustHtml(
@@ -485,6 +492,15 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   openLibrary(index){
       this.image_index = index;
     this.library_popup = true;
+  }
+  openFlashCardLibrary(index,flash_cards_index,flash_card_type){ // added by Phanindra
+    this.flashCardsArray = this.flash_cards[flash_cards_index][flash_card_type].map((item) => {
+      return item.path;
+    });
+    this.flash_index = index;
+    this.flash_card_index = flash_cards_index;
+    this.flash_card_type =flash_card_type;
+    this.flash_card_popup = true;
   }
   openPdf(path){
       console.log(path)

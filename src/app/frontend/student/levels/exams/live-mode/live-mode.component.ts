@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { timeInterval } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 import Swal from 'sweetalert2';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-live-mode',
   templateUrl: './live-mode.component.html',
@@ -14,7 +14,6 @@ export class LiveModeComponent implements OnInit {
   public rvrsClr = true;
   public qstnsPup = false;
   public instrPup = false;
-
   public lst_grdclk = true;
   public filter_array = {qbank_id:0, exam_id:0};
   public questions_list = [];
@@ -31,19 +30,51 @@ export class LiveModeComponent implements OnInit {
   public remain_time = '';
   public seconds = 0;
   public curriculum = [];
-  constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService) { }
+  public user = [];
+  public lab_values = [];
+  public lab_values_headings = [];
+  public set_interval: any;
+  public notes = '';
+  public show_calculater = false;
+  public show_notes = false;
+  public show_lab_values = false;
+  elem: any;
+  constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService) {
+    this.translate.setDefaultLang(this.http.lang);
+    
+   }
 
-  ngOnInit(): void {
-      this.activatedRoute.params.subscribe((param) => {
-          this.filter_array.qbank_id = param.qbank_id;
-          this.filter_array.exam_id = param.exam_id;
-          this.getTestQuestions();
-      });
-  }
+    ngOnInit(): void {
+        this.user = this.http.getUser();
+        this.elem = document.documentElement;
+        this.activatedRoute.params.subscribe((param) => {
+            this.filter_array.qbank_id = param.qbank_id;
+            this.filter_array.exam_id = param.exam_id;
+            this.getTestQuestions();
+        });
+    }
+  
+
+/* View in fullscreen */
+ openFullscreen() {
+    if (this.elem.requestFullscreen) {
+        this.elem.requestFullscreen();
+      } else if (this.elem.mozRequestFullScreen) {
+        /* Firefox */
+        this.elem.mozRequestFullScreen();
+      } else if (this.elem.webkitRequestFullscreen) {
+        /* Chrome, Safari and Opera */
+        this.elem.webkitRequestFullscreen();
+      } else if (this.elem.msRequestFullscreen) {
+        /* IE/Edge */
+        this.elem.msRequestFullscreen();
+      }
+}
   getTestQuestions(){
-      let param = {url: "qbank/get-exam-mode-questions", qbank_id:this.filter_array.qbank_id, exam_id: this.filter_array.exam_id};
+      let param = {url: "qbank/get-live-mode-questions", qbank_id:this.filter_array.qbank_id, exam_id: this.filter_array.exam_id};
       this.http.post(param).subscribe(res=>{
           if(res['error'] == false){
+              //this.openFullscreen();
               this.questions_list = res['data']['questions'];
               this.exam.push(res['data']['exam']);
               this.bucket_url = res['data']['bucket_url'];
@@ -52,9 +83,11 @@ export class LiveModeComponent implements OnInit {
               if(this.questions_list.length > 0)
               {
                   this.getQuestionOptions(0);
+                  this.lab_values = res['data']['lab_values'];
+                  this.lab_values_headings = res['data']['headings'];
                   let minutes = this.exam[0]['question_duration'] * this.questions_list.length;
                   this.seconds = minutes*60;
-                  let set_interval = setInterval(res=>{
+                  this.set_interval = setInterval(res=>{
                       this.seconds = this.seconds-1;
                       if(this.seconds >= 0)
                       {
@@ -64,7 +97,7 @@ export class LiveModeComponent implements OnInit {
                           }
                       }
                       else{
-                          clearInterval(set_interval);
+                          clearInterval(this.set_interval);
                           this.toster.info("Test time completed", "Time up", {closeButton:true});
                           this.caluculateResult();
                       }
@@ -113,8 +146,9 @@ export class LiveModeComponent implements OnInit {
       let m = new String(minutes);
       let f_minutes = m.length == 1?'0'+minutes:minutes;
       let h = new String(hours);
-      let f_hours = h.length == 1?'0'+hours:hours;
-      this.remain_time = f_hours+" : "+f_minutes+" : "+f_seconds;
+      let f_hours = h.length == 1?'0'+hours+':':hours;
+      f_hours = f_hours=='00:'?'':f_hours;
+      this.remain_time = f_hours+''+f_minutes+" : "+f_seconds;
   }
   getXtToken(){
       if(this.active_question['q_source'] == 'KPOINT'){
@@ -175,12 +209,58 @@ export class LiveModeComponent implements OnInit {
           cancelButtonText: 'No'
       }).then((result) => {
           if (result.value) {
+            clearInterval(this.set_interval);
               this.caluculateResult();
           } else if (result.dismiss === Swal.DismissReason.cancel) {
               
           }
       });
   }
+    markQuestion(index){
+        console.log(this.questions_list[index]['is_marked'], 'befor');
+        this.questions_list[index]['is_marked'] = !this.questions_list[index]['is_marked'];
+        console.log(this.questions_list[index]['is_marked'], 'after');
+    }
+    public not_visited_qs = 0;
+    public answered_qs = 0;
+    public marked_qs = 0;
+    getCounts(type){
+        this.not_visited_qs = 0;
+        this.not_answered = 0;
+        this.answered_qs = 0;
+        this.marked_qs = 0;
+        this.questions_list.forEach((q,index)=>{
+            if([3,6,9,12].includes(q['q_type'])){
+                this.free_text_qs = this.free_text_qs+1;
+                return true;
+            }
+            if(q['options'].length==0){
+                this.not_visited_qs = this.not_visited_qs + 1;
+                this.not_answered = this.not_answered+1;
+            }
+            else if(q['answer'].length == 0){
+                this.not_answered = this.not_answered+1;
+            }
+            else if(q['answer'].length > 0){
+                this.answered_qs = this.answered_qs + 1;
+            }
+            if(q['is_marked']){
+                this.marked_qs = this.marked_qs + 1;
+            }
+        });
+        if(type == 'answered'){
+            return this.answered_qs
+        }
+        if(type == 'not_answered'){
+            return this.not_answered
+        }
+        if(type == 'not_visited'){
+            return this.not_visited_qs
+        }
+        if(type == 'marked'){
+            return this.marked_qs
+        }
+    }
   caluculateResult(){
       this.is_test_end = true;
       let check = false;

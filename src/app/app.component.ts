@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonService } from './services/common.service';
 import { Router, NavigationEnd } from '@angular/router';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,7 +15,11 @@ export class AppComponent {
   public is_admin: boolean = false;
   public is_student: boolean = false;
   windowScrolled = false;
-  constructor(private http: CommonService, private router: Router) {}
+  constructor(private http: CommonService, private router: Router, public translate: TranslateService) {
+    //translate.addLangs(['en', 'fr']);  
+    //this.translate.setTranslation('en', defaultLanguage);
+    this.translate.setDefaultLang('en');
+  }
   @HostListener('window:scroll', [])
   onWindowScroll() {
     if (
