@@ -85,6 +85,7 @@ import { SocialApprovalComponent } from './social-share/social-approval/social-a
 import { ManageFlashCardsComponent } from './flash-cards/manage-flash-cards/manage-flash-cards.component';
 import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-cards/create-new-flash-cards.component';
 import { CreateMeetingComponent } from './zoom/create-meeting/create-meeting.component';
+import { ListMeetingComponent } from './zoom/list-meeting/list-meeting.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -222,12 +223,14 @@ const routes: Routes = [
       //Teacher materials routes, Added by Sandeep kumar
       { path: 'materials', component: TeacherMaterialsComponent },
       { path: 'teacher-material', component: TeacherMaterialsComponent },
+      
 
       { path: 'create-exam', component: CreateExamComponent},
       //Added by Phanindra 28-20-2021
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
       { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
-      { path: 'class/create', component: CreateMeetingComponent}
+      { path: 'class/create', component: CreateMeetingComponent},
+      { path: 'list-meeting', component: ListMeetingComponent },
     ],
   },
 ];
@@ -291,7 +294,8 @@ const routes: Routes = [
     ManageFlashCardsComponent,
     CreateNewFlashCardsComponent,
     TeacherMaterialsComponent,
-    CreateMeetingComponent
+    CreateMeetingComponent,
+    ListMeetingComponent
   ],
   imports: [
     MaterialModule,
