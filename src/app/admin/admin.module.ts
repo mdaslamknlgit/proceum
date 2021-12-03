@@ -88,6 +88,8 @@ import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-car
 import { CreateMeetingComponent } from './zoom/create-meeting/create-meeting.component';
 import { ListMeetingComponent } from './zoom/list-meeting/list-meeting.component';
 import { SharedModule } from '../shared/shared.module';
+import { CreateAssessmentComponent } from './assessment/create-assessment/create-assessment.component';
+import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -233,6 +235,8 @@ const routes: Routes = [
       { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
       { path: 'class/create', component: CreateMeetingComponent},
       { path: 'list-meeting', component: ListMeetingComponent },
+      { path: 'create-assessment', component: CreateAssessmentComponent },
+      { path: 'assessment-list', component: AssessmentListComponent },
     ],
   },
 ];
@@ -297,7 +301,9 @@ const routes: Routes = [
     CreateNewFlashCardsComponent,
     TeacherMaterialsComponent,
     CreateMeetingComponent,
-    ListMeetingComponent
+    ListMeetingComponent,
+    CreateAssessmentComponent,
+    AssessmentListComponent
   ],
   imports: [
     MaterialModule,

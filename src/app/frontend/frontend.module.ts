@@ -45,6 +45,7 @@ import { TeacherMaterialComponent } from './student/learning-notes/teacher-mater
 import { MaterialDescriptionComponent } from './student/learning-notes/material-description/material-description.component';
 import { UploadDetailsComponent } from './social-share/upload-details/upload-details.component';
 import { SharePageComponent } from './social-share/share-page/share-page.component';
+import { StudentAssessmentListComponent } from './student/assessment/student-assessment-list/student-assessment-list.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -98,6 +99,7 @@ const routes: Routes = [
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
       { path: 'purchased-orders', component: OrderListComponent },
+      { path: 'assessment-list', component: StudentAssessmentListComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
     ],
   },
@@ -138,6 +140,7 @@ const routes: Routes = [
     OrderDetailsComponent,
     UploadDetailsComponent,
     SharePageComponent,
+    StudentAssessmentListComponent,
   ],
   imports: [
     CommonModule,

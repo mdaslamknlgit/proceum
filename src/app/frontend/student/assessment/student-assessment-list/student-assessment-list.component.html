@@ -1,0 +1,66 @@
+<div class="mn_dshbrd">
+    <div class="brd_crm">Proceum &raquo; <strong>Assessment List</strong></div>
+    <div class="d-flex rsp_fw">
+        <div class="pg_ttl">Assessment List</div>
+        <div class="spacer"></div>
+    </div>
+    <hr />
+    <div class="dsh_brd_crds">
+        <div class="rsp_tbl">
+            <table mat-table [dataSource]="dataSource">
+
+                <ng-container matColumnDef="assId">
+                    <th mat-header-cell *matHeaderCellDef> Assessment Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.assId}} </td>
+                  </ng-container> 
+                  <ng-container matColumnDef="assTyp">
+                    <th mat-header-cell *matHeaderCellDef> Assessment Type </th>
+                    <td mat-cell *matCellDef="let element"> {{element.assTyp}} </td>
+                  </ng-container> 
+
+                <ng-container matColumnDef="SubName">
+                  <th mat-header-cell *matHeaderCellDef> Subject Name </th>
+                  <td mat-cell *matCellDef="let element"> {{element.SubName}} </td>
+                </ng-container> 
+            
+                <ng-container matColumnDef="dtndTm">
+                  <th mat-header-cell *matHeaderCellDef> Date And Time </th>
+                  <td mat-cell *matCellDef="let element"> {{element.dtndTm}} </td>
+                </ng-container> 
+                <ng-container matColumnDef="qstns">
+                  <th mat-header-cell *matHeaderCellDef> Questions </th>
+                  <td mat-cell *matCellDef="let element"> {{element.qstns}} </td>
+                </ng-container> 
+
+                <ng-container matColumnDef="eqDrtn">
+                  <th mat-header-cell *matHeaderCellDef> E Q Duration </th>
+                  <td mat-cell *matCellDef="let element"> {{element.eqDrtn}} </td>
+                </ng-container> 
+                <ng-container matColumnDef="mrKs">
+                  <th mat-header-cell *matHeaderCellDef> Marks </th>
+                  <td mat-cell *matCellDef="let element"> {{element.mrKs}} </td>
+                </ng-container>  
+                <ng-container matColumnDef="prCent">
+                  <th mat-header-cell *matHeaderCellDef> Percentage </th>
+                  <td mat-cell *matCellDef="let element"> {{element.prCent}} </td>
+                </ng-container>  
+                <ng-container matColumnDef="reSlt">
+                  <th mat-header-cell *matHeaderCellDef> Result </th>
+                  <td mat-cell *matCellDef="let element"> {{element.reSlt}} </td>
+                </ng-container>  
+                <ng-container matColumnDef="stTs">
+                  <th mat-header-cell *matHeaderCellDef> Status </th>
+                  <td mat-cell *matCellDef="let element"> {{element.stTs}} </td>
+                </ng-container>  
+                <ng-container matColumnDef="acTn">
+                  <th mat-header-cell *matHeaderCellDef> Action </th>
+                  <td mat-cell *matCellDef="let element"> {{element.acTn}} </td>
+                </ng-container>  
+                
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+        </div>
+    </div>
+</div>
