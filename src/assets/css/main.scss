@@ -2585,7 +2585,7 @@ div.cust_mdl_par div.mn_dshbrd {
 }
 .fl_frmt_info {
   font-size: 12px;
-  display: inline;
+  display: inline-block;
   margin-top: 5px;
   background-color:#41ab3c4a;
   color: rgb(0, 0, 0);
@@ -2875,6 +2875,12 @@ div.cust_mdl_par div.mn_dshbrd {
         }
         &.crrct_rdo{
           pointer-events: none;
+          .mat-radio-outer-circle{
+            border-color: $accent_clr;
+          }
+          .mat-radio-inner-circle{
+            background-color: $accent_clr;
+          }
         }
         &.wrng_rdo::before{
           content: "\e5cd";
@@ -4149,6 +4155,15 @@ sup {
 }
 
 .img-container{
+  > img{
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    margin: auto !important;
+    min-height: 10px;
+    left: 0;
+    right: 0;
+  }
   button[type=button]{
     position: relative;
     font-family: "Material Icons";
