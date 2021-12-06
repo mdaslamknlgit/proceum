@@ -8,6 +8,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+
 import { environment } from '../../environments/environment';
 
 //custom modules
@@ -86,6 +87,7 @@ import { ManageFlashCardsComponent } from './flash-cards/manage-flash-cards/mana
 import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-cards/create-new-flash-cards.component';
 import { CreateMeetingComponent } from './zoom/create-meeting/create-meeting.component';
 import { ListMeetingComponent } from './zoom/list-meeting/list-meeting.component';
+import { SharedModule } from '../shared/shared.module';
 import { CreateAssessmentComponent } from './assessment/create-assessment/create-assessment.component';
 import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
@@ -317,6 +319,7 @@ const routes: Routes = [
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    SharedModule
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
@@ -324,6 +327,6 @@ const routes: Routes = [
     { provide: RouteReuseStrategy, useClass: CustomRouteReuseStategy },
     DatePipe,
   ],
-  exports: [RouterModule],
+  exports: [RouterModule, SharedModule],
 })
 export class AdminModule {}
