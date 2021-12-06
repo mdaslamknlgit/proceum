@@ -74,8 +74,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public flashCardsArray = [];
   public flash_card_popup = false;
   public flash_index = 0;
-  public flash_card_index = 0;
-  public flash_card_type = '';
   public is_loaded = false;
   public is_preview = false;
   public editorConfig = {link: {decorators: {openInNewTab: {mode: 'manual',label: 'Open in a new tab',defaultValue: true, attributes: {target: '_blank', rel: 'noopener noreferrer'}}}}}
@@ -498,8 +496,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       return item.path;
     });
     this.flash_index = index;
-    this.flash_card_index = flash_cards_index;
-    this.flash_card_type =flash_card_type;
     this.flash_card_popup = true;
   }
   openPdf(path){

@@ -47,7 +47,7 @@ export class AssetsLibraryComponent implements OnInit {
     } else {
       this.activeTab = this.data['active_tab'];
       if (this.activeTab == 'videos') this.selectedIndex = 2;
-      else if (this.activeTab == 'images' || this.activeTab == 'images/content_images') {
+      else if (this.activeTab == 'images' || this.activeTab == 'images/content_images' || this.activeTab == 'images/flash_cards') {
         this.activeTab = 'images';
           this.selectedIndex = 1;
           this.library_purpose = this.data['library_purpose'];
