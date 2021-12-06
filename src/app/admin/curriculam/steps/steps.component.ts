@@ -17,7 +17,7 @@ export class StepsComponent implements OnInit {
   public step_id = '';
   public curriculum_id = '';
 
-  displayedColumns: string[] = [
+  public displayedColumns: string[] = [
     'pk_id',
     'level_name',
     'order_number',
@@ -33,7 +33,7 @@ export class StepsComponent implements OnInit {
   public step_number = '';
   public step_pk_id = '';
   public parent_id = '';
-  dataSource = new MatTableDataSource();
+  public dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   public page = 0;
@@ -48,75 +48,65 @@ export class StepsComponent implements OnInit {
   public curriculum_obj = [];
   public order_number = 0;
   public enable_add_level_button = false;
-  constructor(
-    private http: CommonService,
-    public toster: ToastrService,
-    private activatedRoute: ActivatedRoute,
-    private route: Router,
-  ) {
-    //this.route.routeReuseStrategy.shouldReuseRoute = () => false;
-  }
-  ngOnInit(): void {
-    this.step_id = this.activatedRoute.snapshot.params.step;
-    this.activatedRoute.params.subscribe((param) => {
-      this.step_id = param.step?param.step:1;
-      this.parent_id = param.level_parent_id ? param.level_parent_id : 0;
-      this.curriculum_id = param.curriculum_id;
-      this.reLoad();
-    });
-  }
-  reLoad() {
-    let param = {
-      url: 'curriculum/' + this.curriculum_id + '/' + this.step_id+'/'+this.parent_id,
-    };
-    this.http.get(param).subscribe((res) => {
-      if (res['error'] == false) {
-          this.page = 0;
-        this.breadcome = res['data']['breadcome'];
-        this.curriculum_obj = res['data']['curriculum'];
-        this.prev_steps = res['data']['prev_steps'];
-        this.step = res['data']['result']['display_label'];
-        this.curriculum_label_id = res['data']['result']['pk_id'];
-        this.step_number = res['data']['result']['level_number'];
-        this.getSteps(true);
-      }else{
-        this.toster.error(res['message'], 'error');
-      }
-    });
-  }
-  getSteps(is_ini = false) {
-    let param = {
-      url: 'get-steps',
-      curriculum_id: this.curriculum_id,
-      step_id: this.step_id,
-      parent_id: this.parent_id,
-      offset: this.page,
-      limit: this.pageSize,
-      order_by: this.sort_by,
-      search: this.search_box,
-    };
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']['steps']);
-        if (is_ini || true) {
-          
-          if (this.paginator != undefined) {
-            this.paginator.pageIndex = 0;
-            this.paginator.firstPage();
-          }
-          else{
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          }
-        }
-        this.totalSize = res['total_records'];
-      } else {
-        //this.toster.info(res['message'], 'Info');
-        this.dataSource = new MatTableDataSource([]);
-      }
-      this.enable_add_level_button = res['edit_access'];
-    });
-  }
+    constructor(private http: CommonService, public toster: ToastrService, private activatedRoute: ActivatedRoute, private route: Router) {
+        //this.route.routeReuseStrategy.shouldReuseRoute = () => false;
+    }
+    ngOnInit(): void {
+        this.step_id = this.activatedRoute.snapshot.params.step;
+        this.activatedRoute.params.subscribe((param) => {
+        this.step_id = param.step?param.step:1;
+        this.parent_id = param.level_parent_id ? param.level_parent_id : 0;
+        this.curriculum_id = param.curriculum_id;
+        this.reLoad();
+        });
+    }
+    reLoad() {
+        let param = { url: 'curriculum/' + this.curriculum_id + '/' + this.step_id+'/'+this.parent_id};
+        this.http.get(param).subscribe((res) => {
+            if (res['error'] == false) {
+                this.page = 0;
+                this.breadcome = res['data']['breadcome'];
+                this.curriculum_obj = res['data']['curriculum'];
+                this.prev_steps = res['data']['prev_steps'];
+                this.step = res['data']['result']['display_label'];
+                this.curriculum_label_id = res['data']['result']['pk_id'];
+                this.step_number = res['data']['result']['level_number'];
+                this.getSteps(true);
+            }
+        });
+    }
+    getSteps(is_ini = false) {
+        let param = {
+            url: 'get-steps',
+            curriculum_id: this.curriculum_id,
+            step_id: this.step_id,
+            parent_id: this.parent_id,
+            offset: this.page,
+            limit: this.pageSize,
+            order_by: this.sort_by,
+            search: this.search_box,
+        };
+        this.http.post(param).subscribe((res) => {
+            if (res['error'] == false) {
+                this.dataSource = new MatTableDataSource(res['data']['steps']);
+                if (is_ini || true) {
+                
+                if (this.paginator != undefined) {
+                    this.paginator.pageIndex = 0;
+                    this.paginator.firstPage();
+                }
+                else{
+                    this.dataSource.paginator = this.paginator;
+                    this.dataSource.sort = this.sort;
+                }
+                }
+                this.totalSize = res['total_records'];
+            } else {
+                this.dataSource = new MatTableDataSource([]);
+            }
+            this.enable_add_level_button = res['edit_access'];
+        });
+    }
   public getServerData(event?: PageEvent) {
     this.page = event.pageSize * event.pageIndex;
     let param = {
@@ -137,6 +127,7 @@ export class StepsComponent implements OnInit {
         this.toster.info(res['message'], 'Error');
         this.dataSource = new MatTableDataSource([]);
       }
+      this.enable_add_level_button = res['edit_access'];
     });
   }
   sortData(event) {

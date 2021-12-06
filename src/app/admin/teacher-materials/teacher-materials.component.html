@@ -1,0 +1,241 @@
+<div class="mn_dshbrd">
+  <div style="z-index: 10000;" class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        Proceum Library
+        <span class="spacer"></span>
+        <button (click)="CloseLibraryModal()" mat-icon-button class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy" *ngIf="library_popup">
+        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab, 'library_purpose': library_purpose }">
+        </app-assets-library>   
+        <hr />
+        <button mat-raised-button color="accent" class="float_right mr_1">
+          Select
+        </button>    
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="CloseLibraryModal()">
+          Close
+        </button>
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div>
+  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        <ng-container *ngIf="model_edit_status == false">Add Material</ng-container>
+        <ng-container *ngIf="model_edit_status == true">Edit Material</ng-container>
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="closeMaterialModel()" class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy">
+        <form id="material_form" #material_form="ngForm" name="material_form" (ngSubmit)="material_form.valid && (!model_edit_status? saveMaterial() : updateMaterial())" novalidate>
+          <div class="grd_2c no_bxsdw">             
+            <div class="frm_dvs">
+              <span> Material Title<span class="required">*</span> </span>
+              <span>
+                <span class="err_tltp_par">
+                  <mat-form-field appearance="outline">
+                    <input matInput placeholder="Enter Material Title" [(ngModel)]="material_name" name="material_name_name" maxlength="250"
+                      trim="blur" #material_name_name="ngModel" required />
+                  </mat-form-field>
+                  <span class="prc_tltp" *ngIf="(material_form.submitted || material_name_name.touched) && material_name_name.invalid">Material Title is Required</span>
+                </span>
+              </span>
+            </div> 
+            <div *ngIf="user!= undefined && user['role'] == '1'" class="frm_dvs">
+              <span> Faculty<span class="required">*</span> </span>
+              <span>
+                <span class="err_tltp_par">
+                  <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Faculty" [(ngModel)]="teacher_id" name="teacher_name" #teacher_name="ngModel" required>
+                      <mat-option *ngFor="let value of usersList" [value]="value['id']" [matTooltip]="value['name']" >{{ value["name"] }}
+                      </mat-option>
+                    </mat-select>  
+                  </mat-form-field>
+                  <span class="prc_tltp" *ngIf="(material_form.submitted || teacher_name.touched) && teacher_name.invalid">Faculty is Required</span>
+                </span>
+              </span>
+            </div>
+            <div  class="frm_dvs" *ngIf="curriculum_list == undefined">
+              No Courses Found
+            </div>            
+            <div class="frm_dvs" *ngIf="curriculum_list != undefined">             
+              <span>Course<span class="required">*</span> </span>
+              <span>
+                <span class="err_tltp_par">
+                  <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Course" [(ngModel)]="curriculum_id" name="course_list_0" #course_list_0="ngModel" (ngModelChange)="applyCourseFilters(0)" required>
+                      <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']" [matTooltip]="value['curriculumn_name']" >{{ value["curriculumn_name"] }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <span class="prc_tltp" *ngIf="(material_form.submitted || course_list_0.touched) && course_list_0.invalid">Course is Required</span>
+                </span>
+              </span>
+            </div>  
+            <div class="frm_dvs" *ngFor="let value of curriculum_labels; let i = index">
+              <span>{{ ucFirst(value["display_label"]) }}<span *ngIf="level_options[value['level_number']] != undefined && level_options[value['level_number']].length > 0" class="required">*</span> </span>
+              <span>
+                <span class="err_tltp_par">
+                  <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" [(ngModel)]="selected_level[value['level_number']]" name="course_list_{{i+1}}" #course_list_{{i+1}}="ngModel" (ngModelChange)="applyCourseFilters(value['level_number']);getLevels(value['level_number'])" [required]="level_options[value['level_number']] != undefined && level_options[value['level_number']].length > 0">
+                      <mat-option>
+                        <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                            name="search_topic" ngModel
+                            (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                            [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select {{ucFirst(value['display_label'])}}
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                        [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </span>
+              </span>
+            </div>          
+            <div class="frm_dvs">
+              <span> Material Description<span class="required">*</span> </span>
+              <span class="edtr_frm">
+                <span class="oc_w100p">
+                  <ckeditor (ready)="onReady($event)" id="editor" #editor [config]="htmlEditorConfig" required
+                      ngModel #material_description_name="ngModel" [(ngModel)]="material_description" name="material_description_name"
+                    [editor]="Editor">
+                  </ckeditor>
+                  <span class="prc_tltp" *ngIf="(material_form.submitted || material_description_name.touched) && material_description_name.invalid">Material Description is Required</span>
+                </span>
+              </span>
+            </div>
+            <div class="frm_dvs">
+              <span class="edtr_frm">
+                <span class="oc_w100p">
+                  <div class="upld_attchmnts">
+                    <div class="c_block">
+                      <div class="c_block_title">
+                        <mat-icon>attachment</mat-icon>
+                        <label for="Intro video"> Upload Documents</label>
+                        <span class="spacer"></span>
+                        <mat-icon (click)="openAssetsLibrary('documents', 'attachments')">add</mat-icon>
+                      </div>
+                      <div class="c_block_content" *ngIf="attachments.length == 0">
+                        <div class="upload_placeholder">
+                          <div class="place_block">
+                            <span>Click + icon to add Documents</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="c_block_content">
+                        <ul>
+                          <li *ngFor="let file of attachments; let i = index">
+                            <img [src]="file['path']" alt="" />
+                            <span class="upldd_hd">
+                              {{
+                              file["file_path"].substring(
+                              file["file_path"].lastIndexOf("/") + 1
+                              )
+                              }}
+                            </span>
+                            <span class="spacer"></span>
+                            <mat-icon class="vd_dl_icn" (click)="removeFile(i, 'attachments')">remove_circle_outline
+                            </mat-icon>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </span>
+              </span>
+            </div>
+          </div>
+          <hr />
+          <button mat-raised-button color="accent" class="float_right mr_1">
+            Submit
+          </button>
+        </form>
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="closeMaterialModel()">
+          Close
+        </button>
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div> 
+  <div class="brd_crm">
+    Proceum &nbsp;&raquo;&nbsp;Teacher Materials
+  </div>
+  <div class="pg_ttl">Teacher Materials</div>
+  <hr />
+  <div class="dsh_brd_crds">
+    <mat-form-field appearance="outline">
+      <input matInput placeholder="Search" [(ngModel)]="search_txt"
+      (keyup)="$event.keyCode == 13 ? doFilter() : ''" />
+      <mat-icon matSuffix (click)="doFilter()">search</mat-icon>
+    </mat-form-field>
+    <button mat-raised-button color="accent" class="float_right mt_0 margin-bottom_20" type="button"
+    (click)="openAddModel()">
+      Add Material
+    </button>
+    <div class="rsp_tbl">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Material Title</th>
+          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+        </ng-container>
+        <ng-container  matColumnDef="uploaded_by">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Uploaded By</th>
+          <td mat-cell *matCellDef="let element">{{ element.uploaded_by }}</td>
+        </ng-container>
+        <ng-container matColumnDef="created_at">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
+          <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+        </ng-container>
+        <ng-container matColumnDef="updated_at">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated Date</th>
+          <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
+        </ng-container>
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef cdkDrag mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-slide-toggle (click)="changeStatus(element.pk_id, element.status)" [checked]="element.status == 1 ? true : false" matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="download_flag">
+          <th mat-header-cell *matHeaderCellDef cdkDrag mat-sort-header>Download Attachments</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-slide-toggle (click)="downloadStatus(element.pk_id, element.download_flag)" [checked]="element.download_flag == 1 ? true : false" matTooltip="{{element.download_flag == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button color="accent">
+              <mat-icon matTooltip="click here to edit material" (click)="openEditModel(element)">edit_note</mat-icon>
+            </button>
+            <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="'Are you sure to delete <b>' + element.title + '</b> '" placement="auto" (confirm)="deleteRecord(element.pk_id)" confirmButtonType="danger" cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                <mat-icon>remove_circle_outline</mat-icon>
+            </button> 
+            <button matTooltip="click here to {{ element.reading_visibility == 1 ? 'IN-VISIBLE' : 'VISIBLE' }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="'Are you sure to change visibility of <b>' + element.title + '</b>' " placement="auto" (confirm)="changeVisibility(element.pk_id, element.reading_visibility)" confirmButtonType="danger" cancelButtonType="outline-secondary">
+            <mat-icon *ngIf="element.reading_visibility == 0">visibility_off</mat-icon>
+            <mat-icon *ngIf="element.reading_visibility == 1">visibility</mat-icon>
+          </button>            
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="user!= undefined && user['role'] == '1' ? displayedColumns : displayedTeacherColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: (user!= undefined && user['role'] == '1' ? displayedColumns : displayedTeacherColumns)"></tr>
+        <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+          <td style="text-align: center; margin: 20px" class="mat-cell" [attr.colspan]="(user!= undefined && user['role'] == '1' ? displayedColumns : displayedTeacherColumns).length">
+            No Records Found
+          </td>
+        </tr>
+      </table>
+    </div>
+    <mat-paginator #paginator [pageSize]="pageSize" [pageSizeOptions]="page_size_options" [showFirstLastButtons]="true"></mat-paginator>
+  </div>
+</div>

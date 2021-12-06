@@ -121,7 +121,7 @@
                             {{ option["option_text"] }}
                         </mat-radio-button>
                         <div class="tstsopt_img"
-                            *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image']">
+                            *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
                             <img [src]="bucket_url+option['option_image']" />
                         </div>
                         <div class="rdo_desc"
@@ -137,7 +137,7 @@
                             [checked]="active_question['answer'].includes(''+option['pk_id'])"
                             (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
                         <div class="tstsqst_img">
-                            <img *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image']"
+                            <img *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                                 [src]="bucket_url+option['option_image']" />
                         </div>
                         <div class="rdo_desc"
@@ -151,7 +151,7 @@
             <div class="tstsqst_navs" *ngIf="questions_list.length>0">
                 <button mat-raised-button color="accent" [disabled]="active_q_index == 0"
                     (click)="getQuestionOptions(active_q_index-1)">
-                    <mat-icon>arrow_left</mat-icon> Prev.
+                    <mat-icon>arrow_left</mat-icon> Prev
                 </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
                     (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>

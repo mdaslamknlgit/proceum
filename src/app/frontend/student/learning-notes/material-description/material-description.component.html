@@ -4,22 +4,27 @@
         <div class="brdcrm_br">
             <mat-icon color="accent" routerLink="/">home</mat-icon>
             <mat-icon>navigate_next</mat-icon>
-            <span>Teacher Material</span>
+            <span routerLink="/student/teacher-material">Teacher Material</span>
             <mat-icon>navigate_next</mat-icon>
-            <strong>Subject</strong>
-        </div>
+            <span>{{ curriculumn["curriculumn_name"] }}</span>
+            <span *ngFor="let bread of breadcome; let i = index">
+                <mat-icon>navigate_next</mat-icon>
+                <span matTooltip='{{bread["level_name"]}}' *ngIf="i < breadcome.length - 1">{{ bread["level_name"].length>10?bread["level_name"].substring(0,9)+'...': bread["level_name"]}}</span>
+                <strong *ngIf="i == breadcome.length - 1">
+                  {{ bread["level_name"] }}</strong>
+            </span>
+        </div>      
     </div>
     <div class="hgt_5"></div>
     <div class="dsh_brd_crds tm_dsc_mn">
         <div class="tchr_mat_dets">
             <div class="tchr_mt_mn">
                 <div class="tchr_mt_cnt">
-                    AN 1.1 - Demonstrate normal anatomical position, various planes, relation, comparison, laterality &
-                    movement in out body
+                    {{ materials[0]["title"] }}
                 </div>
                 <div class="spacer"></div>
                 <div class="upld_by">
-                    Uploaded By: Lorem Ipsum<Br>Date: 09-11-2021, 12:35 PM
+                    Uploaded By: {{ materials[0]["uploaded_by"] }}<Br>Date: {{ materials[0]["updated_at"] }}
                 </div>
             </div>
         </div>
@@ -33,97 +38,44 @@
                                 <mat-icon>feed</mat-icon>Description
                             </span>
                         </div>
-                        <div class="crs_desc_cnt">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting
-                            industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.
+                        <div class="crs_desc_cnt" [innerHtml]="description">                           
                         </div>
                     </div>
                 </div>
             </div>
             <div class="hgt_10"></div>
-            <div class="cc_row">
+            <div *ngIf="materials[0]['attachments'].length > 0" class="cc_row">
                 <div class="upld_attchmnts">
                     <div class="c_block">
                         <div class="c_block_title">
                             <mat-icon>attachment</mat-icon>
                             <label for="Intro video"> Attachments</label>
                             <span class="spacer"></span>
+                            <a *ngIf="materials[0]['download_flag'] == 1 && materials[0]['attachments'].length > 0" [href]="hrefZIP" target="_blank">
                             <mat-icon matTooltip="Download All">file_download</mat-icon>
-                        </div>
+                            </a>
+                        </div>                        
                         <div class="c_block_content">
                             <ul>
-                                <li>
-                                    <img src="../../../assets/images/docx.png" alt="" />
-                                    <span class="upldd_hd">File Name</span>
+                                <li *ngFor="let file of materials[0]['attachments']; let i = index">
+                                    <img src="{{file['path']}}" alt="" />
+                                    <span class="upldd_hd">
+                                        {{
+                                        file["file_path"].substring(
+                                        file["file_path"].lastIndexOf("/") + 1
+                                        )
+                                        }}
+                                    </span>
                                     <span class="spacer"></span>
-                                    <mat-icon matTooltip="Download File">file_download</mat-icon>
+                                    <a *ngIf="materials[0]['download_flag'] == 1" [href]="bucket_url + file['file_path']" target="_blank">
+                                        <mat-icon matTooltip="Download File">file_download</mat-icon>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>           
         </div>
     </div>
 </div>

@@ -25,9 +25,7 @@
             <div class="hgt_20"></div>
             <div class="tstsnms_cnt_dv">
                 <ul>
-                    <li *ngFor="let q of questions_list; let question_index=index;"
-                        class=" {{q['result']}} {{question_index == active_q_index?'gry':''}}"
-                        (click)="getQuestionOptions(question_index)">{{question_index+1}} <span class="qstn_elb"><span [innerHTML]="q['question']"></span></span>
+                    <li *ngFor="let q of questions_list; let question_index=index;" class=" {{q['result']}} {{question_index == active_q_index?'gry':''}}" (click)="getQuestionOptions(question_index)">{{question_index+1}} <span class="qstn_elb"><span [innerHTML]="q['question']"></span></span>
                     </li>
                 </ul>
             </div>
@@ -71,7 +69,7 @@
                             {{ option["option_text"] }}
                         </mat-radio-button>
                         <div class="tstsopt_img"
-                            *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image']">
+                            *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
                             <img [src]="bucket_url+option['option_image']" />
                         </div>
                         <div class="rdo_desc"
@@ -87,7 +85,7 @@
                             [checked]="active_question['answer'].includes(''+option['pk_id'])"
                             (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
                         <div class="tstsqst_img">
-                            <img *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image']"
+                            <img *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                                 [src]="bucket_url+option['option_image']" />
                         </div>
                         <div class="rdo_desc"
