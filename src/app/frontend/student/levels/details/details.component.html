@@ -87,6 +87,27 @@
       </div>
     </div>
   </div>
+  <div class="cust_mdl_par cust_mdl_70p {{ flash_card_popup ? 'cust_mdl_opn' : '' }}">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        Images
+        <span class="spacer"></span>
+        <button (click)="flash_card_popup=false" mat-icon-button class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy">
+        <div *ngIf="flash_card_popup && flashCardsArray.length>0" class="img_vwr">
+          <ngx-image-viewer [config]="image_config" [src]="flashCardsArray" [(index)]="flash_index"></ngx-image-viewer>
+        </div>
+        <hr />
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="flash_card_popup=false">
+          Close
+        </button>
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div>
   <div class="cust_mdl_par pdf_vwr {{ pdf_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl dsh_brd_crds">
@@ -934,19 +955,6 @@
             No Flash Cards Found
           </div>
           <div class="crs_desc" *ngIf="flash_cards.length > 0">
-            <!-- <div class="qstn_nms">
-              <div class="qstn_hds">Questions</div>
-              <ul>
-                <li *ngFor="let question of flash_cards; let i = index"
-                  class="{{ i == active_flash_cards_index ? 'act_qstnm' : '' }}">
-                  <span class="qstn_cnt" (click)="active_flash_cards_index = i;getXtToken(question);"
-                    matTooltip='{{question["question_text"]}}'>{{
-                    i + 1
-                    }} {{" "}}{{question["question_text"].length>25?question["question_text"].substring(0,25)+'...':
-                    question["question_text"]}}</span>
-                </li>
-              </ul>
-            </div> -->
 
             <div class="crs_desc_cnt mcb_desc m_auto_imp flt_none">
               <div *ngIf="flash_cards.length > 0">
@@ -974,12 +982,34 @@
                         <div class="p_1" *ngIf='flash_cards[active_flash_cards_index]["question_text"]!=""'
                           innerHtml='{{flash_cards[active_flash_cards_index]["question_text"]}}'>
                         </div>
+
+                        <div class="crs_desc_cnt">
+                          <div class="desc_tmb_img">
+                            <img *ngFor="let file of flash_cards[active_flash_cards_index]['question_images']; let i = index" [src]="file['path']" [alt]="
+                              file['file_path'].substring(
+                                file['file_path'].lastIndexOf('/') + 1
+                              )
+                            " (click)="openFlashCardLibrary(i,active_flash_cards_index,'question_images')" />
+                          </div>
+                        </div>
+                        
                         <div class="shw_ans"><span (click)="shwAns = !shwAns">Show Answer</span></div>
                       </div>
                       <div class="flpcrd_bk">
                         <div class="p_1" *ngIf='flash_cards[active_flash_cards_index]["answer_text"]!=""'
                           innerHtml='{{flash_cards[active_flash_cards_index]["answer_text"]}}'>
                         </div>
+
+                        <div class="crs_desc_cnt">
+                          <div class="desc_tmb_img">
+                            <img *ngFor="let file of flash_cards[active_flash_cards_index]['answer_images']; let i = index" [src]="file['path']" [alt]="
+                              file['file_path'].substring(
+                                file['file_path'].lastIndexOf('/') + 1
+                              )
+                            " (click)="openFlashCardLibrary(i,active_flash_cards_index,'answer_images')" />
+                          </div>
+                        </div>
+
                         <div class="shw_ans"><span (click)="shwAns = !shwAns">Show Question</span></div>
                       </div>
                     </div>

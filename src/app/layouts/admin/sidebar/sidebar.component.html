@@ -182,10 +182,21 @@
         <mat-icon>description</mat-icon> Exam Modes
       </div>
     </li>
-    <li routerLinkActive="active" (click)="menu_active = 0">
+    <li routerLinkActive="active" (click)="activeMenu(11, menu_active)" class="hs_sbmnu {{
+      menu_active == 11 || active_route == '/admin/create-assessment' ||
+      active_route == '/admin/assessment-list' ? 'active' : ''
+    }}">
       <div class="sd_mnuhd">
         <mat-icon>assignment</mat-icon> Assessments
       </div>
+      <ul class="sdmn_sub">
+        <li routerLinkActive="active" routerLink="/admin/create-assessment">
+          <mat-icon>manage_accounts</mat-icon> Create Assessment
+        </li>
+        <li routerLinkActive="active" routerLink="/admin/assessment-list">
+          <mat-icon>manage_accounts</mat-icon> Assessment List
+        </li>
+      </ul>
     </li>
     <li routerLinkActive="active" class="hs_sbmnu {{
         menu_active == 7 || active_route == '/admin/individuals' ? 'active' : ''
@@ -227,7 +238,7 @@
           : ''
       }}" (click)="activeMenu(8, menu_active)">
       <div class="sd_mnuhd">
-        <mat-icon>assessment</mat-icon>Coupons/Promotions
+        <mat-icon>assessment</mat-icon> Coupons/Promotions
       </div>
       <ul class="sdmn_sub">
         <li routerLink="/admin/promotional-settings"

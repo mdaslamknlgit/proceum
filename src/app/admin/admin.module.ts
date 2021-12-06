@@ -8,6 +8,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+
 import { environment } from '../../environments/environment';
 
 //custom modules
@@ -80,6 +81,11 @@ import { CreateExamComponent } from './exam-modes/create-exam/create-exam.compon
 import { SocialApprovalComponent } from './social-share/social-approval/social-approval.component';
 import { ManageFlashCardsComponent } from './flash-cards/manage-flash-cards/manage-flash-cards.component';
 import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-cards/create-new-flash-cards.component';
+import { CreateMeetingComponent } from './zoom/create-meeting/create-meeting.component';
+import { ListMeetingComponent } from './zoom/list-meeting/list-meeting.component';
+import { SharedModule } from '../shared/shared.module';
+import { CreateAssessmentComponent } from './assessment/create-assessment/create-assessment.component';
+import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -210,11 +216,16 @@ const routes: Routes = [
       //Teacher materials routes, Added by Sandeep kumar
       { path: 'materials', component: TeacherMaterialsComponent },
       { path: 'teacher-material', component: TeacherMaterialsComponent },
+      
 
       { path: 'create-exam', component: CreateExamComponent},
       //Added by Phanindra 28-20-2021
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
       { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
+      { path: 'class/create', component: CreateMeetingComponent},
+      { path: 'list-meeting', component: ListMeetingComponent },
+      { path: 'create-assessment', component: CreateAssessmentComponent },
+      { path: 'assessment-list', component: AssessmentListComponent },
     ],
   },
 ];
@@ -273,7 +284,11 @@ const routes: Routes = [
     SocialApprovalComponent,
     ManageFlashCardsComponent,
     CreateNewFlashCardsComponent,
-    TeacherMaterialsComponent
+    TeacherMaterialsComponent,
+    CreateMeetingComponent,
+    ListMeetingComponent,
+    CreateAssessmentComponent,
+    AssessmentListComponent
   ],
   imports: [
     MaterialModule,
@@ -289,6 +304,7 @@ const routes: Routes = [
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    SharedModule
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
@@ -296,6 +312,6 @@ const routes: Routes = [
     { provide: RouteReuseStrategy, useClass: CustomRouteReuseStategy },
     DatePipe,
   ],
-  exports: [RouterModule],
+  exports: [RouterModule, SharedModule],
 })
 export class AdminModule {}
