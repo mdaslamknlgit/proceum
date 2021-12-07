@@ -79,7 +79,8 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   public year_id = '';
   public semester_id = '';
   public group_id = '';
-  public user_role = 3;
+  public user_role:any;
+  public not_proceum_admin = false;
   public expand_course = true;
   public selected_courses:any;
   public courses_div = false;
@@ -226,7 +227,14 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   
   ngOnInit(): void {
     const user = JSON.parse(atob(localStorage.getItem('user')));
-    this.show_radio = (user.role == 1) ? true : false;
+    this.user_role = user.role;
+    if (Object.values(environment.PROCEUM_ADMIN_SPECIFIC_ROLES).indexOf(Number(this.user_role)) < 0) {
+      this.not_proceum_admin = true;
+      //Disable specific columns for partners 
+      this.displayedColumnsYears.splice(2,2);
+      this.displayedColumnsSemesters.splice(3,2);
+      this.displayedColumnsGroups.splice(4,2);
+    }      
     this.getData();
     if(this.slug == 'year'){
       this.getCurriculumnHierarchy();
@@ -254,10 +262,6 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     if(tab.index == 1){
       this.slug = 'semester';
       this.page_title = 'Semester';
-      //Call years for self
-      if(this.self_or_other == "self"){
-        this.getYears(null,null);
-      }
     }
     //Groups tab
     if(tab.index == 2){
@@ -274,8 +278,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.totalSize = res['total_records'];
       } else {
-        //this.toster.error(res['message'], 'Error');
+        this.dataSource = new MatTableDataSource();
       }
     });
   }
@@ -380,6 +385,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.totalSize = res['total_records'];
       } else {
         this.dataSource = new MatTableDataSource([]);
         //this.toster.error(res['message'], 'Error');
@@ -401,6 +409,8 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       //console.log(res['data']);
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
         this.totalSize = res['total_records'];
       } else {
         //this.toster.info(res['message'], 'Error');
@@ -460,7 +470,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
   toggleModel() {
     //empty the table data first
-    this.dataSource = new MatTableDataSource([]);
+    //this.dataSource = new MatTableDataSource([]);
     this.year_id = null;
     this.semester_id = null;
     this.group_id = null;
@@ -474,6 +484,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.show_radio = true;
     this.add_or_edit = 'Add New';
     //this.self_or_other = 'other';
+    //Call years for self
+    if(this.slug != "year"){
+      this.getYears(null,null);
+    }
     this.model_status = true;
      //(<HTMLFormElement>document.getElementById('create_form')).reset();
      //(<HTMLFormElement> document.getElementById("mat-radio-9")).checked = true;

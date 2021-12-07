@@ -1,33 +1,30 @@
 <div class="mn_dshbrd">
-    <div class="cust_mdl_par cust_mdl_cls">
+    <div class="cust_mdl_par {{ mng_student_popup ? 'cust_mdl_opn' : '' }}">
         <div class="cust_mdl_chl w_50p">
             <div class="pg_ttl">
                
-                <!-- <div>Download Students List</div>-->
-                <!-- <div>Promote Selected Students to</div>  -->
-                <div>Import Students</div>
+                <div *ngIf="manage_students == '1'">Promote Selected Students to</div> 
+                <div *ngIf="manage_students == '2'">Download Students List</div>
+                <div *ngIf="manage_students == '3'">Import Students</div>
 
                 <span class="spacer"></span>
-                <button type="button" mat-icon-button class="float_right">
+                <button (click)="mng_student_popup=false" mat-icon-button class="float_right">
                     &#x2715;
                 </button>
             </div>
             <div class="usrmgmnt_ppdv">
 
-                <!-- <div class="text_center">
-                    <button mat-raised-button color="accent" class="mr_1">All Students List</button>
-                    <button mat-raised-button color="accent">Selected Students List</button>
-                </div> -->
+                <div class="text_center" *ngIf="manage_students == '2'">
+                    <button mat-raised-button color="accent" class="mr_1" (click)="downloadAllStudents()">All Students List</button>
+                    <button mat-raised-button color="accent" (click)="downloadSelectStudents()">Selected Students List</button>
+                </div>
 
-                <div class="dsh_brd_crds">
+                <div class="dsh_brd_crds" *ngIf="manage_students == '1'">
                     <div class="cm_fltr_sc">
                         <span>Year</span>
                         <mat-form-field appearance="outline">
-                            <mat-select value="0">
-                                <mat-option value="0">Select Year</mat-option>
-                                <mat-option value="1">1</mat-option>
-                                <mat-option value="2">2</mat-option>
-                                <mat-option value="3">3</mat-option>
+                            <mat-select placeholder="Select Year" name="promote_year_edit" #promote_year_edit="ngModel" [(ngModel)]="promote_year_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,promote_year_id,'semester','promote')">
+                                <mat-option *ngFor="let item of promote_all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -35,33 +32,33 @@
                     <div class="cm_fltr_sc">
                         <span>Semester</span>
                         <mat-form-field appearance="outline">
-                            <mat-select value="0">
-                                <mat-option value="0">Select Semester</mat-option>
-                                <mat-option value="1">1</mat-option>
-                                <mat-option value="2">2</mat-option>
-                                <mat-option value="3">3</mat-option>
+                            <mat-select placeholder="Select Semester" name="promote_semester_edit" #promote_semester_edit="ngModel" [(ngModel)]="promote_semester_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,promote_semester_id,'group','promote')" >
+                                <mat-option *ngFor="let item of promote_all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                     <div class="clear_fix"></div>
                     <div class="cm_fltr_sc">
-                        <span>Semester</span>
+                        <span>Group</span>
                         <mat-form-field appearance="outline">
-                            <mat-select value="0">
-                                <mat-option value="0">Select Semester</mat-option>
-                                <mat-option value="1">1</mat-option>
-                                <mat-option value="2">2</mat-option>
-                                <mat-option value="3">3</mat-option>
+                            <mat-select placeholder="Select Group" name="promote_group_edit" #promote_group_edit="ngModel" [(ngModel)]="promote_group_id">
+                                <mat-option *ngFor="let item of promote_all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                     <div class="clear_fix"></div>
                     <div class="text_right">
-                        <button mat-raised-button color="accent">Submit</button>
+                        <button mat-raised-button color="accent" (click)="PromoteStudentSubmit()" >Submit</button>
                     </div>
                 </div>
 
                 <div class="clear_fix"></div>
+                <!-- <div class="text_right" *ngIf="manage_students == '2' || manage_students == '3'">
+                    <hr />
+                    <button mat-raised-button class="float_right mr_1 gry_btn" (click)="mng_student_popup=false">
+                    Close
+                    </button>
+                </div> -->
             </div>
         </div>
     </div>
@@ -83,10 +80,8 @@
         <div class="cm_fltr_sc mr_1">
             <span>Role</span>
             <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">All</mat-option>
-                    <mat-option value="0">Student</mat-option>
-                    <mat-option value="0">Student</mat-option>
+                <mat-select placeholder="Select Role" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="doFilter()">
+                    <mat-option *ngFor="let item of all_roles | async" [value]="item['id']">{{ item["role_name"] }}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
@@ -105,108 +100,118 @@
                 <mat-radio-button value="2">Download Students</mat-radio-button>
             </mat-radio-group>
         </div> -->
-        <div class="hgt_10"></div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Manage Students</span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Promote Students</mat-option>
-                    <mat-option value="0">Export / Download Students</mat-option>
-                    <mat-option value="0">Import Students</mat-option>
-                </mat-select>
-            </mat-form-field>
+        <div *ngIf="role == '2'">
+            <div class="hgt_10"></div>
+            <div class="cm_fltr_sc mr_1">
+                <span>Manage Students</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Manage Students" name="manage_students_edit" #manage_students_edit="ngModel" [(ngModel)]="manage_students">
+                        <mat-option value="1">Promote Students</mat-option>
+                        <mat-option value="2">Export / Download Students</mat-option>
+                        <!-- <mat-option value="3">Import Students</mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        <!-- </div>
+            <div *ngIf="role == '2' && (manage_students == '1' || manage_students == '2')"> -->
+            <div class="cm_fltr_sc mr_1">
+                <span>Organization Type</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Organization Type" name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization_type_id" (ngModelChange)="onOrganizationTypeChange()">
+                        <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit" #organization_list_edit="ngModel" [(ngModel)]="organization_list_id" (ngModelChange)="getCollege(organization_list_id,0,'year')">
+                        <mat-option>
+                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
+                                [placeholderLabel]="'Search'" name="search_university" ngModel
+                                >
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="is_college">
+                <span>College</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,college_id,'year')">
+                        <mat-option *ngFor="let item of all_college | async" [value]="item['partner_id']">{{ item["organization_name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>Year</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,year_id,'semester')">
+                        <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>Semester</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,semester_id,'group')" >
+                        <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>Group</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Group" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id">
+                        <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mt_18px">
+                <button mat-raised-button class="mt_6px" color="warn">
+                    <mat-icon>autorenew</mat-icon>
+                </button>
+            </div>
         </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Organization</span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Organization</mat-option>
-                    <mat-option value="0">Organization</mat-option>
-                    <mat-option value="0">Organization</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Year</span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Year</mat-option>
-                    <mat-option value="0">Year</mat-option>
-                    <mat-option value="0">Year</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Semester</span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Semester</mat-option>
-                    <mat-option value="0">Semester</mat-option>
-                    <mat-option value="0">Semester</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mt_18px">
-            <button mat-raised-button class="mt_6px" color="warn">
-                <mat-icon>autorenew</mat-icon>
-            </button>
+        
+        <div>
+            <hr />
+            <button mat-raised-button color="accent" class="mr_1" *ngIf="manage_students == '2'" (click)="onManageStudentChange()">Download Students</button>
+            <button mat-raised-button color="accent" class="mr_1" *ngIf="manage_students == '1'" (click)="onManageStudentChange()">Promote Students</button>
         </div>
         <div class="hgt_10"></div>
         <div>
-            <div class="rsp_tbl">
+            <div class="rsp_tbl" *ngIf="role != '2'">
                 <table mat-table [dataSource]="dataSource" matSort>
                     <!-- Position Column -->
-
-                    <ng-container matColumnDef="CB">
-                        <th mat-header-cell *matHeaderCellDef><mat-checkbox></mat-checkbox></th>
-                        <td mat-cell *matCellDef="let element"><mat-checkbox></mat-checkbox></td>
-                    </ng-container>
-
                     <ng-container matColumnDef="id">
                         <th mat-header-cell *matHeaderCellDef>S.No</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{ element.s_no }}
-                        </td>
+                        <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-                            Name
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            <span>{{ element.name }}</span>
-                        </td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Name</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.name }}</span></td>
                     </ng-container>
 
                     <ng-container matColumnDef="email">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-                            Email
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            <span>{{ element.email }}</span>
-                        </td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Email</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.email }}</span></td>
                     </ng-container>
 
                     <ng-container matColumnDef="role_name">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-                            Role
-                        </th>
-                        <td mat-cell *matCellDef="let element">
-                            <span>{{ element.role_name }}</span>
-                        </td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Role</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.role_name }}</span></td>
                     </ng-container>
 
                     <ng-container matColumnDef="phone">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>
-                            Contact
-                        </th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Contact</th>
                         <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="created_at">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>
-                            Created
-                        </th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Created</th>
                         <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
                     </ng-container>
 
@@ -254,7 +259,115 @@
                     </tr>
                 </table>
             </div>
-            <mat-paginator [pageSizeOptions]="page_size_options" showFirstLastButtons (page)="getServerData($event)">
+            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role != '2'">
+            </mat-paginator>
+
+            <div class="rsp_tbl" *ngIf="role == '2'">
+                <table mat-table [dataSource]="dataSourceTwo" matSort>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="CB">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="checkUncheckAll($event)" [(ngModel)]="checkboxValue" name="list_name" value="h1"></mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-checkbox [value]="element['id']" [(ngModel)]="studentListArray[element.id]['is_selected']"  (change)="isAllSelected($event, element.id)"></mat-checkbox>
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>S.No</th>
+                        <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Name</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.name }}</span></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Email</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.email }}</span></td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="role_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Role</th>
+                        <td mat-cell *matCellDef="let element">
+                            <span>{{ element.role_name }}</span>
+                        </td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Contact</th>
+                        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Unique ID">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Unique ID</th>
+                        <td mat-cell *matCellDef="let element">{{ element.uuid }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Organization">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{ organization_type_name ? organization_type_name : 'Organization' }}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.university_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Campus" *ngIf="is_college">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>College</th>
+                        <td mat-cell *matCellDef="let element"></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Year">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Year</th>
+                        <td mat-cell *matCellDef="let element">{{ element.year_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Semester">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Semester</th>
+                        <td mat-cell *matCellDef="let element">{{ element.sem_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Group">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Group</th>
+                        <td mat-cell *matCellDef="let element">{{ element.grp_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="created_at">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Created</th>
+                        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-slide-toggle (click)="changeStatus(element.id, element.status)"
+                                [checked]="element.status == 1 ? true : false"
+                                matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+                            </mat-slide-toggle>
+                            <!-- <span matTooltip="Current Status is {{
+                        element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+                    }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+                                "Inactive" }}</span> -->
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button matTooltip="Click to edit" color="accent"
+                                (click)="navigateTo('edit-user/'+element.id)">
+                                <mat-icon>edit_notes</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsTwo"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsTwo"></tr>
+                    <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                        <td class="mat-cell" colspan="15">No Records Found</td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role == '2'">
             </mat-paginator>
         </div>
     </div>

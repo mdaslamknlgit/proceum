@@ -49,6 +49,8 @@ import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
 import { DatePipe } from '@angular/common';
 import { MyEarningsComponent } from './my-earnings/my-earnings.component';
+import { StudentAssessmentListComponent } from './student/assessment/student-assessment-list/student-assessment-list.component';
+import { EventsListComponent } from './webinars/events-list/events-list.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -103,6 +105,8 @@ const routes: Routes = [
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
       { path: 'purchased-orders', component: OrderListComponent },
+      { path: 'events-list', component: EventsListComponent },
+      { path: 'assessment-list', component: StudentAssessmentListComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
       { path: 'my-earnings', component:  MyEarningsComponent},
     ],
@@ -145,6 +149,8 @@ const routes: Routes = [
     UploadDetailsComponent,
     SharePageComponent,
     MyEarningsComponent,
+    StudentAssessmentListComponent,
+    EventsListComponent,
   ],
   imports: [
     CommonModule,

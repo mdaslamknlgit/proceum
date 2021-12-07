@@ -896,6 +896,7 @@ mat-grid-list mat-checkbox {
 }
 .clear_fix {
   clear: both;
+  width: 100%;
 }
 .inner-container {
   max-width: 1186px;
@@ -1222,8 +1223,7 @@ app-topbar.inner-header mat-toolbar {
   border-radius: 8px;
   box-shadow: 0 2px 3px -2px #808080;
   font-size: 14px;
-  padding: 20px;
-  height: 100%;
+  padding:10px 20px;
   box-sizing: border-box;
 }
 .dsh_brd_crds > mat-form-field.mat-form-field {
@@ -1262,11 +1262,11 @@ span.download_icons mat-icon {
   td{
     white-space: nowrap;
   }
-  .s_no {
-    width: 6%;
-    text-align: center !important;
-    padding-left: 0 !important;
-  }
+  // .s_no {
+  //   width: 6%;
+  //   text-align: center !important;
+  //   padding-left: 0 !important;
+  // }
   .status_tdh {
       width: 11%;
   }
@@ -1418,6 +1418,18 @@ span.download_icons mat-icon {
   box-shadow: none !important;
 }
 .mt_grd_dv {
+  &.sctd_crsdv_mn{
+    display: flex;
+    flex-wrap: wrap;
+    .sctd_crsdv{
+      background-color: $accent_clr;
+      margin:0 5px 5px 0;
+      border-radius: 6px;
+      padding: 0 10px;
+      color: #fff;
+      word-break: break-all;
+    }
+  }
   .mat-content {
     flex-direction: column;
   }
@@ -2575,7 +2587,8 @@ div.cust_mdl_par div.mn_dshbrd {
   width: 50%;
 }
 .cm_fltr_sc {
-  float: left;
+  // float: left;
+  display: inline-block;
   max-width: 270px;
   word-break: break-word;
   .mat-form-field{
@@ -2584,7 +2597,7 @@ div.cust_mdl_par div.mn_dshbrd {
 }
 .fl_frmt_info {
   font-size: 12px;
-  display: inline;
+  display: inline-block;
   margin-top: 5px;
   background-color:#41ab3c4a;
   color: rgb(0, 0, 0);
@@ -2874,6 +2887,12 @@ div.cust_mdl_par div.mn_dshbrd {
         }
         &.crrct_rdo{
           pointer-events: none;
+          .mat-radio-outer-circle{
+            border-color: $accent_clr;
+          }
+          .mat-radio-inner-circle{
+            background-color: $accent_clr;
+          }
         }
         &.wrng_rdo::before{
           content: "\e5cd";
@@ -3168,7 +3187,7 @@ div.cust_mdl_par div.mn_dshbrd {
   .crs_sld_dv {
     display: flex;
     background-color: #fff;
-    padding: 20px 20px 50px 20px;
+    padding: 20px 20px 50px 16px;
     flex-direction: column;
     width: 24%;
     margin: 10px 1% 20px 0;
@@ -3176,34 +3195,12 @@ div.cust_mdl_par div.mn_dshbrd {
     position: relative;
     box-shadow: 0 3px 8px 0px #e8e8e8;
     border-radius: 8px;
-    // &:before {
-    //   content: "";
-    //   position: absolute;
-    //   left: 0;
-    //   right: 0;
-    //   width: 85%;
-    //   height: 5px;
-    //   background: #ffffff;
-    //   bottom: -10px;
-    //   margin: auto;
-    //   z-index: -1;
-    //   border-radius: 0 0 6px 6px;
-    //   box-shadow: 0 1px 5px -2px #dedede;
-    // }
-    // &:after {
-    //   content: "";
-    //   position: absolute;
-    //   left: 0;
-    //   right: 0;
-    //   width: 94%;
-    //   height: 5px;
-    //   background: #ffffff;
-    //   bottom: -5px;
-    //   margin: auto;
-    //   z-index: -1;
-    //   border-radius: 0 0 6px 6px;
-    //   box-shadow: 0 1px 5px -2px #dedede;
-    // }
+    transition: all 0.3s ease-in;
+    &:hover{
+      box-shadow: 0 3px 8px 0px #d1cdcd;
+      transform: scale(1.01, 1.01);
+      cursor: pointer;
+    }
 
     span {
       display: flex;
@@ -4170,6 +4167,15 @@ sup {
 }
 
 .img-container{
+  > img{
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    margin: auto !important;
+    min-height: 10px;
+    left: 0;
+    right: 0;
+  }
   button[type=button]{
     position: relative;
     font-family: "Material Icons";
@@ -4672,6 +4678,7 @@ sup {
         display: flex;
         align-items: center;
         justify-content: center;
+        line-height: normal;
       }
     }
   }
@@ -4759,7 +4766,12 @@ sup {
     border: 2px solid $warn_clr;
   }
 }
-
+.pl_0{
+  padding-left: 0 !important;
+}
+.crs_tbbd_dv span.pl_0, .rtng_par span.pl_0{
+  padding-left: 0 !important;
+}
 .sp_mn{
   .brdcrm_br{
     width: 100%;
@@ -6643,4 +6655,10 @@ sup {
   bottom: 50px;
   transition: 0.5s;
   z-index: 99;
+}
+.zm_swtchusrs{
+  > div{
+    background-color: #fff;
+    padding: 15px;
+  }
 }

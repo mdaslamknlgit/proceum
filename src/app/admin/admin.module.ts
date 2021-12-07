@@ -8,6 +8,7 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+
 import { environment } from '../../environments/environment';
 
 //custom modules
@@ -68,10 +69,6 @@ import { PartnersListComponent } from './partner-management/partners-list/partne
 import { ManageUsersComponent } from './user-management/manage-users/manage-users.component';
 import { CreateUserComponent } from './user-management/create-user/create-user.component';
 import { PackageTestimonialsComponent } from './course-package/package-testimonials/package-testimonials.component';
-import { ListYearsComponent } from './manage-years/list-years/list-years.component';
-import { ListSemestersComponent } from './manage-semesters/list-semesters/list-semesters.component';
-import { ListGroupsComponent } from './manage-year-groups/list-groups/list-groups.component';
-import { CreateGroupComponent } from './manage-year-groups/create-group/create-group.component';
 import { StudyPlannerComponent } from './study-planner/study-planner.component';
 import { LabValuesComponent } from './question-management/lab-values/lab-values.component';
 import { PocVideosComponent } from './poc-videos/poc-videos.component';
@@ -84,6 +81,11 @@ import { CreateExamComponent } from './exam-modes/create-exam/create-exam.compon
 import { SocialApprovalComponent } from './social-share/social-approval/social-approval.component';
 import { ManageFlashCardsComponent } from './flash-cards/manage-flash-cards/manage-flash-cards.component';
 import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-cards/create-new-flash-cards.component';
+import { CreateMeetingComponent } from './zoom/create-meeting/create-meeting.component';
+import { ListMeetingComponent } from './zoom/list-meeting/list-meeting.component';
+import { SharedModule } from '../shared/shared.module';
+import { CreateAssessmentComponent } from './assessment/create-assessment/create-assessment.component';
+import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -91,7 +93,7 @@ const routes: Routes = [
     path: '',
     component: AdminComponent,
     children: [
-        { path: '', component: NotFoundComponent },
+      { path: '', component: NotFoundComponent },
       {
         path: 'dashboard',
         component: DashboardComponent,
@@ -202,13 +204,6 @@ const routes: Routes = [
 
       //Years routes
       { path: 'manage-year-semester-group', component:  ManageYearsSemestersGroupsComponent},
-      { path: 'manage-years', component:  ListYearsComponent},
-      //Semester routes
-      { path: 'manage-semesters', component: ListSemestersComponent },
-      //Year Groups routes
-      { path: 'create-year-group', component: CreateGroupComponent },
-      { path: 'edit-year-group/:id', component: CreateGroupComponent },
-      { path: 'manage-year-groups', component: ListGroupsComponent },
       //study-planner
       { path: 'study-planner', component: StudyPlannerListComponent },
       { path: 'study-planner/create', component: StudyPlannerComponent },
@@ -221,11 +216,16 @@ const routes: Routes = [
       //Teacher materials routes, Added by Sandeep kumar
       { path: 'materials', component: TeacherMaterialsComponent },
       { path: 'teacher-material', component: TeacherMaterialsComponent },
+      
 
       { path: 'create-exam', component: CreateExamComponent},
       //Added by Phanindra 28-20-2021
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
       { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
+      { path: 'class/create', component: CreateMeetingComponent},
+      { path: 'list-meeting', component: ListMeetingComponent },
+      { path: 'create-assessment', component: CreateAssessmentComponent },
+      { path: 'assessment-list', component: AssessmentListComponent },
     ],
   },
 ];
@@ -275,10 +275,6 @@ const routes: Routes = [
     ManageUsersComponent,
     CreateUserComponent,
     PackageTestimonialsComponent,
-    ListYearsComponent,
-    ListSemestersComponent,
-    ListGroupsComponent,
-    CreateGroupComponent,
     StudyPlannerComponent,
     LabValuesComponent,
     PocVideosComponent,
@@ -288,7 +284,11 @@ const routes: Routes = [
     SocialApprovalComponent,
     ManageFlashCardsComponent,
     CreateNewFlashCardsComponent,
-    TeacherMaterialsComponent
+    TeacherMaterialsComponent,
+    CreateMeetingComponent,
+    ListMeetingComponent,
+    CreateAssessmentComponent,
+    AssessmentListComponent
   ],
   imports: [
     MaterialModule,
@@ -304,6 +304,7 @@ const routes: Routes = [
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
+    SharedModule
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },
@@ -311,6 +312,6 @@ const routes: Routes = [
     { provide: RouteReuseStrategy, useClass: CustomRouteReuseStategy },
     DatePipe,
   ],
-  exports: [RouterModule],
+  exports: [RouterModule, SharedModule],
 })
 export class AdminModule {}

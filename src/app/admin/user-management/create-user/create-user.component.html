@@ -259,23 +259,25 @@
                             <span class="prc_tltp" *ngIf="(create_user_form.submitted || qualification_edit.touched) && qualification_edit.invalid">Qualification is required</span>
                         </div>
                     </div>
-                    <div class="crt_pr_dv" *ngIf="role == '12'">
-                        <div class="mt_grd_dv" *ngIf="courses_div">
-                            <div *ngFor="let course of selected_courses;let i = index">
+                    <div class="w_100p " *ngIf="role == '12'" >
+                        <div class="mt_grd_dv sctd_crsdv_mn" *ngIf="courses_div">
+                            <div>Selected Courses</div>
+                            <div class="clear_fix"></div>
+                            <div *ngFor="let course of selected_courses;let i = index" class="sctd_crsdv">
                                 <span>{{course}}</span>
                             </div>
                         </div>
+                        <div class="hgt_10"></div>
                         <div class="crt_prt_hd">
                             <button mat-raised-button color="accent" type="button" (click)="edit_model_status = true">
                                 <mat-icon>add</mat-icon> Check Subject
                             </button>
                         </div>
                     </div>
-                    
-                    <div class="clear_fix"></div>
-                    <div class="text_right float_right w_100p">
-                        <button mat-raised-button  class="no_bxsdw" color="accent" (click)="submitFrom()">Submit</button>
-                    </div>
+                </div>
+                <div class="hgt_10"></div>
+                <div class="text_right float_right w_100p">
+                    <button mat-raised-button  class="no_bxsdw" color="accent" (click)="submitFrom()">Submit</button>
                 </div>
             </form>
         </div>

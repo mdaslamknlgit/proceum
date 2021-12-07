@@ -47,6 +47,7 @@ export class StepsComponent implements OnInit {
   public breadcome = [];
   public curriculum_obj = [];
   public order_number = 0;
+  public enable_add_level_button = false;
     constructor(private http: CommonService, public toster: ToastrService, private activatedRoute: ActivatedRoute, private route: Router) {
         //this.route.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -103,6 +104,7 @@ export class StepsComponent implements OnInit {
             } else {
                 this.dataSource = new MatTableDataSource([]);
             }
+            this.enable_add_level_button = res['edit_access'];
         });
     }
   public getServerData(event?: PageEvent) {
@@ -125,6 +127,7 @@ export class StepsComponent implements OnInit {
         this.toster.info(res['message'], 'Error');
         this.dataSource = new MatTableDataSource([]);
       }
+      this.enable_add_level_button = res['edit_access'];
     });
   }
   sortData(event) {
