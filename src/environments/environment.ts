@@ -65,8 +65,29 @@ export const environment = {
       {value: 1, viewValue: 'Fixed Amount'},
       {value: 2, viewValue: 'Percentage'}
     ],
-      //apiUrl: 'http://192.10.250.150:8000/api/',
-      apiUrl: 'http://127.0.0.1:8000/api/',
+
+    PROCEUM_ADMIN_SPECIFIC_ROLES : {
+      SUPER_ADMIN : 1,
+      ADMIN : 13, //This role comes under above role
+    },
+  
+    PARTNER_ADMIN_SPECIFIC_ROLES : {
+      UNIVERSITY_ADMIN : 8,
+      COLLEGE_ADMIN : 9,
+      INSTITUTE_ADMIN : 10,
+      PARTNER_ADMIN : 14, //This role comes under above of 3 roles
+    },
+    
+    ALL_ADMIN_SPECIFIC_ROLES : {
+      SUPER_ADMIN : 1,
+      ADMIN : 13,
+      UNIVERSITY_ADMIN : 8,
+      COLLEGE_ADMIN : 9,
+      INSTITUTE_ADMIN : 10,
+      PARTNER_ADMIN : 14,
+    },
+      apiUrl: 'http://192.10.250.150:8000/api/',
+      //apiUrl: 'http://127.0.0.1:8000/api/',
         //apiUrl: 'https://apiqa.proceum.com/api/',
   
       firebaseConfig : {

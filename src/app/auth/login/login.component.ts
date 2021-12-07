@@ -87,7 +87,8 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('_token', res['data'].token);
             let json_user = btoa(JSON.stringify(res['data'].user));
             localStorage.setItem('user', json_user);
-            if (res['data']['user']['role'] == 1) {
+            let role = res['data']['user']['role'];
+            if (res['data']['user']['role'] == 1 || role == 8 || role == 9 || role == 10) {
               //admin
               let redirect_url = localStorage.getItem('_redirect_url')
                 ? localStorage.getItem('_redirect_url')
@@ -99,6 +100,12 @@ export class LoginComponent implements OnInit {
               let redirect_url = localStorage.getItem('_redirect_url')
                 ? localStorage.getItem('_redirect_url')
                 : '/reviewer/dashboard';
+              localStorage.removeItem('_redirect_url');
+              this.route.navigate([redirect_url]);
+            }else if (role == 8 || role == 9 || role == 10){
+              let redirect_url = localStorage.getItem('_redirect_url')
+                ? localStorage.getItem('_redirect_url')
+                : '/admin/dashboard';
               localStorage.removeItem('_redirect_url');
               this.route.navigate([redirect_url]);
             } else {
@@ -157,7 +164,13 @@ export class LoginComponent implements OnInit {
                   : '/reviewer/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
-              } else {
+              }else if (res['data']['user']['role'] == 8 || res['data']['user']['role'] == 9 || res['data']['user']['role'] == 10){
+                let redirect_url = localStorage.getItem('_redirect_url')
+                  ? localStorage.getItem('_redirect_url')
+                  : '/admin/dashboard';
+                localStorage.removeItem('_redirect_url');
+                this.route.navigate([redirect_url]);
+              }  else {
                 //student or others
                 let redirect_url = localStorage.getItem('_redirect_url')
                   ? localStorage.getItem('_redirect_url')
