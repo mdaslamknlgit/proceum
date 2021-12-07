@@ -48,6 +48,7 @@ import { SharePageComponent } from './social-share/share-page/share-page.compone
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
 import { DatePipe } from '@angular/common';
+import { MyEarningsComponent } from './my-earnings/my-earnings.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -103,6 +104,7 @@ const routes: Routes = [
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
       { path: 'purchased-orders', component: OrderListComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
+      { path: 'my-earnings', component:  MyEarningsComponent},
     ],
   },
 ];
@@ -142,6 +144,7 @@ const routes: Routes = [
     OrderDetailsComponent,
     UploadDetailsComponent,
     SharePageComponent,
+    MyEarningsComponent,
   ],
   imports: [
     CommonModule,

@@ -40,8 +40,8 @@ export class UploadDetailsComponent implements OnInit {
               Number(published_date[1]) - 1,
               Number(published_date[0])
             );
-            this.publish_url = data['published_url'];
-            this.description = data['description'];
+            this.publish_url = data['published_url']?data['published_url']:'';
+            this.description = data['description']?data['description']:'';
             data['attachments_csv'].forEach((file_path) => {
               this.imageSrc.push(this.bucket_url + file_path);
               this.valid_files.push(file_path);

@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./share-page.component.scss']
 })
 export class SharePageComponent implements OnInit {
-  displayedColumns: string[] = ['sno', 'platform','datetime','aproval_status','actions'];
+  displayedColumns: string[] = ['sno', 'platform','datetime','aproval_status','earned','consumed','actions'];
   dataSource = new MatTableDataSource();
   public model_status = false;
   public view_platform = '';
@@ -17,6 +17,7 @@ export class SharePageComponent implements OnInit {
   public view_uploaded_url = '';
   public view_attachments = [];
   public bucket_url = '';
+  public approved_count = 0;
 
   constructor(private http: CommonService, private toster: ToastrService) { }
 
@@ -29,6 +30,7 @@ export class SharePageComponent implements OnInit {
     this.http.get(params).subscribe((res: Response) => {
       this.dataSource = new MatTableDataSource(res['data']['social_share_list']);
       this.bucket_url = res['data']['bucket_url'];
+      this.approved_count = res['data']['social_share_list'].filter(i => (i.approval_status == 1 && i.credits_consumed == 0)).length;
     });
   }
 

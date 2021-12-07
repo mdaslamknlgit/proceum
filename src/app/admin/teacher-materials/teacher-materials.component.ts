@@ -47,7 +47,7 @@ export class TeacherMaterialsComponent implements OnInit {
   public all_level_options = [];
   public user = [];
   public usersList = [];
-  public teacher_id = 0;
+  public teacher_id = '';
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
   }
 
@@ -257,7 +257,6 @@ export class TeacherMaterialsComponent implements OnInit {
       this.http.post(params).subscribe((res) => {
         if (res['error'] == false) {
           this.usersList = res['data'];
-          this.teacher_id = res['data'][0]['id']?res['data'][0]['id']:0;
         }
       });
     }
