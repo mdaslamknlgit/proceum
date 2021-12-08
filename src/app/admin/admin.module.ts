@@ -82,10 +82,12 @@ import { SocialApprovalComponent } from './social-share/social-approval/social-a
 import { ManageFlashCardsComponent } from './flash-cards/manage-flash-cards/manage-flash-cards.component';
 import { CreateNewFlashCardsComponent } from './flash-cards/create-new-flash-cards/create-new-flash-cards.component';
 import { CreateMeetingComponent } from './zoom/create-meeting/create-meeting.component';
+import { EditMeetingComponent } from './zoom/edit-meeting/edit-meeting.component';
 import { ListMeetingComponent } from './zoom/list-meeting/list-meeting.component';
 import { SharedModule } from '../shared/shared.module';
 import { CreateAssessmentComponent } from './assessment/create-assessment/create-assessment.component';
 import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
+
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -223,6 +225,7 @@ const routes: Routes = [
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
       { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
       { path: 'class/create', component: CreateMeetingComponent},
+      { path: 'class/edit/:meeting_id', component: EditMeetingComponent},
       { path: 'class/list', component: ListMeetingComponent },
       { path: 'create-assessment', component: CreateAssessmentComponent },
       { path: 'assessment-list', component: AssessmentListComponent },
@@ -286,6 +289,7 @@ const routes: Routes = [
     CreateNewFlashCardsComponent,
     TeacherMaterialsComponent,
     CreateMeetingComponent,
+    EditMeetingComponent,
     ListMeetingComponent,
     CreateAssessmentComponent,
     AssessmentListComponent

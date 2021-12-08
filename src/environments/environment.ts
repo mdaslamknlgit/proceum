@@ -5,7 +5,7 @@
 export const environment = {
     production: false,
     file_upload_size: 2040,//in kb
-    page_size: 10,
+    page_size: 2,
     page_size_options: [10, 20, 50, 100],
     liteEditorConfig : {
       editable: true,
@@ -86,8 +86,8 @@ export const environment = {
       INSTITUTE_ADMIN : 10,
       PARTNER_ADMIN : 14,
     },
-      //apiUrl: 'http://192.10.250.150:8000/api/',
-      apiUrl: 'http://127.0.0.1:8000/api/',
+      apiUrl: 'http://192.10.250.150:8000/api/',
+      //apiUrl: 'http://127.0.0.1:8000/api/',
         //apiUrl: 'https://apiqa.proceum.com/api/',
   
       firebaseConfig : {
