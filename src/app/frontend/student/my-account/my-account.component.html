@@ -59,6 +59,14 @@
           <a>Notes</a>
         </div>
       </li>
+      <li>
+        <div class="crd_dv">
+          <button mat-icon-button>
+            <mat-icon>sticky_note_2</mat-icon>
+          </button>
+          <a href="/student/my-earnings">My Earnings</a>
+        </div>
+      </li>
     </ul>
   </div>
   <br>
@@ -264,7 +272,32 @@
           </div>
         </div>
         <div class="tc_w50p">
-
+          <div class="frm_dvs">
+            <span>My Referral Code</span>
+            <span>
+            <span>
+              <mat-form-field appearance="outline">
+                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code" name="referral_code" [disabled]="'disabled'"
+                  [(ngModel)]="profile.referral_code">
+              </mat-form-field>
+            </span>
+            <button *ngIf="auto_generate" (click)="generateReferralCode()" mat-raised-button color="accent" class="ml_1 margin-bottom_20"
+              type="button">
+              Auto Generate
+            </button>
+          </span>
+          </div>
+          <div class="frm_dvs">
+            <span>Friend Referral Code</span>
+            <span>
+            <span>
+              <mat-form-field appearance="outline">
+                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Friend Referral Code" [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
+                  [(ngModel)]="profile.frnd_referral_code">
+              </mat-form-field>
+            </span>
+          </span>
+          </div>
           <div class="frm_dvs">
             <span class="accent">
               <mat-checkbox (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update login
