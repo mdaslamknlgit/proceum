@@ -223,7 +223,7 @@ const routes: Routes = [
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
       { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
       { path: 'class/create', component: CreateMeetingComponent},
-      { path: 'list-meeting', component: ListMeetingComponent },
+      { path: 'class/list', component: ListMeetingComponent },
       { path: 'create-assessment', component: CreateAssessmentComponent },
       { path: 'assessment-list', component: AssessmentListComponent },
     ],

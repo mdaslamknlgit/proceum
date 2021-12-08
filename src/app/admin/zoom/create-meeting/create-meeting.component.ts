@@ -3,6 +3,9 @@ import { CommonService } from 'src/app/services/common.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+
 @Component({
     selector: 'app-create-meeting',
     templateUrl: './create-meeting.component.html',
@@ -24,6 +27,7 @@ export class CreateMeetingComponent implements OnInit {
     public teacher_id = '';
     public timezone = '';
     public start_time:any;
+    public start_date:any;
     public duration = '';
     public countrys = [];
     public selected_country_id = '';
@@ -56,8 +60,9 @@ export class CreateMeetingComponent implements OnInit {
     groups: any;
     public organization_types = environment.ORGANIZATION_TYPES;
     public selected_name = '';
-    public selected_value = ''
-    constructor(private http: CommonService, public translate: TranslateService) { 
+    public selected_value = '';
+    public today_date = new Date();
+    constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) { 
         this.translate.setDefaultLang(this.http.lang);
     }
     ngOnInit(): void {
@@ -152,95 +157,6 @@ export class CreateMeetingComponent implements OnInit {
             }
         });
     }
-      //To get all the Universities list
-//     getUniversities(){
-//         let param = { url: 'get-partners-list',partner_type_id : 1 };
-//         this.http.post(param).subscribe((res) => {
-//         if (res['error'] == false) {
-//             this.universities = res['data']['partners'];
-//             if(this.universities != undefined){
-//             this.all_universities.next(this.universities.slice()); 
-//             }
-//         } else {
-//             //this.toster.error(res['message'], 'Error');
-//         }
-//         });
-//     }
-
-//   filterUniversity(event) {
-//     let search = event;
-//     if (!search) {
-//       this.all_universities.next(this.universities.slice());
-//       return;
-//     } else {
-//       search = search.toLowerCase();
-//     }
-//     this.all_universities.next(
-//       this.universities.filter(
-//         (university) => university.name.toLowerCase().indexOf(search) > -1
-//       )
-//     );
-//   }
-  
-//   //To get all college list
-//   getColleges(){
-//     let param = { url: 'get-partners-list',partner_type_id : 2 };
-//     this.http.post(param).subscribe((res) => {
-//       if (res['error'] == false) {
-//         this.colleges = res['data']['partners'];
-//         if(this.colleges != undefined){
-//           this.all_colleges.next(this.colleges.slice()); 
-//         }
-//       } else {
-//         //this.toster.error(res['message'], 'Error');
-//       }
-//     });
-//   }
-
-//   filterCollege(event) {
-//     let search = event;
-//     if (!search) {
-//       this.all_colleges.next(this.colleges.slice());
-//       return;
-//     } else {
-//       search = search.toLowerCase();
-//     }
-//     this.all_colleges.next(
-//       this.colleges.filter(
-//         (college) => college.name.toLowerCase().indexOf(search) > -1
-//       )
-//     );
-//   }
-
-//   //To get all college list
-//   getInstitutes(){
-//     let param = { url: 'get-partners-list',partner_type_id : 3 };
-//     this.http.post(param).subscribe((res) => {
-//       if (res['error'] == false) {
-//         this.institutes = res['data']['partners'];
-//         if(this.institutes != undefined){
-//           this.all_institutes.next(this.institutes.slice()); 
-//         }
-//       } else {
-//         //this.toster.error(res['message'], 'Error');
-//       }
-//     });
-//   }
-
-//   filterInstitute(event) {
-//     let search = event;
-//     if (!search) {
-//       this.all_institutes.next(this.institutes.slice());
-//       return;
-//     } else {
-//       search = search.toLowerCase();
-//     }
-//     this.all_institutes.next(
-//       this.institutes.filter(
-//         (institute) => institute.name.toLowerCase().indexOf(search) > -1
-//       )
-//     );
-//   }
   public organization_type_name = '';
   public organization_list = '';
   public organization_list_id = '';
@@ -374,7 +290,7 @@ export class CreateMeetingComponent implements OnInit {
   }
     public students = [];
     public selected_students = [];
-    public selected_all_students = [];
+    public selected_student_ids = [];
     public all_students = [];
     public search_student = '';
     getStudents(){
@@ -395,7 +311,54 @@ export class CreateMeetingComponent implements OnInit {
             }
         })
     }
-    searchStudents(){
-
+    searchStudents(search){
+        let options = this.all_students;
+        this.students = options.filter(
+            item => item.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }
+    addStudents(){
+        this.students.forEach(row=>{
+            if(!this.selected_student_ids.includes(row['id'])){
+                this.selected_student_ids.push(row['id']);
+                this.selected_students.push({id:row['id'], name: row.name});
+            }
+        })
+    }
+    addStudent(row){
+        if(!this.selected_student_ids.includes(row['id'])){
+            this.selected_student_ids.push(row['id']);
+            this.selected_students.push({id:row['id'], name: row.name});
+        }
+    }
+    removeStudent(index){
+        this.students.splice(index, 1);
+    }
+    removeSelectedStudent(index, id){
+        let s_index = this.selected_student_ids.indexOf(id);console.log(s_index)
+        if(s_index > -1){
+            this.selected_student_ids.splice(s_index, 1);console.log(this.selected_student_ids)
+        }
+        this.selected_students.splice(index, 1);
+    }
+    createMeeting(){
+        if(this.selected_students.length == 0){
+            this.translate.get('admin.class.create.select_students_error_message').subscribe((data)=> {
+                this.toster.error(data, "Error", {closeButton:true});
+            });
+            
+        }
+        else{
+            let param = {url:'class/store', schedule_for: this.schedule_for, course: this.selected_subject, meeting_topic: this.meeting_topic, teacher_id: this.teacher_id, timezone: this.timezone, start_date: this.start_date, start_time: this.start_time, duration: this.duration, students: this.selected_students};
+            this.http.post(param).subscribe(res=>{
+                if(res['error'] == false){
+                    this.toster.success(res['message'], "Success", {closeButton:true});
+                    this.router.navigateByUrl('/admin/class/list');
+                }
+                else{
+                    this.toster.error(res['message'], "Error", {closeButton:true});
+                }
+            });
+        }
     }
 }
