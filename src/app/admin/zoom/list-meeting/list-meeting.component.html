@@ -64,6 +64,9 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef> {{"admin.class.list.actions"|translate}} </th>
                     <td mat-cell *matCellDef="let element; let index=index;"> 
+                        <button type="button"  mat-icon-button color="accent" *ngIf="element.status == 0 || element.status == 1" (click)="startClass(element.meeting_id)" matTooltip="{{'admin.class.list.click_to_start_class'|translate}}">
+                            {{'admin.class.list.start'|translate}}
+                        </button>
                         <button routerLink="/admin/class/edit/{{element.meeting_id}}" mat-icon-button color="accent" matTooltip="{{'click_to_edit_text'|translate}}">
                             <mat-icon>edit_note</mat-icon>
                         </button>
