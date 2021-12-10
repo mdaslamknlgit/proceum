@@ -344,19 +344,28 @@ export class CreateMeetingComponent implements OnInit {
     createMeeting(){
         if(this.selected_students.length == 0){
             this.translate.get('admin.class.create.select_students_error_message').subscribe((data)=> {
-                this.toster.error(data, "Error", {closeButton:true});
+                this.translate.get('error_text').subscribe((error_text)=> {
+                    this.toster.error(data, error_text, {closeButton:true});
+                });
             });
-            
         }
         else{
             let param = {url:'class/store', schedule_for: this.schedule_for, course: this.selected_subject, meeting_topic: this.meeting_topic, teacher_id: this.teacher_id, timezone: this.timezone, start_date: this.start_date, start_time: this.start_time, duration: this.duration, students: this.selected_students};
             this.http.post(param).subscribe(res=>{
                 if(res['error'] == false){
-                    this.toster.success(res['message'], "Success", {closeButton:true});
+                    this.translate.get('success_text').subscribe((success_text)=> {
+                        this.translate.get('admin.class.edit.create_success').subscribe((message)=> {
+                            this.toster.success(message, success_text, {closeButton:true});
+                        });
+                    });
                     this.router.navigateByUrl('/admin/class/list');
                 }
                 else{
-                    this.toster.error(res['message'], "Error", {closeButton:true});
+                    this.translate.get('something_went_wrong_text').subscribe((data)=> {
+                        this.translate.get('error_text').subscribe((error_text)=> {
+                            this.toster.error(data, error_text, {closeButton:true});
+                        });
+                    })
                 }
             });
         }
