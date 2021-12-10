@@ -10,7 +10,7 @@
     <hr />
     <div class="dsh_brd_crds">
         <mat-tab-group (selectedTabChange)="switchTab($event)">
-            <mat-tab label="Today Classes">
+            <mat-tab label="{{'student.class.list.today_classes'|translate}}">
                 <div class="crs_sld_mn rtng_par ai_nrml">
                     <div class="crs_tbbd_mn no_desc_fnd" *ngIf="meetings['today_meetings'] != undefined && meetings['today_meetings'].length == 0">{{"no_records_found_text"|translate}}</div>
                     <div *ngFor="let m of meetings['today_meetings']" class="crs_sld_dv">
@@ -25,9 +25,9 @@
                                 <span *ngIf="m['join_status'] == 1" [translate]="'student.class.list.atended'"></span>
                             </span>
                         </span>
-                        <span class="cs_av" *ngIf="m['status'] == 0 || m['status'] == 1">
+                        <span class="cs_av" *ngIf="m['status'] == 0 || m['status'] == 1" (click)="joinClass(m['meeting_id'])">
                             <div class="spacer"></div>
-                            <span class="cs_vw">Join<mat-icon>
+                            <span class="cs_vw">{{"student.class.list.join"|translate}}<mat-icon>
                                 east</mat-icon></span>
                         </span>
                     </div>
@@ -85,7 +85,7 @@
                     </div> -->
                 </div>
             </mat-tab>
-            <mat-tab label="Upcoming Classes">
+            <mat-tab label="{{'student.class.list.upcoming_classes'|translate}}">
                 <div class="crs_sld_mn rtng_par ai_nrml">
                     <div class="crs_tbbd_mn no_desc_fnd" *ngIf="meetings['upcoming_meetings'] != undefined && meetings['upcoming_meetings'].length == 0">{{"no_records_found_text"|translate}}</div>
                     <div *ngFor="let m of meetings['upcoming_meetings']" class="crs_sld_dv">
@@ -108,7 +108,7 @@
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Past Classes">
+            <mat-tab label="{{'student.class.list.past_classes'|translate}}">
                 <div class="crs_sld_mn rtng_par ai_nrml">
                     <div class="crs_tbbd_mn no_desc_fnd" *ngIf="meetings['past_meetings'] != undefined && meetings['past_meetings'].length == 0">{{"no_records_found_text"|translate}}</div>
                     <div *ngFor="let m of meetings['past_meetings']" class="crs_sld_dv">
@@ -125,7 +125,7 @@
                         </span>
                         <span class="cs_av" *ngIf="m['status'] == 0 || m['status'] == 1">
                             <div class="spacer"></div>
-                            <span class="cs_vw">Join<mat-icon>
+                            <span class="cs_vw">{{"student.class.list.status_text"|translate}}<mat-icon>
                                 east</mat-icon></span>
                         </span>
                     </div>
