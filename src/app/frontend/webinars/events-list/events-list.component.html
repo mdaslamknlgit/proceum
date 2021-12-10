@@ -4,16 +4,34 @@
         <div class="brdcrm_br">
             <mat-icon color="accent">home</mat-icon>
             <mat-icon>navigate_next</mat-icon>
-            Webinars
+            Classes
         </div>
     </div>
     <hr />
     <div class="dsh_brd_crds">
-        <mat-tab-group>
-            <mat-tab label="Live Events">
+        <mat-tab-group (selectedTabChange)="switchTab($event)">
+            <mat-tab label="Today Classes">
                 <div class="crs_sld_mn rtng_par ai_nrml">
-                    <div class="crs_tbbd_mn no_desc_fnd" *ngIf="false">No Records Found</div>
-                    <div class="crs_sld_dv">
+                    <div class="crs_tbbd_mn no_desc_fnd" *ngIf="meetings['today_meetings'] != undefined && meetings['today_meetings'].length == 0">{{"no_records_found_text"|translate}}</div>
+                    <div *ngFor="let m of meetings['today_meetings']" class="crs_sld_dv">
+                        <span class="cs_hd">{{m['topic']}}</span>
+                        <span class="cs_rew">{{m['start_time']}}</span>
+                        <span class="cs_stc">
+                            <span class="cs_stc_hd pl_0">{{"student.class.list.duration_text"|translate}}</span>
+                            <span class="cs_stc_nm">{{m['duration']}} {{"min_text"|translate}}</span><br/>
+                            <span class="cs_stc_hd pl_0">{{"student.class.list.status_text"|translate}}</span>
+                            <span class="cs_stc_nm">
+                                <span *ngIf="m['join_status'] == 0" [translate]="'student.class.list.not_atended'"></span>
+                                <span *ngIf="m['join_status'] == 1" [translate]="'student.class.list.atended'"></span>
+                            </span>
+                        </span>
+                        <span class="cs_av" *ngIf="m['status'] == 0 || m['status'] == 1">
+                            <div class="spacer"></div>
+                            <span class="cs_vw">Join<mat-icon>
+                                east</mat-icon></span>
+                        </span>
+                    </div>
+                    <!-- <div class="crs_sld_dv">
                         <span class="cs_hd">Event Title</span>
                         <span class="cs_rew">26/06/2020 02:35 AM</span>
                         <span class="cs_stc">
@@ -64,107 +82,52 @@
                             <span class="cs_vw">View<mat-icon>
                                 east</mat-icon></span>
                           </span>
-                    </div>
-                    <div class="crs_sld_dv">
-                        <span class="cs_hd">Event Title</span>
-                        <span class="cs_rew">26/06/2020 02:35 AM</span>
+                    </div> -->
+                </div>
+            </mat-tab>
+            <mat-tab label="Upcoming Classes">
+                <div class="crs_sld_mn rtng_par ai_nrml">
+                    <div class="crs_tbbd_mn no_desc_fnd" *ngIf="meetings['upcoming_meetings'] != undefined && meetings['upcoming_meetings'].length == 0">{{"no_records_found_text"|translate}}</div>
+                    <div *ngFor="let m of meetings['upcoming_meetings']" class="crs_sld_dv">
+                        <span class="cs_hd">{{m['topic']}}</span>
+                        <span class="cs_rew">{{m['start_time']}}</span>
                         <span class="cs_stc">
-                            <span class="cs_stc_hd pl_0">Duration</span>
-                            <span class="cs_stc_nm">30 Min</span>
+                            <span class="cs_stc_hd pl_0">{{"student.class.list.duration_text"|translate}}</span>
+                            <span class="cs_stc_nm">{{m['duration']}} {{"min_text"|translate}}</span><br/>
+                            <span class="cs_stc_hd pl_0">{{"student.class.list.status_text"|translate}}</span>
+                            <span class="cs_stc_nm">
+                                <span *ngIf="m['join_status'] == 0" [translate]="'student.class.list.not_atended'"></span>
+                                <span *ngIf="m['join_status'] == 1" [translate]="'student.class.list.atended'"></span>
+                            </span>
                         </span>
-                        <span class="cs_av">
+                        <span class="cs_av" *ngIf="m['status'] == 0 || m['status'] == 1">
                             <div class="spacer"></div>
-                            <span class="cs_vw">View<mat-icon>
+                            <span class="cs_vw">{{"student.class.list.join"|translate}}<mat-icon>
                                 east</mat-icon></span>
-                          </span>
+                        </span>
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Upcoming Events">
+            <mat-tab label="Past Classes">
                 <div class="crs_sld_mn rtng_par ai_nrml">
-                    <div class="crs_tbbd_mn no_desc_fnd" *ngIf="false">No Records Found</div>
-                    <div class="crs_sld_dv">
-                        <span class="cs_hd">Event Title</span>
-                        <span class="cs_rew">26/06/2020 02:35 AM</span>
+                    <div class="crs_tbbd_mn no_desc_fnd" *ngIf="meetings['past_meetings'] != undefined && meetings['past_meetings'].length == 0">{{"no_records_found_text"|translate}}</div>
+                    <div *ngFor="let m of meetings['past_meetings']" class="crs_sld_dv">
+                        <span class="cs_hd">{{m['topic']}}</span>
+                        <span class="cs_rew">{{m['start_time']}}</span>
                         <span class="cs_stc">
-                            <span class="cs_stc_hd pl_0">Duration</span>
-                            <span class="cs_stc_nm">30 Min</span>
+                            <span class="cs_stc_hd pl_0">{{"student.class.list.duration_text"|translate}}</span>
+                            <span class="cs_stc_nm">{{m['duration']}} {{"min_text"|translate}}</span><br/>
+                            <span class="cs_stc_hd pl_0">{{"student.class.list.status_text"|translate}}</span>
+                            <span class="cs_stc_nm">
+                                <span *ngIf="m['join_status'] == 0" [translate]="'student.class.list.not_atended'"></span>
+                                <span *ngIf="m['join_status'] == 1" [translate]="'student.class.list.atended'"></span>
+                            </span>
                         </span>
-                        <span class="cs_av">
+                        <span class="cs_av" *ngIf="m['status'] == 0 || m['status'] == 1">
                             <div class="spacer"></div>
-                            <span class="cs_vw">View<mat-icon>
+                            <span class="cs_vw">Join<mat-icon>
                                 east</mat-icon></span>
-                          </span>
-                    </div>
-                    <div class="crs_sld_dv">
-                        <span class="cs_hd">Event Title</span>
-                        <span class="cs_rew">26/06/2020 02:35 AM</span>
-                        <span class="cs_stc">
-                            <span class="cs_stc_hd pl_0">Duration</span>
-                            <span class="cs_stc_nm">30 Min</span>
                         </span>
-                        <span class="cs_av">
-                            <div class="spacer"></div>
-                            <span class="cs_vw">View<mat-icon>
-                                east</mat-icon></span>
-                          </span>
-                    </div>
-                    <div class="crs_sld_dv">
-                        <span class="cs_hd">Event Title</span>
-                        <span class="cs_rew">26/06/2020 02:35 AM</span>
-                        <span class="cs_stc">
-                            <span class="cs_stc_hd pl_0">Duration</span>
-                            <span class="cs_stc_nm">30 Min</span>
-                        </span>
-                        <span class="cs_av">
-                            <div class="spacer"></div>
-                            <span class="cs_vw">View<mat-icon>
-                                east</mat-icon></span>
-                          </span>
-                    </div>
-                </div>
-            </mat-tab>
-            <mat-tab label="Past Events">
-                <div class="crs_sld_mn rtng_par ai_nrml">
-                    <div class="crs_tbbd_mn no_desc_fnd" *ngIf="false">No Records Found</div>
-                    <div class="crs_sld_dv">
-                        <span class="cs_hd">Event Title</span>
-                        <span class="cs_rew">26/06/2020 02:35 AM</span>
-                        <span class="cs_stc">
-                            <span class="cs_stc_hd pl_0">Duration</span>
-                            <span class="cs_stc_nm">30 Min</span>
-                        </span>
-                        <span class="cs_av">
-                            <div class="spacer"></div>
-                            <span class="cs_vw">View<mat-icon>
-                                east</mat-icon></span>
-                          </span>
-                    </div>
-                    <div class="crs_sld_dv">
-                        <span class="cs_hd">Event Title</span>
-                        <span class="cs_rew">26/06/2020 02:35 AM</span>
-                        <span class="cs_stc">
-                            <span class="cs_stc_hd pl_0">Duration</span>
-                            <span class="cs_stc_nm">30 Min</span>
-                        </span>
-                        <span class="cs_av">
-                            <div class="spacer"></div>
-                            <span class="cs_vw">View<mat-icon>
-                                east</mat-icon></span>
-                          </span>
-                    </div>
-                    <div class="crs_sld_dv">
-                        <span class="cs_hd">Event Title</span>
-                        <span class="cs_rew">26/06/2020 02:35 AM</span>
-                        <span class="cs_stc">
-                            <span class="cs_stc_hd pl_0">Duration</span>
-                            <span class="cs_stc_nm">30 Min</span>
-                        </span>
-                        <span class="cs_av">
-                            <div class="spacer"></div>
-                            <span class="cs_vw">View<mat-icon>
-                                east</mat-icon></span>
-                          </span>
                     </div>
                 </div>
             </mat-tab>

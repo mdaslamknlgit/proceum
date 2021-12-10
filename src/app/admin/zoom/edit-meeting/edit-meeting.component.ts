@@ -349,28 +349,38 @@ export class EditMeetingComponent implements OnInit {
         this.students.splice(index, 1);
     }
     removeSelectedStudent(index, id){
-        let s_index = this.selected_student_ids.indexOf(id);console.log(s_index)
+        let s_index = this.selected_student_ids.indexOf(id);
         if(s_index > -1){
-            this.selected_student_ids.splice(s_index, 1);console.log(this.selected_student_ids)
+            this.selected_student_ids.splice(s_index, 1);
         }
         this.selected_students.splice(index, 1);
     }
-    createMeeting(){
+    updateMeeting(){
         if(this.selected_students.length == 0){
             this.translate.get('admin.class.create.select_students_error_message').subscribe((data)=> {
-                this.toster.error(data, "Error", {closeButton:true});
+                this.translate.get('error_text').subscribe((error_text)=> {
+                this.toster.error(data, error_text, {closeButton:true});
             });
+        });
             
         }
         else{
-            let param = {url:'class/store', schedule_for: this.schedule_for, course: this.selected_subject, meeting_topic: this.meeting_topic, teacher_id: this.teacher_id, timezone: this.timezone, start_date: this.start_date, start_time: this.start_time, duration: this.duration, students: this.selected_students};
+            let param = {url:'class/update', students: this.selected_students, meeting_id: this.meeting_id};
             this.http.post(param).subscribe(res=>{
                 if(res['error'] == false){
-                    this.toster.success(res['message'], "Success", {closeButton:true});
+                    this.translate.get('success_text').subscribe((success_text)=> {
+                        this.translate.get('admin.class.edit.update_success').subscribe((message)=> {
+                            this.toster.success(message, success_text, {closeButton:true});
+                        });
+                    });
                     this.router.navigateByUrl('/admin/class/list');
                 }
                 else{
-                    this.toster.error(res['message'], "Error", {closeButton:true});
+                    this.translate.get('something_went_wrong_text').subscribe((data)=> {
+                        this.translate.get('error_text').subscribe((error_text)=> {
+                            this.toster.error(data, error_text, {closeButton:true});
+                        });
+                    })
                 }
             });
         }

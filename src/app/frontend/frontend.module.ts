@@ -105,7 +105,7 @@ const routes: Routes = [
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
       { path: 'purchased-orders', component: OrderListComponent },
-      { path: 'events-list', component: EventsListComponent },
+      { path: 'class/list', component: EventsListComponent },
       { path: 'assessment-list', component: StudentAssessmentListComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
       { path: 'my-earnings', component:  MyEarningsComponent},
