@@ -44,6 +44,7 @@ import { SidebarPartnerComponent } from './admin/sidebar-partner/sidebar-partner
     AdminTopbarComponent,
     SidemenuComponent,
     StudentTopbarComponent,
+    SidebarPartnerComponent
   ],
 })
 export class LayoutsModule {}

@@ -45,8 +45,13 @@ import { TeacherMaterialComponent } from './student/learning-notes/teacher-mater
 import { MaterialDescriptionComponent } from './student/learning-notes/material-description/material-description.component';
 import { UploadDetailsComponent } from './social-share/upload-details/upload-details.component';
 import { SharePageComponent } from './social-share/share-page/share-page.component';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from 'src/app/classes/date-format';
+import { DatePipe } from '@angular/common';
+import { MyEarningsComponent } from './my-earnings/my-earnings.component';
 import { StudentAssessmentListComponent } from './student/assessment/student-assessment-list/student-assessment-list.component';
 import { EventsListComponent } from './webinars/events-list/events-list.component';
+import { AttendAssessmentComponent } from './student/assessment/attend-assessment/attend-assessment.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -95,6 +100,7 @@ const routes: Routes = [
       
       { path: 'sharing', component: SharePageComponent },
       { path: 'upload-details', component: UploadDetailsComponent },
+      { path: 'upload-details/:upload_id', component: UploadDetailsComponent },
       { path: 'teacher-material', component: TeacherMaterialComponent },
       { path: 'material-details/:material_id', component: MaterialDescriptionComponent },
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
@@ -103,6 +109,7 @@ const routes: Routes = [
       { path: 'events-list', component: EventsListComponent },
       { path: 'assessment-list', component: StudentAssessmentListComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
+      { path: 'my-earnings', component:  MyEarningsComponent},
     ],
   },
 ];
@@ -142,8 +149,10 @@ const routes: Routes = [
     OrderDetailsComponent,
     UploadDetailsComponent,
     SharePageComponent,
+    MyEarningsComponent,
     StudentAssessmentListComponent,
     EventsListComponent,
+    AttendAssessmentComponent,
   ],
   imports: [
     CommonModule,
@@ -158,6 +167,10 @@ const routes: Routes = [
     ImageViewerModule.forRoot(),
     PdfViewerModule,
     SharedModule
+  ],
+  providers: [
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+    DatePipe,
   ],
   exports: [RouterModule, SharedModule],
 })

@@ -33,7 +33,11 @@ export class MyAccountComponent implements OnInit {
     current_password: '',
     new_password: '',
     confirm_pwd: '',
+    referral_code: '',
+    frnd_referral_code: '',
   };
+  public auto_generate = false;
+  public dis_frnd_referral_code = true;
 
   constructor(
     private http: CommonService,
@@ -113,7 +117,11 @@ export class MyAccountComponent implements OnInit {
         current_password: '',
         new_password: '',
         confirm_pwd: '',
+        referral_code: res['data'].referral_code?res['data'].referral_code:'',
+        frnd_referral_code: res['data'].frnd_referral_code?res['data'].frnd_referral_code:'',
       };
+      this.auto_generate = res['data'].referral_code?false:true;
+      this.dis_frnd_referral_code = res['data'].frnd_referral_code?true:false;
       this.src = res['data'].profile_pic ? res['data'].profile_pic : this.url;
     });
   }
@@ -205,6 +213,8 @@ export class MyAccountComponent implements OnInit {
     myFormData.append('id', this.user_id);
     myFormData.append('first_name', this.profile.first_name);
     myFormData.append('last_name', this.profile.last_name);
+    myFormData.append('referral_code', this.profile.referral_code);
+    myFormData.append('frnd_referral_code', this.profile.frnd_referral_code);
     let param = {
       url: 'update-student-profile',
     };
@@ -218,6 +228,15 @@ export class MyAccountComponent implements OnInit {
         this.getStudentProfile();
       } else {
         this.toaster.error(res['message'], 'Error', { closeButton: true });
+      }
+    });
+  }
+
+  generateReferralCode() {
+    let param = { url: 'generate_referral_code'};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.profile.referral_code = res['code'];
       }
     });
   }
@@ -236,4 +255,6 @@ export interface Profile {
   new_password: any;
   confirm_pwd: any;
   profile_pic: string;
+  referral_code: string;
+  frnd_referral_code: string;
 }
