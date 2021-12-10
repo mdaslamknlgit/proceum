@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./attend-assessment.component.scss']
 })
 export class AttendAssessmentComponent implements OnInit {
-
+  public show_q_numbers = true;
+  public lst_grdclk = true;
   constructor() { }
 
   ngOnInit(): void {

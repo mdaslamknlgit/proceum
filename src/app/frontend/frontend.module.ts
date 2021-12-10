@@ -108,6 +108,7 @@ const routes: Routes = [
       { path: 'purchased-orders', component: OrderListComponent },
       { path: 'events-list', component: EventsListComponent },
       { path: 'assessment-list', component: StudentAssessmentListComponent },
+      { path: 'attend-assessment', component: AttendAssessmentComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
       { path: 'my-earnings', component:  MyEarningsComponent},
     ],
