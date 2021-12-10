@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 })
 export class TopbarComponent implements OnInit,OnDestroy {
   //For cart badge
+  public glbSrch = true;
   number: any;
   subscription: Subscription;
   user_id='';

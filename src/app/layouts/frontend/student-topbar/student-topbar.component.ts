@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class StudentTopbarComponent implements OnInit {
   public sidemenu_status: string = localStorage.getItem('sidemenu');
+  public glbSrch = true;
   public user;
   //For cart badge
   number: any;

@@ -51,6 +51,7 @@ import { DatePipe } from '@angular/common';
 import { MyEarningsComponent } from './my-earnings/my-earnings.component';
 import { StudentAssessmentListComponent } from './student/assessment/student-assessment-list/student-assessment-list.component';
 import { EventsListComponent } from './webinars/events-list/events-list.component';
+import { AttendAssessmentComponent } from './student/assessment/attend-assessment/attend-assessment.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -107,6 +108,7 @@ const routes: Routes = [
       { path: 'purchased-orders', component: OrderListComponent },
       { path: 'class/list', component: EventsListComponent },
       { path: 'assessment-list', component: StudentAssessmentListComponent },
+      { path: 'attend-assessment', component: AttendAssessmentComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
       { path: 'my-earnings', component:  MyEarningsComponent},
     ],
@@ -151,6 +153,7 @@ const routes: Routes = [
     MyEarningsComponent,
     StudentAssessmentListComponent,
     EventsListComponent,
+    AttendAssessmentComponent,
   ],
   imports: [
     CommonModule,
