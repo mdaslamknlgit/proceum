@@ -113,6 +113,7 @@ const routes: Routes = [
       { path: 'coupons', component: CouponsComponent },
       { path: 'global-search', component: GlobalSearchComponent },
       { path: 'attend-assessment', component: AttendAssessmentComponent },
+      { path: 'coupons', component: CouponsComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
       { path: 'my-earnings', component:  MyEarningsComponent},
     ],
