@@ -52,6 +52,7 @@ import { MyEarningsComponent } from './my-earnings/my-earnings.component';
 import { StudentAssessmentListComponent } from './student/assessment/student-assessment-list/student-assessment-list.component';
 import { EventsListComponent } from './webinars/events-list/events-list.component';
 import { AttendAssessmentComponent } from './student/assessment/attend-assessment/attend-assessment.component';
+import { CouponsComponent } from './coupons/coupons.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -154,6 +155,7 @@ const routes: Routes = [
     StudentAssessmentListComponent,
     EventsListComponent,
     AttendAssessmentComponent,
+    CouponsComponent,
   ],
   imports: [
     CommonModule,
