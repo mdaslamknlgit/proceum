@@ -18,74 +18,39 @@
             </div>
             <div class="hgt_20"></div>
             <div class="tstsnms_cnt_dv">
+                <ul class="tst_lgnds">
+                    <li class="actv">Active</li>
+                    <li class="answrd">Answered</li>
+                    <li class="orng">Marked</li>
+                    <li class="skppd">Skipped</li>
+                </ul>
                 <ul>
-                    <li class="gry">1</li>
-                    <li class="gry">1</li>
-                    <li class="gry">1</li>
+                    <li class="actv">1</li>
+                    <li class="answrd">2</li>
+                    <li class="orng">3</li>
+                    <li class="skppd">4</li>
+                    <li class="">5</li>
                 </ul>
             </div>
         </div>
         <div class="tsts_qstns">
-            <div class="tstsqst_hd">Question 1</div>
+            <div class="d-flex ai_cntr">
+                <div class="tstsqst_hd">Question 1</div>
+                <div class="spacer"></div>
+                <div class="mr_1 grn_clr">Remain Time: 00HH:00MM</div>
+            </div>
             <div class="hgt_20"></div>
             <div class="tstsqst_qst">
-                <span>test</span>
+                <span>This is a Question</span>
                 <div class="tstsqst_img">
                     <!-- <img [src]="bucket_url+active_question['q_source_value']" alt=""> -->
                 </div>
-                <div class="tstsqst_img">
-                    <!-- <audio controls controlsList="nodownload">
-                        <source [src]="bucket_url+active_question['q_source_value']" type="audio/mpeg">
-                    </audio> -->
-                </div>
-                <div class="tstsqst_img">
-                    <!--
-                    <div *ngIf="active_question['q_source'] == 'YOUTUBE'">
-                        <iframe
-                            [src]='active_question["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
-                            frameborder="0" allowfullscreen></iframe>
-                    </div>
-
-                    <div *ngIf="active_question['q_source'] == 'KPOINT'">
-                        <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' allowFullScreen webkitallowFullScreen
-                            mozallowFullScreen frameborder="0"></iframe>
-                    </div> -->
-                </div>
             </div>
             <div class="tstsqst_ans">
-                <!-- <mat-radio-group class="">
-                    <div>
-                        <mat-radio-button
-                            class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
-                            {{ option["option_text"] }}
-                        </mat-radio-button>
-                        <div class="tstsopt_img"
-                            *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
-                            <img [src]="bucket_url+option['option_image']" />
-                        </div>
-                        <div class="rdo_desc"
-                            *ngIf="active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                            <span [innerHtml]="option['option_explanation']"></span>
-                        </div>
-                    </div>
-                </mat-radio-group> -->
-                <!-- <div *ngIf='[2,5,8,11].includes(active_question["q_type"])'>
-                    <div *ngFor="let option of active_question['options']; let i_option = index">
-                        <mat-checkbox
-                            class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}"
-                            [checked]="active_question['answer'].includes(''+option['pk_id'])"
-                            (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
-                        <div class="tstsqst_img">
-                            <img *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
-                                [src]="bucket_url+option['option_image']" />
-                        </div>
-                        <div class="rdo_desc"
-                            *ngIf="active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                            <div class="qstn_hds">Explanation</div>
-                            <div [innerHtml]="option['option_explanation']"></div>
-                        </div>
-                    </div>
-                </div> -->
+                <mat-radio-group aria-label="Select an option">
+                    <mat-radio-button value="1">Option 1</mat-radio-button>
+                    <mat-radio-button value="2">Option 2</mat-radio-button>
+                </mat-radio-group>
             </div>
             <div class="tstsqst_navs">
                 <button mat-raised-button color="accent">
