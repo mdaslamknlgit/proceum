@@ -42,7 +42,7 @@ export class EventsListComponent implements OnInit {
         };
         this.http.post(param).subscribe((res) => {
             if(res['error']==false)
-                this.route.navigateByUrl(res['data']['url']);
+                window.location.href = location.origin+"/"+res['data']['url'];
             else{
                 this.translate.get("something_went_wrong_text").subscribe(text=>{
                     this.translate.get("error_text").subscribe(error_text=>{

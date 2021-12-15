@@ -215,18 +215,19 @@ const routes: Routes = [
       //Added by Phanindra 06-09-2021
       { path: 'poc-videos', component: PocVideosComponent },
 
-      //Teacher materials routes, Added by Sandeep kumar
+      //Teacher Routes
       { path: 'materials', component: TeacherMaterialsComponent },
       { path: 'teacher-material', component: TeacherMaterialsComponent },
+      { path: 'class/create', component: CreateMeetingComponent},
+      { path: 'class/edit/:meeting_id', component: EditMeetingComponent},
+      { path: 'class/list', component: ListMeetingComponent },
       
 
       { path: 'create-exam', component: CreateExamComponent},
       //Added by Phanindra 28-20-2021
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
       { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
-      { path: 'class/create', component: CreateMeetingComponent},
-      { path: 'class/edit/:meeting_id', component: EditMeetingComponent},
-      { path: 'class/list', component: ListMeetingComponent },
+      
       { path: 'create-assessment', component: CreateAssessmentComponent },
       { path: 'assessment-list', component: AssessmentListComponent },
     ],

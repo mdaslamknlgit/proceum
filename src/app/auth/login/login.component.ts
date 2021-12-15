@@ -152,29 +152,26 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('user', json_user);
               if (res['data']['user']['role'] == 1) {
                 //admin
-                let redirect_url = localStorage.getItem('_redirect_url')
-                  ? localStorage.getItem('_redirect_url')
-                  : '/admin/dashboard';
+                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/admin/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
               } else if (res['data']['user']['role'] == 3 || res['data']['user']['role'] == 4 || res['data']['user']['role'] == 5 || res['data']['user']['role'] == 6 || res['data']['user']['role'] == 7) {
                 //Reviewer L1, L2,L3 Approver
-                let redirect_url = localStorage.getItem('_redirect_url')
-                  ? localStorage.getItem('_redirect_url')
-                  : '/reviewer/dashboard';
+                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/reviewer/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
               }else if (res['data']['user']['role'] == 8 || res['data']['user']['role'] == 9 || res['data']['user']['role'] == 10){
-                let redirect_url = localStorage.getItem('_redirect_url')
-                  ? localStorage.getItem('_redirect_url')
-                  : '/admin/dashboard';
+                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/admin/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
-              }  else {
+              }else if(res['data']['user']['role'] == 12){
+                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/teacher/dashboard';
+                localStorage.removeItem('_redirect_url');
+                this.route.navigate([redirect_url]);
+              }
+              else {
                 //student or others
-                let redirect_url = localStorage.getItem('_redirect_url')
-                  ? localStorage.getItem('_redirect_url')
-                  : '/student/dashboard';
+                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/student/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
               }

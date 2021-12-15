@@ -14,6 +14,7 @@ import { SidemenuComponent } from './frontend/sidemenu/sidemenu.component';
 import { RouterModule } from '@angular/router';
 import { StudentTopbarComponent } from './frontend/student-topbar/student-topbar.component';
 import { SidebarPartnerComponent } from './admin/sidebar-partner/sidebar-partner.component';
+import { SidebarTeacherComponent } from './admin/sidebar-teacher/sidebar-teacher.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SidebarPartnerComponent } from './admin/sidebar-partner/sidebar-partner
     WhiteBoardComponent,
     SidemenuComponent,
     StudentTopbarComponent,
-    SidebarPartnerComponent
+    SidebarPartnerComponent,
+    SidebarTeacherComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +46,8 @@ import { SidebarPartnerComponent } from './admin/sidebar-partner/sidebar-partner
     AdminTopbarComponent,
     SidemenuComponent,
     StudentTopbarComponent,
-    SidebarPartnerComponent
+    SidebarPartnerComponent,
+    SidebarTeacherComponent
   ],
 })
 export class LayoutsModule {}
