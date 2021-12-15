@@ -1,62 +1,78 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <strong>Assessment List</strong></div>
+    <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <strong>{{"admin.assessment.list.page_title"|translate}}</strong></div>
     <div class="d-flex rsp_fw">
-        <div class="pg_ttl">Assessment List</div>
+        <div class="pg_ttl">{{"admin.assessment.list.page_title"|translate}}</div>
         <div class="spacer"></div>
+        <div>
+          <button mat-raised-button color="accent" routerLink="/admin/create-assessment">
+              <mat-icon>add</mat-icon> {{"admin.assessment.create.page_title"|translate}}
+          </button>
+      </div>
     </div>
     <hr />
     <div class="dsh_brd_crds">
         <div class="rsp_tbl">
             <table mat-table [dataSource]="dataSource">
                 <ng-container matColumnDef="Sno">
-                  <th mat-header-cell *matHeaderCellDef> No. </th>
-                  <td mat-cell *matCellDef="let element"> {{element.Sno}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"s_no_text"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.s_no}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="SubName">
-                  <th mat-header-cell *matHeaderCellDef> Subject Name </th>
-                  <td mat-cell *matCellDef="let element"> {{element.SubName}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.subject"|translate}} {{"name_text"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.subject_name}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="assId">
-                  <th mat-header-cell *matHeaderCellDef> Assessment Id </th>
-                  <td mat-cell *matCellDef="let element"> {{element.assId}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.assessment_id"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.assessment_key}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="assNme">
-                  <th mat-header-cell *matHeaderCellDef> Assessment Name </th>
-                  <td mat-cell *matCellDef="let element"> {{element.assNme}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.assessment_name"|translate}}</th>
+                  <td mat-cell *matCellDef="let element"> {{element.assessment_name}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="dtndTm">
-                  <th mat-header-cell *matHeaderCellDef> Date And Time </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dtndTm}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.date_time"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.assessment_date_time}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="qstns">
-                  <th mat-header-cell *matHeaderCellDef> Questions </th>
-                  <td mat-cell *matCellDef="let element"> {{element.qstns}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.questions_count"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.total_questions_count}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="eqDrtn">
-                  <th mat-header-cell *matHeaderCellDef> E Q Duration </th>
-                  <td mat-cell *matCellDef="let element"> {{element.eqDrtn}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.e_q_duration"|translate}}</th>
+                  <td mat-cell *matCellDef="let element"> {{element.time_per_question}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="invTd">
-                  <th mat-header-cell *matHeaderCellDef> Invited </th>
-                  <td mat-cell *matCellDef="let element"> {{element.invTd}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.invited"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.invited}}  </td>
                 </ng-container> 
                 <ng-container matColumnDef="appeRd">
-                  <th mat-header-cell *matHeaderCellDef> Appeared </th>
-                  <td mat-cell *matCellDef="let element"> {{element.appeRd}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.appeared"|translate}} </th>
+                  <td mat-cell *matCellDef="let element">  </td>
                 </ng-container> 
                 <ng-container matColumnDef="absnTee">
-                  <th mat-header-cell *matHeaderCellDef> Absentee </th>
-                  <td mat-cell *matCellDef="let element"> {{element.absnTee}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.absentee"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> </td>
                 </ng-container> 
                 <ng-container matColumnDef="acTn">
-                  <th mat-header-cell *matHeaderCellDef> Action </th>
-                  <td mat-cell *matCellDef="let element"> {{element.acTn}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.actions"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                        'Are you sure to delete <b>' + element.assessment_name + '</b>'
+                        " placement="auto" (confirm)="deleteContentData(element.pk_id)" confirmButtonType="danger"
+                        cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                        <mat-icon>remove_circle_outline</mat-icon>
+                    </button>
+                  </td>
                 </ng-container> 
-                
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                    <td class="mat-cell" colspan="15">{{"no_records_found_text"|translate}}</td>
+                </tr>
               </table>
         </div>
+        <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)">
+        </mat-paginator>
     </div>
 </div>

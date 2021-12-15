@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { timeInterval } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 import Swal from 'sweetalert2';
 

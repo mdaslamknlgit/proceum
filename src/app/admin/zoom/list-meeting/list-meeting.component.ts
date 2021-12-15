@@ -5,6 +5,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class ListMeetingComponent implements OnInit {
     public page = 0;
     public search_box = '';
     public are_you_sure_to_cancel_text = '';
-    constructor(public translate: TranslateService, private http: CommonService, private toster: ToastrService) { 
+    constructor(public translate: TranslateService, private http: CommonService, private toster: ToastrService, private route: Router) { 
         this.translate.setDefaultLang(this.http.lang);
     }
 
@@ -88,6 +89,29 @@ export class ListMeetingComponent implements OnInit {
             }
           });
     }
+    startClass(meeting_id){
+        let string = this.http.getRandomString(6);
+        localStorage.setItem('ip_address', string);
+        let param = {
+            url: 'class/join',
+            meeting_id:''+meeting_id,
+            redirect_to: window.location.href,
+            verify_string: string,
+            role:1
+        };
+        this.http.post(param).subscribe((res) => {
+            if(res['error']==false)
+                {window.location.href = location.origin+"/"+res['data']['url'];}
+            else{
+                this.translate.get("something_went_wrong_text").subscribe(text=>{
+                    this.translate.get("error_text").subscribe(error_text=>{
+                        this.toster.error(text, error_text, {closeButton:true});
+                    })
+                });
+            }
+        })
+    }
+    
     public cancelClass(meeting_id, index){
         let param = {
             url: 'class/cancel',

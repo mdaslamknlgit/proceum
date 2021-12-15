@@ -382,6 +382,7 @@ export class ManageUsersComponent implements OnInit {
     window.open(this.api_url+'?getUrl=1&role='+this.role+'&search='+this.search_box+'&list_type_id='+this.organization_type_id
     +'&organization='+this.organization_list_id+'&college_id='+this.college_id+'&year='+this.year_id+'&semester='+this.semester_id
     +'&group='+this.group_id+'&is_admin_specific_role=1',"_blank");
+    this.mng_student_popup = false;
   }
   
   downloadSelectStudents(){
