@@ -5,11 +5,11 @@ import { CommonService } from 'src/app/services/common.service';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-exam-mode',
-  templateUrl: './exam-mode.component.html',
-  styleUrls: ['./exam-mode.component.scss']
+  selector: 'app-attend-assessment',
+  templateUrl: './attend-assessment.component.html',
+  styleUrls: ['./attend-assessment.component.scss']
 })
-export class ExamModeComponent implements OnInit {
+export class AttendAssessmentComponent implements OnInit {
     public show_q_numbers = true;
     public lst_grdclk = true;
     public filter_array = {qbank_id:0, exam_id:0};
@@ -31,8 +31,8 @@ export class ExamModeComponent implements OnInit {
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((param) => {
-            this.filter_array.qbank_id = param.qbank_id;
-            this.filter_array.exam_id = param.exam_id;
+            this.filter_array.qbank_id = 2;//param.qbank_id;
+            this.filter_array.exam_id = 15;//param.exam_id;
             this.getTestQuestions();
         });
     }
@@ -69,7 +69,7 @@ export class ExamModeComponent implements OnInit {
             }
             else{
                 this.toster.error(res['message'], "Error", {closeButton:true});
-                this.router.navigateByUrl('/student/qbank/create-exam/'+this.filter_array.qbank_id);
+                //this.router.navigateByUrl('/student/qbank/create-exam/'+this.filter_array.qbank_id);
             }
         });
     }

@@ -10,7 +10,8 @@
     <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }">Home</span>
     <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
-    <span mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active" >Pricing & Packages</span>
+    <span mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active">Pricing &
+      Packages</span>
 
     <!-- <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
     <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
@@ -21,9 +22,9 @@
 
     <span mat-list-item class="tp_rt_mn" routerLinkActive="active">Blog</span>
     <span *ngFor="let menu of menus" class="tp_rt_mn">
-      <span *ngIf="menu.subMenus != undefined && menu.subMenus.length>0" mat-list-item [matMenuTriggerFor]="appMenu" 
+      <span *ngIf="menu.subMenus != undefined && menu.subMenus.length>0" mat-list-item [matMenuTriggerFor]="appMenu"
         [class]="activeClass" routerLinkActive="active">{{ menu.name }}</span>
-        <!-- <span
+      <!-- <span
         *ngIf="isCustomMenuShow"
         mat-list-item
         [matMenuTriggerFor]="appMenu"
@@ -55,14 +56,14 @@
   <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
     <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
   </div>
-
   <!-- <div class="top-right-icon">
-    <img src="../../../../assets/images/Search-icon.svg" alt="Search" />
-    <img
-      src="../../../../assets/images/hamburg-icon.svg"
-      (click)="menuToggle()"
-      alt="Hamberg"
-    />
+    <mat-icon (click)="glbSrch = !glbSrch">search</mat-icon>
+    <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
+      <mat-form-field appearance="outline">
+        <input matInput placeholder="Search">
+        <mat-icon matSuffix>travel_explore</mat-icon>
+      </mat-form-field>
+    </div>
   </div> -->
   <!-- <button mat-icon-button class="tp_rt_mn lgot_btn" (click)="logout()"><mat-icon>logout</mat-icon></button> -->
 </mat-toolbar>

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EventsListComponent } from './events-list.component';
+import { GlobalSearchComponent } from './global-search.component';
 
-describe('EventsListComponent', () => {
-  let component: EventsListComponent;
-  let fixture: ComponentFixture<EventsListComponent>;
+describe('GlobalSearchComponent', () => {
+  let component: GlobalSearchComponent;
+  let fixture: ComponentFixture<GlobalSearchComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EventsListComponent ]
+      declarations: [ GlobalSearchComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EventsListComponent);
+    fixture = TestBed.createComponent(GlobalSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

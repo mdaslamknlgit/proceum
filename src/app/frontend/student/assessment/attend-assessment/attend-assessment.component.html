@@ -1,37 +1,56 @@
- 
-<div class="mn_dshbrd"> 
+<div class="mn_dshbrd">
     <div class="hgt_20"></div>
     <div class="sp_mn">
-        <div class="brdcrm_br p_1 d-flex ai_cntr" *ngIf="curriculum.length>0">
+        <div class="brdcrm_br p_1 d-flex ai_cntr">
             <mat-icon color="accent">home</mat-icon>
-            <mat-icon>navigate_next</mat-icon><span routerLink="/student/curriculums">QBanks</span> 
-            <mat-icon>navigate_next</mat-icon><span routerLink="/student/qbank/create-exam/{{curriculum[0]['pk_id']}}">{{curriculum[0]['curriculumn_name']}}</span> 
-            <mat-icon>navigate_next</mat-icon><strong>Study Mode</strong>
+            <mat-icon>navigate_next</mat-icon><strong>Attend Assessment</strong>
         </div>
     </div>
     <div class="hgt_20"></div>
-    <div class="tsts_mn stdy_md_qstns {{show_q_numbers == false ? 'tsts_collps':''}} {{ lst_grdclk == false ? '':'qbnk_mn'}}">
+    <div class="tsts_mn stdy_md_qstns {{show_q_numbers == false ? 'tsts_collps':''}}">
         <div class="tsts_qstns_nums">
             <div class="tstsnms_hd_dv">
-                <div class="tstsnms_hd">Questions {{questions_list.length}}</div>
+                <div class="tstsnms_hd">Questions 1</div>
                 <div class="spacer"></div>
-                <div class="tsts_qst_swch grd_lst_vw" (click)="lst_grdclk = !lst_grdclk">
-                    <mat-icon color="accent" matTooltip="{{lst_grdclk == false ? 'List View':'Grid View'}}" >{{lst_grdclk == false ? 'list':'grid_view'}}</mat-icon>
-                </div>
                 <div class="tsts_qst_swch {{show_q_numbers == false ? 'rot_90':'rot_0'}}">
                     <mat-icon color="accent" (click)="show_q_numbers = !show_q_numbers">menu_open</mat-icon>
                 </div>
             </div>
             <div class="hgt_20"></div>
             <div class="tstsnms_cnt_dv">
+                <ul class="tst_lgnds">
+                    <li class="actv">Active</li>
+                    <li class="answrd">Answered</li>
+                    <li class="orng">Marked</li>
+                    <li class="skppd">Skipped</li>
+                </ul>
                 <ul>
-                    <li *ngFor="let q of questions_list; let question_index=index;" class=" {{q['result']}} {{question_index == active_q_index?'gry':''}}" (click)="getQuestionOptions(question_index)">{{question_index+1}} <span class="qstn_elb"><span [innerHTML]="q['question']"></span></span>
+                    <li *ngFor="let q of questions_list; let question_index=index;"
+                        class=" {{q['result']}} {{question_index == active_q_index?'gry':''}} {{q['answer'].length>0?'grn':''}}"
+                        (click)="getQuestionOptions(question_index)">{{question_index+1}} <span class="qstn_elb"><span
+                                [innerHTML]="q['question']"></span></span>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="tsts_qstns" *ngIf="questions_list.length>0">
-            <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
+            <div class="d-flex w_90p ai_cntr">
+                <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
+                <div class="spacer"></div>
+                <div class="mr_1">Remain Time: {{remain_time}}</div>
+                <div>
+                    <button (click)="showResult();" *ngIf="is_test_end == false"
+                        [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button
+                        class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">End
+                        Test
+                    </button>
+                    <button *ngIf="is_test_end == true" (click)="showDetails()" mat-raised-button class="skp_btn">View
+                        Report
+                    </button>
+                </div>
+
+            </div>
+
             <div class="hgt_20"></div>
             <div class="tstsqst_qst">
                 <span [innerHTML]="active_question['question']"></span>
@@ -65,6 +84,7 @@
                     [(ngModel)]="active_question['answer'][0]">
                     <div *ngFor="let option of active_question['options']">
                         <mat-radio-button [value]="''+option['pk_id']"
+                            (click)="questions_list[active_q_index]['result'] = ''"
                             class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
                             {{ option["option_text"] }}
                         </mat-radio-button>
@@ -101,10 +121,8 @@
                     (click)="getQuestionOptions(active_q_index-1)">
                     <mat-icon>arrow_left</mat-icon> Prev
                 </button>
-                <button [disabled]="active_question['answer'].length==0" mat-raised-button color="accent"
-                    (click)="checkAnswer()" class="skp_btn {{active_question['answer'].length==0?'gry_btn':''}}">Check
-                    Answer <mat-icon>subdirectory_arrow_right
-                    </mat-icon>
+                <button mat-raised-button class="skp_btn" (click)="skipQuestion(active_q_index)">
+                    Skip
                 </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
                     (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
@@ -112,47 +130,32 @@
             </div>
         </div>
         <!-- <div class="tsts_qstns">
-            <div class="tstsqst_hd d-flex">
-                <div>Question (5/40)</div>
-                <div class="qt_lbl">
-                    MCQ Question
-                </div>
+            <div class="d-flex ai_cntr">
+                <div class="tstsqst_hd">Question 1</div>
+                <div class="spacer"></div>
+                <div class="mr_1 grn_clr">Remain Time: 00HH:00MM</div>
             </div>
-            <div class="hgt_10"></div>
+            <div class="hgt_20"></div>
             <div class="tstsqst_qst">
-                An 86-year-old woman is brought to the emergency department by her niece because the patient felt like
-                she was spinning and about to topple over. This occurred around 4 hours ago, and although symptoms have
-                improved, she still feels like she is being pulled to the right side. Her vital signs include: blood
-                pressure 116/75 mm Hg, pulse 90/min, and SpO2 99% on room air. Physical examination reveals right-sided
-                limb ataxia along with hypoalgesia and decreased temperature sensation on the right side of the face and
-                left side of the body. An urgent noncontrast CT scan of the head shows no evidence of hemorrhage. What
-                other finding is most likely to be present in this patient?
+                <span>This is a Question</span>
                 <div class="tstsqst_img">
-                    <img src="../../../assets/images/testimonial-img-1.png">
                 </div>
             </div>
             <div class="tstsqst_ans">
-                <mat-radio-group>
-                    <mat-radio-button value="1" class="tstwrng_ans wrng_rdo">Option 1</mat-radio-button>
-                    <mat-radio-button value="2" class="actvfr_dsc crrct_rdo">Option 2</mat-radio-button>
-                    <mat-radio-button value="3" class="tstwrng_ans wrng_rdo">Option 2</mat-radio-button>
-                    <mat-radio-button value="4" class="actvfr_dsc crrct_rdo">Option 2</mat-radio-button>
-                    <div class="rdo_desc">Zwei flinke Boxer jagen die quirlige Eva und ihren Mops durch Sylt. Franz jagt
-                        im komplett verwahrlosten Taxi quer durch Bayern. Zwölf Boxkämpfer jagen Viktor quer über den
-                        großen Sylter Deich. Vogel Quax zwickt Johnys Pferd Bim. Sylvia wagt quick den Jux bei
-                        Pforzheim. Polyfon zwitschernd aßen Mäxchens Vögel Rüben, Joghurt und Quark. "Fix, Schwyz!"
-                        quäkt Jürgen blöd vom Paß. Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.
-                        Falsches Üben von Xylophonmusik quält jeden größeren Zwerg. Heizölrückstoßabdämpfung</div>
+                <mat-radio-group aria-label="Select an option">
+                    <mat-radio-button value="1">Option 1</mat-radio-button>
+                    <mat-radio-button value="2">Option 2</mat-radio-button>
                 </mat-radio-group>
-                <mat-checkbox class="wrng_rdo">Checkbox 1</mat-checkbox>
-                <mat-checkbox>Checkbox 1</mat-checkbox>
-                <mat-checkbox>Checkbox 1</mat-checkbox>
             </div>
             <div class="tstsqst_navs">
                 <button mat-raised-button color="accent">
                     <mat-icon>arrow_left</mat-icon> Prev
                 </button>
-                <button mat-raised-button color="accent" >Next <mat-icon>arrow_right</mat-icon>
+                <button mat-raised-button color="accent" class="skp_btn {{false ? 'gry_btn':''}}">Check
+                    Answer <mat-icon>subdirectory_arrow_right
+                    </mat-icon>
+                </button>
+                <button mat-raised-button color="accent">Next <mat-icon>arrow_right</mat-icon>
                 </button>
             </div>
         </div> -->

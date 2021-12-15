@@ -5,18 +5,14 @@
         <div class="spacer"></div>
     </div>
     <hr />
-    <form #create_class_form="ngForm" name="create_class_form" (ngSubmit)="createMeeting()" novalidate>
+    <form #create_class_form="ngForm" name="create_class_form" (ngSubmit)="updateMeeting()" novalidate>
         <div class="dsh_brd_crds">
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.schedule_for"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="schedule_for" name="schedule_for_name" required>
-                        <mat-option value="meeting">{{"admin.class.create.a_meeting"|translate}}</mat-option>
-                        <mat-option value="webinar">{{"admin.class.create.a_webinar"|translate}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                <span *ngIf="meeting_data['type']==2" [translate]="'admin.class.list.meeting'"></span>
+                <span *ngIf="meeting_data['type']!=2" [translate]="'admin.class.list.webinar'"></span> 
             </div>
-            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+            <!-- <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
                 <div class="clear_fix"></div>
                 <div>{{"admin.class.create.course"|translate}}</div>
                 <mat-form-field appearance="outline">
@@ -44,60 +40,22 @@
                       [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
                   </mat-select>
                 </mat-form-field>
-              </div>
+              </div> -->
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.meeting_topic"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <input matInput [(ngModel)]="meeting_topic" #meeting_topic_name="ngModel" name="meeting_topic_name" placeholder='{{"admin.class.create.meeting_topic"|translate}}' required>
-                </mat-form-field>
+                {{meeting_data['topic']}}
             </div>
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="teacher_id" name="teacher_id_name" required>
-                        <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option *ngFor="let teacher of teachers" [value]="teacher['id']">{{teacher['first_name']}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.timezone"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select value="" [(ngModel)]="timezone" name="timezone_name" required>
-                        <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option value="Asia/Dhaka">{{"admin.class.create.asia_bishkek"|translate}}</mat-option>
-                        <mat-option value="Asia/Kolkata">{{"admin.class.create.asia_kolkata"|translate}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                {{meeting_data['first_name']+' ('+meeting_data['email']+')'}}
             </div>
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.start_date"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <input matInput [(ngModel)]="start_date" name="start_date_name" readonly [matDatepicker]="picker" required placeholder='{{"admin.class.create.start_date"|translate}}' autocomplete="off">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.start_time"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline" class="w_47p">
-                    <input type="time" matInput min="{{today.today.getHours()}+':'+today.getMinutes()}" [(ngModel)]="start_time" name="start_time_name">
-                </mat-form-field>
+                {{meeting_time}}
             </div>
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.duration"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="duration" name="duration_name" required>
-                        <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option value="10">10 {{"min_text"|translate}}</mat-option>
-                        <mat-option value="20">20 {{"min_text"|translate}}</mat-option>
-                        <mat-option value="30">30 {{"min_text"|translate}}</mat-option>
-                        <mat-option value="40">40 {{"min_text"|translate}}</mat-option>
-                        <mat-option value="60">60 {{"min_text"|translate}}</mat-option>
-                        <mat-option value="90">90 {{"min_text"|translate}}</mat-option>
-                        <mat-option value="120">120 {{"min_text"|translate}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+                {{meeting_data['duration']}} {{"min_text"|translate}}
             </div>
             <hr />
             <!-- <div class="cm_fltr_sc mr_1">
@@ -249,7 +207,7 @@
                     <button (click)="addStudents()" type="button" mat-raised-button color="accent" class="mr_1">
                         <mat-icon>add</mat-icon> {{"admin.class.create.add_all"|translate}}
                     </button>
-                    <button mat-raised-button type="button" (click)="selected_students=[];selected_student_ids = [];" color="accent">{{"admin.class.create.remove_all"|translate}}</button>
+                    <button type="button" (click)="selected_students=[];selected_student_ids = [];" mat-raised-button color="accent">{{"admin.class.create.remove_all"|translate}}</button>
                 </div>
             </div>
             <div class="hgt_20"></div>

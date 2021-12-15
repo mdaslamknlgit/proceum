@@ -3018,6 +3018,40 @@ div.cust_mdl_par div.mn_dshbrd {
       // display: flex;
       align-items: center;
     }
+    .glbl_srch_rslt{
+      width: 100%;
+      .gs_rslt_dv{
+        display: flex;
+        flex-wrap: wrap;
+        > div {
+          width: 100%;
+          &.gs_rslt_hd{
+            font-size: 16px;
+            color: $accent_clr;
+            margin: 15px 0;
+          }
+        }
+        ul{
+          padding: 0;
+          margin: 0;
+          width: 100%;
+          li{
+            list-style: none;
+            padding: 10px;
+            box-sizing: border-box;
+            border-bottom: 1px solid #ccc;
+            width: 100%;
+            cursor: pointer;
+            &:hover{
+              color: $accent_clr;
+            }
+            &:first-child{
+              border-top: 1px solid #ccc;
+            }
+          }
+        }
+      }
+    }
   }
   .tm_stmp {
     color: $accent_clr;
@@ -4530,16 +4564,17 @@ sup {
   display: flex;
   flex-wrap: wrap;
   .dys_dv{
-    width: calc(19% - 6px);
+    width: 19%;
     background-color: #fff;
     border-radius: 10px;
-    margin-right: 8px;
+    margin-right: 1%;
     min-height: 150px;
     padding-bottom: 10px;
     margin-bottom: 15px;
     border: 1px solid #a2d2a0;
     box-shadow: 3px 3px 5px 0px #d0eece;
     position: relative;
+    box-sizing: border-box;
     .opn_bkicn, .exm_icn{
       position: absolute;
       left: 50%;
@@ -4829,7 +4864,7 @@ sup {
       .days_mn{
         .dys_dv{
           background-color: #fff;
-          width: calc(25% - 10px);
+          width: 24%;
           overflow: hidden;
           position: relative;
           .done_tick{
@@ -5526,6 +5561,29 @@ sup {
             background-color: #7C7C7C;
             border-color:#7C7C7C;
             color: #fff;
+          }
+          &.actv{
+            background-color: #3e70c9;
+            border-color: #3e70c9;
+            color: #fff;
+          }
+          &.answrd{
+            background-color: #43b968;
+            border-color: #43b968;
+            color: #fff;
+          }
+          &.skppd{
+            background-color: #a568e2;
+            border-color: #a568e2;
+            color: #fff;
+          }
+        }
+        &.tst_lgnds{
+          display: flex;
+          width: 100%;
+          justify-content: center;
+          li{
+            padding: 0 10px;
           }
         }
       }
@@ -6661,4 +6719,31 @@ sup {
     background-color: #fff;
     padding: 15px;
   }
+}
+.top-right-icon{
+  position: relative;
+  .glbl_srch{
+    position: absolute;
+    right: 10px; 
+    top: -15px;
+    width: 50px;
+    transition: width 0.2s;
+    transition-timing-function: ease;
+    &.dsh_brd_crds > mat-form-field.mat-form-field{
+      width: 100%;
+      font-size: 16px;
+    }
+    &.glbsrc_act{  
+      width: 300px;
+      top: -23px;
+      right: -2px;
+    }
+  }
+}
+.glbl_srch_cnt{
+  background-color: $accent_clr;
+  padding: 0px 10px;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 12px;
 }

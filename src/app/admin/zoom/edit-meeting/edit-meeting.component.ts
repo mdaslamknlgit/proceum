@@ -4,14 +4,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-    selector: 'app-create-meeting',
-    templateUrl: './create-meeting.component.html',
-    styleUrls: ['./create-meeting.component.scss']
+    selector: 'app-edit-meeting',
+    templateUrl: './edit-meeting.component.html',
+    styleUrls: ['./edit-meeting.component.scss']
 })
-export class CreateMeetingComponent implements OnInit {
+export class EditMeetingComponent implements OnInit {
     public curriculum_id = 0;
     public curriculum_list = [];
     public curriculum_labels = [];
@@ -62,93 +62,107 @@ export class CreateMeetingComponent implements OnInit {
     public selected_name = '';
     public selected_value = '';
     public today_date = new Date();
-    constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router) { 
+    public meeting_id = '';
+    public meeting_data = [];
+    constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router, private activatedRoute: ActivatedRoute) { 
         this.translate.setDefaultLang(this.http.lang);
     }
-    ngOnInit(): void {
-        this.getData();
-        this.getcurriculums();
+    ngOnInit(){
+        this.activatedRoute.params.subscribe(param=>{
+            this.meeting_id = param.meeting_id;
+            this.getData();
+        })
+        
+        //this.getcurriculums();
     }
+    public meeting_time = '';
     getData(){
-        let param = {url: 'class/create-meeting'};
+        let param = {url: 'class/edit', meeting_id: this.meeting_id};
         this.http.post(param).subscribe(res=>{
             if(res['error']==false){
                 this.teachers = res['data']['teachers'];
                 this.countrys = res['data']['countrys'];
+                this.meeting_data = res['data']['meeting_data'];
+                this.meeting_time = res['data']['meeting_time'];
+                let students = res['data']['attendies'];
+                students.forEach(element => {
+                    this.selected_students.push({id:element.user_id, name: element.first_name+'<'+element.email+'>'});
+                    this.selected_student_ids.push(element.user_id);
+                });
             }
         });
     }
-    getcurriculums() {
-        this.level_options = [];
-        this.all_level_options = [];
-        this.selected_level = [];
-        this.selected_subject=0;
-        this.curriculum_id = 0;
-        this.curriculum_labels = [];
-        let params = {
-            url: 'get-courses-or-qbanks', type: 1
-        };
-        this.http.post(params).subscribe((res) => {
-            if (res['error'] == false) {
-                if (res['data']['list'].length > 0)
-                    this.curriculum_list = res['data']['list'];
-                else
-                this.curriculum_list = [];
-            }
-        });
-    }
-    getLabels(){
-        this.level_options = [];
-        this.all_level_options = [];
-        this.selected_level = [];
-        this.selected_subject=0;
-        let param = {
-            url: 'get-curriculum-labels',
-            curriculum_id: this.curriculum_id,
-        };
-        this.http.post(param).subscribe((res) => {
-            if (res['error'] == false) {
-                let data = res['data'];
-                this.level_options[1] = data['level_1'];
-                this.all_level_options[1] = data['level_1'];
-                this.curriculum_labels = data['curriculum_labels'];
-                if(this.curriculum_labels.length == 0){
-                    this.level_options = [];
-                    this.all_level_options = [];
-                    this.selected_level = [];
-                }
-            }
-        });
-    }
-    ucFirst(string) {
-        return this.http.ucFirst(string);
-    }
-    getLevels(level_id) {
-        this.selected_subject = this.selected_level[level_id];
-        let param = {
-        url: 'get-levels-by-level',
-        step_id: this.selected_level[level_id],
-        };
-        this.http.post(param).subscribe((res) => {
-        if (res['error'] == false) {
-            let data = res['data'];
-            this.level_options[level_id + 1] = data['steps'];
-            this.all_level_options[level_id + 1] = data['steps'];
-            this.level_options.forEach((opt, index) => {
-            if (index > level_id + 1) this.level_options[index] = [];
-            });
-            this.selected_level.forEach((opt, index) => {
-                if (index > level_id) this.selected_level[index] = 0;
-            });
-        }
-        });
-    }
-    searchLevelByName(search,level){
-        let options = this.all_level_options[level];
-        this.level_options[level] = options.filter(
-            item => item.level_name.toLowerCase().includes(search.toLowerCase())
-        );
-    }
+    // getcurriculums() {
+    //     this.level_options = [];
+    //     this.all_level_options = [];
+    //     this.selected_level = [];
+    //     this.selected_subject=0;
+    //     this.curriculum_id = 0;
+    //     this.curriculum_labels = [];
+    //     let params = {
+    //         url: 'get-courses-or-qbanks', type: 1
+    //     };
+    //     this.http.post(params).subscribe((res) => {
+    //         if (res['error'] == false) {
+    //             if (res['data']['list'].length > 0)
+    //                 this.curriculum_list = res['data']['list'];
+    //             else
+    //             this.curriculum_list = [];
+    //         }
+    //     });
+    // }
+    // getLabels(){
+    //     this.level_options = [];
+    //     this.all_level_options = [];
+    //     this.selected_level = [];
+    //     this.selected_subject=0;
+    //     let param = {
+    //         url: 'get-curriculum-labels',
+    //         curriculum_id: this.curriculum_id,
+    //     };
+    //     this.http.post(param).subscribe((res) => {
+    //         if (res['error'] == false) {
+    //             let data = res['data'];
+    //             this.level_options[1] = data['level_1'];
+    //             this.all_level_options[1] = data['level_1'];
+    //             this.curriculum_labels = data['curriculum_labels'];
+    //             if(this.curriculum_labels.length == 0){
+    //                 this.level_options = [];
+    //                 this.all_level_options = [];
+    //                 this.selected_level = [];
+    //             }
+    //         }
+    //     });
+    // }
+    // ucFirst(string) {
+    //     return this.http.ucFirst(string);
+    // }
+    // getLevels(level_id) {
+    //     this.selected_subject = this.selected_level[level_id];
+    //     let param = {
+    //     url: 'get-levels-by-level',
+    //     step_id: this.selected_level[level_id],
+    //     };
+    //     this.http.post(param).subscribe((res) => {
+    //     if (res['error'] == false) {
+    //         let data = res['data'];
+    //         this.level_options[level_id + 1] = data['steps'];
+    //         this.all_level_options[level_id + 1] = data['steps'];
+    //         this.level_options.forEach((opt, index) => {
+    //         if (index > level_id + 1) this.level_options[index] = [];
+    //         });
+    //         this.selected_level.forEach((opt, index) => {
+    //             if (index > level_id) this.selected_level[index] = 0;
+    //         });
+    //     }
+    //     });
+    // }
+    // searchLevelByName(search,level){
+    //     let options = this.all_level_options[level];
+    //     this.level_options[level] = options.filter(
+    //         item => item.level_name.toLowerCase().includes(search.toLowerCase())
+    //     );
+    // }
     getStates(country_id){
         let param = {url: 'get-states', country_id: country_id};
         this.http.post(param).subscribe(res=>{
@@ -335,26 +349,27 @@ export class CreateMeetingComponent implements OnInit {
         this.students.splice(index, 1);
     }
     removeSelectedStudent(index, id){
-        let s_index = this.selected_student_ids.indexOf(id);console.log(s_index)
+        let s_index = this.selected_student_ids.indexOf(id);
         if(s_index > -1){
-            this.selected_student_ids.splice(s_index, 1);console.log(this.selected_student_ids)
+            this.selected_student_ids.splice(s_index, 1);
         }
         this.selected_students.splice(index, 1);
     }
-    createMeeting(){
+    updateMeeting(){
         if(this.selected_students.length == 0){
             this.translate.get('admin.class.create.select_students_error_message').subscribe((data)=> {
                 this.translate.get('error_text').subscribe((error_text)=> {
-                    this.toster.error(data, error_text, {closeButton:true});
-                });
+                this.toster.error(data, error_text, {closeButton:true});
             });
+        });
+            
         }
         else{
-            let param = {url:'class/store', schedule_for: this.schedule_for, course: this.selected_subject, meeting_topic: this.meeting_topic, teacher_id: this.teacher_id, timezone: this.timezone, start_date: this.start_date, start_time: this.start_time, duration: this.duration, students: this.selected_students};
+            let param = {url:'class/update', students: this.selected_students, meeting_id: this.meeting_id};
             this.http.post(param).subscribe(res=>{
                 if(res['error'] == false){
                     this.translate.get('success_text').subscribe((success_text)=> {
-                        this.translate.get('admin.class.edit.create_success').subscribe((message)=> {
+                        this.translate.get('admin.class.edit.update_success').subscribe((message)=> {
                             this.toster.success(message, success_text, {closeButton:true});
                         });
                     });

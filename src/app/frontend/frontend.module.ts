@@ -51,6 +51,9 @@ import { DatePipe } from '@angular/common';
 import { MyEarningsComponent } from './my-earnings/my-earnings.component';
 import { StudentAssessmentListComponent } from './student/assessment/student-assessment-list/student-assessment-list.component';
 import { EventsListComponent } from './webinars/events-list/events-list.component';
+import { AttendAssessmentComponent } from './student/assessment/attend-assessment/attend-assessment.component';
+import { CouponsComponent } from './coupons/coupons.component';
+import { GlobalSearchComponent } from './global-search/global-search.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -105,8 +108,12 @@ const routes: Routes = [
       { path: 'study-planner/:plan_id', component: StudyPlannerStudentComponent },
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
       { path: 'purchased-orders', component: OrderListComponent },
-      { path: 'events-list', component: EventsListComponent },
+      { path: 'class/list', component: EventsListComponent },
       { path: 'assessment-list', component: StudentAssessmentListComponent },
+      { path: 'coupons', component: CouponsComponent },
+      { path: 'global-search', component: GlobalSearchComponent },
+      { path: 'attend-assessment', component: AttendAssessmentComponent },
+      { path: 'coupons', component: CouponsComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent},
       { path: 'my-earnings', component:  MyEarningsComponent},
     ],
@@ -151,6 +158,9 @@ const routes: Routes = [
     MyEarningsComponent,
     StudentAssessmentListComponent,
     EventsListComponent,
+    AttendAssessmentComponent,
+    CouponsComponent,
+    GlobalSearchComponent,
   ],
   imports: [
     CommonModule,

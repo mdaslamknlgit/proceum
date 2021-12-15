@@ -1,27 +1,137 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { CommonService } from 'src/app/services/common.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-];
 
 @Component({
-  selector: 'app-list-meeting',
-  templateUrl: './list-meeting.component.html',
-  styleUrls: ['./list-meeting.component.scss']
+selector: 'app-list-meeting',
+templateUrl: './list-meeting.component.html',
+styleUrls: ['./list-meeting.component.scss']
 })
 export class ListMeetingComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+    public displayedColumns: string[] = ['s_no', 'topic', 'start_time', 'duration', 'type', 'status', 'actions'];
+    public dataSource = new MatTableDataSource();
+    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    public pageSize = environment.page_size;
+    public page_size_options = environment.page_size_options;
+    public totalSize = 0;
+    public page = 0;
+    public search_box = '';
+    public are_you_sure_to_cancel_text = '';
+    constructor(public translate: TranslateService, private http: CommonService, private toster: ToastrService, private route: Router) { 
+        this.translate.setDefaultLang(this.http.lang);
+    }
 
-  constructor() { }
+    ngOnInit(): void {
+        this.getList();
+        this.translate.get("are_you_sure_to_cancel_text").subscribe(text=>{
+            this.are_you_sure_to_cancel_text = text;
+        });
+    }
+    getList() {
+        let param = {url: 'class/list', type: '', limit: this.pageSize, offset: 0};
+        this.http.post(param).subscribe((res) => {
+            if (res['error'] == false) {
+                this.dataSource = new MatTableDataSource(res['data']['meetings_list']);
+                this.totalSize = res['data']['total_records'];
+                this.dataSource.paginator = this.paginator;
+            }
+            else{
 
-  ngOnInit(): void {
-  }
-
+            }
+        });
+    }
+    public getServerData(event?: PageEvent) {
+        this.page = event.pageSize * event.pageIndex;
+        let param = {
+          url: 'class/list',
+          type:'',
+          offset: this.page,
+          limit: event.pageSize,
+          search: this.search_box,
+        };
+        this.http.post(param).subscribe((res) => {
+          if (res['error'] == false) {
+            this.dataSource = new MatTableDataSource(res['data']['meetings_list']);
+            this.totalSize = res['data']['total_records'];
+          } else {
+            this.dataSource = new MatTableDataSource([]);
+          }
+        });
+    }
+    public doFilter(){
+        let param = {
+            url: 'class/list',
+            type:'',
+            offset: 0,
+            limit: this.pageSize,
+            search: this.search_box,
+          };
+          this.http.post(param).subscribe((res) => {
+            if (res['error'] == false) {
+              this.dataSource = new MatTableDataSource(res['data']['meetings_list']);
+              this.totalSize = res['data']['total_records'];
+              if (this.paginator != undefined) {
+                     this.paginator.pageIndex = 0;
+                     this.paginator.firstPage();
+                 }
+            } else {
+              this.dataSource = new MatTableDataSource([]);
+              if (this.paginator != undefined) {
+                     this.paginator.pageIndex = 0;
+                     this.paginator.firstPage();
+                 }
+            }
+          });
+    }
+    startClass(meeting_id){
+        let string = this.http.getRandomString(6);
+        localStorage.setItem('ip_address', string);
+        let param = {
+            url: 'class/join',
+            meeting_id:''+meeting_id,
+            redirect_to: window.location.href,
+            verify_string: string,
+            role:1
+        };
+        this.http.post(param).subscribe((res) => {
+            if(res['error']==false)
+                {window.location.href = location.origin+"/"+res['data']['url'];}
+            else{
+                this.translate.get("something_went_wrong_text").subscribe(text=>{
+                    this.translate.get("error_text").subscribe(error_text=>{
+                        this.toster.error(text, error_text, {closeButton:true});
+                    })
+                });
+            }
+        })
+    }
+    
+    public cancelClass(meeting_id, index){
+        let param = {
+            url: 'class/cancel',
+            meeting_id:''+meeting_id,
+        };
+        this.http.post(param).subscribe((res) => {
+            if (res['error'] == false) {
+                this.translate.get("admin.class.list.class_cancelled_message").subscribe(text=>{
+                    this.translate.get("success_text").subscribe(success_text=>{
+                        this.dataSource.data[index]['status'] = 3;
+                        this.toster.success(text, success_text, {closeButton:true});
+                    })
+                });
+            } else {
+                this.translate.get("something_went_wrong_text").subscribe(text=>{
+                    this.translate.get("error_text").subscribe(error_text=>{
+                        this.toster.error(text, error_text, {closeButton:true});
+                    })
+                });
+            }
+        });
+    }
 }
