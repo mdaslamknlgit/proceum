@@ -222,17 +222,15 @@
                 
                 <div class="w_49p mr_1p">
                     <span *ngFor="let s of students; let s_index=index;" [hidden]="this.selected_student_ids.includes(s['id'])">
-                        <span >
-                            <span>{{s['name']}}</span><span (click)="addStudent(s)"> add</span>
-                            <!-- <span (click)="removeStudent(s_index)"> remove</span> -->
-                        </span>
-                        <br>
+                        <span>{{s['name']}}</span>
+                        <button mat-icon-button color="accent"><mat-icon (click)="addStudent(s)" >add</mat-icon></button> 
+                        
                     </span>
                 </div>
                 <div class="w_50p" >
                     <span *ngFor="let s of selected_students; let s_s_index=index;">
-                        <span>{{s['name']}}</span><span (click)="removeSelectedStudent(s_s_index, s['id'])"> remove</span>
-                        <br>
+                        <span>{{s['name']}}</span> 
+                        <button mat-icon-button color="accent"><mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" >remove</mat-icon></button> 
                     </span>
                 </div>
             </div>
