@@ -1,4 +1,3 @@
- 
 <div class="mn_dshbrd">
     <div class="cust_mdl_par {{show_details_modal?'cust_mdl_opn':'cust_mdl_cls'}}">
         <div class="cust_mdl_chl w_50p">
@@ -19,17 +18,24 @@
                                 <!-- <div class="tsk_hd">{{selected_course['curriculumn_name']}}</div> -->
                                 <div class="hgt_20"></div>
                                 <div class="sbmtd_ans_dv">
-                                    <div><span>Total Questions:</span><span class="spacer"></span> <span class="dys_cnt">{{questions_list.length}}</span></div>
-                                    <div><span>Correct Answers:</span> <span class="spacer"></span><span class="dys_cnt">{{correct_answers}}</span></div>
-                                    <div><span>Wrong Answers:</span><span class="spacer"></span> <span class="dys_cnt wrng_ans">{{wrong_answers}}</span></div>
-                                    <div *ngIf="not_answered>0"><span>Not Answered:</span> <span class="spacer"></span><span class="dys_cnt nt_ans">{{not_answered}}</span></div>
-                                    <div *ngIf="free_text_qs>0"><span>Free Type Text Questions:</span> <span class="spacer"></span><span class="dys_cnt"> {{free_text_qs}}</span></div>
+                                    <div><span>Total Questions:</span><span class="spacer"></span> <span
+                                            class="dys_cnt">{{questions_list.length}}</span></div>
+                                    <div><span>Correct Answers:</span> <span class="spacer"></span><span
+                                            class="dys_cnt">{{correct_answers}}</span></div>
+                                    <div><span>Wrong Answers:</span><span class="spacer"></span> <span
+                                            class="dys_cnt wrng_ans">{{wrong_answers}}</span></div>
+                                    <div *ngIf="not_answered>0"><span>Not Answered:</span> <span
+                                            class="spacer"></span><span class="dys_cnt nt_ans">{{not_answered}}</span>
+                                    </div>
+                                    <div *ngIf="free_text_qs>0"><span>Free Type Text Questions:</span> <span
+                                            class="spacer"></span><span class="dys_cnt"> {{free_text_qs}}</span></div>
                                 </div>
                                 <div class="hgt_20"></div>
                                 <div class="d-flex jc_cnt">
-                                    <button mat-raised-button class="gry_btn mr_1" (click)="hideDetails()">Close</button>
+                                    <button mat-raised-button class="gry_btn mr_1"
+                                        (click)="hideDetails()">Close</button>
                                     <!-- <button mat-raised-button color="accent" (click)="reviewQuestions()" class="mr_1 skp_btn">Show Answers</button> -->
-                                    
+
                                 </div>
                                 <div class="hgt_20"></div>
                             </div>
@@ -43,13 +49,15 @@
     <div class="sp_mn">
         <div class="brdcrm_br p_1 d-flex ai_cntr" *ngIf="curriculum.length>0">
             <mat-icon color="accent">home</mat-icon>
-            <mat-icon>navigate_next</mat-icon><span routerLink="/student/curriculums">QBanks</span> 
-            <mat-icon>navigate_next</mat-icon><span routerLink="/student/qbank/create-exam/{{curriculum[0]['pk_id']}}">{{curriculum[0]['curriculumn_name']}}</span> 
+            <mat-icon>navigate_next</mat-icon><span routerLink="/student/curriculums">QBanks</span>
+            <mat-icon>navigate_next</mat-icon><span
+                routerLink="/student/qbank/create-exam/{{curriculum[0]['pk_id']}}">{{curriculum[0]['curriculumn_name']}}</span>
             <mat-icon>navigate_next</mat-icon><strong>Exam Mode</strong>
         </div>
     </div>
     <div class="hgt_20"></div>
-    <div class="tsts_mn stdy_md_qstns {{show_q_numbers == false ? 'tsts_collps':''}} {{ lst_grdclk == false ? '':'qbnk_mn'}}">
+    <div
+        class="tsts_mn stdy_md_qstns {{show_q_numbers == false ? 'tsts_collps':''}} {{ lst_grdclk == false ? '':'qbnk_mn'}}">
         <!-- <div class="tsts_qstns_nums">
             <div class="tstsnms_hd_dv">
                 <div class="tstsnms_hd">Questions 40</div>
@@ -80,7 +88,8 @@
                 <div class="tstsnms_hd">Questions {{questions_list.length}}</div>
                 <div class="spacer"></div>
                 <div class="tsts_qst_swch grd_lst_vw" (click)="lst_grdclk = !lst_grdclk">
-                    <mat-icon color="accent" matTooltip="{{lst_grdclk == false ? 'List View':'Grid View'}}" >{{lst_grdclk == false ? 'list':'grid_view'}}</mat-icon>
+                    <mat-icon color="accent" matTooltip="{{lst_grdclk == false ? 'List View':'Grid View'}}">{{lst_grdclk
+                        == false ? 'list':'grid_view'}}</mat-icon>
                 </div>
                 <div class="tsts_qst_swch {{show_q_numbers == false ? 'rot_90':'rot_0'}}">
                     <mat-icon color="accent" (click)="show_q_numbers = !show_q_numbers">menu_open</mat-icon>
@@ -91,7 +100,8 @@
                 <ul>
                     <li *ngFor="let q of questions_list; let question_index=index;"
                         class=" {{q['result']}} {{question_index == active_q_index?'gry':''}} {{q['answer'].length>0?'grn':''}}"
-                        (click)="getQuestionOptions(question_index)">{{question_index+1}} <span class="qstn_elb"><span [innerHTML]="q['question']"></span></span>
+                        (click)="getQuestionOptions(question_index)">{{question_index+1}} <span class="qstn_elb"><span
+                                [innerHTML]="q['question']"></span></span>
                     </li>
                 </ul>
             </div>
@@ -102,18 +112,18 @@
                 <div class="spacer"></div>
                 <div class="mr_1">Remain Time: {{remain_time}}</div>
                 <div>
-                <button
-                    (click)="showResult();" *ngIf="is_test_end == false" [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button 
-                    class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">End Test
-                </button>
-                <button *ngIf="is_test_end == true"
-                    (click)="showDetails()" mat-raised-button 
-                    class="skp_btn">View Report
-                </button>
+                    <button (click)="showResult();" *ngIf="is_test_end == false"
+                        [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button
+                        class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">End
+                        Test
+                    </button>
+                    <button *ngIf="is_test_end == true" (click)="showDetails()" mat-raised-button class="skp_btn">View
+                        Report
+                    </button>
                 </div>
-                
+
             </div>
-            
+
             <div class="hgt_20"></div>
             <div class="tstsqst_qst">
                 <span [innerHTML]="active_question['question']"></span>
@@ -146,7 +156,8 @@
                 <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(active_question["q_type"])'
                     [(ngModel)]="active_question['answer'][0]">
                     <div *ngFor="let option of active_question['options']">
-                        <mat-radio-button [value]="''+option['pk_id']" (click)="questions_list[active_q_index]['result'] = ''"
+                        <mat-radio-button [value]="''+option['pk_id']"
+                            (click)="questions_list[active_q_index]['result'] = ''"
                             class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
                             {{ option["option_text"] }}
                         </mat-radio-button>
@@ -183,8 +194,7 @@
                     (click)="getQuestionOptions(active_q_index-1)">
                     <mat-icon>arrow_left</mat-icon> Prev
                 </button>
-                <button mat-raised-button class="skp_btn" 
-                    (click)="skipQuestion(active_q_index)">
+                <button mat-raised-button class="skp_btn" (click)="skipQuestion(active_q_index)">
                     Skip
                 </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
