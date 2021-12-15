@@ -163,7 +163,7 @@
             <div class="cm_fltr_sc mr_1">
                 <span>Group</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select Group" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id">
+                    <mat-select placeholder="Select Group" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="doFilter()">
                         <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
