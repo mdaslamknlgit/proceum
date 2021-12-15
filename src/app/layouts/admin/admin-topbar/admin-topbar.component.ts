@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: string = "sd_cls";
   // public sidemenu_status: string = localStorage.getItem('sidemenu');
+  public glbSrch = true;
   public user;
   private subscription:Subscription;
   public content_notifications = [];
