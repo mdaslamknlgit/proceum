@@ -84,10 +84,17 @@ export class ManageUsersComponent implements OnInit {
   all_years: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_semesters: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_groups: ReplaySubject<any> = new ReplaySubject<any>(1);
+  promote_all_years: ReplaySubject<any> = new ReplaySubject<any>(1);
+  promote_all_semesters: ReplaySubject<any> = new ReplaySubject<any>(1);
+  promote_all_groups: ReplaySubject<any> = new ReplaySubject<any>(1);
   public mng_student_popup = false;
 
   public studentArray = [];
-  masterSelected:boolean = false;
+  public studentListArray = [];
+  public promote_year_id = '';
+  public promote_semester_id = '';
+  public promote_group_id = '';
+  checkboxValue: boolean = false;
   api_url : string;
 
   constructor(
@@ -146,15 +153,24 @@ export class ManageUsersComponent implements OnInit {
       group: this.group_id,
       is_admin_specific_role : '1'
     };
-    //console.log(param);
     
     this.http.post(param).subscribe((res) => {    
-      
+      this.checkboxValue = false;
       if (res['error'] == false) {
         if(this.role == '2'){
           this.dataSourceTwo = new MatTableDataSource(res['data']);
           this.dataSourceTwo.paginator = this.paginator;
           this.dataSourceTwo.sort = this.sort;
+          let student_list = res['data'];
+          this.studentListArray = [];
+          if (student_list.length > 0) {
+            student_list.forEach((res) => {
+              this.studentListArray[res['id']] = {
+                content_id: res['id'],
+                is_selected: false,
+              };
+            });
+          }
         }else{
           this.dataSource = new MatTableDataSource(res['data']);
           this.dataSource.paginator = this.paginator;
@@ -190,10 +206,20 @@ export class ManageUsersComponent implements OnInit {
     };
     
     this.http.post(param).subscribe((res) => {
-      //console.log(res);
+      this.checkboxValue = false;
       if (res['error'] == false) {
         if(this.role == '2'){
           this.dataSourceTwo = new MatTableDataSource(res['data']);
+          let student_list = res['data'];
+          this.studentListArray = [];
+          if (student_list.length > 0) {
+            student_list.forEach((res) => {
+              this.studentListArray[res['id']] = {
+                content_id: res['id'],
+                is_selected: false,
+              };
+            });
+          }
         } else{
           this.dataSource = new MatTableDataSource(res['data']);
         }        
@@ -211,17 +237,18 @@ export class ManageUsersComponent implements OnInit {
 
   public onManageStudentChange() {
     if(this.organization_list_id == '' && this.manage_students == '1'){
-      this.toster.error('Please Select University / College / Institute', 'Error');
+      this.toster.error('Please Select University / College / Institute', 'Error', { closeButton: true });
       return;
     }else if(this.manage_students == '1'){
       let parent_id = '';
       let partner = '';
       if(this.organization_list_id != ''){
-        partner = parent_id = this.organization_list_id;
+        partner = this.organization_list_id;
       }else if(this.college_id != ''){
         parent_id = this.college_id;
+        partner = this.organization_list_id;
       }
-      this.getYearSemsterGroup(partner,parent_id,'year');
+      this.getYearSemsterGroup(partner,parent_id,'year','promote');
     }
     this.mng_student_popup = true;
   }
@@ -280,65 +307,82 @@ export class ManageUsersComponent implements OnInit {
     }
   }
 
-  getCollege(partner,parent_id,slug){
+  getCollege(partner,parent_id,slug,type){
     if(this.organization_type_id == '1'){ //University
       this.getOrganizationList(2,1);
       this.college_id = '';
     }
-    this.getYearSemsterGroup(partner,parent_id,slug);
+    this.getYearSemsterGroup(partner,parent_id,slug,type);
   }
 
-  getYearSemsterGroup(partner,parent_id,slug){
+  getYearSemsterGroup(partner,parent_id,slug,type){
     //console.log('partner => '+partner+', parent_id => '+parent_id+', slug => '+slug);    
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.years = res['data'];
         if(this.years != undefined){
-          if(slug == 'year'){
-            this.semester_id = '';
-            this.group_id = '';
-            this.all_years.next(this.years.slice());
-          }else if(slug == 'semester'){
-            this.group_id = '';
-            this.all_semesters.next(this.years.slice());
-          }else if(slug == 'group'){
-            this.all_groups.next(this.years.slice());
-          }           
+          if(type == 'promote'){
+            if(slug == 'year'){    
+              this.promote_semester_id = '';
+              this.promote_group_id = '';        
+              this.promote_all_years.next(this.years.slice());
+            }else if(slug == 'semester'){
+              this.promote_group_id = '';
+              this.promote_all_semesters.next(this.years.slice());
+            }else if(slug == 'group'){
+              this.promote_all_groups.next(this.years.slice());
+            } 
+          }else{
+            if(slug == 'year'){            
+              this.semester_id = '';
+              this.group_id = '';
+              this.all_years.next(this.years.slice());            
+            }else if(slug == 'semester'){
+              this.group_id = '';
+              this.all_semesters.next(this.years.slice());
+            }else if(slug == 'group'){
+              this.all_groups.next(this.years.slice());            
+            }
+            this.doFilter(); 
+          }          
         }
-        this.doFilter();
       } else {
         //this.toster.error(res['message'], 'Error');
       }
     });
   }
 
-  checkUncheckAll(){
-    console.log('OKATTT');
-    // for (var i = 0; i < this.dataSourceTwo.length; i++) {
-    //   this.dataSourceTwo[i].isSelected = this.masterSelected;
-    // }
-    // this.getCheckedItemList();
+  checkUncheckAll(event){
+    this.studentArray = [];
+    if(event.checked == true){
+      this.studentListArray.forEach((value) => {
+        this.studentListArray[value['content_id']]['is_selected'] = event.checked;
+        this.studentArray.push(value['content_id']);
+      });
+    }else{
+      this.studentListArray.forEach((value) => {
+        this.studentListArray[value['content_id']]['is_selected'] = event.checked;
+      });
+    }
   }
-
-  // Get List of Checked Items
-  // getCheckedItemList(){
-  //   this.studentArray = [];
-  //   for (var i = 0; i < this.dataSourceTwo.length; i++) {
-  //     if(this.dataSourceTwo[i].isSelected)
-  //     this.studentArray.push(this.dataSourceTwo[i]);
-  //   }
-  // }
-
   
   isAllSelected(event,student_id){ 
-    this.studentArray.push(student_id);
+    if(event.checked == true){
+      this.studentArray.push(student_id);
+    }else{
+      const index2 = this.studentArray.indexOf(student_id);
+      if (index2 > -1) {
+        this.studentArray.splice(index2, 1);
+      }
+    }
   }
 
   downloadAllStudents(){
     window.open(this.api_url+'?getUrl=1&role='+this.role+'&search='+this.search_box+'&list_type_id='+this.organization_type_id
     +'&organization='+this.organization_list_id+'&college_id='+this.college_id+'&year='+this.year_id+'&semester='+this.semester_id
     +'&group='+this.group_id+'&is_admin_specific_role=1',"_blank");
+    this.mng_student_popup = false;
   }
   
   downloadSelectStudents(){
@@ -350,12 +394,40 @@ export class ManageUsersComponent implements OnInit {
       // this.http.get(param).subscribe((res) => {
 
       // });
-      //window.location.href = this.api_url+'?studentArray='+this.studentArray;
       window.open(this.api_url+'?getUrl=1&role='+this.role+'&studentArray='+this.studentArray,"_blank");
       this.studentArray = [];
+      this.checkboxValue = false;
+      this.checkUncheckAll('false');
       this.mng_student_popup = false;
     }else{
-      this.toster.error('Please Select atleast one Student.!', 'Error');
+      this.toster.error('Please Select atleast one Student.!', 'Error', { closeButton: true });
+    }
+  }
+
+  public PromoteStudentSubmit(){
+    if(this.studentArray.length > 0){
+      let param = { url: 'promote-user-details',
+      studentArray:this.studentArray,
+      year_id: this.promote_year_id,
+      semester_id: this.promote_semester_id,
+      group_id: this.promote_group_id };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.toster.success(res['message'], 'Success', { closeButton: true });
+          this.studentArray = [];
+          this.checkboxValue = false;
+          this.checkUncheckAll('false');
+          this.promote_all_years.next();
+          this.promote_all_semesters.next();
+          this.promote_all_groups.next();
+          this.doFilter();
+          this.mng_student_popup = false;
+        } else {
+          this.toster.error(res['message'], 'Error', { closeButton: true });
+        }
+      });
+    }else{
+      this.toster.error('Please Select atleast one Student.!', 'Error', { closeButton: true });
     }
   }
 
@@ -370,9 +442,7 @@ export class ManageUsersComponent implements OnInit {
         this.toster.success(res['message'], 'Success', { closeButton: true });
         this.getAdminUsers();
       } else {
-        this.toster.error(res['message'], res['message'], {
-          closeButton: true,
-        });
+        this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
     

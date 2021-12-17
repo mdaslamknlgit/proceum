@@ -151,7 +151,15 @@ export class CommonService {
     return first + value.substr(1);
   }
 
-
+    getRandomString(length) {
+        let result           = '';
+        let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let charactersLength = characters.length;
+        for ( var i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
   getClientIp() {
     return this.http.get('https://ipv4.jsonip.com').pipe(
       map((res) => res),

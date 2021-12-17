@@ -15,6 +15,7 @@ import { RouterModule } from '@angular/router';
 import { StudentTopbarComponent } from './frontend/student-topbar/student-topbar.component';
 import { SidebarPartnerComponent } from './admin/sidebar-partner/sidebar-partner.component';
 import { PartnerTopbarComponent } from './frontend/partner-topbar/partner-topbar.component';
+import { SidebarTeacherComponent } from './admin/sidebar-teacher/sidebar-teacher.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { PartnerTopbarComponent } from './frontend/partner-topbar/partner-topbar
     SidemenuComponent,
     StudentTopbarComponent,
     SidebarPartnerComponent,
-    PartnerTopbarComponent
+    PartnerTopbarComponent,
+    SidebarTeacherComponent,
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { PartnerTopbarComponent } from './frontend/partner-topbar/partner-topbar
     AdminTopbarComponent,
     SidemenuComponent,
     StudentTopbarComponent,
-    SidebarPartnerComponent
+    SidebarPartnerComponent,
+    SidebarTeacherComponent
   ],
 })
 export class LayoutsModule {}

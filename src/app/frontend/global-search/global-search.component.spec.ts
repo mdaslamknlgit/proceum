@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageUsersComponent } from './manage-users.component';
+import { GlobalSearchComponent } from './global-search.component';
 
-describe('ManageUsersComponent', () => {
-  let component: ManageUsersComponent;
-  let fixture: ComponentFixture<ManageUsersComponent>;
+describe('GlobalSearchComponent', () => {
+  let component: GlobalSearchComponent;
+  let fixture: ComponentFixture<GlobalSearchComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ManageUsersComponent ]
+      declarations: [ GlobalSearchComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ManageUsersComponent);
+    fixture = TestBed.createComponent(GlobalSearchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

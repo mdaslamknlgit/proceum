@@ -3,20 +3,35 @@
     <img src="./assets/images/hamburg-icon.svg" />
   </button>
   <span class="logo_spn" routerLink="/"><img src="{{ getHeaderLogo() }}" /></span>
+  <span class="usr_lgns">Welcome to {{user['role'] == '2' ? 'Student': 'Teacher'}} Dashboard</span>
   <span class="spacer"></span>
   <!-- <div class="nav" [ngClass]="{ menu_open: isOpen }"> -->
-  <span *ngIf="user['role'] == '2'" mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active">
-    <mat-icon>home</mat-icon>
-    <span>Home</span>
-
+    <div class="top-right-icon mr_1"> 
+      <div class="glbl_srch dsh_brd_crds glbsrc_act">
+        <mat-form-field appearance="outline">
+          <input matInput placeholder="Search" class="{{glbSrch == false ? '' : ''}}" autocomplete="off">
+          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">{{glbSrch == false ? 'search' : 'search'}}</mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
+    <!-- <div class="top-right-icon mr_1"> 
+      <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
+        <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
+          <input matInput placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
+          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">{{glbSrch == false ? 'search' : 'search'}}</mat-icon>
+        </mat-form-field>
+      </div>
+    </div> -->
+  <span *ngIf="user['role'] == '2'" mat-list-item class="tp_rt_mn noti_bl" routerLink="/" routerLinkActive="active">
+    <mat-icon color="accent">home</mat-icon>
+    <!-- <span>Home</span> -->
   </span>
   <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About
     Us</span>
   <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
   <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
   <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn">Register Trail</span>
-  <span *ngIf="!user['name']" mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact
-    Us</span>
+  <span *ngIf="!user['name']" mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
   <!-- <span
         mat-list-item
         [matMenuTriggerFor]="appMenu"
@@ -41,50 +56,20 @@
           {{ subMenu.name }}
         </button>
       </mat-menu> -->
-
+      
   <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
 
   <span *ngIf="user['name']" mat-list-item class="tp_rt_mn">
-    <mat-icon>face</mat-icon>
-    <span> {{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span> </span>
+    <mat-icon color="accent">account_circle</mat-icon>
+    <span> {{ user["name"] }}</span>
+    <!-- <span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  -->
   </span>
 
   <span *ngIf="user['name']" (click)="logout()" class="tp_rt_mn">
-    <mat-icon>logout</mat-icon>
-    <span>Logout</span>
+    <mat-icon color="warn">power_settings_new</mat-icon>
+    <!-- <span>Logout</span> -->
   </span>
   <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
     <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
   </div>
-
-  <!-- </div> -->
-  <!-- <div class="spacer"></div> -->
-  <!-- <div class="top-right-icon">
-    <img src="../../../../assets/images/Search-icon.svg" alt="Search" />
-    <img
-      src="../../../../assets/images/hamburg-icon.svg"
-      (click)="menuToggle()"
-      alt="Hamberg"
-    />
-  </div> -->
-  <!-- <button mat-icon-button class="tp_rt_mn lgot_btn" (click)="logout()"><mat-icon>logout</mat-icon></button> -->
 </mat-toolbar>
-
-<!-- <mat-toolbar [ngClass]="{'sticky-header' : isSticky}">
-  <div class="top_nav" routerLink="/">
-    <img src="../../../assets/images/ProceumLogo_w.png" />
-  </div>
-
-  <span class="spacer"></span>
-  <div class="nav">
-    <span class="tp_rt_mn active">Home</span>
-    <span class="tp_rt_mn" routerLink="/about-us">About Us</span>
-    <span class="tp_rt_mn">Pricing</span>
-    <span class="tp_rt_mn">Subscribe</span>
-    <span class="tp_rt_mn">Register Trail</span>
-    <span class="tp_rt_mn">Contact Us</span>
-    <div routerLink="/login" class="lg_inbtn">
-      <mat-icon>login</mat-icon>Login
-    </div>
-  </div>
-</mat-toolbar> -->

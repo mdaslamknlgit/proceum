@@ -1,213 +1,284 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <strong>Create Assessment</strong></div>
+    <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <strong>{{"admin.assessment.create.page_title"|translate}}</strong></div>
     <div class="d-flex rsp_fw">
-        <div class="pg_ttl">Create Assessment</div>
+        <div class="pg_ttl">{{"admin.assessment.create.page_title"|translate}}</div>
         <div class="spacer"></div>
     </div>
     <hr />
-    <div class="dsh_brd_crds">
-        <div class="w_100p">
-            <span>Assessment Name <span class="required">*</span></span>
-            <mat-form-field appearance="outline" class="w_100p">
-                <input matInput placeholder="Enter Assessment Name" />
-            </mat-form-field>
-        </div>
-        <div class="clear_fix"></div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Assessment Type <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Assessment</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Date And Time <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <input matInput [matDatepicker]="picker" placeholder="Select Time" autocomplete="off">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Each Question Duration <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">1 Min</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Subject <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">ANATOMY</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Chapter <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Chapter</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Topic <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Topic</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Question Count <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <input matInput placeholder="Question Count" autocomplete="off">
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Total <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <input matInput placeholder="Total" autocomplete="off">
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc">
-            <button mat-raised-button color="accent" class="mr_1">
-                <mat-icon>add</mat-icon> Add
-            </button>
-        </div>
-        <div class="clear_fix"></div>
-        <div class="rsp_tbl">
-            <table mat-table [dataSource]="dataSource">
-                <ng-container matColumnDef="Subject">
-                    <th mat-header-cell *matHeaderCellDef> Subject </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Subject}} </td>
-                </ng-container>
-                <ng-container matColumnDef="Chapter">
-                    <th mat-header-cell *matHeaderCellDef> Chapter </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Chapter}} </td>
-                </ng-container>
-                <ng-container matColumnDef="Topic">
-                    <th mat-header-cell *matHeaderCellDef> Topic </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Topic}} </td>
-                </ng-container>
-                <ng-container matColumnDef="Count">
-                    <th mat-header-cell *matHeaderCellDef> Count </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Count}} </td>
-                </ng-container>
-                <ng-container matColumnDef="Action">
-                    <th mat-header-cell *matHeaderCellDef> Action </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Action}} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </div>
-        <hr class="hgt_10">
-        <div class="cm_fltr_sc mr_1">
-            <span>Select Country <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Select Country</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Select State <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Select State</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Select City <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Select City</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Select University <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Select University</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Select College <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Select College</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Select Year <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Select Year</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1">
-            <span>Select Semester <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <mat-select value="0">
-                    <mat-option value="0">Select</mat-option>
-                    <mat-option value="1">Select Semester</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="clear_fix"></div>
-        <div class="cm_fltr_sc ">
-            <span>Select Student Group <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-                <textarea matInput placeholder="Select Student Group"></textarea>
-            </mat-form-field>
-        </div>
-        <hr>
-        <div class="hgt_20"></div>
-        <div class="d-flex ai_cntr">
-            <div>
-                <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button value="1" class="mr_1">Select All</mat-radio-button>
-                    <mat-radio-button value="2">Deselect All</mat-radio-button>
-                </mat-radio-group>
+    <form id="create_class_form" #create_class_form="ngForm" name="create_class_form" (ngSubmit)="create_class_form.valid && CreateAssessment()" novalidate>
+        <div class="dsh_brd_crds">
+            <div class="w_100p">
+                <span>{{"admin.assessment.create.assessment_name"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline" class="w_100p"> 
+                    <input matInput [(ngModel)]="assessment_name" #assessment_name_name="ngModel" name="assessment_name_name" placeholder='Enter {{"admin.assessment.create.assessment_name"|translate}}' autocomplete="off" required>
+                </mat-form-field>
             </div>
-            <div class="spacer"></div>
-            <div>
-                <span class="mr_1">Selected Students</span>
-                <button mat-raised-button color="accent" class="mr_1">
-                    <mat-icon>add</mat-icon> Add
+            <div class="clear_fix"></div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.assessment_type"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <mat-select [(ngModel)]="assessment_type" name="assessment_type_name" required>
+                        <mat-option value="">{{"select_text"|translate}} {{"admin.assessment.create.assessment_type"|translate}}</mat-option>
+                        <mat-option *ngFor="let item of assessment_types" [value]="item['pk_id']">{{ item["assessment_type"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.timezone"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <mat-select value="" [(ngModel)]="timezone" name="timezone_name" required>
+                        <mat-option value="">{{"select_text"|translate}}</mat-option>
+                        <mat-option value="Asia/Dhaka">{{"admin.assessment.create.asia_bishkek"|translate}}</mat-option>
+                        <mat-option value="Asia/Kolkata">{{"admin.assessment.create.asia_kolkata"|translate}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.start_date"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <input matInput [(ngModel)]="start_date" name="start_date_name" readonly [matDatepicker]="picker" required placeholder='{{"admin.assessment.create.start_date"|translate}}' autocomplete="off">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.start_time"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline" class="w_47p">
+                    <input type="time" matInput min="{{today.today.getHours()}+':'+today.getMinutes()}" [(ngModel)]="start_time" name="start_time_name" required>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.each_question_duration"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <mat-select [(ngModel)]="question_duration" name="question_duration_name" required> 
+                        <mat-option value="">{{"select_text"|translate}}</mat-option>
+                        <mat-option value="1">1 {{"min_text"|translate}}</mat-option>
+                        <mat-option value="2">2 {{"min_text"|translate}}</mat-option>
+                        <mat-option value="3">3 {{"min_text"|translate}}</mat-option>
+                        <mat-option value="4">4 {{"min_text"|translate}}</mat-option>
+                        <mat-option value="5">5 {{"min_text"|translate}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined"> 
+                <div class="clear_fix"></div>
+                <div>{{"admin.assessment.create.course"|translate}} <span class="required">*</span></div>
+                <mat-form-field appearance="outline">
+                <mat-select [(ngModel)]="curriculum_id" #curriculum_id_name="ngModel" ngModel name="curriculum_id_name" placeholder='{{"admin.assessment.create.course"|translate}}' (ngModelChange)="setCourseText($event);getLabels();" required>
+                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                    [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                    </mat-option>
+                </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                <span>{{ ucFirst(value["display_label"]) }}</span>
+                <div class="clear_fix"></div>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_name"
+                    [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
+                    <mat-option>
+                        <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                        name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">{{"select_text"|translate}} 
+                        {{ucFirst(value['display_label'])}}
+                        </ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                        [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.questions_count"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="{{'admin.assessment.create.questions_count'|translate}}" [(ngModel)]="questions_count" name="questions_count_name" autocomplete="off" appNumbersonly>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.total"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <input matInput placeholder="Total" [(ngModel)]="total_count" name="total_count_name" autocomplete="off" readonly>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc">
+                <button type="button" mat-raised-button color="accent" class="mr_1" [disabled]="questions_count<=0 || total_count==0 || total_count < questions_count" (click)="addQuestionCount()">
+                    <mat-icon>add</mat-icon> {{"admin.assessment.create.add"|translate}}
                 </button>
-                <button mat-raised-button color="accent">Deselect All</button>
+            </div>
+            <div class="clear_fix"></div>
+            <div class="rsp_tbl">
+                <table mat-table [dataSource]="dataSource">
+                    <ng-container matColumnDef="Subject">
+                        <th mat-header-cell *matHeaderCellDef> {{"s_no_text"|translate}} </th>
+                        <td mat-cell *matCellDef="let element; let s_no=index"> {{s_no+1}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Chapter">
+                        <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.create.course"|translate}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element.course_qbank_text}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Topic">
+                        <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.create.topic_path"|translate}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element.topic_text}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Count">
+                        <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.create.count"|translate}} </th>
+                        <td mat-cell *matCellDef="let element"> {{element.questions_count}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Action">
+                        <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.create.actions"|translate}} </th>
+                        <td mat-cell *matCellDef="let element; let topic_index=index"> 
+                            <span (click)="removeTopic(topic_index)">
+                                <mat-icon color="warn" matTooltip="Delete">remove_circle_outline</mat-icon>
+                            </span>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div class="cm_fltr_sc ml_12"></div>
+                <div class="cm_fltr_sc mr_1 w_1p">
+                    <mat-form-field appearance="outline" class="w_1p">
+                        <input matInput placeholder="Total" [(ngModel)]="question_total" name="question_total_name" autocomplete="off" readonly required>
+                    </mat-form-field>
+                </div>
+            </div>
+            <hr class="hgt_10">
+            <!-- <div class="cm_fltr_sc mr_1">
+                <span>Select Country <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <mat-select value="0">
+                        <mat-option value="0">Select</mat-option>
+                        <mat-option value="1">Select Country</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>Select State <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <mat-select value="0">
+                        <mat-option value="0">Select</mat-option>
+                        <mat-option value="1">Select State</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>Select City <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <mat-select value="0">
+                        <mat-option value="0">Select</mat-option>
+                        <mat-option value="1">Select City</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.organization_type"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline" class="w_100p">
+                    <mat-select placeholder='{{"admin.assessment.create.select_organization_type"|translate}}' name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization_type_id" (ngModelChange)="onOrganizationTypeChange()">
+                        <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit" #organization_list_edit="ngModel" [(ngModel)]="organization_list_id" (ngModelChange)="selected_name='university_id';selected_value=organization_list_id;getCollege(organization_list_id,0,'year')">
+                        <mat-option>
+                            <ngx-mat-select-search [noEntriesFoundLabel]="'no_records_found_text'|translate"
+                                [placeholderLabel]="'search_text'|translate" name="search_university" ngModel  (ngModelChange)="searchOrganizations($event)" 
+                                >
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="is_college">
+                <span>{{"admin.assessment.create.college"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'admin.assessment.create.select_college' | translate}}" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="selected_name='college_id';selected_value=college_id;getYearSemsterGroup(organization_list_id,college_id,'year')">
+                        <mat-option>
+                        <ngx-mat-select-search [noEntriesFoundLabel]="'no_records_found_text'|translate"
+                                [placeholderLabel]="'search_text'|translate" name="search_college" ngModel  (ngModelChange)="searchCollege($event)" 
+                                >
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let item of all_college | async" [value]="''+item['pk_id']">{{ item["organization_name"]?item["organization_name"]:item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.year"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'admin.assessment.create.select_year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="selected_name='year_id';selected_value=year_id;getYearSemsterGroup(organization_list_id,year_id,'semester')">
+                        <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.semester"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'admin.assessment.create.select_semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="selected_name='semester_id';selected_value=semester_id;getYearSemsterGroup(organization_list_id,semester_id,'group')" >
+                        <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.assessment.create.group"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'admin.assessment.create.select_group'|translate}}" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="selected_name='group_id';selected_value=group_id;">
+                        <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <button type="button" (click)="getStudents()" mat-raised-button color="accent">{{"admin.assessment.create.get_students"|translate}}</button>
+            <hr>
+            <div class="hgt_20"></div>
+            <div class="d-flex ai_cntr">
+                <!-- <div>
+                    <mat-radio-group aria-label="Select an option">
+                        <mat-radio-button value="1" class="mr_1">{{"select_text"|translate}} All</mat-radio-button>
+                        <mat-radio-button value="2">Deselect All</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="spacer"></div> -->
+                <div>
+                    <!-- <span class="mr_1">Selected Students</span> -->
+                    <button type="button" (click)="addStudents()" mat-raised-button color="accent" class="mr_1">
+                        <mat-icon>add</mat-icon> {{"admin.assessment.create.add"|translate}}
+                    </button>
+                    <button type="button" mat-raised-button color="accent">{{"admin.assessment.create.deselect_all"|translate}}</button>
+                </div>
+            </div>
+            <div class="hgt_20"></div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{'search_text'|translate}}</span>
+                <mat-form-field appearance="outline" class="w_100p">
+                    <input matInput [(ngModel)]="search_student" name="search_student_name" (keyup)="searchStudents(search_student)" placeholder="{{'srch_student'|translate}}" />
+                    <mat-icon (click)="searchStudents(search_student)" matSuffix color="accent">search</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="d-flex zm_swtchusrs">
+                <div class="w_49p mr_1p">
+                    <span class="zmsu_lft" *ngFor="let s of students; let s_index=index;" [hidden]="this.selected_student_ids.includes(s['id'])">                         
+                            <span>{{s['name']}}</span> 
+                            <button mat-icon-button color="accent"><mat-icon (click)="addStudent(s)" >add</mat-icon></button> 
+                            <!-- {{"admin.assessment.create.add"|translate}} -->
+                            <!-- <span (click)="removeStudent(s_index)"> remove</span> -->
+                    </span>
+                </div>
+                <div class="w_50p" >
+                    <span class="zmsu_lft" *ngFor="let s of selected_students; let s_s_index=index;">
+                        <span>{{s['name']}}</span> <button mat-icon-button color="accent"><mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" >remove</mat-icon></button> 
+                        <!-- {{"admin.assessment.create.remove"|translate}} -->
+                    </span>
+                </div>
+            </div>
+            <div class="hgt_10"></div>
+            <div class="d-flex">
+                <div class="spacer"></div>
+                <button mat-raised-button color="accent" type="submit"><mat-icon>done</mat-icon> {{"admin.assessment.create.page_title"|translate}}</button>
             </div>
         </div>
-        <div class="hgt_20"></div>
-        <div class="d-flex zm_swtchusrs">
-            <div class="w_49p mr_1p">Left Block</div>
-            <div class="w_50p" >Right Block</div>
-        </div>
-        <div class="hgt_10"></div>
-        <div class="d-flex">
-            <div class="spacer"></div>
-            <button mat-raised-button color="accent"><mat-icon>done</mat-icon> Create Assessment</button>
-        </div>
-    </div>
+    </form>
 </div>

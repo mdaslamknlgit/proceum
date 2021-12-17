@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: string = "sd_cls";
   // public sidemenu_status: string = localStorage.getItem('sidemenu');
+  public glbSrch = true;
   public user;
   private subscription:Subscription;
   public content_notifications = [];
@@ -66,11 +67,10 @@ export class AdminTopbarComponent implements OnInit {
   //   this.http.menu_status = this.sidemenu_status;
   // }
   
-  toggleSidemenu(param) {
-    this.sidemenu_status =
-    this.http.menu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
-    this.http.menu_status = this.sidemenu_status;
-  }
+    toggleSidemenu(param) { 
+        this.sidemenu_status = this.http.menu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
+        this.http.menu_status = this.sidemenu_status;
+    }
 
   logout() {
     let login_id = JSON.parse(atob(localStorage.getItem('user'))).login_id;
