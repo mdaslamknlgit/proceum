@@ -261,8 +261,7 @@ export class CreateMeetingComponent implements OnInit {
         )
         );
     }
-  getYearSemsterGroup(partner,parent_id,slug){
-    //console.log('partner => '+partner+', parent_id => '+parent_id+', slug => '+slug);    
+  getYearSemsterGroup(partner,parent_id,slug){  
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -335,9 +334,9 @@ export class CreateMeetingComponent implements OnInit {
         this.students.splice(index, 1);
     }
     removeSelectedStudent(index, id){
-        let s_index = this.selected_student_ids.indexOf(id);console.log(s_index)
+        let s_index = this.selected_student_ids.indexOf(id);
         if(s_index > -1){
-            this.selected_student_ids.splice(s_index, 1);console.log(this.selected_student_ids)
+            this.selected_student_ids.splice(s_index, 1);
         }
         this.selected_students.splice(index, 1);
     }
@@ -354,11 +353,11 @@ export class CreateMeetingComponent implements OnInit {
             this.http.post(param).subscribe(res=>{
                 if(res['error'] == false){
                     this.translate.get('success_text').subscribe((success_text)=> {
-                        this.translate.get('admin.class.edit.create_success').subscribe((message)=> {
+                        this.translate.get('admin.class.create.create_success').subscribe((message)=> {
                             this.toster.success(message, success_text, {closeButton:true});
                         });
                     });
-                    this.router.navigateByUrl('/admin/class/list');
+                    this.router.navigateByUrl('/teacher/class/list');
                 }
                 else{
                     this.translate.get('something_went_wrong_text').subscribe((data)=> {
