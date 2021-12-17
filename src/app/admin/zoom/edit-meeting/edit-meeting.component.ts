@@ -373,7 +373,7 @@ export class EditMeetingComponent implements OnInit {
                             this.toster.success(message, success_text, {closeButton:true});
                         });
                     });
-                    this.router.navigateByUrl('/admin/class/list');
+                    this.router.navigateByUrl('/teacher/class/list');
                 }
                 else{
                     this.translate.get('something_went_wrong_text').subscribe((data)=> {

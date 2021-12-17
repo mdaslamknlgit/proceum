@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import Swal from 'sweetalert2';
@@ -12,43 +14,41 @@ import Swal from 'sweetalert2';
 export class AttendAssessmentComponent implements OnInit {
     public show_q_numbers = true;
     public lst_grdclk = true;
-    public filter_array = {qbank_id:0, exam_id:0};
+    public assessment_id = 0
+    //public filter_array = {qbank_id:0, exam_id:0};
     public questions_list = [];
-    public exam = [];
+    public assessment = [];
     public active_q_index= 0;
     public active_question = [];
     public bucket_url = '';
     public kpoint_iframe_url = '';
     public xt = '';
-    public study_plan = [];
     public show_details_modal = false;
     public is_test_end = false;
     public allow_end_test: boolean = false;
     public remain_time = '';
     public seconds = 0;
-    public curriculum = [];
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService) { }
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService) { 
+        this.translate.setDefaultLang(this.http.lang);
+    }
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((param) => {
-            this.filter_array.qbank_id = 2;//param.qbank_id;
-            this.filter_array.exam_id = 15;//param.exam_id;
+            this.assessment_id = param.id;
             this.getTestQuestions();
         });
     }
     getTestQuestions(){
-        let param = {url: "qbank/get-exam-mode-questions", qbank_id:this.filter_array.qbank_id, exam_id: this.filter_array.exam_id};
+        let param = {url: "assessment/get-questions", assessment_id:this.assessment_id};
         this.http.post(param).subscribe(res=>{
             if(res['error'] == false){
                 this.questions_list = res['data']['questions'];
-                this.exam.push(res['data']['exam']);
+                this.assessment.push(res['data']['assessment']);
                 this.bucket_url = res['data']['bucket_url'];
-                this.study_plan.push(res['data']['study_plan']);
-                this.curriculum.push(res['data']['curriculum']);
                 if(this.questions_list.length > 0)
                 {
                     this.getQuestionOptions(0);
-                    let minutes = this.exam[0]['question_duration'] * this.questions_list.length;
+                    let minutes = this.assessment[0]['time_per_question'] * this.questions_list.length;
                     this.seconds = minutes*60;
                     let set_interval = setInterval(res=>{
                         this.seconds = this.seconds-1;
@@ -69,11 +69,13 @@ export class AttendAssessmentComponent implements OnInit {
             }
             else{
                 this.toster.error(res['message'], "Error", {closeButton:true});
-                //this.router.navigateByUrl('/student/qbank/create-exam/'+this.filter_array.qbank_id);
             }
         });
     }
+    public active_prev_q_index = 0;
     getQuestionOptions(index){
+        this.active_prev_q_index = this.active_q_index;
+        this.saveAnswer(this.active_prev_q_index)
         this.active_q_index = index;
         if(this.active_q_index == (this.questions_list.length)){
             this.showResult();
@@ -94,6 +96,9 @@ export class AttendAssessmentComponent implements OnInit {
         else{
             this.getXtToken();
         }
+    }
+    saveAnswer(index){
+        alert(index)
     }
     startTimer(secs){
         secs = Math.round(secs);
@@ -149,7 +154,7 @@ export class AttendAssessmentComponent implements OnInit {
     }
     skipQuestion(index){
         this.questions_list[index]['answer'] = [];
-        this.questions_list[index]['result'] = "orng";
+        this.questions_list[index]['result'] = "skppd";
         if(index == (this.questions_list.length-1)){
             this.showResult();
         }
