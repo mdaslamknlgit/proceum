@@ -1617,7 +1617,8 @@ input:-webkit-autofill:active {
 }
 .sd_br.sd_opn,
 .sd_br:hover {
-  width: 25%;
+  // width: 25%;
+  width: 18%;
   display: block;
   max-width: 320px;
 }
@@ -1870,9 +1871,7 @@ li.hs_sbmnu.active:before {
 .mat-mini-fab.ml_1 {
   margin-left: 1em;
 }
-.ml_1 {
-  margin-left: 1em;
-}
+
 .dsflx {
   display: flex;
   align-items: center;
@@ -1887,8 +1886,11 @@ li.hs_sbmnu.active:before {
 .my_1 {
   margin: 1em 0;
 }
-.ml_1{
-  margin-left: 1rem;
+.ml_1 {
+  margin-left: 1em;
+}
+.ml_05{
+  margin-left: 0.5em;
 }
 .mb_0{
   margin-bottom: 0 !important;
@@ -2718,6 +2720,11 @@ div.cust_mdl_par div.mn_dshbrd {
       background-color: $accent_clr;
     }
     .crs_desc_cnt {
+      &.fc_mndv{
+        margin: auto;
+        float: none;
+        width: 935px;
+      }
       .flpcrd_mn{
         background-color: transparent;
         perspective: 2000px;
@@ -2727,36 +2734,48 @@ div.cust_mdl_par div.mn_dshbrd {
           transform-style: preserve-3d;
           position: relative;
           width: 100%;
-          height: 100%; 
+          min-height: 500px; 
           transition: transform 0.8s;
-          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
           border-radius: 8px;
+          border: 1px solid #e7e7e7;
+          display: flex;
+          align-items: center;
           .shw_ans{
-            padding: 0 1em 1em;
-            text-align: right;
-            > span{
+              position: absolute;
+              right: 10px;
+              bottom: 10px;
               padding: 3px 8px;
               border: 1px dashed #9f9f9f;
               border-radius: 8px;
               font-size: 12px;
               color: #424242;
               cursor: pointer;
-            }
+            
           }
           .flpcrd_bk{
             transform: rotateY(180deg);
             transition-timing-function: ease-in-out;
           }
-          .flpcrd_frnt, .flpcrd_bk{ 
-            height: 100%;
+          .flpcrd_frnt, .flpcrd_bk{
             width: 100%;
             box-sizing: border-box;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             border-radius: 8px;
             border-radius: 8px;
+            .afc_cntr {
+              overflow: auto;
+              text-align: center;
+              font-weight: 400;
+              font-size: 18px;
+              b{
+                font-weight: 400;
+              }
+            }
             img{
               margin:0 auto 15px auto;
+              width: 60%;
+              height: auto;
             }
             .qstn_hds{
               background-color: $accent_clr;
@@ -2767,7 +2786,13 @@ div.cust_mdl_par div.mn_dshbrd {
             }
           }
           &.flip_frnt{
-            background-color: #e5fde4;
+            background-color: #f3f3f3;
+            .shw_ans{
+              transform: rotateY(-180deg);
+              left: 10px;
+              right: auto;
+              
+            }
             .flpcrd_bk{
               font-size: inherit;
               img{
@@ -2780,25 +2805,36 @@ div.cust_mdl_par div.mn_dshbrd {
               img{
                 display: none;
               }
-              .shw_ans{
-                span{
-                  font-size: 0;
-                }
-              }
             }
             transform: rotateY(180deg);
           }
           &.flip_bck{
-            background-color:#fff3f3b5;
+            .shw_ans{
+              transform: rotateY(0deg);
+              left: auto;
+              right: 10px;
+              animation-name: delay_show;
+              animation-duration: 0.8s;
+            }
+            @keyframes delay_show {
+              0%{
+                opacity: 0;
+              }
+              50%{
+                opacity: 0;
+              }
+              51%{
+                opacity: 1;
+              }
+              100%{
+                opacity: 1;
+              }
+            }
             .flpcrd_bk{
               font-size: 0;
+              display: none;
               img{
                 display: none;
-              }
-              .shw_ans{
-                span{
-                  font-size: 0;
-                }
               }
             }
             .flpcrd_frnt{
@@ -3185,7 +3221,7 @@ div.cust_mdl_par div.mn_dshbrd {
     cursor: pointer;
     width: 40%;
   }
-  span {
+  > span {
     padding: 0 5px;
   }
   .ct_br {
@@ -6809,10 +6845,11 @@ sup {
 }
 .usr_lgns{
   font-size: 12px;
-  color: #ffffff;
-  background-color: #41ab3c;
+  color: #41ab3c;
+  background-color: #f3f3f3;
   padding: 0px 10px;
   border-radius: 4px;
   height: 20px;
   line-height: 20px;
+  font-weight: 300;
 }
