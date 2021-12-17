@@ -86,6 +86,8 @@ import { ListMeetingComponent } from './zoom/list-meeting/list-meeting.component
 import { SharedModule } from '../shared/shared.module';
 import { CreateAssessmentComponent } from './assessment/create-assessment/create-assessment.component';
 import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
+import { ListCollegesComponent } from './college-management/list-colleges/list-colleges.component';
+import { CreateCollegeComponent } from './college-management/create-college/create-college.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -226,6 +228,10 @@ const routes: Routes = [
       { path: 'list-meeting', component: ListMeetingComponent },
       { path: 'create-assessment', component: CreateAssessmentComponent },
       { path: 'assessment-list', component: AssessmentListComponent },
+      //College routes
+      { path: 'create-college', component: CreateCollegeComponent },
+      { path: 'edit-college/:id', component: CreateCollegeComponent },
+      { path: 'college-list', component: ListCollegesComponent },
     ],
   },
 ];
@@ -288,7 +294,9 @@ const routes: Routes = [
     CreateMeetingComponent,
     ListMeetingComponent,
     CreateAssessmentComponent,
-    AssessmentListComponent
+    AssessmentListComponent,
+    ListCollegesComponent,
+    CreateCollegeComponent
   ],
   imports: [
     MaterialModule,

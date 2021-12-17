@@ -56,7 +56,7 @@
         <li routerLink="/admin/teacher-material">
           <mat-icon>description</mat-icon>Teacher Materials
         </li>
-        <li>
+        <li routerLinkActive="active" routerLink="/admin/manage-flash-cards">
           <mat-icon>style</mat-icon>Flash Cards
         </li>
       </ul>
@@ -133,7 +133,113 @@
       </li>
     </ul>
   </li>
+  <li routerLinkActive="active" (click)="menu_active = 0">
+    <div class="sd_mnuhd">
+      <mat-icon>description</mat-icon> Exam Modes
+    </div>
+  </li>
+  <li routerLinkActive="active" (click)="activeMenu(11, menu_active)" class="hs_sbmnu {{
+    menu_active == 11 || active_route == '/admin/create-assessment' ||
+    active_route == '/admin/assessment-list' ? 'active' : ''
+  }}">
+    <div class="sd_mnuhd">
+      <mat-icon>assignment</mat-icon> Assessments
+    </div>
+    <ul class="sdmn_sub">
+      <li routerLinkActive="active" routerLink="/admin/create-assessment">
+        <mat-icon>manage_accounts</mat-icon> Create Assessment
+      </li>
+      <li routerLinkActive="active" routerLink="/admin/assessment-list">
+        <mat-icon>manage_accounts</mat-icon> Assessment List
+      </li>
+    </ul>
+  </li>
   
+  <li routerLinkActive="active" routerLink="/admin/college-list">
+    <div class="sd_mnuhd">
+      <mat-icon>manage_accounts</mat-icon> Colleges
+    </div>
+  </li>
+  <li>
+    <div class="sd_mnuhd">
+      <mat-icon>subscriptions</mat-icon> Subscription Plans
+    </div>
+  </li>
+  <li routerLinkActive="active" routerLink="/admin/prices-package-management">
+    <div class="sd_mnuhd">
+      <mat-icon>summarize</mat-icon> Pricing &amp; Package Management
+    </div>
+  </li>
+  <li>
+    <div class="sd_mnuhd">
+      <mat-icon>store</mat-icon> Marketplace & Add-ons
+    </div>
+  </li>
+
+  <li class="hs_sbmnu {{
+      menu_active == 8 ||
+      active_route == '/admin/promotional-settings' ||
+      active_route == '/admin/discount-settings'
+        ? 'active'
+        : ''
+    }}" (click)="activeMenu(8, menu_active)">
+    <div class="sd_mnuhd">
+      <mat-icon>assessment</mat-icon> Coupons/Promotions
+    </div>
+    <ul class="sdmn_sub">
+      <li routerLink="/admin/promotional-settings"
+        [ngClass]="{ active: active_route == '/admin/promotional-settings' }">
+        <mat-icon>qr_code</mat-icon>Coupon Management
+      </li>
+      <li routerLink="/admin/discount-settings" [ngClass]="{ active: active_route == '/admin/discount-settings' }">
+        <mat-icon>sell</mat-icon>Discounts
+      </li>
+    </ul>
+  </li>
+
+  <li class="hs_sbmnu {{
+      menu_active == 9 ||
+      active_route == '/admin/settings/email-templates' ||
+      active_route == '/admin/settings' 
+        ? 'active'
+        : ''
+    }}" (click)="activeMenu(9, menu_active)">
+    <div class="sd_mnuhd">
+      <mat-icon>settings</mat-icon> Settings
+    </div>
+    <ul class="sdmn_sub">
+      <li routerLink="/admin/settings/email-templates" [ngClass]="{
+          active: active_route == '/admin/settings/email-templates'
+        }">
+        <mat-icon>email</mat-icon>Email Templates
+      </li>
+      <!-- <li routerLink="/admin/settings" [ngClass]="{
+          active: active_route == '/admin/settings'
+        }">
+        <mat-icon>phonelink_setup</mat-icon>System Settings
+      </li> -->
+      
+    </ul>
+  </li>
+  
+  <li>
+    <a (click)="menu_active = 0" routerLink="/white-board" [ngClass]="{
+        active: active_route == '/white-board'
+      }" target="_blank">
+      <div class="sd_mnuhd">
+        <mat-icon>auto_awesome_mosaic</mat-icon> White Board
+      </div>
+    </a>
+  </li>
+  <li>
+    <a (click)="menu_active = 0" routerLink="/admin/whiteboard-gallery" [ngClass]="{
+        active: active_route == '/admin/whiteboard-gallery'
+      }">
+      <div class="sd_mnuhd">
+        <mat-icon>auto_awesome_mosaic</mat-icon> White Board Gallery
+      </div>
+    </a>
+  </li>
       
     </ul>
   </div>
