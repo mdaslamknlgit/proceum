@@ -7,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ReplaySubject } from 'rxjs';
-import { exit } from 'process';
 
 @Component({
   selector: 'app-discount-settings',
@@ -410,8 +409,8 @@ export class DiscountSettingsComponent implements OnInit {
         this.packages = res['data']['packages'];
         this.all_packages.next(this.packages.slice());
       } else {
-        this.packages = [{'pk_id':0, 'package_name':'No packages found!'}];
-        this.all_packages.next(this.packages.slice());
+        //this.packages = [{'pk_id':0, 'package_name':'No packages found!'}];
+        //this.all_packages.next(this.packages.slice());
       }
     });
   }

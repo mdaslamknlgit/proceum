@@ -7,13 +7,12 @@ import { CartCountService } from '../../../services/cart-count.service';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-topbar',
-  templateUrl: './topbar.component.html',
-  styleUrls: ['./topbar.component.scss'],
+  selector: 'app-partner-topbar',
+  templateUrl: './partner-topbar.component.html',
+  styleUrls: ['./partner-topbar.component.scss']
 })
-export class TopbarComponent implements OnInit,OnDestroy {
+export class PartnerTopbarComponent implements OnInit,OnDestroy {
   //For cart badge
-  public glbSrch = true;
   number: any;
   subscription: Subscription;
   user_id='';
@@ -177,3 +176,4 @@ export class TopbarComponent implements OnInit,OnDestroy {
   
 
 }
+
