@@ -254,24 +254,23 @@
             <div class="cm_fltr_sc mr_1">
                 <span>{{'search_text'|translate}}</span>
                 <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput [(ngModel)]="search_student" name="search_student_name" (keyup)="searchStudents(search_student)" placeholder="{{'search_text'|translate}}" />
+                    <input matInput [(ngModel)]="search_student" name="search_student_name" (keyup)="searchStudents(search_student)" placeholder="{{'srch_student'|translate}}" />
                     <mat-icon (click)="searchStudents(search_student)" matSuffix color="accent">search</mat-icon>
                 </mat-form-field>
             </div>
             <div class="d-flex zm_swtchusrs">
                 <div class="w_49p mr_1p">
-                    <span *ngFor="let s of students; let s_index=index;" [hidden]="this.selected_student_ids.includes(s['id'])">
-                        <span >
-                            <span>{{s['name']}}</span><span (click)="addStudent(s)"> {{"admin.assessment.create.add"|translate}}</span>
+                    <span class="zmsu_lft" *ngFor="let s of students; let s_index=index;" [hidden]="this.selected_student_ids.includes(s['id'])">                         
+                            <span>{{s['name']}}</span> 
+                            <button mat-icon-button color="accent"><mat-icon (click)="addStudent(s)" >add</mat-icon></button> 
+                            <!-- {{"admin.assessment.create.add"|translate}} -->
                             <!-- <span (click)="removeStudent(s_index)"> remove</span> -->
-                        </span>
-                        <br>
                     </span>
                 </div>
                 <div class="w_50p" >
-                    <span *ngFor="let s of selected_students; let s_s_index=index;">
-                        <span>{{s['name']}}</span><span (click)="removeSelectedStudent(s_s_index, s['id'])">{{"admin.assessment.create.remove"|translate}} </span>
-                        <br>
+                    <span class="zmsu_lft" *ngFor="let s of selected_students; let s_s_index=index;">
+                        <span>{{s['name']}}</span> <button mat-icon-button color="accent"><mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" >remove</mat-icon></button> 
+                        <!-- {{"admin.assessment.create.remove"|translate}} -->
                     </span>
                 </div>
             </div>

@@ -3,14 +3,15 @@
     <div class="sp_mn">
         <div class="brdcrm_br p_1 d-flex ai_cntr">
             <mat-icon color="accent">home</mat-icon>
-            <mat-icon>navigate_next</mat-icon><strong>Attend Assessment</strong>
+            <mat-icon>navigate_next</mat-icon><strong routerLink="assessments/list">{{"student.assessments.exam.assessments" | translate}}</strong>
+            <span *ngIf="assessment.length>0"><mat-icon>navigate_next</mat-icon><strong>{{assessment[0]['assessment_name']}}</strong></span>
         </div>
     </div>
     <div class="hgt_20"></div>
     <div class="tsts_mn stdy_md_qstns {{show_q_numbers == false ? 'tsts_collps':''}}">
         <div class="tsts_qstns_nums">
             <div class="tstsnms_hd_dv">
-                <div class="tstsnms_hd">Questions 1</div>
+                <div class="tstsnms_hd">{{"student.assessments.exam.questions" | translate}}</div>
                 <div class="spacer"></div>
                 <div class="tsts_qst_swch {{show_q_numbers == false ? 'rot_90':'rot_0'}}">
                     <mat-icon color="accent" (click)="show_q_numbers = !show_q_numbers">menu_open</mat-icon>
@@ -19,14 +20,14 @@
             <div class="hgt_20"></div>
             <div class="tstsnms_cnt_dv">
                 <ul class="tst_lgnds">
-                    <li class="actv">Active</li>
-                    <li class="answrd">Answered</li>
-                    <li class="orng">Marked</li>
-                    <li class="skppd">Skipped</li>
+                    <li class="actv">{{"student.assessments.exam.active" | translate}}</li>
+                    <li class="answrd">{{"student.assessments.exam.answered" | translate}}</li>
+                    <li class="orng">{{"student.assessments.exam.marked" | translate}}</li>
+                    <li class="skppd">{{"student.assessments.exam.skipped" | translate}}</li>
                 </ul>
                 <ul>
                     <li *ngFor="let q of questions_list; let question_index=index;"
-                        class=" {{q['result']}} {{question_index == active_q_index?'gry':''}} {{q['answer'].length>0?'grn':''}}"
+                        class=" {{q['result']}} {{question_index == active_q_index?'actv':''}} {{q['answer'].length>0?'answrd':''}}"
                         (click)="getQuestionOptions(question_index)">{{question_index+1}} <span class="qstn_elb"><span
                                 [innerHTML]="q['question']"></span></span>
                     </li>
@@ -37,15 +38,11 @@
             <div class="d-flex w_90p ai_cntr">
                 <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
                 <div class="spacer"></div>
-                <div class="mr_1">Remain Time: {{remain_time}}</div>
+                <div class="mr_1">{{"student.assessments.exam.remain_time"|translate}}: {{remain_time}}</div>
                 <div>
                     <button (click)="showResult();" *ngIf="is_test_end == false"
                         [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button
-                        class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">End
-                        Test
-                    </button>
-                    <button *ngIf="is_test_end == true" (click)="showDetails()" mat-raised-button class="skp_btn">View
-                        Report
+                        class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">{{"student.assessments.exam.end" | translate}}
                     </button>
                 </div>
 
@@ -110,7 +107,7 @@
                         </div>
                         <div class="rdo_desc"
                             *ngIf="active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                            <div class="qstn_hds">Explanation</div>
+                            <div class="qstn_hds">{{"student.assessments.exam.explanation"|translate}}</div>
                             <div [innerHtml]="option['option_explanation']"></div>
                         </div>
                     </div>
@@ -119,45 +116,15 @@
             <div class="tstsqst_navs" *ngIf="questions_list.length>0">
                 <button mat-raised-button color="accent" [disabled]="active_q_index == 0"
                     (click)="getQuestionOptions(active_q_index-1)">
-                    <mat-icon>arrow_left</mat-icon> Prev
+                    <mat-icon>arrow_left</mat-icon> {{"student.assessments.exam.prev"|translate}}
                 </button>
                 <button mat-raised-button class="skp_btn" (click)="skipQuestion(active_q_index)">
-                    Skip
+                    {{"student.assessments.exam.skip"|translate}}
                 </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
-                    (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
+                    (click)="getQuestionOptions(active_q_index+1)">{{"student.assessments.exam.next"|translate}} <mat-icon>arrow_right</mat-icon>
                 </button>
             </div>
         </div>
-        <!-- <div class="tsts_qstns">
-            <div class="d-flex ai_cntr">
-                <div class="tstsqst_hd">Question 1</div>
-                <div class="spacer"></div>
-                <div class="mr_1 grn_clr">Remain Time: 00HH:00MM</div>
-            </div>
-            <div class="hgt_20"></div>
-            <div class="tstsqst_qst">
-                <span>This is a Question</span>
-                <div class="tstsqst_img">
-                </div>
-            </div>
-            <div class="tstsqst_ans">
-                <mat-radio-group aria-label="Select an option">
-                    <mat-radio-button value="1">Option 1</mat-radio-button>
-                    <mat-radio-button value="2">Option 2</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div class="tstsqst_navs">
-                <button mat-raised-button color="accent">
-                    <mat-icon>arrow_left</mat-icon> Prev
-                </button>
-                <button mat-raised-button color="accent" class="skp_btn {{false ? 'gry_btn':''}}">Check
-                    Answer <mat-icon>subdirectory_arrow_right
-                    </mat-icon>
-                </button>
-                <button mat-raised-button color="accent">Next <mat-icon>arrow_right</mat-icon>
-                </button>
-            </div>
-        </div> -->
     </div>
 </div>
