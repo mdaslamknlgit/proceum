@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import Swal from 'sweetalert2';
-
+import {Location} from '@angular/common';
 @Component({
   selector: 'app-attend-assessment',
   templateUrl: './attend-assessment.component.html',
@@ -28,13 +28,14 @@ export class AttendAssessmentComponent implements OnInit {
     public allow_end_test: boolean = false;
     public remain_time = '';
     public seconds = 0;
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService) { 
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService, private location: Location) { 
         this.translate.setDefaultLang(this.http.lang);
     }
 
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((param) => {
             this.assessment_id = param.id;
+            this.active_q_index = param.active_q_index?Number(param.active_q_index):0;console.log(this.active_q_index)
             this.getTestQuestions();
         });
     }
@@ -47,7 +48,7 @@ export class AttendAssessmentComponent implements OnInit {
                 this.bucket_url = res['data']['bucket_url'];
                 if(this.questions_list.length > 0)
                 {
-                    this.getQuestionOptions(0);
+                    this.getOptions(this.active_q_index);
                     let minutes = this.assessment[0]['time_per_question'] * this.questions_list.length;
                     this.seconds = minutes*60;
                     let set_interval = setInterval(res=>{
@@ -72,11 +73,35 @@ export class AttendAssessmentComponent implements OnInit {
             }
         });
     }
+    getOptions(index){
+        this.active_prev_q_index = index;
+        this.active_q_index = index;
+        this.active_question = this.questions_list[index];
+        if(this.questions_list[index]['options'].length == 0){
+            let param = {url: "study-plan/get-question-options", question_id:this.active_question['id']};
+            this.http.post(param).subscribe(res=>{
+                if(res['error'] == false){
+                    this.active_question['options'] = this.questions_list[index]['options'] = res['data']['options'];
+                    this.getXtToken();
+                }
+                else{
+                    this.toster.error(res['message'], "Error", {closeButton:true});
+                }
+            });
+        }
+        else{
+            this.getXtToken();
+        }
+    }
     public active_prev_q_index = 0;
     getQuestionOptions(index){
         this.active_prev_q_index = this.active_q_index;
         this.saveAnswer(this.active_prev_q_index)
         this.active_q_index = index;
+        if(this.active_q_index > 0)
+            this.location.replaceState("/student/assessments/exam/"+this.assessment_id+"/"+this.active_q_index);
+        else
+            this.location.replaceState("/student/assessments/exam/"+this.assessment_id);
         if(this.active_q_index == (this.questions_list.length)){
             this.showResult();
         }
@@ -98,7 +123,52 @@ export class AttendAssessmentComponent implements OnInit {
         }
     }
     saveAnswer(index){
-        alert(index)
+        let status = this.checkAnswer(this.questions_list[index]);
+        if(status >= 0){
+            let param = {"url": "assessment/save-answer", question_id: this.questions_list[index]['id'], answer: this.questions_list[index]['answer'], assessment_id: this.assessment_id, result: this.questions_list[index]['result'], is_saved: this.questions_list[index]['is_saved'], status: status, answer_id: this.questions_list[index]['answer_id']};
+            console.log(param, index)
+            console.log(this.questions_list, index);
+            this.http.post(param).subscribe(res=>{
+                if(res['error'] == false)
+                {
+                    this.questions_list[index]['is_saved'] = true;
+                }
+                else{
+                    console.log("not updated", this.questions_list[index]);
+                    this.questions_list[index]['is_saved'] = false;
+                }
+            });
+        }
+    }
+    checkAnswer(q){
+        let check = false;
+            if([3,6,9,12].includes(q['q_type'])){
+                return 3;
+            }
+            if(q['result'] == 'skppd'){
+                return 4;
+            }
+            if(q['result'] == 'orng'){
+                return 5;
+            }
+            if(q['answer'].length == 0){
+                return 0;
+            }
+            else if(q['s_no'].length == q['answer'].length){
+                const array2Sorted = q['answer'].slice().sort();
+                check = q['s_no'].length === q['answer'].length && q['s_no'].slice().sort().every(function(value, index) {
+                    return value === array2Sorted[index];
+                });
+                if(check == true){
+                    return 1;
+                }
+                else{
+                    return 2;
+                }
+            }
+            else{
+                return 2;
+            }
     }
     startTimer(secs){
         secs = Math.round(secs);
@@ -162,6 +232,15 @@ export class AttendAssessmentComponent implements OnInit {
             this.getQuestionOptions(index+1);
         }
     }
+    markQuestion(index){
+        this.questions_list[index]['result'] = "orng";
+        if(index == (this.questions_list.length-1)){
+            this.showResult();
+        }
+        else{
+            this.getQuestionOptions(index+1);
+        }
+    }
     public correct_answers = 0;
     public wrong_answers = 0;
     public not_answered = 0;
@@ -169,18 +248,47 @@ export class AttendAssessmentComponent implements OnInit {
     showResult(){
          Swal.fire({
             title: 'Are you sure?',
-            text: 'Are you sure to end this test?',
+            text: 'Are you sure to end this Assessment?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Yes',
             cancelButtonText: 'No'
         }).then((result) => {
             if (result.value) {
-                this.caluculateResult();
+                let index = this.active_q_index;
+                let status = this.checkAnswer(this.questions_list[index]);
+                if(status >= 0){
+                    let param = {"url": "assessment/save-answer", question_id: this.questions_list[index]['id'], answer: this.questions_list[index]['answer'], assessment_id: this.assessment_id, result: this.questions_list[index]['result'], is_saved: this.questions_list[index]['is_saved'], status: status, answer_id: this.questions_list[index]['answer_id']};
+                    this.http.post(param).subscribe(res=>{
+                        if(res['error'] == false)
+                        {
+                            this.questions_list[index]['is_saved'] = true;
+                            this.endTest();
+                        }
+                        else{
+                            console.log("not updated", this.questions_list[index]);
+                            this.questions_list[index]['is_saved'] = false;
+                        }
+                    });
+                }
+                
+                //this.caluculateResult();
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 
             }
         });
+    }
+    endTest(){
+        let param = {"url": "assessment/end", assessment_id: this.assessment_id};
+                    this.http.post(param).subscribe(res=>{
+                        if(res['error'] == false)
+                        {
+                            //navigate ro result page
+                        }
+                        else{
+                            console.log(res);
+                        }
+                    });
     }
     caluculateResult(){
         this.is_test_end = true;

@@ -82,34 +82,34 @@
                     <div *ngFor="let option of active_question['options']">
                         <mat-radio-button [value]="''+option['pk_id']"
                             (click)="questions_list[active_q_index]['result'] = ''"
-                            class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
+                            class="">
                             {{ option["option_text"] }}
                         </mat-radio-button>
                         <div class="tstsopt_img"
                             *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
                             <img [src]="bucket_url+option['option_image']" />
                         </div>
-                        <div class="rdo_desc"
+                        <!-- <div class="rdo_desc"
                             *ngIf="active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                             <span [innerHtml]="option['option_explanation']"></span>
-                        </div>
+                        </div> -->
                     </div>
                 </mat-radio-group>
                 <div *ngIf='[2,5,8,11].includes(active_question["q_type"])'>
                     <div *ngFor="let option of active_question['options']; let i_option = index">
                         <mat-checkbox
-                            class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}"
+                            class=""
                             [checked]="active_question['answer'].includes(''+option['pk_id'])"
                             (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
                         <div class="tstsqst_img">
                             <img *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
                                 [src]="bucket_url+option['option_image']" />
                         </div>
-                        <div class="rdo_desc"
+                        <!-- <div class="rdo_desc"
                             *ngIf="active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
                             <div class="qstn_hds">{{"student.assessments.exam.explanation"|translate}}</div>
                             <div [innerHtml]="option['option_explanation']"></div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -120,6 +120,9 @@
                 </button>
                 <button mat-raised-button class="skp_btn" (click)="skipQuestion(active_q_index)">
                     {{"student.assessments.exam.skip"|translate}}
+                </button>
+                <button mat-raised-button class="skp_btn" (click)="markQuestion(active_q_index)">
+                    {{"student.assessments.exam.mark"|translate}}
                 </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
                     (click)="getQuestionOptions(active_q_index+1)">{{"student.assessments.exam.next"|translate}} <mat-icon>arrow_right</mat-icon>
