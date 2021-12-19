@@ -51,11 +51,13 @@ export class RegisterComponent implements OnInit {
   institutes = [];
   countrys = [];
   states = [];
+  cities = [];
   all_universities: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_colleges: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_institutes: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_cities: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   //idividual form bindings
   individualRegister: IndividualRegister = {
@@ -357,7 +359,6 @@ export class RegisterComponent implements OnInit {
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.states = res['data']['states'];
-          console.log(this.states);
           this.all_states.next(this.states.slice());
         } else {
           let message = res['errors']['title']
@@ -380,6 +381,34 @@ export class RegisterComponent implements OnInit {
     this.all_states.next(
       this.states.filter(
         (state) => state.state_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  getCities(selected_state_id: number) {
+    let params = {
+      url: 'get-cities',
+      state_id: selected_state_id,
+    };
+    this.http.post(params).subscribe((res) => {
+      if(res['error'] == false) {
+        this.cities = res['data']['cities'];
+        this.all_cities.next(this.cities.slice());
+      }
+    });
+  }
+
+  filterCities(event) {
+    let search = event;
+    if (!search) {
+      this.all_cities.next(this.cities.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_cities.next(
+      this.cities.filter(
+        (city) => city.city_name.toLowerCase().indexOf(search) > -1
       )
     );
   }

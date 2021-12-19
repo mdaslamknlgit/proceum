@@ -221,11 +221,19 @@
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy"
                       class="{{ (((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == '') ? 'mat-form-field-invalid' : ''}}">
-                      <input tabindex="16" matInput placeholder="City" [(ngModel)]="individualRegister.city" name="city"
-                        #city="ngModel" [required]="address_details" maxlength="50"  (keypress)="allAlphabetsWithSpaces($event)">
-                      <span class="prc_tltp"
-                        *ngIf="((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == ''">City
-                        is required</span>
+                      <mat-select tabindex="14" placeholder="Select City" name="city" #city="ngModel"
+                        [(ngModel)]="individualRegister.city">
+                        <mat-option>
+                          <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'"
+                            [placeholderLabel]="'Search City'" name="search_city" ngModel
+                            (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let one of all_cities | async" [value]="one['id']">{{
+                          one["city_name"] }}</mat-option>
+                      </mat-select>
+                      <span
+                        *ngIf="((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == ''"
+                        class="prc_tltp">City is required</span>
                     </mat-form-field>
                   </div>
                 </div>
@@ -241,7 +249,8 @@
                     <mat-form-field appearance="legacy"
                       class="{{ (((address_details && individual_signup_form.submitted) || state_id.touched) && individualRegister.state_id == '') ? 'mat-form-field-invalid' : ''}}">
                       <mat-select tabindex="15" placeholder="Select State" #state_id="ngModel" name="state_id"
-                        [(ngModel)]="individualRegister.state_id" [required]="address_details" maxlength="70">
+                        [(ngModel)]="individualRegister.state_id" [required]="address_details"
+                        (ngModelChange)="getCities(individualRegister.state_id)" [required]="address_details">
                         <mat-option>
                           <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                             [placeholderLabel]="'Search State'" name="search_state" ngModel
@@ -823,14 +832,23 @@
                         class="prc_tltp">Country is required</span>
                     </mat-form-field>
                   </div>
+              
                   <div class="fir_name err_tltp_par">
                     <mat-form-field appearance="legacy"
                       class="{{ (((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == '') ? 'mat-form-field-invalid' : ''}}">
-                      <input matInput placeholder="City" [(ngModel)]="institutionResgister.city" name="city"
-                        #city="ngModel" [required]="address_details" maxlength="50"  (keypress)="allAlphabetsWithSpaces($event)">
-                      <span class="prc_tltp"
-                        *ngIf="((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == ''">City
-                        is required</span>
+                      <mat-select tabindex="14" placeholder="Select City" name="city" #city="ngModel"
+                        [(ngModel)]="institutionResgister.city">
+                        <mat-option>
+                          <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'"
+                            [placeholderLabel]="'Search City'" name="search_city" ngModel
+                            (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let one of all_cities | async" [value]="one['id']">{{
+                          one["city_name"] }}</mat-option>
+                      </mat-select>
+                      <span
+                        *ngIf="((address_details && institution_signup_form.submitted) || city.touched) && individualRegister.city == ''"
+                        class="prc_tltp">City is required</span>
                     </mat-form-field>
                   </div>
                 </div>
@@ -846,7 +864,8 @@
                     <mat-form-field appearance="legacy"
                       class="{{ (((address_details && institution_signup_form.submitted) || state_id.touched) && institutionResgister.state_id == '') ? 'mat-form-field-invalid' : ''}}">
                       <mat-select placeholder="Select State" #state_id="ngModel" name="state_id"
-                        [(ngModel)]="institutionResgister.state_id" [required]="address_details">
+                        [(ngModel)]="institutionResgister.state_id" [required]="address_details"
+                        (ngModelChange)="getCities(institutionResgister.state_id)" [required]="address_details">
                         <mat-option>
                           <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                             [placeholderLabel]="'Search State'" name="search_state" ngModel

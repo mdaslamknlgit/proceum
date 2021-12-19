@@ -375,6 +375,20 @@
                     </div>
                     <div class="hgt_20"></div>
 
+                    <div class="frm_dvs" *ngIf="slug == 'year'">
+                        <span>Select If Yes!<span class="required"></span></span>
+                        <span>
+                            <span class="err_tltp_par">
+                                <span class="mr_1">
+                                    <mat-checkbox class="mr_1" name="year_has_semester" [(ngModel)]="year_has_semester"></mat-checkbox>Year has Semesters                          
+                                </span>
+                                <span class="mr_1">
+                                    <mat-checkbox class="mr_1" name="year_has_group" [(ngModel)]="year_has_group"></mat-checkbox>Year has Groups
+                                </span>
+                            </span>
+                        </span>
+                    </div>
+
                     <div class="frm_dvs" *ngIf="show_radio && self_or_other == 'other'">
                         <span>Organization Type <span class="required">*</span></span>
                         <span>
@@ -393,6 +407,7 @@
                             </span>
                         </span>
                     </div>
+
                     <div class="frm_dvs" *ngIf="show_radio && self_or_other == 'other' && organization_type == '1'">
                         <span>Select University <span class="required">*</span></span>
                         <span>
@@ -448,7 +463,7 @@
 
                         </span>
                     </div>
-
+                    
                     <div class="frm_dvs" *ngIf="self_or_other == 'other' && organization_type == '3'">
                         <span>Select Institute <span class="required">*</span></span>
                         <span>
@@ -534,7 +549,7 @@
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel"
-                                        [(ngModel)]="year_id" (ngModelChange)="getSemesters(organization,year_id)"
+                                        [(ngModel)]="year_id" (ngModelChange)="getChildDropDownData(organization,year_id)"
                                         required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Year found'"
@@ -554,7 +569,7 @@
                     </div>
 
                     <div class="frm_dvs"
-                        *ngIf="(self_or_other == 'other' && organization != '' && (year_id != '' && year_id != null) && slug == 'group') || (self_or_other == 'self' && (year_id != '' && year_id != null) && slug == 'group')">
+                        *ngIf="(self_or_other == 'other' && organization != '' && (year_id != '' && year_id != null) && slug == 'group') || (self_or_other == 'self' && (year_id != '' && year_id != null) && slug == 'group') && show_semester_dropdown">
                         <span>Select Semester <span class="required">*</span></span>
                         <span>
                             <span class="err_tltp_par">

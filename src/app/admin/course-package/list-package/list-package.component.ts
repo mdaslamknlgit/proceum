@@ -132,14 +132,14 @@ export class ListPackageComponent implements OnInit {
   }
 
   navigateTo(url){
-      let user = this.http.getUser();
-      if(user['role']== '1'){
-          url = "/admin/"+url;
-      }
-      //Later we must change this
-      if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
-        url = "/admin/"+url;
+    let user = this.http.getUser();
+    if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(user['role'])) > -1) {
+      url = "/admin/"+url;
     }
-      this.router.navigateByUrl(url);
+    //Later we must change this
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/admin/"+url;
+    }
+    this.router.navigateByUrl(url);
   }
 }
