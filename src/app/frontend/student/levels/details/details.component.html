@@ -203,6 +203,10 @@
           <mat-icon class="ism_icn {{ active_div == 11 ? 'ism_actv_btn' : '' }}" matTooltip="Flash Cards">style
           </mat-icon>
         </li>
+        <li *ngIf="materials != undefined && materials.length > 0" (click)="showDiv(12)">
+          <mat-icon class="ism_icn {{ active_div == 12 ? 'ism_actv_btn' : '' }}" matTooltip="Teacher Materials">auto_stories
+          </mat-icon>
+        </li>
       </ul>
     </div>
   </div>
@@ -253,7 +257,7 @@
           <div class="spacer"></div>
         </div>
       </div>
-      <div *ngIf="content != undefined  && active_div != 11">
+      <div *ngIf="content != undefined  && active_div != 11 && active_div != 12">
         <div class="d-flex content_buttons">
           <button *ngIf="content_list.length > 1" matTooltip="More Content"
             (click)="show_content_list = !show_content_list" mat-mini-fab color="accent"
@@ -1024,7 +1028,47 @@
         </div>
       </div>
       <!-- Flash Card  code end here -->
-      <div class="crses_rgt" *ngIf="videos.length>0 && active_div != 11">
+      <!-- Teacher material code starts here -->
+      <div class="crses_lft_mn qstn_lng {{active_div == 12 ? 'w_100p':''}}" *ngIf="active_div == 12">
+        <div class="crses_lft hgt_auto_imp">
+          <div class="crs_desc_hd">
+            <span class="desc_in_hd">
+              <mat-icon>auto_stories</mat-icon>Teacher Materials
+            </span>
+          </div>
+          <div class="crs_desc no_desc_fnd" *ngIf="materials.length == 0">
+            No Teacher Materials Found
+          </div>
+          <div class="crs_desc" *ngIf="materials.length > 0">
+            <div class="shpcrt_lst">
+              <div class="shpcrt_mn_dv" *ngFor="let material of materials;let i=index">
+                  <div class="tm_mn_hd">
+                      <div>{{ material["title"] }}</div>
+                      <div class="spacer"></div>
+                      <div class="upld_by">
+                          Uploaded By: {{ material["uploaded_by"] }}<br>Date: {{ material["updated_at"] }}
+                      </div>
+                  </div>
+                  <div class="shpcrt_mn_cnt mb_1" [innerHtml]="(material['description'].length>500)? (material['description'] | slice:0:500)+'..':(material['description'])">
+                  </div>
+                  <div class="hgt_5"></div>
+                  <div class="shpcrt_mn_btns jc_fe">
+                      <div routerLink="/student/material-details/{{ material['pk_id'] }}">
+                          <mat-icon>subject</mat-icon>
+                          View Details
+                      </div>
+                      <div *ngIf="material['download_flag'] == 1 && material['attachments'].length > 0" (click)="downlodAttachments(material['pk_id'])">
+                          <mat-icon>file_download</mat-icon>
+                          Download
+                      </div>
+                  </div>
+              </div>           
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Teacher material code ends here -->
+      <div class="crses_rgt" *ngIf="videos.length>0 && active_div != 11 && active_div != 12">
         <div class="intr_vd_hd">
           <div>
             <mat-icon>videocam</mat-icon>
