@@ -87,6 +87,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   public courses_ids_csv = '';
   public courses_arr = [];
   public course_count = 0;
+  public year_has_semester = false;
+  public year_has_group = false;
+  public show_semester_dropdown = false;
+  
   universities = [];
   colleges = [];
   institutes = [];
@@ -323,7 +327,8 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         this.self_or_other = (item.partner_id == null) ? 'self' : 'other';
         this.show_radio =  false;
         this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
-
+        this.year_has_semester = item.year_has_semester;
+        this.year_has_group = item.year_has_group;
         if(this.slug == 'year'){
           this.year_id = id;
         }
@@ -483,6 +488,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.self_or_other = 'self';
     this.show_radio = true;
     this.add_or_edit = 'Add New';
+    this.year_has_semester = false;
+    this.year_has_group = false;
+    this.show_semester_dropdown = false;
+    
     //this.self_or_other = 'other';
     //Call years for self
     if(this.slug != "year"){
@@ -629,6 +638,17 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     );
   }
 
+  getChildDropDownData(partner_id,year_id){
+    let year_obj = this.years.find((year) => year.pk_id == year_id);
+    this.show_semester_dropdown = false;
+    if(year_obj.year_has_semester){
+      this.getSemesters(partner_id,year_id)
+    }
+    /* else if(year_obj.year_has_semester){
+      this.getSemesters(partner_id,year_id)
+    } */
+  }
+
   getSemesters(partner_id,parent_id){
     //this.partner_id = partner_id;
     let param = { url: 'get-year-semester-group',partner_id : partner_id, parent_id : parent_id, slug : 'semester' };
@@ -637,6 +657,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         this.semesters = res['data'];
         if(this.semesters != undefined){
           this.all_semesters.next(this.semesters.slice()); 
+        }
+        if(this.semesters.length){
+          this.show_semester_dropdown = true;
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -693,7 +716,8 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         parent_id : parent_id, 
         slug : this.slug, 
         id : id,
-        subject_ids_csv : this.courses_ids_csv,
+        year_has_semester : this.year_has_semester,
+        year_has_group : this.year_has_group,
         status : '1',
       };
       this.http.post(param).subscribe((res) => {

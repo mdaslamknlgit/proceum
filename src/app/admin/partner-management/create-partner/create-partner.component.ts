@@ -248,7 +248,7 @@ export class CreatePartnerComponent implements OnInit {
       }
     }
     if(this.partner_type == '2'){ // partner_type == '2' is College
-      if(this.college_university == ''){ //Univesity selected or not
+      if(!this.parent_partner_id){ //Univesity selected or not
         return;
       }
     }
