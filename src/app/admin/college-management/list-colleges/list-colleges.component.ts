@@ -8,38 +8,28 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-package-testimonials',
-  templateUrl: './package-testimonials.component.html',
-  styleUrls: ['./package-testimonials.component.scss']
+  selector: 'app-list-colleges',
+  templateUrl: './list-colleges.component.html',
+  styleUrls: ['./list-colleges.component.scss']
 })
-export class PackageTestimonialsComponent implements OnInit {
+export class ListCollegesComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
-    'name',
-    'email',
-    'rating',
-    'package_name',
-    'created_at',
-    'status',
+    'partner_name',
+    'contact_number',
+    'partner_email',
+    /* 'package_name', 
+    'licence_start_date',
+    'licence_end_date',*/
     'actions',
+    'status',
   ];
-
-  public name ='';
-  public email ='';
-  public rating =0;
-  public review ='';
-  public package_name ='';
-  public id = 0;
-  public package_id = 0;
-  public created_at ='';
-  public status =0;
-  public edit_model_status = false;
-
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
   public totalSize = 0;
   public sort_by: any;
   public search_box = '';
+  public type = 0;
   public page = 0;
   public from_date='';
   public to_date='';
@@ -50,40 +40,53 @@ export class PackageTestimonialsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
   constructor(
     private http: CommonService,
     public toster: ToastrService,
-    private router: Router
+    private router: Router,
     ) { }
 
   ngOnInit(): void {
-    this.getTesimonials();
-  }
-
-  public getTesimonials() {
-    let param = { url: 'get-packages-testimonial'};
+    let param = {
+      url: 'get-colleges-for-partner' , type : this.type
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']);
+        if (this.paginator != undefined) {
+            this.paginator.pageIndex = 0;
+            this.paginator.firstPage();
+          }
+        this.dataSource = new MatTableDataSource(res['data']['partners']);
+        this.totalSize = res['total_records'];
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+      }
+    });
+  }
+  public getPartners() {
+    //console.log(this.type);
+    let param = { url: 'get-colleges-for-partner' , type : this.type};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.dataSource = new MatTableDataSource(res['data']['partners']);
+        this.totalSize = res['total_records'];
       } else {
-        //this.toster.error(res['message'], 'Error');
+        this.dataSource = new MatTableDataSource([]);
       }
     });
   }
 
   public doFilter() {
     let param = { 
-      url: 'get-packages-testimonial', 
-      search: this.search_box,
+      url: 'get-colleges-for-partner', 
+      search: this.search_box , 
+      type : this.type,
       from_date : this.from_date,
       to_date : this.to_date,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']);
+        this.dataSource = new MatTableDataSource(res['data']['partners']);
       } else {
         this.dataSource = new MatTableDataSource([]);
         //this.toster.error(res['message'], 'Error');
@@ -92,20 +95,22 @@ export class PackageTestimonialsComponent implements OnInit {
   }
 
   public getServerData(event?: PageEvent) {
+    //console.log("called");
     this.page = event.pageSize * event.pageIndex;
     let param = {
-      url: 'get-packages-testimonial', 
+      url: 'get-colleges-for-partner',
       offset: this.page,
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
+      type : this.type,
       from_date : this.from_date,
       to_date : this.to_date,
     };
     this.http.post(param).subscribe((res) => {
-      //console.log(res['data']);
+      //console.log(res['data']['partners']);
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']);
+        this.dataSource = new MatTableDataSource(res['data']['partners']);
         this.totalSize = res['total_records'];
       } else {
         //this.toster.info(res['message'], 'Error');
@@ -115,17 +120,17 @@ export class PackageTestimonialsComponent implements OnInit {
   }
 
 
-  public changeStatus(id, status){
+
+  public deletePartner(partner_id, status){
     let param = {
-      url: 'testimonial-status',
-      id: id,
+      url: 'partner-status',
+      id: partner_id,
       status: status,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.status = (status) ? 0 : 1;
-        this.getTesimonials();
+        this.getPartners();
       } else {
         this.toster.error(res['message'], res['message'], {
           closeButton: true,
@@ -135,37 +140,37 @@ export class PackageTestimonialsComponent implements OnInit {
     
   }
 
-  public resetFilters(){
+  navigateTo(url){
+      let user = this.http.getUser();
+      if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(user['role'])) > -1) {
+        url = "/admin/"+url;
+      }
+      //Later we must change this
+      if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+        url = "/admin/"+url;
+    }
+      this.router.navigateByUrl(url);
+  }
+
+  tabClick(event){
+    this.page = 0;
+    if (this.paginator != undefined) {
+      this.paginator.pageIndex = 0;
+      this.paginator.firstPage();
+    }
+    this.search_box = '';
+    this.from_date = '';
+    this.to_date = '';
+    this.type = event.index;
+    this.getPartners();
+  }
+
+  resetFilters(){
     this.search_box =   '';
     this.from_date = '';
     this.to_date = '';
     this.doFilter();
   }
 
-  public navigateTo(url){
-    let user = this.http.getUser();
-    if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(user['role'])) > -1) {
-      url = "/admin/"+url;
-    }
-    //Later we must change this
-    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
-      url = "/admin/"+url;
-    }
-    this.router.navigateByUrl(url);
-  }
 
-  public showMoreInPopUp(element){
-    console.log(element);
-    this.created_at = element.created_at;
-    this.email = element.email;
-    this.id = element.id;
-    this.name = element.name;
-    this.package_id = element.package_id;
-    this.package_name = element.package_name;
-    this.rating = element.rating;
-    this.review = element.review;
-    this.status = element.status;
-    this.edit_model_status = true;
-  }
 }
-

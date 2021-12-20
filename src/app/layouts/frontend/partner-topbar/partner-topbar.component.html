@@ -1,0 +1,87 @@
+<mat-toolbar [ngClass]="{ 'sticky-header': isSticky }" *ngIf="load_top_bar">
+    <button mat-icon-button (click)="menuToggle()" class="hmbrg_btn">
+      <img src="./assets/images/hamburg-icon.svg" />
+    </button>
+    <span class="logo_spn" routerLink="/">
+      <img src="{{ getHeaderLogo() }}" />
+    </span>
+    <span class="spacer"></span>
+    <div class="nav" [ngClass]="{ menu_open: isOpen }">
+      <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }">Home</span>
+      <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
+      <span mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active" >Pricing & Packages</span>
+  
+      <!-- <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
+      <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
+      <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
+        >Register Trail</span
+      > -->
+      <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
+  
+      <span mat-list-item class="tp_rt_mn" routerLinkActive="active">Blog</span>
+      <span *ngFor="let menu of menus" class="tp_rt_mn">
+        <span *ngIf="menu.subMenus != undefined && menu.subMenus.length>0" mat-list-item [matMenuTriggerFor]="appMenu" 
+          [class]="activeClass" routerLinkActive="active">{{ menu.name }}</span>
+          <!-- <span
+          *ngIf="isCustomMenuShow"
+          mat-list-item
+          [matMenuTriggerFor]="appMenu"
+          [class]="activeClass"
+          routerLinkActive="active"
+          >Custom Menu</span
+        > -->
+        <mat-menu #appMenu="matMenu" class="dynamic_menu_cls">
+          <button mat-menu-item *ngFor="let subMenu of menu.subMenus" routerLink="/mcicirriculam/{{ subMenu.pk_id }}">
+            {{ subMenu.name }}
+          </button>
+        </mat-menu>
+      </span>
+      <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
+  
+    </div>
+  
+    <!-- <div class="lg_inbtn" *ngIf="user['name']">
+      <span><mat-icon>face</mat-icon> <span class="m_hide">{{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span></span></span>
+    </div> -->
+    <div class="lg_inbtn">
+      <span *ngIf="!user['name']" routerLink="/login">
+        <mat-icon>login</mat-icon>Login
+      </span>
+      <span *ngIf="user['name']" (click)="logout()">
+        <mat-icon>logout</mat-icon><span class="m_hide">Logout</span>
+      </span>
+    </div>
+    <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
+      <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
+    </div>
+  
+    <!-- <div class="top-right-icon">
+      <img src="../../../../assets/images/Search-icon.svg" alt="Search" />
+      <img
+        src="../../../../assets/images/hamburg-icon.svg"
+        (click)="menuToggle()"
+        alt="Hamberg"
+      />
+    </div> -->
+    <!-- <button mat-icon-button class="tp_rt_mn lgot_btn" (click)="logout()"><mat-icon>logout</mat-icon></button> -->
+  </mat-toolbar>
+  
+  <!-- <mat-toolbar [ngClass]="{'sticky-header' : isSticky}">
+    <div class="top_nav" routerLink="/">
+      <img src="../../../assets/images/ProceumLogo_w.png" />
+    </div>
+  
+    <span class="spacer"></span>
+    <div class="nav">
+      <span class="tp_rt_mn active">Home</span>
+      <span class="tp_rt_mn" routerLink="/about-us">About Us</span>
+      <span class="tp_rt_mn">Pricing</span>
+      <span class="tp_rt_mn">Subscribe</span>
+      <span class="tp_rt_mn">Register Trail</span>
+      <span class="tp_rt_mn">Contact Us</span>
+      <div routerLink="/login" class="lg_inbtn">
+        <mat-icon>login</mat-icon>Login
+      </div>
+    </div>
+  </mat-toolbar> -->

@@ -5,6 +5,7 @@ import { ReplaySubject } from 'rxjs';
 import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {NestedTreeControl} from '@angular/cdk/tree';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 interface CurriculumNode {
   id?: number;
@@ -247,6 +248,9 @@ export class EditPackageComponent implements OnInit {
         }
         this.sample_videos = res['data']['sample_videos'];
         this.faqs = res['data']['faqs'];
+      }else{
+        this.toster.error(res['message'], 'Error');
+        this.navigateTo('prices-package-management');
       }
     });
   }
@@ -583,5 +587,16 @@ export class EditPackageComponent implements OnInit {
   }
   searchAddon(search){
     this.addons_list = this.all_addons_list.filter(item => item.curriculumn_name.toLowerCase().includes(search.toLowerCase()));
+  }
+  navigateTo(url){
+    let user = this.http.getUser();
+    if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(user['role'])) > -1) {
+      url = "/admin/"+url;
+    }
+    //Later we must change this
+    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+      url = "/admin/"+url;
+    }
+    this.router.navigateByUrl(url);
   }
 }
