@@ -1140,22 +1140,6 @@ app-topbar.inner-header mat-toolbar {
   }
 }
 
-@media screen and (max-width: 1024px) {
-  .popover.ng-star-inserted {
-    left: 0 !important;
-    top: 40% !important;
-    transform: initial !important;
-    white-space: normal !important;
-    position: fixed !important;
-    width: 80%;
-    margin: 0 auto;
-    z-index: 9;
-    right: 0;
-  }
-  .inner-container {
-    padding: 0 30px;
-  }
-}
 .lg_inbtn span {
   display: flex;
   justify-content: center;
@@ -1949,6 +1933,7 @@ ul.mlty_fl_mnu {
   color: #0f98a6;
   top: 3px;
 }
+ 
 .popover {
   background-color: rgb(255, 255, 255);
   padding: 0 20px 20px;
@@ -2194,6 +2179,11 @@ span.rpe_sym {
 .grn_clr{
   color: var(--accent-color);
 }
+.trms_txt{
+  color: #0594b4;
+  font-weight: bold;
+  font-size: 16px;
+}
 .crs_icn {
   border-radius: 50%;
   width: 80px;
@@ -2377,7 +2367,8 @@ span.rpe_sym {
   display: block !important;
 }
 .confirm-btns > .confirm-btn-container {
-  display: inline;
+  display: inline-block;
+  
 }
 .input-border-color {
   border: 1px solid rgb(231, 4, 4) !important;
@@ -2724,6 +2715,8 @@ div.cust_mdl_par div.mn_dshbrd {
         margin: auto;
         float: none;
         width: 935px;
+        max-width: 100%;
+        box-sizing: border-box;
       }
       .flpcrd_mn{
         background-color: transparent;
@@ -3573,7 +3566,12 @@ div.cust_mdl_par div.mn_dshbrd {
     padding: 5px 0 0 0;
   }
 }
-.qstnof_cnt{font-size: 14x; text-align: left; display: flex; align-items: center;}
+.qstnof_cnt{
+  text-align: left; 
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
 .hyt_lst_dv{
   display: flex;
   align-items: center;
@@ -4460,6 +4458,7 @@ sup {
   .pg_ttl{
     > div{
       width: 33%;
+      word-break: break-all;
     }
   }
   .pdf_ed_icn{
@@ -6873,4 +6872,49 @@ sup {
   left: -2px;
   top: 2px;
   font-weight: 300;
+}
+.asess_lst{
+  border:1px solid #ddd;
+  padding:10px;
+  border-radius: 8px;
+  background-color: #eceff1;
+  .asess_lst_hd{
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+  }
+  .asess_lst_btn{
+    text-align: center;
+  }
+  ul{
+    margin: 0;
+    padding: 0;
+    li{
+      list-style: none;
+      width: 100%;
+      display: flex;
+      border-bottom: 1px solid #ddd;
+      padding: 5px 0;
+      &:first-child{
+        border-top: 1px solid #ddd;
+      }
+      &:last-child{
+        border-bottom: 0px solid #ddd;
+      }
+      span{
+        width: 50%;
+        &:nth-child(2){
+          position: relative;
+          padding-left: 15px;
+          &::before{
+            content: ":";
+            position: absolute;
+            left: 5px;
+            top: 0;
+          }
+        }
+      }
+    }
+
+  }
 }

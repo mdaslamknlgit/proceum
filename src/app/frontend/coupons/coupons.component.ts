@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./coupons.component.scss']
 })
 export class CouponsComponent implements OnInit {
-
+  public shwCpncd = false;
   constructor() { }
 
   ngOnInit(): void {
