@@ -50,26 +50,32 @@ export class AttendAssessmentComponent implements OnInit {
                 {
                     this.getOptions(this.active_q_index);
                     let minutes = this.assessment[0]['time_per_question'] * this.questions_list.length;
-                    this.seconds = minutes*60;
+                    if(res['data']['time_left_seconds'] <= 0){
+                        this.toster.error("Assessment time has completed.", "Error", {closeButton:true});
+                        this.router.navigateByUrl("/student/assessments/list");
+                    }
+                    this.seconds = res['data']['time_left_seconds']?res['data']['time_left_seconds']:minutes*60;
                     let set_interval = setInterval(res=>{
                         this.seconds = this.seconds-1;
                         if(this.seconds >= 0)
                         {
                             this.startTimer(this.seconds);
                             if(this.seconds == 60){
-                                this.toster.info("This Test will end in a minute", "Remain Time", {closeButton:true});
+                                this.toster.info("Assessment will be end in a minute", "Remain Time", {closeButton:true});
                             }
                         }
                         else{
                             clearInterval(set_interval);
-                            this.toster.info("Test time completed", "Time up", {closeButton:true});
-                            this.caluculateResult();
+                            this.toster.info("This Assessment time has been completed.", "Timeup", {closeButton:true});
+                            //this.caluculateResult();
+                            this.endTest();
                         }
                     },1000);
                 }
             }
             else{
                 this.toster.error(res['message'], "Error", {closeButton:true});
+                this.router.navigateByUrl("/student/assessments/list");
             }
         });
     }
@@ -132,6 +138,7 @@ export class AttendAssessmentComponent implements OnInit {
                 if(res['error'] == false)
                 {
                     this.questions_list[index]['is_saved'] = true;
+                    this.questions_list[index]['answer_id'] = res['data']['answer_id'];
                 }
                 else{
                     console.log("not updated", this.questions_list[index]);
@@ -280,15 +287,15 @@ export class AttendAssessmentComponent implements OnInit {
     }
     endTest(){
         let param = {"url": "assessment/end", assessment_id: this.assessment_id};
-                    this.http.post(param).subscribe(res=>{
-                        if(res['error'] == false)
-                        {
-                            //navigate ro result page
-                        }
-                        else{
-                            console.log(res);
-                        }
-                    });
+        this.http.post(param).subscribe(res=>{
+            if(res['error'] == false)
+            {
+                this.router.navigateByUrl("/student/assessments/result/"+this.assessment_id)
+            }
+            else{
+                console.log(res);
+            }
+        });
     }
     caluculateResult(){
         this.is_test_end = true;

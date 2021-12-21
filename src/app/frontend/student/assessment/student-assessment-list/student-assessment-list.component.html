@@ -1,7 +1,39 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <strong>Assessment List</strong></div>
+    <div class="cust_mdl_par {{ exam_instructions_popup ? 'cust_mdl_opn' : '' }}">
+      <div class="cust_mdl_chl w_50p">
+          <div class="pg_ttl">
+            
+              <div>{{"student.assessments.list.exam_instructions"|translate}}:</div>
+
+              <span class="spacer"></span>
+              <button (click)="closeExamPopUP();" mat-icon-button class="float_right">
+                  &#x2715;
+              </button>
+          </div>
+          <div class="text_center" *ngIf="action_id == 1">
+            {{"student.assessments.list.remain_time"|translate}}: {{remain_time}}
+          </div>
+          <div class="" *ngIf="action_id == 2">
+            {{"student.assessments.list.exam_login_details"|translate}}:<br />
+            {{"student.assessments.list.your_ip_address"|translate}}: 
+          </div>
+          <div class="clear_fix"></div>
+          <div class="text_right" *ngIf="action_id == 2">
+            <hr />
+            <button mat-raised-button color="accent" class="float_right mr_1" (click)="submitExam(exam_id);">
+              {{"student.assessments.list.take"|translate}}
+            </button>
+            <button mat-raised-button class="float_right mr_1 gry_btn" (click)="closeExamPopUP();">
+              {{"student.assessments.list.close"|translate}}
+            </button>
+            <div class="hgt_20"></div>
+          </div>          
+      </div>
+    </div>
+
+    <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <strong>{{"student.assessments.list.page_title"|translate}}</strong></div>
     <div class="d-flex rsp_fw">
-        <div class="pg_ttl">Assessment List</div>
+        <div class="pg_ttl">{{"student.assessments.list.page_title"|translate}}</div>
         <div class="spacer"></div>
     </div>
     <hr />
@@ -10,57 +42,65 @@
             <table mat-table [dataSource]="dataSource">
 
                 <ng-container matColumnDef="assId">
-                    <th mat-header-cell *matHeaderCellDef> Assessment Id </th>
-                    <td mat-cell *matCellDef="let element"> {{element.assId}} </td>
-                  </ng-container> 
-                  <ng-container matColumnDef="assTyp">
-                    <th mat-header-cell *matHeaderCellDef> Assessment Type </th>
-                    <td mat-cell *matCellDef="let element"> {{element.assTyp}} </td>
-                  </ng-container> 
+                  <th mat-header-cell *matHeaderCellDef> {{"s_no_text"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{ element.s_no }} </td>
+                </ng-container> 
+                <ng-container matColumnDef="assTyp">
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.assessment_type"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.assessment_type}} </td>
+                </ng-container> 
 
                 <ng-container matColumnDef="SubName">
-                  <th mat-header-cell *matHeaderCellDef> Subject Name </th>
-                  <td mat-cell *matCellDef="let element"> {{element.SubName}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.subject_name"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.subject_name}} </td>
                 </ng-container> 
             
                 <ng-container matColumnDef="dtndTm">
-                  <th mat-header-cell *matHeaderCellDef> Date And Time </th>
-                  <td mat-cell *matCellDef="let element"> {{element.dtndTm}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.date_time"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.assessment_date_time}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="qstns">
-                  <th mat-header-cell *matHeaderCellDef> Questions </th>
-                  <td mat-cell *matCellDef="let element"> {{element.qstns}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.questions"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.total_questions_count}} </td>
                 </ng-container> 
 
                 <ng-container matColumnDef="eqDrtn">
-                  <th mat-header-cell *matHeaderCellDef> E Q Duration </th>
-                  <td mat-cell *matCellDef="let element"> {{element.eqDrtn}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.e_q_duration"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.time_per_question}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="mrKs">
-                  <th mat-header-cell *matHeaderCellDef> Marks </th>
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.marks"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> {{element.mrKs}} </td>
                 </ng-container>  
                 <ng-container matColumnDef="prCent">
-                  <th mat-header-cell *matHeaderCellDef> Percentage </th>
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.percentage"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> {{element.prCent}} </td>
                 </ng-container>  
                 <ng-container matColumnDef="reSlt">
-                  <th mat-header-cell *matHeaderCellDef> Result </th>
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.result"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> {{element.reSlt}} </td>
                 </ng-container>  
                 <ng-container matColumnDef="stTs">
-                  <th mat-header-cell *matHeaderCellDef> Status </th>
-                  <td mat-cell *matCellDef="let element"> {{element.stTs}} </td>
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.status"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element.status}} </td>
                 </ng-container>  
                 <ng-container matColumnDef="acTn">
-                  <th mat-header-cell *matHeaderCellDef> Action </th>
-                  <td mat-cell *matCellDef="let element"> {{element.acTn}} </td>
-                </ng-container>  
-                
+                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.action"|translate}} </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <button type="button" *ngIf="element.action != '0'" (click)="startExamPopUP(element.pk_id,element.action,element.time)" mat-raised-button color="accent" class="mr_1">
+                      {{"student.assessments.list.start"|translate}}
+                    </button>
+                  </td>
+                </ng-container>                  
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                  <td class="mat-cell" colspan="15">{{"no_records_found_text"|translate}}</td>
+                </tr>
               </table>
         </div>
+        <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)">
+        </mat-paginator>
     </div>
 </div>
