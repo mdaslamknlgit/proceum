@@ -290,7 +290,7 @@ export class AttendAssessmentComponent implements OnInit {
         this.http.post(param).subscribe(res=>{
             if(res['error'] == false)
             {
-                //navigate to reslt page
+                this.router.navigateByUrl("/student/assessments/result/"+this.assessment_id)
             }
             else{
                 console.log(res);
