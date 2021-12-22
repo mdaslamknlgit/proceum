@@ -9,6 +9,7 @@ import { AuthService } from '../../../auth/auth.service';
   styleUrls: ['./my-account.component.scss'],
 })
 export class MyAccountComponent implements OnInit {
+  public shwCpncd = false;
   user: any;
   url: any = '../../../../assets/images/Demo-placeholder.jpeg';
   src: any;

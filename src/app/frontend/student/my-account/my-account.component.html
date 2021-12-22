@@ -72,15 +72,16 @@
   </div>
   <br>
   <!-- Profile fields -->
-  
+
   <h2 class="section-title">My Profile</h2>
 
   <div class="two-blocks">
-    <form #profile_form="ngForm" name="profile_form" id="profile_form" (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
+    <form #profile_form="ngForm" name="profile_form" id="profile_form"
+      (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
       <div class="grd_2c">
         <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked
-                            fields are mandatory</span>
-                        <div class="hgt_20"></div>
+          fields are mandatory</span>
+        <div class="hgt_20"></div>
         <div class="tc_w50p">
           <!-- <span class="required">Fields marked with * are mandatory.</span> -->
           <div class="frm_dvs">
@@ -98,27 +99,29 @@
             <span></span>
             <span>
               <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
-              <input type="file" #fileInput mat-raised-button color="accent" accept="image/*" (change)="fileEvent($event)" style="display:none;" />
-              <!-- <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
+                <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
+                  (change)="fileEvent($event)" style="display:none;" />
+                <!-- <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
                 (change)="fileEvent($event)" /> -->
               </button>
             </span>
           </div>
           <div class="frm_dvs">
-            <span >&nbsp;</span>
+            <span>&nbsp;</span>
             <span><span style="margin-top: 15px;" class="required">{{imgMessage}}</span></span>
           </div>
           <div class="frm_dvs">
             <span>First name <span class="required">*</span></span>
             <span>
               <span class="err_tltp_par">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel' ngModel [(ngModel)]="profile.first_name" required
-                  onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
-              </mat-form-field>
-              <span class="prc_tltp" *ngIf="profile_form.submitted && first_name.errors?.required">
-                First Name is required
-              </span>
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel'
+                    ngModel [(ngModel)]="profile.first_name" required
+                    onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+                </mat-form-field>
+                <span class="prc_tltp" *ngIf="profile_form.submitted && first_name.errors?.required">
+                  First Name is required
+                </span>
               </span>
             </span>
           </div>
@@ -126,14 +129,15 @@
             <span>Last name <span class="required">*</span></span>
             <span>
               <span class="err_tltp_par">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Last name" autocomplete="off" required name="last_name" #last_name='ngModel' ngModel  [(ngModel)]="profile.last_name"
-                  onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
-              </mat-form-field>
-              <span class="prc_tltp" *ngIf="profile_form.submitted && last_name.errors?.required">
-                Last Name is required
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Last name" autocomplete="off" required name="last_name"
+                    #last_name='ngModel' ngModel [(ngModel)]="profile.last_name"
+                    onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+                </mat-form-field>
+                <span class="prc_tltp" *ngIf="profile_form.submitted && last_name.errors?.required">
+                  Last Name is required
+                </span>
               </span>
-            </span>
             </span>
           </div>
           <div class="frm_dvs">
@@ -274,29 +278,41 @@
         <div class="tc_w50p">
           <div class="frm_dvs">
             <span>My Referral Code</span>
-            <span>
-            <span>
-              <mat-form-field appearance="outline">
-                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code" name="referral_code" [disabled]="'disabled'"
-                  [(ngModel)]="profile.referral_code">
-              </mat-form-field>
+            <span class="showCoupon">
+              <!-- <span class="showCodeBtn {{shwCpncd ? 'shcp_sld':''}}" (click)="shwCpncd = !shwCpncd">
+                Generate Coupon Code
+              </span> -->
+              <span>1234564789</span>
+              <mat-icon color="accent" matTooltip="Share Coupon Code">share</mat-icon>
             </span>
-            <button *ngIf="auto_generate" (click)="generateReferralCode()" mat-raised-button color="accent" class="ml_1 margin-bottom_20"
-              type="button">
-              Auto Generate
-            </button>
-          </span>
+          </div>
+          <div class="hgt_10"></div>
+          <div class="frm_dvs">
+            <span>My Referral Code</span>
+            <span>
+              <span>
+                <mat-form-field appearance="outline">
+                  <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code"
+                    name="referral_code" [disabled]="'disabled'" [(ngModel)]="profile.referral_code">
+                </mat-form-field>
+              </span>
+              <button *ngIf="auto_generate" (click)="generateReferralCode()" mat-raised-button color="accent"
+                class="ml_1 margin-bottom_20" type="button">
+                Auto Generate
+              </button>
+            </span>
           </div>
           <div class="frm_dvs">
             <span>Friend Referral Code</span>
             <span>
-            <span>
-              <mat-form-field appearance="outline">
-                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Friend Referral Code" [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
-                  [(ngModel)]="profile.frnd_referral_code">
-              </mat-form-field>
+              <span>
+                <mat-form-field appearance="outline">
+                  <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Friend Referral Code"
+                    [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
+                    [(ngModel)]="profile.frnd_referral_code">
+                </mat-form-field>
+              </span>
             </span>
-          </span>
           </div>
           <div class="frm_dvs">
             <span class="accent">
@@ -316,19 +332,20 @@
                 (profile_form.submitted && current_password.errors?.minlength) ||
                 (profile_form.submitted && current_password.errors?.required) 
               }">
-              <mat-form-field appearance="outline">
-                <input matInput placeholder="Current password"  [type]="current_password_hide ? 'password' : 'text'"  autocomplete="off"[required]="isrequired"
-                  [(ngModel)]="profile.current_password" minlength="8" maxlength="16" name="current_password"
-                  onkeypress='return (event.charCode != 32)' #current_password="ngModel" ngModel
-                  >
-                  <mat-icon  matSuffix (click)="passwordFun('old')" >{{current_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </mat-form-field>
-              <span class="prc_tltp" *ngIf="profile_form.submitted && current_password.errors?.required">
-                Current Password required
-              </span>
-              <span class="prc_tltp" *ngIf="profile_form.submitted && current_password.errors?.minlength">
-                Password must be length 8 charecters
-              </span>
+                <mat-form-field appearance="outline">
+                  <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
+                    autocomplete="off" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="8"
+                    maxlength="16" name="current_password" onkeypress='return (event.charCode != 32)'
+                    #current_password="ngModel" ngModel>
+                  <mat-icon matSuffix (click)="passwordFun('old')">{{current_password_hide ? 'visibility_off' :
+                    'visibility'}}</mat-icon>
+                </mat-form-field>
+                <span class="prc_tltp" *ngIf="profile_form.submitted && current_password.errors?.required">
+                  Current Password required
+                </span>
+                <span class="prc_tltp" *ngIf="profile_form.submitted && current_password.errors?.minlength">
+                  Password must be length 8 charecters
+                </span>
               </span>
             </span>
           </div>
@@ -340,18 +357,21 @@
                 (profile_form.submitted && new_password.errors?.pattern) ||
                 (profile_form.submitted && new_password.errors?.required)
               }">
-              <mat-form-field appearance="outline">
-                <input matInput (keyup)="passwordVerification()" placeholder="New password" [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
-                  [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
-                  onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel>
-                  <mat-icon  matSuffix (click)="passwordFun('new')" >{{new_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </mat-form-field>
-              <span class="prc_tltp" *ngIf="profile_form.submitted && new_password.errors?.pattern">
-                Password must contains 1 lowercase,1 uppercase,1 number,1 special charecter,minlength 8
-              </span>
-              <span class="prc_tltp" *ngIf="profile_form.submitted && new_password.errors?.required">
-                New Password is required
-              </span>
+                <mat-form-field appearance="outline">
+                  <input matInput (keyup)="passwordVerification()" placeholder="New password"
+                    [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
+                    [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password"
+                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
+                    onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel>
+                  <mat-icon matSuffix (click)="passwordFun('new')">{{new_password_hide ? 'visibility_off' :
+                    'visibility'}}</mat-icon>
+                </mat-form-field>
+                <span class="prc_tltp" *ngIf="profile_form.submitted && new_password.errors?.pattern">
+                  Password must contains 1 lowercase,1 uppercase,1 number,1 special charecter,minlength 8
+                </span>
+                <span class="prc_tltp" *ngIf="profile_form.submitted && new_password.errors?.required">
+                  New Password is required
+                </span>
               </span>
             </span>
           </div>
@@ -365,15 +385,19 @@
                  || (profile_form.submitted && confirm_pwd.errors?.required)
               }">
                 <mat-form-field appearance="outline" [class]="errClass">
-                  <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off" [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
-                  [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd" pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
-                  validateEqual="password"  onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
-                    <mat-icon  matSuffix (click)="passwordFun('confirm')" >{{confirm_password_hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                  <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off"
+                    [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
+                    [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd"
+                    pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$" validateEqual="password"
+                    onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
+                  <mat-icon matSuffix (click)="passwordFun('confirm')">{{confirm_password_hide ? 'visibility_off' :
+                    'visibility'}}</mat-icon>
                 </mat-form-field>
                 <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_pwd.errors?.required">
                   Confirm Password is required
                 </span>
-                <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_check == true"> New Password and Confirm Password are not matched </span>
+                <span class="prc_tltp" *ngIf="profile_form.submitted && confirm_check == true"> New Password and Confirm
+                  Password are not matched </span>
               </span>
             </span>
           </div>
