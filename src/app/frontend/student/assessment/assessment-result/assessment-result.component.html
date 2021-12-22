@@ -26,7 +26,7 @@
                 </li>
                 <li>
                     <span>{{"student.assessments.result.ip-address"|translate}}</span>
-                    <span>Anatomy</span>
+                    <span>{{assessment_details['ip_address']?assessment_details['ip_address']:'N/A'}}</span>
                 </li>
                 <li>
                       <span>{{"student.assessments.result.name"|translate}}</span>
@@ -80,17 +80,18 @@
                       <span>{{"student.assessments.result.skppd-qstns"|translate}}</span>
                     <span>{{skiped_questions}}</span>
                 </li>
-                <!-- <li>
+                <li>
                       <span>{{"student.assessments.result.ttl-mrks"|translate}}</span>
-                    <span>Anatomy</span>
-                </li> -->
+                    <span>{{correct_answers}}</span>
+                </li>
                 <li>
                       <span>{{"student.assessments.result.prcnt"|translate}}</span>
                     <span>{{percentage}} %</span>
                 </li>
                 <li>
                       <span>{{"student.assessments.result.stts"|translate}}</span>
-                    <span>{{"student.assessments.result.ended"|translate}}</span>
+                    <span *ngIf="(percentage)>=35">{{"student.assessments.result.pass"|translate}}</span>
+                    <span *ngIf="(percentage)<35">{{"student.assessments.result.fail"|translate}}</span>
                 </li>
             </ul>
             <div class="hgt_10"></div>
