@@ -10,6 +10,7 @@ import { AuthService } from '../../../auth/auth.service';
 })
 export class MyAccountComponent implements OnInit {
   public shwCpncd = false;
+  public show_details_modal = false;
   user: any;
   url: any = '../../../../assets/images/Demo-placeholder.jpeg';
   src: any;
