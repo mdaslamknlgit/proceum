@@ -285,45 +285,49 @@ export class AttendAssessmentComponent implements OnInit {
             }
         });
     }
+    public ipAddress = '';
     endTest(){
-        let param = {"url": "assessment/end", assessment_id: this.assessment_id};
-        this.http.post(param).subscribe(res=>{
-            if(res['error'] == false)
-            {
-                this.router.navigateByUrl("/student/assessments/result/"+this.assessment_id)
-            }
-            else{
-                console.log(res);
-            }
-        });
-    }
-    caluculateResult(){
-        this.is_test_end = true;
-        let check = false;
-        this.questions_list.forEach((q,index)=>{
-            if([3,6,9,12].includes(q['q_type'])){
-                this.free_text_qs = this.free_text_qs+1;
-                return true;
-            }
-            if(q['answer'].length == 0){
-                this.not_answered = this.not_answered+1;
-            }
-            else if(q['s_no'].length == q['answer'].length){
-                const array2Sorted = q['answer'].slice().sort();
-                check = q['s_no'].length === q['answer'].length && q['s_no'].slice().sort().every(function(value, index) {
-                    return value === array2Sorted[index];
-                });
-                if(check == true){
-                    this.correct_answers = this.correct_answers+1;
+        this.http.get("http://api.ipify.org/?format=json").subscribe((addr:any)=>{
+            this.ipAddress = addr.ip;
+            let param = {"url": "assessment/end", assessment_id: this.assessment_id, ip_address: this.ipAddress};
+            this.http.post(param).subscribe(res=>{
+                if(res['error'] == false)
+                {
+                    this.router.navigateByUrl("/student/assessments/result/"+this.assessment_id)
                 }
                 else{
-                    this.wrong_answers = this.wrong_answers+1;
+                    console.log(res);
                 }
-            }
-            else{
-                this.wrong_answers = this.wrong_answers+1;
-            }
+            });
         });
-        this.show_details_modal = true;
     }
+    // caluculateResult(){
+    //     this.is_test_end = true;
+    //     let check = false;
+    //     this.questions_list.forEach((q,index)=>{
+    //         if([3,6,9,12].includes(q['q_type'])){
+    //             this.free_text_qs = this.free_text_qs+1;
+    //             return true;
+    //         }
+    //         if(q['answer'].length == 0){
+    //             this.not_answered = this.not_answered+1;
+    //         }
+    //         else if(q['s_no'].length == q['answer'].length){
+    //             const array2Sorted = q['answer'].slice().sort();
+    //             check = q['s_no'].length === q['answer'].length && q['s_no'].slice().sort().every(function(value, index) {
+    //                 return value === array2Sorted[index];
+    //             });
+    //             if(check == true){
+    //                 this.correct_answers = this.correct_answers+1;
+    //             }
+    //             else{
+    //                 this.wrong_answers = this.wrong_answers+1;
+    //             }
+    //         }
+    //         else{
+    //             this.wrong_answers = this.wrong_answers+1;
+    //         }
+    //     });
+    //     this.show_details_modal = true;
+    // }
 }
