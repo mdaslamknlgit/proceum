@@ -329,22 +329,15 @@
             </span>
           </div>
         </div>
-        <div class="tc_w50p">
-          <div class="frm_dvs">
-            <span>My Referral Code</span>
-            <span class="showCoupon">
-              <!-- <span class="showCodeBtn {{shwCpncd ? 'shcp_sld':''}}" (click)="shwCpncd = !shwCpncd">
-                Generate Coupon Code
-              </span> -->
-              <span>1234564789</span>
-              <mat-icon color="accent" matTooltip="Share Coupon Code">share</mat-icon>
-            </span>
-          </div>
-          <div class="hgt_10"></div>
+        <div class="tc_w50p">         
           <div class="frm_dvs">
             <span>My Referral Code</span>
             <span>
-              <span>
+              <span *ngIf="!auto_generate" class="showCoupon">
+                <span>{{profile.referral_code}}</span>
+                <mat-icon color="accent" matTooltip="Share Referral Code">share</mat-icon>
+              </span>
+              <span *ngIf="auto_generate">
                 <mat-form-field appearance="outline">
                   <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code"
                     name="referral_code" [disabled]="'disabled'" [(ngModel)]="profile.referral_code">
@@ -356,16 +349,14 @@
               </button>
             </span>
           </div>
+          <div class="hgt_10"></div>
           <div class="frm_dvs">
-            <span>Friend Referral Code</span>
+            <span>Apply Referral Code</span>
             <span>
-              <span>
-                <mat-form-field appearance="outline">
-                  <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Friend Referral Code"
-                    [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
-                    [(ngModel)]="profile.frnd_referral_code">
-                </mat-form-field>
-              </span>
+              <mat-form-field appearance="outline">
+                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Apply Referral Code" [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
+                  [(ngModel)]="profile.frnd_referral_code">
+              </mat-form-field>
             </span>
           </div>
           <div class="frm_dvs">
