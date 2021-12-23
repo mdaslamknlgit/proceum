@@ -1042,35 +1042,42 @@
           <div class="crs_desc" *ngIf="materials.length > 0">
             <div class="shpcrt_lst">
               <!-- Teacher Materials accordian -->
-              <mat-accordion multi >
+              <mat-accordion multi *ngFor="let material of materials;let i=index">
                 <mat-expansion-panel >
                   <mat-expansion-panel-header>
-                    <mat-panel-title>Hello world</mat-panel-title>
+                    <mat-panel-title>{{ material["title"] }}</mat-panel-title>
                     <span class="spacer"></span>
-                    <mat-panel-description> <mat-icon>account_circle</mat-icon> John Doe &nbsp;&nbsp; |&nbsp;&nbsp; <mat-icon>calendar_today</mat-icon> 21 Dec 2021</mat-panel-description>
+                    <mat-panel-description> <mat-icon>account_circle</mat-icon> {{ material["uploaded_by"] }} &nbsp;&nbsp; |&nbsp;&nbsp; <mat-icon>calendar_today</mat-icon> {{ material["updated_at"] }}</mat-panel-description>
                   </mat-expansion-panel-header>
-                  <div class="tm_ln_dv ck_editor_view">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                  <div class="tm_ln_dv ck_editor_view" [innerHtml]="(material['description'])">
                   </div>
-                  <div class="upld_attchmnts">
+                  <div class="upld_attchmnts" *ngIf="material['attachments'].length > 0">
                     <div class="c_block">
                         <div class="c_block_title">
                             <mat-icon>attachment</mat-icon>
                             <label for="Intro video"> Attachments</label>
                             <span class="spacer"></span>
-                            <!-- <a *ngIf="materials[0]['download_flag'] == 1 && materials[0]['attachments'].length > 0" [href]="hrefZIP" target="_blank">
+                            <a *ngIf="material['download_flag'] == 1 && material['attachments'].length > 0" (click)="downlodAttachments(material['pk_id'])">
                             <mat-icon matTooltip="Download All">file_download</mat-icon>
-                            </a> -->
+                            </a>
                         </div>                        
                         <div class="c_block_content">
                             <ul>
-                                <li >
-                                    <img src="" alt="" />
+                                <li *ngFor="let file of material['attachments']; let i = index">
+                                    <img src="{{file['path']}}" alt="" />
                                     <span class="upldd_hd">
-                                        Hello world
+                                        {{
+                                        file["file_path"].substring(
+                                        file["file_path"].lastIndexOf("/") + 1
+                                        )
+                                        }}
                                     </span>
                                     <span class="spacer"></span>
-                                    <a href="">
+                                    <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'pdf'"
+                                      (click)="openPdf(bucket_url + file['file_path'])">
+                                      <mat-icon matTooltip="View" matTooltipPosition="above">visibility</mat-icon>
+                                    </a>&nbsp;&nbsp;
+                                    <a *ngIf="material['download_flag'] == 1" [href]="bucket_url + file['file_path']" target="_blank">
                                         <mat-icon matTooltip="Download File">file_download</mat-icon>
                                     </a>
                                 </li>
@@ -1079,31 +1086,8 @@
                     </div>
                 </div>
                 </mat-expansion-panel>
-                
               </mat-accordion>
               <!-- / -->
-              <div class="shpcrt_mn_dv" *ngFor="let material of materials;let i=index">
-                  <div class="tm_mn_hd">
-                      <div>{{ material["title"] }}</div>
-                      <div class="spacer"></div>
-                      <div class="upld_by">
-                          Uploaded By: {{ material["uploaded_by"] }}<br>Date: {{ material["updated_at"] }}
-                      </div>
-                  </div>
-                  <div class="shpcrt_mn_cnt mb_1" [innerHtml]="(material['description'].length>500)? (material['description'] | slice:0:500)+'..':(material['description'])">
-                  </div>
-                  <div class="hgt_5"></div>
-                  <div class="shpcrt_mn_btns jc_fe">
-                      <div routerLink="/student/material-details/{{ material['pk_id'] }}">
-                          <mat-icon>subject</mat-icon>
-                          View Details
-                      </div>
-                      <div *ngIf="material['download_flag'] == 1 && material['attachments'].length > 0" (click)="downlodAttachments(material['pk_id'])">
-                          <mat-icon>file_download</mat-icon>
-                          Download
-                      </div>
-                  </div>
-              </div>           
             </div>
           </div>
         </div>
