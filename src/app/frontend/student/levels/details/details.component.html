@@ -204,14 +204,14 @@
           </mat-icon>
         </li>
         <li *ngIf="materials != undefined && materials.length > 0" (click)="showDiv(12)">
-          <mat-icon class="ism_icn {{ active_div == 12 ? 'ism_actv_btn' : '' }}" matTooltip="Teacher Materials">auto_stories
+          <mat-icon class="ism_icn {{ active_div == 12 ? 'ism_actv_btn' : '' }}" matTooltip="Teacher Materials">
+            auto_stories
           </mat-icon>
         </li>
       </ul>
     </div>
   </div>
   <div class="mn_dshbrd crs_dshbrd {{view_type==1 && videos.length > 0?'view_1':'view_2'}}">
-
     <div class="hgt_20"></div>
     <div class="sp_mn" *ngIf="curriculum">
       <div class="brdcrm_br fw_w">
@@ -1030,7 +1030,7 @@
       <!-- Flash Card  code end here -->
       <!-- Teacher material code starts here -->
       <div class="crses_lft_mn qstn_lng {{active_div == 12 ? 'w_100p':''}}" *ngIf="active_div == 12">
-        <div class="crses_lft hgt_auto_imp">
+        <div class="crses_lft hgt_auto_imp tcrmt_accrd">
           <div class="crs_desc_hd">
             <span class="desc_in_hd">
               <mat-icon>auto_stories</mat-icon>Teacher Materials
@@ -1040,51 +1040,59 @@
             No Teacher Materials Found
           </div>
           <div class="crs_desc" *ngIf="materials.length > 0">
-            <div class="shpcrt_lst">
+            <div class="shpcrt_lst intr_vd_tml">
               <!-- Teacher Materials accordian -->
               <mat-accordion multi *ngFor="let material of materials;let i=index">
-                <mat-expansion-panel >
+                <mat-expansion-panel>
                   <mat-expansion-panel-header>
                     <mat-panel-title>{{ material["title"] }}</mat-panel-title>
-                    <span class="spacer"></span>
-                    <mat-panel-description> <mat-icon>account_circle</mat-icon> {{ material["uploaded_by"] }} &nbsp;&nbsp; |&nbsp;&nbsp; <mat-icon>calendar_today</mat-icon> {{ material["updated_at"] }}</mat-panel-description>
+                    <mat-panel-description>
+                      <div>
+                        <mat-icon>account_circle</mat-icon>{{ material["uploaded_by"] }}
+                      </div>
+                      <div>
+                        <mat-icon>calendar_today</mat-icon>{{ material["updated_at"] }}
+                      </div>
+                    </mat-panel-description>
                   </mat-expansion-panel-header>
                   <div class="tm_ln_dv ck_editor_view" [innerHtml]="(material['description'])">
                   </div>
                   <div class="upld_attchmnts" *ngIf="material['attachments'].length > 0">
                     <div class="c_block">
-                        <div class="c_block_title">
-                            <mat-icon>attachment</mat-icon>
-                            <label for="Intro video"> Attachments</label>
+                      <div class="c_block_title">
+                        <mat-icon>attachment</mat-icon>
+                        <label for="Intro video"> Attachments</label>
+                        <span class="spacer"></span>
+                        <a *ngIf="material['download_flag'] == 1 && material['attachments'].length > 0"
+                          (click)="downlodAttachments(material['pk_id'])">
+                          <mat-icon matTooltip="Download All">file_download</mat-icon>
+                        </a>
+                      </div>
+                      <div class="c_block_content">
+                        <ul>
+                          <li *ngFor="let file of material['attachments']; let i = index">
+                            <img src="{{file['path']}}" alt="" />
+                            <span class="upldd_hd">
+                              {{
+                              file["file_path"].substring(
+                              file["file_path"].lastIndexOf("/") + 1
+                              )
+                              }}
+                            </span>
                             <span class="spacer"></span>
-                            <a *ngIf="material['download_flag'] == 1 && material['attachments'].length > 0" (click)="downlodAttachments(material['pk_id'])">
-                            <mat-icon matTooltip="Download All">file_download</mat-icon>
+                            <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'pdf'"
+                              (click)="openPdf(bucket_url + file['file_path'])">
+                              <mat-icon matTooltip="View" matTooltipPosition="above">visibility</mat-icon>
+                            </a>&nbsp;&nbsp;
+                            <a *ngIf="material['download_flag'] == 1" [href]="bucket_url + file['file_path']"
+                              target="_blank">
+                              <mat-icon matTooltip="Download File">file_download</mat-icon>
                             </a>
-                        </div>                        
-                        <div class="c_block_content">
-                            <ul>
-                                <li *ngFor="let file of material['attachments']; let i = index">
-                                    <img src="{{file['path']}}" alt="" />
-                                    <span class="upldd_hd">
-                                        {{
-                                        file["file_path"].substring(
-                                        file["file_path"].lastIndexOf("/") + 1
-                                        )
-                                        }}
-                                    </span>
-                                    <span class="spacer"></span>
-                                    <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'pdf'"
-                                      (click)="openPdf(bucket_url + file['file_path'])">
-                                      <mat-icon matTooltip="View" matTooltipPosition="above">visibility</mat-icon>
-                                    </a>&nbsp;&nbsp;
-                                    <a *ngIf="material['download_flag'] == 1" [href]="bucket_url + file['file_path']" target="_blank">
-                                        <mat-icon matTooltip="Download File">file_download</mat-icon>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
-                </div>
+                  </div>
                 </mat-expansion-panel>
               </mat-accordion>
               <!-- / -->
