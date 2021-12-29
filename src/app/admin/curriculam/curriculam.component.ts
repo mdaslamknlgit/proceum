@@ -23,7 +23,7 @@ export class CurriculamComponent implements OnInit {
     public steps = ['step_' + 0];
     public step_flags = {'step_0':''};
     public selected_step_flags = [];
-    public items = [{flag:"Subject", value: "subject"}, {flag:"Chapter", value: "chapter"}, {flag:"Topic", value: "topic"}, {flag:"Sub Topic", value: "sub_topic"}]
+    public items = [{flag:"Subject", value: "subject", is_disabled: false}, {flag:"Chapter", value: "chapter", is_disabled: false}, {flag:"Topic", value: "topic", is_disabled: false}, {flag:"Sub Topic", value: "sub_topic", is_disabled: false}]
     public curriculum_id = '';
     dataSource = new MatTableDataSource();
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -101,13 +101,24 @@ export class CurriculamComponent implements OnInit {
         this.steps['step_' + length] = '';
         this.step_flags['step_' + length] = '';
     }
-    setFlag(step, value, key){
+    setFlag(step, value, event){
         this.step_flags[step] = value;
-
-        console.log(this.step_flags);
+        this.items.forEach((item, index)=>{
+            if(item.value == this.step_flags[step]){
+                this.items[index]['is_disabled'] = false;
+            }
+            if(item.value == event){
+                this.items[index]['is_disabled'] = true;
+            }
+        });
     }
     removeStep(i) {
         this.steps.splice(i, 1);
+        this.items.forEach((item, index)=>{
+            if(item.value == this.step_flags['step_' + i]){
+                this.items[index]['is_disabled'] = false;
+            }
+        });
         this.step_flags['step_' + i] = '';
     }
     checkDuplicate(this_value, step) {

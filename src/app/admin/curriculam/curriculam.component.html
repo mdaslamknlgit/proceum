@@ -87,30 +87,19 @@
                 Level {{ indexOfelement + 1 }}
                 <span class="required">*</span></span> <span>
                 <span class="err_tltp_par">
-                  <mat-form-field appearance="outline" class="{{
-                      duplicate_error_value != '' &&
-                      duplicate_error_value == steps[step]
-                        ? 'mat-form-field-invalid'
-                        : ''
-                    }}">
+                  <mat-form-field appearance="outline" class="{{duplicate_error_value != '' && duplicate_error_value == steps[step] ? 'mat-form-field-invalid' : ''}}">
                     <input trim="blur" matInput maxlength="255" name="ref_{{ step }}" [(ngModel)]="steps[step]"
-                      #ref_{{step}}="ngModel" required (keyup)="checkDuplicate(steps[step], step)" (blur)="
-                        duplicate_error_value == steps[step] &&
-                          resetDuplicates(step)
-                      " placeholder="Provide Level {{ indexOfelement + 1 }} Label" />
+                      #ref_{{step}}="ngModel" required (keyup)="checkDuplicate(steps[step], step)" (blur)="duplicate_error_value == steps[step] && resetDuplicates(step)" placeholder="Provide Level {{ indexOfelement + 1 }} Label" />
                   </mat-form-field>
  
                   <span class="prc_tltp" *ngIf="curriculum_form.submitted && !steps[step]">
-                    Level {{ indexOfelement + 1 }} is required</span> <span class="prc_tltp" *ngIf="
-                      duplicate_error_value != '' &&
-                      duplicate_error_value == steps[step]
-                    ">
+                    Level {{ indexOfelement + 1 }} is required</span> <span class="prc_tltp" *ngIf="duplicate_error_value != '' && duplicate_error_value == steps[step]">
                     Duplicate Level Name not allowed</span>
                 </span>
-                <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="step_flags[step]" (ngModelChange)="setFlag(step, step_flags[step], indexOfelement)" name="step_flag_{{ step }}" placeholder="Select Tag" >
+                <mat-form-field appearance="outline"> 
+                    <mat-select (ngModelChange)="setFlag(step, step_flags[step], $event)" [(ngModel)]="step_flags[step]" name="step_flag_{{ step }}" placeholder="Select Tag" >
                         <mat-option [value]="" >{{"select_text"|translate}} </mat-option>
-                        <mat-option *ngFor="let item of items" [value]="item['value']">{{ item["flag"] }}</mat-option>
+                        <mat-option *ngFor="let item of items" [disabled]="item['is_disabled']" [value]="item['value']">{{ item["flag"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <button mat-raised-button type="button" *ngIf="last" (click)="addStep()" color="accent" class="ml_1"> +
