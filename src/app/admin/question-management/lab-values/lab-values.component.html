@@ -15,12 +15,13 @@
                     <div class="cm_fltr_sc mr_1">
                         <div>Heading</div>
                         <mat-form-field appearance="outline">
-                            <input required matInput placeholder="Heading" name="heading_name" id="heading" [matAutocomplete]="auto"
-                                [(ngModel)]="heading" (keyup)="headingFilter();" (blur)="getSubHeadings('')">
+                            <input required matInput placeholder="Heading" name="heading_name" id="heading"
+                                [matAutocomplete]="auto" [(ngModel)]="heading" (keyup)="headingFilter();"
+                                (blur)="getSubHeadings('')">
                         </mat-form-field>
                         <mat-autocomplete #auto="matAutocomplete" appearance="outline">
                             <!-- <mat-option *ngFor="let option of headings" (onSelectionChange)="getSubHeadings(option['name']);" [value]="option['name']"> -->
-                                <mat-option *ngFor="let option of headings" [value]="option['name']">
+                            <mat-option *ngFor="let option of headings" [value]="option['name']">
                                 {{option['name']}}
                             </mat-option>
                         </mat-autocomplete>
@@ -28,8 +29,8 @@
                     <div class="cm_fltr_sc mr_1">
                         <div>Sub Heading</div>
                         <mat-form-field appearance="outline">
-                            <input matInput placeholder="Sub Heading" name="sub_heading_name"
-                                [matAutocomplete]="auto1" [(ngModel)]="sub_heading" (keyup)="subHeadingFilter()">
+                            <input matInput placeholder="Sub Heading" name="sub_heading_name" [matAutocomplete]="auto1"
+                                [(ngModel)]="sub_heading" (keyup)="subHeadingFilter()">
                         </mat-form-field>
                         <mat-autocomplete #auto1="matAutocomplete">
                             <mat-option *ngFor="let option of sub_headings" [value]="option['name']">
@@ -65,7 +66,8 @@
                     <hr>
                     <div class="hgt_10"></div>
                     <div class="text_right">
-                        <button (click)="closeModal()" type="button" mat-raised-button class="gry_btn mr_1">Close</button>
+                        <button (click)="closeModal()" type="button" mat-raised-button
+                            class="gry_btn mr_1">Close</button>
                         <button mat-raised-button color="accent">Save</button>
                     </div>
                     <div class="hgt_20"></div>
@@ -84,7 +86,7 @@
             </button>
         </div>
     </div>
-    
+
     <hr>
     <div class="hgt_10"></div>
     <div class="dsh_brd_crds">
@@ -97,11 +99,10 @@
                 <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
             </mat-form-field>
         </div>
-        
+
         <div class="rsp_tbl">
             <table mat-table [dataSource]="dataSource" class="whtspc_nml">
-
-                <!--- Note that these columns can be defined in any order.
+             <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
                 <!-- Position Column -->
                 <ng-container matColumnDef="s_no">
@@ -141,10 +142,11 @@
                         <button (click)="editValues(element)" mat-icon-button color="accent" matTooltip="Click to edit">
                             <mat-icon>edit_note</mat-icon>
                         </button>
-                        <button mwlConfirmationPopover
-                        [popoverTitle]="'Delete Lab Value ?'"
-                        [popoverMessage]="'Are you sure, do you want to delete this Lab Value(It will be deleted from all Questions)?<br>Please confirm.'" placement="auto"
-                        (confirm)="deleteValue(element['id'])" confirmButtonType="danger" cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Click to Delete">
+                        <button mwlConfirmationPopover [popoverTitle]="'Delete Lab Value ?'"
+                            [popoverMessage]="'Are you sure, do you want to delete this Lab Value(It will be deleted from all Questions)?<br>Please confirm.'"
+                            placement="auto" (confirm)="deleteValue(element['id'])" confirmButtonType="danger"
+                            cancelButtonType="outline-secondary" mat-icon-button color="warn"
+                            matTooltip="Click to Delete">
                             <mat-icon>remove_circle_outline</mat-icon>
                         </button>
                     </td>
