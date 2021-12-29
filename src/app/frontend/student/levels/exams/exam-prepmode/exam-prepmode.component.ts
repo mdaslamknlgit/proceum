@@ -29,10 +29,15 @@ export class ExamPrepmodeComponent implements OnInit {
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((param) => {
             this.filter_array.qbank_id = param.qbank_id;
-            this.getLabels();
+            this.getLabels(1);
         });
     }
-    getLabels(){
+    getLabels(type){
+        this.questions_count = 0;
+        this.selected_q_count = 0;
+        this.selected_topics = [];
+        this.dataSource = new MatTableDataSource([]);
+        this.is_topic_exist = false;
         this.level_options = [];
         this.all_level_options = [];
         this.selected_level = [];
@@ -40,12 +45,26 @@ export class ExamPrepmodeComponent implements OnInit {
         let param = {
             url: 'get-curriculum-labels',
             curriculum_id: this.filter_array.qbank_id,
+            flag: ''
         };
+        if(type!=1){
+            param = {
+                url: 'get-curriculum-by-label-flag',
+                curriculum_id: this.filter_array.qbank_id,
+                flag: 'subject'
+            };
+        }
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
             let data = res['data'];
-            this.level_options[1] = data['level_1'];
-            this.all_level_options[1] = data['level_1'];
+            if(type!=1){
+                this.level_options[data['level_number']] = data['level_1'];
+                this.all_level_options[data['level_number']] = data['level_1'];
+            }
+            else{
+                this.level_options[1] = data['level_1'];
+                this.all_level_options[1] = data['level_1'];
+            }
             this.curriculum_labels = data['curriculum_labels'];
                 if(this.curriculum_labels.length == 0){
                     this.level_options = [];
@@ -55,6 +74,7 @@ export class ExamPrepmodeComponent implements OnInit {
             }
         });
     }
+
     ucFirst(string) {
         return this.http.ucFirst(string);
     }
