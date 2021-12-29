@@ -1,34 +1,13 @@
-import {
-    Component,
-    OnInit,
-    ViewChild
-} from '@angular/core';
-import {
-    CommonService
-} from 'src/app/services/common.service';
-import {
-    MatPaginator,
-    PageEvent
-} from '@angular/material/paginator';
-import {
-    MatTableDataSource
-} from '@angular/material/table';
-import {
-    MatSort
-} from '@angular/material/sort';
-import {
-    ToastrService
-} from 'ngx-toastr';
-import {
-    Router
-} from '@angular/router';
-import {
-    CdkDragDrop,
-    moveItemInArray
-} from '@angular/cdk/drag-drop';
-import {
-    environment
-} from 'src/environments/environment';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { CommonService } from 'src/app/services/common.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-curriculam',
@@ -38,23 +17,16 @@ import {
 export class CurriculamComponent implements OnInit {
     pageSizeOptions = environment.page_size_options;
     public is_list_loading = false;
-    displayedColumns: string[] = [
-        'id',
-        'name',
-        //'usage_type',
-        'created_at',
-        'updated_at',
-        'actions',
-        'status',
-    ];
+    displayedColumns: string[] = ['id', 'name', 'created_at', 'updated_at', 'actions', 'status'];
     view_model_status = false;
     public curriculum_name = '';
     public steps = ['step_' + 0];
+    public step_flags = {'step_0':''};
+    public selected_step_flags = [];
+    public items = [{flag:"Subject", value: "subject"}, {flag:"Chapter", value: "chapter"}, {flag:"Topic", value: "topic"}, {flag:"Sub Topic", value: "sub_topic"}]
     public curriculum_id = '';
     dataSource = new MatTableDataSource();
-    @ViewChild(MatPaginator, {
-        static: false
-    }) paginator: MatPaginator;
+    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
     public page = 0;
     public model_status = false;
@@ -71,12 +43,11 @@ export class CurriculamComponent implements OnInit {
     public active_tab_index = 0;
     public tab_title = "Course";
     //public qbank_type = '';
-    constructor(
-        private http: CommonService,
-        public toster: ToastrService,
-        private route: Router
-    ) {}
+    constructor(private http: CommonService, public toster: ToastrService, private route: Router, public translate: TranslateService) {
+        this.translate.setDefaultLang(this.http.lang);
+    }
     ngOnInit(): void {
+        //this.step_flags['step_0'] = '0';
         this.getCurriculums();
     }
     drop(event: CdkDragDrop < string[] > ) {
@@ -120,6 +91,7 @@ export class CurriculamComponent implements OnInit {
     toggleModel() {
         this.model_status = !this.model_status;
         this.steps = ['step_' + 0];
+        this.step_flags = {'step_0':''};
         ( < HTMLFormElement > document.getElementById('curriculum_form')).reset();
         ( < HTMLFormElement > document.getElementById('edit_curriculum_form')).reset();
     }
@@ -127,9 +99,16 @@ export class CurriculamComponent implements OnInit {
         let length = this.steps.length;
         this.steps.push('step_' + length);
         this.steps['step_' + length] = '';
+        this.step_flags['step_' + length] = '';
+    }
+    setFlag(step, value, key){
+        this.step_flags[step] = value;
+
+        console.log(this.step_flags);
     }
     removeStep(i) {
         this.steps.splice(i, 1);
+        this.step_flags['step_' + i] = '';
     }
     checkDuplicate(this_value, step) {
         let arr = this.steps;
@@ -169,6 +148,7 @@ export class CurriculamComponent implements OnInit {
             curriculum_name: this.curriculum_name,
             usage_type: this.course_usage,
             curriculum_steps: steps,
+            flags: this.step_flags,
             exam_template: this.exam_template
             //qbank_type: this.qbank_type
         };
@@ -209,6 +189,7 @@ export class CurriculamComponent implements OnInit {
                     let length = this.steps.length;
                     this.steps.push('step_' + length);
                     this.steps['step_' + length] = row['display_label'];
+                    this.step_flags['step_' + length] = row['flag'];
                 });
             }
         });

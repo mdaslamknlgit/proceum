@@ -79,8 +79,7 @@
             <div class="frm_dvs">
               <h3>Placeholder for levels</h3> <span>&nbsp;</span>
             </div>
-            <div class="frm_dvs" *ngFor="
-                let step of steps;
+            <div class="frm_dvs" *ngFor="let step of steps;
                 let indexOfelement = index;
                 let last = last;
                 let first = first
@@ -100,7 +99,7 @@
                           resetDuplicates(step)
                       " placeholder="Provide Level {{ indexOfelement + 1 }} Label" />
                   </mat-form-field>
-
+ 
                   <span class="prc_tltp" *ngIf="curriculum_form.submitted && !steps[step]">
                     Level {{ indexOfelement + 1 }} is required</span> <span class="prc_tltp" *ngIf="
                       duplicate_error_value != '' &&
@@ -108,6 +107,12 @@
                     ">
                     Duplicate Level Name not allowed</span>
                 </span>
+                <mat-form-field appearance="outline">
+                    <mat-select [(ngModel)]="step_flags[step]" (ngModelChange)="setFlag(step, step_flags[step], indexOfelement)" name="step_flag_{{ step }}" placeholder="Select Tag" >
+                        <mat-option [value]="" >{{"select_text"|translate}} </mat-option>
+                        <mat-option *ngFor="let item of items" [value]="item['value']">{{ item["flag"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <button mat-raised-button type="button" *ngIf="last" (click)="addStep()" color="accent" class="ml_1"> +
                 </button>
                 <button type="button" *ngIf="!first && last" (click)="removeStep(indexOfelement)" mat-raised-button
@@ -179,7 +184,7 @@
             <ng-container matColumnDef="actions">
               <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
               <td mat-cell *matCellDef="let element" class="actions_tdh">
-                <button *ngIf="element.edit_access" mat-icon-button (click)="editCurriculum(element)" matTooltip="Click to edit" color="accent">
+                <button *ngIf="element.edit_access || true" mat-icon-button (click)="editCurriculum(element)" matTooltip="Click to edit" color="accent">
                   <mat-icon>edit_note</mat-icon>
                 </button>
                 <!-- <button  color="accent" matTooltip="click here to {{
@@ -203,7 +208,7 @@
                   }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
                   "Inactive" }}</span> -->
                   <mat-slide-toggle (click)="element.edit_access && deleteCurriculum(element.id, element.status)"
-                  [checked]="element.status == 1 ? true : false" [disabled]="!element.edit_access" 
+                  [checked]="element.status == 1 ? true : false" [disabled]="!element.edit_access || true" 
                   matTooltip="{{(element.edit_access && element.status == 1) ? 'Click to change status!' : 'You don\'t have permissions!'}}"></mat-slide-toggle>
               </td>
             </ng-container>
@@ -251,7 +256,7 @@
                 <!-- <button mat-icon-button (click)="viewCurriculum(element)">
                   <mat-icon>view_list</mat-icon>
                 </button> -->
-                <button *ngIf="element.edit_access" mat-icon-button (click)="editCurriculum(element)" matTooltip="Click to edit" color="accent">
+                <button *ngIf="element.edit_access || true" mat-icon-button (click)="editCurriculum(element)" matTooltip="Click to edit" color="accent">
                   <mat-icon>edit_note</mat-icon>
                 </button>
                 <!-- <button  color="accent" matTooltip="click here to {{
@@ -275,7 +280,7 @@
                   }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
                   "Inactive" }}</span> -->
                 <mat-slide-toggle (click)="element.edit_access && deleteCurriculum(element.id, element.status)"
-                  [checked]="element.status == 1 ? true : false" [disabled]="!element.edit_access" 
+                  [checked]="element.status == 1 ? true : false" [disabled]="!element.edit_access || true" 
                   matTooltip="{{(element.edit_access && element.status == 1) ? 'Click to change status!' : 'You don\'t have permissions!'}}"></mat-slide-toggle>
               </td>
             </ng-container>
@@ -321,6 +326,7 @@
                   ">
                   {{tab_title}} Name is required</span>
               </span>
+              <span></span>
             </span>
           </div>
           <div class="frm_dvs" *ngIf="course_usage==2"> <span>Exam Template <span class="required">*</span></span> <span>
@@ -386,12 +392,7 @@
               Level {{ indexOfelement + 1 }}
               <span class="required">*</span></span> <span>
               <span class="err_tltp_par">
-                <mat-form-field appearance="outline" class="{{
-                    duplicate_error_value != '' &&
-                    duplicate_error_value == steps[step]
-                      ? 'mat-form-field-invalid'
-                      : ''
-                  }}">
+                <mat-form-field appearance="outline" class="{{duplicate_error_value != '' && duplicate_error_value == steps[step]? 'mat-form-field-invalid': ''}}">
                   <input trim="blur" (keyup)="checkDuplicate(steps[step], step)" (blur)="
                       duplicate_error_value == steps[step] &&
                         resetDuplicates(step)
@@ -404,12 +405,14 @@
                     steps[step] == ''
                   ">
                   Level {{ indexOfelement + 1 }} is required
-                </span> <span class="prc_tltp" *ngIf="
+                </span> 
+                <span class="prc_tltp" *ngIf="
                     duplicate_error_value != '' &&
                     duplicate_error_value == steps[step]
                   ">
                   Duplicate Level Name not allowed</span>
               </span>
+              <span *ngIf="step_flags[step]">{{step_flags[step]}}</span>
               <button *ngIf="last && false" mat-raised-button (click)="addStep()" color="accent" class="mr_1"
                 type="button"> + </button>
               <button *ngIf="!first && last && false" type="button" (click)="removeStep(indexOfelement)"
