@@ -112,7 +112,7 @@ const routes: Routes = [
       { path: 'class/list', component: EventsListComponent },
       
       { path: 'coupons', component: CouponsComponent },
-      { path: 'global-search', component: StudentGlobalSearchComponent },
+      { path: 'global-search/:search_string', component: StudentGlobalSearchComponent },
       { path: 'assessments/list', component: StudentAssessmentListComponent },
       { path: 'assessments/exam/:id', component: AttendAssessmentComponent },
       { path: 'assessments/exam/:id/:active_q_index', component: AttendAssessmentComponent },

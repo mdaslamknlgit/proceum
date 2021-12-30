@@ -14,6 +14,7 @@ export class AdminTopbarComponent implements OnInit {
   // public sidemenu_status: string = localStorage.getItem('sidemenu');
   public glbSrch = true;
   public user;
+  public search_key;
   private subscription:Subscription;
   public content_notifications = [];
   public load_top_bar:boolean;
@@ -116,5 +117,8 @@ export class AdminTopbarComponent implements OnInit {
     }else{
       return "./assets/images/ProceumLogo.png";
     }
+  }
+  adminglobalsearch(){
+    this.route.navigateByUrl('/admin/global-search/' + this.search_key)
   }
 }
