@@ -12,7 +12,7 @@
         <div class="slct_exm_mds">
             <div class="slct_stdy_md">
                 <div class="mt_1">
-                    <mat-radio-group aria-label="Select an option" name="exam_type_name" [(ngModel)]="exam_type">
+                    <mat-radio-group aria-label="Select an option" name="exam_type_name" (click)="getLabels(1)" [(ngModel)]="exam_type">
                         <mat-radio-button [value]="1"></mat-radio-button>
                     </mat-radio-group>
                 </div>
@@ -25,7 +25,7 @@
             </div>
             <div class="slct_exm_md">
                 <div class="mt_1">
-                    <mat-radio-group aria-label="Select an option" name="exam_type_name" [(ngModel)]="exam_type">
+                    <mat-radio-group aria-label="Select an option" (click)="getLabels(2)" name="exam_type_name" [(ngModel)]="exam_type">
                         <mat-radio-button [value]="2"></mat-radio-button>
                     </mat-radio-group>
                 </div>
@@ -38,7 +38,7 @@
             </div>
             <div class="slct_lv_md">
                 <div class="mt_1">
-                    <mat-radio-group aria-label="Select an option" name="exam_type_name" [(ngModel)]="exam_type">
+                    <mat-radio-group (click)="getLabels(3)" aria-label="Select an option" name="exam_type_name" [(ngModel)]="exam_type">
                         <mat-radio-button [value]="3"></mat-radio-button>
                     </mat-radio-group>
                 </div>
@@ -185,11 +185,19 @@
                     <span>
                         Total Questions
                     </span>
-                    <mat-form-field appearance="outline" class="w_100p sffx_tp_0">
-                        <input type="number" [max]="questions_count" matInput placeholder=""
-                            name="selected_q_count_name" [(ngModel)]="selected_q_count" />
-                        <div matSuffix>/{{questions_count}}</div>
-                    </mat-form-field>
+                    <span *ngIf="exam_type != 1">
+                        <mat-form-field appearance="outline" class="w_100p sffx_tp_0">
+                            <input  type="number" [max]="questions_count" matInput placeholder=""
+                                name="selected_q_count_name" [(ngModel)]="selected_q_count" />
+                            <div matSuffix>/{{questions_count}}</div>
+                        </mat-form-field>
+                    </span>
+                    <span *ngIf="exam_type == 1">
+                        <mat-form-field appearance="outline" class="w_100p">
+                            <input  [disabled]="true" type="number" [max]="questions_count" matInput placeholder=""
+                                name="selected_q_count_name" [(ngModel)]="questions_count" />
+                        </mat-form-field>
+                    </span>
                 </div>
                 <div class="w_100p">
                     <button [disabled]="selected_q_count<=0 || questions_count==0 || questions_count < selected_q_count"
@@ -203,7 +211,7 @@
         <div class="hgt_10"></div>
         <div>
             <button
-                [disabled]="(exam_type == 1 && filter_array.level_id == 0) || ((exam_type == 2 || exam_type == 3) && selected_topics.length == 0)"
+                [disabled]="(exam_type == 1 && filter_array.level_id == 0 && questions_count >0) || ((exam_type == 2 || exam_type == 3) && selected_topics.length == 0)"
                 (click)="openFullscreen()" mat-raised-button type="button" class="w_100px float_right" color="accent">
                 Start&nbsp;&nbsp;<mat-icon>start</mat-icon>
             </button>

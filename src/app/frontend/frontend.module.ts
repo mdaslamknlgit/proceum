@@ -53,8 +53,8 @@ import { StudentAssessmentListComponent } from './student/assessment/student-ass
 import { EventsListComponent } from './webinars/events-list/events-list.component';
 import { AttendAssessmentComponent } from './student/assessment/attend-assessment/attend-assessment.component';
 import { CouponsComponent } from './coupons/coupons.component';
-import { GlobalSearchComponent } from './global-search/global-search.component';
 import { AssessmentResultComponent } from './student/assessment/assessment-result/assessment-result.component';
+import { StudentGlobalSearchComponent } from './student-global-search/student-global-search.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -112,7 +112,7 @@ const routes: Routes = [
       { path: 'class/list', component: EventsListComponent },
       
       { path: 'coupons', component: CouponsComponent },
-      { path: 'global-search', component: GlobalSearchComponent },
+      { path: 'global-search/:search_string', component: StudentGlobalSearchComponent },
       { path: 'assessments/list', component: StudentAssessmentListComponent },
       { path: 'assessments/exam/:id', component: AttendAssessmentComponent },
       { path: 'assessments/exam/:id/:active_q_index', component: AttendAssessmentComponent },
@@ -164,8 +164,8 @@ const routes: Routes = [
     EventsListComponent,
     AttendAssessmentComponent,
     CouponsComponent,
-    GlobalSearchComponent,
     AssessmentResultComponent,
+    StudentGlobalSearchComponent,
   ],
   imports: [
     CommonModule,

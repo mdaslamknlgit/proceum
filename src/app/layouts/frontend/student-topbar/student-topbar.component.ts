@@ -13,6 +13,7 @@ export class StudentTopbarComponent implements OnInit {
   public sidemenu_status: string = localStorage.getItem('sidemenu');
   public glbSrch = true;
   public user;
+  public search_key;
   //For cart badge
   number: any;
   subscription: Subscription;
@@ -108,5 +109,7 @@ export class StudentTopbarComponent implements OnInit {
       return "./assets/images/ProceumLogo.png";
     }
   }
-
+  studentglobalsearch(){
+    this.route.navigateByUrl('/student/global-search/' + this.search_key)
+  }
 }

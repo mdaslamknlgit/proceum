@@ -368,8 +368,8 @@ export class CreateAssessmentComponent implements OnInit {
             this.students = [];
             this.all_students = [];
             students.forEach(element => {
-                this.students.push({id:element.id, name: element.first_name+'<'+element.email+'>'});
-                this.all_students.push({id:element.id, name: element.first_name+'<'+element.email+'>'});
+                this.students.push({id:element.id, name: element.first_name+ ' ' +'<'+element.email+'>'});
+                this.all_students.push({id:element.id, name: element.first_name+ ' ' +'<'+element.email+'>'});
             });
         }
         else{

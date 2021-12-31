@@ -54,12 +54,12 @@
   <hr />
   <div class="dsh_brd_crds wbg_mn">
     <div class="wbg_srch">
-      <mat-form-field appearance="outline" class="xl_srch" *ngIf="show_list_view">
+      <mat-form-field appearance="outline" class="xl_srch mr_1" *ngIf="show_list_view">
         <input matInput placeholder="Search" #search_text="ngModel" [(ngModel)]="whiteboard.search_text"
           (keyup)="$event.keyCode == 13 ? listFilter() : ''" />
         <mat-icon matSuffix (click)="listFilter()">search</mat-icon>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="xl_srch" *ngIf="!show_list_view">
+      <mat-form-field appearance="outline" class="xl_srch mr_1" *ngIf="!show_list_view">
         <input matInput placeholder="Search" #search_text_gird="ngModel" [(ngModel)]="whiteboard.search_text_gird"
           (keyup)="$event.keyCode == 13 ? gridFilter() : ''" />
         <mat-icon matSuffix (click)="gridFilter()">search</mat-icon>
@@ -106,8 +106,8 @@
       </div>
 
     </div>
-    <div *ngIf="show_list_view">
-      <div class="wbg_cnt wbg_lst_vw">
+    <div *ngIf="show_list_view ">
+      <div class="wbg_cnt wbg_lst_vw rsp_tbl">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" (matSortChange)="sortData($event)" matSort>
 
           <!--- Note that these columns can be defined in any order.

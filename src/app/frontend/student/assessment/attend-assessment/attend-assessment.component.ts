@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import Swal from 'sweetalert2';
 import {Location} from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-attend-assessment',
   templateUrl: './attend-assessment.component.html',
@@ -28,7 +29,8 @@ export class AttendAssessmentComponent implements OnInit {
     public allow_end_test: boolean = false;
     public remain_time = '';
     public seconds = 0;
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService, private location: Location) { 
+
+constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService, private location: Location, http_client: HttpClient) { 
         this.translate.setDefaultLang(this.http.lang);
     }
 
@@ -39,6 +41,7 @@ export class AttendAssessmentComponent implements OnInit {
             this.getTestQuestions();
         });
     }
+    public set_interval:any;
     getTestQuestions(){
         let param = {url: "assessment/get-questions", assessment_id:this.assessment_id};
         this.http.post(param).subscribe(res=>{
@@ -55,7 +58,7 @@ export class AttendAssessmentComponent implements OnInit {
                         this.router.navigateByUrl("/student/assessments/list");
                     }
                     this.seconds = res['data']['time_left_seconds']?res['data']['time_left_seconds']:minutes*60;
-                    let set_interval = setInterval(res=>{
+                    this.set_interval = setInterval(res=>{
                         this.seconds = this.seconds-1;
                         if(this.seconds >= 0)
                         {
@@ -65,7 +68,7 @@ export class AttendAssessmentComponent implements OnInit {
                             }
                         }
                         else{
-                            clearInterval(set_interval);
+                            clearInterval(this.set_interval);
                             this.toster.info("This Assessment time has been completed.", "Timeup", {closeButton:true});
                             //this.caluculateResult();
                             this.endTest();
@@ -132,8 +135,6 @@ export class AttendAssessmentComponent implements OnInit {
         let status = this.checkAnswer(this.questions_list[index]);
         if(status >= 0){
             let param = {"url": "assessment/save-answer", question_id: this.questions_list[index]['id'], answer: this.questions_list[index]['answer'], assessment_id: this.assessment_id, result: this.questions_list[index]['result'], is_saved: this.questions_list[index]['is_saved'], status: status, answer_id: this.questions_list[index]['answer_id']};
-            console.log(param, index)
-            console.log(this.questions_list, index);
             this.http.post(param).subscribe(res=>{
                 if(res['error'] == false)
                 {
@@ -287,19 +288,17 @@ export class AttendAssessmentComponent implements OnInit {
     }
     public ipAddress = '';
     endTest(){
-        this.http.get("http://api.ipify.org/?format=json").subscribe((addr:any)=>{
-            this.ipAddress = addr.ip;
-            let param = {"url": "assessment/end", assessment_id: this.assessment_id, ip_address: this.ipAddress};
+        let param = {"url": "assessment/end", assessment_id: this.assessment_id, ip_address: this.ipAddress};
             this.http.post(param).subscribe(res=>{
                 if(res['error'] == false)
                 {
+                    clearInterval(this.set_interval);
                     this.router.navigateByUrl("/student/assessments/result/"+this.assessment_id)
                 }
                 else{
                     console.log(res);
                 }
             });
-        });
     }
     // caluculateResult(){
     //     this.is_test_end = true;
