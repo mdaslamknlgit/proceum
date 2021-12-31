@@ -142,6 +142,7 @@ export class ManageUsersComponent implements OnInit {
     if(this.role != '2'){
       this.manage_students = '';
     }
+    this.page = 0;
     let param = { 
       url: 'get-user-list',
       offset: this.page,
@@ -156,11 +157,10 @@ export class ManageUsersComponent implements OnInit {
       group: this.group_id,
       is_admin_specific_role : '1'
     };
-
+    
     this.http.post(param).subscribe((res) => {    
       this.checkboxValue = false;
       if (res['error'] == false) {
-        console.log(res);
         if(this.role == '2'){
           this.dataSourceTwo = new MatTableDataSource(res['data']);
           this.dataSourceTwo.paginator = this.paginator;

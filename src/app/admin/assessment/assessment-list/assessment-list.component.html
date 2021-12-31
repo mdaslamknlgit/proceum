@@ -18,13 +18,13 @@
                   <td mat-cell *matCellDef="let element"> {{element.s_no}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="SubName">
-                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.subject"|translate}} {{"name_text"|translate}} </th>
+                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.subject_name"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> {{element.subject_name}} </td>
                 </ng-container> 
-                <ng-container matColumnDef="assId">
+                <!-- <ng-container matColumnDef="assId">
                   <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.assessment_id"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> {{element.assessment_key}} </td>
-                </ng-container> 
+                </ng-container>  -->
                 <ng-container matColumnDef="assNme">
                   <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.assessment_name"|translate}}</th>
                   <td mat-cell *matCellDef="let element"> {{element.assessment_name}} </td>
@@ -56,6 +56,10 @@
                 <ng-container matColumnDef="acTn">
                   <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.actions"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> 
+                    <button mat-icon-button color="accent" class="mr_1" *ngIf="element.editStatus == 1">
+                      <mat-icon routerLink="/admin/edit-assessment/{{element.pk_id}}/{{element.assessment_key}}" matTooltip="Click to Edit">edit_notes
+                      </mat-icon>
+                    </button>
                     <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                         'Are you sure to delete <b>' + element.assessment_name + '</b>'
                         " placement="auto" (confirm)="deleteContentData(element.pk_id)" confirmButtonType="danger"

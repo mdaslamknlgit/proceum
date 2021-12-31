@@ -2,43 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MatTableDataSource } from '@angular/material/table';
 import { ReplaySubject } from 'rxjs';
 
-export interface PeriodicElement {
-  Subject: string;
-  Chapter: string;
-  Topic: string;
-  Count: string;
-  Action: string;
-}
-const ELEMENT_DATA: PeriodicElement[] = [
-  {Subject: 'Subject', Chapter: 'Chapter', Topic: 'Topic', Count: 'Count', Action: 'Action'},
-];
-
-
-
 @Component({
-  selector: 'app-create-assessment',
-  templateUrl: './create-assessment.component.html',
-  styleUrls: ['./create-assessment.component.scss']
+  selector: 'app-edit-assessment',
+  templateUrl: './edit-assessment.component.html',
+  styleUrls: ['./edit-assessment.component.scss']
 })
-export class CreateAssessmentComponent implements OnInit {
+export class EditAssessmentComponent implements OnInit {
   public dataSource = new MatTableDataSource();
-  displayedColumns: string[] = ['Subject', 'Chapter', 'Topic', 'Count', 'Action'];
-  //dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['Subject', 'Chapter', 'Topic', 'Count'];
 
-  public curriculum_id = 0;
-  public curriculum_list = [];
-  public curriculum_labels = [];
-  public level_options = [];
-  public all_level_options = [];
-  public selected_level = [];
-  public selected_subject = 0;
-
-  public assessment_types = [];//environment.ASSESSMENT_TYPES;
+  public assessment_id = null;
+  public assessment_key = null;
+  
+  public assessment_types = [];
   public assessment_name = '';
   public assessment_type = '';
   public timezone = '';
@@ -90,13 +71,49 @@ export class CreateAssessmentComponent implements OnInit {
   public all_students = [];
   public search_student = '';
 
-  constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
+  constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,private activeRoute: ActivatedRoute,) {
     this.translate.setDefaultLang(this.http.lang);
    }
 
   ngOnInit(): void {
+    this.activeRoute.params.subscribe((routeParams) => {
+      this.assessment_id = routeParams.id;
+      this.assessment_key = routeParams.key;
+      this.getAssesment();
+    });
     this.assessmentTypes();
-    this.getcurriculums();
+  }
+
+  getAssesment(){
+    //let param = { url: 'assessment/show/' + this.assessment_id, };
+    let param = {url: 'assessment/show', assessment_id: this.assessment_id,assessment_key: this.assessment_key};
+    this.http.post(param).subscribe((res) => {
+      //console.log(res);
+      if (res['error'] == false) {
+        if(res['data']['topics'].length > 0){
+          this.selected_topics = res['data']['topics'];
+          this.dataSource = new MatTableDataSource(this.selected_topics);
+          let assessmentDetails = res['data']['assessmentDetails'];
+          this.assessment_name = assessmentDetails['assessment_name'];
+          this.assessment_type = assessmentDetails['assessment_type'];
+          this.timezone = assessmentDetails['timezone'];
+          this.start_date = assessmentDetails['start_date'];
+          this.start_time = assessmentDetails['start_time'];
+          this.question_duration = assessmentDetails['time_per_question'];
+          this.question_total = assessmentDetails['total_questions_count'];
+          let students = res['data']['selectedStudents'];
+          students.forEach(element => {
+            if(!this.selected_student_ids.includes(element.student_id)){
+            this.selected_students.push({id:element.student_id, name: element.first_name+'<'+element.email+'>'});
+            this.selected_student_ids.push(element.student_id);
+            }
+        });
+        }
+      }else{
+        this.router.navigateByUrl('/admin/assessment-list');
+        this.toster.error(res['message'], "Error", { closeButton:true });
+      }
+    });
   }
 
   assessmentTypes(){
@@ -112,128 +129,6 @@ export class CreateAssessmentComponent implements OnInit {
           this.assessment_types = [];
       }
     });
-  }
-  
-  getcurriculums() {
-    this.level_options = [];
-    this.all_level_options = [];
-    this.selected_level = [];
-    this.selected_subject=0;
-    this.curriculum_id = 0;
-    this.curriculum_labels = [];
-    let params = {
-      url: 'get-courses-or-qbanks', type: 1
-    };
-    this.http.post(params).subscribe((res) => {
-      if (res['error'] == false) {
-        if (res['data']['list'].length > 0)
-          this.curriculum_list = res['data']['list'];
-        else
-          this.curriculum_list = [];
-      }
-    });
-  }
-
-  getLabels(){
-    this.level_options = [];
-    this.all_level_options = [];
-    this.selected_level = [];
-    this.selected_subject=0;
-    let param = {
-        url: 'get-curriculum-labels',
-        curriculum_id: this.curriculum_id,
-    };
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-          let data = res['data'];
-          this.level_options[1] = data['level_1'];
-          this.all_level_options[1] = data['level_1'];
-          this.curriculum_labels = data['curriculum_labels'];
-          if(this.curriculum_labels.length == 0){
-              this.level_options = [];
-              this.all_level_options = [];
-              this.selected_level = [];
-          }
-      }
-    });
-  }
-
-  ucFirst(string) {
-    return this.http.ucFirst(string);
-  }
-
-  getLevels(level_id) {
-    this.selected_subject = this.selected_level[level_id];
-    let param = {
-      url: 'get-levels-by-level',
-      step_id: this.selected_level[level_id],
-      get_q_count:true,
-      assessment:true,
-      assessment_value: 1
-    };
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-          let data = res['data'];
-          this.total_count = data['q_count'];
-          this.level_options[level_id + 1] = data['steps'];
-          this.all_level_options[level_id + 1] = data['steps'];
-          this.level_options.forEach((opt, index) => {
-          if (index > level_id + 1) this.level_options[index] = [];
-          });
-          this.selected_level.forEach((opt, index) => {
-              if (index > level_id) this.selected_level[index] = 0;
-          });
-      }
-    });
-  }
-  searchLevelByName(search,level){
-    let options = this.all_level_options[level];
-    this.level_options[level] = options.filter(
-        item => item.level_name.toLowerCase().includes(search.toLowerCase())
-    );
-  }
-  setCourseText(args){ 
-    this.curriculum_list.forEach(res=>{
-        if(res['pk_id'] == args)
-        this.selected_course = res['curriculumn_name'];
-    })
-  }
-  addQuestionCount(){
-    this.selected_topics.forEach(res => {
-      if(res['course_qbank'] == this.curriculum_id && res['topic'] == this.selected_subject){
-          this.toster.error("Topic exists", "Error", {closeButton:true});
-          this.is_topic_exist = true;
-          return false;
-      }
-    })
-    if(this.is_topic_exist != true){
-      let param = {url: "get-topic-path", curriculum_id: this.curriculum_id, topic_id: this.selected_subject};
-      this.http.post(param).subscribe((res) => {
-          if (res['error'] == false) {
-              let data = {pk_id:0, course_qbank:this.curriculum_id, course_qbank_text: this.selected_course, topic:this.selected_subject, topic_text: res['data']['path'], is_delete:0, questions_count:this.questions_count};
-              this.selected_topics.push(data);
-              this.dataSource = new MatTableDataSource(this.selected_topics);
-              this.question_total = Number(this.questions_count)+Number(this.question_total);
-              this.curriculum_id = 0;
-              this.selected_course = '';
-              this.selected_topic = '';
-              this.level_options = [];
-              this.all_level_options = [];
-              this.selected_level = [];
-              this.level_id=0;
-              this.curriculum_labels = [];   
-              this.questions_count = 0;
-              this.total_count = 0; 
-          }
-      });
-    }
-  }
-
-  removeTopic(index){
-    let cnt = this.selected_topics[index]['questions_count'];
-    this.selected_topics.splice(index, 1);
-    this.dataSource = new MatTableDataSource(this.selected_topics);
-    this.question_total = Number(this.question_total)-Number(cnt);
   }
 
   onOrganizationTypeChange(){
@@ -412,39 +307,34 @@ export class CreateAssessmentComponent implements OnInit {
       this.students.splice(index, 1);
   }
 
-  CreateAssessment(){
+  EditAssessment(){
     if(this.question_total <= 0){
-      this.translate.get('admin.assessment.create.please_select_course_text').subscribe((data)=> {
+      this.translate.get('admin.assessment.edit.please_select_course_text').subscribe((data)=> {
         this.toster.error(data, "Error", {closeButton:true});
       });
       return;
     }else if(this.selected_students.length == 0){
-      this.translate.get('admin.assessment.create.select_students_error_message').subscribe((data)=> {
+      this.translate.get('admin.assessment.edit.select_students_error_message').subscribe((data)=> {
         this.translate.get('error_text').subscribe((error_text)=> {
           this.toster.error(data, error_text, {closeButton:true});
         });
       });        
     }
     else{
-      let param = {url:'assessment/store',assessment_name: this.assessment_name,assessment_type: this.assessment_type,timezone: this.timezone, 
-      start_date: this.start_date, start_time: this.start_time,duration: this.question_duration,question_total:this.question_total,course:this.selected_topics,students: this.selected_students,assessment_value: 1}; //course: this.selected_subject,
+      let param = {url:'assessment/update', students: this.selected_students, assessment_id: this.assessment_id,assessment_key: this.assessment_key};
       this.http.post(param).subscribe(res=>{
-          if(res['error'] == false){
+        if(res['error'] == false){
             this.translate.get('success_text').subscribe((success_text)=> {
-              this.translate.get('admin.assessment.create.create_success').subscribe((message)=> {
+              this.translate.get('admin.assessment.edit.update_success').subscribe((message)=> {
                   this.toster.success(message, success_text, {closeButton:true});
               });
             });
-              this.router.navigateByUrl('/admin/assessment-list');
-          }
-          else{
-            this.translate.get('something_went_wrong_text').subscribe((data)=> {
-              this.translate.get('error_text').subscribe((error_text)=> {
-                  this.toster.error(data, error_text, {closeButton:true});
-              });
-            })
-              //this.toster.error(res['message'], "Error", { closeButton:true });
-          }
+            this.router.navigateByUrl('/admin/assessment-list');
+        }
+        else{
+            this.router.navigateByUrl('/admin/assessment-list');
+            this.toster.error(res['message'], "Error", { closeButton:true });
+        }
       });
     }
   }

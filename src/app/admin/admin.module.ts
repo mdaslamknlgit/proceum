@@ -89,6 +89,7 @@ import { CreateAssessmentComponent } from './assessment/create-assessment/create
 import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
 import { ListCollegesComponent } from './college-management/list-colleges/list-colleges.component';
 import { CreateCollegeComponent } from './college-management/create-college/create-college.component';
+import { EditAssessmentComponent } from './assessment/edit-assessment/edit-assessment.component';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -232,6 +233,7 @@ const routes: Routes = [
       
       { path: 'create-assessment', component: CreateAssessmentComponent },
       { path: 'assessment-list', component: AssessmentListComponent },
+      { path: 'edit-assessment/:id/:key', component: EditAssessmentComponent },
       //College routes
       { path: 'create-college', component: CreateCollegeComponent },
       { path: 'edit-college/:id', component: CreateCollegeComponent },
@@ -301,7 +303,8 @@ const routes: Routes = [
     CreateAssessmentComponent,
     AssessmentListComponent,
     ListCollegesComponent,
-    CreateCollegeComponent
+    CreateCollegeComponent,
+    EditAssessmentComponent
   ],
   imports: [
     MaterialModule,
