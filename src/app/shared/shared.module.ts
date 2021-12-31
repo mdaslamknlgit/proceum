@@ -20,7 +20,7 @@ const shared_modules = [MaterialModule, TranslateModule.forRoot({
 })];
 @NgModule({
   declarations: [SafePipe, CalculatorComponent, GlobalSearchComponent],
-  imports: shared_modules,
+  imports: [CommonModule,shared_modules],
   exports:[SafePipe,MaterialModule, CalculatorComponent, TranslateModule, GlobalSearchComponent]
 })
 export class SharedModule { }

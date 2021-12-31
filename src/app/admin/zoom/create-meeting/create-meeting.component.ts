@@ -103,14 +103,15 @@ export class CreateMeetingComponent implements OnInit {
         this.selected_level = [];
         this.selected_subject=0;
         let param = {
-            url: 'get-curriculum-labels',
+            url: 'get-curriculum-by-label-flag',
             curriculum_id: this.curriculum_id,
+            flag: 'subject'
         };
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
                 let data = res['data'];
-                this.level_options[1] = data['level_1'];
-                this.all_level_options[1] = data['level_1'];
+                this.level_options[data['level_number']] = data['level_1'];
+                this.all_level_options[data['level_number']] = data['level_1'];
                 this.curriculum_labels = data['curriculum_labels'];
                 if(this.curriculum_labels.length == 0){
                     this.level_options = [];
@@ -125,23 +126,23 @@ export class CreateMeetingComponent implements OnInit {
     }
     getLevels(level_id) {
         this.selected_subject = this.selected_level[level_id];
-        let param = {
-        url: 'get-levels-by-level',
-        step_id: this.selected_level[level_id],
-        };
-        this.http.post(param).subscribe((res) => {
-        if (res['error'] == false) {
-            let data = res['data'];
-            this.level_options[level_id + 1] = data['steps'];
-            this.all_level_options[level_id + 1] = data['steps'];
-            this.level_options.forEach((opt, index) => {
-            if (index > level_id + 1) this.level_options[index] = [];
-            });
-            this.selected_level.forEach((opt, index) => {
-                if (index > level_id) this.selected_level[index] = 0;
-            });
-        }
-        });
+        // let param = {
+        // url: 'get-levels-by-level',
+        // step_id: this.selected_level[level_id],
+        // };
+        // this.http.post(param).subscribe((res) => {
+        // if (res['error'] == false) {
+        //     let data = res['data'];
+        //     this.level_options[level_id + 1] = data['steps'];
+        //     this.all_level_options[level_id + 1] = data['steps'];
+        //     this.level_options.forEach((opt, index) => {
+        //     if (index > level_id + 1) this.level_options[index] = [];
+        //     });
+        //     this.selected_level.forEach((opt, index) => {
+        //         if (index > level_id) this.selected_level[index] = 0;
+        //     });
+        // }
+        // });
     }
     searchLevelByName(search,level){
         let options = this.all_level_options[level];

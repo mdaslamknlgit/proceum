@@ -237,7 +237,7 @@ const routes: Routes = [
       { path: 'create-college', component: CreateCollegeComponent },
       { path: 'edit-college/:id', component: CreateCollegeComponent },
       { path: 'college-list', component: ListCollegesComponent },
-      { path: 'global-search', component: AdminGlobalSearchComponent },
+      { path: 'global-search/:search_string', component: AdminGlobalSearchComponent },
     ],
   },
 ];
