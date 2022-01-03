@@ -114,21 +114,12 @@
                         [(ngModel)]="questions_count" />
                     <div matSuffix>/{{total_count}}</div>
                 </mat-form-field>
-                <!-- <mat-form-field appearance="outline">
-                    <input matInput placeholder="{{'admin.assessment.create.questions_count'|translate}}" [(ngModel)]="questions_count" name="questions_count_name" autocomplete="off" appNumbersonly>
-                </mat-form-field> -->
             </div>
-            <!-- <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.assessment.create.total"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <input matInput placeholder="Total" [(ngModel)]="total_count" name="total_count_name" autocomplete="off" readonly>
-                </mat-form-field>
-            </div> -->
             <div class="cm_fltr_sc">
                 <button type="button" mat-raised-button color="accent" class="mr_1"
                     [disabled]="questions_count<=0 || total_count==0 || total_count < questions_count"
                     (click)="addQuestionCount()">
-                    <mat-icon>add</mat-icon> {{"admin.assessment.create.add"|translate}}
+                    <!-- <mat-icon>add</mat-icon> --> {{"admin.assessment.create.add"|translate}} 
                 </button>
             </div>
             <div class="clear_fix"></div>
@@ -160,6 +151,9 @@
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                        <td class="mat-cell" colspan="6">{{"no_records_found_text"|translate}}</td>
+                    </tr>
                 </table>
                 <div class="cm_fltr_sc ml_12"></div>
                 <div class="cm_fltr_sc mr_1 w_1p">

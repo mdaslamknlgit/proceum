@@ -4,6 +4,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-admin-topbar',
   templateUrl: './admin-topbar.component.html',
@@ -14,6 +16,7 @@ export class AdminTopbarComponent implements OnInit {
   // public sidemenu_status: string = localStorage.getItem('sidemenu');
   public glbSrch = true;
   public user;
+  public search_key;
   private subscription:Subscription;
   public content_notifications = [];
   public load_top_bar:boolean;
@@ -24,8 +27,9 @@ export class AdminTopbarComponent implements OnInit {
   onEvent(event) {
     this.width = window.innerWidth;
   }
-  constructor(private http: CommonService, private route: Router, private fs: FirebaseService) {
+  constructor(private http: CommonService, public translate: TranslateService, private route: Router, private fs: FirebaseService,) {
     this.http.menu_status = "sd_cls";
+    this.translate.setDefaultLang(this.http.lang);
     // this.http.menu_status = localStorage.getItem('sidemenu');
   }
   ngOnInit(): void {
@@ -116,5 +120,8 @@ export class AdminTopbarComponent implements OnInit {
     }else{
       return "./assets/images/ProceumLogo.png";
     }
+  }
+  adminglobalsearch(){
+    this.route.navigateByUrl('/admin/global-search/' + this.search_key)
   }
 }

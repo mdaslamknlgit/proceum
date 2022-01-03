@@ -89,6 +89,7 @@ import { CreateAssessmentComponent } from './assessment/create-assessment/create
 import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
 import { ListCollegesComponent } from './college-management/list-colleges/list-colleges.component';
 import { CreateCollegeComponent } from './college-management/create-college/create-college.component';
+import { EditAssessmentComponent } from './assessment/edit-assessment/edit-assessment.component';
 import { AdminGlobalSearchComponent } from './admin-global-search/admin-global-search.component';
 import { AssessmentReportComponent } from './assessment/assessment-report/assessment-report.component';
 
@@ -235,11 +236,12 @@ const routes: Routes = [
       { path: 'create-assessment', component: CreateAssessmentComponent },
       { path: 'assessment-list', component: AssessmentListComponent },
       { path: 'assessment/report/:assessment_id', component: AssessmentReportComponent },
+      { path: 'edit-assessment/:id/:key', component: EditAssessmentComponent },
       //College routes
       { path: 'create-college', component: CreateCollegeComponent },
       { path: 'edit-college/:id', component: CreateCollegeComponent },
       { path: 'college-list', component: ListCollegesComponent },
-      { path: 'global-search', component: AdminGlobalSearchComponent },
+      { path: 'global-search/:search_string', component: AdminGlobalSearchComponent },
     ],
   },
 ];
@@ -307,7 +309,9 @@ const routes: Routes = [
     ListCollegesComponent,
     CreateCollegeComponent,
     AdminGlobalSearchComponent,
-    AssessmentReportComponent
+    AssessmentReportComponent,
+    EditAssessmentComponent,
+    AdminGlobalSearchComponent
   ],
   imports: [
     MaterialModule,
