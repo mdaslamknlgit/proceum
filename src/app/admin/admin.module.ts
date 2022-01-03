@@ -90,6 +90,7 @@ import { AssessmentListComponent } from './assessment/assessment-list/assessment
 import { ListCollegesComponent } from './college-management/list-colleges/list-colleges.component';
 import { CreateCollegeComponent } from './college-management/create-college/create-college.component';
 import { AdminGlobalSearchComponent } from './admin-global-search/admin-global-search.component';
+import { AssessmentReportComponent } from './assessment/assessment-report/assessment-report.component';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -233,6 +234,7 @@ const routes: Routes = [
       
       { path: 'create-assessment', component: CreateAssessmentComponent },
       { path: 'assessment-list', component: AssessmentListComponent },
+      { path: 'assessment/report/:assessment_id', component: AssessmentReportComponent },
       //College routes
       { path: 'create-college', component: CreateCollegeComponent },
       { path: 'edit-college/:id', component: CreateCollegeComponent },
@@ -304,7 +306,8 @@ const routes: Routes = [
     AssessmentListComponent,
     ListCollegesComponent,
     CreateCollegeComponent,
-    AdminGlobalSearchComponent
+    AdminGlobalSearchComponent,
+    AssessmentReportComponent
   ],
   imports: [
     MaterialModule,
