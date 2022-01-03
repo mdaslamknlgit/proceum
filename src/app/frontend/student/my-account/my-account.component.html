@@ -1,12 +1,12 @@
 <app-student-topbar></app-student-topbar>
 <app-sidemenu></app-sidemenu>
 <div class="mn_dshbrd">
-  <div class="cust_mdl_par cust_mdl_50p cust_mdl_cls">
+  <div class="cust_mdl_par cust_mdl_50p cust_mdl_cls" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
         Send Referral Code
         <span class="spacer"></span>
-        <button mat-icon-button color="accent">
+        <button (click)='closeViewModel()' mat-icon-button color="accent">
           &#x2715;
         </button>
       </div>
@@ -16,39 +16,27 @@
           <div class="w_49p mr_1 d-flex ai_cntr">
             <div class="w_100p mr_1">
               <mat-form-field appearance="outline" class="w_100p">
-                <textarea matInput placeholder="Add E-Mail ID"></textarea>
+                <textarea (keyup)="$event.keyCode == 13 ? addEmail() : ''" [(ngModel)]="recipient_emails" matInput placeholder="Add E-Mail ID (multiple with comma separated)"></textarea>
               </mat-form-field>
             </div>
             <div>
               <button mat-mini-fab color="accent" class="float_right no_bxsdw">
-                <mat-icon>chevron_right</mat-icon>
+                <mat-icon (click)="addEmail()">chevron_right</mat-icon>
               </button>
             </div>
           </div>
           <div class="w_49p">
-            <span class="zmsu_lft">
-              <span class="mr_1">test@yopmail.com</span>
+            <span class="zmsu_lft" *ngFor="let email of recipient_emails_list; let email_index=index;">
+              <span class="mr_1">{{email}}</span>
               <button mat-icon-button color="warn">
-                <mat-icon>remove_circle_outline</mat-icon>
-              </button>
-            </span>
-            <span class="zmsu_lft">
-              <span class="mr_1">mytestmail@yopmail.com</span>
-              <button mat-icon-button color="warn">
-                <mat-icon>remove_circle_outline</mat-icon>
-              </button>
-            </span>
-            <span class="zmsu_lft">
-              <span class="mr_1">mlrstudent3@yopmail.com</span>
-              <button mat-icon-button color="warn">
-                <mat-icon>remove_circle_outline</mat-icon>
+                <mat-icon (click)="removeEmail(email_index)">remove_circle_outline</mat-icon>
               </button>
             </span>
           </div>
 
         </div>
         <div class="hgt_10"></div>
-        <button mat-raised-button color="accent" class="float_right">
+        <button (click)="sendReferral()" mat-raised-button color="accent" class="float_right">
           Send Referral
         </button>
         <div class="hgt_20"></div>
@@ -335,7 +323,7 @@
             <span>
               <span *ngIf="!auto_generate" class="showCoupon">
                 <span>{{profile.referral_code}}</span>
-                <mat-icon color="accent" matTooltip="Share Referral Code">share</mat-icon>
+                <mat-icon (click)='openViewModel()' color="accent" matTooltip="Share Referral Code">share</mat-icon>
               </span>
               <span *ngIf="auto_generate">
                 <mat-form-field appearance="outline">

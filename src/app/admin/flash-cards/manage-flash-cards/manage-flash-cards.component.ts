@@ -278,7 +278,7 @@ export class ManageFlashCardsComponent implements OnInit {
           this.answer_images_files.push(obj['file_path']);
         }
       } 
-      
+      this.CloseModal();
     });
   }
 
