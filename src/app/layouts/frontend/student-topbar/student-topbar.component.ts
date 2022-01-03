@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { CartCountService } from '../../../services/cart-count.service';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-student-topbar',
   templateUrl: './student-topbar.component.html',
@@ -24,8 +26,10 @@ export class StudentTopbarComponent implements OnInit {
     private http: CommonService, 
     private route: Router,
     private cartCountService:CartCountService,
+    public translate: TranslateService,
     ) {
     this.http.menu_status = localStorage.getItem('sidemenu');
+    this.translate.setDefaultLang(this.http.lang);
     //for cart badge
     this.subscription = this.cartCountService.getNumber().subscribe(number => { this.number = number });
   }

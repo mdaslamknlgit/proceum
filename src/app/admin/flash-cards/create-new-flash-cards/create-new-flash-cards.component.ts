@@ -195,6 +195,7 @@ export class CreateNewFlashCardsComponent implements OnInit {
           this.questionArray[this.active_question_index].answer_images_files.push(obj['file_path']);
         }
       }
+      this.CloseModal();
     });
   }
 
