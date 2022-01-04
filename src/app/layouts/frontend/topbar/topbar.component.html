@@ -21,6 +21,7 @@
     <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
 
     <span mat-list-item class="tp_rt_mn" routerLinkActive="active">Blog</span>
+
     <!-- <span *ngFor="let menu of menus" class="tp_rt_mn">
       <span *ngIf="menu.subMenus != undefined && menu.subMenus.length>0" mat-list-item [matMenuTriggerFor]="appMenu"
         [class]="activeClass" routerLinkActive="active">{{ menu.name }}</span> -->
@@ -38,15 +39,14 @@
         </button>
       </mat-menu>
     </span> -->
-    <span mat-list-item class="tp_rt_mn" routerLinkActive="active">Curriculums
-      <mat-menu class="dynamic_menu_cls">
-        <button mat-menu-item>
-          Pricing
+    <span class="tp_rt_mn">
+      <span mat-list-item [matMenuTriggerFor]="appMenu" [class]="activeClass" routerLinkActive="active">Curriculums</span>
+      <mat-menu #appMenu="matMenu" class="dynamic_menu_cls">
+        <button *ngFor="let curriculum of curriculums" mat-menu-item (click)="navigateURL(curriculum.id)">
+          {{curriculum.name}}
         </button>
       </mat-menu>
     </span>
-    <!-- <span mat-list-item class="tp_rt_mn">Pricing</span> -->
-    
 
     <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
 

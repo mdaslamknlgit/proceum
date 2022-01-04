@@ -178,22 +178,25 @@ export class TopbarComponent implements OnInit,OnDestroy {
   }
 
   getCurriculums() {
-    // this.is_list_loading = false;
-    // this.dataSource = new MatTableDataSource([]);
     let param = {
         url: 'get-courses',
         usage_type: this.course_usage
     };
     this.http.post(param).subscribe((res) => {
-        // this.is_list_loading = true;
         if (res['error'] == false) {
             this.curriculums = res['data']['curriculums']
-            console.log(this.curriculums);
-        } else {
-            // this.toster.info(res['message'], 'Info');
+            // console.log(this.curriculums);
         }
     });
   }
-  
+  navigateURL(url){
+    let user = this.http.getUser();
+    if(user['role']== '2' || user['role']== '11' ){
+      url = "/student/curriculums/"+url;
+    }else{
+      url = "/admin/curriculum/"+url;
+    }
+    this.route.navigateByUrl(url);
+  }
 
 }
