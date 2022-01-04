@@ -11,7 +11,7 @@
       <div class="glbl_srch dsh_brd_crds glbsrc_act">
         <mat-form-field appearance="outline">
           <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false ? '' : ''}}" autocomplete="off">
-          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">Search</mat-icon>
+          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">search</mat-icon>
         </mat-form-field>
       </div>
     </div>
@@ -23,8 +23,8 @@
         </mat-form-field>
       </div>
     </div> -->
-  <span *ngIf="user['role'] == '2'" mat-list-item class="tp_rt_mn noti_bl" routerLink="/" routerLinkActive="active">
-    <mat-icon color="accent">home</mat-icon>
+  <span *ngIf="user['role'] == '2'" mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active">
+    <mat-icon color="accent" matTooltip="Home">home</mat-icon>
     <!-- <span>Home</span> -->
   </span>
   <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About
@@ -67,7 +67,7 @@
   </span>
 
   <span *ngIf="user['name']" (click)="logout()" class="tp_rt_mn">
-    <mat-icon color="warn">power_settings_new</mat-icon>
+    <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon>
     <!-- <span>Logout</span> -->
   </span>
   <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
