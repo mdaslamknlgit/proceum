@@ -630,7 +630,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   getCurriculumnHierarchy(){
-    let params = { url: 'get-curriculumn-hierarchy','courses_ids_csv' : this.subject_csv};
+    let params = { url: 'get-curriculumn-hierarchy','courses_ids_csv' : this.subject_csv, 'flag' : 'subject'};
     this.http.post(params).subscribe((res) => {      
       if (res['error'] == false) {
         this.dataSource.data = res['data'];
