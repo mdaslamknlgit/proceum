@@ -290,7 +290,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   }
 
   getCurriculumnHierarchy(){
-    let params = { url: 'get-curriculumn-hierarchy','previous_selected_ids' : this.courses_ids_csv};
+    let params = { url: 'get-curriculumn-hierarchy','previous_selected_ids' : this.courses_ids_csv,'flag' : 'subject'};
     this.http.post(params).subscribe((res) => {      
       if (res['error'] == false) {
         this.course_count = res['data'].length;

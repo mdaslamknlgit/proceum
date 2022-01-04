@@ -358,6 +358,14 @@
 
                             </div>
                         </div>
+                        <div class="crt_pr_dv d-flex jc_sb">
+                            <div class="w_47p">
+                                <div class="crt_prt_hd"></div>
+                                <mat-checkbox name="is_partner" [(ngModel)]="is_partner">Is Partner</mat-checkbox>
+
+                            </div>
+                        </div>
+
                         <div class="clear_fix"></div>
                         <div class="text_right float_right w_100p">
                             <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1"
@@ -438,7 +446,7 @@
                                     <div class="err_tltp_par">
                                         <mat-form-field appearance="outline" class="w_100p">
                                             <mat-select placeholder="Select State" name="state_edit"
-                                                #state_edit="ngModel" [(ngModel)]="b_state_id" required>
+                                                #state_edit="ngModel" [(ngModel)]="b_state_id" (ngModelChange)="getCities(b_state_id)" required>
                                                 <mat-option>
                                                     <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                                                         [placeholderLabel]="'Search State'" name="search_state" ngModel
@@ -458,10 +466,18 @@
                                 <div class="w_47p rsp_100p">
                                     <div class="crt_prt_hd">City</div>
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <input matInput matInput placeholder="City" [(ngModel)]="b_city"
-                                            name="city_edit" #city_edit="ngModel"
-                                            (keypress)="allAlphabetsWithSpaces($event)" maxlength="30" required />
+                                        <mat-select placeholder="Select City" name="city_edit"
+                                            #city_edit="ngModel" [(ngModel)]="b_city" required>
+                                            <mat-option>
+                                                <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
+                                                    [placeholderLabel]="'Search City'" name="search_city" ngModel
+                                                    (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let city of all_cities | async"
+                                                [value]="city['id']">{{ city["city_name"] }}</mat-option>
+                                        </mat-select>
                                     </mat-form-field>
+
                                     <span class="prc_tltp"
                                         *ngIf="(create_Partner_form4.submitted || city_edit.touched) && city_edit.invalid">City
                                         is required</span>
@@ -538,7 +554,7 @@
                                     <div class="err_tltp_par">
                                         <mat-form-field appearance="outline" class="w_100p">
                                             <mat-select placeholder="Select State" name="c_state_edit"
-                                                #c_state_edit="ngModel" [(ngModel)]="c_state_id" required>
+                                                #c_state_edit="ngModel" [(ngModel)]="c_state_id" (ngModelChange)="getCities(c_state_id)"required>
                                                 <mat-option>
                                                     <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                                                         [placeholderLabel]="'Search State'" name="search_state" ngModel
@@ -558,8 +574,16 @@
                                 <div class="w_47p rsp_100p">
                                     <div class="crt_prt_hd">City</div>
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <input matInput matInput placeholder="City" [(ngModel)]="c_city"
-                                            name="c_city_edit" #c_city_edit="ngModel" maxlength="30" required />
+                                        <mat-select placeholder="Select City" name="c_city_edit"
+                                            #c_city_edit="ngModel" [(ngModel)]="c_city" required>
+                                            <mat-option>
+                                                <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
+                                                    [placeholderLabel]="'Search City'" name="c_search_city" ngModel
+                                                    (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let city of all_cities | async"
+                                                [value]="city['id']">{{ city["city_name"] }}</mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                     <span class="prc_tltp"
                                         *ngIf="(create_Partner_form4.submitted || c_city_edit.touched) && c_city_edit.invalid">City

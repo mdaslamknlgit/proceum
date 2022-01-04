@@ -89,6 +89,7 @@ import { CreateAssessmentComponent } from './assessment/create-assessment/create
 import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
 import { ListCollegesComponent } from './college-management/list-colleges/list-colleges.component';
 import { CreateCollegeComponent } from './college-management/create-college/create-college.component';
+import { ChildPartnersComponent } from './partner-management/child-partners/child-partners.component';
 import { EditAssessmentComponent } from './assessment/edit-assessment/edit-assessment.component';
 import { AdminGlobalSearchComponent } from './admin-global-search/admin-global-search.component';
 import { AssessmentReportComponent } from './assessment/assessment-report/assessment-report.component';
@@ -197,6 +198,8 @@ const routes: Routes = [
       { path: 'prices-package-management', component: ListPackageComponent },
       { path: 'create-package', component: CreatePackageComponent },
       { path: 'edit-package/:id', component: EditPackageComponent },
+      { path: 'child-partners/:id', component: ChildPartnersComponent },
+      
 
       { path: 'questions-mgt/qbank', component: QuestionBankComponent },
       { path: 'questions-mgt/questions-list', component: QuestionsManagementComponent },
@@ -308,7 +311,7 @@ const routes: Routes = [
     AssessmentListComponent,
     ListCollegesComponent,
     CreateCollegeComponent,
-    AdminGlobalSearchComponent,
+    ChildPartnersComponent,
     AssessmentReportComponent,
     EditAssessmentComponent,
     AdminGlobalSearchComponent
