@@ -62,17 +62,21 @@ export class CreatePartnerComponent implements OnInit {
   public second_phone = '';
   public college_university : any = '';
   public is_reseller_account:boolean = false;
+  public is_partner:boolean = false;
   public sub_domain = '';
   public sub_domain_err = '';
+  public timer:any;
 
   countrys = [];
   states = [];
+  cities = [];
   packages = [];
   public user = [];
   universities = [];
   all_universities: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_cities: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_packages: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   
@@ -153,6 +157,34 @@ export class CreatePartnerComponent implements OnInit {
     this.all_states.next(
       this.states.filter(
         (state) => state.state_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  getCities(selected_state_id: number) {
+    let params = {
+      url: 'get-cities',
+      state_id: selected_state_id,
+    };
+    this.http.post(params).subscribe((res) => {
+      if(res['error'] == false) {
+        this.cities = res['data']['cities'];
+        this.all_cities.next(this.cities.slice());
+      }
+    });
+  }
+
+  filterCities(event) {
+    let search = event;
+    if (!search) {
+      this.all_cities.next(this.cities.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_cities.next(
+      this.cities.filter(
+        (city) => city.city_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
@@ -268,7 +300,7 @@ export class CreatePartnerComponent implements OnInit {
   }
   
   validateLicenceInfo(){
-    console.log(this.is_reseller_account);
+    //console.log(this.is_reseller_account);
     if(this.package_id != 0 && this.licence_start_date != "" && this.licence_end_date != ""){
       this.billing_address_expand = true;
       this.licence_info_expand = false;
@@ -278,6 +310,8 @@ export class CreatePartnerComponent implements OnInit {
   validateAddressDetails(){
         if(this.c_address_line_1  != "" &&  this.c_country_id  != 0 &&   this.c_state_id  != "" &&   this.c_city  != "" &&   this.c_pincode  != "" &&   this.b_address_line_1 != "" &&   this.b_address_line_2 != "" &&   this.b_country_id != 0 &&   this.b_state_id != "" &&   this.b_city != "" &&   this.b_pincode != ""){
           this.createPartnerService();
+        }else{
+          console.log('validation error')
         }
   }
 
@@ -340,6 +374,7 @@ export class CreatePartnerComponent implements OnInit {
       domain : this.domain,
       is_reseller_account :this.is_reseller_account,
       sub_domain :this.sub_domain,
+      is_partner :this.is_partner,
     };
     let params = { url: 'create-partner', form_data: form_data };
     this.http.post(params).subscribe((res) => {
@@ -382,6 +417,7 @@ export class CreatePartnerComponent implements OnInit {
         this.b_country_id = partner.b_country_id ;
         this.getStates(this.b_country_id);
         this.b_state_id = partner.b_state_id ;
+        this.getCities(this.b_state_id);
         this.b_city = partner.b_city ;
         this.b_pincode = partner.b_pincode ;
         //Correspondence address
@@ -390,10 +426,12 @@ export class CreatePartnerComponent implements OnInit {
         this.c_country_id = partner.c_country_id ;
         this.getStates(this.c_country_id);
         this.c_state_id = partner.c_state_id ;
+        this.getCities(this.c_state_id);
         this.c_city = partner.c_city ;
         this.c_pincode = partner.c_pincode ;
         this.is_reseller_account = partner.is_reseller_account ;
         this.sub_domain = partner.sub_domain ;
+        this.is_partner = partner.is_partner;
         // if(partner.licence_start_date !== null){
         //   this.licence_start_date = new Date(
         //     partner.licence_start_date
@@ -471,13 +509,17 @@ export class CreatePartnerComponent implements OnInit {
         sub_domain: this.sub_domain,
         partner_id: this.partner_id,
       };
-      this.http.post(param).subscribe((res) => {
-        if (res['error'] == false) {
-          this.sub_domain_err = '';
-        } else {
-          this.sub_domain_err = res['message'];
-        }
-      });
+      clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.http.post(param).subscribe((res) => {
+          if (res['error'] == false) {
+            this.sub_domain_err = '';
+          } else {
+            this.sub_domain_err = res['message'];
+          }
+        });
+      },700);
+      
     }
   }
 
