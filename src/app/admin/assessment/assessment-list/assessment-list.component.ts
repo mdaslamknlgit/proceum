@@ -22,7 +22,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./assessment-list.component.scss']
 })
 export class AssessmentListComponent implements OnInit {
-  displayedColumns: string[] = ['Sno', 'SubName', 'assId', 'assNme', 'dtndTm', 'qstns', 'eqDrtn', 'invTd', 'appeRd', 'absnTee', 'acTn'];
+  displayedColumns: string[] = ['Sno', 'SubName', 'assNme', 'dtndTm', 'qstns', 'eqDrtn', 'invTd', 'appeRd', 'absnTee', 'acTn'];
   
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -32,6 +32,7 @@ export class AssessmentListComponent implements OnInit {
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
   public totalSize = 0;
+  public editStatus = 0;
 
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);

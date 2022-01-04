@@ -6,41 +6,78 @@
             <mat-icon>navigate_next</mat-icon><strong>Coupons</strong>
         </div>
     </div>
+<app-topbar class="inner-header"></app-topbar>
     <div class="hgt_20"></div>
     <div class="dsh_brd_crds">
         <div class="coupons_page_container">
-            <div class="coupons_block">
-                <div class="top_1">
-                    <div>
-                        <span>Coupon for</span>
-                        <mat-icon>currency_rupee</mat-icon>700 <span class="ml_05">Discount</span>
+            <mat-tab-group class="w_100p">
+                <mat-tab label="Available Coupons">
+
+                    <div class="coupons_block" *ngFor="let promotion of promotions">
+                        <div class="top_1">
+                            <div>
+                                <span>Coupon for </span>
+                                &nbsp;{{promotion.currency_symbol}} {{promotion.discount_amount}} <span class="ml_05">Discount</span>
+                            </div>
+                        </div>
+                        <div class="coupon_description">
+                            {{promotion.description}}
+                        </div>
+                        <div class="trms_txt">Terms &amp; Conditions:</div>
+                        <div class="terms_condition_popover">
+                            <ul>
+                                <li>The Coupon is applicable for the country {{promotion.country_name}}.</li>
+                                <li>Minimum Order Amount : {{promotion.min_order_amount}}</li>
+                                <li>Coupon valid from <br> {{promotion.valid_from | date:'short' }} to {{promotion.valid_to | date:'short'}}</li>
+                                <li>To avail the coupon, you need to apply the coupon code.</li>
+                                <li>Click to view the coupon code</li>
+                            </ul>
+                        </div>
+                        <div class="showCoupon">
+                            <div class="showCodeBtn {{promotion.show_coupon ? 'shcp_sld':''}}" (click)="promotion.show_coupon = 1">
+                                Show Coupon Code
+                            </div>
+                            <span>{{promotion.show_coupon ? promotion.code : ''}}</span>
+                            <mat-icon color="accent" matTooltip="Copy Coupon Code" (click)="copyToClipboard(promotion.code)">{{promotion.show_coupon ? 'file_copy':''}}</mat-icon>
+                        </div>
                     </div>
-                </div>
-                <div class="coupon_description">
-                    Coupon Description Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-                </div>
-                <div class="terms_condition_popover">
-                    Terms & Conditions:
-                    <ul>
-                        <li>The Coupon is applicable for the country India.</li>
-                        <li>Minimum Order Amount : 123</li>
-                        <li>Maximum Discount Amount : 123</li>
-                        <li>Coupon valid from <br> 01/12/2021 to 18/01/2022</li>
-                        <li>To avail the coupon, you need to apply the coupon code.</li>
-                        <li>Click to view the coupon code</li>
-                    </ul>
-                </div>
-                <div class="showCoupon">
-                    <div class="showCodeBtn">
-                        <input type="button" value="Show Coupon Code" />
+                    
+                </mat-tab>
+                <mat-tab label="Discounts"> 
+                    <h3 class="grn_clr">Latest Discounts</h3>
+
+                    <div class="coupons_block" *ngFor="let discount of discounts">
+                        <div class="top_1">
+                            <div *ngIf="discount.discount_type ==2">
+                                <span>Coupon for </span>
+                                &nbsp;{{discount.discount_percent}}% <span class="ml_05">Discount</span>
+                            </div>
+                            <div *ngIf="discount.discount_type ==1">
+                                <span>Coupon for </span>
+                                &nbsp;{{discount.currency_symbol}} {{discount.amount}} <span class="ml_05">Discount</span>
+                            </div>
+                        </div>
+                        <div class="coupon_description">
+                            {{discount.description}}
+                        </div>
+                        <div class="trms_txt">Terms & Conditions:</div>
+                        <div class="terms_condition_popover">
+                            <ul>
+                                <li>The Coupon is applicable for {{discount.package_name}}.</li>
+                                <li>The Coupon is applicable for the country {{discount.country_name}}.</li>
+                               <!--  <li>Minimum Order Amount : 123</li>
+                                <li>Maximum Discount Amount : 123</li> -->
+                                <li>Coupon valid from <br> {{discount.valid_from | date:'short' }} to {{discount.valid_to | date:'short'}}</li>
+                                <!-- <li>To avail the coupon, you need to apply the coupon code.</li>
+                                <li>Click to view the coupon code</li> -->
+                            </ul>
+                        </div> 
                     </div>
-                    <span>XXXXXXXXXX9635</span>
-                    <mat-icon color="accent" matTooltip="Copy Coupon">file_copy</mat-icon>
-                </div>
-                <!-- <div class="termsandConditions">
-                    <a href="#">Terms &amp; Conditions <mat-icon>info</mat-icon></a>
-                </div> -->
-            </div>
+                    
+                </mat-tab>
+            </mat-tab-group>
+
+           
         </div>
     </div>
 </div>

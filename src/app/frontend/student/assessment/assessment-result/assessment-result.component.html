@@ -1,0 +1,105 @@
+<div class="mn_dshbrd">
+    <div class="hgt_20"></div>
+    <div class="sp_mn">
+        <div class="brdcrm_br p_1 d-flex ai_cntr">
+            <mat-icon color="accent">home</mat-icon>
+            
+            <mat-icon>navigate_next</mat-icon><strong routerLink="assessments/list">{{"student.assessments.exam.assessments" | translate}}</strong>
+            <span *ngIf="assessment.length>0"><mat-icon>navigate_next</mat-icon><strong>{{assessment[0]['assessment_name']}}</strong></span>
+            <mat-icon>navigate_next</mat-icon><strong>{{"student.assessments.result.assmnt-rslt"|translate}}</strong>
+        </div>
+    </div>
+    <div class="hgt_20"></div>
+    <div class="dsh_brd_crds">
+        <div class="asess_lst">
+            <div class="asess_lst_hd">
+                {{"student.assessments.result.assmnt-rslt"|translate}}
+            </div>
+            <ul *ngIf="student_details.length>0">
+                <!-- <li>
+                    <span>{{"student.assessments.result.subject"|translate}}</span>
+                    <span>Subject</span>
+                </li> -->
+                <li>
+                    <span>{{"student.assessments.result.date"|translate}}</span>
+                    <span>{{assessment_date_time}}</span>
+                </li>
+                <li>
+                    <span>{{"student.assessments.result.ip-address"|translate}}</span>
+                    <span>{{assessment_details['ip_address']?assessment_details['ip_address']:'N/A'}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.name"|translate}}</span>
+                    <span>{{student_details[0]['full_name']}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.email"|translate}}</span>
+                    <span>{{student_details[0]['email']}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.year"|translate}}</span>
+                    <span>{{student_details[0]['year']}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.semester"|translate}}</span>
+                    <span>{{student_details[0]['semister']}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.group"|translate}}</span>
+                    <span>{{student_details[0]['year_group']}}</span>
+                </li>
+                <!-- <li>
+                      <span>{{"student.assessments.result.assmnt-type"|translate}}</span>
+                    <span>Anatomy</span>
+                </li> -->
+                <li>
+                      <span>{{"student.assessments.result.mx-assmnt-type"|translate}}</span>
+                    <span>{{total_time}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.assmnt-time"|translate}}</span>
+                    <span>{{startTimer(assessment_details['assement_time'])}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.ttl-qstns"|translate}}</span>
+                    <span>{{assessment[0]['total_questions_count']}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.anwrdd-qstns"|translate}}</span>
+                    <span>{{answered_questions}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.crrct-qstns"|translate}}</span>
+                    <span>{{correct_answers}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.incrrct-qstns"|translate}}</span>
+                    <span>{{wrong_answers}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.skppd-qstns"|translate}}</span>
+                    <span>{{skiped_questions}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.ttl-mrks"|translate}}</span>
+                    <span>{{correct_answers}}</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.prcnt"|translate}}</span>
+                    <span>{{percentage}} %</span>
+                </li>
+                <li>
+                      <span>{{"student.assessments.result.stts"|translate}}</span>
+                    <span *ngIf="(percentage)>=35">{{"student.assessments.result.pass"|translate}}</span>
+                    <span *ngIf="(percentage)<35">{{"student.assessments.result.fail"|translate}}</span>
+                </li>
+            </ul>
+            <div class="hgt_10"></div>
+            <div class="asess_lst_btn">
+                <button routerLink="/student/assessments/list" mat-raised-button color="accent">
+                    {{"student.assessments.result.rtrn-to-list"|translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

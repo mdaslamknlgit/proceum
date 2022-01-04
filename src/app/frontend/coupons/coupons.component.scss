@@ -1,10 +1,11 @@
 .coupons_block{
     background-color: #FFF;
-    width: 290px;
-    padding: 30px;
-    border-radius: 20px;
-    margin: 0 15px 30px;
+    width: 280px;
+    padding: 15px;
+    border-radius: 10px;
+    margin:15px 10px 15px 0px;
     position: relative;
+    display: inline-block;
 }
 .coupons_block div.top_1 span {
     font-size: 14px;
@@ -28,18 +29,24 @@
 .showCoupon {
     padding: 10px;
     background-color: rgba(0,0,0,0.03);
-    margin-top: 15px;
-    margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23B7B7B7FF' stroke-width='1' stroke-dasharray='10' stroke-dashoffset='33' stroke-linecap='square'/%3e%3c/svg%3e");
+    box-sizing: border-box;
+    position: relative;
+    border: 1px dashed #ddd;
+    width: 100%;
+    margin: auto;
 }
 .coupons_page_container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
+    .mat-tab-body-content{
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 .coupon_description {
     font-size: 13px;
@@ -70,32 +77,102 @@
 }
 .showCodeBtn{
     text-align: center;
-}
-.showCodeBtn input{
-    margin: 10px auto;
-    width: 100%;
-    padding: 12px 0;
-    text-align: center;
-    border: 0 none;
+    position: absolute;
+    top: 1px;
+    width: 80%;
+    margin: 0 1px;
+    left: 0;
+    height: calc(100% - 2px);
+    z-index: 9;
+    cursor: pointer;
     background-color: #30C940;
     color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    animation-name: cpn_cd_ani;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    // &:hover{
+    //     animation-name: cpn_cd_ani;
+    //     animation-iteration-count: infinite;
+    //     animation-duration: 0.8s;
+    //     animation-timing-function: ease-in-out;
+    // }
+    @keyframes cpn_cd_ani {
+        0%{
+            width: 77%;
+        }
+        50%{
+            width: 80%;
+        }
+        100%{
+            width: 77%;
+        }
+    }
+    &.shcp_sld{
+       width: 0%;
+       animation-name: cpn_cd_ani1 !important;
+       animation-iteration-count: 1;
+       font-size: 0;
+       animation-duration: 0.6s;
+       overflow: hidden;
+       white-space: nowrap;
+       @keyframes cpn_cd_ani1 {
+            0%{
+                width: 100%;
+                font-size: 14px;
+            }
+            99%{
+                font-size: 14px;
+            }
+            100%{
+                width: 0%;
+                font-size: 0;
+            }
+        }
+    }
+    // @keyframes sld_animtn {
+    //     0%{
+    //         width: 70%;
+    //     }
+    //     55%{
+    //         width: 76%;
+    //     }
+    //     100%{
+    //         width: 0%;
+    //     }
+    // }
+}
+.showCodeBtn input{
+    margin: 0;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    box-sizing: border-box;
+    height: 100%;
 }
 .showCoupon span {
     position: relative;
     top: 2px;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
+    text-align: right;
+    width: 100%;
+    &.text-center{
+        text-align: center;
+    }
 }
 .terms_condition_popover {
     // position: absolute;
     // background: #333;
     // z-index: 1;
     bottom: 35px;
-    padding: 20px;
+    padding:0 20px 10px 20px;
     // color: #FFF;
     // border-radius: 10px;
     font-size: 12px; 
 }
-
 // .termsandConditions:hover .terms_condition_popover{
 //      display: block;
 // }

@@ -1,3 +1,4 @@
+import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TopbarComponent } from './frontend/topbar/topbar.component';
@@ -38,6 +39,7 @@ import { SidebarTeacherComponent } from './admin/sidebar-teacher/sidebar-teacher
     NgWhiteboardModule,
     ColorPickerModule,
     RouterModule,
+    SharedModule,
   ],
   exports: [
     TopbarComponent,

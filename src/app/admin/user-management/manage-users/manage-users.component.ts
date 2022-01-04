@@ -139,6 +139,10 @@ export class ManageUsersComponent implements OnInit {
   }
 
   public doFilter() {
+    if(this.role != '2'){
+      this.manage_students = '';
+    }
+    this.page = 0;
     let param = { 
       url: 'get-user-list',
       offset: this.page,
@@ -458,5 +462,20 @@ export class ManageUsersComponent implements OnInit {
         url = "/admin/"+url;
     }
       this.router.navigateByUrl(url);
+  }
+
+  resetFilters(){
+    this.all_organization_list.next();
+    this.all_college.next();
+    this.all_years.next();
+    this.all_semesters.next();
+    this.all_groups.next();
+    this.organization_type_id = '';
+    this.organization_list_id = '';
+    this.college_id = '';
+    this.year_id = '';
+    this.semester_id = '';
+    this.group_id = '';
+    this.doFilter();
   }
 }

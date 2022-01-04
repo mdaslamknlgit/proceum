@@ -52,8 +52,9 @@ import { MyEarningsComponent } from './my-earnings/my-earnings.component';
 import { StudentAssessmentListComponent } from './student/assessment/student-assessment-list/student-assessment-list.component';
 import { EventsListComponent } from './webinars/events-list/events-list.component';
 import { AttendAssessmentComponent } from './student/assessment/attend-assessment/attend-assessment.component';
+import { AssessmentResultComponent } from './student/assessment/assessment-result/assessment-result.component';
+import { StudentGlobalSearchComponent } from './student-global-search/student-global-search.component';
 import { CouponsComponent } from './coupons/coupons.component';
-import { GlobalSearchComponent } from './global-search/global-search.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -109,12 +110,15 @@ const routes: Routes = [
       { path: 'study-planner/test/:day/:plan_id', component: TestsPageComponent },
       { path: 'purchased-orders', component: OrderListComponent },
       { path: 'class/list', component: EventsListComponent },
+      
+      // { path: 'coupons', component: CouponsComponent },
+      { path: 'global-search/:search_string', component: StudentGlobalSearchComponent },
       { path: 'assessments/list', component: StudentAssessmentListComponent },
-      { path: 'coupons', component: CouponsComponent },
-      { path: 'global-search', component: GlobalSearchComponent },
       { path: 'assessments/exam/:id', component: AttendAssessmentComponent },
-      { path: 'coupons', component: CouponsComponent },
-      { path: 'order-details/:order_id', component: OrderDetailsComponent},
+      { path: 'assessments/exam/:id/:active_q_index', component: AttendAssessmentComponent },
+      { path: 'assessments/result/:id', component: AssessmentResultComponent },
+      // { path: 'coupons', component: CouponsComponent },
+      { path: 'order-details/:order_id', component: OrderDetailsComponent },
       { path: 'my-earnings', component:  MyEarningsComponent},
     ],
   },
@@ -160,7 +164,8 @@ const routes: Routes = [
     EventsListComponent,
     AttendAssessmentComponent,
     CouponsComponent,
-    GlobalSearchComponent,
+    AssessmentResultComponent,
+    StudentGlobalSearchComponent,
   ],
   imports: [
     CommonModule,

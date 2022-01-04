@@ -368,8 +368,8 @@ export class CreateAssessmentComponent implements OnInit {
             this.students = [];
             this.all_students = [];
             students.forEach(element => {
-                this.students.push({id:element.id, name: element.first_name+'<'+element.email+'>'});
-                this.all_students.push({id:element.id, name: element.first_name+'<'+element.email+'>'});
+                this.students.push({id:element.id, name: element.first_name+ ' ' +'<'+element.email+'>'});
+                this.all_students.push({id:element.id, name: element.first_name+ ' ' +'<'+element.email+'>'});
             });
         }
         else{
@@ -413,21 +413,37 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   CreateAssessment(){
-    if(this.question_total < 0){
+    if(this.question_total <= 0){
       this.translate.get('admin.assessment.create.please_select_course_text').subscribe((data)=> {
         this.toster.error(data, "Error", {closeButton:true});
       });
       return;
-    }else{
+    }else if(this.selected_students.length == 0){
+      this.translate.get('admin.assessment.create.select_students_error_message').subscribe((data)=> {
+        this.translate.get('error_text').subscribe((error_text)=> {
+          this.toster.error(data, error_text, {closeButton:true});
+        });
+      });        
+    }
+    else{
       let param = {url:'assessment/store',assessment_name: this.assessment_name,assessment_type: this.assessment_type,timezone: this.timezone, 
       start_date: this.start_date, start_time: this.start_time,duration: this.question_duration,question_total:this.question_total,course:this.selected_topics,students: this.selected_students,assessment_value: 1}; //course: this.selected_subject,
       this.http.post(param).subscribe(res=>{
           if(res['error'] == false){
-              this.toster.success(res['message'], "Success", { closeButton:true });
+            this.translate.get('success_text').subscribe((success_text)=> {
+              this.translate.get('admin.assessment.create.create_success').subscribe((message)=> {
+                  this.toster.success(message, success_text, {closeButton:true});
+              });
+            });
               this.router.navigateByUrl('/admin/assessment-list');
           }
           else{
-              this.toster.error(res['message'], "Error", { closeButton:true });
+            this.translate.get('something_went_wrong_text').subscribe((data)=> {
+              this.translate.get('error_text').subscribe((error_text)=> {
+                  this.toster.error(data, error_text, {closeButton:true});
+              });
+            })
+              //this.toster.error(res['message'], "Error", { closeButton:true });
           }
       });
     }

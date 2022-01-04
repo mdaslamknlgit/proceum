@@ -4,10 +4,21 @@
   <div class="clear_fix"></div>
   <div class="fs_hd">Flash Sale</div>
   <mat-icon class="fs_blt">bolt</mat-icon>
-  <div class="fs_md">Save</div>
-  <div class="fs_lg">50%</div>
-  <div class="fs_md">On all Plans</div>
-  <div class="fs_sm">click here</div>
+  <div *ngIf="result">
+    <div *ngIf="result.type == 'promotion'">
+      <div class="fs_md">GET </div>
+      <div class="fs_lg">{{result.currency_symbol}} {{result.discount_amount}} Off</div>
+      <!-- <div class="fs_md">On all Plans</div> -->
+    </div>
+    <div *ngIf="result.type == 'discount'">
+      <div class="fs_md">GET </div>
+      <div class="fs_lg" *ngIf="result.discount_type ==2">{{result.discount_percent}}% Off</div>
+      <div class="fs_lg" *ngIf="result.discount_type ==1">{{result.currency_symbol}} {{result.discount_amount}} Off</div>
+      <!-- <div class="fs_md">On all Plans</div> -->
+    </div>
+  </div>
+
+  <div class="fs_sm" routerLink="/coupons">click here</div>
 </div>
 <div class="indx_bnnr">
   <!-- <mat-toolbar [ngClass]="{ 'sticky-header': isSticky }">

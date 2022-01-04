@@ -9,6 +9,11 @@ import { AuthService } from '../../../auth/auth.service';
   styleUrls: ['./my-account.component.scss'],
 })
 export class MyAccountComponent implements OnInit {
+  public recipient_emails = '';
+  public recipient_emails_list = [];
+  public model_status = false;
+  public shwCpncd = false;
+  public show_details_modal = false;
   user: any;
   url: any = '../../../../assets/images/Demo-placeholder.jpeg';
   src: any;
@@ -48,6 +53,43 @@ export class MyAccountComponent implements OnInit {
   ngOnInit(): void {
     this.src = this.url;
     this.getStudentProfile();
+  }
+
+  addEmail(){
+    if(this.recipient_emails != ''){
+      let recipient_emails = this.recipient_emails.split(',');  
+      recipient_emails.forEach((opt, index) => {
+        this.recipient_emails_list.push(opt);
+      });
+      this.recipient_emails = '';
+    }
+  }
+
+  removeEmail(index){
+    this.recipient_emails_list.splice(index, 1);
+  }
+
+  closeViewModel() {
+    this.model_status = false;  
+  }
+
+  openViewModel(){
+    this.model_status = true; 
+  }
+
+  sendReferral(){
+    if(this.recipient_emails_list.length > 0){
+      let param = { url: 'send_referral_code', recipient_emails: this.recipient_emails_list, referral_code:this.profile.referral_code};
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.recipient_emails_list = [];
+          this.closeViewModel();
+          this.toaster.success(res['message'], 'Success', { closeButton: true });
+        } else {
+          this.toaster.error(res['message'], 'Error', { closeButton: true });
+        }
+      });
+    }
   }
 
   fileEvent(e) {

@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from '../../../../../assets/3d-model-viewer/js-3d-model-viewer.min';
 declare var kPoint: any;
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-details',
@@ -17,6 +18,8 @@ import { PdfViewerComponent } from 'ng2-pdf-viewer';
 export class DetailsComponent implements OnInit, AfterViewInit {
   @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
+  hrefZIP: string;
+  public materials = [];
   public shwAns = false;
   public shwQst = true;
   public view_type = 1;
@@ -118,7 +121,24 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.router.routeReuseStrategy.shouldReuseRoute = function () {
       return false;
     };
+    this.hrefZIP = environment.apiUrl + 'download-attachments/';
   }
+
+  getMaterials() {
+    let params={url: 'get-all-materials',source:'student',selected_level_id: this.level_parent_id};
+    this.http.post(params).subscribe((res: Response) => {
+      if (res['error'] == false) {
+        this.materials = res['data']['materials'];
+      } else {
+        this.materials = [];
+      }
+    });
+  }
+
+  downlodAttachments(id){
+    window.location.href = this.hrefZIP + id;
+  }
+
     pdf_rotation_change(direction){
         if(direction == 'next')
             this.pdf_rotation = this.pdf_rotation+90;
@@ -133,6 +153,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       this.content_id = param.content_id != undefined ? param.content_id : 0;
       this.is_preview = window.location.href.includes("content-preview")?true:false;
       this.getLevelDetails();
+      this.getMaterials();
     });
     
   }

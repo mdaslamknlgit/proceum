@@ -3,14 +3,15 @@
     <img src="./assets/images/hamburg-icon.svg" />
   </button>
   <span class="logo_spn" routerLink="/"><img src="{{ getHeaderLogo() }}" /></span>
-  <span class="usr_lgns">Welcome to {{user['role'] == '2' ? 'Student': 'Teacher'}} Dashboard</span>
+  <!-- <span class="usr_lgns">Welcome to {{user['role'] == '2' ? 'Student': 'Teacher'}} Dashboard</span> -->
+  <span class="usr_lgns" >{{"welcome_to_text"|translate}} {{ user["role_name"] }} {{"dashboard_text"|translate}}</span>
   <span class="spacer"></span>
   <!-- <div class="nav" [ngClass]="{ menu_open: isOpen }"> -->
     <div class="top-right-icon mr_1"> 
       <div class="glbl_srch dsh_brd_crds glbsrc_act">
         <mat-form-field appearance="outline">
-          <input matInput placeholder="Search" class="{{glbSrch == false ? '' : ''}}" autocomplete="off">
-          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">{{glbSrch == false ? 'search' : 'search'}}</mat-icon>
+          <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false ? '' : ''}}" autocomplete="off">
+          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">Search</mat-icon>
         </mat-form-field>
       </div>
     </div>
