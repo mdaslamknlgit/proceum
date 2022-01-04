@@ -259,10 +259,10 @@
                         <div>Student List</div>
                         <div class="spacer"></div>
                         <div> <button type="button" matTooltip="Add all Students"
-                                [disabled]="selected_name == '' || selected_value == ''" (click)="addStudents()"
+                                [disabled]="students.length<=0" (click)="addStudents()"
                                 mat-button color="accent">
                                 {{"admin.assessment.create.add_all"|translate}} <mat-icon>chevron_right</mat-icon>
-                            </button></div>
+                            </button></div><!--[disabled]="selected_name == '' || selected_value == ''"-->
                     </div>
                     <span class="zmsu_lft" *ngFor="let s of students; let s_index=index;"
                         [hidden]="this.selected_student_ids.includes(s['id'])">
@@ -279,7 +279,7 @@
                         <div>Selected Students</div>
                         <div class="spacer"></div>
                         <div><button type="button" matTooltip="Remove all Student"
-                                [disabled]="selected_name == '' || selected_value == ''"
+                                [disabled]="selected_students.length<=0"
                                 (click)="selected_students=[];selected_student_ids = [];" mat-button color="warn">
                                 <mat-icon>chevron_left</mat-icon> {{"admin.assessment.create.remove_all"|translate}}
                             </button></div>
