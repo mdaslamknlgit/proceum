@@ -52,9 +52,9 @@ import { MyEarningsComponent } from './my-earnings/my-earnings.component';
 import { StudentAssessmentListComponent } from './student/assessment/student-assessment-list/student-assessment-list.component';
 import { EventsListComponent } from './webinars/events-list/events-list.component';
 import { AttendAssessmentComponent } from './student/assessment/attend-assessment/attend-assessment.component';
-import { CouponsComponent } from './coupons/coupons.component';
 import { AssessmentResultComponent } from './student/assessment/assessment-result/assessment-result.component';
 import { StudentGlobalSearchComponent } from './student-global-search/student-global-search.component';
+import { CouponsComponent } from './coupons/coupons.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -111,13 +111,13 @@ const routes: Routes = [
       { path: 'purchased-orders', component: OrderListComponent },
       { path: 'class/list', component: EventsListComponent },
       
-      { path: 'coupons', component: CouponsComponent },
+      // { path: 'coupons', component: CouponsComponent },
       { path: 'global-search/:search_string', component: StudentGlobalSearchComponent },
       { path: 'assessments/list', component: StudentAssessmentListComponent },
       { path: 'assessments/exam/:id', component: AttendAssessmentComponent },
       { path: 'assessments/exam/:id/:active_q_index', component: AttendAssessmentComponent },
       { path: 'assessments/result/:id', component: AssessmentResultComponent },
-      { path: 'coupons', component: CouponsComponent },
+      // { path: 'coupons', component: CouponsComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent },
       { path: 'my-earnings', component:  MyEarningsComponent},
     ],
