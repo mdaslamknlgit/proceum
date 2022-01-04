@@ -72,6 +72,8 @@ export class RegisterComponent implements OnInit {
     register_type: '',
     college: '',
     university: '',
+    other_college: '',
+    other_university: '',
     qualification : '',
     profession : '',
     address_line_1:'',
@@ -122,6 +124,8 @@ export class RegisterComponent implements OnInit {
     city:'',
     zip_code:'',
     accepeted_terms:false,
+    other_college: '',
+    other_university: '',
   }
   
   constructor(
@@ -136,8 +140,6 @@ export class RegisterComponent implements OnInit {
     this.getSocialAuth();
     this.getCountries();
     this.getPartnersListForUniversity();
-    this.getPartnersListForColleges();
-    
   }
   
   //Activate html form institution types
@@ -447,6 +449,8 @@ export class RegisterComponent implements OnInit {
       register_type : 'individual',
       zip_code : this.individualRegister.zip_code,
       accepeted_terms : this.individualRegister.accepeted_terms,
+      other_university : this.individualRegister.other_university,
+      other_college : this.individualRegister.other_college,
       domain : this.domain,
       profile_pic : this.profile_pic
     }
@@ -521,6 +525,7 @@ export class RegisterComponent implements OnInit {
       register_type : this.institutionResgister.register_type, //Don't remove this
       zip_code : this.institutionResgister.zip_code,
       accepeted_terms : this.institutionResgister.accepeted_terms,
+      other_university : this.institutionResgister.other_university,
       domain : this.domain,
       profile_pic : this.profile_pic
 
@@ -580,6 +585,8 @@ export class RegisterComponent implements OnInit {
             city:'',
             zip_code:'',
             accepeted_terms:false,
+            other_college: '',
+            other_university: '',
           };
           this.toastr.error(res.message, 'Error', {
             closeButton: true,
@@ -671,7 +678,7 @@ export class RegisterComponent implements OnInit {
   
   //To get all college list
   getPartnersListForColleges(){
-    let param = { url: 'get-partners-list',partner_type_id : 2 };
+    let param = { url: 'get-partners-list',partner_type_id : 2,parent_id : this.individualRegister.university };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.colleges = res['data']['partners'];
@@ -784,6 +791,8 @@ export interface IndividualRegister {
   city:any,
   zip_code:any,
   accepeted_terms: boolean,
+  other_college: any,
+  other_university: any,
 
 }
 
@@ -826,6 +835,8 @@ export interface InstitutionResgister {
   city:any,
   zip_code:any,
   accepeted_terms: boolean,
+  other_university: any,
+  other_college: any,
 
 }
 

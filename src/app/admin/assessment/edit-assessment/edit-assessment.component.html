@@ -68,28 +68,38 @@
                     <ng-container matColumnDef="Subject">
                         <th mat-header-cell *matHeaderCellDef> {{"s_no_text"|translate}} </th>
                         <td mat-cell *matCellDef="let element; let s_no=index"> {{s_no+1}} </td>
+                        <td mat-footer-cell *matFooterCellDef> Total  </td>
                     </ng-container>
                     <ng-container matColumnDef="Chapter">
                         <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.create.course"|translate}} </th>
                         <td mat-cell *matCellDef="let element"> {{element.course_qbank_text}} </td>
+                        <td mat-footer-cell *matFooterCellDef>  </td>
                     </ng-container>
                     <ng-container matColumnDef="Topic">
                         <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.create.topic_path"|translate}} </th>
                         <td mat-cell *matCellDef="let element"> {{element.topic_text}} </td>
+                        <td mat-footer-cell *matFooterCellDef> ({{"admin.assessment.create.questions_count_error_msg"|translate}}) </td>
                     </ng-container>
                     <ng-container matColumnDef="Count">
                         <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.create.count"|translate}} </th>
                         <td mat-cell *matCellDef="let element"> {{element.questions_count}} </td>
+                        <td mat-footer-cell *matFooterCellDef> 
+                            <mat-form-field appearance="outline" class="w_50px">
+                                <input matInput placeholder="Total" [(ngModel)]="question_total" name="question_total_name"
+                                    autocomplete="off" readonly required>
+                            </mat-form-field>
+                        </td>
                     </ng-container>
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
                 </table>
-                <div class="cm_fltr_sc ml_12"></div>
+                <!-- <div class="cm_fltr_sc ml_12"></div>
                 <div class="cm_fltr_sc mr_1 w_1p">
                     <mat-form-field appearance="outline" class="w_1p">
                         <input matInput placeholder="Total" [(ngModel)]="question_total" name="question_total_name" autocomplete="off" readonly required>
                     </mat-form-field>
-                </div>
+                </div> -->
             </div>
             <hr class="hgt_10">
             <div class="cm_fltr_sc mr_1">
@@ -152,35 +162,51 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <button type="button" [disabled]="selected_name == '' || selected_value == ''" (click)="getStudents()" mat-raised-button color="accent">{{"admin.assessment.create.get_students"|translate}}</button>
+            <button type="button" [disabled]="selected_name == '' || selected_value == ''" (click)="getStudents()" 
+            mat-raised-button color="accent">{{"admin.assessment.create.get_students"|translate}}</button>
             <hr>
             <div class="hgt_20"></div>
-            <div class="d-flex ai_cntr">
-                <div>
-                    <button type="button" (click)="addStudents()" mat-raised-button color="accent" class="mr_1">
-                        <mat-icon>add</mat-icon> {{"admin.assessment.create.add"|translate}}
-                    </button>
-                    <button type="button" (click)="selected_students=[];selected_student_ids = [];" mat-raised-button color="accent">{{"admin.assessment.create.remove_all"|translate}}</button>
-                </div>
-            </div>
-            <div class="hgt_20"></div>
-            <div class="cm_fltr_sc mr_1">
-                <span>{{'search_text'|translate}}</span>
+            <div class="xl_srch">
                 <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput [(ngModel)]="search_student" name="search_student_name" (keyup)="searchStudents(search_student)" placeholder="{{'srch_student'|translate}}" />
+                    <input matInput [(ngModel)]="search_student" name="search_student_name"
+                        (keyup)="searchStudents(search_student)" placeholder="{{'srch_student'|translate}}" />
                     <mat-icon (click)="searchStudents(search_student)" matSuffix color="accent">search</mat-icon>
                 </mat-form-field>
             </div>
             <div class="d-flex zm_swtchusrs">
                 <div class="w_49p mr_1p">
-                    <span class="zmsu_lft" *ngFor="let s of students; let s_index=index;" [hidden]="this.selected_student_ids.includes(s['id'])">                         
-                        <span>{{s['name']}}</span> 
-                        <button mat-icon-button color="accent" type="button"><mat-icon (click)="addStudent(s)" >add</mat-icon></button> 
+                    <div class="zm_mvusrs">
+                        <div>{{"admin.assessment.create.student_list"|translate}}</div>
+                        <div class="spacer"></div>
+                        <div> <button type="button" matTooltip="{{'admin.assessment.create.add_all_students'|translate}}"
+                                [disabled]="students.length<=0" (click)="addStudents()"
+                                mat-button color="accent">
+                                {{"admin.assessment.create.add_all"|translate}} <mat-icon>chevron_right</mat-icon>
+                            </button></div>
+                    </div>
+                    <span class="zmsu_lft" *ngFor="let s of students; let s_index=index;"
+                        [hidden]="this.selected_student_ids.includes(s['id'])">
+                        <span>{{s['name']}}</span>
+                        <button mat-icon-button color="accent" type="button">
+                            <mat-icon (click)="addStudent(s)" matTooltip="Add Student">add</mat-icon>
+                        </button>
                     </span>
                 </div>
                 <div class="w_50p" >
+                    <div class="zm_mvusrs">
+                        <div>{{"admin.assessment.create.selected_students"|translate}}</div>
+                        <div class="spacer"></div>
+                        <div><button type="button" matTooltip="{{'admin.assessment.create.remove_all_students'|translate}}"
+                                [disabled]="selected_students.length<=0"
+                                (click)="selected_students=[];selected_student_ids = [];" mat-button color="warn">
+                                <mat-icon>chevron_left</mat-icon> {{"admin.assessment.create.remove_all"|translate}}
+                            </button></div>
+                    </div>
                     <span class="zmsu_lft" *ngFor="let s of selected_students; let s_s_index=index;">
-                        <span>{{s['name']}}</span> <button mat-icon-button color="accent" type="button"><mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" >remove</mat-icon></button> 
+                        <span>{{s['name']}}</span> <button mat-icon-button color="accent" type="button">
+                            <mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" matTooltip="Remove Student"
+                                color="warn">highlight_off</mat-icon>
+                        </button>
                     </span>
                 </div>
             </div>

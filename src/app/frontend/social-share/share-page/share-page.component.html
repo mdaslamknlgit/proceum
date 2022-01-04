@@ -29,9 +29,9 @@
             </div>
             <hr />
             <div class="img_prp" style="width: 100%;">
-                <img *ngFor="let image of view_attachments; let i = index"  src="{{image}}" class="tmb_img" />
-            </div> 
-            
+                <img *ngFor="let image of view_attachments; let i = index" src="{{image}}" class="tmb_img" />
+            </div>
+
             <div class="img_prp_btns">
                 <div>
                     <button mat-raised-button class="float_right mr_1 gry_btn" (click)="closeViewModel()">
@@ -47,25 +47,28 @@
     <div class="w_100p d-flex">
         <div class="spacer"></div>
         <div>
-            <button mat-raised-button color="accent" routerLink="/student/upload-details">
-                <mat-icon>add</mat-icon> Create New
-            </button>
+            <button mat-raised-button color="accent" routerLink="/student/upload-details">Create New</button>
         </div>
     </div>
     <div class="rsp_tbl">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="sno">
                 <th mat-header-cell *matHeaderCellDef> S.No. </th>
                 <td mat-cell *matCellDef="let element"> {{element.s_no}} </td>
             </ng-container>
             <ng-container matColumnDef="platform">
-                <th mat-header-cell *matHeaderCellDef> Platform </th>
-                <td mat-cell *matCellDef="let element"> 
-                    <img  *ngIf="element.platform == 'Facebook'" src="../../../../assets/images/facebook.svg" matTooltip="{{element.platform}}" class="scl_img" /> 
-                    <img  *ngIf="element.platform == 'Twitter'" src="../../../../assets/images/twitter.svg" matTooltip="{{element.platform}}" class="scl_img" />
-                    <img  *ngIf="element.platform == 'Instagram'" src="../../../../assets/images/instagram.svg" matTooltip="{{element.platform}}" class="scl_img" />
-                    <img  *ngIf="element.platform == 'Whatsapp'" src="../../../../assets/images/whatsapp.svg" matTooltip="{{element.platform}}" class="scl_img" />
-                    <img  *ngIf="element.platform == 'Linkedin'" src="../../../../assets/images/linkedin.svg" matTooltip="{{element.platform}}" class="scl_img" />
+                <th mat-header-cell *matHeaderCellDef class="text_center"> Platform </th>
+                <td mat-cell *matCellDef="let element" class="text_center">
+                    <img *ngIf="element.platform == 'Facebook'" src="../../../../assets/images/facebook.svg"
+                        matTooltip="{{element.platform}}" class="scl_img" />
+                    <img *ngIf="element.platform == 'Twitter'" src="../../../../assets/images/twitter.svg"
+                        matTooltip="{{element.platform}}" class="scl_img" />
+                    <img *ngIf="element.platform == 'Instagram'" src="../../../../assets/images/instagram.svg"
+                        matTooltip="{{element.platform}}" class="scl_img" />
+                    <img *ngIf="element.platform == 'Whatsapp'" src="../../../../assets/images/whatsapp.svg"
+                        matTooltip="{{element.platform}}" class="scl_img" />
+                    <img *ngIf="element.platform == 'Linkedin'" src="../../../../assets/images/linkedin.svg"
+                        matTooltip="{{element.platform}}" class="scl_img" />
                 </td>
             </ng-container>
             <ng-container matColumnDef="datetime">
@@ -89,31 +92,37 @@
                     <button *ngIf="element.credits_consumed == 1" mat-icon-button color="accent">
                         <mat-icon>done</mat-icon>
                     </button>
-                    <button *ngIf="element.credits_consumed != 1" mat-icon-button  class="mat-warn">
+                    <button *ngIf="element.credits_consumed != 1" mat-icon-button class="mat-warn">
                         <mat-icon>close</mat-icon>
                     </button>
                 </td>
-            </ng-container>            
+            </ng-container>
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                 <td mat-cell *matCellDef="let element">
-                    <button mat-icon-button color="accent" matTooltip="Edit" routerLink="/student/upload-details/{{element.id}}">
+                    <button mat-icon-button color="accent" matTooltip="Edit"
+                        routerLink="/student/upload-details/{{element.id}}">
                         <mat-icon>edit_notes</mat-icon>
                     </button>
                     <button mat-icon-button color="accent" (click)="openViewModel(element)" matTooltip="View">
                         <mat-icon>visibility</mat-icon>
                     </button>
-                    <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="'Are you sure to delete this record'" placement="auto" (confirm)="deleteRecord(element.id)" confirmButtonType="danger" cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                    <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
+                        [popoverMessage]="'Are you sure to delete this record'" placement="auto"
+                        (confirm)="deleteRecord(element.id)" confirmButtonType="danger"
+                        cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
                         <mat-icon>delete</mat-icon>
                     </button>
 
                 </td>
             </ng-container>
             <ng-container matColumnDef="aproval_status">
-                <th mat-header-cell *matHeaderCellDef> Approval Status </th>
-                <td mat-cell *matCellDef="let element">
-                    <span matTooltip="Current Status is {{element.approval_status == 0?'Pending':(element.approval_status == 1 ? 'Approved':'Declined')}}"
-                    class="{{element.approval_status == 0?'sts_rd gry_btn':(element.approval_status == 1 ? 'sts_grn':'sts_rd')}}">{{element.approval_status == 0?'Pending':(element.approval_status == 1 ? 'Approved':'Declined')}}</span>
+                <th mat-header-cell *matHeaderCellDef class="text_center"> Approval Status </th>
+                <td mat-cell *matCellDef="let element" class="cm_sts_info text_center">
+                    <span
+                        matTooltip="Current Status is {{element.approval_status == 0?'Pending':(element.approval_status == 1 ? 'Approved':'Declined')}}"
+                        class="{{element.approval_status == 0?'rw_pndg':(element.approval_status == 1 ? 'apprvd':'dclnd')}}">{{element.approval_status
+                        == 0?'Pending':(element.approval_status == 1 ? 'Approved':'Declined')}}</span>
                 </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

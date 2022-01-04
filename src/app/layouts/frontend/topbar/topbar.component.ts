@@ -22,6 +22,8 @@ export class TopbarComponent implements OnInit,OnDestroy {
   public innerWidth: any;
   public isOpen = false;
   public load_top_bar = false;
+  public course_usage = 1;
+  public curriculums;
   activeClass: string = 'tp_rt_mn';
   menus: any;
   subMenus: any = [];
@@ -72,6 +74,7 @@ export class TopbarComponent implements OnInit,OnDestroy {
         //this.activeClass = 'tp_rt_mn active';
       }
     });
+    this.getCurriculums();
   }
 
   navigateTo() {
@@ -174,6 +177,26 @@ export class TopbarComponent implements OnInit,OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  
+  getCurriculums() {
+    let param = {
+        url: 'get-courses',
+        usage_type: this.course_usage
+    };
+    this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+            this.curriculums = res['data']['curriculums']
+            // console.log(this.curriculums);
+        }
+    });
+  }
+  navigateURL(url){
+    let user = this.http.getUser();
+    if(user['role']== '2' || user['role']== '11' ){
+      url = "/student/curriculums/"+url;
+    }else{
+      url = "/admin/curriculum/"+url;
+    }
+    this.route.navigateByUrl(url);
+  }
 
 }
