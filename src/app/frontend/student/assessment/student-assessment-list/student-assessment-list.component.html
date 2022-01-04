@@ -1,27 +1,79 @@
 <div class="mn_dshbrd">
     <div class="cust_mdl_par {{ exam_instructions_popup ? 'cust_mdl_opn' : '' }}">
-      <div class="cust_mdl_chl w_50p">
+      <div class="cust_mdl_chl {{action_id == 1 ? 'w_50p':''}}">
           <div class="pg_ttl">
             
-              <div>{{"student.assessments.list.exam_instructions"|translate}}:</div>
+              <div class=" d-flex ai_cntr" *ngIf="action_id == 1"><mat-icon color="accent" class="mr_05">timer</mat-icon>{{"student.assessments.list.timer"|translate}}</div>
+              <div class=" d-flex ai_cntr" *ngIf="action_id == 2"><mat-icon color="accent" class="mr_05">info</mat-icon>{{"student.assessments.list.exam_instructions"|translate}}</div>
 
               <span class="spacer"></span>
               <button (click)="closeExamPopUP();" mat-icon-button class="float_right">
                   &#x2715;
               </button>
           </div>
-          <div class="text_center" *ngIf="action_id == 1">
-            {{"student.assessments.list.remain_time"|translate}}: {{remain_time}}
-          </div>
-          <div class="" *ngIf="action_id == 2">
-            {{"student.assessments.list.exam_login_details"|translate}}:<br />
-            {{"student.assessments.list.your_ip_address"|translate}}: 
+
+
+          <div class="inst_ppdv">
+            <div class="inst_ppdv_aa" *ngIf="action_id == 1">
+              {{"student.assessments.list.remain_time"|translate}}: <span class="grn_clr">{{remain_time}}</span>
+            </div>
+            <div class="inst_ppdv_ab" *ngIf="action_id == 2">
+              {{"student.assessments.list.your_login_details"|translate}}
+              </div>   
+              <div class="inst_ppdv_ac" *ngIf="action_id == 2">
+                <ul>
+                  <li>
+                    <span>{{"student.assessments.list.your_ip_address"|translate}}:</span>
+                    <span>{{ip_address}}</span>
+                  </li>
+                  <li>
+                    <span>{{"student.assessments.list.browser"|translate}}:</span>
+                    <span>{{browser}}</span>
+                </li>
+                  <li>
+                    <span>{{"student.assessments.list.version"|translate}}:</span>
+                    <span>{{browser_version}}</span>
+                </li>
+                  <li>
+                    <span>{{"student.assessments.list.device"|translate}}:</span>
+                    <span> {{device_type}}</span>
+                </li>
+                  <li>
+                    <span>{{"student.assessments.list.os"|translate}}:</span>
+                    <span>{{platform_name}}</span>
+                </li>
+                  <li>
+                    <span>{{"student.assessments.list.version"|translate}}:</span>
+                    <span>{{platform_version}}</span>
+                </li>
+                </ul>
+            </div>   
+            <div class="inst_ppdv_ad" *ngIf="action_id == 2">
+              <div class="inst_ppdv_adhd">
+                Insturctions
+              </div>
+              <ol>
+                <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is</li>
+                <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is</li>
+                <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is</li>
+                <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is
+                  <ul>
+                    <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is</li>
+                    <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is</li>
+                    <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is</li>
+                  </ul>
+                </li>
+                <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is
+                  <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is
+                    <li>In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is
+              </ol>
+            </div>    
           </div>
           <div class="clear_fix"></div>
           <div class="text_right" *ngIf="action_id == 2">
             <hr />
             <button mat-raised-button color="accent" class="float_right mr_1" (click)="submitExam(exam_id);">
-              {{"student.assessments.list.take"|translate}}
+              {{"student.assessments.list.start"|translate}}
             </button>
             <button mat-raised-button class="float_right mr_1 gry_btn" (click)="closeExamPopUP();">
               {{"student.assessments.list.close"|translate}}
@@ -42,8 +94,8 @@
             <table mat-table [dataSource]="dataSource">
 
                 <ng-container matColumnDef="assId">
-                  <th mat-header-cell *matHeaderCellDef> {{"s_no_text"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{ element.s_no }} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"s_no_text"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{ element.s_no }} </td>
                 </ng-container> 
                 <ng-container matColumnDef="assTyp">
                   <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.assessment_type"|translate}} </th>
@@ -60,34 +112,43 @@
                   <td mat-cell *matCellDef="let element"> {{element.assessment_date_time}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="qstns">
-                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.questions"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{element.total_questions_count}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"student.assessments.list.questions"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.total_questions_count}} </td>
                 </ng-container> 
 
                 <ng-container matColumnDef="eqDrtn">
-                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.e_q_duration"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{element.time_per_question}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"student.assessments.list.e_q_duration"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.time_per_question}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="mrKs">
-                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.marks"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{element.mrKs}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"student.assessments.list.marks"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.mrKs}} </td>
                 </ng-container>  
                 <ng-container matColumnDef="prCent">
-                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.percentage"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{element.prCent}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"student.assessments.list.percentage"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.prCent}} </td>
                 </ng-container>  
                 <ng-container matColumnDef="reSlt">
-                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.result"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{element.reSlt}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"student.assessments.list.result"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.reSlt}} </td>
                 </ng-container>  
                 <ng-container matColumnDef="stTs">
-                  <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.status"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"student.assessments.list.status"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> 
+                    <span class="cm_sts_info">
+                      <span *ngIf="element.status_text == 'Invited'" class="crct_pnd">Invited</span>
+                      <span *ngIf="element.status_text == 'In Progress'" class="rw_pndg">In Progress</span>
+                      <span *ngIf="element.status_text == 'Expired'" class="drft">Expired</span>
+                    </span>
+                  </td>
                 </ng-container>  
                 <ng-container matColumnDef="acTn">
                   <th mat-header-cell *matHeaderCellDef> {{"student.assessments.list.action"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> 
-                    <button type="button" *ngIf="element.action != '0'" (click)="startExamPopUP(element.pk_id,element.action,element.time)" mat-raised-button color="accent" class="mr_1">
+                    <button type="button" *ngIf="element.action == '2' && element.exam_status == '1'" (click)="submitExam(element.pk_id)" mat-raised-button  class="mr_1 actv">
+                      {{"student.assessments.list.resume"|translate}}
+                    </button>
+                    <button type="button" *ngIf="element.action != '0' && element.exam_status != '1'" (click)="startExamPopUP(element.pk_id,element.action,element.time,element.date_time)" mat-raised-button color="accent" class="mr_1">
                       {{"student.assessments.list.start"|translate}}
                     </button>
                   </td>
