@@ -418,12 +418,18 @@ export class CreateAssessmentComponent implements OnInit {
         this.toster.error(data, "Error", {closeButton:true});
       });
       return;
+    }else if(this.question_total > 100){
+      this.translate.get('admin.assessment.create.questions_count_error_msg').subscribe((data)=> {
+        this.toster.error(data, "Error", {closeButton:true});
+      });
+      return;
     }else if(this.selected_students.length == 0){
       this.translate.get('admin.assessment.create.select_students_error_message').subscribe((data)=> {
         this.translate.get('error_text').subscribe((error_text)=> {
           this.toster.error(data, error_text, {closeButton:true});
         });
-      });        
+      });
+      return;        
     }
     else{
       let param = {url:'assessment/store',assessment_name: this.assessment_name,assessment_type: this.assessment_type,timezone: this.timezone, 
