@@ -5,8 +5,8 @@
     <div class="d-flex">
       <div class="pg_ttl">{{"admin.assessment.report.assessment_result"|translate}}</div>
       <div class="spacer"></div>
-      <div>
-        <button mat-raised-button color="accent">{{"admin.assessment.report.download"|translate}}</button>
+      <div *ngIf="assessment.length>0">
+        <a [href]="apiUrl+'assessment/download-report/'+assessment[0]['pk_id']" target="_blank" mat-raised-button color="accent">{{"admin.assessment.report.download"|translate}}</a>
       </div>
     </div>
     <hr>
