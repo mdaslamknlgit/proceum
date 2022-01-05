@@ -69,18 +69,20 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   popoverMessage = '';
   public model_status = false;
   public edit_model_status = false;
-  public self_or_other = "self"
-  public show_radio = false;
+  public self_or_other = "other"
+  public show_radio = true;
   public organization_type = '';
   public name_of = '';
   public partner_id: any = null;
   public parent_id: number = null;
   public organization = '';
+  public partner_parent_id = '';
+  public partner_child_id = '';
   public year_id = '';
   public semester_id = '';
   public group_id = '';
   public user_role:any;
-  public not_proceum_admin = false;
+  public proceum_admin = false;
   public expand_course = true;
   public selected_courses:any;
   public courses_div = false;
@@ -232,13 +234,15 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   ngOnInit(): void {
     const user = JSON.parse(atob(localStorage.getItem('user')));
     this.user_role = user.role;
-    if (Object.values(environment.PROCEUM_ADMIN_SPECIFIC_ROLES).indexOf(Number(this.user_role)) < 0) {
-      this.not_proceum_admin = true;
+    if (Object.values(environment.PROCEUM_ADMIN_SPECIFIC_ROLES).indexOf(Number(this.user_role)) > -1) {
+      this.proceum_admin = true;
+    }else{
       //Disable specific columns for partners 
       this.displayedColumnsYears.splice(2,2);
       this.displayedColumnsSemesters.splice(3,2);
       this.displayedColumnsGroups.splice(4,2);
-    }      
+    }
+    this.organization_types = this.organization_types.filter((e)=>e.value != '2');      
     this.getData();
     if(this.slug == 'year'){
       this.getCurriculumnHierarchy();
@@ -256,7 +260,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.organization = '';
     this.organization_type = '';
     this.courses_ids_csv = '';
-    this.self_or_other = 'self';
+    this.self_or_other = 'other';
     //Years tab
     if(tab.index == 0){
       this.slug = 'year';
@@ -286,6 +290,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       } else {
         this.dataSource = new MatTableDataSource();
       }
+
     });
   }
 
@@ -311,20 +316,21 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
   public getRow(id) {
     this.add_or_edit = 'Edit';
-    this.self_or_other = 'self';
+    this.self_or_other = 'other';
     this.courses_ids_csv = '';
     let param = { url: 'get-year-semester-group-by-id','id':id, 'slug': this.slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let item = res['data'];
         this.partner_id = item.partner_id;
-        this.organization = item.partner_id;
+        this.partner_child_id = item.partner_id;
+        this.partner_parent_id = item.partner_parent_id;
         this.parent_id = item.parent_id;
         this.year_id = item.year_id;
         this.semester_id = item.semester_id;
         this.slug = item.slug;
         this.name_of = item.name;
-        this.self_or_other = (item.partner_id == null) ? 'self' : 'other';
+        this.self_or_other = 'other';//(item.partner_id == null) ? 'self' : 'other';
         this.show_radio =  false;
         this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
         this.year_has_semester = item.year_has_semester;
@@ -340,7 +346,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         }
         if(this.organization_type != '' && this.organization_type != null){
           //Get partners for dropdown
-          this.onOrganizationTypeChange();
+          //this.onOrganizationTypeChange();
+          this.getUniversities();
+          this.getColleges();
           //After partners dropdown get years dropdown options if slug is semester or group
           if(this.slug == 'semester' || this.slug == 'group'){
             this.getYears(this.partner_id,null);
@@ -485,30 +493,26 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.organization = '';
     this.organization_type = '';
     this.courses_ids_csv = '';
-    this.self_or_other = 'self';
-    this.show_radio = true;
+    this.partner_parent_id = '';
+    this.partner_child_id = '';
+    this.self_or_other = 'other';
+    this.show_radio = false;//true Changed to false on 05/1/2022
     this.add_or_edit = 'Add New';
     this.year_has_semester = false;
     this.year_has_group = false;
     this.show_semester_dropdown = false;
     
-    //this.self_or_other = 'other';
     //Call years for self
     if(this.slug != "year"){
       this.getYears(null,null);
     }
     this.model_status = true;
-     //(<HTMLFormElement>document.getElementById('create_form')).reset();
-     //(<HTMLFormElement> document.getElementById("mat-radio-9")).checked = true;
-    // this.self_or_other = "other";
-    //(<HTMLFormElement>document.getElementById('edit_discount_form')).reset();
   }
 
 
   onOrganizationTypeChange(){
-    // this.year_id = '';
-    // this.semester_id = '';
-    // this.group_id = '';
+    this.partner_parent_id = '';
+    this.partner_child_id = '';
     if(this.organization_type == '1'){ //University
       this.getUniversities();
     }else if(this.organization_type == '2'){ //College
@@ -550,7 +554,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   
   //To get all college list
   getColleges(){
-    let param = { url: 'get-partners-list',partner_type_id : 2 };
+    let param = { url: 'get-partners-list',partner_type_id : 2, parent_id: this.partner_parent_id };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.colleges = res['data']['partners'];
@@ -609,7 +613,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   }
 
   getYears(partner,parent_id){
-    this.partner_id = partner;
+    if(this.slug == 'year')return;
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : 'year' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -687,13 +691,16 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       error = true;
     }
     if(this.slug == 'year'){
+      if(this.year_has_semester == false && this.year_has_group == false){
+        error = true;
+        this.toster.error("Year must have Semester or Group!", 'Error');
+      }
       this.submitCourses();
       if(this.courses_ids_csv == ''){
         error = true;
         this.toster.error("Select Subjects!", 'Error');
       }
     }
-    let organization = (this.self_or_other == 'self') ? null : this.organization;
     let parent_id = this.semester_id;
     let id = this.group_id;
     if(this.slug == 'year'){
@@ -712,17 +719,21 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       let param = { 
         url: 'create-year-semester-group',
         name: this.name_of, 
-        partner_id : organization, 
+        partner_id : this.partner_child_id,
         parent_id : parent_id, 
         slug : this.slug, 
         id : id,
         year_has_semester : this.year_has_semester,
         year_has_group : this.year_has_group,
+        subject_ids_csv : this.courses_ids_csv,
         status : '1',
       };
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.toster.success(res['message'], 'Success');
+          if (Object.values(environment.PROCEUM_ADMIN_SPECIFIC_ROLES).indexOf(Number(this.user_role)) > -1) {
+            this.partner_id = null;
+          }
           this.getData();
           this.model_status = false;
         } else {
