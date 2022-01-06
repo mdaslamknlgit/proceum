@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 export class IndexComponent implements OnInit {
   constructor(
     private http: AuthService,
-    private http2: CommonService,
     private toastr: ToastrService,
     private service: CommonService,
     private router: Router
@@ -119,7 +118,7 @@ export class IndexComponent implements OnInit {
   }
   getcoupons(){
     let param = { url: 'get-latest-coupon'};
-    this.http2.get(param).subscribe((res) => {
+    this.http.post(param).subscribe((res) => {
       if(res['error'] == false) {
         this.result =  res['data'];
       }

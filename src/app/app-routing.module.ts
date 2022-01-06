@@ -87,6 +87,11 @@ const routes: Routes = [
       role: '2,1,3,4,5,6,7,11',
     },
   },
+  {
+    path: 'index',
+    loadChildren: () =>
+      import('./frontend/frontend.module').then((m) => m.FrontendModule),
+  },
   { path: 'shopping-cart', component: ShoppingCartComponent },
   
   { path: 'pricing-and-packages', component: ListPackagesComponent },
