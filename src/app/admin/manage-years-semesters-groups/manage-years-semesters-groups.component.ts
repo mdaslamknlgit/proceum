@@ -92,6 +92,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   public year_has_semester = false;
   public year_has_group = false;
   public show_semester_dropdown = false;
+  public id = 0;
   
   universities = [];
   colleges = [];
@@ -250,6 +251,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   }
   tabClick(tab) {
     //empty the table data first
+    this.id = 0;
     this.dataSource = new MatTableDataSource([]);
     this.year_id = null;
     this.semester_id = null;
@@ -335,6 +337,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         this.organization_type = (item.partner_type == null) ? '' : item.partner_type.toString();
         this.year_has_semester = item.year_has_semester;
         this.year_has_group = item.year_has_group;
+        this.id = item.pk_id;
         if(this.slug == 'year'){
           this.year_id = id;
         }
@@ -484,6 +487,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   toggleModel() {
     //empty the table data first
     //this.dataSource = new MatTableDataSource([]);
+    this.id = 0;
     this.year_id = null;
     this.semester_id = null;
     this.group_id = null;
@@ -685,35 +689,37 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     );
   }
 
+  unsetIDs(flag){
+    if(flag == 1){
+      this.partner_child_id = '';
+    }else{
+      this.year_id = '';
+      this.semester_id = '';
+    }
+  }
+
   createNew(){
     let error = false;
     if(this.name_of == ''){
       error = true;
     }
     if(this.slug == 'year'){
-      if(this.year_has_semester == false && this.year_has_group == false){
-        error = true;
-        this.toster.error("Year must have Semester or Group!", 'Error');
-      }
       this.submitCourses();
       if(this.courses_ids_csv == ''){
         error = true;
         this.toster.error("Select Subjects!", 'Error');
       }
     }
-    let parent_id = this.semester_id;
-    let id = this.group_id;
+    let parent_id = null;
+    let id = this.id;
     if(this.slug == 'year'){
       parent_id = null;
-      id = this.year_id;
     }
     if(this.slug == 'semester'){
       parent_id = this.year_id;
-      id = this.semester_id;
     }
     if(this.slug == 'group'){
       parent_id = this.semester_id;
-      id = this.group_id;
     }
     if(!error){
       let param = { 

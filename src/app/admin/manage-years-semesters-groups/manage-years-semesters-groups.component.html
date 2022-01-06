@@ -396,7 +396,7 @@
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select Organization Type" name="organization_edit"
                                         #organization_edit="ngModel" [(ngModel)]="organization_type"
-                                        (ngModelChange)="onOrganizationTypeChange()" required>
+                                        (ngModelChange)="onOrganizationTypeChange();" required>
                                         <mat-option *ngFor="let item of organization_types" [value]="item.value">{{
                                             item.viewValue }}</mat-option>
                                     </mat-select>
@@ -415,7 +415,7 @@
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select University" name="university_edit"
                                         #university_edit="ngModel" [(ngModel)]="partner_parent_id"
-                                        (ngModelChange)="getColleges()" required>
+                                        (ngModelChange)="getColleges();unsetIDs(1)" required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
                                                 [placeholderLabel]="'Search University'" name="search_university"
@@ -443,7 +443,7 @@
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel"
-                                        [(ngModel)]="partner_child_id" (ngModelChange)="getYears(partner_child_id,0)" required>
+                                        [(ngModel)]="partner_child_id" (ngModelChange)="getYears(partner_child_id,2);unsetIDs();" required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
                                                 [placeholderLabel]="'Search College'" name="search_college" ngModel
@@ -598,7 +598,7 @@
                         <span>
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline" *ngIf="slug == 'year'">
-                                    <input maxlength="30" appAlphaNumericWithSpaces required name="title"
+                                    <input maxlength="30" required name="title"
                                         [(ngModel)]="name_of" matInput placeholder="{{ page_title }} Name"
                                         #title="ngModel" maxlength="10" />
                                     <span class="prc_tltp"
@@ -606,7 +606,7 @@
                                         }} name is required</span>
                                 </mat-form-field>
                                 <mat-form-field appearance="outline" *ngIf="slug == 'semester' || slug == 'group'">
-                                    <input maxlength="30" appNumbersonly required name="title" [(ngModel)]="name_of"
+                                    <input maxlength="30" required name="title" [(ngModel)]="name_of"
                                         matInput placeholder="{{ page_title }} Name" #title="ngModel" />
                                     <span class="prc_tltp"
                                         *ngIf="(create_form.submitted || title.touched) && title.invalid">{{ page_title

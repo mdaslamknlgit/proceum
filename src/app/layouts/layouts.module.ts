@@ -51,7 +51,8 @@ import { SidebarTeacherComponent } from './admin/sidebar-teacher/sidebar-teacher
     SidemenuComponent,
     StudentTopbarComponent,
     SidebarPartnerComponent,
-    SidebarTeacherComponent
+    SidebarTeacherComponent,
+    PartnerTopbarComponent
   ],
 })
 export class LayoutsModule {}
