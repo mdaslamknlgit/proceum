@@ -112,7 +112,7 @@
                         <div class="crt_prt_hd">State</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select State" name="state_edit" #state_edit="ngModel" [(ngModel)]="state_id" required>
+                                <mat-select placeholder="Select State" name="state_edit" #state_edit="ngModel" [(ngModel)]="state_id" (ngModelChange)="getCities(state_id)" required>
                                     <mat-option>
                                         <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                                         [placeholderLabel]="'Search State'" name="search_state" ngModel
@@ -128,7 +128,15 @@
                         <div class="crt_prt_hd">City</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="City" [(ngModel)]="city" name="city_edit" #city_edit="ngModel" maxlength="30" required/>
+                                <mat-select placeholder="Select City" name="city_edit" #city_edit="ngModel" [(ngModel)]="city" required>
+                                    <mat-option>
+                                    <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'"
+                                        [placeholderLabel]="'Search City'" name="search_city" ngModel
+                                        (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let one of all_cities | async" [value]="one['id']">{{
+                                    one["city_name"] }}</mat-option>
+                                </mat-select>
                             </mat-form-field>
                             <span class="prc_tltp" *ngIf="(create_user_form.submitted || city_edit.touched) && city_edit.invalid">City is required</span>
                         </div>

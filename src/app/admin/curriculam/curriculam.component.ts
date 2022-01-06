@@ -23,7 +23,8 @@ export class CurriculamComponent implements OnInit {
     public steps = ['step_' + 0];
     public step_flags = {'step_0':''};
     public selected_step_flags = [];
-    public items = [{flag:"Subject", value: "subject", is_disabled: false}, {flag:"Chapter", value: "chapter", is_disabled: false}, {flag:"Topic", value: "topic", is_disabled: false}, {flag:"Sub Topic", value: "sub_topic", is_disabled: false}]
+    public default_items = [{flag:"Subject", value: "subject", is_disabled: false}, {flag:"Chapter", value: "chapter", is_disabled: false}, {flag:"Topic", value: "topic", is_disabled: false}, {flag:"Sub Topic", value: "sub_topic", is_disabled: false}];
+    public items = [{flag:"Subject", value: "subject", is_disabled: false}, {flag:"Chapter", value: "chapter", is_disabled: false}, {flag:"Topic", value: "topic", is_disabled: false}, {flag:"Sub Topic", value: "sub_topic", is_disabled: false}];;
     public curriculum_id = '';
     dataSource = new MatTableDataSource();
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -90,6 +91,7 @@ export class CurriculamComponent implements OnInit {
     }
     toggleModel() {
         this.model_status = !this.model_status;
+        this.items.forEach((item, index)=>{ this.items[index]['is_disabled'] = false;});
         this.steps = ['step_' + 0];
         this.step_flags = {'step_0':''};
         ( < HTMLFormElement > document.getElementById('curriculum_form')).reset();

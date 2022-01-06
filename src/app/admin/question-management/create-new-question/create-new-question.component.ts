@@ -33,6 +33,7 @@ import {
 import {
     DomSanitizer
 } from '@angular/platform-browser';
+import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
     selector: 'app-create-new-question',
     templateUrl: './create-new-question.component.html',
@@ -82,7 +83,8 @@ export class CreateNewQuestionComponent implements OnInit {
         correct_ans_ids: [],
         q_check_type: null,
         option_array: [1, 2, 3, 4],
-        selected_topics:[]
+        selected_topics:[],
+        new_options:{}
     }
     single_option = false;
     multiple_option = false;
@@ -121,7 +123,8 @@ export class CreateNewQuestionComponent implements OnInit {
         this.user = this.http.getUser();
         this.getQTypes()
         //this.getQBanks()
-        this.changeQUsageType(1)
+        this.changeQUsageType(1);
+        this.getChildData();
     }
     getQTypes() {
         this.QTypes = [];
@@ -213,42 +216,12 @@ export class CreateNewQuestionComponent implements OnInit {
             item => item.level_name.toLowerCase().includes(search.toLowerCase())
         );
     }
-    // getTopics(curriculum_id, search,type) {
-    //     this.question.q_bank_ids = [];
-    //     if(!this.question.q_bank_ids.includes(curriculum_id))
-    //         this.question.q_bank_ids.push(curriculum_id);
-    //     let params = {
-    //         url: 'get-topics-by-curriculum',
-    //         curriculum_id: curriculum_id,
-    //         search: search
-    //     };
-    //     this.http.post(params).subscribe((res) => {
-    //         if (res['error'] == false) {
-    //             if (res['data']['topics'].length > 0)
-    //                 this.topics.next(res['data']['topics'].slice());
-    //             else
-    //                 this.topics.next([]);
-    //         }
-    //     });
-    // }
     setCourseText(args){ 
         this.curriculums.forEach(res=>{
             if(res['pk_id'] == args)
             this.selected_course = res['curriculumn_name'];
         })
     }
-    // setTopicText(args, level_id){ 
-    //     let sub = this.level_options[level_id].forEach(res2=>{
-    //             if(res2['pk_id'] == args)
-    //             {
-    //                 if(this.selected_topic != ''){
-    //                     this.selected_topic += ' / '+res2['level_name'];
-    //                 }
-    //                 else
-    //                     this.selected_topic = res2['level_name'];
-    //             }
-    //         })
-    // }
     addTopic(){
          
         this.selected_topics.forEach(res => {
@@ -276,18 +249,6 @@ export class CreateNewQuestionComponent implements OnInit {
                     this.curriculum_labels = [];    
                 }
             });
-            // let data = {pk_id:0, course_qbank:this.question.curriculum_id, course_qbank_text: this.selected_course, topic:this.question.topic, topic_text: this.selected_topic, is_delete:0};
-            // this.selected_topics.push(data);
-            // this.dataSource = new MatTableDataSource(this.selected_topics);
-            // this.question.curriculum_id = '';
-            // this.selected_course = '';
-            // this.question.topic = '';
-            // this.selected_topic = '';
-            // this.level_options = [];
-            // this.all_level_options = [];
-            // this.selected_level = [];
-            // this.level_id=0;
-            // this.curriculum_labels = [];
         }
     }
     removeTopic(index){
@@ -310,7 +271,8 @@ export class CreateNewQuestionComponent implements OnInit {
     }
 
     changeQType(e) {
-
+        this.option_images = {};
+        this.option_images_paths = {};
         this.single_option = false;
         this.multiple_option = false;
         this.free_text = false;
@@ -450,50 +412,6 @@ export class CreateNewQuestionComponent implements OnInit {
                         this.myFiles['opt'+option+'Img'] = event.target.files[i];
                     }
                 }
-                //switch (fileId) {
-                    // case 'file':
-                    //     this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                    //     this.fileName = fileName;
-                    //     this.myFiles['file'] = event.target.files[i];
-                    //     break;
-                    // case 'opt1Img':
-                    //     this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                    //     this.opt1FileName = fileName;
-                    //     this.myFiles['opt1Img'] = event.target.files[i];
-                    //     break;
-                    // case 'opt2Img':
-                    //     this.opt2FileName = fileName;
-                    //     this.myFiles['opt2Img'] = event.target.files[i];
-                    //     break;
-                    // case 'opt3Img':
-                    //     this.opt3FileName = fileName;
-                    //     this.myFiles['opt3Img'] = event.target.files[i];
-                    //     break;
-                    // case 'opt4Img':
-                    //     this.opt4FileName = fileName;
-                    //     this.myFiles['opt4Img'] = event.target.files[i];
-                    //     break;
-                    // case 'opt5Img':
-                    //     this.opt5FileName = fileName;
-                    //     this.myFiles['opt5Img'] = event.target.files[i];
-                    //     break;
-                    // case 'opt6Img':
-                    //     this.opt6FileName = fileName;
-                    //     this.myFiles['opt6Img'] = event.target.files[i];
-                    //     break;
-                    // case 'opt7Img':
-                    //     this.opt7FileName = fileName;
-                    //     this.myFiles['opt7Img'] = event.target.files[i];
-                    //     break;
-                    // case 'opt8Img':
-                    //     this.opt8FileName = fileName;
-                    //     this.myFiles['opt8Img'] = event.target.files[i];
-                    //     break;
-
-                    // default:
-                    //     console.log("No such file exists!");
-                    //     break;
-                //}
 
 
             } else {
@@ -519,6 +437,7 @@ export class CreateNewQuestionComponent implements OnInit {
         this.audio.pause();
     }
     removeAudio() {
+        this.fileName = '';
         this.audio.pause();
         this.audio.remove();
     }
@@ -554,6 +473,7 @@ export class CreateNewQuestionComponent implements OnInit {
             return false;
         }
         this.question.selected_topics = this.selected_topics;
+        this.question.new_options = this.option_images_paths;
         let filesData = this.myFiles;
         const formData = new FormData();
 
@@ -598,6 +518,36 @@ export class CreateNewQuestionComponent implements OnInit {
     }
     public openFileExplor(id) {
         document.getElementById('opt' + id + 'Img').click();
+    }
+    public library_popup: boolean = false;
+    public library_purpose = '';
+    public active_tab = '';
+    public option_images = {};
+    public option_images_paths = {};
+    public active_option = '';
+    private subscription:Subscription;
+    getChildData() {
+        this.subscription = this.http.child_data.subscribe((res) => {
+          if (this.library_purpose == 'images') {
+            let obj = { file_path: res['file_path'], path: res['path'] };console.log(obj)
+            this.toster.success('Files Added.', 'File', { closeButton: true });
+              this.option_images[this.active_option] = res['path'];
+              this.option_images_paths[this.active_option] = res['file_path'];
+          }
+        });
+      }
+    CloseModal() {
+        this.library_popup = false;
+    }
+    openAssetsLibrary(tab, option) {
+        this.active_option = option;
+        this.library_purpose = "images";
+        this.active_tab = tab;
+        this.library_popup = true;
+    }
+    removeFile(file){
+        this.option_images[file] = '';
+        this.option_images_paths[file] = '';
     }
     navigateTo(url) {
         let user = this.user;
@@ -667,5 +617,8 @@ export class CreateNewQuestionComponent implements OnInit {
                 });
             }
         }
+    }
+    ngOnDestroy() { 
+        this.subscription.unsubscribe();
     }
 }
