@@ -236,7 +236,7 @@ export class CreateNewFlashCardsComponent implements OnInit {
       role_id:this.user['role'],
       questionArray: this.questionArray,
     };
-    console.log(form_data);//return false;
+    //console.log(form_data);//return false;
 
     let params = { url: 'save-flash-cards', form_data: form_data };
     //let params = { url: 'save-flash-cards', "curriculum_id": this.curriculum_id,"subject_csv": this.subject_csv,user_id:this.user['id'],role_id:this.user['role'],"questionArray": this.questionArray, };

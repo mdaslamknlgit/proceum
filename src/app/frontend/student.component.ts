@@ -1,5 +1,6 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, Input, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { CommonService } from 'src/app/services/common.service';
 
 @Component({
   selector: 'student-root',
@@ -8,6 +9,18 @@ import { Router, NavigationEnd } from '@angular/router';
 })
 
 export class StudentComponent {
-  constructor(private router: Router) {}
-  ngOnInit() {}
+  @Input() key = '';
+  public user;
+  public search_key=false;
+  public current_url="";
+  constructor(private router: Router,private http: CommonService,) {}
+  ngOnInit() {
+    this.user = this.http.getUser();
+    this.current_url=this.router.url;
+  }
+  ngOnChanges(){
+    if(this.key){
+      this.search_key = true;
+    }
+  }
 }

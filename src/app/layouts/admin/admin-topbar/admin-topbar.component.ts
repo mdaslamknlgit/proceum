@@ -122,6 +122,7 @@ export class AdminTopbarComponent implements OnInit {
     }
   }
   adminglobalsearch(){
-    this.route.navigateByUrl('/admin/global-search/' + this.search_key)
+    // this.route.navigateByUrl('/admin/global-search/' + this.search_key)
+    this.route.navigateByUrl('/index/global-search/' + this.search_key)
   }
 }

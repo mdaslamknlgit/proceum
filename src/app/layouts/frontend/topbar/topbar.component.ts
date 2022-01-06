@@ -44,6 +44,7 @@ export class TopbarComponent implements OnInit,OnDestroy {
   }
 
   public user;
+  public search_key;
   id: number = undefined;
   ngOnInit(): void {
     //check subdomain
@@ -69,12 +70,12 @@ export class TopbarComponent implements OnInit,OnDestroy {
     }
     this.innerWidth = window.innerWidth;
     this.getMenus();
+    this.getCurriculums();
     this.activeRoute.params.subscribe((routeParams) => {
       if (routeParams.id) {
         //this.activeClass = 'tp_rt_mn active';
       }
     });
-    this.getCurriculums();
   }
 
   navigateTo() {
@@ -179,24 +180,30 @@ export class TopbarComponent implements OnInit,OnDestroy {
 
   getCurriculums() {
     let param = {
-        url: 'get-courses',
+        url: 'get-curriculums',
         usage_type: this.course_usage
     };
-    this.http.post(param).subscribe((res) => {
-        if (res['error'] == false) {
-            this.curriculums = res['data']['curriculums']
-            // console.log(this.curriculums);
+    this.authHttp.post(param).subscribe((res) => {
+        if(res['error'] == false) {
+          this.curriculums = res['data'];
         }
     });
   }
   navigateURL(url){
     let user = this.http.getUser();
-    if(user['role']== '2' || user['role']== '11' ){
-      url = "/student/curriculums/"+url;
-    }else{
-      url = "/admin/curriculum/"+url;
+    if(user){
+      if(user['role']== '2' || user['role']== '11' ){
+        url = "/student/curriculums/"+url;
+      }else{
+        url = "/admin/curriculum/"+url;
+      }  
+    }
+    else{
+      url = "/index/curriculum/"+url;
     }
     this.route.navigateByUrl(url);
   }
-
+  studentglobalsearch(){
+    this.route.navigateByUrl("/index/global-search/"+this.search_key)
+  }
 }
