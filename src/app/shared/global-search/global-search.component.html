@@ -4,15 +4,16 @@
     <div class="brdcrm_br p_1 d-flex ai_cntr">
       <mat-icon color="accent">home</mat-icon>
       <mat-icon>navigate_next</mat-icon><strong>Global Search</strong>
+      <mat-icon>navigate_next</mat-icon><strong>Search Results</strong>
     </div>
   </div>
   <div class="hgt_10"></div>
-  <div class="dsh_brd_crds">
+  <!-- <div class="dsh_brd_crds">
     <mat-form-field appearance="outline" class="xl_srch">
       <input matInput placeholder="Search" [(ngModel)]="key" (keyup)="$event.keyCode == 13 ? globalsearch() : ''"/>
       <mat-icon matSuffix color="accent">search</mat-icon>
     </mat-form-field>
-  </div>
+  </div> -->
   <div class="d-flex">
     <div>Search Key: <span class="grn_clr">{{key}}</span></div>
     <div class="spacer"></div>
@@ -23,9 +24,9 @@
   <div class="hgt_5"></div>
   <div class="dsh_brd_crds intr_vd_tml"> 
     <div *ngIf="result_cond">
-      <div class="gs_ndf"> No Results Found for "{{key}}" </div>
+      <div class="gs_ndf"> No records found with your search key, {{key}}! Please find the below nearest matching records.</div>
       <div class="d-flex">
-        <div>Similar Results Found</div>
+        <!-- <div>Similar Results Found</div> -->
         <div class="spacer"></div>
         <div class="d-flex ai_cntr">
           <div class="grn_clr">{{result_count}} Results Found</div>
@@ -39,7 +40,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title>
               <div> {{curriculum.key}}</div>
-              <div class="glbl_srch_cnt ml_1">({{curriculum.value.no_of_results}} Results)</div>
+              <!-- <div class="glbl_srch_cnt ml_1">({{curriculum.value.no_of_results}} Results)</div> -->
             </mat-panel-title>
           </mat-expansion-panel-header>
           <div class="tm_ln_dv">

@@ -114,6 +114,7 @@ export class StudentTopbarComponent implements OnInit {
     }
   }
   studentglobalsearch(){
-    this.route.navigateByUrl('/student/global-search/' + this.search_key)
+    // this.route.navigateByUrl('/student/global-search/' + this.search_key)
+    this.route.navigateByUrl('/index/global-search/' + this.search_key)
   }
 }

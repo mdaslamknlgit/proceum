@@ -12,20 +12,20 @@
       </div>
       <div class="tbbd_bdy">
         <div class="hgt_10"></div>
-        <div class="d-flex zm_swtchusrs"> 
-          <div class="w_49p mr_1 d-flex ai_cntr">
-            <div class="w_100p mr_1">
+        <div class="d-flex zm_swtchusrs fw_w"> 
+          <div class="p_0 d-flex ai_cntr w_100p">
+            <div class="w_100p">
               <mat-form-field appearance="outline" class="w_100p">
                 <textarea (keyup)="$event.keyCode == 13 ? addEmail() : ''" [(ngModel)]="recipient_emails" matInput placeholder="Add E-Mail ID (multiple with comma separated)"></textarea>
               </mat-form-field>
             </div>
-            <div>
-              <button mat-mini-fab color="accent" class="float_right no_bxsdw">
+            <!-- <div>
+              <button mat-mini-fab color="accent" class="">
                 <mat-icon (click)="addEmail()">chevron_right</mat-icon>
               </button>
-            </div>
+            </div> -->
           </div>
-          <div class="w_49p">
+          <div class="w_100p p_0">
             <span class="zmsu_lft" *ngFor="let email of recipient_emails_list; let email_index=index;">
               <span class="mr_1">{{email}}</span>
               <button mat-icon-button color="warn">
@@ -114,9 +114,7 @@
   </div>
   <br>
   <!-- Profile fields -->
-
   <h2 class="section-title">My Profile</h2>
-
   <div class="two-blocks">
     <form #profile_form="ngForm" name="profile_form" id="profile_form"
       (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
@@ -124,6 +122,21 @@
         <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked
           fields are mandatory</span>
         <div class="hgt_20"></div>
+
+        <div class="my_prfl_mn">
+          <div class="my_prf_dv">
+            <span>First name</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel'
+                ngModel [(ngModel)]="profile.first_name" required
+                onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
+              </mat-form-field>
+          </div>
+        </div>
+
+
+
+
         <div class="tc_w50p">
           <!-- <span class="required">Fields marked with * are mandatory.</span> -->
           <div class="frm_dvs">
@@ -159,11 +172,11 @@
                 <mat-form-field appearance="outline">
                   <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel'
                     ngModel [(ngModel)]="profile.first_name" required
-                    onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
-                </mat-form-field>
-                <span class="prc_tltp" *ngIf="profile_form.submitted && first_name.errors?.required">
+                    onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
+                  </mat-form-field>
+                <!-- <span class="prc_tltp" *ngIf="profile_form.submitted && first_name.errors?.required">
                   First Name is required
-                </span>
+                </span> -->
               </span>
             </span>
           </div>
