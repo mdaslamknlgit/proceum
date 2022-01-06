@@ -71,7 +71,7 @@
         active_route == '/admin/create-content' ||
         active_route == '/admin/link-content' ||
         active_route.includes('/admin/create-content') ||
-        active_route == '/admin/manage-content'
+        active_route == '/admin/manage-content' || active_route == '/admin/manage-flash-cards' || active_route == '/admin/teacher-material'
           ? 'active'
           : ''
       }}" routerLinkActive="active" (click)="activeMenu(4, menu_active)">
@@ -87,9 +87,6 @@
         </li>
         <li routerLinkActive="active" routerLink="/admin/link-content">
           <mat-icon>add_link</mat-icon>Link Content
-        </li>
-        <li>
-          <mat-icon>speaker_notes</mat-icon>Learning Notes
         </li>
         <li routerLink="/admin/teacher-material">
           <mat-icon>description</mat-icon>Teacher Materials
@@ -142,16 +139,7 @@
         <mat-icon>today</mat-icon> Study Planner
       </div>
     </li>
-    <li class="hs_sbmnu {{
-      menu_active == 6 ||
-      active_route == '/admin/questions-mgt/qbank' ||
-      active_route == '/admin/questions-mgt/questions-list' ||
-      active_route.includes('/questions-mgt/create-question') ||
-      active_route.includes('/questions-mgt/edit-question/') ||
-      active_route == '/admin/questions-mgt/lab-values'
-        ? 'active'
-        : ''
-    }}" (click)="activeMenu(6, menu_active)">
+    <li class="hs_sbmnu {{ menu_active == 6 || active_route == '/admin/questions-mgt/qbank' || active_route == '/admin/questions-mgt/questions-list' || active_route.includes('/questions-mgt/create-question') || active_route.includes('/questions-mgt/edit-question/') || active_route == '/admin/questions-mgt/lab-values' ? 'active': ''}}" (click)="activeMenu(6, menu_active)">
       <div class="sd_mnuhd">
         <mat-icon>quiz</mat-icon>Questions Management
       </div>
@@ -160,15 +148,16 @@
           [ngClass]="{ active: active_route == '/admin/questions-mgt/qbank' }">
           <mat-icon>quiz</mat-icon>Question Banks
         </li> -->
-        <li routerLink="/admin/questions-mgt/questions-list" [ngClass]="{ active: active_route == '/admin/questions-mgt/questions-list' ||
-        active_route.includes('/questions-mgt/create-question') ||
-        active_route.includes('/questions-mgt/edit-question/') }">
+        <li routerLink="/admin/questions-mgt/create-question" [ngClass]="{ active: active_route.includes('/questions-mgt/create-question')}">
+          <mat-icon>quiz</mat-icon>Create Question
+        </li>
+        <li routerLink="/admin/questions-mgt/questions-list" [ngClass]="{ active: active_route == '/admin/questions-mgt/questions-list' || active_route.includes('/questions-mgt/edit-question/') }">
           <mat-icon>quiz</mat-icon>Manage Questions
         </li>
-        <li routerLink="/admin/questions-mgt/lab-values"
+        <!-- <li routerLink="/admin/questions-mgt/lab-values"
           [ngClass]="{ active: active_route == '/admin/questions-mgt/lab-values' }">
           <mat-icon>quiz</mat-icon>Lab Values
-        </li>
+        </li> -->
       </ul>
     </li>
     <!-- <li routerLinkActive="active" (click)="menu_active = 0">
@@ -176,11 +165,11 @@
         <mat-icon>quiz</mat-icon> Question Bank
       </div>
     </li> -->
-    <li routerLinkActive="active" (click)="menu_active = 0">
+    <!-- <li routerLinkActive="active" (click)="menu_active = 0">
       <div class="sd_mnuhd">
         <mat-icon>description</mat-icon> Exam Modes
       </div>
-    </li>
+    </li> -->
     <li routerLinkActive="active" (click)="activeMenu(11, menu_active)" class="hs_sbmnu {{
       menu_active == 11 || active_route == '/admin/create-assessment' ||
       active_route == '/admin/assessment-list' ? 'active' : ''
