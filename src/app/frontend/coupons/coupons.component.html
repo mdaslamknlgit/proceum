@@ -28,7 +28,7 @@
                             <ul>
                                 <li>The Coupon is applicable for the country {{promotion.country_name}}.</li>
                                 <li>Minimum Order Amount : {{promotion.min_order_amount}}</li>
-                                <li>Coupon valid from <br> {{promotion.valid_from | date:'short' }} to
+                                <li>Coupon valid from <br> {{promotion.valid_from | date:'short' }} to <br>
                                     {{promotion.valid_to | date:'short'}}</li>
                                 <li>To avail the coupon, you need to apply the coupon code.</li>
                                 <li>Click to view the coupon code</li>
@@ -39,17 +39,17 @@
                                 (click)="promotion.show_coupon = 1">
                                 Show Coupon Code
                             </div>
-                            <span class="{{promotion.show_coupon ? 'text-center':''}}">{{promotion.show_coupon ?
-                                promotion.code : ''}}</span>
-                            <mat-icon color="accent" matTooltip="Copy Coupon Code"
+                            <span class="{{promotion.show_coupon ? 'text-center':'fltr_blr'}}">
+                                {{promotion.code}}
+                                <!-- {{promotion.show_coupon ? promotion.code : ''}} -->
+                            </span>
+                            <mat-icon color="accent" matTooltip="Copy Coupon Code" class="cpy_btn"
                                 (click)="copyToClipboard(promotion.code)">{{promotion.show_coupon ? 'file_copy':''}}
                             </mat-icon>
                         </div>
                     </div>
                 </mat-tab>
-                <mat-tab label="Discounts">
-                    <h3 class="grn_clr">Latest Discounts</h3>
-
+                <mat-tab label="Latest Discounts">
                     <div class="coupons_block" *ngFor="let discount of discounts">
                         <div class="top_1">
                             <div *ngIf="discount.discount_type ==2">
@@ -72,7 +72,7 @@
                                 <li>The Coupon is applicable for the country {{discount.country_name}}.</li>
                                 <!--  <li>Minimum Order Amount : 123</li>
                                 <li>Maximum Discount Amount : 123</li> -->
-                                <li>Coupon valid from <br> {{discount.valid_from | date:'short' }} to
+                                <li>Coupon valid from <br> {{discount.valid_from | date:'short' }} to <br>
                                     {{discount.valid_to | date:'short'}}</li>
                                 <!-- <li>To avail the coupon, you need to apply the coupon code.</li>
                                 <li>Click to view the coupon code</li> -->
