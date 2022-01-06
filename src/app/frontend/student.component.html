@@ -1,4 +1,5 @@
-<app-student-topbar></app-student-topbar>
-<app-sidemenu></app-sidemenu>
+<app-topbar class="inner-header"></app-topbar>
+<app-student-topbar *ngIf="user && !search_key && (user['role']== '2' || user['role']== '11')"></app-student-topbar>
+<app-sidemenu *ngIf="current_url.includes('/student/') && (user && (user['role']== '2' || user['role']== '11'))"></app-sidemenu>
 <router-outlet> </router-outlet>
 <app-footer></app-footer>
