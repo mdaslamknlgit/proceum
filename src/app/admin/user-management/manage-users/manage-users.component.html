@@ -1,6 +1,6 @@
 <div class="mn_dshbrd">
     <div class="cust_mdl_par {{ mng_student_popup ? 'cust_mdl_opn' : '' }}">
-        <div class="cust_mdl_chl w_50p">
+        <div class="cust_mdl_chl w_30p">
             <div class="pg_ttl">
                
                 <div *ngIf="manage_students == '1'">Promote Selected Students to</div> 
@@ -12,53 +12,72 @@
                     &#x2715;
                 </button>
             </div>
-            <div class="usrmgmnt_ppdv">
-
-                <div class="text_center" *ngIf="manage_students == '2'">
-                    <button mat-raised-button color="accent" class="mr_1" (click)="downloadAllStudents()">All Students List</button>
-                    <button mat-raised-button color="accent" (click)="downloadSelectStudents()">Selected Students List</button>
+            <div class="usrmgmnt_ppdv tbbd_bdy dsh_brd_crds at_mn_dv">
+                <!-- Import Div start here--> 
+                <div class="d-flex fd_clmn text_center" *ngIf="manage_students == '3'">
+                    <div class="mb_1">
+                        <button mat-raised-button onclick="document.getElementById('fileToUpload').click()" color="accent" class="w_270p mt_5px">
+                            <mat-icon>upload</mat-icon>
+                            Import Students CSV<input (change)="uploadFiles($event)" multiple="true" #documents accept=".csv"
+                                id="fileToUpload" type="file" style="display: none" />
+                        </button>
+                    </div>
+                    <div>
+                        <a (click)="studentStructureTemplate()" mat-raised-button color="accent" class="w_270p">
+                            <mat-icon>download</mat-icon> Download Structure / Template
+                        </a> 
+                    </div>
+                    <div class="hgt_20"></div>
+                </div>                                    
+                <!-- Import Div end here--> 
+                
+                <!-- Export / Download Div start here--> 
+                <div class="d-flex fd_clmn text_center" *ngIf="manage_students == '2'">
+                    <div class="mb_1">
+                        <button mat-raised-button color="accent" (click)="downloadAllStudents()">All Students List</button>
+                    </div>
+                    <div>
+                        <button mat-raised-button color="accent" (click)="downloadSelectStudents()">Selected Students List</button>
+                    </div>
+                    <div class="hgt_20"></div>
                 </div>
-
+                <!-- Export / Download Div end here-->     
+                <!-- Promote Div start here--> 
                 <div class="dsh_brd_crds" *ngIf="manage_students == '1'">
-                    <div class="cm_fltr_sc">
-                        <span>Year</span>
-                        <mat-form-field appearance="outline">
-                            <mat-select placeholder="Select Year" name="promote_year_edit" #promote_year_edit="ngModel" [(ngModel)]="promote_year_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,promote_year_id,'semester','promote')">
-                                <mat-option *ngFor="let item of promote_all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
+                    <div class="pss_pp_dv">
+                        <div class="cm_fltr_sc mr_1">
+                            <span>Year</span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="Select Year" name="promote_year_edit" #promote_year_edit="ngModel" [(ngModel)]="promote_year_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,promote_year_id,'semester','promote')">
+                                    <mat-option *ngFor="let item of promote_all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> 
+                        <div class="cm_fltr_sc mr_1">
+                            <span>Semester</span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="Select Semester" name="promote_semester_edit" #promote_semester_edit="ngModel" [(ngModel)]="promote_semester_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,promote_semester_id,'group','promote')" >
+                                    <mat-option *ngFor="let item of promote_all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> 
+                        <div class="cm_fltr_sc mr_1">
+                            <span>Group</span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="Select Group" name="promote_group_edit" #promote_group_edit="ngModel" [(ngModel)]="promote_group_id">
+                                    <mat-option *ngFor="let item of promote_all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
                     </div>
-                    <div class="clear_fix"></div>
-                    <div class="cm_fltr_sc">
-                        <span>Semester</span>
-                        <mat-form-field appearance="outline">
-                            <mat-select placeholder="Select Semester" name="promote_semester_edit" #promote_semester_edit="ngModel" [(ngModel)]="promote_semester_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,promote_semester_id,'group','promote')" >
-                                <mat-option *ngFor="let item of promote_all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="clear_fix"></div>
-                    <div class="cm_fltr_sc">
-                        <span>Group</span>
-                        <mat-form-field appearance="outline">
-                            <mat-select placeholder="Select Group" name="promote_group_edit" #promote_group_edit="ngModel" [(ngModel)]="promote_group_id">
-                                <mat-option *ngFor="let item of promote_all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="clear_fix"></div>
-                    <div class="text_right">
+                    
+                    <div class="hgt_10"></div>
+                    <div class="text_center">
                         <button mat-raised-button color="accent" (click)="PromoteStudentSubmit()" >Submit</button>
                     </div>
+                    <div class="hgt_20"></div>
                 </div>
-
-                <div class="clear_fix"></div>
-                <!-- <div class="text_right" *ngIf="manage_students == '2' || manage_students == '3'">
-                    <hr />
-                    <button mat-raised-button class="float_right mr_1 gry_btn" (click)="mng_student_popup=false">
-                    Close
-                    </button>
-                </div> -->
+                <!-- Promote Div end here--> 
             </div>
         </div>
     </div>
@@ -94,12 +113,6 @@
             </mat-form-field>
         </div>
         <div class="clear_fix"></div>
-        <!-- <div class="w_100p">
-            <mat-radio-group>
-                <mat-radio-button value="1" class="mr_1">Promote Students</mat-radio-button>
-                <mat-radio-button value="2">Download Students</mat-radio-button>
-            </mat-radio-group>
-        </div> -->
         <div *ngIf="role == '2'">
             <div class="hgt_10"></div>
             <div class="cm_fltr_sc mr_1">
@@ -108,7 +121,7 @@
                     <mat-select placeholder="Select Manage Students" name="manage_students_edit" #manage_students_edit="ngModel" [(ngModel)]="manage_students">
                         <mat-option value="1">Promote Students</mat-option>
                         <mat-option value="2">Export / Download Students</mat-option>
-                        <!-- <mat-option value="3">Import Students</mat-option> -->
+                        <mat-option value="3">Import Students</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -179,6 +192,7 @@
             <hr />
             <button mat-raised-button color="accent" class="mr_1" *ngIf="manage_students == '2'" (click)="onManageStudentChange()">Download Students</button>
             <button mat-raised-button color="accent" class="mr_1" *ngIf="manage_students == '1'" (click)="onManageStudentChange()">Promote Students</button>
+            <button mat-raised-button color="accent" class="mr_1" *ngIf="manage_students == '3'" (click)="onManageStudentChange()">Import Students</button> 
         </div>
         <div class="hgt_10"></div>
         <div>

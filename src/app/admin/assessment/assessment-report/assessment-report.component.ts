@@ -17,7 +17,7 @@ export class AssessmentReportComponent implements OnInit {
     public page = 0;
     public pageSize = environment.page_size;
     public page_size_options = environment.page_size_options;
-    public displayedColumns: string[] = ['s_no', 'name','email', 'year', 'semister', 'group', 'right', 'wrong', 'percentage', 'result'];
+    public displayedColumns: string[] = ['s_no', 'name','email', 'year', 'semister', 'group', 'right', 'wrong', 'percentage', 'result', 'actions'];
     public dataSource = new MatTableDataSource();
     public report_count = 0;
     public status = '';

@@ -73,6 +73,7 @@ export class ManageUsersComponent implements OnInit {
   public group_id = '';
 
   public partner_id = '';
+  public domain = '';
   
   roles = [];
   years = [];
@@ -96,16 +97,21 @@ export class ManageUsersComponent implements OnInit {
   public promote_group_id = '';
   checkboxValue: boolean = false;
   api_url : string;
+  download_url : string;
+  student_structure_template : string;
+  
 
   constructor(
     private http: CommonService,
     public toster: ToastrService,
     private router: Router
     ) { 
-      this.api_url = environment.apiUrl + 'download-students-data';
+      this.api_url = environment.apiUrl;
+      this.download_url = this.api_url + 'download-students-data';
     }
 
   ngOnInit(): void {
+    this.domain = location.origin;
     this.getAdminUsers();
     this.getRoleList();
   }
@@ -127,11 +133,13 @@ export class ManageUsersComponent implements OnInit {
   public getRoleList() {      // Added by Phanindra
     let param1 = { url: 'get-admin-specific-roles',is_admin_specific_role : '1'};
     this.http.post(param1).subscribe((res) => {
+      console.log(res);
       if (res['error'] == false) {
         this.roles = res['data']['roles'];
         if(this.roles != undefined){
           this.all_roles.next(this.roles.slice());
         }
+        this.student_structure_template = this.api_url.substring(0, this.api_url.length - 5) + res['student_structure_template'];
       } else {
         //this.toster.error(res['message'], 'Error');
       }
@@ -239,10 +247,58 @@ export class ManageUsersComponent implements OnInit {
     });
   }
 
+  public uploadFiles(event) {
+    let files = event.target.files;
+    if (files.length == 0) return false; 
+    
+    if(files && files.length > 0) {
+      let file : File = files.item(0);
+      let reader: FileReader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = (e) => {
+                   
+          //Create formdata object
+          const uploadData = new FormData();
+          uploadData.append("organization_type_id", this.organization_type_id);
+          uploadData.append("organization" , this.organization_list_id);
+          uploadData.append("college_id" , this.college_id);
+          uploadData.append("year", this.year_id);
+          uploadData.append("semester", this.semester_id);
+          uploadData.append("group", this.group_id);
+          uploadData.append("domain", this.domain);
+          uploadData.append("import_file", files[0], files[0].name);
+          
+          let param = { url: 'import-students-data' };
+          return this.http.import(param, uploadData).subscribe((res) => {
+              console.log(res);
+              if (res['error'] == false) {
+                this.toster.success(res['message'], 'Success', { closeButton: true });
+                this.doFilter();
+                this.mng_student_popup = false;
+              } else {
+                this.toster.error(res['message'], 'Error', { closeButton: true });
+              }
+            });
+        }
+    }   
+  }
+
+  public studentStructureTemplate(){
+    window.open(this.student_structure_template,"_blank");
+  }
+
   public onManageStudentChange() {
     if(this.organization_list_id == '' && this.manage_students == '1'){
       this.toster.error('Please Select University / College / Institute', 'Error', { closeButton: true });
       return;
+    }else if(this.manage_students == '3'){
+      if(this.organization_list_id == ''){
+        this.toster.error('Please Select University / College / Institute', 'Error', { closeButton: true });
+        return;
+      }else if(this.year_id == ''){
+        this.toster.error('Please Select Year', 'Error', { closeButton: true });
+        return;
+      }
     }else if(this.manage_students == '1'){
       let parent_id = '';
       let partner = '';
@@ -383,9 +439,9 @@ export class ManageUsersComponent implements OnInit {
   }
 
   downloadAllStudents(){
-    window.open(this.api_url+'?getUrl=1&role='+this.role+'&search='+this.search_box+'&list_type_id='+this.organization_type_id
+    window.open(this.download_url+'?getUrl=1&role='+this.role+'&search='+this.search_box+'&list_type_id='+this.organization_type_id
     +'&organization='+this.organization_list_id+'&college_id='+this.college_id+'&year='+this.year_id+'&semester='+this.semester_id
-    +'&group='+this.group_id+'&is_admin_specific_role=1',"_blank");
+    +'&group='+this.group_id+'&is_admin_specific_role=1&type=download',"_blank");
     this.mng_student_popup = false;
   }
   
@@ -398,7 +454,7 @@ export class ManageUsersComponent implements OnInit {
       // this.http.get(param).subscribe((res) => {
 
       // });
-      window.open(this.api_url+'?getUrl=1&role='+this.role+'&studentArray='+this.studentArray,"_blank");
+      window.open(this.download_url+'?getUrl=1&role='+this.role+'&studentArray='+this.studentArray+'&type=download',"_blank");
       this.studentArray = [];
       this.checkboxValue = false;
       this.checkUncheckAll('false');
