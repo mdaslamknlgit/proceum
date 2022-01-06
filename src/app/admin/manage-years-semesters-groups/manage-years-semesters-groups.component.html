@@ -569,13 +569,13 @@
                     </div>
 
                     <div class="frm_dvs"
-                        *ngIf="(self_or_other == 'other' && (partner_parent_id != '' && partner_child_id != '') && (year_id != '' && year_id != null) && slug == 'group') || (self_or_other == 'self' && (year_id != '' && year_id != null) && slug == 'group') && show_semester_dropdown">
+                        *ngIf="(self_or_other == 'other' && (partner_parent_id != '' && partner_child_id != '') && (year_id != '' && year_id != null) && slug == 'group') && show_semester_dropdown">
                         <span>Select Semester <span class="required">*</span></span>
                         <span>
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select Semester" name="semester_edit"
-                                        #semester_edit="ngModel" [(ngModel)]="semester_id" required>
+                                        #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="checkGroupCanCreate()" required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Semester found'"
                                                 [placeholderLabel]="'Search Semester'" name="search_semester" ngModel
@@ -607,7 +607,7 @@
                                 </mat-form-field>
                                 <mat-form-field appearance="outline" *ngIf="slug == 'semester' || slug == 'group'">
                                     <input maxlength="30" required name="title" [(ngModel)]="name_of"
-                                        matInput placeholder="{{ page_title }} Name" #title="ngModel" />
+                                        matInput placeholder="{{ page_title }} Name" #title="ngModel" [disabled]="name_field_disabled"/>
                                     <span class="prc_tltp"
                                         *ngIf="(create_form.submitted || title.touched) && title.invalid">{{ page_title
                                         }} name is required</span>
