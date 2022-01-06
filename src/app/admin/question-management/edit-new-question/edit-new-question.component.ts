@@ -662,7 +662,7 @@ export class EditNewQuestionComponent implements OnInit {
                 this.toster.success(res['message'], 'Success', {
                     closeButton: true
                 });
-                window.history.back()
+                this.navigateTo('questions-mgt/questions-list')
             } else {
                 let message = res['errors']['topic'] ?
                     res['errors']['topic'] :
