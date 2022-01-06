@@ -22,6 +22,7 @@ import { StudentComponent } from './student.component';
 import { DetailsComponent } from './student/levels/details/details.component';
 import { LevelComponent } from './student/levels/level.component';
 import { Level_listComponent } from './student/levels/levels_list/level_list.component';
+import { Frontend_level_listComponent } from './frontend_level_list/frontend_level_list.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ImageViewerModule } from 'ngx-image-viewer';
 import { ListPackagesComponent } from './pricing-packages/list-packages/list-packages.component';
@@ -92,6 +93,16 @@ const routes: Routes = [
       {
         path: 'curriculums/:curriculum_id/:level_id/:level_parent_id',
         component: Level_listComponent,
+      },
+      
+      { path: 'curriculum/:curriculum_id', component: Frontend_level_listComponent },
+      {
+        path: 'curriculum/:curriculum_id/:level_id',
+        component: Frontend_level_listComponent,
+      },
+      {
+        path: 'curriculum/:curriculum_id/:level_id/:level_parent_id',
+        component: Frontend_level_listComponent,
       },
       { path: 'qbank/create-exam/:qbank_id', component: ExamPrepmodeComponent },
       { path: 'qbank/study-mode/:qbank_id/:source_id', component: StudyModeComponent },
@@ -166,6 +177,7 @@ const routes: Routes = [
     CouponsComponent,
     AssessmentResultComponent,
     StudentGlobalSearchComponent,
+    Frontend_level_listComponent,
   ],
   imports: [
     CommonModule,
