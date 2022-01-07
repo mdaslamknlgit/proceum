@@ -17,7 +17,7 @@ export class TopbarComponent implements OnInit,OnDestroy {
   number: any;
   subscription: Subscription;
   user_id='';
-
+    public domain_name = window.location.protocol;//+window.location.hostname;
   public sidemenu_status: String = '';
   public innerWidth: any;
   public isOpen = false;

@@ -172,7 +172,7 @@
     </li> -->
     <li routerLinkActive="active" (click)="activeMenu(11, menu_active)" class="hs_sbmnu {{
       menu_active == 11 || active_route == '/admin/create-assessment' ||
-      active_route == '/admin/assessment-list' ? 'active' : ''
+      active_route == '/admin/assessment-list' || active_route.includes('/assessment/report') ? 'active' : ''
     }}">
       <div class="sd_mnuhd">
         <mat-icon>assignment</mat-icon> Assessments
@@ -181,7 +181,7 @@
         <li routerLinkActive="active" routerLink="/admin/create-assessment">
           <mat-icon>manage_accounts</mat-icon> Create Assessment
         </li>
-        <li routerLinkActive="active" routerLink="/admin/assessment-list">
+        <li [ngClass]="{ active: active_route.includes('/assessment/report') || active_route.includes('/admin/assessment-list') }" routerLink="/admin/assessment-list">
           <mat-icon>manage_accounts</mat-icon> Assessment List
         </li>
       </ul>
