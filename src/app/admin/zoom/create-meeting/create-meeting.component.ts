@@ -62,12 +62,17 @@ export class CreateMeetingComponent implements OnInit {
     public selected_name = '';
     public selected_value = '';
     public today_date = new Date();
+    public user;
     constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router) { 
         this.translate.setDefaultLang(this.http.lang);
     }
     ngOnInit(): void {
         this.getData();
         this.getcurriculums();
+        this.user = this.http.getUser();console.log(this.user)
+        if(this.user['role'] == '12'){
+            this.teacher_id = this.user['id'];
+        }
     }
     getData(){
         let param = {url: 'class/create-meeting'};
