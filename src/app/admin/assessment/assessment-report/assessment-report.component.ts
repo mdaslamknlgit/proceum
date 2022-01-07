@@ -20,7 +20,7 @@ export class AssessmentReportComponent implements OnInit {
     public displayedColumns: string[] = ['s_no', 'name','email', 'year', 'semister', 'group', 'right', 'wrong', 'percentage', 'result', 'actions'];
     public dataSource = new MatTableDataSource();
     public report_count = 0;
-    public status = '';
+    public status = 1;
     public search_key = '';
     public assessment_id = 0;
     public apiUrl = "";

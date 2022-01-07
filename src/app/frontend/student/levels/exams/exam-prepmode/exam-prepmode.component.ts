@@ -107,6 +107,9 @@ export class ExamPrepmodeComponent implements OnInit {
             item => item.level_name.toLowerCase().includes(search.toLowerCase())
         );
     }
+    difficultChange(event){
+        this.getLabels(this.filter_array.level_id);
+    }
     removeTopic(index){
         this.selected_topics.splice(index, 1);
         this.dataSource = new MatTableDataSource(this.selected_topics);
