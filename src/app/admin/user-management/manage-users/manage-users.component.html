@@ -48,20 +48,20 @@
                         <div class="cm_fltr_sc mr_1">
                             <span>Year</span>
                             <mat-form-field appearance="outline">
-                                <mat-select placeholder="Select Year" name="promote_year_edit" #promote_year_edit="ngModel" [(ngModel)]="promote_year_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,promote_year_id,'semester','promote')">
+                                <mat-select placeholder="Select Year" name="promote_year_edit" #promote_year_edit="ngModel" [(ngModel)]="promote_year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,promote_year_id,'semester','promote')">
                                     <mat-option *ngFor="let item of promote_all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div> 
-                        <div class="cm_fltr_sc mr_1">
+                        <div class="cm_fltr_sc mr_1" *ngIf="promote_semester_dropdown">
                             <span>Semester</span>
                             <mat-form-field appearance="outline">
-                                <mat-select placeholder="Select Semester" name="promote_semester_edit" #promote_semester_edit="ngModel" [(ngModel)]="promote_semester_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,promote_semester_id,'group','promote')" >
+                                <mat-select placeholder="Select Semester" name="promote_semester_edit" #promote_semester_edit="ngModel" [(ngModel)]="promote_semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,promote_semester_id,'group','promote')" >
                                     <mat-option *ngFor="let item of promote_all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div> 
-                        <div class="cm_fltr_sc mr_1">
+                        <div class="cm_fltr_sc mr_1" *ngIf="promote_group_dropdown">
                             <span>Group</span>
                             <mat-form-field appearance="outline">
                                 <mat-select placeholder="Select Group" name="promote_group_edit" #promote_group_edit="ngModel" [(ngModel)]="promote_group_id">
@@ -88,7 +88,7 @@
         <div class="pg_ttl">Manage Users</div>
         <div class="spacer"></div>
         <div>
-            <button mat-raised-button color="accent" (click)="navigateTo('create-user')" class="mt_3px">
+            <button mat-raised-button color="accent" (click)="navigateTo('create-user')">
                 <mat-icon>add</mat-icon>
                 Add New User
             </button>
@@ -138,7 +138,7 @@
             <div class="cm_fltr_sc mr_1">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit" #organization_list_edit="ngModel" [(ngModel)]="organization_list_id" (ngModelChange)="getCollege(organization_list_id,0,'year')">
+                    <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit" #organization_list_edit="ngModel" [(ngModel)]="organization_list_id" (ngModelChange)="getCollege(organization_type_id,0,'year')">
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
                                 [placeholderLabel]="'Search'" name="search_university" ngModel
@@ -152,7 +152,7 @@
             <div class="cm_fltr_sc mr_1" *ngIf="is_college">
                 <span>College</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,college_id,'year')">
+                    <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year')">
                         <mat-option *ngFor="let item of all_college | async" [value]="item['partner_id']">{{ item["organization_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -160,20 +160,20 @@
             <div class="cm_fltr_sc mr_1">
                 <span>Year</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,year_id,'semester')">
+                    <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester')">
                         <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
                 <span>Semester</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_list_id,semester_id,'group')" >
+                    <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group')" >
                         <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="show_group_dropdown">
                 <span>Group</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select Group" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="doFilter()">
