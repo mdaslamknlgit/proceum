@@ -649,7 +649,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
   getChildDropDownData(partner_id,year_id){
     let year_obj = this.years.find((year) => year.pk_id == year_id);
-    console.log(this.show_semester_dropdown);
+    //console.log(this.show_semester_dropdown);
     if(year_obj.year_has_semester){
       this.getSemesters(partner_id,year_id);
       this.name_field_disabled = false;
@@ -732,12 +732,24 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     let id = this.id;
     if(this.slug == 'year'){
       parent_id = null;
+      if(this.name_of == ''){
+        error = true;
+        this.toster.error("Year name required!", 'Error');
+      }
     }
     if(this.slug == 'semester'){
       parent_id = this.year_id;
+      if(this.name_of == ''){
+        error = true;
+        this.toster.error("Semester name required!", 'Error');
+      }
     }
     if(this.slug == 'group'){
       parent_id = this.semester_id;
+      if(this.name_of == ''){
+        error = true;
+        this.toster.error("Group name required!", 'Error');
+      }
     }
     if(!error){
       let param = { 
