@@ -658,7 +658,6 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         this.toster.error("Disabled creating groups to selected year!", 'Error');
         this.name_field_disabled = true;
         this.name_of = '';
-
       }else{
         this.name_field_disabled = false;
       }
@@ -685,9 +684,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         if(this.semesters != undefined){
           this.all_semesters.next(this.semesters.slice()); 
         }
-        /* if(this.semesters.length){
+        if(this.semesters.length){
           this.show_semester_dropdown = true;
-        } */
+        }
       } else {
         //this.toster.error(res['message'], 'Error');
       }
