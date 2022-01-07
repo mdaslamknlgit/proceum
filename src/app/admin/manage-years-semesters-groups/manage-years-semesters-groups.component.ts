@@ -649,10 +649,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
   getChildDropDownData(partner_id,year_id){
     let year_obj = this.years.find((year) => year.pk_id == year_id);
-    this.show_semester_dropdown = false;
     console.log(this.show_semester_dropdown);
     if(year_obj.year_has_semester){
-      this.getSemesters(partner_id,year_id)
+      this.getSemesters(partner_id,year_id);
+      this.name_field_disabled = false;
     }else{
       if(year_obj.year_has_group == 0){
         this.toster.error("Disabled creating groups to selected year!", 'Error');
@@ -662,9 +662,6 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         this.name_field_disabled = false;
       }
     }
-    /* else if(year_obj.year_has_semester){
-      this.getSemesters(partner_id,year_id)
-    } */
   }
 
   checkGroupCanCreate(){
