@@ -92,6 +92,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   public year_has_semester = false;
   public year_has_group = false;
   public show_semester_dropdown = false;
+  public name_field_disabled = false;
   public id = 0;
   
   universities = [];
@@ -648,13 +649,31 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
   getChildDropDownData(partner_id,year_id){
     let year_obj = this.years.find((year) => year.pk_id == year_id);
-    this.show_semester_dropdown = false;
+    console.log(this.show_semester_dropdown);
     if(year_obj.year_has_semester){
-      this.getSemesters(partner_id,year_id)
+      this.getSemesters(partner_id,year_id);
+      this.name_field_disabled = false;
+    }else{
+      if(year_obj.year_has_group == 0){
+        this.toster.error("Disabled creating groups to selected year!", 'Error');
+        this.name_field_disabled = true;
+        this.name_of = '';
+
+      }else{
+        this.name_field_disabled = false;
+      }
     }
-    /* else if(year_obj.year_has_semester){
-      this.getSemesters(partner_id,year_id)
-    } */
+  }
+
+  checkGroupCanCreate(){
+    let year_obj = this.years.find((year) => year.pk_id == this.year_id);
+    if(year_obj.year_has_group == 0){
+      this.toster.error("Creating groups disabled to selected year!", 'Error');
+      this.name_field_disabled = true;
+      this.name_of = '';
+    }else{
+      this.name_field_disabled = false;
+    }
   }
 
   getSemesters(partner_id,parent_id){
@@ -666,9 +685,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         if(this.semesters != undefined){
           this.all_semesters.next(this.semesters.slice()); 
         }
-        if(this.semesters.length){
+        /* if(this.semesters.length){
           this.show_semester_dropdown = true;
-        }
+        } */
       } else {
         //this.toster.error(res['message'], 'Error');
       }
