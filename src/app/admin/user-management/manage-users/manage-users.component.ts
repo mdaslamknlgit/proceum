@@ -379,13 +379,22 @@ export class ManageUsersComponent implements OnInit {
   }
 
   getCollege(org_type,parent_id,slug,type){
-    if(this.organization_type_id == '1'){ //University
+    this.show_semester_dropdown = true;
+    this.show_group_dropdown = true;
+    this.year_id = '';
+    this.semester_id = '';
+    this.group_id = '';
+    this.all_years.next();
+    this.all_semesters.next();
+    this.all_groups.next();
+    if(org_type == '1'){ //University
       this.getOrganizationList(2,1);
       this.college_id = '';
+      this.all_college.next();      
     }else{
       this.getYearSemsterGroup(org_type,parent_id,slug,type);
     }
-    
+    this.doFilter();
   }
 
   getYearSemsterGroup(org_type,parent_id,slug,type){     
