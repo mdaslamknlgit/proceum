@@ -86,9 +86,9 @@ export const environment = {
       INSTITUTE_ADMIN : 10,
       PARTNER_ADMIN : 14,
     },
-        apiUrl: 'http://192.10.250.150:8000/api/',
+       // apiUrl: 'http://192.10.250.150:8000/api/',
         //apiUrl: 'http://127.0.0.1:8000/api/',
-        //apiUrl: 'https://apiqa.proceum.com/api/',
+        apiUrl: 'https://apiqa.proceum.com/api/',
   
       firebaseConfig : {
           apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
