@@ -58,7 +58,7 @@ export const environment = {
     video_types : [{name: "KPoint", value:'KPOINT'}, {name: "Youtube", value:'YOUTUBE'}],
     ORGANIZATION_TYPES : [
       {value: '1', viewValue: 'University'},
-      {value: '2', viewValue: 'College'},
+      //{value: '2', viewValue: 'College'},
       {value: '3', viewValue: 'Institute'}
     ],
     DISCOUNT_TYPES: [
@@ -86,9 +86,9 @@ export const environment = {
       INSTITUTE_ADMIN : 10,
       PARTNER_ADMIN : 14,
     },
-       // apiUrl: 'http://192.10.250.150:8000/api/',
-       // apiUrl: 'http://127.0.0.1:8000/api/',
-        apiUrl: 'https://apiqa.proceum.com/api/',
+        //apiUrl: 'http://192.10.250.150:8000/api/',
+        apiUrl: 'http://127.0.0.1:8000/api/',
+        //apiUrl: 'https://apiqa.proceum.com/api/',
   
       firebaseConfig : {
           apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",

@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
   public password_error: string = 'Password is Required';
   public email_check: boolean = true;
   public is_login: boolean = false;
+  public sub_domain:boolean = false;
 
   password_hide: boolean = true;
   constructor(

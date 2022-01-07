@@ -3,6 +3,29 @@
         display: none;
     }
 </style>
+<div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        Proceum Library
+        <span class="spacer"></span>
+        <button (click)="CloseModal()" mat-icon-button class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy" *ngIf="library_popup">
+        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab, 'library_purpose': library_purpose }">
+        </app-assets-library>
+        <hr />
+        <button mat-raised-button color="accent" class="float_right mr_1">
+          Select
+        </button>
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="CloseModal()">
+          Close
+        </button>
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div>
 <div class="mn_dshbrd">
     <div class="brd_crm"> <span>Update Question</span> </div>
     <div class="pg_ttl mb_0">Update Question</div>
@@ -251,27 +274,51 @@
                                 <div>
                                     <div class="hgt_10"></div>
                                     <div *ngIf="image_single_option||image_multiple_option || image_free_text">
-                                        <img *ngIf="fileName && !imageSrc['file']" [src]="bucket_url+this['fileName']">
-                                        <img *ngIf="fileName && imageSrc['file']" [src]="imageSrc['file']">
+                                        <div class="close_icon" *ngIf="option_images['file']">
+                                            <mat-icon (click)="removeFile('file')">close</mat-icon>
+                                        </div>
+                                        <img *ngIf="option_images['file']" [src]="bucket_url+option_images['file']">
                                         <!-- <mat-icon *ngIf="!fileName">photo</mat-icon> -->
-                                        <button mat-fab class="cnq_upld_btn cnq_delimg"
-                                            onclick="document.getElementById('file').click()" type="button"
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openAssetsLibrary('images/questions', 'file')" type="button"
                                             color="accent">
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                     </div>
-                                    <!-- <button mat-fab class="cnq_upld_btn" *ngif="audio_single_option || audio_multiple_option"
-                                        onclick="document.getElementById('file').click()" type="button" color="accent">
-                                        <mat-icon>file_upload</mat-icon>
-                                    </button> -->
+                                    
                                     <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text">
                                         <!-- <div class="d-flex w_100p mb_1">
                                             <div class="fl_frmt_info">System will accent only .mp3</div>
                                         </div> -->
+                                        <!-- <button mat-fab class="cnq_upld_btn" *ngif="audio_single_option || audio_multiple_option"
+                                        onclick="document.getElementById('file').click()" type="button" color="accent">
+                                        <mat-icon>file_upload</mat-icon>
+                                    </button>
+                                        <div class="close_icon" *ngIf="option_images['file']">
+                                            <mat-icon (click)="removeFile('file')">close</mat-icon>
+                                        </div>
                                         <mat-icon
                                             (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">
                                             play_arrow</mat-icon>
+                                        <mat-icon (click)="pauseAudio()">pause</mat-icon> -->
+
+
+
+                                        <button mat-mini-fab class="cnq_upld_btn"
+                                        onclick="document.getElementById('file').click()" type="button"
+                                        color="accent">
+                                        <mat-icon>file_upload</mat-icon>
+                                    </button>
+                                    <div class="hgt_10"></div>
+                                    <div>{{fileName}}</div>
+                                    <div class="hgt_10"></div>
+                                    <div>
+                                        <mat-icon (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">play_arrow
+                                        </mat-icon>
                                         <mat-icon (click)="pauseAudio()">pause</mat-icon>
+                                    </div>
+
+
+
                                     </div>
                                     <mat-form-field appearance="outline" class="w_50p d_none ">
                                         <input matInput placeholder="Upload File" [(ngModel)]="fileName" id="fileName"
@@ -394,13 +441,12 @@
                                 <div class="cnq_img_thmb text_center"
                                     *ngIf="image_single_option || image_multiple_option">
                                     <div>
-                                        <img *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']"
-                                            [src]="bucket_url+this['opt'+(option+1)+'FileName']">
-                                        <img *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']"
-                                            [src]="imageSrc['opt'+(option+1)+'Img']">
+                                            <div class="close_icon" *ngIf="option_images['opt'+(option+1)+'Img']">
+                                                <mat-icon (click)="removeFile('opt'+(option+1)+'Img')">close</mat-icon>
+                                            </div>
+                                            <img *ngIf="option_images['opt'+(option+1)+'Img']" [src]="bucket_url+option_images['opt'+(option+1)+'Img']">
                                         <!-- <mat-icon *ngIf="!this['opt'+(option+1)+'FileName']">photo</mat-icon> -->
-                                        <button mat-fab class="cnq_upld_btn cnq_delimg"
-                                            (click)="openFileExplor((option+1))" type="button" color="accent">
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openAssetsLibrary('images/questions', 'opt'+(option+1)+'Img')" type="button" color="accent">
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                         <div class="brnd_info_upld d_none">
@@ -484,13 +530,13 @@
                                     <div class="cnq_img_thmb text_center"
                                         *ngIf="image_single_option || image_multiple_option">
                                         <div>
-                                            <img *ngIf="this['opt'+(option+1)+'FileName'] && !imageSrc['opt'+(option+1)+'Img']"
-                                                [src]="bucket_url+this['opt'+(option+1)+'FileName']">
-                                            <img *ngIf="this['opt'+(option+1)+'FileName'] && imageSrc['opt'+(option+1)+'Img']"
-                                                [src]="imageSrc['opt'+(option+1)+'Img']">
+                                            <div class="close_icon" *ngIf="option_images['opt'+(option+1)+'Img']">
+                                                <mat-icon (click)="removeFile('opt'+(option+1)+'Img')">close</mat-icon>
+                                            </div>
+                                            <img *ngIf="option_images['opt'+(option+1)+'Img']" [src]="bucket_url+option_images['opt'+(option+1)+'Img']">
                                             <!-- <mat-icon *ngIf="!this['opt'+(option+1)+'FileName']">photo</mat-icon> -->
                                             <button mat-fab class="cnq_upld_btn cnq_delimg"
-                                                (click)="openFileExplor((option+1))" type="button" color="accent">
+                                                (click)="openAssetsLibrary('images/questions', 'opt'+(option+1)+'Img')" type="button" color="accent">
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
                                             <div class="brnd_info_upld d_none">
