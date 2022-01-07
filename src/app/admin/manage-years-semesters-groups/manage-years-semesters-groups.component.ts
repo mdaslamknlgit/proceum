@@ -745,12 +745,14 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       }
     }
     if(this.slug == 'group'){
-      parent_id = this.semester_id;
+      let year_obj = this.years.find((year) => year.pk_id == this.year_id);
+      parent_id = (year_obj.year_has_semester) ? this.semester_id : this.year_id;
       if(this.name_of == ''){
         error = true;
         this.toster.error("Group name required!", 'Error');
       }
     }
+    
     if(!error){
       let param = { 
         url: 'create-year-semester-group',
