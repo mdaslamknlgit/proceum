@@ -64,6 +64,8 @@ export class EditAssessmentComponent implements OnInit {
   public total_groups = [];
   public college_id = '';
   years: any;
+  public show_semester_dropdown = true;
+  public show_group_dropdown = true;
 
   public students = [];
   public selected_students = [];
@@ -135,20 +137,24 @@ export class EditAssessmentComponent implements OnInit {
     this.selected_name = '';
     this.selected_value = '';
     this.organization_list_id = '';
+    this.college_id = '';
     this.year_id = '';
     this.semester_id = '';
     this.group_id = '';
     this.all_organization_list.next();
+    this.all_college.next();
     this.all_years.next();
     this.all_semesters.next();
     this.all_groups.next();
     if(this.organization_type_id == '1'){ //University
       this.getOrganizationList(1,0);
       this.organization_type_name = 'University';
-    }else if(this.organization_type_id == '2'){ //College
-      this.getOrganizationList(2,0);
-      this.organization_type_name = 'College';
-    }else if(this.organization_type_id == '3'){ //Institute
+    }
+    // else if(this.organization_type_id == '2'){ //College
+    //   this.getOrganizationList(2,0);
+    //   this.organization_type_name = 'College';
+    // }
+    else if(this.organization_type_id == '3'){ //Institute
       this.getOrganizationList(3,0);
       this.organization_type_name = 'Institute';
     }
@@ -192,15 +198,32 @@ export class EditAssessmentComponent implements OnInit {
     }
   }
 
-  getCollege(partner,parent_id,slug){
-    if(this.organization_type_id == '1'){ //University
+  getCollege(org_type,parent_id,slug){
+    this.show_semester_dropdown = true;
+    this.show_group_dropdown = true;
+    this.year_id = '';
+    this.semester_id = '';
+    this.group_id = '';
+    this.all_years.next();
+    this.all_semesters.next();
+    this.all_groups.next();
+    if(org_type == '1'){ //University
       this.getOrganizationList(2,1);
       this.college_id = '';
+      this.all_college.next();      
+    }else{
+      this.getYearSemsterGroup(org_type,parent_id,slug);
     }
-    this.getYearSemsterGroup(partner,parent_id,slug);
   }
 
-  getYearSemsterGroup(partner,parent_id,slug){
+  getYearSemsterGroup(org_type,parent_id,slug){
+    let partner = '';
+    if(org_type == '1'){
+      partner = this.college_id;
+    }
+    else{
+      partner = this.organization_list_id;
+    }
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -209,15 +232,28 @@ export class EditAssessmentComponent implements OnInit {
           if(slug == 'year'){
             this.semester_id = '';
             this.group_id = '';
+            this.all_semesters.next();
+            this.all_groups.next();
             this.all_years.next(this.years.slice());
             this.total_years=res['data'];
           }else if(slug == 'semester'){
             this.group_id = '';
+            this.semester_id = '';
+            this.all_groups.next();
             this.all_semesters.next(this.years.slice());
             this.total_semesters==res['data'];
+            this.show_semester_dropdown = true;
+            if(this.years.length == 0){
+              this.getYearSemsterGroup(org_type,parent_id,'group');
+              this.show_semester_dropdown = false;
+            }
           }else if(slug == 'group'){
             this.all_groups.next(this.years.slice());
             this.total_groups==res['data'];
+            this.show_group_dropdown = true;
+            if(this.years.length == 0){
+              this.show_group_dropdown = false;
+            }
           }           
         }
       } else {
@@ -257,6 +293,7 @@ export class EditAssessmentComponent implements OnInit {
 
   getStudents(){
     let param = {url:'class/get-students', organization_type_id: this.organization_type_id, 'selected_name':this.selected_name, 'selected_value': this.selected_value};
+    console.log(param);
     this.http.post(param).subscribe((res) => {
         if(res['error'] == false){
             let students = res['data']['students'];
