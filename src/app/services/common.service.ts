@@ -15,6 +15,7 @@ export class CommonService {
   public menu_status: String;
   ipResult : any;
   public lang = "en";
+  public search_string = '';
   constructor(private http: HttpClient) {
     this.apiURL = environment.apiUrl;
   }

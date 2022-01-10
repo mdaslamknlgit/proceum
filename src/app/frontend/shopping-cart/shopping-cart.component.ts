@@ -396,6 +396,8 @@ export class ShoppingCartComponent implements OnInit {
       } else {
         this.toster.error(res['message'], 'Error');
       }
+      let order_id = res['data']['pk_id'];
+      this.router.navigateByUrl('student/order-details/'+order_id);
       this.disable_payment_button = false;
     });
   }

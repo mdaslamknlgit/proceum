@@ -43,6 +43,7 @@ import {
 import {
     DomSanitizer
 } from '@angular/platform-browser';
+import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
     selector: 'app-edit-new-question',
     templateUrl: './edit-new-question.component.html',
@@ -148,7 +149,7 @@ export class EditNewQuestionComponent implements OnInit {
             this.question_id = routeParams.id;
             this.getQuestion()
         });
-
+        this.getChildData();
     }
 
     getQuestion() {
@@ -208,79 +209,9 @@ export class EditNewQuestionComponent implements OnInit {
                         }
                         this.question['option'+(i + 1)+'_value'] = options[i]['pk_id'];
                         this['opt'+(i + 1)+'FileName'] = options[i]['option_image'];
+                        this.option_images['opt'+(i + 1)+'Img'] = options[i]['option_image'];
+                        this.option_images_paths['opt'+(i + 1)+'Img'] = options[i]['option_image'];
                         this.question['option'+(i + 1)] = options[i]['option_text'];
-                        // switch (i) {
-                        //     case 0:
-                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                        //             this.question.option1_crt_ans = 'checked';
-
-                        //         }
-                        //         this.question.option1_value = options[i]['pk_id'];
-                        //         this.opt1FileName = options[i]['option_image'];
-                        //         this.question.option1 = options[i]['option_text'];
-                        //         break;
-                        //     case 1:
-                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                        //             this.question.option2_crt_ans = 'checked';
-
-                        //         }
-                        //         this.opt2FileName = options[i]['option_image'];
-                        //         this.question.option2_value = options[i]['pk_id'];
-                        //         this.question.option2 = options[i]['option_text'];
-                        //         break;
-                        //     case 2:
-                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                        //             this.question.option3_crt_ans = 'checked';
-                        //         }
-                        //         this.opt3FileName = options[i]['option_image'];
-                        //         this.question.option3_value = options[i]['pk_id'];
-                        //         this.question.option3 = options[i]['option_text'];
-                        //         break;
-                        //     case 3:
-                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                        //             this.question.option4_crt_ans = 'checked';
-                        //         }
-                        //         this.opt4FileName = options[i]['option_image'];
-                        //         this.question.option4_value = options[i]['pk_id'];
-                        //         this.question.option4 = options[i]['option_text'];
-                        //         break;
-                        //     case 4:
-                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                        //             this.question.option5_crt_ans = 'checked';
-                        //         }
-                        //         this.opt5FileName = options[i]['option_image'];
-                        //         this.question.option5_value = options[i]['pk_id'];
-                        //         this.question.option5 = options[i]['option_text'];
-                        //         break;
-                        //     case 5:
-                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                        //             this.question.option6_crt_ans = 'checked';
-                        //         }
-                        //         this.opt6FileName = options[i]['option_image'];
-                        //         this.question.option6_value = options[i]['pk_id'];
-                        //         this.question.option6 = options[i]['option_text'];
-                        //         break;
-                        //     case 6:
-                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                        //             this.question.option7_crt_ans = 'checked';
-                        //         }
-                        //         this.opt7FileName = options[i]['option_image'];
-                        //         this.question.option7_value = options[i]['pk_id'];
-                        //         this.question.option7 = options[i]['option_text'];
-                        //         break;
-                        //     case 7:
-                        //         if (correct_ans_ids.includes(options[i]['pk_id'])) {
-                        //             this.question.option8_crt_ans = 'checked';
-                        //         }
-                        //         this.opt8FileName = options[i]['option_image'];
-                        //         this.question.option8_value = options[i]['pk_id'];
-                        //         this.question.option8 = options[i]['option_text'];
-                        //         break;
-                        //     default:
-                        //         console.log("No such type exists!");
-                        //         break;
-
-                        // }
                     }
                 }
                 let qtype = res['q_type']['question_type'];
@@ -322,15 +253,21 @@ export class EditNewQuestionComponent implements OnInit {
                     case 'Image with Single Option Selection':
                         this.question.single_crt_ans = correct_ans_ids_string;
                         this.fileName = questionData['q_source_value'];
+                        this.option_images['file'] = questionData['q_source_value'];
+                        this.option_images_paths['file'] = questionData['q_source_value'];
                         this.image_single_option = true;
                         break;
                     case 'Image with Multiple Options Selection':
                         this.fileName = questionData['q_source_value'];
                         this.image_multiple_option = true;
+                        this.option_images['file'] = questionData['q_source_value'];
+                        this.option_images_paths['file'] = questionData['q_source_value'];
                         break;
                     case 'Image with Freetype Text Input':
                         this.image_free_text = true;
                         this.fileName = questionData['q_source_value'];
+                        this.option_images['file'] = questionData['q_source_value'];
+                        this.option_images_paths['file'] = questionData['q_source_value'];
                         break;
                     default:
                         console.log("No such type exists!");
@@ -673,50 +610,6 @@ export class EditNewQuestionComponent implements OnInit {
                         this.myFiles['opt'+option+'Img'] = event.target.files[i];
                     }
                 }
-                // switch (fileId) {
-                //     case 'file':
-                //         this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                //         this.fileName = fileName;
-                //         this.myFiles['file'] = event.target.files[i];
-                //         break;
-                //     case 'opt1Img':
-                //         this.myFiles.splice(this.myFiles.indexOf("file"), 1);
-                //         this.opt1FileName = fileName;
-                //         this.myFiles['opt1Img'] = event.target.files[i];
-                //         break;
-                //     case 'opt2Img':
-                //         this.opt2FileName = fileName;
-                //         this.myFiles['opt2Img'] = event.target.files[i];
-                //         break;
-                //     case 'opt3Img':
-                //         this.opt3FileName = fileName;
-                //         this.myFiles['opt3Img'] = event.target.files[i];
-                //         break;
-                //     case 'opt4Img':
-                //         this.opt4FileName = fileName;
-                //         this.myFiles['opt4Img'] = event.target.files[i];
-                //         break;
-                //     case 'opt5Img':
-                //         this.opt5FileName = fileName;
-                //         this.myFiles['opt5Img'] = event.target.files[i];
-                //         break;
-                //     case 'opt6Img':
-                //         this.opt6FileName = fileName;
-                //         this.myFiles['opt6Img'] = event.target.files[i];
-                //         break;
-                //     case 'opt7Img':
-                //         this.opt7FileName = fileName;
-                //         this.myFiles['opt7Img'] = event.target.files[i];
-                //         break;
-                //     case 'opt8Img':
-                //         this.opt8FileName = fileName;
-                //         this.myFiles['opt8Img'] = event.target.files[i];
-                //         break;
-
-                //     default:
-                //         console.log("No such type exists!");
-                //         break;
-                // }
 
 
             } else {
@@ -732,12 +625,6 @@ export class EditNewQuestionComponent implements OnInit {
 
     }
     updateQList(q_data) {
-        // if (this.question_Qbank && this.question.q_bank_ids.length == 0) {
-        //     this.toster.error("Please select Question bank(s)", "Error", {
-        //         closeButton: true
-        //     });
-        //     return false;
-        // }
         if (this.question.correct_ans_ids.length == 0 && (this.free_text == false && this.audio_clip_free_text == false && this.video_clicp_free_text == false && this.image_free_text == false)) {
             this.toster.error("Please select correct answer", "Error", {
                 closeButton: true
@@ -751,6 +638,7 @@ export class EditNewQuestionComponent implements OnInit {
             return false;
         }
         this.question.selected_topics = this.selected_topics;
+        this.question.new_options = this.option_images_paths;
         q_data = q_data.value;
         let filesData = this.myFiles;
         const formData = new FormData();
@@ -774,7 +662,7 @@ export class EditNewQuestionComponent implements OnInit {
                 this.toster.success(res['message'], 'Success', {
                     closeButton: true
                 });
-                window.history.back()
+                this.navigateTo('questions-mgt/questions-list')
             } else {
                 let message = res['errors']['topic'] ?
                     res['errors']['topic'] :
@@ -799,6 +687,36 @@ export class EditNewQuestionComponent implements OnInit {
     public openFileExplor(id) {
         console.log(id)
         document.getElementById('opt' + id + 'Img').click();
+    }
+    public library_popup: boolean = false;
+    public library_purpose = '';
+    public active_tab = '';
+    public option_images = {};
+    public option_images_paths = {};
+    public active_option = '';
+    private subscription:Subscription;
+    getChildData() {
+        this.subscription = this.http.child_data.subscribe((res) => {
+          if (this.library_purpose == 'images') {
+            let obj = { file_path: res['file_path'], path: res['path'] };
+            this.toster.success('Files Added.', 'File', { closeButton: true });
+              this.option_images[this.active_option] = res['file_path'];
+              this.option_images_paths[this.active_option] = res['file_path'];
+          }
+        });
+      }
+    CloseModal() {
+        this.library_popup = false;
+    }
+    openAssetsLibrary(tab, option) {
+        this.active_option = option;
+        this.library_purpose = "images";
+        this.active_tab = tab;
+        this.library_popup = true;
+    }
+    removeFile(file){
+        this.option_images[file] = '';
+        this.option_images_paths[file] = '';
     }
     navigateTo(url) {
         let user = this.user;
@@ -882,5 +800,8 @@ export class EditNewQuestionComponent implements OnInit {
                 });
             }
         }
+    }
+    ngOnDestroy() { 
+        this.subscription.unsubscribe();
     }
 }

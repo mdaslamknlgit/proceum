@@ -3,9 +3,33 @@
         display: none;
     }
 </style>
+<div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        Proceum Library
+        <span class="spacer"></span>
+        <button (click)="CloseModal()" mat-icon-button class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy" *ngIf="library_popup">
+        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab, 'library_purpose': library_purpose }">
+        </app-assets-library>
+        <hr />
+        <button mat-raised-button color="accent" class="float_right mr_1">
+          Select
+        </button>
+        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="CloseModal()">
+          Close
+        </button>
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div>
 <div class="mn_dshbrd">
     <div class="brd_crm"> <span>Create New Question</span></div>
     <div class="pg_ttl mb_0">Create New Question</div>
+    
     <div class="crt_prtnr dsh_brd_crds">
         <form #question_list_form="ngForm" id="question_list_form" name="question_list_form"
             (ngSubmit)="question_list_form.valid && createQList()" novalidate>
@@ -63,7 +87,7 @@
                             </div>
                         </div>
                         <div class="w_100p">
-                            <div class="crt_prt_hd">Select question type <span class="required">*</span></div>
+                            <div class="crt_prt_hd">Select Question Type <span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
                                         <mat-select placeholder="Select Question Type" name="qtype_name"
@@ -139,31 +163,6 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <!-- <div class="w_100p">
-                            <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
-                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                    <mat-form-field appearance="outline">
-                                        <mat-select placeholder="Select Topic / Subtopic" [(ngModel)]="question.topic"
-                                            name="topic" ngModel="topic" #topic="ngModel" (ngModelChange)="setTopicText($event);is_topic_exist=false">
-                                            <mat-option>
-                                                <ngx-mat-select-search
-                                                    [noEntriesFoundLabel]="'No Topic / Subtopic found'"
-                                                    name="search_topic" ngModel
-                                                    (ngModelChange)="getTopics(question.curriculum_id, $event, '');"
-                                                    [placeholderLabel]="'Search Topic / Subtopic'">Select Topic /
-                                                    Subtopic
-                                                </ngx-mat-select-search>
-                                            </mat-option>
-                                            <mat-option [matTooltip]="value['level_name']"
-                                                *ngFor="let value of topics | async" [value]="value['pk_id']">
-                                                {{value['level_name']}}</mat-option>
-                                        </mat-select>
-                                        <span class="prc_tltp" *ngIf=" (question_list_form.submitted || topic.touched) &&
-                                            topic.invalid">Topic is Required</span>
-                                    </mat-form-field>
-                                </span>
-                            </div>
-                        </div> -->
                         <div class="w_100px">
                             <div class="crt_prt_hd">&nbsp;</div>
                             <button
@@ -206,27 +205,7 @@
                     </table>
                 </div>
                 <div class="hgt_20"></div>
-                <!-- <div class="cc_row w_100p">
-                    <div class="description_block">
-                        <div class="c_block">
-                            <div class="c_block_title">
-                                <label for="question-text"> Question Text <span class="required">*</span></label>
-                            </div>
-                            <div class="c_block_content mt_1">
-                                <div
-                                    class="ck_editor err_tltp_par cnq_ck {{question_list_form.submitted && question.question_text.trim()==''?'angular_editor_div':''}}">
-                                    <angular-editor id="question" required="true"
-                                        [placeholder]="'Enter Question text here...'" [config]="liteEditorConfig"
-                                        name="question_text" #question_text="ngModel"
-                                        [(ngModel)]="question.question_text"></angular-editor>
-                                    <span class="prc_tltp"
-                                        *ngIf="question_list_form.submitted && question.question_text.trim()==''">Question
-                                        Text is required</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
+                
                 <div class="crt_pr_dv w_100p d-flex fw_w">
                     <div class="d-flex fw_w mb_1 w_100p">
                         <div class="w_100p mb_1">
@@ -244,24 +223,17 @@
                                     Text is required</span>
                             </div>
                             <div>
-                                <div class="d-flex" *ngIf="audio_single_option || 
-                                audio_multiple_option || 
-                                image_single_option || 
-                                image_multiple_option || 
-                                audio_clip_free_text || 
-                                image_free_text
+                                <div class="d-flex" *ngIf="audio_single_option || audio_multiple_option || image_single_option || image_multiple_option || audio_clip_free_text || image_free_text
                                 ">
                                     <div class="">
                                         <div class="cnq_img_thmb text_center"
                                             *ngIf="image_single_option || image_multiple_option || image_free_text">
-                                            <div class="close_icon">
-                                                <mat-icon>close</mat-icon>
+                                            <div class="close_icon" *ngIf="option_images['file']">
+                                                <mat-icon (click)="removeFile('file')">close</mat-icon>
                                             </div>
-                                            <img *ngIf="imageSrc['file']" [src]="imageSrc['file']">
+                                            <img *ngIf="option_images['file']" [src]="option_images['file']">
                                             <!-- <mat-icon *ngIf="!imageSrc['file']">photo</mat-icon> -->
-                                            <button mat-fab class="cnq_upld_btn cnq_delimg"
-                                                onclick="document.getElementById('file').click()" type="button"
-                                                color="accent">
+                                            <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openAssetsLibrary('images/questions', 'file')" type="button" color="accent">
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
                                             <div class="hgt_10" *ngIf="!imageSrc['file']">
@@ -278,7 +250,7 @@
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
                                             <div class="hgt_10"></div>
-                                            <div>File Uploaded</div>
+                                            <div>{{fileName}}</div>
                                             <div class="hgt_10"></div>
                                             <div>
                                                 <mat-icon (click)="playAudio(imageSrc['file'])">play_arrow
@@ -408,24 +380,26 @@
                                     <div class="cnq_img_thmb text_center"
                                         *ngIf="image_single_option || image_multiple_option">
                                         <div>
-
-                                            <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
-                                                [src]="imageSrc['opt'+(option+1)+'Img']">
+                                            <div class="close_icon" *ngIf="option_images['opt'+(option+1)+'Img']">
+                                                <mat-icon (click)="removeFile('opt'+(option+1)+'Img')">close</mat-icon>
+                                            </div>
+                                            <img *ngIf="option_images['opt'+(option+1)+'Img']"
+                                                [src]="option_images['opt'+(option+1)+'Img']">
                                             <button mat-fab class="cnq_upld_btn cnq_delimg"
-                                                (click)="openFileExplor((option+1))" type="button" color="accent">
+                                                (click)="openAssetsLibrary('images/questions', 'opt'+(option+1)+'Img')" type="button" color="accent">
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
-                                            <button mat-fab class="cnq_upld_btn cnq_delimg" type="button"
+                                            <!-- <button mat-fab class="cnq_upld_btn cnq_delimg" type="button"
                                                 color="accent">
                                                 <mat-icon>file_upload</mat-icon>
-                                            </button>
-                                            <div class="hgt_10" *ngIf="!imageSrc['opt'+(option+1)+'Img']"></div>
-                                            <div class="fs_16 mt_55px" *ngIf="!imageSrc['opt'+(option+1)+'Img']">Upload
+                                            </button> -->
+                                            <!-- <div class="hgt_10" *ngIf="!imageSrc['opt'+(option+1)+'Img']"></div> -->
+                                            <div class="fs_16 mt_55px" *ngIf="!option_images['opt'+(option+1)+'Img']">Upload
                                                 Image
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d_none" *ngIf="image_single_option || image_multiple_option && false">
+                                    <div class="d_none" *ngIf="(image_single_option || image_multiple_option) && false">
                                         <div class="cnq_img_thmb">
                                             <!-- *ngFor="let option_value of question.option_array;index as option;" -->
                                             <div class="  ">
@@ -521,10 +495,12 @@
                                 <div class="cnq_img_thmb text_center"
                                     *ngIf="image_single_option || image_multiple_option">
                                     <div>
-                                        <img *ngIf="imageSrc['opt'+(option+1)+'Img']"
-                                            [src]="imageSrc['opt'+(option+1)+'Img']">
-                                        <button mat-fab class="cnq_upld_btn cnq_delimg"
-                                            (click)="openFileExplor((option+1))" type="button" color="accent">
+                                        <div *ngIf="option_images['opt'+(option+1)+'Img']" class="close_icon">
+                                            <mat-icon (click)="removeFile('opt'+(option+1)+'Img')">close</mat-icon>
+                                        </div>
+                                        <img *ngIf="option_images['opt'+(option+1)+'Img']"
+                                        [src]="option_images['opt'+(option+1)+'Img']">
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openAssetsLibrary('images/questions', 'opt'+(option+1)+'Img')" type="button" color="accent">
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                         <div class="hgt_10" *ngIf="!imageSrc['opt'+(option+1)+'Img']"></div>
