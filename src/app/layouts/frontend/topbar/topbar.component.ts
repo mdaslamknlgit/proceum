@@ -31,14 +31,7 @@
         isCustomMenuShow: boolean = true;
         sub_domain_data: any = [];
     
-    constructor(
-        private http: CommonService,
-        private authHttp: AuthService,
-        private route: Router,
-        private activeRoute: ActivatedRoute,
-        private cartCountService:CartCountService,
-        
-    ) {
+    constructor(private http: CommonService, private authHttp: AuthService, private route: Router, private activeRoute: ActivatedRoute, private cartCountService:CartCountService) {
         //for cart badge
         this.subscription = this.cartCountService.getNumber().subscribe(number => { this.number = number });
     }
