@@ -16,14 +16,9 @@
           <div class="w_49p mr_1 d-flex ai_cntr">
             <div class="w_100p mr_1">
               <mat-form-field appearance="outline" class="w_100p">
-                <textarea (keyup)="$event.keyCode == 13 ? addEmail() : ''" [(ngModel)]="recipient_emails" matInput placeholder="Add E-Mail ID (multiple with comma separated)"></textarea>
+                <textarea style="height: 50px;" name="recipient_emails_name" #recipient_emails_name="ngModel" (keyup)="autoGrowTextZone($event)" [(ngModel)]="recipient_emails" matInput placeholder="Add E-Mail ID (multiple with comma separated)"></textarea>
               </mat-form-field>
-            </div>
-            <div>
-              <button mat-mini-fab color="accent" class="float_right no_bxsdw">
-                <mat-icon (click)="addEmail()">chevron_right</mat-icon>
-              </button>
-            </div>
+            </div>           
           </div>
           <div class="w_49p">
             <span class="zmsu_lft" *ngFor="let email of recipient_emails_list; let email_index=index;">
@@ -338,7 +333,7 @@
             </span>
           </div>
           <div class="hgt_10"></div>
-          <div class="frm_dvs">
+          <div class="frm_dvs" *ngIf="user['role'] == 11">
             <span>Apply Referral Code</span>
             <span>
               <mat-form-field appearance="outline">
