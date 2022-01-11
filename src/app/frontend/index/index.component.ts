@@ -26,6 +26,7 @@ export class IndexComponent implements OnInit {
   user: any;
   sub_domain_data : any = [];
   load_powered_by :boolean = false;
+  public result;
   ngOnInit(): void {
     this.user = this.service.getUser();
     //check subdomain
@@ -37,6 +38,7 @@ export class IndexComponent implements OnInit {
     }else{
       this.load_powered_by = false;
     }
+    this.getcoupons();
   }
   navigateTo() {
     if (this.user['role'] == '1') {
@@ -113,6 +115,14 @@ export class IndexComponent implements OnInit {
       }
       
     });
+  }
+  getcoupons(){
+    let param = { url: 'get-latest-coupon'};
+    this.http.post(param).subscribe((res) => {
+      if(res['error'] == false) {
+        this.result =  res['data'];
+      }
+    })
   }
 }
 

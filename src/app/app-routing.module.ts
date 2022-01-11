@@ -21,6 +21,7 @@ import { PackageDetailsComponent } from './frontend/pricing-packages/package-det
 import { ShoppingCartComponent } from './frontend/shopping-cart/shopping-cart.component';
 import { QuestionBankComponent } from './admin/question-management/question-bank/question-bank.component';
 import { CreateExamComponent } from './admin/exam-modes/create-exam/create-exam.component';
+import { CouponsComponent } from './frontend/coupons/coupons.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -41,6 +42,7 @@ const routes: Routes = [
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'email-verification/:hash', component: EmailVerifiedComponent },
   { path: 'unsubscription', component: UnsubscribeEmailComponent },
+  { path: 'coupons', component: CouponsComponent },
   
   {
     path: 'mcicirriculam/:id',
@@ -84,6 +86,11 @@ const routes: Routes = [
     data: {
       role: '2,1,3,4,5,6,7,11',
     },
+  },
+  {
+    path: 'index',
+    loadChildren: () =>
+      import('./frontend/frontend.module').then((m) => m.FrontendModule),
   },
   { path: 'shopping-cart', component: ShoppingCartComponent },
   

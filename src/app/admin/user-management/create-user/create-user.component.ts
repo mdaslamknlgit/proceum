@@ -49,7 +49,7 @@ export class CreateUserComponent implements OnInit {
   public address_line_2 = '';
   public country_id : any = '';
   public state_id : any = '';
-  public city = '';
+  public city : any = '';
   public pincode = '';
   public university_id = '';
   public college_id = '';
@@ -71,6 +71,7 @@ export class CreateUserComponent implements OnInit {
   public selected_courses = [];
   countrys = [];
   states = [];
+  cities = [];
   roles = [];
   years = [];
   semesters = [];
@@ -85,6 +86,7 @@ export class CreateUserComponent implements OnInit {
 
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_cities: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_roles: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_years: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_semesters: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -195,6 +197,34 @@ export class CreateUserComponent implements OnInit {
     this.all_states.next(
       this.states.filter(
         (state) => state.state_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  getCities(selected_state_id: number) {
+    let params = {
+      url: 'get-cities',
+      state_id: selected_state_id,
+    };
+    this.http.post(params).subscribe((res) => {
+      if(res['error'] == false) {
+        this.cities = res['data']['cities'];
+        this.all_cities.next(this.cities.slice());
+      }
+    });
+  }
+
+  filterCities(event) {
+    let search = event;
+    if (!search) {
+      this.all_cities.next(this.cities.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_cities.next(
+      this.cities.filter(
+        (city) => city.city_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
@@ -440,6 +470,7 @@ export class CreateUserComponent implements OnInit {
         this.state_id = user_data.state_id;
         this.getStates(this.country_id);
         this.city = user_data.city;
+        this.getCities(this.state_id);
         this.pincode = user_data.pincode;
         this.university_id = user_data.university_id;
         this.college_id = user_data.college_id;
@@ -630,7 +661,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   getCurriculumnHierarchy(){
-    let params = { url: 'get-curriculumn-hierarchy','courses_ids_csv' : this.subject_csv};
+    let params = { url: 'get-curriculumn-hierarchy','courses_ids_csv' : this.subject_csv, 'flag' : 'subject'};
     this.http.post(params).subscribe((res) => {      
       if (res['error'] == false) {
         this.dataSource.data = res['data'];

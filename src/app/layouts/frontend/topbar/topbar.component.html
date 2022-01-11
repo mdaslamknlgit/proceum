@@ -7,11 +7,23 @@
   </span>
   <span class="spacer"></span>
   <div class="nav" [ngClass]="{ menu_open: isOpen }">
+    <div class="top-right-icon mr_1">
+      <div class="glbl_srch dsh_brd_crds glbsrc_act">
+        <mat-form-field appearance="outline">
+          <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''"
+            placeholder="Search" class="{{glbSrch == false ? '' : ''}}" autocomplete="off">
+          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">search</mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
+    <app-white-board *ngIf="user['role'] == '1' || user['role'] == '12'"></app-white-board>
     <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }">Home</span>
+      [routerLinkActiveOptions]="{ exact: true }">
+      <mat-icon matTooltip="Home" color="accent">home</mat-icon>
+    </span>
+    <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()"><mat-icon matTooltip="Dashboard" color="accent">grid_view</mat-icon></span>
     <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
-    <span mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active">Pricing &
-      Packages</span>
+    <span mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active">Pricing & Packages</span>
 
     <!-- <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
     <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
@@ -20,11 +32,12 @@
     > -->
     <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
 
-    <span mat-list-item class="tp_rt_mn" routerLinkActive="active">Blog</span>
-    <span *ngFor="let menu of menus" class="tp_rt_mn">
+    <span mat-list-item class="tp_rt_mn" ><a [href]="domain_name+'/blog'" target="_blank"> Blog</a></span>
+
+    <!-- <span *ngFor="let menu of menus" class="tp_rt_mn">
       <span *ngIf="menu.subMenus != undefined && menu.subMenus.length>0" mat-list-item [matMenuTriggerFor]="appMenu"
-        [class]="activeClass" routerLinkActive="active">{{ menu.name }}</span>
-      <!-- <span
+        [class]="activeClass" routerLinkActive="active">{{ menu.name }}</span> -->
+    <!-- <span
         *ngIf="isCustomMenuShow"
         mat-list-item
         [matMenuTriggerFor]="appMenu"
@@ -32,25 +45,37 @@
         routerLinkActive="active"
         >Custom Menu</span
       > -->
-      <mat-menu #appMenu="matMenu" class="dynamic_menu_cls">
+    <!-- <mat-menu #appMenu="matMenu" class="dynamic_menu_cls">
         <button mat-menu-item *ngFor="let subMenu of menu.subMenus" routerLink="/mcicirriculam/{{ subMenu.pk_id }}">
           {{ subMenu.name }}
         </button>
       </mat-menu>
+    </span> -->
+    <span class="tp_rt_mn">
+      <span mat-list-item [matMenuTriggerFor]="appMenu" [class]="activeClass" class="d-flex" routerLinkActive="active">
+        Curriculums
+        <mat-icon matSuffix>arrow_drop_down</mat-icon>
+      </span>
+      <mat-menu #appMenu="matMenu" class="dynamic_menu_cls">
+        <button *ngFor="let curriculum of curriculums" mat-menu-item (click)="navigateURL(curriculum.pk_id)">
+          {{curriculum.curriculumn_name}}
+        </button>
+      </mat-menu>
     </span>
-    <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
+
+    
 
   </div>
 
   <!-- <div class="lg_inbtn" *ngIf="user['name']">
     <span><mat-icon>face</mat-icon> <span class="m_hide">{{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span></span></span>
   </div> -->
-  <div class="lg_inbtn">
+  <div class="lg_inbtn mr_0">
     <span *ngIf="!user['name']" routerLink="/login">
-      <mat-icon>login</mat-icon>Login
+      <mat-icon color="accent" matTooltip="Login">login</mat-icon>
     </span>
     <span *ngIf="user['name']" (click)="logout()">
-      <mat-icon>logout</mat-icon><span class="m_hide">Logout</span>
+      <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
     </span>
   </div>
   <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">

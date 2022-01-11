@@ -22,7 +22,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./assessment-list.component.scss']
 })
 export class AssessmentListComponent implements OnInit {
-  displayedColumns: string[] = ['Sno', 'SubName', 'assId', 'assNme', 'dtndTm', 'qstns', 'eqDrtn', 'invTd', 'appeRd', 'absnTee', 'acTn'];
+  displayedColumns: string[] = ['Sno', 'SubName', 'assNme', 'dtndTm', 'qstns', 'eqDrtn', 'invTd', 'created_by',  'acTn']; //'appeRd', 'absnTee',
   
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -32,12 +32,20 @@ export class AssessmentListComponent implements OnInit {
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
   public totalSize = 0;
+  public editStatus = 0;
 
+  public user_id = 0;
+  public role_id = 0;
+  public user = [];
+  
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);
    }
 
   ngOnInit(): void {
+    this.user = this.http.getUser();
+    this.user_id = this.user['id'];
+    this.role_id = this.user['role'];
     this.pageFilter();
   }
 
@@ -48,7 +56,7 @@ export class AssessmentListComponent implements OnInit {
   }
 
   public pageFilter(){
-    let param = { url: 'assessment/get-list', offset: this.page, limit: this.pageSize};
+    let param = { url: 'assessment/get-list', offset: this.page, limit: this.pageSize,role:this.role_id,user:this.user_id};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['assessments']);

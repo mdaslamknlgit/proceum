@@ -22,6 +22,7 @@ import { StudentComponent } from './student.component';
 import { DetailsComponent } from './student/levels/details/details.component';
 import { LevelComponent } from './student/levels/level.component';
 import { Level_listComponent } from './student/levels/levels_list/level_list.component';
+import { Frontend_level_listComponent } from './frontend_level_list/frontend_level_list.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { ImageViewerModule } from 'ngx-image-viewer';
 import { ListPackagesComponent } from './pricing-packages/list-packages/list-packages.component';
@@ -52,9 +53,9 @@ import { MyEarningsComponent } from './my-earnings/my-earnings.component';
 import { StudentAssessmentListComponent } from './student/assessment/student-assessment-list/student-assessment-list.component';
 import { EventsListComponent } from './webinars/events-list/events-list.component';
 import { AttendAssessmentComponent } from './student/assessment/attend-assessment/attend-assessment.component';
-import { CouponsComponent } from './coupons/coupons.component';
 import { AssessmentResultComponent } from './student/assessment/assessment-result/assessment-result.component';
 import { StudentGlobalSearchComponent } from './student-global-search/student-global-search.component';
+import { CouponsComponent } from './coupons/coupons.component';
 
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
@@ -93,6 +94,16 @@ const routes: Routes = [
         path: 'curriculums/:curriculum_id/:level_id/:level_parent_id',
         component: Level_listComponent,
       },
+      
+      { path: 'curriculum/:curriculum_id', component: Frontend_level_listComponent },
+      {
+        path: 'curriculum/:curriculum_id/:level_id',
+        component: Frontend_level_listComponent,
+      },
+      {
+        path: 'curriculum/:curriculum_id/:level_id/:level_parent_id',
+        component: Frontend_level_listComponent,
+      },
       { path: 'qbank/create-exam/:qbank_id', component: ExamPrepmodeComponent },
       { path: 'qbank/study-mode/:qbank_id/:source_id', component: StudyModeComponent },
       { path: 'qbank/exam-mode/:qbank_id/:exam_id', component: ExamModeComponent },
@@ -111,13 +122,13 @@ const routes: Routes = [
       { path: 'purchased-orders', component: OrderListComponent },
       { path: 'class/list', component: EventsListComponent },
       
-      { path: 'coupons', component: CouponsComponent },
+      // { path: 'coupons', component: CouponsComponent },
       { path: 'global-search/:search_string', component: StudentGlobalSearchComponent },
       { path: 'assessments/list', component: StudentAssessmentListComponent },
       { path: 'assessments/exam/:id', component: AttendAssessmentComponent },
       { path: 'assessments/exam/:id/:active_q_index', component: AttendAssessmentComponent },
       { path: 'assessments/result/:id', component: AssessmentResultComponent },
-      { path: 'coupons', component: CouponsComponent },
+      // { path: 'coupons', component: CouponsComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent },
       { path: 'my-earnings', component:  MyEarningsComponent},
     ],
@@ -166,6 +177,7 @@ const routes: Routes = [
     CouponsComponent,
     AssessmentResultComponent,
     StudentGlobalSearchComponent,
+    Frontend_level_listComponent,
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,7 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <strong>{{"admin.class.create.page_title"|translate}}</strong></div>
+    <div class="brd_crm">{{"proceum_text"|translate}} &raquo;
+        <strong>{{"admin.class.create.page_title"|translate}}</strong>
+    </div>
     <div class="d-flex rsp_fw">
         <div class="pg_ttl">{{"admin.class.create.page_title"|translate}}</div>
         <div class="spacer"></div>
@@ -20,42 +22,51 @@
                 <div class="clear_fix"></div>
                 <div>{{"admin.class.create.course"|translate}}</div>
                 <mat-form-field appearance="outline">
-                  <mat-select [(ngModel)]="curriculum_id" #curriculum_id_name="ngModel" ngModel name="curriculum_id_name" placeholder='{{"admin.class.create.course"|translate}}' (ngModelChange)="getLabels()" required>
-                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
-                      [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
-                    </mat-option>
-                  </mat-select>
+                    <mat-select [(ngModel)]="curriculum_id" #curriculum_id_name="ngModel" ngModel
+                        name="curriculum_id_name" placeholder='{{"admin.class.create.course"|translate}}'
+                        (ngModelChange)="getLabels()" required>
+                        <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                            [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
-              </div>
-              <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
                 <span>{{ ucFirst(value["display_label"]) }}</span>
                 <div class="clear_fix"></div>
                 <mat-form-field appearance="outline">
-                  <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_name" [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
-                    <mat-option>
-                      <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
-                        name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
-                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">{{"select_text"|translate}} 
-                        {{ucFirst(value['display_label'])}}
-                      </ngx-mat-select-search>
-                    </mat-option>
-                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
-                      [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.meeting_topic"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <input matInput [(ngModel)]="meeting_topic" #meeting_topic_name="ngModel" name="meeting_topic_name" placeholder='{{"admin.class.create.meeting_topic"|translate}}' required>
+                    <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_name"
+                        [(ngModel)]="selected_level[value['level_number']]"
+                        (selectionChange)="getLevels(value['level_number'])">
+                        <mat-option>
+                            <ngx-mat-select-search
+                                [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                name="search_topic" ngModel
+                                (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                [placeholderLabel]="'Search '+ucFirst(value['display_label'])">
+                                {{"select_text"|translate}}
+                                {{ucFirst(value['display_label'])}}
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
+                            [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.class.create.meeting_topic"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <input matInput [(ngModel)]="meeting_topic" #meeting_topic_name="ngModel" name="meeting_topic_name"
+                        placeholder='{{"admin.class.create.meeting_topic"|translate}}' required>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="user['role'] != '12'">
                 <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline">
                     <mat-select [(ngModel)]="teacher_id" name="teacher_id_name" required>
                         <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option *ngFor="let teacher of teachers" [value]="teacher['id']">{{teacher['first_name']}}</mat-option>
+                        <mat-option *ngFor="let teacher of teachers" [value]="teacher['id']">{{teacher['first_name']}}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -72,7 +83,8 @@
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.start_date"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline">
-                    <input matInput [(ngModel)]="start_date" name="start_date_name" readonly [matDatepicker]="picker" required placeholder='{{"admin.class.create.start_date"|translate}}' autocomplete="off">
+                    <input matInput [(ngModel)]="start_date" name="start_date_name" readonly [matDatepicker]="picker"
+                        required placeholder='{{"admin.class.create.start_date"|translate}}' autocomplete="off">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -80,7 +92,8 @@
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.start_time"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_47p">
-                    <input type="time" matInput min="{{today.today.getHours()}+':'+today.getMinutes()}" [(ngModel)]="start_time" name="start_time_name">
+                    <input type="time" matInput min="{{today.today.getHours()}+':'+today.getMinutes()}"
+                        [(ngModel)]="start_time" name="start_time_name">
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
@@ -129,8 +142,11 @@
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.organization_type"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder='{{"admin.class.create.select_organization_type"|translate}}' name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization_type_id" (ngModelChange)="onOrganizationTypeChange()">
-                        <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue }}</mat-option>
+                    <mat-select placeholder='{{"admin.class.create.select_organization_type"|translate}}'
+                        name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization_type_id"
+                        (ngModelChange)="onOrganizationTypeChange()">
+                        <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue }}
+                        </mat-option>
                     </mat-select>
                     <!-- <mat-select placeholder="Select Organization Type" name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization" (ngModelChange)="onOrganizationTypeChange()" required>
                         <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue }}</mat-option>
@@ -182,99 +198,124 @@
             <div class="cm_fltr_sc mr_1">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit" #organization_list_edit="ngModel" [(ngModel)]="organization_list_id" (ngModelChange)="selected_name='university_id';selected_value=organization_list_id;getCollege(organization_list_id,0,'year')">
+                    <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit"
+                        #organization_list_edit="ngModel" [(ngModel)]="organization_list_id"
+                        (ngModelChange)="selected_name='university_id';selected_value=organization_list_id;getCollege(organization_list_id,0,'year')">
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'no_records_found_text'|translate"
-                                [placeholderLabel]="'search_text'|translate" name="search_university" ngModel  (ngModelChange)="searchOrganizations($event)" 
-                                >
+                                [placeholderLabel]="'search_text'|translate" name="search_university" ngModel
+                                (ngModelChange)="searchOrganizations($event)">
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{
+                            item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="is_college">
                 <span>{{"admin.class.create.college"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'admin.class.create.select_college' | translate}}" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="selected_name='college_id';selected_value=college_id;getYearSemsterGroup(organization_list_id,college_id,'year')">
+                    <mat-select placeholder="{{'admin.class.create.select_college' | translate}}" name="college_edit"
+                        #college_edit="ngModel" [(ngModel)]="college_id"
+                        (ngModelChange)="selected_name='college_id';selected_value=college_id;getYearSemsterGroup(organization_list_id,college_id,'year')">
                         <mat-option>
-                        <ngx-mat-select-search [noEntriesFoundLabel]="'no_records_found_text'|translate"
-                                [placeholderLabel]="'search_text'|translate" name="search_college" ngModel  (ngModelChange)="searchCollege($event)" 
-                                >
+                            <ngx-mat-select-search [noEntriesFoundLabel]="'no_records_found_text'|translate"
+                                [placeholderLabel]="'search_text'|translate" name="search_college" ngModel
+                                (ngModelChange)="searchCollege($event)">
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let item of all_college | async" [value]="''+item['pk_id']">{{ item["organization_name"]?item["organization_name"]:item["name"] }}</mat-option>
+                        <mat-option *ngFor="let item of all_college | async" [value]="''+item['pk_id']">{{
+                            item["organization_name"]?item["organization_name"]:item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.year"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'admin.class.create.select_year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="selected_name='year_id';selected_value=year_id;getYearSemsterGroup(organization_list_id,year_id,'semester')">
-                        <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    <mat-select placeholder="{{'admin.class.create.select_year'|translate}}" name="year_edit"
+                        #year_edit="ngModel" [(ngModel)]="year_id"
+                        (ngModelChange)="selected_name='year_id';selected_value=year_id;getYearSemsterGroup(organization_list_id,year_id,'semester')">
+                        <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.semester"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'admin.class.create.select_semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="selected_name='semester_id';selected_value=semester_id;getYearSemsterGroup(organization_list_id,semester_id,'group')" >
-                        <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    <mat-select placeholder="{{'admin.class.create.select_semester'|translate}}" name="semester_edit"
+                        #semester_edit="ngModel" [(ngModel)]="semester_id"
+                        (ngModelChange)="selected_name='semester_id';selected_value=semester_id;getYearSemsterGroup(organization_list_id,semester_id,'group')">
+                        <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"]
+                            }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.group"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'admin.class.create.select_group'|translate}}" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="selected_name='group_id';selected_value=group_id;">
-                        <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    <mat-select placeholder="{{'admin.class.create.select_group'|translate}}" name="group_edit"
+                        #group_edit="ngModel" [(ngModel)]="group_id"
+                        (ngModelChange)="selected_name='group_id';selected_value=group_id;">
+                        <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <button [disabled]="selected_name == '' || selected_value == ''" type="button" (click)="getStudents()" mat-raised-button color="accent">{{"admin.class.create.get_students"|translate}}</button>
+            <button [disabled]="selected_name == '' || selected_value == ''" type="button" (click)="getStudents()"
+                mat-raised-button color="accent">{{"admin.class.create.get_students"|translate}}</button>
             <hr />
-            
+
             <div class="hgt_20"></div>
             <div class="d-flex ai_cntr">
-                <!-- <div>
-                    <mat-radio-group aria-label="Select an option">
-                        <mat-radio-button value="1" class="mr_1">Select All</mat-radio-button>
-                        <mat-radio-button value="2">Deselect All</mat-radio-button>
-                    </mat-radio-group>
-                </div> 
-                <div class="spacer"></div>-->
                 <div>
-                    <!-- <span class="mr_1">Selected Students</span> -->
-                    <button (click)="addStudents()" type="button" mat-raised-button color="accent" class="mr_1">
-                        <mat-icon>add</mat-icon> {{"admin.class.create.add_all"|translate}}
-                    </button>
-                    <button mat-raised-button type="button" (click)="selected_students=[];selected_student_ids = [];" color="accent">{{"admin.class.create.remove_all"|translate}}</button>
+
                 </div>
             </div>
             <div class="hgt_20"></div>
-            <div class="cm_fltr_sc mr_1">
-                <span>Search</span>
+            <div class="xl_srch">
                 <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput [(ngModel)]="search_student" name="search_student_name" (keyup)="searchStudents(search_student)" placeholder="{{'search_text'|translate}}" />
+                    <input matInput [(ngModel)]="search_student" name="search_student_name"
+                        (keyup)="searchStudents(search_student)" placeholder="{{'search_text'|translate}}" />
                     <mat-icon (click)="searchStudents(search_student)" matSuffix color="accent">search</mat-icon>
                 </mat-form-field>
             </div>
             <div class="d-flex zm_swtchusrs">
                 <div class="w_49p mr_1p">
-                    <span class="zmsu_lft" *ngFor="let s of students; let s_index=index;" [hidden]="this.selected_student_ids.includes(s['id'])">
-                         
-                            <span>{{s['name']}}</span>
-                            <button mat-icon-button color="accent" type="button"><mat-icon (click)="addStudent(s)" >add</mat-icon></button> 
-                            <!-- <span (click)="removeStudent(s_index)"> remove</span> -->
-                        
-                        <br>
+                    <div class="zm_mvusrs">
+                        <div>Student List</div>
+                        <div class="spacer"></div>
+                        <div>
+                            <button [disabled]="selected_name == '' || selected_value == ''" (click)="addStudents()" type="button" matTooltip="Add all Students" mat-button color="accent" class="mr_1">
+                                {{"admin.class.create.add_all"|translate}} <mat-icon>chevron_right</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <span class="zmsu_lft" *ngFor="let s of students; let s_index=index;"
+                        [hidden]="this.selected_student_ids.includes(s['id'])">
+                        <span>{{s['name']}}</span>
+                        <button mat-icon-button color="accent" type="button">
+                            <mat-icon (click)="addStudent(s)" matTooltip="Add Student">add</mat-icon>
+                        </button>
                     </span>
                 </div>
-                <div class="w_50p" >
+                <div class="w_50p">
+                    <div class="zm_mvusrs">
+                        <div>Selected Students</div>
+                        <div class="spacer"></div>
+                        <div>
+                            <button [disabled]="selected_name == '' || selected_value == ''" mat-button type="button" matTooltip="Remove all Student"
+                                (click)="selected_students=[];selected_student_ids = [];"
+                                color="warn"><mat-icon>chevron_left</mat-icon> {{"admin.class.create.remove_all"|translate}}</button>
+                        </div>
+                    </div>
                     <span class="zmsu_lft" *ngFor="let s of selected_students; let s_s_index=index;">
-                        <span>{{s['name']}}</span> 
-                        <button mat-icon-button color="accent" type="button"><mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" >remove</mat-icon></button> 
-                         
+                        <span>{{s['name']}}</span>
+                        <button mat-icon-button color="accent" type="button">
+                            <mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" matTooltip="Remove Student"
+                            color="warn">highlight_off</mat-icon>
+                        </button>
+
                     </span>
                 </div>
             </div>

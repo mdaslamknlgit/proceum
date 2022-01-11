@@ -4,25 +4,26 @@
     <img src="./assets/images/hamburg-icon.svg" />
   </button>
   <span class="logo_spn"><img src="{{ getHeaderLogo() }}"/></span>
+  <span class="usr_lgns" >{{"welcome_to_text"|translate}} {{ user["role_name"] }} {{"dashboard_text"|translate}}</span>
   <span class="spacer"></span>
   <div class="top-right-icon mr_1"> 
     <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
       <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
         <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? adminglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
-        <mat-icon matSuffix (click)="glbSrch = !glbSrch">Search</mat-icon>
+        <mat-icon matSuffix (click)="glbSrch = !glbSrch">search</mat-icon>
       </mat-form-field>
     </div>
   </div>
   <app-white-board></app-white-board>
-  <span class="tp_rt_mn ps_rel fr_bdg">
+  <span class="tp_rt_mn ps_rel fr_bdg mr_0">
       <span (click)="show_notifications = !show_notifications">
         <mat-icon *ngIf="content_notifications.length > 0" class="tp_rt_mn lft_0" matBadge="{{content_notifications.length>0?content_notifications.length:''}}" matBadgeColor="warn">notification_important</mat-icon>
-        <mat-icon *ngIf="content_notifications.length == 0" class="tp_rt_mn lft_0">notification_important</mat-icon>
-        <span>Notifications</span>
+        <mat-icon *ngIf="content_notifications.length == 0" class="tp_rt_mn lft_0" matTooltip="Notifications">notification_important</mat-icon>
+        <!-- <span>Notifications</span> -->
     </span>
     <div class="noti_dv {{show_notifications == false?'d-none':''}}">
       <div class="noti_hd d-flex">
-        <span class="fnt_16">Notifications</span>
+        <span class=" ">Notifications</span>
         <span class="spacer"></span>
         <span (click)="show_notifications = !show_notifications"><mat-icon>close</mat-icon></span>
       </div>
@@ -44,12 +45,11 @@
     </div>
   </span>
   <span class="tp_rt_mn">
-    <mat-icon class="tp_rt_mn">face</mat-icon>
-    <span>{{ user["name"] + "(" + user["role_name"] + ")" }}</span>
+    <mat-icon class="tp_rt_mn">account_circle</mat-icon>
+    <span>{{ user["name"]  }}</span>
   </span>
 
   <span class="tp_rt_mn lgot_btn" (click)="logout()">
-    <mat-icon>logout</mat-icon>
-    <span> Logout</span>
+    <mat-icon matTooltip="Logout" color="warn">power_settings_new</mat-icon>
   </span>
 </mat-toolbar>

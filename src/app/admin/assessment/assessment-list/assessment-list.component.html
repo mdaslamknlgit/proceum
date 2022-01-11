@@ -14,48 +14,62 @@
         <div class="rsp_tbl">
             <table mat-table [dataSource]="dataSource" class="whtspc_nml">
                 <ng-container matColumnDef="Sno">
-                  <th mat-header-cell *matHeaderCellDef> {{"s_no_text"|translate}} </th> 
-                  <td mat-cell *matCellDef="let element"> {{element.s_no}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"s_no_text"|translate}} </th> 
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.s_no}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="SubName">
-                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.subject"|translate}} {{"name_text"|translate}} </th>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"admin.assessment.list.subject_name"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> {{element.subject_name}} </td>
                 </ng-container> 
-                <ng-container matColumnDef="assId">
+                <!-- <ng-container matColumnDef="assId">
                   <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.assessment_id"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> {{element.assessment_key}} </td>
-                </ng-container> 
-                <ng-container matColumnDef="assNme">
-                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.assessment_name"|translate}}</th>
-                  <td mat-cell *matCellDef="let element"> {{element.assessment_name}} </td>
+                </ng-container>  -->
+                <ng-container matColumnDef="assNme"> 
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"admin.assessment.list.assessment_name"|translate}}</th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.assessment_name}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="dtndTm">
-                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.date_time"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{element.assessment_date_time}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"admin.assessment.list.date_time"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.assessment_date_time}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="qstns">
-                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.questions_count"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{element.total_questions_count}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"admin.assessment.list.questions_count"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.total_questions_count}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="eqDrtn">
-                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.e_q_duration"|translate}}</th>
-                  <td mat-cell *matCellDef="let element"> {{element.time_per_question}} </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"admin.assessment.list.e_q_duration"|translate}}</th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.time_per_question}} </td>
                 </ng-container> 
                 <ng-container matColumnDef="invTd">
-                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.invited"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> {{element.invited}}  </td>
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"admin.assessment.list.invited"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.invited}}  </td>
+                </ng-container>
+                <ng-container matColumnDef="created_by">
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"admin.assessment.list.created_by"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> {{element.created_by}}  </td>
                 </ng-container> 
-                <ng-container matColumnDef="appeRd">
+                <!-- <ng-container matColumnDef="appeRd">
                   <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.appeared"|translate}} </th>
                   <td mat-cell *matCellDef="let element">  </td>
                 </ng-container> 
                 <ng-container matColumnDef="absnTee">
                   <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.absentee"|translate}} </th>
                   <td mat-cell *matCellDef="let element"> </td>
-                </ng-container> 
+                </ng-container>  -->
                 <ng-container matColumnDef="acTn">
-                  <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.list.actions"|translate}} </th>
-                  <td mat-cell *matCellDef="let element"> 
+                  <th mat-header-cell *matHeaderCellDef class="text_center"> {{"admin.assessment.list.actions"|translate}} </th>
+                  <td mat-cell *matCellDef="let element" class="text_center"> 
+                    <button mat-icon-button color="accent" *ngIf="element.viewStatus == 0">
+                      <mat-icon routerLink="/{{role_id == 1 ? 'admin':'teacher'}}/assessment/report/{{element.pk_id}}" matTooltip="Click to View">visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button disabled color="accent" *ngIf="element.viewStatus == 1">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" *ngIf="element.editStatus == 1">
+                      <mat-icon routerLink="/{{role_id == 1 ? 'admin':'teacher'}}/edit-assessment/{{element.pk_id}}/{{element.assessment_key}}" matTooltip="Click to Edit">edit_notes
+                      </mat-icon>
+                    </button>
                     <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                         'Are you sure to delete <b>' + element.assessment_name + '</b>'
                         " placement="auto" (confirm)="deleteContentData(element.pk_id)" confirmButtonType="danger"

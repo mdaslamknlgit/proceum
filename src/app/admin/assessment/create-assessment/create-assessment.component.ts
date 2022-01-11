@@ -83,6 +83,8 @@ export class CreateAssessmentComponent implements OnInit {
   public total_groups = [];
   public college_id = '';
   years: any;
+  public show_semester_dropdown = true;
+  public show_group_dropdown = true;
 
   public students = [];
   public selected_students = [];
@@ -90,13 +92,42 @@ export class CreateAssessmentComponent implements OnInit {
   public all_students = [];
   public search_student = '';
 
+  public user_id = 0;
+  public role_id = 0;
+  public college_institute_id = 0;
+  public user = [];
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);
    }
 
   ngOnInit(): void {
+    this.user = this.http.getUser();
+    this.user_id = this.user['id'];
+    this.role_id = this.user['role'];
+    if(this.role_id == 12){
+      this.getTeacherCollegeInstitute();
+    }
     this.assessmentTypes();
     this.getcurriculums();
+  }
+
+  getTeacherCollegeInstitute(){
+    let params = {
+      url: 'assessment/get-teacher-details', user_id: this.user_id
+    };
+    this.http.post(params).subscribe((res) => {
+      //console.log(res['user_details']);
+      if (res['error'] == false) {
+        if(res['user_details']['college_id'] != null){
+          this.college_id = this.college_institute_id = res['user_details']['college_id'];
+          this.getYearSemsterGroup('1',0,'year');
+        }
+        if(res['user_details']['institute_id'] != null){
+          this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
+          this.getYearSemsterGroup('3',0,'year');
+        }
+      }
+    });
   }
 
   assessmentTypes(){
@@ -240,22 +271,28 @@ export class CreateAssessmentComponent implements OnInit {
     this.selected_name = '';
     this.selected_value = '';
     this.organization_list_id = '';
+    this.college_id = '';
     this.year_id = '';
     this.semester_id = '';
     this.group_id = '';
     this.all_organization_list.next();
+    this.all_college.next();
     this.all_years.next();
     this.all_semesters.next();
     this.all_groups.next();
     if(this.organization_type_id == '1'){ //University
       this.getOrganizationList(1,0);
       this.organization_type_name = 'University';
-    }else if(this.organization_type_id == '2'){ //College
-      this.getOrganizationList(2,0);
-      this.organization_type_name = 'College';
-    }else if(this.organization_type_id == '3'){ //Institute
+      this.is_college = true;
+    }
+    // else if(this.organization_type_id == '2'){ //College
+    //   this.getOrganizationList(2,0);
+    //   this.organization_type_name = 'College';
+    // }
+    else if(this.organization_type_id == '3'){ //Institute
       this.getOrganizationList(3,0);
       this.organization_type_name = 'Institute';
+      this.is_college = false;
     }
   }
 
@@ -297,15 +334,35 @@ export class CreateAssessmentComponent implements OnInit {
     }
   }
 
-  getCollege(partner,parent_id,slug){
-    if(this.organization_type_id == '1'){ //University
+  getCollege(org_type,parent_id,slug){
+    this.show_semester_dropdown = true;
+    this.show_group_dropdown = true;
+    this.year_id = '';
+    this.semester_id = '';
+    this.group_id = '';
+    this.all_years.next();
+    this.all_semesters.next();
+    this.all_groups.next();
+    if(org_type == '1'){ //University
       this.getOrganizationList(2,1);
       this.college_id = '';
+      this.all_college.next();      
+    }else{
+      this.getYearSemsterGroup(org_type,parent_id,slug);
     }
-    this.getYearSemsterGroup(partner,parent_id,slug);
   }
 
-  getYearSemsterGroup(partner,parent_id,slug){
+  getYearSemsterGroup(org_type,parent_id,slug){
+    let partner = '';
+    if(org_type == '1'){
+      partner = this.college_id;
+    }
+    else if(org_type == '3'){
+      partner = this.organization_list_id;
+    }
+    else if(this.role_id == 12){
+      partner = String(this.college_institute_id);
+    }
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -314,15 +371,28 @@ export class CreateAssessmentComponent implements OnInit {
           if(slug == 'year'){
             this.semester_id = '';
             this.group_id = '';
+            this.all_semesters.next();
+            this.all_groups.next();
             this.all_years.next(this.years.slice());
             this.total_years=res['data'];
           }else if(slug == 'semester'){
             this.group_id = '';
+            this.semester_id = '';
+            this.all_groups.next();
             this.all_semesters.next(this.years.slice());
             this.total_semesters==res['data'];
+            this.show_semester_dropdown = true;
+            if(this.years.length == 0){
+              this.getYearSemsterGroup(org_type,parent_id,'group');
+              this.show_semester_dropdown = false;
+            }
           }else if(slug == 'group'){
             this.all_groups.next(this.years.slice());
             this.total_groups==res['data'];
+            this.show_group_dropdown = true;
+            if(this.years.length == 0){
+              this.show_group_dropdown = false;
+            }
           }           
         }
       } else {
@@ -413,21 +483,48 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   CreateAssessment(){
-    if(this.question_total < 0){
+    if(this.question_total <= 0){
       this.translate.get('admin.assessment.create.please_select_course_text').subscribe((data)=> {
         this.toster.error(data, "Error", {closeButton:true});
       });
       return;
-    }else{
-      let param = {url:'assessment/store',assessment_name: this.assessment_name,assessment_type: this.assessment_type,timezone: this.timezone, 
-      start_date: this.start_date, start_time: this.start_time,duration: this.question_duration,question_total:this.question_total,course:this.selected_topics,students: this.selected_students,assessment_value: 1}; //course: this.selected_subject,
+    }else if(this.question_total > 100){
+      this.translate.get('admin.assessment.create.questions_count_error_msg').subscribe((data)=> {
+        this.toster.error(data, "Error", {closeButton:true});
+      });
+      return;
+    }else if(this.selected_students.length == 0){
+      this.translate.get('admin.assessment.create.select_students_error_message').subscribe((data)=> {
+        this.translate.get('error_text').subscribe((error_text)=> {
+          this.toster.error(data, error_text, {closeButton:true});
+        });
+      });
+      return;        
+    }
+    else{
+      let param = {url:'assessment/store',assessment_name: this.assessment_name,assessment_type: this.assessment_type,timezone: this.timezone,
+      start_date: this.start_date, start_time: this.start_time,duration: this.question_duration,question_total:this.question_total,
+      course:this.selected_topics,students: this.selected_students,assessment_value: 1,role:this.role_id,user:this.user_id}; //course: this.selected_subject,
       this.http.post(param).subscribe(res=>{
           if(res['error'] == false){
-              this.toster.success(res['message'], "Success", { closeButton:true });
+            this.translate.get('success_text').subscribe((success_text)=> {
+              this.translate.get('admin.assessment.create.create_success').subscribe((message)=> {
+                  this.toster.success(message, success_text, {closeButton:true});
+              });
+            });
+            if(this.role_id == 1){
               this.router.navigateByUrl('/admin/assessment-list');
+            }else if(this.role_id == 12){
+              this.router.navigateByUrl('/teacher/assessment-list');
+            }
           }
           else{
-              this.toster.error(res['message'], "Error", { closeButton:true });
+            this.translate.get('something_went_wrong_text').subscribe((data)=> {
+              this.translate.get('error_text').subscribe((error_text)=> {
+                  this.toster.error(data, error_text, {closeButton:true});
+              });
+            })
+              //this.toster.error(res['message'], "Error", { closeButton:true });
           }
       });
     }

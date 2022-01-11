@@ -10,11 +10,12 @@ export class CommonService {
   public child_data: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public child_data_editor: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public isLoading = new BehaviorSubject(false);
-  private apiURL: string;
+  public apiURL: string;
   public kpoint_api_url = "https://proceum.kpoint.com/api/v1/xapi/";
   public menu_status: String;
   ipResult : any;
   public lang = "en";
+  public search_string = '';
   constructor(private http: HttpClient) {
     this.apiURL = environment.apiUrl;
   }

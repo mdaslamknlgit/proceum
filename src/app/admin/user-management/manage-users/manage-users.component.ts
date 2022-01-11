@@ -73,6 +73,7 @@ export class ManageUsersComponent implements OnInit {
   public group_id = '';
 
   public partner_id = '';
+  public domain = '';
   
   roles = [];
   years = [];
@@ -88,6 +89,10 @@ export class ManageUsersComponent implements OnInit {
   promote_all_semesters: ReplaySubject<any> = new ReplaySubject<any>(1);
   promote_all_groups: ReplaySubject<any> = new ReplaySubject<any>(1);
   public mng_student_popup = false;
+  public show_semester_dropdown = true;
+  public show_group_dropdown = true;
+  public promote_semester_dropdown = true;
+  public promote_group_dropdown = true;
 
   public studentArray = [];
   public studentListArray = [];
@@ -96,16 +101,21 @@ export class ManageUsersComponent implements OnInit {
   public promote_group_id = '';
   checkboxValue: boolean = false;
   api_url : string;
+  download_url : string;
+  student_structure_template : string;
+  
 
   constructor(
     private http: CommonService,
     public toster: ToastrService,
     private router: Router
     ) { 
-      this.api_url = environment.apiUrl + 'download-students-data';
+      this.api_url = environment.apiUrl;
+      this.download_url = this.api_url + 'download-students-data';
     }
 
   ngOnInit(): void {
+    this.domain = location.origin;
     this.getAdminUsers();
     this.getRoleList();
   }
@@ -132,6 +142,7 @@ export class ManageUsersComponent implements OnInit {
         if(this.roles != undefined){
           this.all_roles.next(this.roles.slice());
         }
+        this.student_structure_template = this.api_url.substring(0, this.api_url.length - 5) + res['student_structure_template'];
       } else {
         //this.toster.error(res['message'], 'Error');
       }
@@ -142,6 +153,7 @@ export class ManageUsersComponent implements OnInit {
     if(this.role != '2'){
       this.manage_students = '';
     }
+    this.page = 0;
     let param = { 
       url: 'get-user-list',
       offset: this.page,
@@ -156,11 +168,10 @@ export class ManageUsersComponent implements OnInit {
       group: this.group_id,
       is_admin_specific_role : '1'
     };
-
+    
     this.http.post(param).subscribe((res) => {    
       this.checkboxValue = false;
       if (res['error'] == false) {
-        console.log(res);
         if(this.role == '2'){
           this.dataSourceTwo = new MatTableDataSource(res['data']);
           this.dataSourceTwo.paginator = this.paginator;
@@ -239,20 +250,73 @@ export class ManageUsersComponent implements OnInit {
     });
   }
 
+  public uploadFiles(event) {
+    let files = event.target.files;
+    if (files.length == 0) return false; 
+    
+    if(files && files.length > 0) {
+      let file : File = files.item(0);
+      let reader: FileReader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = (e) => {
+                   
+          //Create formdata object
+          const uploadData = new FormData();
+          uploadData.append("organization_type_id", this.organization_type_id);
+          uploadData.append("organization" , this.organization_list_id);
+          uploadData.append("college_id" , this.college_id);
+          uploadData.append("year", this.year_id);
+          uploadData.append("semester", this.semester_id);
+          uploadData.append("group", this.group_id);
+          uploadData.append("domain", this.domain);
+          uploadData.append("import_file", files[0], files[0].name);
+          
+          let param = { url: 'import-students-data' };
+          return this.http.import(param, uploadData).subscribe((res) => {
+              if (res['error'] == false) {
+                this.toster.success(res['message'], 'Success', { closeButton: true });
+                this.doFilter();
+                this.mng_student_popup = false;
+              } else {
+                this.toster.error(res['message'], 'Error', { closeButton: true });
+              }
+            });
+        }
+    }   
+  }
+
+  // public studentStructureTemplate(){
+  //   window.open(this.student_structure_template,"_blank");
+  // }
+
   public onManageStudentChange() {
     if(this.organization_list_id == '' && this.manage_students == '1'){
       this.toster.error('Please Select University / College / Institute', 'Error', { closeButton: true });
       return;
-    }else if(this.manage_students == '1'){
-      let parent_id = '';
-      let partner = '';
-      if(this.organization_list_id != ''){
-        partner = this.organization_list_id;
-      }else if(this.college_id != ''){
-        parent_id = this.college_id;
-        partner = this.organization_list_id;
+    }else if(this.manage_students == '3'){
+      if(this.organization_list_id == ''){
+        this.toster.error('Please Select University / College / Institute', 'Error', { closeButton: true });
+        return;
+      }else if(this.year_id == ''){
+        this.toster.error('Please Select Year', 'Error', { closeButton: true });
+        return;
       }
-      this.getYearSemsterGroup(partner,parent_id,'year','promote');
+    }else if(this.manage_students == '1'){
+      // let parent_id = '';
+      // let partner = '';
+      // if(this.organization_type_id != ''){
+      //   partner = this.organization_list_id;
+      // }else if(this.college_id != ''){
+      //   parent_id = this.college_id;
+      //   partner = this.organization_list_id;
+      // }
+      this.promote_all_years.next();
+      this.promote_all_semesters.next();
+      this.promote_all_groups.next();
+      this.promote_year_id = '';
+      this.promote_group_dropdown = true;
+      this.promote_semester_dropdown = true;
+      this.getYearSemsterGroup(this.organization_type_id,0,'year','promote');
     }
     this.mng_student_popup = true;
   }
@@ -269,18 +333,21 @@ export class ManageUsersComponent implements OnInit {
     if(this.organization_type_id == '1'){ //University
       this.getOrganizationList(1,0);
       this.organization_type_name = 'University';
-    }else if(this.organization_type_id == '2'){ //College
-      this.getOrganizationList(2,0);
-      this.organization_type_name = 'College';
-    }else if(this.organization_type_id == '3'){ //Institute
+      this.is_college = true;
+    }
+    // else if(this.organization_type_id == '2'){ //College
+    //   this.getOrganizationList(2,0);
+    //   this.organization_type_name = 'College';
+    // }
+    else if(this.organization_type_id == '3'){ //Institute
       this.getOrganizationList(3,0);
       this.organization_type_name = 'Institute';
+      this.is_college = false;
     }
   }
 
   //To get all the Universities list
   getOrganizationList(type,check){
-    this.is_college = false;    
     if(check == 0){ // Only University or College or Institute
       let param = { url: 'get-partners-list',partner_type_id : type };
       this.http.post(param).subscribe((res) => {
@@ -311,16 +378,34 @@ export class ManageUsersComponent implements OnInit {
     }
   }
 
-  getCollege(partner,parent_id,slug,type){
-    if(this.organization_type_id == '1'){ //University
+  getCollege(org_type,parent_id,slug,type){
+    this.show_semester_dropdown = true;
+    this.show_group_dropdown = true;
+    this.year_id = '';
+    this.semester_id = '';
+    this.group_id = '';
+    this.all_years.next();
+    this.all_semesters.next();
+    this.all_groups.next();
+    if(org_type == '1'){ //University
       this.getOrganizationList(2,1);
       this.college_id = '';
+      this.all_college.next();      
+    }else{
+      this.getYearSemsterGroup(org_type,parent_id,slug,type);
     }
-    this.getYearSemsterGroup(partner,parent_id,slug,type);
+    this.doFilter();
   }
 
-  getYearSemsterGroup(partner,parent_id,slug,type){
-    //console.log('partner => '+partner+', parent_id => '+parent_id+', slug => '+slug);    
+  getYearSemsterGroup(org_type,parent_id,slug,type){     
+    let partner = '';
+    if(org_type == '1'){
+      partner = this.college_id;
+    }
+    else{
+      partner = this.organization_list_id;
+    }
+    //console.log('org_type => '+org_type+', partner => '+partner+', parent_id => '+parent_id+', slug => '+slug);   
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -334,19 +419,41 @@ export class ManageUsersComponent implements OnInit {
             }else if(slug == 'semester'){
               this.promote_group_id = '';
               this.promote_all_semesters.next(this.years.slice());
+              this.promote_semester_dropdown = true;
+              if(this.years.length == 0){
+                this.getYearSemsterGroup(org_type,parent_id,'group',type);
+                this.promote_semester_dropdown = false;
+              }
             }else if(slug == 'group'){
               this.promote_all_groups.next(this.years.slice());
+              this.promote_group_dropdown = true;
+              if(this.years.length == 0){
+                this.promote_group_dropdown = false;
+              } 
             } 
           }else{
             if(slug == 'year'){            
               this.semester_id = '';
               this.group_id = '';
+              this.all_semesters.next();
+              this.all_groups.next();
               this.all_years.next(this.years.slice());            
             }else if(slug == 'semester'){
               this.group_id = '';
+              this.semester_id = '';
+              this.all_groups.next();
               this.all_semesters.next(this.years.slice());
+              this.show_semester_dropdown = true;
+              if(this.years.length == 0){
+                this.getYearSemsterGroup(org_type,parent_id,'group',type);
+                this.show_semester_dropdown = false;
+              }
             }else if(slug == 'group'){
-              this.all_groups.next(this.years.slice());            
+              this.all_groups.next(this.years.slice());
+              this.show_group_dropdown = true;
+              if(this.years.length == 0){
+                this.show_group_dropdown = false;
+              }            
             }
             this.doFilter(); 
           }          
@@ -383,9 +490,9 @@ export class ManageUsersComponent implements OnInit {
   }
 
   downloadAllStudents(){
-    window.open(this.api_url+'?getUrl=1&role='+this.role+'&search='+this.search_box+'&list_type_id='+this.organization_type_id
+    window.open(this.download_url+'?getUrl=1&role='+this.role+'&search='+this.search_box+'&list_type_id='+this.organization_type_id
     +'&organization='+this.organization_list_id+'&college_id='+this.college_id+'&year='+this.year_id+'&semester='+this.semester_id
-    +'&group='+this.group_id+'&is_admin_specific_role=1',"_blank");
+    +'&group='+this.group_id+'&is_admin_specific_role=1&type=download',"_blank");
     this.mng_student_popup = false;
   }
   
@@ -398,7 +505,7 @@ export class ManageUsersComponent implements OnInit {
       // this.http.get(param).subscribe((res) => {
 
       // });
-      window.open(this.api_url+'?getUrl=1&role='+this.role+'&studentArray='+this.studentArray,"_blank");
+      window.open(this.download_url+'?getUrl=1&role='+this.role+'&studentArray='+this.studentArray+'&type=download',"_blank");
       this.studentArray = [];
       this.checkboxValue = false;
       this.checkUncheckAll('false');
