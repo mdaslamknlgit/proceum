@@ -153,10 +153,10 @@ constructor(private activatedRoute: ActivatedRoute, private router: Router, priv
             if([3,6,9,12].includes(q['q_type'])){
                 return 3;
             }
-            if(q['result'] == 'skppd'){
+            if(q['result'] == 'skppd' && q['answer'].length == 0){
                 return 4;
             }
-            if(q['result'] == 'orng'){
+            if(q['result'] == 'orng' && q['answer'].length == 0){
                 return 5;
             }
             if(q['answer'].length == 0){
@@ -241,6 +241,7 @@ constructor(private activatedRoute: ActivatedRoute, private router: Router, priv
         }
     }
     markQuestion(index){
+        this.questions_list[index]['answer'] = [];
         this.questions_list[index]['result'] = "orng";
         if(index == (this.questions_list.length-1)){
             this.showResult();

@@ -57,6 +57,7 @@ export class StepsComponent implements OnInit {
         this.step_id = param.step?param.step:1;
         this.parent_id = param.level_parent_id ? param.level_parent_id : 0;
         this.curriculum_id = param.curriculum_id;
+        this.search_box = '';
         this.reLoad();
         });
     }
