@@ -168,7 +168,7 @@
                 </table>
             </div>
             <hr class="hgt_10">
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="role_id == 1">
                 <span>{{"admin.assessment.create.organization_type"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder='{{"admin.assessment.create.select_organization_type"|translate}}'
@@ -179,7 +179,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="role_id == 1">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit"
@@ -196,7 +196,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1" *ngIf="is_college">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_college && role_id == 1">
                 <span>{{"admin.assessment.create.college"|translate}}</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.assessment.create.select_college' | translate}}"
