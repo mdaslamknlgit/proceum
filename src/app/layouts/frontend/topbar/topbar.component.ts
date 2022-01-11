@@ -188,20 +188,9 @@
         });
     }
     navigateURL(url){
-        let user = this.http.getUser();
-        if(user){
-        if(user['role']== '2' || user['role']== '11' ){
-            url = "/student/curriculums/"+url;
-        }else{
-            url = "/admin/curriculum/"+url;
-        }  
-        }
-        else{
-        url = "/index/curriculum/"+url;
-        }
-        this.route.navigateByUrl(url);
+      this.route.navigateByUrl("/index/curriculum/"+url);
     }
     studentglobalsearch(){
-        this.route.navigateByUrl("/index/global-search/"+this.search_key)
+      this.route.navigateByUrl("/index/global-search/"+this.search_key)
     }
 }
