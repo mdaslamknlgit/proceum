@@ -14,6 +14,23 @@
             </div>
         </li>
 
+        <li routerLinkActive="active" (click)="activeMenu(11, menu_active)" class="hs_sbmnu {{
+          menu_active == 11 || active_route == '/teacher/create-assessment' ||
+          active_route == '/teacher/assessment-list' || active_route.includes('/assessment/report') ? 'active' : ''
+        }}">
+          <div class="sd_mnuhd">
+            <mat-icon>assignment</mat-icon> Assessments
+          </div>
+          <ul class="sdmn_sub">
+            <li routerLinkActive="active" routerLink="/teacher/create-assessment">
+              <mat-icon>manage_accounts</mat-icon> Create Assessment
+            </li>
+            <li [ngClass]="{ active: active_route.includes('/assessment/report') || active_route.includes('/teacher/assessment-list') }" routerLink="/teacher/assessment-list">
+              <mat-icon>manage_accounts</mat-icon> Assessment List
+            </li>
+          </ul>
+        </li>
+
         <li class="hs_sbmnu {{ menu_active == 2 || active_route == '/teacher/class/list' || active_route == '/teacher/class/create' || active_route.includes('/teacher/class/edit')? 'active': ''}}" routerLinkActive="active" (click)="activeMenu(2, menu_active)">
             <div class="sd_mnuhd">
             <mat-icon>source</mat-icon> Class Management

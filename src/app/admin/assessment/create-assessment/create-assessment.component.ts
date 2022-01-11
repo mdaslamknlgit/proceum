@@ -92,13 +92,42 @@ export class CreateAssessmentComponent implements OnInit {
   public all_students = [];
   public search_student = '';
 
+  public user_id = 0;
+  public role_id = 0;
+  public college_institute_id = 0;
+  public user = [];
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);
    }
 
   ngOnInit(): void {
+    this.user = this.http.getUser();
+    this.user_id = this.user['id'];
+    this.role_id = this.user['role'];
+    if(this.role_id == 12){
+      this.getTeacherCollegeInstitute();
+    }
     this.assessmentTypes();
     this.getcurriculums();
+  }
+
+  getTeacherCollegeInstitute(){
+    let params = {
+      url: 'assessment/get-teacher-details', user_id: this.user_id
+    };
+    this.http.post(params).subscribe((res) => {
+      //console.log(res['user_details']);
+      if (res['error'] == false) {
+        if(res['user_details']['college_id'] != null){
+          this.college_id = this.college_institute_id = res['user_details']['college_id'];
+          this.getYearSemsterGroup('1',0,'year');
+        }
+        if(res['user_details']['institute_id'] != null){
+          this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
+          this.getYearSemsterGroup('3',0,'year');
+        }
+      }
+    });
   }
 
   assessmentTypes(){
@@ -328,8 +357,11 @@ export class CreateAssessmentComponent implements OnInit {
     if(org_type == '1'){
       partner = this.college_id;
     }
-    else{
+    else if(org_type == '3'){
       partner = this.organization_list_id;
+    }
+    else if(this.role_id == 12){
+      partner = String(this.college_institute_id);
     }
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
     this.http.post(param).subscribe((res) => {
@@ -470,8 +502,9 @@ export class CreateAssessmentComponent implements OnInit {
       return;        
     }
     else{
-      let param = {url:'assessment/store',assessment_name: this.assessment_name,assessment_type: this.assessment_type,timezone: this.timezone, 
-      start_date: this.start_date, start_time: this.start_time,duration: this.question_duration,question_total:this.question_total,course:this.selected_topics,students: this.selected_students,assessment_value: 1}; //course: this.selected_subject,
+      let param = {url:'assessment/store',assessment_name: this.assessment_name,assessment_type: this.assessment_type,timezone: this.timezone,
+      start_date: this.start_date, start_time: this.start_time,duration: this.question_duration,question_total:this.question_total,
+      course:this.selected_topics,students: this.selected_students,assessment_value: 1,role:this.role_id,user:this.user_id}; //course: this.selected_subject,
       this.http.post(param).subscribe(res=>{
           if(res['error'] == false){
             this.translate.get('success_text').subscribe((success_text)=> {
@@ -479,7 +512,11 @@ export class CreateAssessmentComponent implements OnInit {
                   this.toster.success(message, success_text, {closeButton:true});
               });
             });
+            if(this.role_id == 1){
               this.router.navigateByUrl('/admin/assessment-list');
+            }else if(this.role_id == 12){
+              this.router.navigateByUrl('/teacher/assessment-list');
+            }
           }
           else{
             this.translate.get('something_went_wrong_text').subscribe((data)=> {
