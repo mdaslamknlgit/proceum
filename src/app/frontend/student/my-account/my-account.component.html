@@ -115,13 +115,13 @@
   </div>
   <br>
   <!-- Profile fields -->
-  <h2 class="section-title">My Profile</h2>
+  
   <div class="two-blocks">
     <form #profile_form="ngForm" name="profile_form" id="profile_form"
       (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
       <div class="grd_2c">
-        <div class="d-flex w_100p">
-          <div class="fnt_16px">Profile Information</div>
+        <div class="d-flex w_100p ai_cntr">
+          <h2 class="section-title m_0">My Profile</h2>
           <div class="spacer"></div>
           <div class="rqrd_txtinfo">All <span class="required">( * ) </span>marked
             fields are mandatory
@@ -169,23 +169,26 @@
                   [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
                   [(ngModel)]="profile.frnd_referral_code">
               </mat-form-field>
+              <button class="brws_dpbtn" mat-raised-button color="accent" type="button" >
+                Apply Referral
+              </button>
 
             </div>
           </div>
         </div>
         <div class="my_prfl_mn">
           <div class="my_prf_dv">
-            <span>First name</span>
+            <span>First Name <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel'
+              <input matInput placeholder="First Name" autocomplete="off" name="first_name" #first_name='ngModel'
                 ngModel [(ngModel)]="profile.first_name" required
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
-            <span>Last name</span>
+            <span>Last Name</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Last name" autocomplete="off" required name="last_name" #last_name='ngModel'
+              <input matInput placeholder="Last Name" autocomplete="off" required name="last_name" #last_name='ngModel'
                 ngModel [(ngModel)]="profile.last_name"
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
             </mat-form-field>
@@ -193,28 +196,28 @@
           <div class="my_prf_dv">
             <span>Registration Number/UUID</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Registration Number" readonly>
+              <input matInput placeholder="Registration Number/UUID" readonly>
             </mat-form-field>
           </div>
 
           <div class="my_prf_dv">
-            <span>Mobile</span>
+            <span>Mobile <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Mobile" disabled="disabled">
             </mat-form-field>
           </div>
 
           <div class="my_prf_dv mypdv_bg">
-            <span>Email</span>
+            <span>Email <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
                 [(ngModel)]="profile.email">
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
-            <span>Email</span>
+            <span>Year <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Email" autocomplete="off" required />
+              <input matInput placeholder="Year" autocomplete="off" required />
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
@@ -235,7 +238,7 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
-            <span>Country</span>
+            <span>Country <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
               <mat-select disabled="disabled">
                 <mat-option>None</mat-option>
@@ -246,7 +249,7 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
-            <span>State</span>
+            <span>State <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
               <mat-select>
                 <mat-option>None</mat-option>
@@ -257,7 +260,7 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
-            <span>City</span>
+            <span>City <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
               <mat-select disabled="disabled">
                 <mat-option>None</mat-option>
@@ -268,7 +271,7 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
-            <span>Address line 1</span>
+            <span>Address line 1 <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <textarea matInput placeholder="Address Line 1"></textarea>
             </mat-form-field>
@@ -280,7 +283,7 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
-            <span>University</span>
+            <span>University <span class="required">*</span></span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
                 <mat-select disabled="disabled">
@@ -293,7 +296,7 @@
             </span>
           </div>
           <div class="my_prf_dv">
-            <span>College/Institute</span>
+            <span>College/Institute <span class="required">*</span></span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
                 <mat-select disabled="disabled">
