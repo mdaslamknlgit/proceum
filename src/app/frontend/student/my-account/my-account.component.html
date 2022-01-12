@@ -1,8 +1,8 @@
 <app-student-topbar></app-student-topbar>
 <app-sidemenu></app-sidemenu>
 <div class="mn_dshbrd">
-  <div class="cust_mdl_par cust_mdl_50p cust_mdl_cls" [ngClass]="{ cust_mdl_opn: model_status }">
-    <div class="cust_mdl_chl">
+  <div class="cust_mdl_par cust_mdl_cls" [ngClass]="{ cust_mdl_opn: model_status }">
+    <div class="cust_mdl_chl w_50p">
       <div class="pg_ttl">
         Send Referral Code
         <span class="spacer"></span>
@@ -12,15 +12,21 @@
       </div>
       <div class="tbbd_bdy">
         <div class="hgt_10"></div>
-        <div class="d-flex zm_swtchusrs">
-          <div class="w_49p mr_1 d-flex ai_cntr">
-            <div class="w_100p mr_1">
+        <div class="d-flex zm_swtchusrs fw_w">
+          <div class="p_0 d-flex ai_cntr w_100p">
+            <div class="w_100p">
               <mat-form-field appearance="outline" class="w_100p">
-                <textarea style="height: 50px;" name="recipient_emails_name" #recipient_emails_name="ngModel" (keyup)="autoGrowTextZone($event)" [(ngModel)]="recipient_emails" matInput placeholder="Add E-Mail ID (multiple with comma separated)"></textarea>
+                <textarea  style="height: 50px;" (keyup)="autoGrowTextZone($event)" [(ngModel)]="recipient_emails" matInput
+                  placeholder="Add E-Mail ID (multiple with comma separated)"></textarea>
               </mat-form-field>
-            </div>           
+            </div>
+            <!-- <div>
+              <button mat-mini-fab color="accent" class="">
+                <mat-icon (click)="addEmail()">chevron_right</mat-icon>
+              </button>
+            </div> -->
           </div>
-          <div class="w_49p">
+          <div class="w_100p p_0">
             <span class="zmsu_lft" *ngFor="let email of recipient_emails_list; let email_index=index;">
               <span class="mr_1">{{email}}</span>
               <button mat-icon-button color="warn">
@@ -109,9 +115,7 @@
   </div>
   <br>
   <!-- Profile fields -->
-
   <h2 class="section-title">My Profile</h2>
-
   <div class="two-blocks">
     <form #profile_form="ngForm" name="profile_form" id="profile_form"
       (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
@@ -125,21 +129,171 @@
         </div>
 
         <div class="hgt_20"></div>
-        <div class="tc_w50p">
-          <!-- <span class="required">Fields marked with * are mandatory.</span> -->
-          <div class="frm_dvs">
-            <span>Profile Picture</span>
-            <span>
-              <span class="profile_pic">
-                <img src="{{src}}" alt="">
+        <div class="my_prfl_dp">
+          <div class="my_prf_dv">
+            <span class="w_100p text-center">Profile Picture</span>
+            <span class="profile_pic">
+              <img src="{{src}}" alt="">
+            </span>
+            <div class="hgt_5"></div>
+            <button class="brws_dpbtn" mat-raised-button color="accent" type="button" (click)="fileInput.click()">
+              Browse
+              <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
+                (change)="fileEvent($event)" style="display:none;" />
+            </button>
+            <div class="hgt_10"></div>
+            <div *ngIf="imgMessage"><span style="margin-top: 15px;" class="required">{{imgMessage}}</span></div>
+            <div class="hgt_5"></div>
+            <div class="my_prf_dv">
+              <span>My Referral Code</span>
+              <span>
+                <span *ngIf="!auto_generate" class="showCoupon">
+                  <span>{{profile.referral_code}}</span>
+                  <mat-icon (click)='openViewModel()' color="accent" matTooltip="Share Referral Code">share</mat-icon>
+                </span>
+                <span *ngIf="auto_generate">
+                  <mat-form-field appearance="outline">
+                    <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code"
+                      name="referral_code" [disabled]="'disabled'" [(ngModel)]="profile.referral_code">
+                  </mat-form-field>
+                </span>
+                <button *ngIf="auto_generate" (click)="generateReferralCode()" mat-raised-button color="accent"
+                  class="ml_1 margin-bottom_20" type="button">
+                  Auto Generate
+                </button>
               </span>
+              <div class="hgt_10"></div>
+              <span *ngIf="user['role'] == 11">Apply Referral Code</span>
+              <mat-form-field *ngIf="user['role'] == 11" appearance="outline">
+                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Apply Referral Code"
+                  [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
+                  [(ngModel)]="profile.frnd_referral_code">
+              </mat-form-field>
+
+            </div>
+          </div>
+        </div>
+        <div class="my_prfl_mn">
+          <div class="my_prf_dv">
+            <span>First name</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel'
+                ngModel [(ngModel)]="profile.first_name" required
+                onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Last name</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Last name" autocomplete="off" required name="last_name" #last_name='ngModel'
+                ngModel [(ngModel)]="profile.last_name"
+                onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Registration Number/UUID</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Registration Number" readonly>
+            </mat-form-field>
+          </div>
+
+          <div class="my_prf_dv">
+            <span>Mobile</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Mobile" disabled="disabled">
+            </mat-form-field>
+          </div>
+
+          <div class="my_prf_dv mypdv_bg">
+            <span>Email</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
+                [(ngModel)]="profile.email">
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Email</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Email" autocomplete="off" required />
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Semester</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Semester" autocomplete="off" required />
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Group</span>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select disabled="disabled">
+                <mat-option>None</mat-option>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Country</span>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select disabled="disabled">
+                <mat-option>None</mat-option>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>State</span>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select>
+                <mat-option>None</mat-option>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>City</span>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select disabled="disabled">
+                <mat-option>None</mat-option>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Address line 1</span>
+            <mat-form-field appearance="outline">
+              <textarea matInput placeholder="Address Line 1"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv mypdv_bg">
+            <span>Address line 2</span>
+            <mat-form-field appearance="outline">
+              <textarea matInput placeholder="Address Line 2"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>University</span>
+            <span>
+              <mat-form-field appearance="outline" color="accent" disableOptionCentering>
+                <mat-select disabled="disabled">
+                  <mat-option>None</mat-option>
+                  <mat-option value="option1">Option 1</mat-option>
+                  <mat-option value="option2">Option 2</mat-option>
+                  <mat-option value="option3">Option 3</mat-option>
+                </mat-select>
+              </mat-form-field>
             </span>
           </div>
-          <div class="frm_dvs">
-            <div class="hgt_20"></div>
-          </div>
-          <div class="frm_dvs">
-            <span></span>
+          <div class="my_prf_dv">
+            <span>College/Institute</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
                 <mat-select disabled="disabled">
@@ -210,16 +364,16 @@
                 <mat-form-field appearance="outline">
                   <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel'
                     ngModel [(ngModel)]="profile.first_name" required
-                    onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+                    onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
                 </mat-form-field>
-                <span class="prc_tltp" *ngIf="profile_form.submitted && first_name.errors?.required">
+                <!-- <span class="prc_tltp" *ngIf="profile_form.submitted && first_name.errors?.required">
                   First Name is required
-                </span>
+                </span> -->
               </span>
             </span>
           </div>
           <div class="frm_dvs">
-            <span>Last name <span class="required">*</span></span>
+            <span>Last Name <span class="required">*</span></span>
             <span>
               <span class="err_tltp_par">
                 <mat-form-field appearance="outline">
@@ -298,7 +452,6 @@
             </span>
           </div>
           <div class="frm_dvs">
-
             <span>Address line 2</span>
             <span>
               <mat-form-field appearance="outline">
@@ -311,7 +464,6 @@
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
                 <mat-select disabled="disabled">
-
                   <mat-option>None</mat-option>
                   <mat-option value="option1">Option 1</mat-option>
                   <mat-option value="option2">Option 2</mat-option>
@@ -368,47 +520,15 @@
             </span>
           </div>
         </div>
-        <div class="tc_w50p">         
-          <div class="frm_dvs">
-            <span>My Referral Code</span>
-            <span>
-              <span *ngIf="!auto_generate" class="showCoupon">
-                <span>{{profile.referral_code}}</span>
-                <mat-icon (click)='openViewModel()' color="accent" matTooltip="Share Referral Code">share</mat-icon>
-              </span>
-              <span *ngIf="auto_generate">
-                <mat-form-field appearance="outline">
-                  <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code"
-                    name="referral_code" [disabled]="'disabled'" [(ngModel)]="profile.referral_code">
-                </mat-form-field>
-              </span>
-              <button *ngIf="auto_generate" (click)="generateReferralCode()" mat-raised-button color="accent"
-                class="ml_1 margin-bottom_20" type="button">
-                Auto Generate
-              </button>
-            </span>
-          </div>
-          <div class="hgt_10"></div>
-          <div class="frm_dvs" *ngIf="user['role'] == 11">
-            <span>Apply Referral Code</span>
-            <span>
-              <mat-form-field appearance="outline">
-                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Apply Referral Code" [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
-                  [(ngModel)]="profile.frnd_referral_code">
-              </mat-form-field>
-            </span>
-          </div>
-          <div class="frm_dvs">
+        <div class="tc_w50p">
+
+          <!-- <div class="frm_dvs d-none">
             <span class="accent">
               <mat-checkbox (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update login
                 password</mat-checkbox>
             </span>
-          </div>
-          <div class="frm_dvs">
-            <span class="hgt_20"></span>
-            <span class="hgt_20"></span>
-          </div>
-          <div class="frm_dvs" *ngIf='isdisplay'>
+          </div> 
+          <div class="frm_dvs d-none" *ngIf='isdisplay'>
             <span>Current password <span class="required">*</span></span>
             <span>
               <span class="inp_par_dv" [ngClass]="{
@@ -433,7 +553,7 @@
               </span>
             </span>
           </div>
-          <div class="frm_dvs" *ngIf='isdisplay'>
+          <div class="frm_dvs d-none" *ngIf='isdisplay'>
             <span>New password <span class="required">*</span></span>
             <span>
               <span class="inp_par_dv" [ngClass]="{
@@ -459,7 +579,7 @@
               </span>
             </span>
           </div>
-          <div class="frm_dvs" *ngIf='isdisplay'>
+          <div class="frm_dvs d-none" *ngIf='isdisplay'>
             <span>Confirm password <span class="required">*</span></span>
             <span>
               <span class="inp_par_dv mat-form-field-infix ng-tns-c75-24" [ngClass]="{
@@ -484,9 +604,10 @@
                   Password are not matched </span>
               </span>
             </span>
-          </div>
+          </div> -->
         </div>
         <div class="hgt_20"></div>
+        <hr>
         <div class="text-center oc_w100p">
           <button mat-raised-button color="accent">Save</button>
         </div>
