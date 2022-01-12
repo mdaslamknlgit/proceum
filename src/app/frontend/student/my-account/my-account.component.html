@@ -120,8 +120,14 @@
     <form #profile_form="ngForm" name="profile_form" id="profile_form"
       (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
       <div class="grd_2c">
-        <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked
-          fields are mandatory</span>
+        <div class="d-flex w_100p">
+          <div class="fnt_16px">Profile Information</div>
+          <div class="spacer"></div>
+          <div class="rqrd_txtinfo">All <span class="required">( * ) </span>marked
+            fields are mandatory
+          </div>
+        </div>
+
         <div class="hgt_20"></div>
         <div class="my_prfl_dp">
           <div class="my_prf_dv">
@@ -298,7 +304,7 @@
                 </mat-select>
               </mat-form-field>
             </span>
-          </div>  
+          </div>
         </div>
         <div class="clear_fix"></div>
         <div class="updpss_mndv">
@@ -307,7 +313,7 @@
               <mat-checkbox (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update Login
                 Password</mat-checkbox>
             </span>
-          </div> 
+          </div>
           <div class="my_prf_dv">
             <span *ngIf='isdisplay'>Current Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
@@ -319,7 +325,7 @@
                 'visibility'}}</mat-icon>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv"> 
+          <div class="my_prf_dv">
             <span *ngIf='isdisplay'>New Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
               <input matInput (keyup)="passwordVerification()" placeholder="New password"
@@ -344,7 +350,7 @@
                 'visibility'}}</mat-icon>
             </mat-form-field>
           </div>
-        </div> 
+        </div>
         <div class="clear_fix"></div>
         <div class="tc_w50p" *ngIf="false">
           <div class="frm_dvs">
