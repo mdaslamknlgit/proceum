@@ -66,12 +66,12 @@
     <span> {{ user["name"] }}</span>
     <!-- <span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  -->
   </span>
-
+  <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
+    <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
+  </div>
   <span *ngIf="user['name']" (click)="logout()" class="tp_rt_mn">
     <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon>
     <!-- <span>Logout</span> -->
   </span>
-  <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
-    <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
-  </div>
+  
 </mat-toolbar>

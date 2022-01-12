@@ -116,8 +116,14 @@
     <form #profile_form="ngForm" name="profile_form" id="profile_form"
       (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
       <div class="grd_2c">
-        <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked
-          fields are mandatory</span>
+        <div class="d-flex w_100p">
+          <div class="fnt_16px">Profile Information</div>
+          <div class="spacer"></div>
+          <div class="rqrd_txtinfo">All <span class="required">( * ) </span>marked
+            fields are mandatory
+          </div>
+        </div>
+
         <div class="hgt_20"></div>
         <div class="tc_w50p">
           <!-- <span class="required">Fields marked with * are mandatory.</span> -->
@@ -135,14 +141,64 @@
           <div class="frm_dvs">
             <span></span>
             <span>
-              <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
-                <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
-                  (change)="fileEvent($event)" style="display:none;" />
-                <!-- <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
-                (change)="fileEvent($event)" /> -->
-              </button>
+              <mat-form-field appearance="outline" color="accent" disableOptionCentering>
+                <mat-select disabled="disabled">
+                  <mat-option>None</mat-option>
+                  <mat-option value="option1">Option 1</mat-option>
+                  <mat-option value="option2">Option 2</mat-option>
+                  <mat-option value="option3">Option 3</mat-option>
+                </mat-select>
+              </mat-form-field>
             </span>
           </div>
+        </div>
+        <div class="clear_fix"></div>
+        <div class="updpss_mndv">
+          <div class="my_prf_dv">
+            <span class="accent">
+              <mat-checkbox (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update Login
+                Password</mat-checkbox>
+            </span>
+          </div>
+          <div class="my_prf_dv">
+            <span *ngIf='isdisplay'>Current Password <span class="required">*</span></span>
+            <mat-form-field appearance="outline" *ngIf='isdisplay'>
+              <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
+                autocomplete="off" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="8"
+                maxlength="16" name="current_password" onkeypress='return (event.charCode != 32)'
+                #current_password="ngModel" ngModel>
+              <mat-icon matSuffix (click)="passwordFun('old')">{{current_password_hide ? 'visibility_off' :
+                'visibility'}}</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span *ngIf='isdisplay'>New Password <span class="required">*</span></span>
+            <mat-form-field appearance="outline" *ngIf='isdisplay'>
+              <input matInput (keyup)="passwordVerification()" placeholder="New password"
+                [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
+                [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password"
+                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
+                onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel>
+              <mat-icon matSuffix (click)="passwordFun('new')">{{new_password_hide ? 'visibility_off' :
+                'visibility'}}</mat-icon>
+            </mat-form-field>
+
+          </div>
+          <div class="my_prf_dv">
+            <span *ngIf='isdisplay'>Confirm Password <span class="required">*</span></span>
+            <mat-form-field appearance="outline" [class]="errClass" *ngIf='isdisplay'>
+              <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off"
+                [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
+                [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd"
+                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$" validateEqual="password"
+                onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
+              <mat-icon matSuffix (click)="passwordFun('confirm')">{{confirm_password_hide ? 'visibility_off' :
+                'visibility'}}</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="clear_fix"></div>
+        <div class="tc_w50p" *ngIf="false">
           <div class="frm_dvs">
             <span>&nbsp;</span>
             <span><span style="margin-top: 15px;" class="required">{{imgMessage}}</span></span>
