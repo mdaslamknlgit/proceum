@@ -166,10 +166,10 @@ export class EditNewQuestionComponent implements OnInit {
                 let options = res['q_options'];
                 let questionData = res['question'];
                 this.question.question_flag = questionData['question_flag'];
-                this.question.curriculum_id = Number(questionData['curriculum_id']);console.log(this.question.curriculum_id)
-                if (this.question.curriculum_id > 0) {
-                    this.getTopics(this.question.curriculum_id, '');
-                }
+                // this.question.curriculum_id = Number(questionData['curriculum_id']);console.log(this.question.curriculum_id)
+                // if (this.question.curriculum_id > 0) {
+                //     this.getTopics(this.question.curriculum_id, '');
+                // }
                 this.question.questionUsageType = Number(questionData['question_for']);
                 if (this.question.questionUsageType == 3) {
                     this.question_Qbank = true;
