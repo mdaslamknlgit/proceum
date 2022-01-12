@@ -18,7 +18,7 @@ export class MyAccountComponent implements OnInit {
   url: any = '../../../../assets/images/Demo-placeholder.jpeg';
   src: any;
   isrequired: boolean = false;
-  isdisplay: boolean = false;
+  isdisplay: boolean = true;
   user_id: string;
   errClass: string;
   imagePath: any;
@@ -145,10 +145,10 @@ export class MyAccountComponent implements OnInit {
   checked(e) {
     if (e.checked == true) {
       this.isrequired = true;
-      this.isdisplay = true;
+      //this.isdisplay = true;
     } else {
       this.isrequired = false;
-      this.isdisplay = false;
+      //this.isdisplay = false;
       this.profile.current_password = '';
       this.profile.new_password = '';
       this.profile.confirm_pwd = '';
@@ -278,7 +278,7 @@ export class MyAccountComponent implements OnInit {
         this.toaster.success(res['message'], 'Success', { closeButton: true });
         (<HTMLFormElement>document.getElementById('profile_form')).reset();
         this.isrequired = false;
-        this.isdisplay = false;
+        //this.isdisplay = false;
         this.getStudentProfile();
       } else {
         this.toaster.error(res['message'], 'Error', { closeButton: true });
@@ -286,11 +286,14 @@ export class MyAccountComponent implements OnInit {
     });
   }
 
-  generateReferralCode() {
-    let param = { url: 'generate_referral_code'};
+  applyReferralCode() {
+    let param = { url: 'apply_referral_code', frnd_referral_code: this.profile.frnd_referral_code, id: this.user_id};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.profile.referral_code = res['code'];
+        this.toaster.success(res['message'], 'Success', { closeButton: true });
+        this.getStudentProfile();
+      } else {
+        this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }

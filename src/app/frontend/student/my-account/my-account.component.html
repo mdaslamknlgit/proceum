@@ -151,7 +151,7 @@
                   <span>{{profile.referral_code}}</span>
                   <mat-icon (click)='openViewModel()' color="accent" matTooltip="Share Referral Code">share</mat-icon>
                 </span>
-                <span *ngIf="auto_generate">
+                <!--<span *ngIf="auto_generate">
                   <mat-form-field appearance="outline">
                     <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code"
                       name="referral_code" [disabled]="'disabled'" [(ngModel)]="profile.referral_code">
@@ -160,7 +160,7 @@
                 <button *ngIf="auto_generate" (click)="generateReferralCode()" mat-raised-button color="accent"
                   class="ml_1 margin-bottom_20" type="button">
                   Auto Generate
-                </button>
+                </button>-->
               </span>
               <div class="hgt_10"></div>
               <span *ngIf="user['role'] == 11">Apply Referral Code</span>
@@ -169,7 +169,7 @@
                   [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
                   [(ngModel)]="profile.frnd_referral_code">
               </mat-form-field>
-              <button class="brws_dpbtn" mat-raised-button color="accent" type="button" >
+              <button *ngIf="user['role'] == 11 && dis_frnd_referral_code == false" (click)='applyReferralCode()' class="brws_dpbtn" mat-raised-button color="accent" type="button" >
                 Apply Referral
               </button>
 
@@ -323,7 +323,7 @@
               <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
                 autocomplete="off" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="8"
                 maxlength="16" name="current_password" onkeypress='return (event.charCode != 32)'
-                #current_password="ngModel" ngModel>
+                #current_password="ngModel" ngModel [readonly]="!isrequired">
               <mat-icon matSuffix (click)="passwordFun('old')">{{current_password_hide ? 'visibility_off' :
                 'visibility'}}</mat-icon>
             </mat-form-field>
@@ -335,7 +335,7 @@
                 [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
                 [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password"
                 pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
-                onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel>
+                onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel [readonly]="!isrequired">
               <mat-icon matSuffix (click)="passwordFun('new')">{{new_password_hide ? 'visibility_off' :
                 'visibility'}}</mat-icon>
             </mat-form-field>
@@ -348,7 +348,7 @@
                 [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
                 [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd"
                 pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$" validateEqual="password"
-                onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
+                onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel [readonly]="!isrequired">
               <mat-icon matSuffix (click)="passwordFun('confirm')">{{confirm_password_hide ? 'visibility_off' :
                 'visibility'}}</mat-icon>
             </mat-form-field>
