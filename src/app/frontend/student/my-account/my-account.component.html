@@ -1,8 +1,8 @@
 <app-student-topbar></app-student-topbar>
 <app-sidemenu></app-sidemenu>
 <div class="mn_dshbrd">
-  <div class="cust_mdl_par cust_mdl_50p cust_mdl_cls" [ngClass]="{ cust_mdl_opn: model_status }">
-    <div class="cust_mdl_chl">
+  <div class="cust_mdl_par cust_mdl_cls" [ngClass]="{ cust_mdl_opn: model_status }">
+    <div class="cust_mdl_chl w_50p">
       <div class="pg_ttl">
         Send Referral Code
         <span class="spacer"></span>
@@ -12,11 +12,12 @@
       </div>
       <div class="tbbd_bdy">
         <div class="hgt_10"></div>
-        <div class="d-flex zm_swtchusrs fw_w"> 
+        <div class="d-flex zm_swtchusrs fw_w">
           <div class="p_0 d-flex ai_cntr w_100p">
             <div class="w_100p">
               <mat-form-field appearance="outline" class="w_100p">
-                <textarea (keyup)="$event.keyCode == 13 ? addEmail() : ''" [(ngModel)]="recipient_emails" matInput placeholder="Add E-Mail ID (multiple with comma separated)"></textarea>
+                <textarea (keyup)="$event.keyCode == 13 ? addEmail() : ''" [(ngModel)]="recipient_emails" matInput
+                  placeholder="Add E-Mail ID (multiple with comma separated)"></textarea>
               </mat-form-field>
             </div>
             <!-- <div>
@@ -114,66 +115,260 @@
   </div>
   <br>
   <!-- Profile fields -->
-  <h2 class="section-title">My Profile</h2>
+  
   <div class="two-blocks">
     <form #profile_form="ngForm" name="profile_form" id="profile_form"
       (ngSubmit)="profile_form.valid && updateProfile()" novalidate>
       <div class="grd_2c">
-        <span class="text-right w_100p rqrd_txtinfo"> All <span class="required">( * ) </span>marked
-          fields are mandatory</span>
-        <div class="hgt_20"></div>
-
-        <div class="my_prfl_mn">
-          <div class="my_prf_dv">
-            <span>First name</span>
-            <mat-form-field appearance="outline">
-              <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel'
-                ngModel [(ngModel)]="profile.first_name" required
-                onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
-              </mat-form-field>
+        <div class="d-flex w_100p ai_cntr">
+          <h2 class="section-title m_0">My Profile</h2>
+          <div class="spacer"></div>
+          <div class="rqrd_txtinfo">All <span class="required">( * ) </span>marked
+            fields are mandatory
           </div>
         </div>
 
-
-
-
-        <div class="tc_w50p">
-          <!-- <span class="required">Fields marked with * are mandatory.</span> -->
-          <div class="frm_dvs">
-            <span>Profile Picture</span>
-            <span>
-              <span class="profile_pic">
-                <img src="{{src}}" alt="">
+        <div class="hgt_20"></div>
+        <div class="my_prfl_dp">
+          <div class="my_prf_dv">
+            <span class="w_100p text-center">Profile Picture</span>
+            <span class="profile_pic">
+              <img src="{{src}}" alt="">
+            </span>
+            <div class="hgt_5"></div>
+            <button class="brws_dpbtn" mat-raised-button color="accent" type="button" (click)="fileInput.click()">
+              Browse
+              <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
+                (change)="fileEvent($event)" style="display:none;" />
+            </button>
+            <div class="hgt_10"></div>
+            <div *ngIf="imgMessage"><span style="margin-top: 15px;" class="required">{{imgMessage}}</span></div>
+            <div class="hgt_5"></div>
+            <div class="my_prf_dv">
+              <span>My Referral Code</span>
+              <span>
+                <span *ngIf="!auto_generate" class="showCoupon">
+                  <span>{{profile.referral_code}}</span>
+                  <mat-icon (click)='openViewModel()' color="accent" matTooltip="Share Referral Code">share</mat-icon>
+                </span>
+                <span *ngIf="auto_generate">
+                  <mat-form-field appearance="outline">
+                    <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code"
+                      name="referral_code" [disabled]="'disabled'" [(ngModel)]="profile.referral_code">
+                  </mat-form-field>
+                </span>
+                <button *ngIf="auto_generate" (click)="generateReferralCode()" mat-raised-button color="accent"
+                  class="ml_1 margin-bottom_20" type="button">
+                  Auto Generate
+                </button>
               </span>
-            </span>
-          </div>
-          <div class="frm_dvs">
-            <div class="hgt_20"></div>
-          </div>
-          <div class="frm_dvs">
-            <span></span>
-            <span>
-              <button mat-raised-button color="accent" type="button" (click)="fileInput.click()">Browse
-                <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
-                  (change)="fileEvent($event)" style="display:none;" />
-                <!-- <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
-                (change)="fileEvent($event)" /> -->
+              <div class="hgt_10"></div>
+              <span>Apply Referral Code</span>
+              <mat-form-field appearance="outline">
+                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Apply Referral Code"
+                  [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
+                  [(ngModel)]="profile.frnd_referral_code">
+              </mat-form-field>
+              <button class="brws_dpbtn" mat-raised-button color="accent" type="button" >
+                Apply Referral
               </button>
+
+            </div>
+          </div>
+        </div>
+        <div class="my_prfl_mn">
+          <div class="my_prf_dv">
+            <span>First Name <span class="required">*</span></span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="First Name" autocomplete="off" name="first_name" #first_name='ngModel'
+                ngModel [(ngModel)]="profile.first_name" required
+                onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Last Name</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Last Name" autocomplete="off" required name="last_name" #last_name='ngModel'
+                ngModel [(ngModel)]="profile.last_name"
+                onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Registration Number/UUID</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Registration Number/UUID" readonly>
+            </mat-form-field>
+          </div>
+
+          <div class="my_prf_dv">
+            <span>Mobile <span class="required">*</span></span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Mobile" disabled="disabled">
+            </mat-form-field>
+          </div>
+
+          <div class="my_prf_dv mypdv_bg">
+            <span>Email <span class="required">*</span></span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
+                [(ngModel)]="profile.email">
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Year <span class="required">*</span></span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Year" autocomplete="off" required />
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Semester</span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Semester" autocomplete="off" required />
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Group</span>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select disabled="disabled">
+                <mat-option>None</mat-option>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Country <span class="required">*</span></span>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select disabled="disabled">
+                <mat-option>None</mat-option>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>State <span class="required">*</span></span>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select>
+                <mat-option>None</mat-option>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>City <span class="required">*</span></span>
+            <mat-form-field appearance="outline" color="accent">
+              <mat-select disabled="disabled">
+                <mat-option>None</mat-option>
+                <mat-option value="option1">Option 1</mat-option>
+                <mat-option value="option2">Option 2</mat-option>
+                <mat-option value="option3">Option 3</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>Address line 1 <span class="required">*</span></span>
+            <mat-form-field appearance="outline">
+              <textarea matInput placeholder="Address Line 1"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv mypdv_bg">
+            <span>Address line 2</span>
+            <mat-form-field appearance="outline">
+              <textarea matInput placeholder="Address Line 2"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span>University <span class="required">*</span></span>
+            <span>
+              <mat-form-field appearance="outline" color="accent" disableOptionCentering>
+                <mat-select disabled="disabled">
+                  <mat-option>None</mat-option>
+                  <mat-option value="option1">Option 1</mat-option>
+                  <mat-option value="option2">Option 2</mat-option>
+                  <mat-option value="option3">Option 3</mat-option>
+                </mat-select>
+              </mat-form-field>
             </span>
           </div>
+          <div class="my_prf_dv">
+            <span>College/Institute <span class="required">*</span></span>
+            <span>
+              <mat-form-field appearance="outline" color="accent" disableOptionCentering>
+                <mat-select disabled="disabled">
+                  <mat-option>None</mat-option>
+                  <mat-option value="option1">Option 1</mat-option>
+                  <mat-option value="option2">Option 2</mat-option>
+                  <mat-option value="option3">Option 3</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </span>
+          </div>
+        </div>
+        <div class="clear_fix"></div>
+        <div class="updpss_mndv">
+          <div class="my_prf_dv">
+            <span class="accent">
+              <mat-checkbox (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update Login
+                Password</mat-checkbox>
+            </span>
+          </div>
+          <div class="my_prf_dv">
+            <span *ngIf='isdisplay'>Current Password <span class="required">*</span></span>
+            <mat-form-field appearance="outline" *ngIf='isdisplay'>
+              <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
+                autocomplete="off" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="8"
+                maxlength="16" name="current_password" onkeypress='return (event.charCode != 32)'
+                #current_password="ngModel" ngModel>
+              <mat-icon matSuffix (click)="passwordFun('old')">{{current_password_hide ? 'visibility_off' :
+                'visibility'}}</mat-icon>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv">
+            <span *ngIf='isdisplay'>New Password <span class="required">*</span></span>
+            <mat-form-field appearance="outline" *ngIf='isdisplay'>
+              <input matInput (keyup)="passwordVerification()" placeholder="New password"
+                [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
+                [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password"
+                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
+                onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel>
+              <mat-icon matSuffix (click)="passwordFun('new')">{{new_password_hide ? 'visibility_off' :
+                'visibility'}}</mat-icon>
+            </mat-form-field>
+
+          </div>
+          <div class="my_prf_dv">
+            <span *ngIf='isdisplay'>Confirm Password <span class="required">*</span></span>
+            <mat-form-field appearance="outline" [class]="errClass" *ngIf='isdisplay'>
+              <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off"
+                [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
+                [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd"
+                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$" validateEqual="password"
+                onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel>
+              <mat-icon matSuffix (click)="passwordFun('confirm')">{{confirm_password_hide ? 'visibility_off' :
+                'visibility'}}</mat-icon>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="clear_fix"></div>
+        <div class="tc_w50p" *ngIf="false">
           <div class="frm_dvs">
             <span>&nbsp;</span>
             <span><span style="margin-top: 15px;" class="required">{{imgMessage}}</span></span>
           </div>
           <div class="frm_dvs">
-            <span>First name <span class="required">*</span></span>
+            <span>First Name <span class="required">*</span></span>
             <span>
               <span class="err_tltp_par">
                 <mat-form-field appearance="outline">
                   <input matInput placeholder="First name" autocomplete="off" name="first_name" #first_name='ngModel'
                     ngModel [(ngModel)]="profile.first_name" required
                     onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
-                  </mat-form-field>
+                </mat-form-field>
                 <!-- <span class="prc_tltp" *ngIf="profile_form.submitted && first_name.errors?.required">
                   First Name is required
                 </span> -->
@@ -181,7 +376,7 @@
             </span>
           </div>
           <div class="frm_dvs">
-            <span>Last name <span class="required">*</span></span>
+            <span>Last Name <span class="required">*</span></span>
             <span>
               <span class="err_tltp_par">
                 <mat-form-field appearance="outline">
@@ -260,7 +455,6 @@
             </span>
           </div>
           <div class="frm_dvs">
-
             <span>Address line 2</span>
             <span>
               <mat-form-field appearance="outline">
@@ -273,7 +467,6 @@
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
                 <mat-select disabled="disabled">
-
                   <mat-option>None</mat-option>
                   <mat-option value="option1">Option 1</mat-option>
                   <mat-option value="option2">Option 2</mat-option>
@@ -330,47 +523,15 @@
             </span>
           </div>
         </div>
-        <div class="tc_w50p">         
-          <div class="frm_dvs">
-            <span>My Referral Code</span>
-            <span>
-              <span *ngIf="!auto_generate" class="showCoupon">
-                <span>{{profile.referral_code}}</span>
-                <mat-icon (click)='openViewModel()' color="accent" matTooltip="Share Referral Code">share</mat-icon>
-              </span>
-              <span *ngIf="auto_generate">
-                <mat-form-field appearance="outline">
-                  <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code"
-                    name="referral_code" [disabled]="'disabled'" [(ngModel)]="profile.referral_code">
-                </mat-form-field>
-              </span>
-              <button *ngIf="auto_generate" (click)="generateReferralCode()" mat-raised-button color="accent"
-                class="ml_1 margin-bottom_20" type="button">
-                Auto Generate
-              </button>
-            </span>
-          </div>
-          <div class="hgt_10"></div>
-          <div class="frm_dvs">
-            <span>Apply Referral Code</span>
-            <span>
-              <mat-form-field appearance="outline">
-                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Apply Referral Code" [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
-                  [(ngModel)]="profile.frnd_referral_code">
-              </mat-form-field>
-            </span>
-          </div>
-          <div class="frm_dvs">
+        <div class="tc_w50p">
+
+          <!-- <div class="frm_dvs d-none">
             <span class="accent">
               <mat-checkbox (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update login
                 password</mat-checkbox>
             </span>
-          </div>
-          <div class="frm_dvs">
-            <span class="hgt_20"></span>
-            <span class="hgt_20"></span>
-          </div>
-          <div class="frm_dvs" *ngIf='isdisplay'>
+          </div> 
+          <div class="frm_dvs d-none" *ngIf='isdisplay'>
             <span>Current password <span class="required">*</span></span>
             <span>
               <span class="inp_par_dv" [ngClass]="{
@@ -395,7 +556,7 @@
               </span>
             </span>
           </div>
-          <div class="frm_dvs" *ngIf='isdisplay'>
+          <div class="frm_dvs d-none" *ngIf='isdisplay'>
             <span>New password <span class="required">*</span></span>
             <span>
               <span class="inp_par_dv" [ngClass]="{
@@ -421,7 +582,7 @@
               </span>
             </span>
           </div>
-          <div class="frm_dvs" *ngIf='isdisplay'>
+          <div class="frm_dvs d-none" *ngIf='isdisplay'>
             <span>Confirm password <span class="required">*</span></span>
             <span>
               <span class="inp_par_dv mat-form-field-infix ng-tns-c75-24" [ngClass]="{
@@ -446,9 +607,10 @@
                   Password are not matched </span>
               </span>
             </span>
-          </div>
+          </div> -->
         </div>
         <div class="hgt_20"></div>
+        <hr>
         <div class="text-center oc_w100p">
           <button mat-raised-button color="accent">Save</button>
         </div>
