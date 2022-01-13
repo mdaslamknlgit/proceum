@@ -338,7 +338,7 @@ export class EditPackageComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        //this.navigateTo('manage-content');
+        this.navigateTo('prices-package-management');
       } else {
           this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -592,11 +592,7 @@ export class EditPackageComponent implements OnInit {
     let user = this.http.getUser();
     if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(user['role'])) > -1) {
       url = "/admin/"+url;
+      this.router.navigateByUrl(url);
     }
-    //Later we must change this
-    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
-      url = "/admin/"+url;
-    }
-    this.router.navigateByUrl(url);
   }
 }

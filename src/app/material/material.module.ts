@@ -37,10 +37,11 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatChipsModule} from '@angular/material/chips';
+import { NoDoubleWhiteSpacesDirective } from '../shared/directives/no-white-spaces.directive';
 
 
 @NgModule({
-  declarations: [NumbersonlyDirective, AlphabetOnlyDirective, AlphaNumericOnlyDirective],
+  declarations: [NumbersonlyDirective, AlphabetOnlyDirective, AlphaNumericOnlyDirective, NoDoubleWhiteSpacesDirective],
   imports: [
     CommonModule,
     MatInputModule,
@@ -111,7 +112,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatStepperModule,
     MatSlideToggleModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
+    NoDoubleWhiteSpacesDirective
   ],
 })
 export class MaterialModule {}
