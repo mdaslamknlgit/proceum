@@ -73,6 +73,10 @@ export class EditAssessmentComponent implements OnInit {
   public all_students = [];
   public search_student = '';
 
+  public user_id = 0;
+  public role_id = 0;
+  public college_institute_id = 0;
+  public user = [];
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,private activeRoute: ActivatedRoute,) {
     this.translate.setDefaultLang(this.http.lang);
    }
@@ -83,6 +87,12 @@ export class EditAssessmentComponent implements OnInit {
       this.assessment_key = routeParams.key;
       this.getAssesment();
     });
+    this.user = this.http.getUser();
+    this.user_id = this.user['id'];
+    this.role_id = this.user['role'];
+    if(this.role_id == 12){
+      this.getTeacherCollegeInstitute();
+    }
     this.assessmentTypes();
   }
 
@@ -118,6 +128,25 @@ export class EditAssessmentComponent implements OnInit {
     });
   }
 
+  getTeacherCollegeInstitute(){
+    let params = {
+      url: 'assessment/get-teacher-details', user_id: this.user_id
+    };
+    this.http.post(params).subscribe((res) => {
+      //console.log(res['user_details']);
+      if (res['error'] == false) {
+        if(res['user_details']['college_id'] != null){
+          this.college_id = this.college_institute_id = res['user_details']['college_id'];
+          this.getYearSemsterGroup('1',0,'year');
+        }
+        if(res['user_details']['institute_id'] != null){
+          this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
+          this.getYearSemsterGroup('3',0,'year');
+        }
+      }
+    });
+  }
+
   assessmentTypes(){
     this.assessment_types = [];
     let params = {
@@ -149,6 +178,7 @@ export class EditAssessmentComponent implements OnInit {
     if(this.organization_type_id == '1'){ //University
       this.getOrganizationList(1,0);
       this.organization_type_name = 'University';
+      this.is_college = true;
     }
     // else if(this.organization_type_id == '2'){ //College
     //   this.getOrganizationList(2,0);
@@ -157,6 +187,7 @@ export class EditAssessmentComponent implements OnInit {
     else if(this.organization_type_id == '3'){ //Institute
       this.getOrganizationList(3,0);
       this.organization_type_name = 'Institute';
+      this.is_college = false;
     }
   }
 
@@ -221,8 +252,11 @@ export class EditAssessmentComponent implements OnInit {
     if(org_type == '1'){
       partner = this.college_id;
     }
-    else{
+    else if(org_type == '3'){
       partner = this.organization_list_id;
+    }
+    else if(this.role_id == 12){
+      partner = String(this.college_institute_id);
     }
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
     this.http.post(param).subscribe((res) => {
@@ -293,7 +327,6 @@ export class EditAssessmentComponent implements OnInit {
 
   getStudents(){
     let param = {url:'class/get-students', organization_type_id: this.organization_type_id, 'selected_name':this.selected_name, 'selected_value': this.selected_value};
-    console.log(param);
     this.http.post(param).subscribe((res) => {
         if(res['error'] == false){
             let students = res['data']['students'];
@@ -366,6 +399,7 @@ export class EditAssessmentComponent implements OnInit {
                   this.toster.success(message, success_text, {closeButton:true});
               });
             });
+
             this.router.navigateByUrl('/admin/assessment-list');
         }
         else{

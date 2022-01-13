@@ -23,6 +23,7 @@ export class IndexComponent implements OnInit {
   subMenus: any = [];
   errClass: any;
   public isOpen = false;
+  public fsCls = false;
   user: any;
   sub_domain_data : any = [];
   load_powered_by :boolean = false;

@@ -152,9 +152,10 @@
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
                                     <mat-form-field appearance="outline">
                                         <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}" name="curriculum_id_name"
-                                            [(ngModel)]="question.curriculum_id"
+                                            [(ngModel)]="question.curriculum_id" 
                                             (ngModelChange)="getLabels();setCourseText($event);"
                                             #curriculum_id_name="ngModel" ngModel>
+                                            <mat-option [value]="0">Select</mat-option>
                                             <mat-option [matTooltip]="value['curriculumn_name']"
                                                 *ngFor="let value of curriculums" [value]="value['pk_id']">
                                                 {{value['curriculumn_name']}}</mat-option>

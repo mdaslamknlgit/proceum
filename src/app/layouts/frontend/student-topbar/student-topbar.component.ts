@@ -33,6 +33,9 @@ export class StudentTopbarComponent implements OnInit {
     //for cart badge
     this.subscription = this.cartCountService.getNumber().subscribe(number => { this.number = number });
   }
+  ngAfterViewInit(){
+      this.search_key = this.http.search_string;
+  }
   ngOnInit(): void {
     //check subdomain
     let sub_domain = window.location.hostname;
