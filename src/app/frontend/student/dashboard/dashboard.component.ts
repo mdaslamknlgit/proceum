@@ -24,6 +24,8 @@ export class DashboardComponent implements OnInit {
 
   //wishlist items variables
   public wish_list:any = []; 
+  public bookmarks:any = [];
+  public favorites:any = [];
   ngOnInit(): void {
     this.socialAuthService.signOut(true);
     this.user = this.http.getUser(); 
@@ -31,6 +33,7 @@ export class DashboardComponent implements OnInit {
       this.user_id = this.user['id'];
       this.role_id =  Number(this.user['role']);
       this.getWishList();
+      this.getBookmarksFavorite();
     }
   }
 
@@ -48,5 +51,35 @@ export class DashboardComponent implements OnInit {
         this.toster.error(res['message'], 'Error');
       }
     });
+  }
+  getBookmarksFavorite(){
+    let param = { url: 'student-bookmarks-favorite', id: this.user_id};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        if(res['data']){
+          this.bookmarks = res['data'].bookmarks;
+          this.favorites = res['data'].favorites;
+          // console.log(res['data'].bookmarks.length);
+        }
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+  updateBookmarkFavorite(source_id,type){
+    let param = { url: 'manage-statistics', source_id: source_id,type:type};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.getBookmarksFavorite();
+        this.toster.success(res['message'], 'Success', { closeButton: true });
+      }else{
+        this.toster.error(res['message'], 'Error', {
+          closeButton: true,
+        });
+      }
+    })
+  }
+  navigateTo(url){
+    this.router.navigateByUrl("student/curriculum/details/"+url);
   }
 }

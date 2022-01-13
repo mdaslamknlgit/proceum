@@ -8,13 +8,6 @@
     </div>
   </div>
   <div class="hgt_10"></div>
-  <!-- <div class="dsh_brd_crds">
-    <mat-form-field appearance="outline" class="xl_srch">
-      <input matInput placeholder="Search" [(ngModel)]="key" (keyup)="$event.keyCode == 13 ? globalsearch() : ''"/>
-      <mat-icon matSuffix color="accent">search</mat-icon>
-    </mat-form-field>
-  </div> -->
-  
   <div class="d-flex">
     <div>Search Key: <span class="grn_clr">{{key}}</span></div>
     <div class="spacer"></div>
@@ -25,57 +18,40 @@
   <div class="hgt_5"></div>
   <div class="dsh_brd_crds intr_vd_tml"> 
     <div *ngIf="result_cond">
-      <div class="gs_ndf"> No records found with your search key, {{key}}! Please find the below nearest matching records.</div>
-      <div class="d-flex">
-        <!-- <div>Similar Results Found</div> -->
-        <div class="spacer"></div>
-        <div class="d-flex ai_cntr">
-          <div class="grn_clr">{{result_count}} Results Found</div>
+      <div class="rqrd_txtinfo"> No records found with your search key, <span class="fnt_bold">{{key}}</span>! Please find the below nearest matching records.</div>
+      <div class="gs_rslts" *ngIf="search_result.length>0">
+        <div class="gs_rslts_aa">
+          <div class="gs_rs_hd">Competencies</div>
+          <div class="spacer"></div>
+            <div class="grn_clr">{{result_count}} Results Found</div>
+        </div>
+        <div class="gs_rs_cnt" *ngFor="let curriculum of search_result">
+          <span matBadge="{{curriculum[0].curriculumn_name}}" (click)="navigateTo(curriculum[0].cur_id+'/'+curriculum[0].level_id+'/'+curriculum[0].cur_pk_id)">{{ curriculum[0].content_title}}</span>
         </div>
       </div>
-    <div class="hgt_5"></div>
+      <div class="hgt_5"></div>
     </div>
-    <mat-accordion class="gs_accrd">
+    <div *ngIf="!result_cond">
       <div *ngFor="let curriculum of search_result | keyvalue">
-        <mat-expansion-panel >
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <div> {{curriculum.key}}</div>
-              <!-- <div class="glbl_srch_cnt ml_1">({{curriculum.value.no_of_results}} Results)</div> -->
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div class="tm_ln_dv">
-            <div class="glbl_srch_rslt">
-              <div class="gs_rslt_dv">
-                <!-- <div class="gs_rslt_hd">COMMUNITY MEDICINE - (Code : CM)</div> -->
-                <div>
-                  <div class="hgt_10"></div>
-                  <ul *ngFor="let data of curriculum.value.search_data | keyvalue">
-                    <li *ngFor="let content of data.value | keyvalue"> 
-                      <div class="rslt_hvr" *ngIf="content.value.is_purchse =='Yes'" (click)="navigateTo(curriculum.value.curriculumn_id+'/'+content.value.level_id+'/'+content.value.pk_id)">
-                        <mat-icon>chevron_right </mat-icon>{{content.value.level_name}}
-                      </div>
-                      <div class="rslt_hvr" *ngIf="content.value.is_purchse =='No'">
-                        <mat-icon>lock</mat-icon>{{content.value.level_name}}
-                      </div>
-                      <div class="sp_mn">
-                        <div class="brdcrm_br gs_pth_dv">
-                          <div *ngFor="let label of curriculum.value.labels | keyvalue">
-                            <span *ngIf="content.value.level_id >= label.value.level_number">
-                              <mat-icon>navigate_next</mat-icon>
-                              <span (click)="navigateTo(curriculum.value.curriculumn_id+'/'+label.value.level_number)">{{label.value.display_label}}</span>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+        <div *ngIf="curriculum.key!='competencies'">
+          <div class="gs_rslts">
+            <div class="gs_rs_hd">{{curriculum.key.toString().split("-")[1]}}</div>
+            <div class="gs_rs_cnt" *ngFor="let data of curriculum.value | keyvalue">
+              <span (click)="navigateTo(data.value.curriculumn_id+'/'+data.value.level_id+'/'+data.value.pk_id)" matBadge="{{data.value.curriculumn_name}}">{{data.value.level_name}}</span>
             </div>
           </div>
-        </mat-expansion-panel>
+          <div class="hgt_5"></div>
+        </div>
+        <div *ngIf="curriculum.key=='competencies'">
+          <div class="gs_rslts" *ngIf="curriculum.value.length>0">
+            <div class="gs_rs_hd">Competencies</div>
+            <div class="gs_rs_cnt" *ngFor="let competencies of curriculum.value">
+              <span matBadge="{{competencies[0].curriculumn_name}}" (click)="navigateTo(competencies[0].cur_id+'/'+competencies[0].level_id+'/'+competencies[0].cur_pk_id)">{{competencies[0].content_title}}</span>
+            </div>
+          </div>
+          <div class="hgt_5"></div>
+        </div>
       </div>
-    </mat-accordion>
+    </div>
   </div>
 </div>

@@ -34,7 +34,7 @@ export class StudentTopbarComponent implements OnInit {
     this.subscription = this.cartCountService.getNumber().subscribe(number => { this.number = number });
   }
   ngAfterViewInit(){
-      this.search_key = this.http.search_string;console.log(this.search_key)
+      this.search_key = this.http.search_string;
   }
   ngOnInit(): void {
     //check subdomain
