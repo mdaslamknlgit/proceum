@@ -230,6 +230,16 @@
                             <div class="amnt_pybl"></div>
                         </div>
                     </span>
+                    
+                    <span *ngIf="my_earnings_applied">
+                        <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">My Earnings Applied
+                            <div class="amnt_pybl">
+                                <div class="cln_cntr">:</div>
+                                <div class="spacer"></div>
+                                {{cart_items[0].product_data.currency_symbol}} {{ my_earnings_discount_amount }}
+                            </div>
+                        </div>
+                    </span>
 
                     <div class="hgt_5"></div>
                     <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Amount Payable
@@ -256,6 +266,17 @@
                                 </mat-form-field>
                             </form>
                         </div>
+                    </div>
+
+                    <div *ngIf="(approved_count + referral_count) > 0">
+                        <span class="accent ">
+                            <mat-checkbox (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Use My Earnings
+                                <span>
+                                    ({{ ((approved_count + referral_count) > 30) ? 30 : (approved_count + referral_count) }})
+                                </span>
+                            </mat-checkbox>
+                        </span>
+                        <div class="hgt_10"></div>
                     </div>
                     <button color="accent" mat-raised-button (click)="proceedPayment()"
                         [disabled]="disable_payment_button">Proceed to Payment</button>
