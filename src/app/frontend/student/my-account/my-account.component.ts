@@ -18,7 +18,7 @@ export class MyAccountComponent implements OnInit {
   url: any = '../../../../assets/images/Demo-placeholder.jpeg';
   src: any;
   isrequired: boolean = false;
-  isdisplay: boolean = false;
+  isdisplay: boolean = true;
   user_id: string;
   errClass: string;
   imagePath: any;
@@ -43,6 +43,7 @@ export class MyAccountComponent implements OnInit {
   };
   public auto_generate = false;
   public dis_frnd_referral_code = true;
+  public domain: string;
 
   constructor(
     private http: CommonService,
@@ -51,6 +52,7 @@ export class MyAccountComponent implements OnInit {
   ) {}
   filedata: any;
   ngOnInit(): void {
+    this.domain = location.origin;
     this.src = this.url;
     this.getStudentProfile();
   }
@@ -79,7 +81,7 @@ export class MyAccountComponent implements OnInit {
 
   sendReferral(){
     if(this.recipient_emails_list.length > 0){
-      let param = { url: 'send_referral_code', recipient_emails: this.recipient_emails_list, referral_code:this.profile.referral_code};
+      let param = { url: 'send_referral_code', recipient_emails: this.recipient_emails_list, referral_code:this.profile.referral_code, domain:this.domain};
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.recipient_emails_list = [];
@@ -89,6 +91,16 @@ export class MyAccountComponent implements OnInit {
           this.toaster.error(res['message'], 'Error', { closeButton: true });
         }
       });
+    }
+  }
+
+  autoGrowTextZone(e) {
+    if(e.keyCode == 13){
+      this.addEmail();
+      e.target.style.height = "50px";
+    }else if(e.target.scrollHeight > 60){
+      e.target.style.height = "0px";
+      e.target.style.height = (e.target.scrollHeight)+"px";
     }
   }
 
@@ -133,10 +145,10 @@ export class MyAccountComponent implements OnInit {
   checked(e) {
     if (e.checked == true) {
       this.isrequired = true;
-      this.isdisplay = true;
+      //this.isdisplay = true;
     } else {
       this.isrequired = false;
-      this.isdisplay = false;
+      //this.isdisplay = false;
       this.profile.current_password = '';
       this.profile.new_password = '';
       this.profile.confirm_pwd = '';
@@ -266,7 +278,7 @@ export class MyAccountComponent implements OnInit {
         this.toaster.success(res['message'], 'Success', { closeButton: true });
         (<HTMLFormElement>document.getElementById('profile_form')).reset();
         this.isrequired = false;
-        this.isdisplay = false;
+        //this.isdisplay = false;
         this.getStudentProfile();
       } else {
         this.toaster.error(res['message'], 'Error', { closeButton: true });
@@ -274,11 +286,14 @@ export class MyAccountComponent implements OnInit {
     });
   }
 
-  generateReferralCode() {
-    let param = { url: 'generate_referral_code'};
+  applyReferralCode() {
+    let param = { url: 'apply_referral_code', frnd_referral_code: this.profile.frnd_referral_code, id: this.user_id};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.profile.referral_code = res['code'];
+        this.toaster.success(res['message'], 'Success', { closeButton: true });
+        this.getStudentProfile();
+      } else {
+        this.toaster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }

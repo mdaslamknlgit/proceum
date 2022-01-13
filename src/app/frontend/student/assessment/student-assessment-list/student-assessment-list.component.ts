@@ -23,7 +23,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./student-assessment-list.component.scss']
 })
 export class StudentAssessmentListComponent implements OnInit {
-  displayedColumns: string[] = ['assId', 'assTyp', 'SubName', 'dtndTm', 'qstns', 'eqDrtn', 'mrKs', 'prCent', 'reSlt', 'stTs', 'acTn'];
+  displayedColumns: string[] = ['assId', 'assTyp', 'assName', 'SubName', 'dtndTm', 'qstns', 'eqDrtn', 'mrKs', 'prCent', 'reSlt', 'stTs', 'acTn'];
   
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -58,9 +58,7 @@ export class StudentAssessmentListComponent implements OnInit {
   public exam_id = 0;
   public action_id = 0;
   public remain_time = '';
-  public set_interval:any;
-  public secs = 0;
-  public dup_secs = [];
+  public assessment_name = '';
 
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);
@@ -98,44 +96,19 @@ export class StudentAssessmentListComponent implements OnInit {
     });
   }
 
-  public startExamPopUP(id,action,sec,dateTime){
+  public startExamPopUP(id,action,dateTime,assName){
     this.exam_id = id;
     this.action_id = action;
+    this.assessment_name = assName;
     if(action == 1){
       this.subscription = interval(1000)
            .subscribe(x => { this.getTimeDifference(dateTime); }); 
     }
     this.exam_instructions_popup = true;
   }
-  /*public startExamPopUP(id,action,sec,dateTime){
-    this.exam_id = id;
-    this.action_id = action;
-    if(action == 1){             
-      this.secs = sec;
-      if(this.dup_secs[this.exam_id] != null){
-        this.secs = this.dup_secs[this.exam_id];
-      }      
-      this.set_interval = setInterval(res=>{
-        this.secs = this.secs-1;
-        if(this.secs >= 0)
-        {
-            this.startTimer(this.secs);
-            if(this.secs == 60){
-                this.toster.info("Assessment will be start in a minute", "Remaining Time", {closeButton:true});
-            }
-        }
-        else{
-          clearInterval(this.set_interval);
-          this.startExamPopUP(id,2,0);
-        }
-      },1000);
-    }
-    this.exam_instructions_popup = true;
-  }*/
-
+  
   private getTimeDifference (dateTime) {
     this.dDay = new Date(dateTime);
-    //console.log(this.dDay);    
     this.timeDifference = this.dDay.getTime() - new  Date().getTime();
     this.allocateTimeUnits(this.timeDifference);
   }
@@ -155,10 +128,10 @@ export class StudentAssessmentListComponent implements OnInit {
   }
 
   public closeExamPopUP(){
+    this.subscription.unsubscribe();
+    this.assessment_name = '';
     this.exam_id = 0;
     this.exam_instructions_popup=false;
-    //clearInterval(this.set_interval);
-    //this.dup_secs[this.exam_id] = this.secs;
   }
 
   public submitExam(exam_id){

@@ -24,7 +24,10 @@ export class ShoppingCartComponent implements OnInit {
   public total_amount:any = 0;
   public total_payable:any = 0;
   public coupon_applied:any = false;
+  public my_earnings_applied:any = false;
   public coupon_discount_amount:any = 0;
+  public my_earnings_discount_amount:any = 0;
+  public my_earnings:any = 0;
   public coupon_description:any = '';
   public have_coupon_code:any = false;
   public coupon_code:any = '';
@@ -43,6 +46,8 @@ export class ShoppingCartComponent implements OnInit {
   public city = '';
   public address = '';
   public zip_code = '';
+  public referral_count = 0;
+  public approved_count = 0;
 
   //Country and state related data variables
   public countrys = [];
@@ -68,7 +73,32 @@ export class ShoppingCartComponent implements OnInit {
       this.role_id =  Number(this.user['role']);
       this.getCartItems();
       this.getCountries();
+      this.getMyEarnings();
     }
+  }
+
+  checked(e) {
+    if (e.checked == true) {
+      this.my_earnings = this.approved_count + this.referral_count;
+      this.applyCoupon();
+    } else {
+      this.my_earnings = 0;
+      this.applyCoupon();
+    }
+  }
+
+  public getMyEarnings(){
+    let param = { url: 'referral-earnings-list'};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.referral_count = res['data']['referral_earnings_list'].filter(i => (i.course_purchased == 1 && i.credits_consumed == 0)).length;
+      }
+    });
+
+    let params={url: 'social-share'};
+    this.http.get(params).subscribe((res: Response) => {
+      this.approved_count = res['data']['social_share_list'].filter(i => (i.approval_status == 1 && i.credits_consumed == 0)).length;
+    });
   }
 
   //Get cart items
@@ -242,13 +272,15 @@ export class ShoppingCartComponent implements OnInit {
     this.total_amount = res['total_amount'];
     this.total_payable = res['total_payable'];
     this.coupon_applied = res['coupon_applied'];
+    this.my_earnings_applied = res['my_earnings_applied'];
     this.coupon_discount_amount = res['coupon_discount_amount'];
+    this.my_earnings_discount_amount = res['my_earnings_discount_amount'];
     this.coupon_description = res['coupon_description'];
   }
 
   //Apply Coupon
   public applyCoupon(){
-    let param = { url: 'apply-coupon', id: this.user_id, coupon_code: this.coupon_code};
+    let param = { url: 'apply-coupon', id: this.user_id, coupon_code: this.coupon_code,my_earnings:this.my_earnings};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         if(res['data'].length){
@@ -268,7 +300,8 @@ export class ShoppingCartComponent implements OnInit {
   //remove Coupon
   public removeCoupon(){
     this.coupon_code = '';
-    let param = { url: 'get-cart-items', id: this.user_id};
+    this.applyCoupon();
+    /*let param = { url: 'get-cart-items', id: this.user_id};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         if(res['data'].length){
@@ -282,7 +315,7 @@ export class ShoppingCartComponent implements OnInit {
         this.toster.error(res['message'], 'Error');
         this.router.navigateByUrl('/pricing-and-packages');
       }
-    });
+    });*/
   }
 
   /************************************************************************
@@ -317,10 +350,13 @@ export class ShoppingCartComponent implements OnInit {
       cart_items      : this.cart_items,
       adress_details  : adressDetails,
       coupon_applied  : this.coupon_applied,
+      my_earnings_applied  : this.my_earnings_applied,
       coupon_code     : this.coupon_code,
+      my_earnings     : this.my_earnings,
       total_amount    : this.total_amount,
       total_payable   : this.total_payable,
       coupon_discount_amount : this.coupon_discount_amount,
+      my_earnings_discount_amount : this.my_earnings_discount_amount,
     }
     //Make a post request
     this.http.post(params).subscribe((res) => {
@@ -393,6 +429,7 @@ export class ShoppingCartComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success("Congrats! Payment is success!", 'Success');  
+        this.router.navigateByUrl('/student/order-details/' +res['order_id']);
       } else {
         this.toster.error(res['message'], 'Error');
       }
