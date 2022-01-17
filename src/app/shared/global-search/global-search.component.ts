@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit, OnChanges} from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
@@ -50,6 +50,7 @@ export class GlobalSearchComponent implements OnInit {
           if(res['error'] == false) {
             this.search_result =  res['data'];
             this.result_cond = false;
+            // this.search_result.sort();
           }else{
             this.search_result = res['data']; //[];
             this.result_cond = true;
