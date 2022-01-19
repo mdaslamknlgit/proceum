@@ -12,6 +12,7 @@ export class CommonService {
   public isLoading = new BehaviorSubject(false);
   public apiURL: string;
   public kpoint_api_url = "https://proceum.kpoint.com/api/v1/xapi/";
+  public appsquadz_api_url = "https://qa.proceum.com/AppSquadz/index.php/";
   public menu_status: String;
   ipResult : any;
   public lang = "en";
@@ -39,6 +40,18 @@ export class CommonService {
       map((res) => res),
       catchError(this.errorHandler)
     );
+  }
+  public AppSquadzPost(param){
+    let headers = new HttpHeaders();
+    headers = headers
+      .set('Access-Control-Allow-Origin', '*')
+      .set('Access-Control-Allow-Headers', 'Content-Type')
+      .set('Access-Control-Allow-Methods', 'POST')
+      .set('Content-Type', 'application/json');
+    return this.http.post(this.appsquadz_api_url + param.url, param, { headers: headers }).pipe(
+        map((res) => res),
+        catchError(this.errorHandler)
+      );
   }
   public get(param) {
     let user = this.getUser();
