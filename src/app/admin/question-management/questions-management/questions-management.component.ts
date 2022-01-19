@@ -193,7 +193,7 @@ export class QuestionsManagementComponent implements OnInit {
         this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
             this.toster.success(res['message'], 'Success', { closeButton: true });
-            this.getQLists();
+            this.applyFilters();
         } else {
             this.toster.error(res['message'], res['message'], {
             closeButton: true,
