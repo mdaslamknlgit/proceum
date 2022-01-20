@@ -56,7 +56,7 @@ import { AttendAssessmentComponent } from './student/assessment/attend-assessmen
 import { AssessmentResultComponent } from './student/assessment/assessment-result/assessment-result.component';
 import { StudentGlobalSearchComponent } from './student-global-search/student-global-search.component';
 import { CouponsComponent } from './coupons/coupons.component';
-
+import { ShareModule } from 'ngx-sharebuttons';
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
 const routes: Routes = [
@@ -191,7 +191,8 @@ const routes: Routes = [
     CKEditorModule,
     ImageViewerModule.forRoot(),
     PdfViewerModule,
-    SharedModule
+    SharedModule,
+    ShareModule,
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
