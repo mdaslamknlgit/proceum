@@ -26,7 +26,7 @@
     </div>
     <div class="wr_btm_sec">
       <div style="height: 200px">
-        <div class="ck_editor">
+        <div class="ck_editor" *ngIf="show_coments">
           <ckeditor [(ngModel)]="comments_content" name="comments_content" (ready)="onReady($event)" [editor]="Editor"
             #editor [config]="editorReviewConfig" style="height: 500px"></ckeditor>
         </div>
@@ -720,7 +720,7 @@
                 <label for="Intro video"> Content description</label>
               </div>
               <div class="c_block_content">
-                <div class="ck_editor" (click)="editorFocused('description_editor')">
+                <div *ngIf="load_editor" class="ck_editor" (click)="editorFocused('description_editor')">
                   <ckeditor [(ngModel)]="main_content" name="main_content_name" (ready)="onReady($event)"
                     [editor]="Editor" #description_editor [config]="editorConfig">
                   </ckeditor>
@@ -813,13 +813,16 @@
                 <mat-tab-group (selectedTabChange)="notesTab($event)" animationDuration="0.15s" *ngIf="show_tabs">
                   <mat-tab label="Learning Objectives">
                     <!-- <button type="button" (click)="addImage()">Add</button> -->
+                    <ng-template matTabContent>
                     <div class="ck_editor" (click)="editorFocused('lerning_obj_editor')">
                       <ckeditor [(ngModel)]="learning_obj_content" name="learning_obj_content_name"
                         (ready)="onReady($event)" [editor]="Editor" #lerning_obj_editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div>
+                </ng-template>
                   </mat-tab>
                   <mat-tab label="Lecture Notes">
+                    <ng-template matTabContent>
                     <div class="hyt_mn_dv">
                       <div class="dsh_brd_crds">
                         <mat-form-field appearance="outline" class="w_100p">
@@ -874,8 +877,10 @@
                         name="learning_notes_content_name" [editor]="Editor" #editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div> -->
+                </ng-template>
                   </mat-tab>
                   <mat-tab label="High Yield Notes">
+                    <ng-template matTabContent>
                     <div class="hyt_mn_dv">
                       <div class="dsh_brd_crds">
                         <mat-form-field appearance="outline" class="w_100p">
@@ -923,6 +928,7 @@
                         </div>
                       </div>
                     </div>
+                    </ng-template>
                   </mat-tab>
                   <mat-tab label="MCQs">
                     <div class="tbbd_bdy px_0">
@@ -1548,11 +1554,13 @@
                     </div>
                   </mat-tab>
                   <mat-tab label="External References">
+                    <ng-template matTabContent>
                     <div class="ck_editor" (click)="editorFocused('external_editor')">
                       <ckeditor [(ngModel)]="external_ref_content" name="external_ref_content_name"
                         (ready)="onReady($event)" [editor]="Editor" #external_editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div>
+                    </ng-template>
                   </mat-tab>
                 </mat-tab-group>
               </div>
