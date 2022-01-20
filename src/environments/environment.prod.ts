@@ -84,7 +84,7 @@ export const environment = {
     INSTITUTE_ADMIN : 10,
     PARTNER_ADMIN : 14,
   },
-  // apiUrl: 'https://apidev.proceum.com/api/',
+   //apiUrl: 'https://apidev.proceum.com/api/',
   apiUrl: 'https://apiqa.proceum.com/api/',
   //apiUrl: 'https://apiuat.proceum.com/api/',
 //   firebaseConfig : {

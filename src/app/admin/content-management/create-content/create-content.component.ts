@@ -294,7 +294,9 @@ export class CreateContentComponent implements OnInit {
     this.getChildDataEditor();
     this.getReviewers();
   }
+  public load_editor = false;
   ngOnDestroy() { 
+      
     this.subscription.unsubscribe();
     this.subscription_editor.unsubscribe();
 }
@@ -309,7 +311,11 @@ export class CreateContentComponent implements OnInit {
     })
   }
   ngAfterViewInit(){
-      this.show_tabs = true;
+      setTimeout(res=>{
+        this.load_editor = true;
+        this.show_tabs = true;
+      }, 1000)
+
   }
   addImage(src){
       if(this.focus_editor == 'description_editor'){
