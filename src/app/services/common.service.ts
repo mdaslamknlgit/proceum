@@ -46,8 +46,8 @@ export class CommonService {
     headers = headers
       .set('Access-Control-Allow-Origin', '*')
       .set('Access-Control-Allow-Headers', 'Content-Type')
-      .set('Access-Control-Allow-Methods', 'POST')
-      .set('Content-Type', 'application/json');
+      .set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE')
+      .set('Content-Type', 'multipart/form-data');
     return this.http.post(this.appsquadz_api_url + param.url, param, { headers: headers }).pipe(
         map((res) => res),
         catchError(this.errorHandler)

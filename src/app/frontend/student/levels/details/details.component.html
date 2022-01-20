@@ -500,10 +500,12 @@
                   <mat-panel-title>{{ note["title"] }}</mat-panel-title>
                   <mat-panel-description> </mat-panel-description>
                 </mat-expansion-panel-header>
-                <div class="tm_ln_dv ck_editor_view">
-                  <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
-                    (ready)="onReady($event)" [data]="note['learning_notes']"></ckeditor>
-                </div>
+                <ng-template matExpansionPanelContent>
+                    <div class="tm_ln_dv ck_editor_view">
+                        <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
+                          (ready)="onReady($event)" [data]="note['learning_notes']"></ckeditor>
+                      </div>
+                </ng-template>
               </mat-expansion-panel>
               <!-- <mat-expansion-panel>
               <mat-expansion-panel-header>
@@ -635,10 +637,12 @@
                     <mat-panel-title>{{ highyield["title"] }}</mat-panel-title>
                     <mat-panel-description> </mat-panel-description>
                   </mat-expansion-panel-header>
+                  <ng-template matExpansionPanelContent>
                   <div class="tm_ln_dv ck_editor_view">
                     <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
                       (ready)="onReady($event)" [data]="highyield['highyield_notes']"></ckeditor>
                   </div>
+                </ng-template>
                 </mat-expansion-panel>
                 <!-- <mat-expansion-panel>
                 <mat-expansion-panel-header>
@@ -1136,8 +1140,8 @@
           <mat-slide-toggle [(ngModel)]="isChecked">Demo AppSqaudz</mat-slide-toggle>
         </div>
         <div class="dm_app_cnt" *ngIf="isChecked == true"> 
-          <div class="intr_vd_hd">
-            <div><mat-icon>videocam</mat-icon><a href="proceuma:28" >Coronary3</a></div>
+          <div class="intr_vd_hd" *ngFor="let appSquadz of AppSquadzVideos">
+            <div><mat-icon>videocam</mat-icon><a href="proceuma:appSquadz['id']" >{{ appSquadz['title'] }}</a></div>
           </div>
         </div>
         <!-- 

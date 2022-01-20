@@ -164,7 +164,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
 
   getAppSquadz(){
-    let param = {url: 'data_model/courses/exam/get_video_data',user_id: 1};
+    let form_data = {user_id: 1};
+    let param = {url: 'data_model/courses/exam/get_video_data',form_data: form_data};
     this.http.AppSquadzPost(param).subscribe((res) => {
       console.log(res);
       if (res['status'] == true) {
