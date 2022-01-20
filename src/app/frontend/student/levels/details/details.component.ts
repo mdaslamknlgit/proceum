@@ -114,6 +114,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
 
     AppSquadzVideos = [];
     isChecked = false;
+    public model_status = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -673,5 +674,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         highlightAll: true
       });
     }
+  }
+  toggleModel() {
+    this.model_status = !this.model_status;
   }
 }
