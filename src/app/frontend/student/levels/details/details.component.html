@@ -1157,12 +1157,12 @@
               <div>
                 <div *ngFor="let appSquadz of AppSquadzVideos"><!---->
                   <div class="wtcd_vds {{appSquadz['id'] == active_video_obj['id'] ? 'wv_actv' : ''}}"
-                    *ngIf="'APPSQUADZ' == display_videos" (click)="playVideo(video)">
+                    *ngIf="'APPSQUADZ' == display_videos" >
                     <div class="wv_img">
                       
                     </div>
                     <div class="wv_ttl_dsc">
-                      <span class="wv_tt_hd"><a href="proceuma:{{appSquadz['id']}}" >{{appSquadz['title']}}</a></span>
+                      <span class="wv_tt_hd"><a [href]="'proceuma:'+appSquadz['id'] | safe: 'resourceUrl'" >{{appSquadz['title']}}</a></span>
                     </div>
                   </div>
                 </div>
