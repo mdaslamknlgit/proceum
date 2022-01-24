@@ -164,11 +164,11 @@
                             <span *ngIf="(create_user_form.submitted || organization_edit.touched) && organization_edit.invalid" class="prc_tltp">Organization is required</span>
                         </div>
                     </div>
-                    <div class="crt_pr_dv" *ngIf="role == '2' && organization == '1'">
+                    <div class="crt_pr_dv" *ngIf="organization == '1'">
                         <div class="crt_prt_hd">University</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select University" name="university_edit" #university_edit="ngModel" [(ngModel)]="university_id" (ngModelChange)="getYears(university_id,0)" required>
+                                <mat-select placeholder="Select University" name="university_edit" #university_edit="ngModel" [(ngModel)]="university_id" (ngModelChange)="getColleges()" required>
                                     <mat-option>
                                         <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
                                             [placeholderLabel]="'Search University'" name="search_university" ngModel
@@ -181,7 +181,7 @@
                             <span *ngIf="(create_user_form.submitted || university_edit.touched) && university_edit.invalid" class="prc_tltp">University is required</span>
                         </div>
                     </div>
-                    <div class="crt_pr_dv" *ngIf="role == '2' && organization == '2'">
+                    <div class="crt_pr_dv" *ngIf="organization == '1' && university_id">
                         <div class="crt_prt_hd">College</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
@@ -192,7 +192,7 @@
                                             (ngModelChange)="filterCollege($event)">
                                         </ngx-mat-select-search>
                                     </mat-option>
-                                    <mat-option *ngFor="let item of all_colleges | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                    <mat-option *ngFor="let item of all_colleges | async" [value]="item['partner_id']">{{ item["organization_name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <span *ngIf="(create_user_form.submitted || college_edit.touched) && college_edit.invalid" class="prc_tltp">College is required</span>
@@ -220,29 +220,29 @@
                         <div class="crt_prt_hd">Year</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getSemesters()" required>
+                                <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getChildDropDownData(college_id,year_id)" required>
                                     <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <span *ngIf="(create_user_form.submitted || year_edit.touched) && year_edit.invalid" class="prc_tltp">Year is required</span>
                         </div>
                     </div>
-                    <div class="crt_pr_dv" *ngIf="role == '2'">
+                    <div class="crt_pr_dv" *ngIf="show_semester">
                         <div class="crt_prt_hd">Semester</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getGroups()" >
+                                <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getGroups(college_id,semester_id)" >
                                     <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                             <!-- <span *ngIf="(create_user_form.submitted || semester_edit.touched) && semester_edit.invalid" class="prc_tltp">Semester is required</span> -->
                         </div>
                     </div>
-                    <div class="crt_pr_dv" *ngIf="role == '2'">
+                    <div class="crt_pr_dv" *ngIf="show_group">
                         <div class="crt_prt_hd">Group</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select User Type" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id">
+                                <mat-select placeholder="Select Group" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id">
                                     <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>

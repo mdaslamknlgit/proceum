@@ -111,6 +111,10 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     public pdf_rotation = 0;
     public pdf_page = 0;
     pdfQuery = '';
+
+    AppSquadzVideos = [];
+    isChecked = false;
+    public model_status = false;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -154,9 +158,22 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       this.is_preview = window.location.href.includes("content-preview")?true:false;
       this.getLevelDetails();
       this.getMaterials();
+      this.getAppSquadz();
     });
     
   }
+
+  getAppSquadz(){
+    let form_data = {user_id: 1};
+    let param = {url: 'data_model/courses/exam/get_video_data',form_data: form_data};
+    this.http.AppSquadzPost(param).subscribe((res) => {
+      console.log(res);
+      if (res['status'] == true) {
+        this.AppSquadzVideos = res['data']; 
+      }
+    });
+  }
+
   ngAfterViewInit() {
     this.hideBuzzWords();
     document.documentElement.style.setProperty(
@@ -658,5 +675,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         highlightAll: true
       });
     }
+  }
+  toggleModel() {
+    this.model_status = !this.model_status;
   }
 }

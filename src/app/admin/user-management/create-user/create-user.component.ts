@@ -68,6 +68,8 @@ export class CreateUserComponent implements OnInit {
   public edit_model_status = false;
   public courses_arr = [];
   public courses_div = false;
+  public show_semester = false;
+  public show_group = false;
   public selected_courses = [];
   countrys = [];
   states = [];
@@ -267,7 +269,7 @@ export class CreateUserComponent implements OnInit {
   
   //To get all college list
   getColleges(){
-    let param = { url: 'get-partners-list',partner_type_id : 2 };
+    let param = { url: 'get-partners-list',partner_type_id : 2,parent_id: this.university_id };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.colleges = res['data']['partners'];
@@ -290,7 +292,7 @@ export class CreateUserComponent implements OnInit {
     }
     this.all_colleges.next(
       this.colleges.filter(
-        (college) => college.name.toLowerCase().indexOf(search) > -1
+        (college) => college.organization_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
@@ -338,7 +340,7 @@ export class CreateUserComponent implements OnInit {
     }
   }
   
-  getYears(partner,parent_id){
+  getYears(partner,parent_id,call_child_fun = false){
     this.partner_id = partner;
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : 'year' };
     this.http.post(param).subscribe((res) => {
@@ -346,6 +348,9 @@ export class CreateUserComponent implements OnInit {
         this.years = res['data'];
         if(this.years != undefined){
           this.all_years.next(this.years.slice()); 
+          if(call_child_fun){
+            this.getChildDropDownData(partner,this.year_id);
+          }
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -353,27 +358,53 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  getSemesters(){
-    let param = { url: 'get-year-semester-group',partner_id : this.partner_id, parent_id : this.year_id, slug : 'semester' };
+  getChildDropDownData(partner_id,year_id){
+    this.show_semester = false;
+    this.show_group = false;
+    let year_obj = this.years.find((year) => year.pk_id == year_id);
+    if(year_obj.year_has_semester){
+      this.getSemesters(partner_id, Boolean(year_obj.year_has_group));
+    }else if(year_obj.year_has_group){
+      this.getGroups(partner_id,year_id);
+    }
+  }
+
+  getSemesters(partner_id = 0, call_child_func = false){
+    let param = { url: 'get-year-semester-group',partner_id : partner_id, parent_id : this.year_id, slug : 'semester' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.semesters = res['data'];
         if(this.semesters != undefined){
           this.all_semesters.next(this.semesters.slice()); 
+          this.show_semester = true;
+          if(call_child_func){
+            this.getGroups(partner_id,this.semester_id);
+          }
         }
+
       } else {
         //this.toster.error(res['message'], 'Error');
       }
     });
   }
 
-  getGroups(){
-    let param = { url: 'get-year-semester-group',partner_id : this.partner_id, parent_id : this.semester_id, slug : 'group' };
+  getGroups(partner_id = 0, parent_id){
+    let year_obj = this.years.find((year) => year.pk_id == this.year_id);
+    if(!year_obj.year_has_groups){
+      return false;
+    }
+    if(year_obj.year_has_semesters){
+      parent_id = this.semester_id;
+    }else{
+      parent_id = this.year_id;
+    }
+    let param = { url: 'get-year-semester-group',partner_id : partner_id, parent_id : parent_id, slug : 'group' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.groups = res['data'];
         if(this.groups != undefined){
           this.all_groups.next(this.groups.slice()); 
+          this.show_group = true;
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -385,22 +416,18 @@ export class CreateUserComponent implements OnInit {
     if(this.role == '' || this.first_name == '' || this.phone == '' || this.address_line_1 == '' || this.country_id == '' || this.state_id == '' || this.city == '' || this.pincode == ''){
       return;
     }
-
     //check password and confirm pass matched
     if(this.user_id == 0 && (this.password.length < 5 || (this.password != this.confirm_password))){
       return;
     }
-
     if(!this.validateEmail(this.email)){
       return;
     }
-
     if(this.role == '2'){
-      if(this.organization == '' || (this.university_id == '' && this.college_id == '' && this.institute_id == '' ) || this.year_id == '' || this.semester_id == '' || this.group_id == ''){
+      if(this.organization == '' || (this.university_id == '' && this.college_id == '' && this.institute_id == '' ) || this.year_id == ''){
         return;
       }
     }
-
     if(this.role == '12'){
       if(this.qualification == ''){
         return;
@@ -443,7 +470,7 @@ export class CreateUserComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.navigateTo('admin/manage-users');
+        this.navigateTo('manage-users');
       } else {
           this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -485,20 +512,23 @@ export class CreateUserComponent implements OnInit {
         if(user_data.university_id){
           this.organization = '1';
           this.getUniversities();
+          this.getColleges();
           this.partner_id = this.university_id;
-        }else if(user_data.college_id){
+        }
+        /* else if(user_data.college_id){
           this.organization = '2';
           this.getColleges();
           this.partner_id = this.college_id;
-        }else if(user_data.institute_id){
+        } */
+        else if(user_data.institute_id){
           this.organization = '3';
           this.getInstitutes();
           this.partner_id = this.institute_id;
         }
         if(this.role == '2'){
-           this.getYears(this.partner_id,0);
-           this.getSemesters();
-           this.getGroups();
+           this.getYears(this.college_id, 0, true);
+           /* this.getChildDropDownData(this.college_id,this.year_id);
+           this.getGroups(Number(this.college_id),this.year_id); */
         }
         this.getCurriculumnHierarchy();
       }
@@ -507,14 +537,11 @@ export class CreateUserComponent implements OnInit {
 
   navigateTo(url){
     let user = this.http.getUser();
-    if(user['role']== '1'){
-        url = "/admin/"+url;
-    }
-    //Later we must change this
-    if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
+    this.router.navigateByUrl(url);
+    if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(user['role'])) > -1) {
       url = "/admin/"+url;
-    }
       this.router.navigateByUrl(url);
+    }
   }
 
   hasChild = (_: number, node: CurriculumNode) =>
