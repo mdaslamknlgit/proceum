@@ -55,8 +55,11 @@
         <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
           <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
               level['level_id']
-            }}/{{ level['id'] }}">{{ level["name"] }} - (Code :
-            {{ level["code"] ? level["code"] : "N/A" }})</span>
+            }}/{{ level['id'] }}">{{(i+1)+". "+ level["name"] }}  
+            <span *ngIf="level['description'] && level['level_id'] > 3"> - {{level['description']}}</span>
+            <span *ngIf="level['code']  && level['level_id'] <= 3"> - (Code :
+                {{ level["code"] ? level["code"] : "N/A" }})</span>
+        </span>
           <span class="spacer"></span>
           <span class="ct_rtn">
             <mat-icon class="{{level['rating'] > 0 ?'ct_slctd':''}}"
