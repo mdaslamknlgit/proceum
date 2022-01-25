@@ -14,9 +14,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 })
 export class CreateNewFlashCardsComponent implements OnInit {
 
-  public displayedColumns: string[] = ['s_no', 'question', 'action'];
   //dataSource = new MatTableDataSource();
-  public all_questions = new MatTableDataSource();
 
   public user = [];
   public curriculum_list = [];
@@ -111,7 +109,6 @@ export class CreateNewFlashCardsComponent implements OnInit {
       url: 'get-levels-by-level',
       step_id: this.selected_level[level_id],
     };
-    console.log(param);
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let data = res['data'];
@@ -124,13 +121,6 @@ export class CreateNewFlashCardsComponent implements OnInit {
         this.selected_level.forEach((opt, index) => {
             if (index > level_id) this.selected_level[index] = 0;
         });
-
-        //let param1 = {url: 'get-',step_id: this.selected_level[level_id]};
-
-          // this.all_questions = new MatTableDataSource(
-          //   res['data']['question_list']
-          // );
-          // this.totalSize = res['total_records'];
       }
     });
   }
