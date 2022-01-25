@@ -127,11 +127,11 @@
         <div class="hgt_10"></div>
         <div class="shpcrt_lst">
             <div class="shpcrt_mn_dv" *ngFor="let item of cart_items">
-                <div class="mr_1 crs_img">
+                <div class="mr_1 crs_img rsp_ord_aa">
                     <img
                         src="{{ item.product_data.product_img != '' ? item.product_data.product_img : product_default_img  }}">
                 </div>
-                <div class="spacer">
+                <div class="spacer rsp_ord_ab">
                     <div class="shpcrt_mn_hd">
                         {{ item.product_data.product_name }}
                     </div>
@@ -155,7 +155,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="shp_crt_amnt amnt_pybl {{item.final_prices.discount_percent? 'amnt_wth_dsc':''}}">
+                <div class="shp_crt_amnt rsp_ord_ac amnt_pybl {{item.final_prices.discount_percent? 'amnt_wth_dsc':''}}">
 
                     <div *ngIf="item.final_prices.discount_percent" class="wth_dsc">
                         <div class="d-flex ai_cntr jc_fe amnt_pybl"><span class="strk">Actual Price</span>
@@ -182,7 +182,7 @@
                         Billing Address
                     </div>
                     <div class="hgt_10"></div>
-                    <div class="ba_add w_50p d-flex">
+                    <div class="ba_add w_80p d-flex">
                         <div>
                             {{ contact_name }}<br>
                             {{ address }}<br>
@@ -205,7 +205,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="jc_fe d-flex fd_clmn">
+                <div class="jc_fe d-flex fd_clmn ml_at_1250">
                     <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Total Amount
                         <div class="amnt_pybl">
                             <div class="cln_cntr">:</div>
@@ -281,7 +281,6 @@
                     <button color="accent" mat-raised-button (click)="proceedPayment()"
                         [disabled]="disable_payment_button">Proceed to Payment</button>
                 </div>
-                <div class="hgt_20"></div>
             </div>
         </div>
     </div>
