@@ -5710,16 +5710,18 @@ sup {
         margin: 0;
         padding: 0;
         display: flex;
+        flex: 1;
         flex-wrap: wrap;
+        column-gap: 5px;
+        row-gap: 5px;
         li{
-          list-style: none;
+          list-style: none; 
           padding: 10px 15px;
           border:1px solid #707070;
           border-radius: 5px;
-          flex-basis: 60px;
+          flex-basis: 50px;
           box-sizing: border-box;
           text-align: center;
-          margin:0 10px 10px 0;
           cursor: pointer;
           &.grn, &:hover{
             background-color: #41ab3c;
@@ -5984,17 +5986,21 @@ sup {
   &.stdy_md_qstns{
     .qstn_elb{
       display: inline;
+      p{
+        display: inline;
+      }
     }
     .tsts_qstns_nums{
       .tstsnms_cnt_dv{
         ul{
           li{
             padding-right: 35px;
-            background-color: transparent;
+            background-color: #f5f7f9;
             position: relative;
             color: var(--primary-color);
+            border-bottom: 1px solid #f5f7f9;
             &:hover{
-              background-color: #f5f7f9;
+              background-color: #e9ebed;
             }
             &::after{
               content: "";
@@ -6008,7 +6014,7 @@ sup {
               transform: translateY(-50%);
             }
             &.gry{
-              background-color: #f5f7f9;
+              background-color: #e9ebed;
               &::after{
                 background-color: #7C7C7C;
               }
@@ -6148,11 +6154,11 @@ sup {
         }
         .mat-radio-inner-circle{background-color: #ffffff;}
         &.mat-radio-checked{
-          background-color: #ffffff;
-          border-color: #000000;
-          color: #000;
-          .mat-radio-outer-circle{border-color: rgb(0, 0, 0);}
-          .mat-radio-inner-circle{background-color: rgb(0, 0, 0);}
+          background-color: #a9a9a9;
+          border-color: #a9a9a9;
+          color: #fff;
+          .mat-radio-outer-circle{border-color: #fff;}
+          .mat-radio-inner-circle{background-color: #fff;}
         }
       }
       .esy{
@@ -6218,7 +6224,8 @@ sup {
 .lv_md_mn{
   display: flex;
   &.rvrs_clr{
-    color: #fff;
+    .btm_aa{background-color: #333;}
+    // color: #fff;
     .lv_md_qstn .lvmd_cnt .lb_vles .lb_vles_cnt{
       border: 1px solid #000000;
       ul li{
@@ -6261,20 +6268,21 @@ sup {
         }
         .lvmd_cnt_ab{
           .actv_txt{
-            background-color: #333333;
+            p, > span{
+              background-color: #333333;
+              color: #fff;
+            }
           }
         }
-        .lvmd_cnt_ac{
+        .lvmd_cnt_ac{ 
           border-color: #000;
-          .mat-radio-outer-circle{
-            border-color: #fff;
+          .mat-radio-outer-circle, .mat-checkbox-background{
+            border-color: #333333;
           }
-          .mat-radio-inner-circle{
-            background-color: #fff;
+          .mat-radio-inner-circle, .mat-ripple-element, .mat-checkbox-checked .mat-checkbox-background{
+            background-color: #333333;
           }
-          .mat-radio-persistent-ripple{
-            background-color: #fff;
-          }
+          .mat-radio-persistent-ripple{opacity: 0;}
         }
         .lvmd_cnt_ad button{
           background-color: #000;
@@ -6440,9 +6448,10 @@ sup {
       .lvmd_cnt_ab{
         margin-top: 20px;
         .actv_txt{
-          background-color: #FFFE8F;
           display: inline;
           line-height: 1.5;
+          p, > span{margin: 0;background-color: #FFFE8F;}
+        
         }
       }
       .lvmd_cnt_ac{
@@ -6467,7 +6476,7 @@ sup {
       .lvmd_cnt_ad{
         margin-top: 15px;
         button{
-          background-color: #768DB8;
+          background-color: #2b4f93;
           color: #fff;
         }
       }
@@ -6975,6 +6984,7 @@ sup {
 }
 .tstsqst_img img {
     max-width: 250px;
+    margin-top: 15px;
 }
 .close_icon {
   position: absolute;
@@ -7349,4 +7359,21 @@ sup {
     display: flex;
     align-items: center;
   }
+}
+.sclshr_btns {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
+  row-gap: 20px;
+  justify-content: center;
+}
+.sclshr_btns > button {
+  padding: 6px 25px;
+  .scl_img{
+    margin-right: 10px;
+  }
+}
+.sclshr_btns_hd{
+  font-size: 24px;
+  text-align: center;
 }

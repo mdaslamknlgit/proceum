@@ -41,34 +41,40 @@
         matTooltip="Remove Bookmark">bookmark</mat-icon>
     </button>
   </div>
-  <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
-    <div class="cust_mdl_chl w_30p">
+  <div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: model_status }">
+    <div class="cust_mdl_chl w_50p rsp767_80p">
       <div class="pg_ttl">
-        Share
+        Social Share
         <span class="spacer"></span>
         <button mat-icon-button (click)="toggleModel()" class="float_right">
           &#x2715;
         </button>
       </div>
-      <div class="tbbd_bdy">
-        <div class="grd_2c no_bxsdw" id="social_share">
-            <div class="frm_dvs">
-              <button mat-fab shareButton="facebook" #fbBtn="shareButton">
-                <img src="../../../../assets/images/facebook.svg" class="scl_img" />
-              </button>
-              <button mat-fab shareButton="twitter" #twtBtn="shareButton">
-                <img src="../../../../assets/images/twitter.svg" class="scl_img" />
-              </button>
-              <button mat-fab shareButton="linkedin" #inBtn="shareButton">
-                <img src="../../../../assets/images/linkedin.svg" class="scl_img" />
-              </button>
-              <button mat-fab shareButton="whatsapp" #wBtn="shareButton">
-                <img src="../../../../assets/images/whatsapp.svg" class="scl_img" />
-              </button>
-            </div>
-          </div>
-          <hr />
+      <div class="tbbd_bdy" id="social_share">
         <div class="hgt_20"></div>
+        <div class="sclshr_btns_hd">
+          Select to share
+        </div> 
+        <hr>
+        <div class="hgt_20"></div>
+        <div class="sclshr_btns">
+          <button mat-raised-button shareButton="facebook" matTooltip="Facebook" #fbBtn="shareButton">
+            <img src="../../../../assets/images/facebook.svg" class="scl_img" /> Facebook
+          </button>
+          <button mat-raised-button shareButton="twitter" matTooltip="Twitter" #twtBtn="shareButton">
+            <img src="../../../../assets/images/twitter.svg" class="scl_img" /> Twitter
+          </button>
+          <button mat-raised-button shareButton="linkedin" matTooltip="Linkedin" #inBtn="shareButton">
+            <img src="../../../../assets/images/linkedin.svg" class="scl_img" /> Linkedin
+          </button>
+          <button mat-raised-button shareButton="whatsapp" matTooltip="Whatsapp" #wBtn="shareButton">
+            <img src="../../../../assets/images/whatsapp.svg" class="scl_img" /> Whatsapp
+          </button>
+          <button mat-raised-button matTooltip="Instagram">
+            <img src="../../../../assets/images/instagram.svg" class="scl_img" /> Instagram
+          </button>
+        </div>
+        <div class="hgt_50"></div>
       </div>
     </div>
   </div>
@@ -501,10 +507,10 @@
                   <mat-panel-description> </mat-panel-description>
                 </mat-expansion-panel-header>
                 <ng-template matExpansionPanelContent>
-                    <div class="tm_ln_dv ck_editor_view">
-                        <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
-                          (ready)="onReady($event)" [data]="note['learning_notes']"></ckeditor>
-                      </div>
+                  <div class="tm_ln_dv ck_editor_view">
+                    <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
+                      (ready)="onReady($event)" [data]="note['learning_notes']"></ckeditor>
+                  </div>
                 </ng-template>
               </mat-expansion-panel>
               <!-- <mat-expansion-panel>
@@ -638,11 +644,11 @@
                     <mat-panel-description> </mat-panel-description>
                   </mat-expansion-panel-header>
                   <ng-template matExpansionPanelContent>
-                  <div class="tm_ln_dv ck_editor_view">
-                    <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
-                      (ready)="onReady($event)" [data]="highyield['highyield_notes']"></ckeditor>
-                  </div>
-                </ng-template>
+                    <div class="tm_ln_dv ck_editor_view">
+                      <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
+                        (ready)="onReady($event)" [data]="highyield['highyield_notes']"></ckeditor>
+                    </div>
+                  </ng-template>
                 </mat-expansion-panel>
                 <!-- <mat-expansion-panel>
                 <mat-expansion-panel-header>
@@ -1136,14 +1142,6 @@
       </div>
       <!-- Teacher material code ends here -->
       <div class="crses_rgt" *ngIf="videos.length>0 && active_div != 11 && active_div != 12">
-        <!-- <div class="dm_app_squadz">
-          <mat-slide-toggle [(ngModel)]="isChecked">Demo AppSqaudz</mat-slide-toggle>
-        </div>
-        <div class="dm_app_cnt" *ngIf="isChecked == true"> 
-          <div class="intr_vd_hd" *ngFor="let appSquadz of AppSquadzVideos">
-            <div><mat-icon>videocam</mat-icon><a href="proceuma:appSquadz['id']" >{{ appSquadz['title'] }}</a></div>
-          </div>
-        </div> -->
         <div class="intr_vd_tml"><!--*ngIf="AppSquadzVideos.length>0"-->
           <mat-accordion>
             <mat-expansion-panel (click)="display_videos='APPSQUADZ'" [expanded]="true">
@@ -1157,12 +1155,12 @@
               <div>
                 <div *ngFor="let appSquadz of AppSquadzVideos"><!---->
                   <div class="wtcd_vds {{appSquadz['id'] == active_video_obj['id'] ? 'wv_actv' : ''}}"
-                    *ngIf="'APPSQUADZ' == display_videos" (click)="playVideo(video)">
+                    *ngIf="'APPSQUADZ' == display_videos" >
                     <div class="wv_img">
                       
                     </div>
                     <div class="wv_ttl_dsc">
-                      <span class="wv_tt_hd"><a href="proceuma:{{appSquadz['id']}}" >{{appSquadz['title']}}</a></span>
+                      <span class="wv_tt_hd"><a [href]="'proceuma:'+appSquadz['id'] | safe: 'resourceUrl'" >{{appSquadz['title']}}</a></span>
                     </div>
                   </div>
                 </div>
