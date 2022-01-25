@@ -42,7 +42,7 @@ export const environment = {
   },
    //apiUrl: 'https://apidev.proceum.com/api/',
   //apiUrl: 'https://apiqa.proceum.com/api/',
-  apiUrl: 'http://apidev.medvizz3d.com/api/',
+  apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
   //apiUrl: 'https://apiuat.proceum.com/api/',
 
 firebaseConfig : {
