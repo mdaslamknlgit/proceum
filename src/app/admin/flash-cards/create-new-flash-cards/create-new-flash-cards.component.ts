@@ -14,8 +14,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 })
 export class CreateNewFlashCardsComponent implements OnInit {
 
-
-  dataSource = new MatTableDataSource();
+  //dataSource = new MatTableDataSource();
 
   public user = [];
   public curriculum_list = [];
@@ -34,6 +33,8 @@ export class CreateNewFlashCardsComponent implements OnInit {
   private subscription:Subscription;
   public subject_csv = '';
   liteEditorConfig = environment.liteEditorConfig;
+  public selected_content = [];
+  public totalSize: 0;
 
   questionArray = [{
     question_text: '',
@@ -119,7 +120,7 @@ export class CreateNewFlashCardsComponent implements OnInit {
         //aded with out test here
         this.selected_level.forEach((opt, index) => {
             if (index > level_id) this.selected_level[index] = 0;
-          });
+        });
       }
     });
   }

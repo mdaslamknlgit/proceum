@@ -17,7 +17,7 @@
       </mat-icon>
     </button>
     <button mat-icon-button class="no_bxsdw my_05">
-      <mat-icon matTooltip="Share">share</mat-icon>
+      <mat-icon matTooltip="Share" (click)="toggleModel()">share</mat-icon>
     </button>
     <button mat-icon-button class="no_bxsdw my_05" matTooltip="">
       <mat-icon (click)="manageStatistics('fav')" *ngIf="statistics['is_fav'] != 1 ? true : false"
@@ -41,7 +41,43 @@
         matTooltip="Remove Bookmark">bookmark</mat-icon>
     </button>
   </div>
-
+  <div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: model_status }">
+    <div class="cust_mdl_chl w_50p rsp767_80p">
+      <div class="pg_ttl">
+        Social Share
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="toggleModel()" class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy" id="social_share">
+        <div class="hgt_20"></div>
+        <div class="sclshr_btns_hd">
+          Select to share
+        </div>
+        <hr>
+        <div class="hgt_20"></div>
+        <div class="sclshr_btns">
+          <button mat-raised-button shareButton="facebook" matTooltip="Facebook" #fbBtn="shareButton">
+            <img src="../../../../assets/images/facebook.svg" class="scl_img" /> Facebook
+          </button>
+          <button mat-raised-button shareButton="twitter" matTooltip="Twitter" #twtBtn="shareButton">
+            <img src="../../../../assets/images/twitter.svg" class="scl_img" /> Twitter
+          </button>
+          <button mat-raised-button shareButton="linkedin" matTooltip="Linkedin" #inBtn="shareButton">
+            <img src="../../../../assets/images/linkedin.svg" class="scl_img" /> Linkedin
+          </button>
+          <button mat-raised-button shareButton="whatsapp" matTooltip="Whatsapp" #wBtn="shareButton">
+            <img src="../../../../assets/images/whatsapp.svg" class="scl_img" /> Whatsapp
+          </button>
+          <button mat-raised-button matTooltip="Instagram">
+            <img src="../../../../assets/images/instagram.svg" class="scl_img" /> Instagram
+          </button>
+        </div>
+        <div class="hgt_50"></div>
+      </div>
+    </div>
+  </div>
   <div class="cust_mdl_par {{ show_content_list ? 'cust_mdl_opn' : '' }}">
     <div class="desc_otr_tpc">
       <div class="otr_ttl">
@@ -141,7 +177,8 @@
       <div *ngIf="pdf_popup" class="tbbd_bdy">
         <pdf-viewer [src]="pdf_file_path" [external-link-target]="'blank'" [show-all]="true" [(page)]="pdf_page"
           [autoresize]="true" [original-size]="false" [zoom]="pdf_zoom" [show-borders]="true"
-          [zoom-scale]="'page-width'" style="display: block;" [rotation]="pdf_rotation" style="width: 100%; height: 100vh"></pdf-viewer>
+          [zoom-scale]="'page-width'" style="display: block;" [rotation]="pdf_rotation"
+          style="width: 100%; height: 100vh"></pdf-viewer>
         <!-- <hr />
           <button mat-raised-button class="float_right mr_1 gry_btn" (click)="pdf_popup=false">
             Close
@@ -319,7 +356,6 @@
           </div>
         </div>
       </div>
-
       <div class="crses_lft_mn qstn_lng" *ngIf="active_div == 1">
         <div class="crses_lft">
           <div class="crs_desc_hd">
@@ -460,29 +496,33 @@
               </span>
               <span class="spacer"></span>
             </div>
-            <div *ngIf="learning_notes.length == 0" class="no_desc_fnd">
-              No Notes Found
-            </div>
-            <mat-accordion *ngIf="learning_notes.length > 0" multi>
-              <mat-expansion-panel *ngFor="let note of learning_notes;let learning_notes_index = index"
-                (click)="fetchImages(learning_notes_index)">
-                <mat-expansion-panel-header>
-                  <mat-panel-title>{{ note["title"] }}</mat-panel-title>
-                  <mat-panel-description> </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div class="tm_ln_dv ck_editor_view">
-                  <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
-                    (ready)="onReady($event)" [data]="note['learning_notes']"></ckeditor>
-                </div>
-              </mat-expansion-panel>
-              <!-- <mat-expansion-panel>
+            <div class="intr_vd_tml">
+              <div *ngIf="learning_notes.length == 0" class="no_desc_fnd">
+                No Notes Found
+              </div>
+              <mat-accordion *ngIf="learning_notes.length > 0" multi>
+                <mat-expansion-panel *ngFor="let note of learning_notes;let learning_notes_index = index"
+                  (click)="fetchImages(learning_notes_index)">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>{{ note["title"] }}</mat-panel-title>
+                    <mat-panel-description> </mat-panel-description>
+                  </mat-expansion-panel-header>
+                  <ng-template matExpansionPanelContent>
+                    <div class="tm_ln_dv ck_editor_view">
+                      <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
+                        (ready)="onReady($event)" [data]="note['learning_notes']"></ckeditor>
+                    </div>
+                  </ng-template>
+                </mat-expansion-panel>
+                <!-- <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>Overview</mat-panel-title>
                 <mat-panel-description> </mat-panel-description>
               </mat-expansion-panel-header>
               <div class="tm_ln_dv">Sed non tortor ut diam aliquam aliquam</div>
             </mat-expansion-panel> -->
-            </mat-accordion>
+              </mat-accordion>
+            </div>
             <!-- <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_notes_content']">
               <ckeditor #editor2 name="learning_notes_content" [disabled]="true" [editor]="Editor2" [config]="{}"
                 (ready)="onReady($event)" [data]="content['learning_notes_content']"></ckeditor>
@@ -605,10 +645,12 @@
                     <mat-panel-title>{{ highyield["title"] }}</mat-panel-title>
                     <mat-panel-description> </mat-panel-description>
                   </mat-expansion-panel-header>
-                  <div class="tm_ln_dv ck_editor_view">
-                    <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
-                      (ready)="onReady($event)" [data]="highyield['highyield_notes']"></ckeditor>
-                  </div>
+                  <ng-template matExpansionPanelContent>
+                    <div class="tm_ln_dv ck_editor_view">
+                      <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
+                        (ready)="onReady($event)" [data]="highyield['highyield_notes']"></ckeditor>
+                    </div>
+                  </ng-template>
                 </mat-expansion-panel>
                 <!-- <mat-expansion-panel>
                 <mat-expansion-panel-header>
@@ -1102,7 +1144,37 @@
       </div>
       <!-- Teacher material code ends here -->
       <div class="crses_rgt" *ngIf="videos.length>0 && active_div != 11 && active_div != 12">
+        <div class="intr_vd_tml bg_sprtr_accrd">
+          <!--*ngIf="AppSquadzVideos.length>0"-->
+          <mat-accordion>
+            <mat-expansion-panel (click)="display_videos='APPSQUADZ'" [expanded]="true">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>videocam</mat-icon> Demo AppSqaudz ({{AppSquadzVideos.length}})
+                </mat-panel-title>
+                <mat-panel-description>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div>
+                <div *ngFor="let appSquadz of AppSquadzVideos">
+                  <!---->
+                  <div class="wtcd_vds {{appSquadz['id'] == active_video_obj['id'] ? 'wv_actv' : ''}}"
+                    *ngIf="'APPSQUADZ' == display_videos">
+                    <div class="wv_img">
+
+                    </div>
+                    <div class="wv_ttl_dsc">
+                      <span class="wv_tt_hd"><a
+                          [href]="'proceuma:'+appSquadz['id'] | safe: 'resourceUrl'">{{appSquadz['title']}}</a></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
         <div class="intr_vd_hd">
+          <!--main-->
           <div>
             <mat-icon>videocam</mat-icon>
             {{video_title}}

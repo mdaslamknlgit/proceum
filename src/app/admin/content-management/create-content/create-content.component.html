@@ -26,7 +26,7 @@
     </div>
     <div class="wr_btm_sec">
       <div style="height: 200px">
-        <div class="ck_editor">
+        <div class="ck_editor" *ngIf="show_coments">
           <ckeditor [(ngModel)]="comments_content" name="comments_content" (ready)="onReady($event)" [editor]="Editor"
             #editor [config]="editorReviewConfig" style="height: 500px"></ckeditor>
         </div>
@@ -720,7 +720,7 @@
                 <label for="Intro video"> Content description</label>
               </div>
               <div class="c_block_content">
-                <div class="ck_editor" (click)="editorFocused('description_editor')">
+                <div *ngIf="load_editor" class="ck_editor" (click)="editorFocused('description_editor')">
                   <ckeditor [(ngModel)]="main_content" name="main_content_name" (ready)="onReady($event)"
                     [editor]="Editor" #description_editor [config]="editorConfig">
                   </ckeditor>
@@ -813,13 +813,16 @@
                 <mat-tab-group (selectedTabChange)="notesTab($event)" animationDuration="0.15s" *ngIf="show_tabs">
                   <mat-tab label="Learning Objectives">
                     <!-- <button type="button" (click)="addImage()">Add</button> -->
+                    <ng-template matTabContent>
                     <div class="ck_editor" (click)="editorFocused('lerning_obj_editor')">
                       <ckeditor [(ngModel)]="learning_obj_content" name="learning_obj_content_name"
                         (ready)="onReady($event)" [editor]="Editor" #lerning_obj_editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div>
+                </ng-template>
                   </mat-tab>
                   <mat-tab label="Lecture Notes">
+                    <ng-template matTabContent>
                     <div class="hyt_mn_dv">
                       <div class="dsh_brd_crds">
                         <mat-form-field appearance="outline" class="w_100p">
@@ -874,8 +877,10 @@
                         name="learning_notes_content_name" [editor]="Editor" #editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div> -->
+                </ng-template>
                   </mat-tab>
                   <mat-tab label="High Yield Notes">
+                    <ng-template matTabContent>
                     <div class="hyt_mn_dv">
                       <div class="dsh_brd_crds">
                         <mat-form-field appearance="outline" class="w_100p">
@@ -923,6 +928,7 @@
                         </div>
                       </div>
                     </div>
+                    </ng-template>
                   </mat-tab>
                   <mat-tab label="MCQs">
                     <div class="tbbd_bdy px_0">
@@ -1548,12 +1554,356 @@
                     </div>
                   </mat-tab>
                   <mat-tab label="External References">
+                    <ng-template matTabContent>
                     <div class="ck_editor" (click)="editorFocused('external_editor')">
                       <ckeditor [(ngModel)]="external_ref_content" name="external_ref_content_name"
                         (ready)="onReady($event)" [editor]="Editor" #external_editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div>
+                    </ng-template>
                   </mat-tab>
+
+                  <!--Flash Cards added by Phanindra-->
+                  <mat-tab label="Flash Cards">
+                    <div class="tbbd_bdy px_0">
+                      <mat-tab-group (selectedTabChange)="flashCardTab($event)" [(selectedIndex)]="flashcard_tab"
+                        animationDuration="0.15s">
+                        <mat-tab label="All Questions">
+                          <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                            <div class="clear_fix"></div>
+                            <div>Select Course</div>
+                            <mat-form-field appearance="outline">
+                              <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id"
+                                placeholder="Select Course" (ngModelChange)="getLabels('flashCardTab')">
+                                <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                  [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                            <span>{{ ucFirst(value["display_label"]) }}</span>
+                            <div class="clear_fix"></div>
+                            <mat-form-field appearance="outline">
+                              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                                name="selected_level_{{value['level_number']}}"
+                                [(ngModel)]="selected_level[value['level_number']]"
+                                (selectionChange)="getLevels(value['level_number'],'flashCardTab')">
+                                <mat-option>
+                                  <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}"
+                                    [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                    name="search_topic" ngModel
+                                    (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                    {{ucFirst(value['display_label'])}}
+                                  </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let level of level_options[value['level_number']]"
+                                  [value]="level['pk_id']" [matTooltip]="level['level_name']">{{level["level_name"] }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="dsh_brd_crds">
+                            <mat-form-field appearance="outline" class="w_100p">
+                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                                  $event.keyCode == 13 ? searchFlashCardQuestions() : ''
+                                " matInput placeholder="Search" />
+
+                              <mat-icon matSuffix (click)="searchFlashCardQuestions()">search</mat-icon>
+
+                            </mat-form-field>
+                          </div>
+
+                          <table mat-table [dataSource]="flash_card_all_questions" class="qsp_pp_mn whtspc_nml">
+                            <ng-container matColumnDef="s_no">
+                              <td mat-cell *matCellDef="let element" class="w_50px">
+                                <mat-checkbox [value]="element['id']" [checked]="
+                                    selected_flash_cards.includes(element['id'])
+                                  " (change)="
+                                    selectFlashCardQuestion($event, element['id'])
+                                  "></mat-checkbox>
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="question">
+                              <td mat-cell *matCellDef="let element">
+                                <!-- <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> -->
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                <!-- </a> -->
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                              <td mat-cell *matCellDef="let element">
+                                {{ element.weight }}
+                              </td>
+                            </ng-container>
+
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
+                                <span *ngIf="!loading_questions">No Records Found</span>
+                              </td>
+                            </tr>
+                          </table>
+                          <mat-paginator *ngIf="flash_card_all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
+                            [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
+                            (page)="getFlashCardServerData($event)"></mat-paginator>
+                        </mat-tab>
+                        <mat-tab label="Selected Questions">
+                          <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                            <div class="clear_fix"></div>
+                            <div>Select Course</div>
+                            <mat-form-field appearance="outline">
+                              <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id"
+                                placeholder="Select Course" (ngModelChange)="getLabels()">
+                                <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                  [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                            <span>{{ ucFirst(value["display_label"]) }}</span>
+                            <div class="clear_fix"></div>
+                            <mat-form-field appearance="outline">
+                              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                                name="selected_level_{{value['level_number']}}"
+                                [(ngModel)]="selected_level[value['level_number']]"
+                                (selectionChange)="getLevels(value['level_number'],'flashCardTab')">
+                                <mat-option>
+                                  <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}"
+                                    [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                    name="search_topic" ngModel
+                                    (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                    {{ucFirst(value['display_label'])}}
+                                  </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let level of level_options[value['level_number']]"
+                                  [value]="level['pk_id']" [matTooltip]="level['level_name']">{{level["level_name"] }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="dsh_brd_crds">
+                            <mat-form-field appearance="outline" class="w_100p">
+                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                                  $event.keyCode == 13 ? searchQuestions() : ''
+                                " matInput placeholder="Search" />
+                              <mat-icon matSuffix (click)="searchQuestions()">search</mat-icon>
+                            </mat-form-field>
+                          </div>
+
+                          <table mat-table [dataSource]="flash_card_all_questions" class="qsp_pp_mn whtspc_nml">
+                            <ng-container matColumnDef="s_no">
+                              <td mat-cell *matCellDef="let element" class="w_50px">
+                                <mat-checkbox [value]="element['id']" [checked]="
+                                    selected_flash_cards.includes(element['id'])
+                                  " (change)="
+                                  selectFlashCardQuestion($event, element['id'])
+                                  "></mat-checkbox>
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="question">
+                              <td mat-cell *matCellDef="let element">
+                                <!-- <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> -->
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                <!-- </a> -->
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                              <td mat-cell *matCellDef="let element">
+                                {{ element.weight }}
+                              </td>
+                            </ng-container>
+
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                              <td style="text-align: center; margin: 20px" class="mat-cell"
+                                [attr.colspan]="displayedColumns.length">
+                                <span *ngIf="!loading_questions">No Records Found</span>
+                              </td>
+                            </tr>
+                          </table>
+                          <mat-paginator *ngIf="flash_card_all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
+                            [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
+                            (page)="getFlashCardServerData($event)"></mat-paginator>
+                        </mat-tab>
+                      </mat-tab-group>
+                    </div>
+                  </mat-tab>
+
+                  <!--Teacher Materials added by Phanindra-->
+                  <mat-tab label="Teacher Materials">
+                    <div class="tbbd_bdy px_0">
+                      <mat-tab-group (selectedTabChange)="teacherMaterialTab($event)" [(selectedIndex)]="teachermaterials_tab"
+                        animationDuration="0.15s">
+                        <mat-tab label="All Questions">
+                          <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                            <div class="clear_fix"></div>
+                            <div>Select Course</div>
+                            <mat-form-field appearance="outline">
+                              <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id"
+                                placeholder="Select Course" (ngModelChange)="getLabels('teacherMaterialTab')">
+                                <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                  [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                            <span>{{ ucFirst(value["display_label"]) }}</span>
+                            <div class="clear_fix"></div>
+                            <mat-form-field appearance="outline">
+                              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                                name="selected_level_{{value['level_number']}}"
+                                [(ngModel)]="selected_level[value['level_number']]"
+                                (selectionChange)="getLevels(value['level_number'],'teacherMaterialTab')">
+                                <mat-option>
+                                  <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}"
+                                    [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                    name="search_topic" ngModel
+                                    (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                    {{ucFirst(value['display_label'])}}
+                                  </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let level of level_options[value['level_number']]"
+                                  [value]="level['pk_id']" [matTooltip]="level['level_name']">{{level["level_name"] }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="dsh_brd_crds">
+                            <mat-form-field appearance="outline" class="w_100p">
+                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                                  $event.keyCode == 13 ? searchteacherMaterialQuestions() : ''
+                                " matInput placeholder="Search" />
+
+                              <mat-icon matSuffix (click)="searchteacherMaterialQuestions()">search</mat-icon>
+
+                            </mat-form-field>
+                          </div>
+
+                          <table mat-table [dataSource]="teacher_materials_all_questions" class="qsp_pp_mn whtspc_nml">
+                            <ng-container matColumnDef="s_no">
+                              <td mat-cell *matCellDef="let element" class="w_50px">
+                                <mat-checkbox [value]="element['id']" [checked]="
+                                    selected_teacher_materials.includes(element['id'])
+                                  " (change)="
+                                    selectTeacherMaterialQuestion($event, element['id'])
+                                  "></mat-checkbox>
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="question">
+                              <td mat-cell *matCellDef="let element">
+                                <!-- <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> -->
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                <!-- </a> -->
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                              <td mat-cell *matCellDef="let element">
+                                {{ element.weight }}
+                              </td>
+                            </ng-container>
+
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                              <td style="text-align: center; margin: 20px" class="mat-cell" colspan="3">
+                                <span *ngIf="!loading_questions">No Records Found</span>
+                              </td>
+                            </tr>
+                          </table>
+                          <mat-paginator *ngIf="teacher_materials_all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
+                            [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
+                            (page)="getTeacherMaterialServerData($event)"></mat-paginator>
+                        </mat-tab>
+                        <mat-tab label="Selected Questions">
+                          <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
+                            <div class="clear_fix"></div>
+                            <div>Select Course</div>
+                            <mat-form-field appearance="outline">
+                              <mat-select [(ngModel)]="filter_array.curriculum_id" name="filter_array_curriculum_id"
+                                placeholder="Select Course" (ngModelChange)="getLabels('teacherMaterialTab')">
+                                <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
+                                  [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                            <span>{{ ucFirst(value["display_label"]) }}</span>
+                            <div class="clear_fix"></div>
+                            <mat-form-field appearance="outline">
+                              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                                name="selected_level_{{value['level_number']}}"
+                                [(ngModel)]="selected_level[value['level_number']]"
+                                (selectionChange)="getLevels(value['level_number'],'teacherMaterialTab')">
+                                <mat-option>
+                                  <ngx-mat-select-search name="selected_level_search_{{value['level_number']}}"
+                                    [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                    name="search_topic" ngModel
+                                    (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                    {{ucFirst(value['display_label'])}}
+                                  </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let level of level_options[value['level_number']]"
+                                  [value]="level['pk_id']" [matTooltip]="level['level_name']">{{level["level_name"] }}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div class="dsh_brd_crds">
+                            <mat-form-field appearance="outline" class="w_100p">
+                              <input [(ngModel)]="search_question" name="search_question" (keyup)="
+                                  $event.keyCode == 13 ? searchteacherMaterialQuestions() : ''
+                                " matInput placeholder="Search" />
+                              <mat-icon matSuffix (click)="searchteacherMaterialQuestions()">search</mat-icon>
+                            </mat-form-field>
+                          </div>
+
+                          <table mat-table [dataSource]="teacher_materials_all_questions" class="qsp_pp_mn whtspc_nml">
+                            <ng-container matColumnDef="s_no">
+                              <td mat-cell *matCellDef="let element" class="w_50px">
+                                <mat-checkbox [value]="element['id']" [checked]="
+                                    selected_teacher_materials.includes(element['id'])
+                                  " (change)="
+                                  selectTeacherMaterialQuestion($event, element['id'])
+                                  "></mat-checkbox>
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="question">
+                              <td mat-cell *matCellDef="let element">
+                                <!-- <a [href]="getNavigateTo('questions-mgt/edit-question/'+element['id'])" target="_blank"> -->
+                                  <div class="qsp_hd" [innerHtml]="element['question']"></div>
+                                <!-- </a> -->
+                              </td>
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                              <td mat-cell *matCellDef="let element">
+                                {{ element.weight }}
+                              </td>
+                            </ng-container>
+
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                              <td style="text-align: center; margin: 20px" class="mat-cell"
+                                [attr.colspan]="displayedColumns.length">
+                                <span *ngIf="!loading_questions">No Records Found</span>
+                              </td>
+                            </tr>
+                          </table>
+                          <mat-paginator *ngIf="teacher_materials_all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
+                            [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
+                            (page)="getTeacherMaterialServerData($event)"></mat-paginator>
+                        </mat-tab>
+                      </mat-tab-group>
+                    </div>
+                  </mat-tab>
+
+
                 </mat-tab-group>
               </div>
             </div>

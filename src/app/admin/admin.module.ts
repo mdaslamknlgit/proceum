@@ -75,6 +75,7 @@ import { PocVideosComponent } from './poc-videos/poc-videos.component';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
 import { StudyPlannerListComponent } from './study-planner/study-planner-list/study-planner-list.component';
 import { TeacherMaterialsComponent } from './teacher-materials/teacher-materials.component';
+import { CreateTeacherMaterialComponent } from './teacher-materials/create-teacher-material/create-teacher-material.component';
 import { ManageYearsSemestersGroupsComponent } from './manage-years-semesters-groups/manage-years-semesters-groups.component';
 import { ShoppingCartComponent } from '../frontend/shopping-cart/shopping-cart.component';
 import { CreateExamComponent } from './exam-modes/create-exam/create-exam.component';
@@ -226,6 +227,8 @@ const routes: Routes = [
       //Teacher Routes
       { path: 'materials', component: TeacherMaterialsComponent },
       { path: 'teacher-material', component: TeacherMaterialsComponent },
+      { path: 'teacher-material/create', component: CreateTeacherMaterialComponent},
+      { path: 'teacher-material/edit/:id', component: CreateTeacherMaterialComponent},
       { path: 'class/create', component: CreateMeetingComponent},
       { path: 'class/edit/:meeting_id', component: EditMeetingComponent},
       { path: 'class/list', component: ListMeetingComponent },
@@ -304,6 +307,7 @@ const routes: Routes = [
     ManageFlashCardsComponent,
     CreateNewFlashCardsComponent,
     TeacherMaterialsComponent,
+    CreateTeacherMaterialComponent,
     CreateMeetingComponent,
     EditMeetingComponent,
     ListMeetingComponent,

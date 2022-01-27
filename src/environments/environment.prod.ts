@@ -8,52 +8,8 @@ export const environment = {
     spellcheck: true,
     toolbarHiddenButtons: [['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'fontName', 'customClasses', 'insertImage', 'insertVideo', 'insertHorizontalRule']]
   },
-  ckeditor_toolbar: [
-    'Heading',
-    'CustomFileExporer',
-    //'uploadImage',
-    //'ImageInsert',
-    //'AutoImage',
-    'PageBreak',
-    'FontBackgroundColor',
-    'Alignment',
-    'FontColor',
-    'FontFamily',
-    'FontSize',
-    //'TextTransformation',
-    'bold',
-    'italic',
-    'underline',
-    'link',
-    'bulletedList',
-    'numberedList',
-    '|',
-    '|',
-    //'imageUpload',
-    'blockQuote',
-    'insertTable',
-    'undo',
-    'redo',
-    'MathType',
-    'ChemType',
-    'MediaEmbed',
-    //'CKFinder',
-    //'CKFinderUploadAdapter',
-    'HorizontalLine',
-    //'Essentials',
-    'Highlight',
-    //'Image',
-    //'ImageCaption',
-    'ImageResize',
-    //'ImageStyle',
-    //'ImageToolbar',
-    //'List',
-    //'Paragraph',
-    'SpecialCharacters',
-    //'Table',
-    //'TableToolbar',
-    //'htmlSource',
-  ],
+  ckeditor_toolbar: ['Heading', 'CustomFileExporer', 'PageBreak', 'FontBackgroundColor', 'Alignment', 'FontColor', 'FontFamily', 'FontSize', 'bold', 'italic', 'underline', 'link', 'bulletedList', 'numberedList', '|', '|', 'blockQuote', 'insertTable', 'undo', 'redo', 'MathType', 'ChemType', 'MediaEmbed', 'HorizontalLine', 'Highlight', 'ImageResize', 'SpecialCharacters'],
+  //'uploadImage', 'ImageInsert', 'AutoImage', 'TextTransformation', 'imageUpload', 'CKFinder', 'CKFinderUploadAdapter', 'Essentials', 'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'List', 'Paragraph', 'Table', 'TableToolbar', 'htmlSource'
   video_types: [{ name: "KPoint", value: 'KPOINT' }, { name: "Youtube", value: 'YOUTUBE' }],
   ORGANIZATION_TYPES: [
     { value: '1', viewValue: 'University' },
@@ -84,19 +40,11 @@ export const environment = {
     INSTITUTE_ADMIN: 10,
     PARTNER_ADMIN: 14,
   },
-  // apiUrl: 'https://apidev.proceum.com/api/',
-  apiUrl: 'https://apiqa.proceum.com/api/',
+  //apiUrl: 'https://apidev.proceum.com/api/',
+  //apiUrl: 'https://apiqa.proceum.com/api/',
+  apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
   //apiUrl: 'https://apiuat.proceum.com/api/',
   APP_BASE_URL: 'http://dev.medvizz3d.com/',
-  //   firebaseConfig : {
-  //     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
-  //     authDomain: "proceum-dev-62a30.firebaseapp.com",
-  //     projectId: "proceum-dev-62a30",
-  //     storageBucket: "proceum-dev-62a30.appspot.com",
-  //     messagingSenderId: "41849089517",
-  //     appId: "1:41849089517:web:daea02011d4e30db528be4"
-  //   }
-  //qa firebase
   firebaseConfig: {
     apiKey: "AIzaSyBSuwf5lz04-nZEPjXUCW6W41FgD3v8hvE",
     authDomain: "proceum-qa-34a1f.firebaseapp.com",
@@ -108,15 +56,6 @@ export const environment = {
   /* 
 * Below array used to check domian or subdomian from in app users or partners 
 */
-  INAPP_DOMAINS_ARRAY: ["localhost", "qa", "uat", "dev"],
+  INAPP_DOMAINS_ARRAY: ["localhost", "dev", "uat", "master"],
   PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',
-  //uat firebase
-  //   firebaseConfig : {
-  //     apiKey: "AIzaSyDM_Q8stJkIGWMqZvvGW8MDp0nS8i_zgqg",
-  //     authDomain: "proceum-5b71c.firebaseapp.com",
-  //     projectId: "proceum-5b71c",
-  //     storageBucket: "proceum-5b71c.appspot.com",
-  //     messagingSenderId: "730854299639",
-  //     appId: "1:730854299639:web:223a73ba74a9c7bcee80f2"
-  //   }
-};
+}

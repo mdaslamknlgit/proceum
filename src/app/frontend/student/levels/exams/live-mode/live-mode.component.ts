@@ -10,6 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./live-mode.component.scss']
 })
 export class LiveModeComponent implements OnInit {
+  public lvmd_mno = true;
+  public lvmd_sqst = false;
   public show_q_numbers = true;
   public rvrsClr = true;
   public qstnsPup = false;
