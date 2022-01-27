@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
 
   //wishlist items variables
   public wish_list:any = []; 
+  public expiration_courses:any = []; 
   public bookmarks:any = [];
   public favorites:any = [];
   ngOnInit(): void {
@@ -34,6 +35,7 @@ export class DashboardComponent implements OnInit {
       this.role_id =  Number(this.user['role']);
       this.getWishList();
       this.getBookmarksFavorite();
+      this.getPackagesAboutToExpire();
     }
   }
 
@@ -78,6 +80,17 @@ export class DashboardComponent implements OnInit {
         });
       }
     })
+  }
+  //Get package expirations of user
+  getPackagesAboutToExpire(){
+    let param = { url: 'get-user-packages-about-to-expire'};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        if(res['data'].length){
+          this.expiration_courses = res['data'];
+        }
+      }
+    });
   }
   navigateTo(url){
     this.router.navigateByUrl("student/curriculum/details/"+url);
