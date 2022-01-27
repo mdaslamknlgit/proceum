@@ -33,6 +33,7 @@ export class CreateContentComponent implements OnInit {
   public video_types = environment.video_types;
   public all_questions = new MatTableDataSource();
   public flash_card_all_questions = new MatTableDataSource();
+  public teacher_materials_all_questions = new MatTableDataSource();
   public selected_questions = ELEMENT_DATA; // new MatTableDataSource();
   public user = [];
   public is_submit = false;
@@ -41,6 +42,7 @@ export class CreateContentComponent implements OnInit {
   public selected_cases = [];
   public selected_short_questions = [];
   public selected_flash_cards = [];
+  public selected_teacher_materials = [];
   public library_popup: boolean = false;
   public title = '';
   public is_paid = true;
@@ -77,6 +79,7 @@ export class CreateContentComponent implements OnInit {
   public short_answer_tab = 0;
   public case_tab = 0;
   public flashcard_tab = 0;
+  public teachermaterials_tab = 0;
   public offset = 0;
   public limit = environment.page_size;
   public totalSize: 0;
@@ -395,6 +398,7 @@ export class CreateContentComponent implements OnInit {
         this.selected_short_questions = data['selected_short_questions'];
         this.selected_cases = data['selected_cases'];
         this.selected_flash_cards = data['selected_flash_cards'];
+        this.selected_teacher_materials = data['selected_teacher_materials'];
       }
     });
   }
@@ -980,6 +984,7 @@ export class CreateContentComponent implements OnInit {
     this.short_answer_tab = 0;
     this.case_tab = 0;
     this.flashcard_tab = 0;
+    this.teachermaterials_tab = 0;
     this.search_question = '';
     this.all_or_selected = 'all';
     //level filters clear
@@ -1030,8 +1035,17 @@ export class CreateContentComponent implements OnInit {
         offset: this.offset,
         all_or_selected: this.all_or_selected,
       };
-      console.log()
       this.getFlashCardAllQuestions(data);
+    }
+    if(tab_index == 8){
+      this.all_or_selected = 'all';
+      let data = {
+        url: 'get-materials-list',
+        limit: this.limit,
+        offset: this.offset,
+        all_or_selected: this.all_or_selected,
+      };
+      this.getTeacherMaterialAllQuestions(data);
     }
   }
 
@@ -1139,7 +1153,6 @@ export class CreateContentComponent implements OnInit {
 
   /* Added by Phanindra */
   flashCardTab(tab){
-    console.log(tab);
     let tab_index = tab.index;
     this.search_question = '';
     //level filters clear
@@ -1222,7 +1235,6 @@ export class CreateContentComponent implements OnInit {
     });
   }
   selectFlashCardQuestion(event, id) {
-    console.log('Flach Card check');
     id = '' + id;
     if (event['checked'] == true) {
       this.selected_flash_cards.push(id);
@@ -1235,12 +1247,15 @@ export class CreateContentComponent implements OnInit {
   }
   public getFlashCardServerData(event?: PageEvent) {
     this.page = event.pageSize * event.pageIndex;
+    let question_ids = [];
+    question_ids = this.selected_flash_cards;
     let param = {
       url: 'flash-cards-list',
       offset: this.page,
       limit: event.pageSize,
       search: this.search_question,
       all_or_selected: this.all_or_selected,
+      question_ids: question_ids,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -1255,6 +1270,126 @@ export class CreateContentComponent implements OnInit {
     });
   }
 
+  teacherMaterialTab(tab){
+    console.log(tab);
+    let tab_index = tab.index;
+    this.search_question = '';
+    //level filters clear
+    this.level_options = [];
+    this.all_level_options = [];
+    this.selected_level = [];
+    this.filter_array.level_id=0;
+    this.filter_array.curriculum_id=0;
+    this.curriculum_labels = [];
+    if (tab_index == 0) {
+      this.all_or_selected = 'all';
+      let data = {
+        url: 'get-materials-list',
+        limit: this.limit,
+        offset: this.offset,
+        all_or_selected: this.all_or_selected,
+      };
+      this.getTeacherMaterialAllQuestions(data);
+    }
+    if (tab_index == 1) {
+      let question_ids = [];
+      question_ids = this.selected_teacher_materials;
+      this.all_or_selected = 'selected';
+      let data = {
+        url: 'get-materials-list',
+        limit: this.limit,
+        offset: this.offset,
+        all_or_selected: this.all_or_selected,
+        question_ids: question_ids,
+      };
+      if (question_ids.length > 0) {
+        this.getTeacherMaterialAllQuestions(data);
+      } else {
+        this.teacher_materials_all_questions = new MatTableDataSource([]);
+      }
+    }
+  }
+  getTeacherMaterialAllQuestions(param){
+    this.loading_questions=true;
+    this.teacher_materials_all_questions = new MatTableDataSource([]);
+    this.resetPagination();
+    this.http.post(param).subscribe((res) => {
+      this.loading_questions=false;
+      if (res['error'] == false) {
+        this.teacher_materials_all_questions = new MatTableDataSource(
+          res['data']['materials_list']
+        );
+        this.totalSize = res['total_records'];
+
+        this.teacher_materials_all_questions.paginator = this.paginator;
+      } else {
+        this.teacher_materials_all_questions = new MatTableDataSource([]);
+      }
+    });
+  }
+  searchteacherMaterialQuestions(){
+    this.resetPagination();
+    let question_ids = [];
+    question_ids = this.selected_teacher_materials;
+    let param = {
+      url: 'get-materials-list',
+      offset: this.page,
+      limit: this.limit,
+      search: this.search_question,
+      all_or_selected: this.all_or_selected,
+      question_ids: question_ids,
+      curriculum_id: this.filter_array.curriculum_id,
+      level_id: this.filter_array.level_id
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.teacher_materials_all_questions = new MatTableDataSource(
+          res['data']['materials_list']
+        );
+        this.totalSize = res['total_records'];
+      } else {
+        //this.toster.info(res['message'], 'Error');
+        this.teacher_materials_all_questions = new MatTableDataSource([]);
+      }
+    });
+  }
+  selectTeacherMaterialQuestion(event, id) {
+    id = '' + id;
+    if (event['checked'] == true) {
+      this.selected_teacher_materials.push(id);
+    } else {
+      const index = this.selected_teacher_materials.indexOf(id);
+      if (index > -1) {
+        this.selected_teacher_materials.splice(index, 1);
+      }
+    }    
+  }
+  public getTeacherMaterialServerData(event?: PageEvent) {
+    this.page = event.pageSize * event.pageIndex;
+    let question_ids = [];
+    question_ids = this.selected_teacher_materials;
+    let param = {
+      url: 'get-materials-list',
+      offset: this.page,
+      limit: event.pageSize,
+      search: this.search_question,
+      all_or_selected: this.all_or_selected,
+      question_ids: question_ids,
+    };
+    console.log(param);
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.teacher_materials_all_questions = new MatTableDataSource(
+          res['data']['materials_list']
+        );
+        this.totalSize = res['total_records'];
+      } else {
+        //this.toster.info(res['message'], 'Error');
+        this.teacher_materials_all_questions = new MatTableDataSource([]);
+      }
+    });
+  }
+
   public curriculum_list = [];
   public curriculum_labels = [];
   public level_options = [];
@@ -1264,6 +1399,8 @@ export class CreateContentComponent implements OnInit {
   getLabels(tabName){
     if(tabName == 'flashCardTab'){
       this.searchFlashCardQuestions();
+    }else if(tabName == 'teacherMaterialTab'){
+      this.searchteacherMaterialQuestions();
     }else{
       this.searchQuestions();
     }    
@@ -1297,6 +1434,8 @@ getLevels(level_id,tabName) {
     this.filter_array.level_id = this.selected_level[level_id];
     if(tabName == 'flashCardTab'){
       this.searchFlashCardQuestions();
+    }else if(tabName == 'teacherMaterialTab'){
+      this.searchteacherMaterialQuestions();
     }else{
       this.searchQuestions();
     }
@@ -1420,6 +1559,7 @@ searchLevelByName(search,level){
       selected_short_questions: this.selected_short_questions,
       selected_cases: this.selected_cases,
       selected_flash_cards: this.selected_flash_cards,
+      selected_teacher_materials: this.selected_teacher_materials,
       is_draft: is_draft,
       content_id: this.content_id,
       reviewer_role: is_draft?'':this.reviewer_role,
