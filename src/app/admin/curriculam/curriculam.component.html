@@ -51,11 +51,16 @@
                       <mat-option [value]="4">PLAB Template</mat-option>
                     </mat-select>
                   </mat-form-field>
+
                   <span class="prc_tltp" *ngIf="
                           (curriculum_form.submitted || exam_template_name.touched) &&
                           exam_template_name.invalid
                         ">Exam Template is required</span>
                 </span>
+                <div>
+                    <mat-checkbox color="accent" [checked]="is_for_assessment == 1?true:false" [value]="1" (change)="onChange($event)">
+                    </mat-checkbox> Assessment only (If it checked it won't display to students)
+                </div>
               </span>
             </div>
             <!-- <div class="frm_dvs" *ngIf="course_usage==2"> <span>QBank Type <span class="required">*</span></span> <span>
@@ -333,6 +338,10 @@
                       exam_template_name.invalid
                     ">Exam Template is required</span>
             </span>
+            <div>
+                <mat-checkbox color="accent" [checked]="is_for_assessment == 1?true:false" [value]="1" (change)="onChange($event)">
+                </mat-checkbox> Assessment only (If it checked it won't display to students)
+            </div>
           </span>
         </div>
           <!--

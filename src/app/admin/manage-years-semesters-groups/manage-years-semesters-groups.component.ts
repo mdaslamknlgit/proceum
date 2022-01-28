@@ -283,7 +283,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.getData();
   }
   public getData() {
-    let param = { url: 'get-year-semester-group-by-slug','slug':this.slug,'partner_id':this.partner_id};
+    let param = { url: 'get-year-semester-group-by-slug','slug':this.slug,'partner_id':this.partner_id,offset:0, limit:10};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
@@ -397,8 +397,15 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.courses_ids_csv = '';
   }
 
-  public doFilter() {
-    let param = { url: 'get-year-semester-group-by-slug', search: this.search_box, slug: this.slug };
+  public doFilter(event?: PageEvent) {
+    let param = { 
+      url: 'get-year-semester-group-by-slug', 
+      offset: this.page,
+      limit: event.pageSize,
+      order_by: this.sort_by,
+      search: this.search_box,
+      slug: this.slug
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
