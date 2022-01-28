@@ -102,7 +102,7 @@ export class StudentTopbarComponent implements OnInit {
         localStorage.setItem('description', res['data']['description']);
         //console.log(this.sub_domain_data);
       } else {
-        window.location.href = environment.APP_BASE_URL;
+        //window.location.href = environment.APP_BASE_URL;
       }
       this.load_top_bar = true;
       this.finishedLoading.emit(true);
