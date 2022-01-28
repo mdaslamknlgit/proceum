@@ -49,7 +49,9 @@ export const environment = {
   //apiUrl: 'http://127.0.0.1:8000/api/',
   ///apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
 
-  APP_BASE_URL: 'http://localhost:4200/',
+  //APP_BASE_URL: 'http://localhost:4200/',
+  APP_BASE_URL: 'http://192.10.250.150:4200/',
+
   firebaseConfig: {
     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
     authDomain: "proceum-dev-62a30.firebaseapp.com",
@@ -62,7 +64,7 @@ export const environment = {
   /* 
   * Below array used to check domian or subdomian from in app users or partners 
   */
-  INAPP_DOMAINS_ARRAY: ["localhost", "dev", "master"],
+  INAPP_DOMAINS_ARRAY: ["localhost", "dev", "master", "192.10.250.150"],
   PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',
 };
 
