@@ -978,7 +978,6 @@ export class CreateContentComponent implements OnInit {
     }
   }
   notesTab(event) {
-    console.log(event);
     let tab_index = event.index;
     this.question_tab = 0;
     this.short_answer_tab = 0;
@@ -1271,7 +1270,6 @@ export class CreateContentComponent implements OnInit {
   }
 
   teacherMaterialTab(tab){
-    console.log(tab);
     let tab_index = tab.index;
     this.search_question = '';
     //level filters clear
@@ -1376,7 +1374,6 @@ export class CreateContentComponent implements OnInit {
       all_or_selected: this.all_or_selected,
       question_ids: question_ids,
     };
-    console.log(param);
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.teacher_materials_all_questions = new MatTableDataSource(
