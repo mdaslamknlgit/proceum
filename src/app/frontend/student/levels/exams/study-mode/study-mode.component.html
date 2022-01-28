@@ -32,7 +32,7 @@
         </div>
         <div class="tsts_qstns" *ngIf="questions_list.length>0">
             <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
-            <div class="hgt_20"></div>
+            
             <div class="tstsqst_qst">
                 <span [innerHTML]="active_question['question']"></span>
                 <div class="tstsqst_img"
@@ -102,8 +102,8 @@
                     <mat-icon>arrow_left</mat-icon> Prev
                 </button>
                 <button [disabled]="active_question['answer'].length==0" mat-raised-button color="accent"
-                    (click)="checkAnswer()" class="skp_btn {{active_question['answer'].length==0?'gry_btn':''}}">Check
-                    Answer <mat-icon>subdirectory_arrow_right
+                    (click)="checkAnswer()" class="skp_btn chk_ans {{active_question['answer'].length==0?'gry_btn':''}}">
+                    Check Answer <mat-icon>subdirectory_arrow_right
                     </mat-icon>
                 </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"

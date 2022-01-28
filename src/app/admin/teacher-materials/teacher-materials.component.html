@@ -189,8 +189,7 @@
     <div class="pg_ttl">Teacher Materials</div>
     <div class="spacer"></div>
     <div>
-      <button mat-raised-button color="accent" class="float_right mt_0" type="button"
-        (click)="openAddModel()">
+      <button mat-raised-button color="accent" routerLink="/admin/teacher-material/create" class="float_right mt_0" type="button">
         <mat-icon>add</mat-icon> Add Material
       </button>
     </div>
@@ -243,7 +242,7 @@
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="accent">
-              <mat-icon matTooltip="click here to edit material" (click)="openEditModel(element)">edit_note</mat-icon>
+              <mat-icon matTooltip="click here to edit material" routerLink="/admin/teacher-material/edit/{{element.pk_id}}">edit_note</mat-icon>
             </button>
             <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
               [popoverMessage]="'Are you sure to delete <b>' + element.title + '</b> '" placement="auto"

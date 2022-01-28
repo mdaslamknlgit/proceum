@@ -128,16 +128,16 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.hrefZIP = environment.apiUrl + 'download-attachments/';
   }
 
-  getMaterials() {
-    let params={url: 'get-all-materials',source:'student',selected_level_id: this.level_parent_id};
-    this.http.post(params).subscribe((res: Response) => {
-      if (res['error'] == false) {
-        this.materials = res['data']['materials'];
-      } else {
-        this.materials = [];
-      }
-    });
-  }
+  // getMaterials() {
+  //   let params={url: 'get-all-materials',source:'student',selected_level_id: this.level_parent_id};
+  //   this.http.post(params).subscribe((res: Response) => {
+  //     if (res['error'] == false) {
+  //       this.materials = res['data']['materials'];
+  //     } else {
+  //       this.materials = [];
+  //     }
+  //   });
+  // }
 
   downlodAttachments(id){
     window.location.href = this.hrefZIP + id;
@@ -157,7 +157,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
       this.content_id = param.content_id != undefined ? param.content_id : 0;
       this.is_preview = window.location.href.includes("content-preview")?true:false;
       this.getLevelDetails();
-      this.getMaterials();
+      //this.getMaterials();
       this.getAppSquadz();
     });
     
@@ -372,7 +372,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.highyields = data['highyields'];
         this.learning_notes = data['learning_notes'];
         this.mcqs = data['mcqs'];
-        this.flash_cards = data['flash_cards'];        
+        this.flash_cards = data['flash_cards'];   
+        this.materials = data['materials'];
         this.short_answers = data['short_answers'];
         this.cases = data['cases'];
         this.main_content = this.sanitizer.bypassSecurityTrustHtml(
@@ -479,6 +480,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }
         else if(this.flash_cards != undefined && this.flash_cards.length > 0){
             this.showDiv(11);
+        }
+        else if(this.materials != undefined && this.materials.length > 0){
+          this.showDiv(12);
         }
         else if(this.content['external_ref_content'] != undefined && this.content['external_ref_content'].trim() != ''){
             this.showDiv(8);
@@ -649,7 +653,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     this.flash_cards = [];
     this.short_answers = [];
     this.cases = [];
-    this.flash_cards = [];
     this.show_content_list = !this.show_content_list;
     this.router.navigateByUrl(
       '/student/curriculum/details/' +
