@@ -25,18 +25,18 @@
             </div>
         </div>
     </div>
-    <div class="lv_md_mn  {{rvrsClr == false ? 'rvrs_clr':''}}">
-        <div class="lv_md_nms">
+    <div class="lv_md_mn {{rvrsClr == false ? 'rvrs_clr':''}}">
+        <div class="lv_md_nms {{lvmd_sqst ? '' : 'shw_qnnumbrs'}}">
             <ul>
                 <!-- <li class="lvmd_actvqst">1</li> -->
                 <li *ngFor="let q of questions_list; let question_index=index;"
-                    (click)="getQuestionOptions(question_index)"
+                    (click)="getQuestionOptions(question_index); lvmd_sqst = !lvmd_sqst;"
                     class="{{active_q_index==question_index?'lvmd_actvqst':''}}">{{question_index+1}}</li>
             </ul>
         </div>
         <div class="lv_md_qstn">
             <div class="lvmd_hd">
-                <div class="lvmd_hd_aa mr_1">
+                <div class="lvmd_hd_aa mr_1" (click)="lvmd_sqst = !lvmd_sqst">
                     Question {{active_q_index+1}} of {{questions_list.length}} <br>
                 </div>
                 <div class="lvmd_hd_ab">
@@ -54,8 +54,8 @@
                         Next
                     </div>
                 </div>
-                <div class="spacer"></div>
-                <div class="shw_lvmd_mnu mr_1">
+                <div class="spacer rsp_dn_767"></div>
+                <div class="shw_lvmd_mnu">
                     <button mat-icon-button (click)="lvmd_mno = !lvmd_mno">
                         <mat-icon>more_vert</mat-icon>
                     </button>
@@ -865,7 +865,6 @@
         </div>
     </div>
 </div>
-
 <!-- Plabable design  -->
 <div class="mn_dshbrd" *ngIf="curriculum.length>0 && curriculum[0]['exam_template'] == 4">
     <div class="cust_mdl_par cust_mdl_cls">

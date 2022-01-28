@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
   public profile_pic: string = '';
   public address_details:boolean = false;
   public disabled:boolean = true;
-  public sub_domain:boolean = true; //false
+  public isLoadedTopBar:boolean = false; 
   //master data variables goes here
   universities = [];
   colleges = [];

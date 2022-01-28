@@ -79,7 +79,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public flash_index = 0;
   public is_loaded = false;
   public is_preview = false;
-  public editorConfig = {link: {decorators: {openInNewTab: {mode: 'manual',label: 'Open in a new tab',defaultValue: true, attributes: {target: '_blank', rel: 'noopener noreferrer'}}}}}
+  public editorConfig = {link: {addTargetToExternalLinks: true ,decorators: {openInNewTab: {mode: 'manual',label: 'Open in a new tab',defaultValue: true, attributes: {target: '_blank', rel: 'noopener noreferrer'}}}}}
   public image_config = {
     btnClass: 'default', // The CSS class(es) that will apply to the buttons
     zoomFactor: 0.1, // The amount that the scale will be increased by

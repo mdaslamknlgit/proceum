@@ -16,7 +16,7 @@ export class IndexComponent implements OnInit {
     private toastr: ToastrService,
     private service: CommonService,
     private router: Router
-  ) {}
+  ) { }
   email_address: string;
   errEmailMsg: string = '';
   menus: any;
@@ -25,8 +25,10 @@ export class IndexComponent implements OnInit {
   public isOpen = false;
   public fsCls = false;
   user: any;
-  sub_domain_data : any = [];
-  load_powered_by :boolean = false;
+  sub_domain_data: any = [];
+  load_powered_by: boolean = false;
+  hasLoaded: boolean = false;
+
   public result;
   ngOnInit(): void {
     this.user = this.service.getUser();
@@ -34,9 +36,9 @@ export class IndexComponent implements OnInit {
     let sub_domain = window.location.hostname;
     //sub_domain = 'aiimst';
     //If subdomain not exist in in app domains then check for partner domain
-    if(environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1){
+    if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
       this.getSubDomainDetails(sub_domain);
-    }else{
+    } else {
       this.load_powered_by = false;
     }
     this.getcoupons();
@@ -48,7 +50,7 @@ export class IndexComponent implements OnInit {
       this.router.navigateByUrl('/student/dashboard');
     }
   }
- 
+
 
   menuToggle() {
     this.isOpen = !this.isOpen;
@@ -65,10 +67,10 @@ export class IndexComponent implements OnInit {
   newsletterSubscribe() {
     if (this.email_address == undefined) {
       this.errClass = 'input-border-color';
-      this.errEmailMsg="Email is required";
+      this.errEmailMsg = "Email is required";
       setTimeout(() => {
-        this.errEmailMsg="";
-    }, 5000);
+        this.errEmailMsg = "";
+      }, 5000);
       return false;
     }
     let verifyEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
@@ -91,37 +93,37 @@ export class IndexComponent implements OnInit {
         }
       });
     } else {
-        this.errEmailMsg="Please enter valid email";
-        setTimeout(() => {
-          this.errEmailMsg="";
-        }, 5000);
+      this.errEmailMsg = "Please enter valid email";
+      setTimeout(() => {
+        this.errEmailMsg = "";
+      }, 5000);
       this.errClass = 'input-border-color';
     }
   }
 
-  getSubDomainDetails(sub_domain){
+  getSubDomainDetails(sub_domain) {
     let params = {
       url: 'get-subdomain-details',
       sub_domain: sub_domain,
     };
     this.http.post(params).subscribe((res) => {
-      if(!res['error']){
+      if (!res['error']) {
         this.sub_domain_data = res['data'];
         localStorage.setItem('sub_domain_data', this.sub_domain_data);
         //console.log(this.sub_domain_data);
         this.load_powered_by = true;
-      }else{
+      } else {
         console.log("No subdomain data found");
         this.load_powered_by = false;
       }
-      
+
     });
   }
-  getcoupons(){
-    let param = { url: 'get-latest-coupon'};
+  getcoupons() {
+    let param = { url: 'get-latest-coupon' };
     this.http.post(param).subscribe((res) => {
-      if(res['error'] == false) {
-        this.result =  res['data'];
+      if (res['error'] == false) {
+        this.result = res['data'];
       }
     })
   }
