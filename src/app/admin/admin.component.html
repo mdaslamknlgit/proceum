@@ -1,7 +1,7 @@
-<app-admin-topbar></app-admin-topbar>
-<app-sidebar *ngIf="user!= undefined && user['role'] == '1'"></app-sidebar>
-<app-sidebar-partner *ngIf="user!= undefined && (user['role'] == '8' || user['role'] == '9' || user['role'] == '10')"></app-sidebar-partner>
-<app-sidebar-reviewer *ngIf="user!= undefined && (user['role'] == '3' || user['role'] == '4' || user['role'] == '5' || user['role'] == '6' || user['role'] == '7')"></app-sidebar-reviewer>
-<app-sidebar-teacher *ngIf="user!= undefined && user['role'] == '12'"></app-sidebar-teacher>
-<router-outlet> </router-outlet>
-<app-admin-footer></app-admin-footer>
+<app-admin-topbar (finishedLoading)="hasTapBarLoaded = $event"></app-admin-topbar>
+<app-sidebar *ngIf="hasTapBarLoaded && user!= undefined && user['role'] == '1'"></app-sidebar>
+<app-sidebar-partner *ngIf="hasTapBarLoaded && user!= undefined && (user['role'] == '8' || user['role'] == '9' || user['role'] == '10')"></app-sidebar-partner>
+<app-sidebar-reviewer *ngIf="hasTapBarLoaded && user!= undefined && (user['role'] == '3' || user['role'] == '4' || user['role'] == '5' || user['role'] == '6' || user['role'] == '7')"></app-sidebar-reviewer>
+<app-sidebar-teacher *ngIf="hasTapBarLoaded && user!= undefined && user['role'] == '12'"></app-sidebar-teacher>
+<router-outlet *ngIf="hasTapBarLoaded"> </router-outlet>
+<app-footer *ngIf="hasTapBarLoaded"></app-footer>

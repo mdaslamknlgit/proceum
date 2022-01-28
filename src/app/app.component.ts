@@ -15,7 +15,11 @@ export class AppComponent {
   public is_admin: boolean = false;
   public is_student: boolean = false;
   windowScrolled = false;
-  constructor(private http: CommonService, private router: Router, public translate: TranslateService) {
+  constructor(
+    private http: CommonService,
+    private router: Router,
+    public translate: TranslateService
+  ) {
     //translate.addLangs(['en', 'fr']);  
     //this.translate.setTranslation('en', defaultLanguage);
     this.translate.setDefaultLang('en');

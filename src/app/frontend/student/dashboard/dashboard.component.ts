@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
 
   //wishlist items variables
   public wish_list:any = []; 
+  public expiration_courses:any = []; 
   public bookmarks:any = [];
   public favorites:any = [];
   public case_question:any = [];
@@ -55,6 +56,7 @@ export class DashboardComponent implements OnInit {
       this.getWishList();
       this.getBookmarksFavorite();
       this.getRandomQuestions();
+      this.getPackagesAboutToExpire();
     }
   }
   //Get wishlist items
@@ -132,6 +134,17 @@ export class DashboardComponent implements OnInit {
     else{
         this.getXtToken();
     }
+  }
+  //Get package expirations of user
+  getPackagesAboutToExpire(){
+    let param = { url: 'get-user-packages-about-to-expire'};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        if(res['data'].length){
+          this.expiration_courses = res['data'];
+        }
+      }
+    });
   }
   navigateTo(url){
     this.router.navigateByUrl("student/curriculum/details/"+url);

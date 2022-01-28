@@ -1,804 +1,806 @@
-<app-topbar></app-topbar>
-<div class="fs_pop {{fsCls ? 'fspp_cls' : ''}}">
-  <mat-icon class="float_right m_02"  (click)="fsCls = true">close</mat-icon>
-  <div class="clear_fix"></div>
-  <div class="fs_hd">Flash Sale</div>
-  <mat-icon class="fs_blt">bolt</mat-icon>
-  <div *ngIf="result">
-    <div *ngIf="result.type == 'promotion'">
-      <div class="fs_md">GET </div>
-      <div class="fs_lg">{{result.currency_symbol}} {{result.discount_amount}} Off</div>
-      <!-- <div class="fs_md">On all Plans</div> -->
-    </div>
-    <div *ngIf="result.type == 'discount'">
-      <div class="fs_md">GET </div>
-      <div class="fs_lg" *ngIf="result.discount_type ==2">{{result.discount_percent}}% Off</div>
-      <div class="fs_lg" *ngIf="result.discount_type ==1">{{result.currency_symbol}} {{result.discount_amount}} Off
+<app-topbar (finishedLoading)="hasLoaded = $event"></app-topbar>
+
+<div *ngIf="hasLoaded">
+  <div class="fs_pop {{fsCls ? 'fspp_cls' : ''}}">
+    <mat-icon class="float_right m_02" (click)="fsCls = true">close</mat-icon>
+    <div class="clear_fix"></div>
+    <div class="fs_hd">Flash Sale</div>
+    <mat-icon class="fs_blt">bolt</mat-icon>
+    <div *ngIf="result">
+      <div *ngIf="result.type == 'promotion'">
+        <div class="fs_md">GET </div>
+        <div class="fs_lg">{{result.currency_symbol}} {{result.discount_amount}} Off</div>
+        <!-- <div class="fs_md">On all Plans</div> -->
       </div>
-      <!-- <div class="fs_md">On all Plans</div> -->
-    </div>
-  </div>
-
-  <div class="fs_sm" routerLink="/coupons">click here</div>
-</div>
-<div class="indx_bnnr">
-  <!-- <mat-toolbar [ngClass]="{ 'sticky-header': isSticky }">
-    <span class="logo_spn" routerLink="/"
-      ><img src="./assets/images/ProceumLogo.png"
-    /></span>
-    <span class="spacer"></span>
-    <div class="nav" [ngClass]="{ menu_open: isOpen }">
-      <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active">Home</span>
-      <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
-      <span mat-list-item class="tp_rt_mn">Pricing</span>
-      <span mat-list-item class="tp_rt_mn">Subscribe</span>
-      <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn">Register Trail</span>
-      <span
-        mat-list-item
-        class="tp_rt_mn"
-        routerLink="/contact-us"
-        routerLinkActive="active"
-        >Contact Us</span
-      >
-    </div>
-    <div *ngIf="!user['id']" routerLink="/login" class="lg_inbtn">
-      <mat-icon>login</mat-icon>Login
-    </div>
-    <div *ngIf="user['id']" class="lg_inbtn" (click)="navigateTo()">
-      Dashboard
-    </div>
-    <div class="spacer"></div>
-    <div class="top-right-icon">
-      <img src="../../../../assets/images/Search-icon.svg" alt="Search" />
-      <img src="../../../../assets/images/hamburg-icon.svg" (click)="menuToggle()" alt="Hamberg" />
-    </div>
-    <button mat-icon-button class="tp_rt_mn lgot_btn" (click)="logout()"><mat-icon>logout</mat-icon></button>
-  </mat-toolbar> -->
-
-  <div class="ind_cnt_sec">
-    <span class="ind_cnt_sml">Become Fluent In</span>
-    <span class="ind_cnt_lrg">Medical Concepts</span>
-    <!-- <button mat-button class="trl_btn">Register now and Get benifits</button> -->
-    <span><img src="../../../assets/images/gp_w.png" /><img src="../../../assets/images/as_w.png" /></span>
-
-    <!-- <div class="icon-scroll"></div> -->
-  </div>
-</div>
-<div class="bnr_btmsec">
-  <div class=" ">
-    <span class="tpfr_brd"></span>
-    <div class="fr_hd">
-      <img src="../../../assets/images/reading-book.svg" alt="Study Plan" />
-      Study Plan
-    </div>
-    <div class="fr_cnt">
-      <mat-list>
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Sed vel enim ut nunc tempus</div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Aenean iaculis arcu nec enim dignissim tincidunt.</div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Aenean luctus lectus et venenatis feugiat.</div>
-        </mat-list-item>
-      </mat-list>
-    </div>
-    <div class="fr_mr pd_1">More <mat-icon>arrow_forward</mat-icon>
-    </div>
-  </div>
-  <div class=" ">
-    <span class="tpfr_brd"></span>
-    <div class="fr_hd">
-      <img src="../../../assets/images/book.svg" alt="Question Bank" /> Question
-      Bank
-    </div>
-    <div class="fr_cnt">
-      <mat-list>
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Sed vel enim ut nunc tempus</div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Aenean iaculis arcu nec enim dignissim tincidunt.</div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Aenean luctus lectus et venenatis feugiat.</div>
-        </mat-list-item>
-      </mat-list>
-    </div>
-    <div class="fr_mr pd_1">More <mat-icon>arrow_forward</mat-icon>
-    </div>
-  </div>
-  <div class=" ">
-    <span class="tpfr_brd"></span>
-    <div class="fr_hd">
-      <img src="../../../assets/images/taxes.svg" alt="Assessments" />
-      Assessments
-    </div>
-    <div class="fr_cnt">
-      <mat-list>
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Sed vel enim ut nunc tempus</div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Aenean iaculis arcu nec enim dignissim tincidunt.</div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Aenean luctus lectus et venenatis feugiat.</div>
-        </mat-list-item>
-      </mat-list>
-    </div>
-    <div class="fr_mr pd_1">More <mat-icon>arrow_forward</mat-icon>
-    </div>
-  </div>
-  <div class=" ">
-    <span class="tpfr_brd"></span>
-    <div class="fr_hd">
-      <img src="../../../assets/images/online-course.svg" alt="Courses" />
-      Courses
-    </div>
-    <div class="fr_cnt">
-      <mat-list>
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          </div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Sed vel enim ut nunc tempus</div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Aenean iaculis arcu nec enim dignissim tincidunt.</div>
-        </mat-list-item>
-
-        <mat-list-item>
-          <mat-icon mat-list-icon>check_circle</mat-icon>
-          <div mat-line>Aenean luctus lectus et venenatis feugiat.</div>
-        </mat-list-item>
-      </mat-list>
-    </div>
-    <div class="fr_mr pd_1">More <mat-icon>arrow_forward</mat-icon>
-    </div>
-  </div>
-</div>
-
-<!-- About proceum Block -->
-<section class="Aboutus">
-  <div class="section-title">
-    <h3>About Proceum</h3>
-  </div>
-  <div class="container">
-    <!-- <div class="img-block">
-      <img src="../../../assets/images/aboutus_img.svg" alt="About us" />
-    </div> -->
-    <div class="content-block">
-      Proceum is an umbrella portal encompassing everything related to health
-      under its wings. Proceum has a very strong vision to connect an individual
-      to every direct and indirect entity related to health thus making him
-      central to the entire healthcare system. Whether that entity is an
-      organization or it is medical education; whether it is the research &
-      development or it is a specific service provider; whether it is the direct
-      user/customer/patient or it is a product. Proceum is geared to provide the
-      most comprehensive, qualitatively superior and useful service at the click
-      of a button to the individual, well-being of whose health, has resulted in
-      the birth or establishment of all these services, institutions,
-      organizations, groups, methods and processes.
-    </div>
-  </div>
-</section>
-
-<!-- Why choose proceum -->
-<section class="why-choose">
-  <div class="section-title">
-    <h3>Why Choose Us ?</h3>
-  </div>
-  <br />
-  <div class="container">
-    <div class="box1">
-      <div class="in-box">
-        <span class="box-number">
-          <img src="../../../assets/images/wc-img-1.png" alt="">
-        </span>
-        <h5>
-          Repositry of High Definition Images, Illustrations, 2D & 3D Animations
-        </h5>
-        <p>
-          Proceum is continuously producing anatomically accurate repositry of
-          high definition images, illustrations and 2D & 3D Animations for
-          medical e-content. This qualitatively superior medical e-content has
-          multiple uses across various educational and industrial platforms.
-        </p>
-      </div>
-    </div>
-    <div class="box2">
-      <div class="in-box">
-        <span class="box-number">
-          <img src="../../../assets/images/wc-img-2.png" alt="">
-        </span>
-        <h5>Detailed Video Lectures for all the MBBS subjects.</h5>
-        <p>
-          Under production, these video lectures are a great support for first
-          to fourth year students studying MBBS.
-        </p>
-      </div>
-    </div>
-    <div class="box3">
-      <div class="in-box">
-        <span class="box-number">
-          <img src="../../../assets/images/wc-img-3.png" alt="">
-        </span>
-        <h5>High-Yield Video Lectures for Various Licensing Examinations</h5>
-        <p>
-          Under production, these video lectures concentrate more on case
-          discussions rather than on didactic way of teaching.
-        </p>
-      </div>
-    </div>
-    <div class="box4">
-      <div class="in-box">
-        <span class="box-number">
-          <img src="../../../assets/images/wc-img-4.png" alt="">
-        </span>
-        <h5>
-          Exhaustive Q-banks with Explanations for Various Licensing
-          Examinations
-        </h5>
-        <p>
-          Feature-rich Q-banks are a great source of support for students
-          appearing for multiple licensing examinations.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="img_grd_sct">
-  <div class="container">
-    <div class="content-block">
-      <div class="section-title text_left">
-        <h5>Lorem ipsum</h5>
-        <h3>Highlighted question bank &amp; different options</h3>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-          Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
-          unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
-        <button mat-raised-button class="fr_trl_btn">Start Free Trail</button>
-      </div>
-    </div>
-    <div class="img-block">
-      <img src="../../../assets/images/Highlighted_questionbank.png">
-    </div>
-  </div>
-</section>
-
-
-
-<section class="img_grd_sct gry_bg_sct">
-  <div class="container">
-    <div class="img-block">
-      <img src="../../../assets/images/elaborated_description.png">
-    </div>
-    <div class="content-block">
-      <div class="section-title text_left">
-        <h5>Lorem ipsum</h5>
-        <h3>Highlighted question bank &amp; different options</h3>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-          Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
-          unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
-        <button mat-raised-button class="fr_trl_btn">Start Free Trail</button>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section class="img_grd_sct">
-  <div class="container">
-    <div class="content-block">
-      <div class="section-title text_left">
-        <h5>Lorem ipsum</h5>
-        <h3>Highlighted question bank &amp; different options</h3>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-          Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
-          unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
-        <button mat-raised-button class="fr_trl_btn">Start Free Trail</button>
-      </div>
-    </div>
-    <div class="img-block">
-      <img src="../../../assets/images/keyfeatures.png">
-    </div>
-  </div>
-</section>
-
-
-<section class="img_grd_sct gry_bg_sct">
-  <div class="container">
-    <div class="img-block">
-      <img src="../../../assets/images/elaborated_description-2.png">
-    </div>
-    <div class="content-block">
-      <div class="section-title text_left">
-        <h5>Lorem ipsum</h5>
-        <h3>Highlighted question bank &amp; different options</h3>
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-          Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
-          unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
-        <button mat-raised-button class="fr_trl_btn">Start Free Trail</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="glance">
-  <div class="section-title">
-    <h3>Proceum at Glance</h3>
-  </div>
-  <div class="container">
-    <div class="card">
-      <mat-card class="example-card mat-elevation-z0">
-        <mat-card-title>Proceum Products</mat-card-title>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Advanced Medical Training Program</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>MBBS B2B (LMS)</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>USMLE Video Lectures</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Dr’s Prep Q Bank</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>NEET Prep Q Bank</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>FMGE Prep Q Bank</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Medical Illustrations</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>3D Anatomy</div>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div class="card">
-      <mat-card class="example-card mat-elevation-z0">
-        <mat-card-title>Proceum Products - Uses and Applications</mat-card-title>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Mobile / Online / Tablets</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Continuing Medical Education</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Seminar and Conferences</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Flash Presentations</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Online Streaming</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Assessments and Performance Charts</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Interactive Medical Program</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Pharmaceutical Video Production</div>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div class="card">
-      <mat-card class="example-card mat-elevation-z0">
-        <mat-card-title>What Proceum Communicates</mat-card-title>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>
-                Complex or Novel Mechanisms of Drugs / Device Action (MOA)
-              </div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Detailed Pathophysiology</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>
-                Product Advantages That Are Difficult To Visualize
-              </div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>3D Sterioscopic Animation</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Peer Reviews</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Medical Education</div>
-            </mat-list-item>
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Peer Reviews</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Medical Education</div>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div class="card">
-      <mat-card class="example-card mat-elevation-z0">
-        <mat-card-title>Proceum Products - Uses and Applications</mat-card-title>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Mobile / Online / Tablets</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Continuing Medical Education</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Seminar and Conferences</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Flash Presentations</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Online Streaming</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Assessments and Performance Charts</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Interactive Medical Program</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Pharmaceutical Video Production</div>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div class="card">
-      <mat-card class="example-card mat-elevation-z0">
-        <mat-card-title>Visualizing Medicine</mat-card-title>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Physiology</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Biochemistry</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Pathology</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Pharmacology</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Microbiology</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Internal Medicine</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Surgery</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>OBG</div>
-            </mat-list-item>
-
-            <!--<mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Pediatrics</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>ENT</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Opthalmology</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Anatomy</div>
-            </mat-list-item>-->
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div class="card">
-      <mat-card class="example-card mat-elevation-z0">
-        <mat-card-title>Medical Test Prep Product Cycle</mat-card-title>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Scrutinize and Review</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Blue Print</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Workflow</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Medical Content Developer</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Distribution</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Assessment</div>
-            </mat-list-item>
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Distribution</div>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon mat-list-icon>check_circle</mat-icon>
-              <div mat-line>Assessment</div>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials -->
-
-<section class="testimonials">
-  <div class="section-title">
-    <h3>Testimonials</h3>
-  </div>
-  <br />
-  <div class="container">
-    <div class="testimonials-block-container">
-      <mat-card class="example-card mat-elevation-z0">
-        <div class="t-image user_icon">
-          <img mat-card-image src="../../../assets/images/t-user.svg" alt="Victor" />
+      <div *ngIf="result.type == 'discount'">
+        <div class="fs_md">GET </div>
+        <div class="fs_lg" *ngIf="result.discount_type ==2">{{result.discount_percent}}% Off</div>
+        <div class="fs_lg" *ngIf="result.discount_type ==1">{{result.currency_symbol}} {{result.discount_amount}} Off
         </div>
-        <div class="t-user-details">
-          <span class="name">Victor</span>
-          <span class="designation">Professor, Lorem University</span>
-          <span class="rating">
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
+        <!-- <div class="fs_md">On all Plans</div> -->
+      </div>
+    </div>
+
+    <div class="fs_sm" routerLink="/coupons">click here</div>
+  </div>
+  <div class="indx_bnnr">
+    <!-- <mat-toolbar [ngClass]="{ 'sticky-header': isSticky }">
+      <span class="logo_spn" routerLink="/"
+        ><img src="./assets/images/ProceumLogo.png"
+      /></span>
+      <span class="spacer"></span>
+      <div class="nav" [ngClass]="{ menu_open: isOpen }">
+        <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active">Home</span>
+        <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
+        <span mat-list-item class="tp_rt_mn">Pricing</span>
+        <span mat-list-item class="tp_rt_mn">Subscribe</span>
+        <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn">Register Trail</span>
+        <span
+          mat-list-item
+          class="tp_rt_mn"
+          routerLink="/contact-us"
+          routerLinkActive="active"
+          >Contact Us</span
+        >
+      </div>
+      <div *ngIf="!user['id']" routerLink="/login" class="lg_inbtn">
+        <mat-icon>login</mat-icon>Login
+      </div>
+      <div *ngIf="user['id']" class="lg_inbtn" (click)="navigateTo()">
+        Dashboard
+      </div>
+      <div class="spacer"></div>
+      <div class="top-right-icon">
+        <img src="../../../../assets/images/Search-icon.svg" alt="Search" />
+        <img src="../../../../assets/images/hamburg-icon.svg" (click)="menuToggle()" alt="Hamberg" />
+      </div>
+      <button mat-icon-button class="tp_rt_mn lgot_btn" (click)="logout()"><mat-icon>logout</mat-icon></button>
+    </mat-toolbar> -->
+
+    <div class="ind_cnt_sec">
+      <span class="ind_cnt_sml">Become Fluent In</span>
+      <span class="ind_cnt_lrg">Medical Concepts</span>
+      <!-- <button mat-button class="trl_btn">Register now and Get benifits</button> -->
+      <span><img src="../../../assets/images/gp_w.png" /><img src="../../../assets/images/as_w.png" /></span>
+
+      <!-- <div class="icon-scroll"></div> -->
+    </div>
+  </div>
+  <div class="bnr_btmsec">
+    <div class=" ">
+      <span class="tpfr_brd"></span>
+      <div class="fr_hd">
+        <img src="../../../assets/images/reading-book.svg" alt="Study Plan" />
+        Study Plan
+      </div>
+      <div class="fr_cnt">
+        <mat-list>
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Sed vel enim ut nunc tempus</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Aenean iaculis arcu nec enim dignissim tincidunt.</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Aenean luctus lectus et venenatis feugiat.</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div class="fr_mr pd_1">More <mat-icon>arrow_forward</mat-icon>
+      </div>
+    </div>
+    <div class=" ">
+      <span class="tpfr_brd"></span>
+      <div class="fr_hd">
+        <img src="../../../assets/images/book.svg" alt="Question Bank" /> Question
+        Bank
+      </div>
+      <div class="fr_cnt">
+        <mat-list>
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Sed vel enim ut nunc tempus</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Aenean iaculis arcu nec enim dignissim tincidunt.</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Aenean luctus lectus et venenatis feugiat.</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div class="fr_mr pd_1">More <mat-icon>arrow_forward</mat-icon>
+      </div>
+    </div>
+    <div class=" ">
+      <span class="tpfr_brd"></span>
+      <div class="fr_hd">
+        <img src="../../../assets/images/taxes.svg" alt="Assessments" />
+        Assessments
+      </div>
+      <div class="fr_cnt">
+        <mat-list>
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Sed vel enim ut nunc tempus</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Aenean iaculis arcu nec enim dignissim tincidunt.</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Aenean luctus lectus et venenatis feugiat.</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div class="fr_mr pd_1">More <mat-icon>arrow_forward</mat-icon>
+      </div>
+    </div>
+    <div class=" ">
+      <span class="tpfr_brd"></span>
+      <div class="fr_hd">
+        <img src="../../../assets/images/online-course.svg" alt="Courses" />
+        Courses
+      </div>
+      <div class="fr_cnt">
+        <mat-list>
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            </div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Sed vel enim ut nunc tempus</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Aenean iaculis arcu nec enim dignissim tincidunt.</div>
+          </mat-list-item>
+
+          <mat-list-item>
+            <mat-icon mat-list-icon>check_circle</mat-icon>
+            <div mat-line>Aenean luctus lectus et venenatis feugiat.</div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div class="fr_mr pd_1">More <mat-icon>arrow_forward</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <!-- About proceum Block -->
+  <section class="Aboutus">
+    <div class="section-title">
+      <h3>About Proceum</h3>
+    </div>
+    <div class="container">
+      <!-- <div class="img-block">
+        <img src="../../../assets/images/aboutus_img.svg" alt="About us" />
+      </div> -->
+      <div class="content-block">
+        Proceum is an umbrella portal encompassing everything related to health
+        under its wings. Proceum has a very strong vision to connect an individual
+        to every direct and indirect entity related to health thus making him
+        central to the entire healthcare system. Whether that entity is an
+        organization or it is medical education; whether it is the research &
+        development or it is a specific service provider; whether it is the direct
+        user/customer/patient or it is a product. Proceum is geared to provide the
+        most comprehensive, qualitatively superior and useful service at the click
+        of a button to the individual, well-being of whose health, has resulted in
+        the birth or establishment of all these services, institutions,
+        organizations, groups, methods and processes.
+      </div>
+    </div>
+  </section>
+
+  <!-- Why choose proceum -->
+  <section class="why-choose">
+    <div class="section-title">
+      <h3>Why Choose Us ?</h3>
+    </div>
+    <br />
+    <div class="container">
+      <div class="box1">
+        <div class="in-box">
+          <span class="box-number">
+            <img src="../../../assets/images/wc-img-1.png" alt="">
           </span>
-        </div>
-
-        <mat-card-content>
+          <h5>
+            Repositry of High Definition Images, Illustrations, 2D & 3D Animations
+          </h5>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt
+            Proceum is continuously producing anatomically accurate repositry of
+            high definition images, illustrations and 2D & 3D Animations for
+            medical e-content. This qualitatively superior medical e-content has
+            multiple uses across various educational and industrial platforms.
           </p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="example-card mat-elevation-z0">
-        <div class="t-image">
-          <img mat-card-image src="../../../assets/images/testimonial-img-1.png" alt="Victor" />
         </div>
-        <div class="t-user-details">
-          <span class="name">Victor</span>
-          <span class="designation">Professor, Lorem University</span>
-          <span class="rating">
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
+      </div>
+      <div class="box2">
+        <div class="in-box">
+          <span class="box-number">
+            <img src="../../../assets/images/wc-img-2.png" alt="">
           </span>
-        </div>
-        <mat-card-content>
+          <h5>Detailed Video Lectures for all the MBBS subjects.</h5>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt
+            Under production, these video lectures are a great support for first
+            to fourth year students studying MBBS.
           </p>
-        </mat-card-content>
-      </mat-card>
-
-      <mat-card class="example-card mat-elevation-z0">
-        <div class="t-image">
-          <img mat-card-image src="../../../assets/images/testimonial-img-2.png" alt="Victor" />
         </div>
-        <div class="t-user-details">
-          <span class="name">Victor</span>
-          <span class="designation">Professor, Lorem University</span>
-          <span class="rating">
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
-            <mat-icon>grade</mat-icon>
+      </div>
+      <div class="box3">
+        <div class="in-box">
+          <span class="box-number">
+            <img src="../../../assets/images/wc-img-3.png" alt="">
           </span>
-        </div>
-        <mat-card-content>
+          <h5>High-Yield Video Lectures for Various Licensing Examinations</h5>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt
+            Under production, these video lectures concentrate more on case
+            discussions rather than on didactic way of teaching.
           </p>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
-</section>
-
-<!-- Download from app store -->
-<section class="download-section">
-  <div class="container">
-    <div class="left-content">
-      <div class="title">Lorem ipsum dollar</div>
-      <div class="title-2">Lorem ipsum</div>
-      <p>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry’s standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries.
-      </p>
-      <div class="download-icons">
-        <img src="../../../assets/images/download-icons.svg" alt="" />
+        </div>
+      </div>
+      <div class="box4">
+        <div class="in-box">
+          <span class="box-number">
+            <img src="../../../assets/images/wc-img-4.png" alt="">
+          </span>
+          <h5>
+            Exhaustive Q-banks with Explanations for Various Licensing
+            Examinations
+          </h5>
+          <p>
+            Feature-rich Q-banks are a great source of support for students
+            appearing for multiple licensing examinations.
+          </p>
+        </div>
       </div>
     </div>
-    <div class="right-content">
-      <img src="../../../assets/images/proceum-responsive.svg" alt="" />
-    </div>
-  </div>
-</section>
+  </section>
 
+  <section class="img_grd_sct">
+    <div class="container">
+      <div class="content-block">
+        <div class="section-title text_left">
+          <h5>Lorem ipsum</h5>
+          <h3>Highlighted question bank &amp; different options</h3>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+            Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
+            unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
+          <button mat-raised-button class="fr_trl_btn">Start Free Trail</button>
+        </div>
+      </div>
+      <div class="img-block">
+        <img src="../../../assets/images/Highlighted_questionbank.png">
+      </div>
+    </div>
+  </section>
+
+
+
+  <section class="img_grd_sct gry_bg_sct">
+    <div class="container">
+      <div class="img-block">
+        <img src="../../../assets/images/elaborated_description.png">
+      </div>
+      <div class="content-block">
+        <div class="section-title text_left">
+          <h5>Lorem ipsum</h5>
+          <h3>Highlighted question bank &amp; different options</h3>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+            Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
+            unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
+          <button mat-raised-button class="fr_trl_btn">Start Free Trail</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="img_grd_sct">
+    <div class="container">
+      <div class="content-block">
+        <div class="section-title text_left">
+          <h5>Lorem ipsum</h5>
+          <h3>Highlighted question bank &amp; different options</h3>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+            Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
+            unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
+          <button mat-raised-button class="fr_trl_btn">Start Free Trail</button>
+        </div>
+      </div>
+      <div class="img-block">
+        <img src="../../../assets/images/keyfeatures.png">
+      </div>
+    </div>
+  </section>
+
+
+  <section class="img_grd_sct gry_bg_sct">
+    <div class="container">
+      <div class="img-block">
+        <img src="../../../assets/images/elaborated_description-2.png">
+      </div>
+      <div class="content-block">
+        <div class="section-title text_left">
+          <h5>Lorem ipsum</h5>
+          <h3>Highlighted question bank &amp; different options</h3>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+            Ipsum has been the industry’s standard dummy text ever since the 1500s, when an
+            unknown printer took a galley of type and scrambled it to make a type specimen book. It</p>
+          <button mat-raised-button class="fr_trl_btn">Start Free Trail</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="glance">
+    <div class="section-title">
+      <h3>Proceum at Glance</h3>
+    </div>
+    <div class="container">
+      <div class="card">
+        <mat-card class="example-card mat-elevation-z0">
+          <mat-card-title>Proceum Products</mat-card-title>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Advanced Medical Training Program</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>MBBS B2B (LMS)</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>USMLE Video Lectures</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Dr’s Prep Q Bank</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>NEET Prep Q Bank</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>FMGE Prep Q Bank</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Medical Illustrations</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>3D Anatomy</div>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="card">
+        <mat-card class="example-card mat-elevation-z0">
+          <mat-card-title>Proceum Products - Uses and Applications</mat-card-title>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Mobile / Online / Tablets</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Continuing Medical Education</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Seminar and Conferences</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Flash Presentations</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Online Streaming</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Assessments and Performance Charts</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Interactive Medical Program</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Pharmaceutical Video Production</div>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="card">
+        <mat-card class="example-card mat-elevation-z0">
+          <mat-card-title>What Proceum Communicates</mat-card-title>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>
+                  Complex or Novel Mechanisms of Drugs / Device Action (MOA)
+                </div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Detailed Pathophysiology</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>
+                  Product Advantages That Are Difficult To Visualize
+                </div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>3D Sterioscopic Animation</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Peer Reviews</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Medical Education</div>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Peer Reviews</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Medical Education</div>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="card">
+        <mat-card class="example-card mat-elevation-z0">
+          <mat-card-title>Proceum Products - Uses and Applications</mat-card-title>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Mobile / Online / Tablets</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Continuing Medical Education</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Seminar and Conferences</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Flash Presentations</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Online Streaming</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Assessments and Performance Charts</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Interactive Medical Program</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Pharmaceutical Video Production</div>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="card">
+        <mat-card class="example-card mat-elevation-z0">
+          <mat-card-title>Visualizing Medicine</mat-card-title>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Physiology</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Biochemistry</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Pathology</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Pharmacology</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Microbiology</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Internal Medicine</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Surgery</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>OBG</div>
+              </mat-list-item>
+
+              <!--<mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Pediatrics</div>
+              </mat-list-item>
+  
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>ENT</div>
+              </mat-list-item>
+  
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Opthalmology</div>
+              </mat-list-item>
+  
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Anatomy</div>
+              </mat-list-item>-->
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="card">
+        <mat-card class="example-card mat-elevation-z0">
+          <mat-card-title>Medical Test Prep Product Cycle</mat-card-title>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Scrutinize and Review</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Blue Print</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Workflow</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Medical Content Developer</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Distribution</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Assessment</div>
+              </mat-list-item>
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Distribution</div>
+              </mat-list-item>
+
+              <mat-list-item>
+                <mat-icon mat-list-icon>check_circle</mat-icon>
+                <div mat-line>Assessment</div>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+
+  <section class="testimonials">
+    <div class="section-title">
+      <h3>Testimonials</h3>
+    </div>
+    <br />
+    <div class="container">
+      <div class="testimonials-block-container">
+        <mat-card class="example-card mat-elevation-z0">
+          <div class="t-image user_icon">
+            <img mat-card-image src="../../../assets/images/t-user.svg" alt="Victor" />
+          </div>
+          <div class="t-user-details">
+            <span class="name">Victor</span>
+            <span class="designation">Professor, Lorem University</span>
+            <span class="rating">
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+            </span>
+          </div>
+
+          <mat-card-content>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt
+            </p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="example-card mat-elevation-z0">
+          <div class="t-image">
+            <img mat-card-image src="../../../assets/images/testimonial-img-1.png" alt="Victor" />
+          </div>
+          <div class="t-user-details">
+            <span class="name">Victor</span>
+            <span class="designation">Professor, Lorem University</span>
+            <span class="rating">
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+            </span>
+          </div>
+          <mat-card-content>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt
+            </p>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="example-card mat-elevation-z0">
+          <div class="t-image">
+            <img mat-card-image src="../../../assets/images/testimonial-img-2.png" alt="Victor" />
+          </div>
+          <div class="t-user-details">
+            <span class="name">Victor</span>
+            <span class="designation">Professor, Lorem University</span>
+            <span class="rating">
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+              <mat-icon>grade</mat-icon>
+            </span>
+          </div>
+          <mat-card-content>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download from app store -->
+  <section class="download-section">
+    <div class="container">
+      <div class="left-content">
+        <div class="title">Lorem ipsum dollar</div>
+        <div class="title-2">Lorem ipsum</div>
+        <p>
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry’s standard dummy text ever
+          since the 1500s, when an unknown printer took a galley of type and
+          scrambled it to make a type specimen book. It has survived not only five
+          centuries.
+        </p>
+        <div class="download-icons">
+          <img src="../../../assets/images/download-icons.svg" alt="" />
+        </div>
+      </div>
+      <div class="right-content">
+        <img src="../../../assets/images/proceum-responsive.svg" alt="" />
+      </div>
+    </div>
+  </section>
+</div>
 <!-- footer -->
-<div class="sty_in_tch_dv">
+<div class="sty_in_tch_dv" *ngIf="hasLoaded">
   <div class="section-title">
     <h3>Lets Stay In Touch</h3>
   </div>
@@ -812,70 +814,4 @@
     <span style="color:rgb(207, 183, 183)">{{ errEmailMsg }} </span>
   </div>
 </div>
-<footer>
-
-  <!-- <div class="footer-menu">
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About Us</a></li>
-      <li><a href="#">FAQ</a></li>
-      <li><a href="#">Contact us</a></li>
-    </ul>
-  </div> -->
-  <div class="second-part-footer">
-    <div class="container">
-      <div class="footer-main-menu" *ngIf="!load_powered_by">
-        <div class="block">
-          <div class="title">Proceum</div>
-          <ul>
-            <li>Lorem ipsum dolor</li>
-            <li>sit amet, cons</li>
-          </ul>
-        </div>
-        <div class="block">
-          <div class="title">Quick links</div>
-          <ul>
-            <li>Home</li>
-            <li>Couesrd</li>
-            <li>Blog</li>
-            <li>Contact us</li>
-          </ul>
-        </div>
-        <div class="block">
-          <div class="title">Lorem</div>
-          <ul>
-            <li>Lorem ipsum dolor</li>
-            <li>sit amet, consectetur</li>
-            <li>adipiscing elit</li>
-            <li>Sed imperdiet</li>
-          </ul>
-        </div>
-        <div class="block">
-          <div class="title">Social media</div>
-          <div class="social-icons">
-            <img src="../../../assets/images/fb-icon.svg" alt="" />
-            <img src="../../../assets/images/twitter-icon.svg" alt="" />
-            <img src="../../../assets/images/instagram-icon.svg" alt="" />
-            <img src="../../../assets/images/whatsapp-icon.svg" alt="" />
-          </div>
-        </div>
-      </div>
-
-      <div class="footer-main-menu" *ngIf="load_powered_by">
-        <div class="block">
-          <span>
-            <img
-              src="{{ sub_domain_data.parent_header_logo ? sub_domain_data.parent_header_logo : './assets/images/ProceumLogo.png'  }}" />
-          </span>
-          <div class="title">Powered By {{ (sub_domain_data.parent_organization_name) ?
-            sub_domain_data.parent_organization_name : 'Proceum' }}</div>
-          <ul>
-            <li></li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <div class="bottom-line">&copy; 2022 Proceum. All rights reserved.</div>
-</footer>
+<app-footer *ngIf="hasLoaded"></app-footer>  

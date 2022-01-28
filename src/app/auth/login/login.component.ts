@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {GlobalApp} from '../../../global';
 import {
   SocialAuthService,
   GoogleLoginProvider,
@@ -31,14 +32,16 @@ export class LoginComponent implements OnInit {
   public password_error: string = 'Password is Required';
   public email_check: boolean = true;
   public is_login: boolean = false;
-  public sub_domain:boolean = false;
+  public isLoadedTopBar:boolean = false;
+  public subDomain:boolean = false;
 
   password_hide: boolean = true;
   constructor(
     private http: AuthService,
     private route: Router,
     private toastr: ToastrService,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
+    public app: GlobalApp
   ) {}
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {

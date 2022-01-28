@@ -1,6 +1,5 @@
-<app-topbar *ngIf="!sub_domain"></app-topbar>
-<app-partner-topbar *ngIf="sub_domain"></app-partner-topbar>
-<div *ngIf="!sub_domain" class="login_main inner-container mw_80vw">
+<app-topbar (finishedLoading)="isLoadedTopBar = $event"></app-topbar>
+<div *ngIf="isLoadedTopBar && !app.localStorageItem('header_logo')" class="login_main inner-container">
   <div class="log_mdl_cont" >
     <div class="log_div text_center">
       <div class="sgn_sec">
@@ -81,3 +80,66 @@
     </div>
   </div>
 </div> 
+
+<div *ngIf="isLoadedTopBar && app.localStorageItem('header_logo')" class="login_main partner_registration inner-container">
+  <p class="sgn_hd">Login</p>
+  <div class="log_mdl_cont">
+      <!-- Partner information -->
+      <div class="partner_info">
+          <div>
+              <h4>About </h4>
+              <h2>{{ app.localStorageItem('organization_name') }}</h2>
+              <hr> <br>
+              <h2>{{ app.localStorageItem('description') }}</h2>
+          </div>
+      </div>
+      <!-- Individual login form -->
+      <div class="log_div text_center">
+          <!-- <h2 class="clr_wht fnt_nrml wlcm_hd">Welcome to Proceum</h2> -->
+          <div class="sgn_sec">
+
+              <form #login_id="ngForm" name="login_form" (ngSubmit)="doLogin()" novalidate>
+                  <div class="mail {{ login_id.submitted && (login.email == '' || user_email.invalid) ? 'err_tltp_par' : ''}}">
+                    <input type="email" style="display:none" name="user_email"/>
+                      <input type="email" [(ngModel)]="login.email" focus name="user_email" placeholder="Enter Email" email
+                      #user_email="ngModel" ngModel required />
+                    <span class="material-icons mail_icon">mail_outline</span>
+                    <span class="prc_tltp" *ngIf="login_id.submitted && (login.email == '' || email_check == false)">{{email_error}}</span>
+                  </div>
+                  <div class="psswrd {{ login_id.submitted && (login.password == '') ? 'err_tltp_par' : ''}}">
+                    <input [type]="password_hide ? 'password' : 'text'" style="display:none" name="user_password"/>
+                    <input [type]="password_hide ? 'password' : 'text'" required [(ngModel)]="login.password"
+                      name="user_password" #user_password="ngModel" placeholder="Enter Password" ngModel />
+                    <span class="material-icons mail_icon">password</span>
+        
+                      <span class="material-icons passcode_view_icon" (click)="passwordFun()">{{
+                        password_hide ? "visibility_off" : "visibility"
+                        }}</span>
+        
+                      <span class="prc_tltp" *ngIf="login_id.submitted && login.password == ''">{{password_error}}</span>
+                  </div>
+                  <!-- <div class="remember_checkbox text-left">
+                    <mat-checkbox class="example-margin remember_checkbox text-left">Remember me</mat-checkbox>
+                  </div> -->
+                  <!-- <div
+                    class="prc_hnt"
+                    *ngIf="
+                      (login.password == '' ||
+                        login.email == '' ||
+                        user_email.invalid) &&
+                      login_id.submitted
+                    "
+                  >
+                    {{ message }}
+                  </div> -->
+                  <div class="login_btns">
+                    <!-- <input type="button" class="teal_btn sign_btn-2 lgn_btn" value="Signup"> -->
+                    <button type="submit" class="teal_btn sign_btn lgn_btn">Sign In</button>
+                  </div>
+                </form>
+
+          </div>
+      </div>
+  </div>
+</div>
+<app-footer *ngIf="isLoadedTopBar"></app-footer>  

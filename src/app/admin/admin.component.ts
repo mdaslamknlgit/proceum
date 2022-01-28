@@ -9,6 +9,7 @@ import { CommonService } from '../services/common.service';
 })
 export class AdminComponent {
     public user = [];
+    public hasTapBarLoaded:Boolean =false;
   constructor(private router: Router, private http: CommonService) {}
   ngOnInit() {
       this.user = this.http.getUser();
