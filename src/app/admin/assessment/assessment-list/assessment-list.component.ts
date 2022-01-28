@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { CommonService } from 'src/app/services/common.service';
 import { TranslateService } from '@ngx-translate/core';
+import { ReplaySubject } from 'rxjs';
 
 export interface PeriodicElement {
   
@@ -37,6 +38,16 @@ export class AssessmentListComponent implements OnInit {
   public user_id = 0;
   public role_id = 0;
   public user = [];
+
+  public users_list = '';
+  public all_users_list: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public total_users_list = [];
+  public created_by_id = "";
+  public search_txt ="";
+  public assessment_date = "";
+  public maxDate= new Date();
+  public is_submit:boolean=false;
+  public is_display:boolean=false;
   
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);
@@ -46,17 +57,30 @@ export class AssessmentListComponent implements OnInit {
     this.user = this.http.getUser();
     this.user_id = this.user['id'];
     this.role_id = this.user['role'];
-    this.pageFilter();
+    if(this.role_id == 1){
+      this.is_display = true;
+    }
+    this.applyFilters();
+    this.getUsersList();
   }
 
   getServerData(event?: PageEvent) {
     this.pageSize = event.pageSize;
 		this.page = (event.pageSize * event.pageIndex);
-    this.pageFilter();
+    this.applyFilters();
   }
 
-  public pageFilter(){
-    let param = { url: 'assessment/get-list', offset: this.page, limit: this.pageSize,role:this.role_id,user:this.user_id};
+  public applyFilters(){
+    let param = { 
+      url: 'assessment/get-list', 
+      offset: this.page,
+      limit: this.pageSize,
+      role:this.role_id,
+      user:this.user_id,
+      created_by_id:this.created_by_id,
+      assessment_date: this.assessment_date,
+      search_txt: this.search_txt
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['assessments']);
@@ -77,13 +101,53 @@ export class AssessmentListComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.pageFilter();
+        this.applyFilters();
       } else {
         this.toster.error(res['message'], res['message'], {
           closeButton: true,
         });
       }
     });
+  }
+
+  getUsersList(){
+    this.all_users_list.next();
+    let params = {
+      url: 'assessment/get-user-details'
+    };
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        if (res['user_details'].length > 0){
+          this.users_list = res['user_details'];
+          if(this.users_list != undefined){
+            this.all_users_list.next(this.users_list.slice()); 
+            this.total_users_list = res['user_details']; 
+          }
+        }
+      }
+    });
+  }
+
+  searchUsersList(event){
+    let search = event;
+    if (!search) {
+      this.all_users_list.next(this.total_users_list.slice());
+    return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_users_list.next(
+      this.total_users_list.filter(
+          (res) => res.first_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  resetFilters(){
+    this.created_by_id = "";
+    this.search_txt="";
+    this.assessment_date="";
+    this.applyFilters();
   }
 
 }

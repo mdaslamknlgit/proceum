@@ -45,8 +45,8 @@ export const environment = {
     INSTITUTE_ADMIN: 10,
     PARTNER_ADMIN: 14,
   },
-  apiUrl: 'http://192.10.250.150:8000/api/',
-  //apiUrl: 'http://127.0.0.1:8000/api/',
+  // apiUrl: 'http://192.10.250.150:8000/api/',
+  apiUrl: 'http://127.0.0.1:8000/api/',
   ///apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
 
   //APP_BASE_URL: 'http://localhost:4200/',
