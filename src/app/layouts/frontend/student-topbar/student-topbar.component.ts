@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router } from '@angular/router';
 import { CartCountService } from '../../../services/cart-count.service';
@@ -19,44 +19,41 @@ export class StudentTopbarComponent implements OnInit {
   //For cart badge
   number: any;
   subscription: Subscription;
-  user_id='';
+  user_id = '';
   load_top_bar = false;
-
+  @Output() finishedLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
-    private http: CommonService, 
+    private http: CommonService,
     private route: Router,
-    private cartCountService:CartCountService,
+    private cartCountService: CartCountService,
     public translate: TranslateService,
-    ) {
+  ) {
     this.http.menu_status = localStorage.getItem('sidemenu');
     this.translate.setDefaultLang(this.http.lang);
     //for cart badge
     this.subscription = this.cartCountService.getNumber().subscribe(number => { this.number = number });
   }
-  ngAfterViewInit(){
-      this.search_key = this.http.search_string;
+  ngAfterViewInit() {
+    this.search_key = this.http.search_string;
   }
   ngOnInit(): void {
     //check subdomain
     let sub_domain = window.location.hostname;
     //static sub domain
-    //sub_domain = 'ntr';
+    //sub_domain = 'iimsc';
     //If subdomain not exist in in app domains then check for partner domain
-    if(environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1){
-      if(!localStorage.getItem('header_logo')){
-        this.getSubDomainDetails(sub_domain);
-      }else{
-        this.load_top_bar = true;
-      }
-    }else{
-      localStorage.setItem('header_logo','');
+    if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
+      this.getSubDomainDetails(sub_domain);
+    } else {
+      localStorage.setItem('header_logo', '');
       this.load_top_bar = true;
+      this.finishedLoading.emit(true);
     }
     this.user = this.http.getUser();
-    if(this.user){
+    if (this.user) {
       this.user_id = this.user['id'];
+      this.getCartCount();
     }
-    this.getCartCount();
   }
 
   // toggleSidemenu(param) {
@@ -65,21 +62,21 @@ export class StudentTopbarComponent implements OnInit {
   //   localStorage.setItem('sidemenu', this.sidemenu_status);
   //   this.http.menu_status = this.sidemenu_status;
   // }
-  getCartCount(){
-    if(this.user_id != ''){
+  getCartCount() {
+    if (this.user_id != '') {
       let params = { url: 'get-cart-count', id: this.user_id };
       this.http.post(params).subscribe((res) => {
-       if(res['data'] != 0){
-         this.cartCountService.sendNumber(res['data']);
-       }
-      });  
+        if (res['data'] != 0) {
+          this.cartCountService.sendNumber(res['data']);
+        }
+      });
     }
-    
+
   }
 
   toggleSidemenu(param) {
     this.sidemenu_status =
-    this.http.menu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
+      this.http.menu_status == 'sd_opn' ? 'sd_cls' : 'sd_opn';
     this.http.menu_status = this.sidemenu_status;
   }
 
@@ -92,31 +89,35 @@ export class StudentTopbarComponent implements OnInit {
     });
   }
 
-  getSubDomainDetails(sub_domain){
+  getSubDomainDetails(sub_domain) {
     let params = {
       url: 'get-subdomain-details',
       sub_domain: sub_domain,
     };
     this.http.post(params).subscribe((res) => {
-      if(!res['error']){
+      if (!res['error']) {
         localStorage.setItem('header_logo', res['data']['header_logo']);
+        localStorage.setItem('footer_logo', res['data']['footer_logo']);
+        localStorage.setItem('organization_name', res['data']['organization_name']);
+        localStorage.setItem('description', res['data']['description']);
         //console.log(this.sub_domain_data);
-      }else{
-        console.log("No subdomain data found");
+      } else {
+        window.location.href = environment.APP_BASE_URL;
       }
       this.load_top_bar = true;
+      this.finishedLoading.emit(true);
     });
   }
-  
-  getHeaderLogo(){
+
+  getHeaderLogo() {
     let header_logo = localStorage.getItem('header_logo');
-    if(header_logo){
+    if (header_logo) {
       return header_logo;
-    }else{
+    } else {
       return "./assets/images/ProceumLogo.png";
     }
   }
-  studentglobalsearch(){
+  studentglobalsearch() {
     // this.route.navigateByUrl('/student/global-search/' + this.search_key)
     this.route.navigateByUrl('/index/global-search/' + this.search_key)
   }

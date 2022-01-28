@@ -1,5 +1,5 @@
-<app-topbar class="inner-header"></app-topbar>
-<app-student-topbar *ngIf="user && !search_key && (user['role']== '2' || user['role']== '11')"></app-student-topbar>
-<app-sidemenu *ngIf="current_url.includes('/student/') && (user && (user['role']== '2' || user['role']== '11'))"></app-sidemenu>
-<router-outlet> </router-outlet>
-<app-footer></app-footer>
+<app-topbar (finishedLoading)="hasTapBarLoaded = $event" class="inner-header"></app-topbar>
+<app-student-topbar *ngIf="hasTapBarLoaded && user && !search_key && (user['role']== '2' || user['role']== '11')"></app-student-topbar>
+<app-sidemenu *ngIf="hasTapBarLoaded && current_url.includes('/student/') && (user && (user['role']== '2' || user['role']== '11'))"></app-sidemenu>
+<router-outlet *ngIf="hasTapBarLoaded"> </router-outlet>
+<app-footer *ngIf="hasTapBarLoaded"></app-footer>

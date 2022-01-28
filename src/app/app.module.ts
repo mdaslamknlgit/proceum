@@ -27,6 +27,7 @@ import { CartCountService } from './services/cart-count.service';
 import { ReplaceUnderscorePipe } from './shared/pipes/replace-underscore-pipe';
 import { ReplacePipe } from './shared/pipes/replace-pipe';
 import { SharedModule } from './shared/shared.module';
+import { GlobalApp } from '../global';
 
 //import { SafePipe } from './shared/pipes/safe.pipe';
 @NgModule({
@@ -64,6 +65,7 @@ import { SharedModule } from './shared/shared.module';
     SharedModule
   ],
   providers: [
+    GlobalApp,
     CartCountService,
     { provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true },
     {
