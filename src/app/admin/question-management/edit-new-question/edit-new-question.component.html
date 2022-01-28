@@ -5,27 +5,28 @@
 </style>
 <div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
-      <div class="pg_ttl">
-        Proceum Library
-        <span class="spacer"></span>
-        <button (click)="CloseModal()" mat-icon-button class="float_right">
-          &#x2715;
-        </button>
-      </div>
-      <div class="tbbd_bdy" *ngIf="library_popup">
-        <app-assets-library [data]="{ modal_view: true, active_tab: active_tab, 'library_purpose': library_purpose }">
-        </app-assets-library>
-        <hr />
-        <button mat-raised-button color="accent" class="float_right mr_1">
-          Select
-        </button>
-        <button mat-raised-button class="float_right mr_1 gry_btn" (click)="CloseModal()">
-          Close
-        </button>
-        <div class="hgt_20"></div>
-      </div>
+        <div class="pg_ttl">
+            Proceum Library
+            <span class="spacer"></span>
+            <button (click)="CloseModal()" mat-icon-button class="float_right">
+                &#x2715;
+            </button>
+        </div>
+        <div class="tbbd_bdy" *ngIf="library_popup">
+            <app-assets-library
+                [data]="{ modal_view: true, active_tab: active_tab, 'library_purpose': library_purpose }">
+            </app-assets-library>
+            <hr />
+            <button mat-raised-button color="accent" class="float_right mr_1">
+                Select
+            </button>
+            <button mat-raised-button class="float_right mr_1 gry_btn" (click)="CloseModal()">
+                Close
+            </button>
+            <div class="hgt_20"></div>
+        </div>
     </div>
-  </div>
+</div>
 <div class="mn_dshbrd">
     <div class="brd_crm"> <span>Update Question</span> </div>
     <div class="pg_ttl mb_0">Update Question</div>
@@ -38,8 +39,8 @@
                     <div>
                         <div class="crt_prt_hd">This Question is for:</div>
                         <div class="crt_prt_cnt pe_nn">
-                            <mat-radio-group name="questionUsageType"
-                                [(ngModel)]="question.questionUsageType" #questionUsageType="ngModel" ngModel required>
+                            <mat-radio-group name="questionUsageType" [(ngModel)]="question.questionUsageType"
+                                #questionUsageType="ngModel" ngModel required>
                                 <!-- [disabled]="true" -->
                                 <mat-radio-button [value]="1" class="emh qif" (click)="false && changeQUsageType(1)">
                                     Assessment
@@ -145,47 +146,48 @@
                             </div>
                         </div> -->
                     </div>
-                    <div class="d-flex fw_rsp_599">
-                        <div class="w_100p">
+                    <div class="d-flex fw_rsp_599 fw_w">
+                        <div class="cm_fltr_sc mr_1">
                             <div class="crt_prt_hd">{{question_Qbank?'QBank':'Course'}}<span class="required">*</span>
                             </div>
-                            <div class="crt_prt_cnt"> <span class="err_tltp_par">
-                                    <mat-form-field appearance="outline">
-                                        <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}" name="curriculum_id_name"
-                                            [(ngModel)]="question.curriculum_id" 
-                                            (ngModelChange)="getLabels();setCourseText($event);"
-                                            #curriculum_id_name="ngModel" ngModel>
-                                            <mat-option [value]="0">Select</mat-option>
-                                            <mat-option [matTooltip]="value['curriculumn_name']"
-                                                *ngFor="let value of curriculums" [value]="value['pk_id']">
-                                                {{value['curriculumn_name']}}</mat-option>
-                                        </mat-select>
-                                        <span class="prc_tltp" *ngIf=" (question_list_form.submitted || curriculum_id_name.touched) &&
-                                        curriculum_id_name.invalid">Course is Required</span>
-                                    </mat-form-field>
-                                </span>
+                            <div class="crt_prt_cnt">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select {{question_Qbank?'QBank':'Course'}}"
+                                        name="curriculum_id_name" [(ngModel)]="question.curriculum_id"
+                                        (ngModelChange)="getLabels();setCourseText($event);"
+                                        #curriculum_id_name="ngModel" ngModel>
+                                        <mat-option [value]="0">Select</mat-option>
+                                        <mat-option [matTooltip]="value['curriculumn_name']"
+                                            *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                            {{value['curriculumn_name']}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
                             </div>
                         </div>
-                        <div class="w_100p" *ngFor="let value of curriculum_labels; let i = index">
-                            <span class="crt_prt_hd">{{ ucFirst(value["display_label"]) }}</span>
-                            <div class="clear_fix"></div>
+                        <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                            <div class="crt_prt_hd">{{ ucFirst(value["display_label"]) }}</div>
                             <div class="crt_prt_cnt">
-                            <mat-form-field appearance="outline">
-                              <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="level_{{value['level_number']}}"
-                                [(ngModel)]="selected_level[value['level_number']]" (ngModelChange)="getLevels(value['level_number']);">
-                                <mat-option>
-                                  <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
-                                    name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
-                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
-                                    {{ucFirst(value['display_label'])}}
-                                  </ngx-mat-select-search>
-                                </mat-option>
-                                <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
-                                  [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
-                              </mat-select>
-                            </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                                        name="level_{{value['level_number']}}"
+                                        [(ngModel)]="selected_level[value['level_number']]"
+                                        (ngModelChange)="getLevels(value['level_number']);">
+                                        <mat-option>
+                                            <ngx-mat-select-search
+                                                [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                                name="search_topic" ngModel
+                                                (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                                [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select
+                                                {{ucFirst(value['display_label'])}}
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let level of level_options[value['level_number']]"
+                                            [value]="level['pk_id']" [matTooltip]="level['level_name']">
+                                            {{level["level_name"] }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                         </div>
-                          </div>
                         <!-- <div class="w_100p">
                             <div class="crt_prt_hd">Topic / Subtopic <span class="required">*</span></div>
                             <div class="crt_prt_cnt"> <span class="err_tltp_par">
@@ -212,9 +214,10 @@
                                 </span>
                             </div>
                         </div> -->
-                        <div class="w_100px">
+                        <div class="w_90px">
                             <div class="crt_prt_hd rsp_hd_599">&nbsp;</div>
-                            <button [disabled]="is_topic_exist || (level_options[level_id+1] != undefined && level_options[level_id+1].length>0) || question.curriculum_id==''"
+                            <button
+                                [disabled]="is_topic_exist || (level_options[level_id+1] != undefined && level_options[level_id+1].length>0) || question.curriculum_id==''"
                                 (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
                                 Add (+)
                             </button>
@@ -280,12 +283,13 @@
                                         </div>
                                         <img *ngIf="option_images['file']" [src]="bucket_url+option_images['file']">
                                         <!-- <mat-icon *ngIf="!fileName">photo</mat-icon> -->
-                                        <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openAssetsLibrary('images/questions', 'file')" type="button"
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg"
+                                            (click)="openAssetsLibrary('images/questions', 'file')" type="button"
                                             color="accent">
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                     </div>
-                                    
+
                                     <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text">
                                         <!-- <div class="d-flex w_100p mb_1">
                                             <div class="fl_frmt_info">System will accent only .mp3</div>
@@ -305,18 +309,20 @@
 
 
                                         <button mat-mini-fab class="cnq_upld_btn"
-                                        onclick="document.getElementById('file').click()" type="button"
-                                        color="accent">
-                                        <mat-icon>file_upload</mat-icon>
-                                    </button>
-                                    <div class="hgt_10"></div>
-                                    <div>{{fileName}}</div>
-                                    <div class="hgt_10"></div>
-                                    <div>
-                                        <mat-icon (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">play_arrow
-                                        </mat-icon>
-                                        <mat-icon (click)="pauseAudio()">pause</mat-icon>
-                                    </div>
+                                            onclick="document.getElementById('file').click()" type="button"
+                                            color="accent">
+                                            <mat-icon>file_upload</mat-icon>
+                                        </button>
+                                        <div class="hgt_10"></div>
+                                        <div>{{fileName}}</div>
+                                        <div class="hgt_10"></div>
+                                        <div>
+                                            <mat-icon
+                                                (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">
+                                                play_arrow
+                                            </mat-icon>
+                                            <mat-icon (click)="pauseAudio()">pause</mat-icon>
+                                        </div>
 
 
 
@@ -351,8 +357,8 @@
                     <div class="d-flex">
                         <div class="w_50p">
                             <div class="w_100p">
-                                <div class="crt_prt_hd">Video Type <span class="required">*</span></div> <span
-                                    class="err_tltp_par">
+                                <div class="crt_prt_hd">Video Type <span class="required">*</span></div>
+                                <span class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <mat-select name="q_source" [(ngModel)]="question.q_source" #q_source="ngModel"
                                             ngModel required="true"
@@ -368,8 +374,8 @@
                                 </span>
                             </div>
                             <div class="w_100p">
-                                <div class="crt_prt_hd">Video Source <span class="required">*</span></div> <span
-                                    class="err_tltp_par">
+                                <div class="crt_prt_hd">Video Source <span class="required">*</span></div>
+                                <span class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <input (blur)="validateVideo()" [(ngModel)]="question.q_source_value"
                                             #q_source_value="ngModel" name="q_source_value" matInput
@@ -442,12 +448,15 @@
                                 <div class="cnq_img_thmb text_center"
                                     *ngIf="image_single_option || image_multiple_option">
                                     <div>
-                                            <div class="close_icon" *ngIf="option_images['opt'+(option+1)+'Img']">
-                                                <mat-icon (click)="removeFile('opt'+(option+1)+'Img')">close</mat-icon>
-                                            </div>
-                                            <img *ngIf="option_images['opt'+(option+1)+'Img']" [src]="bucket_url+option_images['opt'+(option+1)+'Img']">
+                                        <div class="close_icon" *ngIf="option_images['opt'+(option+1)+'Img']">
+                                            <mat-icon (click)="removeFile('opt'+(option+1)+'Img')">close</mat-icon>
+                                        </div>
+                                        <img *ngIf="option_images['opt'+(option+1)+'Img']"
+                                            [src]="bucket_url+option_images['opt'+(option+1)+'Img']">
                                         <!-- <mat-icon *ngIf="!this['opt'+(option+1)+'FileName']">photo</mat-icon> -->
-                                        <button mat-fab class="cnq_upld_btn cnq_delimg" (click)="openAssetsLibrary('images/questions', 'opt'+(option+1)+'Img')" type="button" color="accent">
+                                        <button mat-fab class="cnq_upld_btn cnq_delimg"
+                                            (click)="openAssetsLibrary('images/questions', 'opt'+(option+1)+'Img')"
+                                            type="button" color="accent">
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                         <div class="brnd_info_upld d_none">
@@ -534,10 +543,12 @@
                                             <div class="close_icon" *ngIf="option_images['opt'+(option+1)+'Img']">
                                                 <mat-icon (click)="removeFile('opt'+(option+1)+'Img')">close</mat-icon>
                                             </div>
-                                            <img *ngIf="option_images['opt'+(option+1)+'Img']" [src]="bucket_url+option_images['opt'+(option+1)+'Img']">
+                                            <img *ngIf="option_images['opt'+(option+1)+'Img']"
+                                                [src]="bucket_url+option_images['opt'+(option+1)+'Img']">
                                             <!-- <mat-icon *ngIf="!this['opt'+(option+1)+'FileName']">photo</mat-icon> -->
                                             <button mat-fab class="cnq_upld_btn cnq_delimg"
-                                                (click)="openAssetsLibrary('images/questions', 'opt'+(option+1)+'Img')" type="button" color="accent">
+                                                (click)="openAssetsLibrary('images/questions', 'opt'+(option+1)+'Img')"
+                                                type="button" color="accent">
                                                 <mat-icon>file_upload</mat-icon>
                                             </button>
                                             <div class="brnd_info_upld d_none">
