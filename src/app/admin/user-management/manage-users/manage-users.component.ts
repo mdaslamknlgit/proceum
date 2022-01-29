@@ -104,6 +104,9 @@ export class ManageUsersComponent implements OnInit {
   download_url : string;
   student_structure_template : string;
   
+  public user_id = 0;
+  public role_id = 0;
+  public user = [];
 
   constructor(
     private http: CommonService,
@@ -115,6 +118,9 @@ export class ManageUsersComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.user = this.http.getUser();
+    this.user_id = this.user['id'];
+    this.role_id = this.user['role'];
     this.domain = location.origin;
     this.getAdminUsers();
     this.getRoleList();

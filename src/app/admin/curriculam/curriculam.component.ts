@@ -24,7 +24,9 @@ export class CurriculamComponent implements OnInit {
     public step_flags = {'step_0':''};
     public selected_step_flags = [];
     public default_items = [{flag:"Subject", value: "subject", is_disabled: false}, {flag:"Chapter", value: "chapter", is_disabled: false}, {flag:"Topic", value: "topic", is_disabled: false}, {flag:"Sub Topic", value: "sub_topic", is_disabled: false}];
-    public items = [{flag:"Subject", value: "subject", is_disabled: false}, {flag:"Chapter", value: "chapter", is_disabled: false}, {flag:"Topic", value: "topic", is_disabled: false}, {flag:"Sub Topic", value: "sub_topic", is_disabled: false}];;
+    public items = [{flag:"Subject", value: "subject", is_disabled: false}, {flag:"Chapter", value: "chapter", is_disabled: false}, {flag:"Topic", value: "topic", is_disabled: false}, {flag:"Sub Topic", value: "sub_topic", is_disabled: false}];
+    public is_for_assessment = 1;
+;
     public curriculum_id = '';
     dataSource = new MatTableDataSource();
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -162,7 +164,8 @@ export class CurriculamComponent implements OnInit {
             usage_type: this.course_usage,
             curriculum_steps: steps,
             flags: this.step_flags,
-            exam_template: this.exam_template
+            exam_template: this.exam_template,
+            is_for_assessment: this.is_for_assessment
             //qbank_type: this.qbank_type
         };
         this.http.post(param).subscribe((res) => {
@@ -183,6 +186,14 @@ export class CurriculamComponent implements OnInit {
             }
         });
     }
+    onChange(e){
+        if(e.source.checked){
+            this.is_for_assessment = 1;
+        }
+        else{
+            this.is_for_assessment = 0;
+        }
+    }
     viewCurriculum(param) {
         this.view_model_status = !this.view_model_status;
     }
@@ -191,6 +202,7 @@ export class CurriculamComponent implements OnInit {
         this.edit_model_status = !this.edit_model_status;
         this.curriculum_name = param['name'];
         this.exam_template = param['exam_template'];
+        this.is_for_assessment = param['is_for_assessment'];
         //this.qbank_type = param['qbank_type'];
         this.course_usage = param['usage_type'];
         this.curriculum_id = param['id'];
@@ -221,7 +233,9 @@ export class CurriculamComponent implements OnInit {
             curriculum_name: this.curriculum_name,
             curriculum_steps: steps,
             usage_type: this.course_usage,
-            exam_template: this.exam_template
+            exam_template: this.exam_template,
+            step_flags: this.step_flags,
+            is_for_assessment: this.is_for_assessment
             //qbank_type:this.qbank_type
         };
         this.http.put(param).subscribe((res) => {
