@@ -42,6 +42,18 @@ export class ManageUsersComponent implements OnInit {
     'actions',
     'status',
   ];
+  displayedColumnsThree: string[] = [
+    'id',
+    'name',
+    'email',
+    'phone',
+    'Unique ID',
+    'Year',
+    'Semester',
+    'Group',
+    'created_at',
+    //'actions',
+  ];
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
   public totalSize = 0;
@@ -57,6 +69,10 @@ export class ManageUsersComponent implements OnInit {
   dataSourceTwo = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginatorTwo: MatPaginator;
   @ViewChild(MatSort) sortTwo: MatSort;
+
+  dataSourceThree = new MatTableDataSource();
+  @ViewChild(MatPaginator, { static: false }) paginatorThree: MatPaginator;
+  @ViewChild(MatSort) sortThree: MatSort;
 
   public organization_types = environment.ORGANIZATION_TYPES;
 
@@ -106,6 +122,7 @@ export class ManageUsersComponent implements OnInit {
   
   public user_id = 0;
   public role_id = 0;
+  public college_institute_id = 0;
   public user = [];
 
   constructor(
@@ -121,19 +138,49 @@ export class ManageUsersComponent implements OnInit {
     this.user = this.http.getUser();
     this.user_id = this.user['id'];
     this.role_id = this.user['role'];
+    if(this.role_id == 12){
+      this.getTeacherCollegeInstitute();
+    }else{
+      this.getAdminUsers();
+      this.getRoleList();
+    }
     this.domain = location.origin;
-    this.getAdminUsers();
-    this.getRoleList();
+  }
+  
+  getTeacherCollegeInstitute(){
+    let params = {
+      url: 'assessment/get-teacher-details', user_id: this.user_id
+    };
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        if(res['user_details']['college_id'] != null){
+          this.college_id = this.college_institute_id = res['user_details']['college_id'];
+          this.getYearSemsterGroup('1',0,'year','');
+        }
+        if(res['user_details']['institute_id'] != null){
+          this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
+          this.getYearSemsterGroup('3',0,'year','');
+        }
+        this.getAdminUsers();
+      }
+    });
   }
 
   public getAdminUsers() {
-    let param = { url: 'get-user-list',offset: this.page,limit: this.pageSize, is_admin_specific_role : '1' };
+    let param = { url: 'get-user-list',offset: this.page,limit: this.pageSize, is_admin_specific_role : '1',role_id:this.role_id,organization: this.college_institute_id };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.dataSource = new MatTableDataSource(res['data']);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.totalSize = res['total_records'];
+        if(this.role_id != 12){
+          this.dataSource = new MatTableDataSource(res['data']);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.totalSize = res['total_records'];
+        }else if(this.role_id == 12){
+          this.dataSourceThree = new MatTableDataSource(res['data']);
+          this.dataSourceThree.paginator = this.paginator;
+          this.dataSourceThree.sort = this.sort;
+          this.totalSize = res['total_records'];
+        }
       } else {
         //this.toster.error(res['message'], 'Error');
       }
@@ -167,17 +214,24 @@ export class ManageUsersComponent implements OnInit {
       role: this.role ,
       search: this.search_box ,
       list_type_id: this.organization_type_id,
-      organization: this.organization_list_id,
+      organization: this.role_id != 12?this.organization_list_id:this.college_institute_id,
       college_id: this.college_id,
       year: this.year_id,
       semester: this.semester_id,
       group: this.group_id,
-      is_admin_specific_role : '1'
+      is_admin_specific_role : '1',
+      role_id:this.role_id
     };
     
     this.http.post(param).subscribe((res) => {    
       this.checkboxValue = false;
       if (res['error'] == false) {
+        if(this.role_id == 12){
+          this.dataSourceThree = new MatTableDataSource(res['data']);
+          this.dataSourceThree.paginator = this.paginator;
+          this.dataSourceThree.sort = this.sort;
+          return false;
+        }
         if(this.role == '2'){
           this.dataSourceTwo = new MatTableDataSource(res['data']);
           this.dataSourceTwo.paginator = this.paginator;
@@ -199,6 +253,9 @@ export class ManageUsersComponent implements OnInit {
         }
         this.totalSize = res['total_records'];        
       } else {
+        if(this.role_id == 12){
+          this.dataSourceThree = new MatTableDataSource([]);
+        }
         if(this.role == '2'){
           this.dataSourceTwo = new MatTableDataSource([]);
         }else{
@@ -219,16 +276,21 @@ export class ManageUsersComponent implements OnInit {
       order_by: this.sort_by,
       search: this.search_box,
       role: this.role,
-      organization: this.organization_list_id,
+      organization: this.role_id != 12?this.organization_list_id:this.college_institute_id,
       college_id: this.college_id,
       year: this.year_id,
       semester: this.semester_id,
       group: this.group_id,
+      role_id:this.role_id
     };
     
     this.http.post(param).subscribe((res) => {
       this.checkboxValue = false;
       if (res['error'] == false) {
+        if(this.role_id == 12){
+          this.dataSourceThree = new MatTableDataSource(res['data']);
+          return false;
+        }
         if(this.role == '2'){
           this.dataSourceTwo = new MatTableDataSource(res['data']);
           let student_list = res['data'];
@@ -247,6 +309,9 @@ export class ManageUsersComponent implements OnInit {
         this.totalSize = res['total_records'];
       } else {
         //this.toster.info(res['message'], 'Error');
+        if(this.role_id == 12){
+          this.dataSourceThree = new MatTableDataSource([]);
+        }
         if(this.role == '2'){
           this.dataSourceTwo = new MatTableDataSource([]);
         } else{
@@ -408,8 +473,11 @@ export class ManageUsersComponent implements OnInit {
     if(org_type == '1'){
       partner = this.college_id;
     }
-    else{
+    else if(org_type == '3'){
       partner = this.organization_list_id;
+    }
+    else if(this.role_id == 12){
+      partner = String(this.college_institute_id);
     }
     //console.log('org_type => '+org_type+', partner => '+partner+', parent_id => '+parent_id+', slug => '+slug);   
     let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
@@ -578,17 +646,24 @@ export class ManageUsersComponent implements OnInit {
   }
 
   resetFilters(){
+    this.search_box = '';
     this.all_organization_list.next();
     this.all_college.next();
-    this.all_years.next();
     this.all_semesters.next();
     this.all_groups.next();
     this.organization_type_id = '';
-    this.organization_list_id = '';
     this.college_id = '';
     this.year_id = '';
     this.semester_id = '';
     this.group_id = '';
-    this.doFilter();
+    this.show_semester_dropdown = true;
+    this.show_group_dropdown = true;
+    if(this.role_id != 12){
+      this.all_years.next();
+      this.organization_list_id = '';
+      this.doFilter();
+    }else{
+      this.getAdminUsers();
+    }
   }
 }

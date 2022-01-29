@@ -69,8 +69,8 @@ export const environment = {
   apiUrl: 'http://127.0.0.1:8000/api/',
   ///apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
 
-  //APP_BASE_URL: 'http://localhost:4200/',
-  APP_BASE_URL: 'http://192.10.250.150:4200/',
+  APP_BASE_URL: 'http://localhost:4200/',
+  // APP_BASE_URL: 'http://192.10.250.150:4200/',
 
   firebaseConfig: {
     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
