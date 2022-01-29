@@ -32,15 +32,6 @@ export class IndexComponent implements OnInit {
   public result;
   ngOnInit(): void {
     this.user = this.service.getUser();
-    //check subdomain
-    let sub_domain = window.location.hostname;
-    //sub_domain = 'aiimst';
-    //If subdomain not exist in in app domains then check for partner domain
-    if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
-      this.getSubDomainDetails(sub_domain);
-    } else {
-      this.load_powered_by = false;
-    }
     this.getcoupons();
   }
   navigateTo() {

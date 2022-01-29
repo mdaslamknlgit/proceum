@@ -245,8 +245,10 @@ const routes: Routes = [
       { path: 'edit-assessment/:id/:key', component: EditAssessmentComponent },
       //College routes
       { path: 'create-college', component: CreateCollegeComponent },
-      { path: 'edit-college/:id', component: CreateCollegeComponent },
+      { path: 'create-college/:partner_id', component: CreateCollegeComponent },
+      { path: 'create-college/:partner_id/:pk_id', component: CreateCollegeComponent },
       { path: 'college-list', component: ListCollegesComponent },
+      { path: 'college-list/:id', component: ListCollegesComponent },
       { path: 'global-search/:search_string', component: AdminGlobalSearchComponent },
     ],
   },
