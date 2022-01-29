@@ -51,7 +51,7 @@ export class PartnersListComponent implements OnInit {
 
   ngOnInit(): void {
     let param = {
-      url: 'get-partners', type: this.type
+      url: 'get-partners', partner_type_id: this.type
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -68,7 +68,7 @@ export class PartnersListComponent implements OnInit {
   }
   public getPartners() {
     //console.log(this.type);
-    let param = { url: 'get-partners', type: this.type };
+    let param = { url: 'get-partners', partner_type_id: this.type };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['partners']);
@@ -83,7 +83,7 @@ export class PartnersListComponent implements OnInit {
     let param = {
       url: 'get-partners',
       search: this.search_box,
-      type: this.type,
+      partner_type_id: this.type,
       from_date: this.from_date,
       to_date: this.to_date,
     };
@@ -106,7 +106,7 @@ export class PartnersListComponent implements OnInit {
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
-      type: this.type,
+      partner_type_id: this.type,
       from_date: this.from_date,
       to_date: this.to_date,
     };

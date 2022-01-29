@@ -141,7 +141,7 @@ export class ManageUsersComponent implements OnInit {
   }
 
   public getRoleList() {      // Added by Phanindra
-    let param1 = { url: 'get-admin-specific-roles',is_admin_specific_role : '1'};
+    let param1 = { url: 'get-roles',is_admin_specific_role : '1'};
     this.http.post(param1).subscribe((res) => {
       if (res['error'] == false) {
         this.roles = res['data']['roles'];
