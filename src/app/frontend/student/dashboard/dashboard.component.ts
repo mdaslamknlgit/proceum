@@ -84,13 +84,13 @@ export class DashboardComponent implements OnInit {
   //Get package expirations of user
   getPackagesAboutToExpire(){
     let param = { url: 'get-user-packages-about-to-expire'};
-    this.http.post(param).subscribe((res) => {
+    /* this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         if(res['data'].length){
           this.expiration_courses = res['data'];
         }
       }
-    });
+    }); */
   }
   navigateTo(url){
     this.router.navigateByUrl("student/curriculum/details/"+url);

@@ -34,8 +34,8 @@ export class PartnersListComponent implements OnInit {
   public search_box = '';
   public type = 0;
   public page = 0;
-  public from_date='';
-  public to_date='';
+  public from_date = '';
+  public to_date = '';
   public today = new Date();
   popoverTitle = '';
   popoverMessage = '';
@@ -47,18 +47,18 @@ export class PartnersListComponent implements OnInit {
     private http: CommonService,
     public toster: ToastrService,
     private router: Router,
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     let param = {
-      url: 'get-partners' , type : this.type
+      url: 'get-partners', type: this.type
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         if (this.paginator != undefined) {
-            this.paginator.pageIndex = 0;
-            this.paginator.firstPage();
-          }
+          this.paginator.pageIndex = 0;
+          this.paginator.firstPage();
+        }
         this.dataSource = new MatTableDataSource(res['data']['partners']);
         this.totalSize = res['total_records'];
         this.dataSource.paginator = this.paginator;
@@ -68,7 +68,7 @@ export class PartnersListComponent implements OnInit {
   }
   public getPartners() {
     //console.log(this.type);
-    let param = { url: 'get-partners' , type : this.type};
+    let param = { url: 'get-partners', type: this.type };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['partners']);
@@ -80,12 +80,12 @@ export class PartnersListComponent implements OnInit {
   }
 
   public doFilter() {
-    let param = { 
-      url: 'get-partners', 
-      search: this.search_box , 
-      type : this.type,
-      from_date : this.from_date,
-      to_date : this.to_date,
+    let param = {
+      url: 'get-partners',
+      search: this.search_box,
+      type: this.type,
+      from_date: this.from_date,
+      to_date: this.to_date,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -106,9 +106,9 @@ export class PartnersListComponent implements OnInit {
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
-      type : this.type,
-      from_date : this.from_date,
-      to_date : this.to_date,
+      type: this.type,
+      from_date: this.from_date,
+      to_date: this.to_date,
     };
     this.http.post(param).subscribe((res) => {
       //console.log(res['data']['partners']);
@@ -124,7 +124,7 @@ export class PartnersListComponent implements OnInit {
 
 
 
-  public deletePartner(partner_id, status){
+  public deletePartner(partner_id, status) {
     let param = {
       url: 'partner-status',
       id: partner_id,
@@ -140,22 +140,22 @@ export class PartnersListComponent implements OnInit {
         });
       }
     });
-    
+
   }
 
-  navigateTo(url){
-      let user = this.http.getUser();
-      if(user['role']== '1'){
-          url = "/admin/"+url;
-      }
-      //Later we must change this
-      if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
-        url = "/admin/"+url;
-    }
+  navigateTo(url) {
+    let user = this.http.getUser();
+    if ((environment.ALL_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN == Number(user['role'])) || (environment.ALL_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN == Number(user['role']))) {
+      url = "/admin/" + url;
       this.router.navigateByUrl(url);
+    } else {
+      this.toster.error('UnAuthorized!', 'Error', {
+        closeButton: true,
+      });
+    }
   }
 
-  tabClick(event){
+  tabClick(event) {
     this.page = 0;
     if (this.paginator != undefined) {
       this.paginator.pageIndex = 0;
@@ -168,8 +168,8 @@ export class PartnersListComponent implements OnInit {
     this.getPartners();
   }
 
-  resetFilters(){
-    this.search_box =   '';
+  resetFilters() {
+    this.search_box = '';
     this.from_date = '';
     this.to_date = '';
     this.doFilter();
