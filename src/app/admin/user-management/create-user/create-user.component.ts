@@ -51,7 +51,7 @@ export class CreateUserComponent implements OnInit {
   public state_id: any = '';
   public city: any = '';
   public pincode = '';
-  public university_id:any = '';
+  public university_id: any = '';
   public college_id = '';
   public institute_id = '';
   public if_student: boolean = false;
@@ -105,12 +105,12 @@ export class CreateUserComponent implements OnInit {
   ngOnInit(): void {
     this.domain = location.origin;
     this.user = this.http.getUser();
-    if(this.user['partner_id']){
+    if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes((Number(this.user['role'])))) {
       this.university_id = this.user['partner_id'];
     }
     this.getRoles(this.user['role']);
     this.activatedRoute.params.subscribe((param) => {
-      this.user_id = param.id;      
+      this.user_id = param.id;
       if (this.user_id != undefined) {
         this.getUser();
       }
@@ -157,7 +157,7 @@ export class CreateUserComponent implements OnInit {
       this.show_partners_dropdown = false;
       this.organization = '1';
     }
-    
+
     /* if(Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN){
       this.show_partners_dropdown = false;
     } */
@@ -284,7 +284,9 @@ export class CreateUserComponent implements OnInit {
         if (this.universities != undefined) {
           this.all_universities.next(this.universities.slice());
         }
-        this.getPartnerChilds(this.university_id);
+        if (callPartnerChilds) {
+          this.getPartnerChilds(this.university_id);
+        }
       } else {
         //this.toster.error(res['message'], 'Error');
       }
@@ -301,7 +303,7 @@ export class CreateUserComponent implements OnInit {
     }
     this.all_universities.next(
       this.universities.filter(
-        (university) => university.name.toLowerCase().indexOf(search) > -1
+        (university) => university.partner_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
@@ -332,7 +334,7 @@ export class CreateUserComponent implements OnInit {
     }
     this.all_colleges.next(
       this.colleges.filter(
-        (college) => college.organization_name.toLowerCase().indexOf(search) > -1
+        (college) => college.partner_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
@@ -558,7 +560,7 @@ export class CreateUserComponent implements OnInit {
       organization: this.organization,
       domain: this.domain,
     };
-    
+
     let params = { url: 'create-user', form_data: form_data };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {

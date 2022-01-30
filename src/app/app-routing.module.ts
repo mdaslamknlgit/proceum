@@ -60,7 +60,7 @@ const routes: Routes = [
       import('./admin/admin.module').then((m) => m.AdminModule),
     canActivate: [AuthGuard],
     data: {
-      role: '1,8,9,10',
+      role: '1,8,9,10,14',
     },
   },
   {
