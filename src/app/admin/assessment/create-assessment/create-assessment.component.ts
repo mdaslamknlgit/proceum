@@ -153,7 +153,7 @@ export class CreateAssessmentComponent implements OnInit {
     this.curriculum_id = 0;
     this.curriculum_labels = [];
     let params = {
-      url: 'get-courses-or-qbanks', type: 1
+      url: 'get-courses-or-qbanks', type: 2, assessment_type: 1
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
@@ -488,7 +488,7 @@ export class CreateAssessmentComponent implements OnInit {
         this.toster.error(data, "Error", {closeButton:true});
       });
       return;
-    }else if(this.question_total > 100){
+    }else if(this.question_total > 300){
       this.translate.get('admin.assessment.create.questions_count_error_msg').subscribe((data)=> {
         this.toster.error(data, "Error", {closeButton:true});
       });
