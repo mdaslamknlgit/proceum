@@ -52,6 +52,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   public usersList = [];
   public teacher_id = '';
   public page_title = 'Add Teacher Material';
+  public material_name_error = false;
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
   }
 
@@ -299,6 +300,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   }
 
   saveMaterial(){
+    this.material_name_error = false;
     //this.selected_level.shift();
     this.subject_csv = this.selected_level.join().substr(1);
     //console.log(this.subject_csv);
@@ -310,6 +312,9 @@ export class CreateTeacherMaterialComponent implements OnInit {
     let params={url: 'save-teacher-material',curriculum_id:this.curriculum_id,subject_csv:this.subject_csv,user_id:user_id,role_id:this.user['role'],material_name:this.material_name,material_description:this.material_description,attachments: this.attachments};
     this.http.post(params).subscribe((res: Response) => {
       if (res.error) {
+        if(res.message == 'This material title already used'){
+          this.material_name_error = true;
+        }
         this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
       }else{
         this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
@@ -319,6 +324,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   }
 
   updateMaterial(){
+    this.material_name_error = false;
     //this.selected_level.shift();
     this.subject_csv = this.selected_level.join().substr(1);
     if(this.user['role'] == 12){
@@ -328,7 +334,10 @@ export class CreateTeacherMaterialComponent implements OnInit {
     }
     let params={url: 'update-teacher-material',material_name:this.material_name,user_id:user_id,role_id:this.user['role'],material_description:this.material_description,attachments: this.attachments,subject_csv: this.subject_csv,curriculum_id:this.curriculum_id,material_id:this.material_id};
     this.http.post(params).subscribe((res: Response) => {
-      if (res.error) {
+      if (res.error) {     
+        if(res.message == 'This material title already used'){
+          this.material_name_error = true;
+        }
         this.toastr.error(res.message , 'Error', { closeButton: true , timeOut: 3000});
       }else{
         this.toastr.success(res.message , 'Success', { closeButton: true , timeOut: 3000});
@@ -346,7 +355,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
 
   @HostListener('window:open_library', ['$event'])
   openCustomPopup(event) {
-    this.openAssetsLibrary('images/content_images', 'editor');
+    this.openAssetsLibrary('images', 'editor');
   }
 
   editorConfig = {
@@ -406,7 +415,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
     eventData.plugins.get('FileRepository').createUploadAdapter = function (
       loader
     ) {
-      var data = new UploadAdapter(loader, apiUrl + 'upload-content-image');
+      var data = new UploadAdapter(loader, apiUrl + 'upload-image');
       return data;
     };
   }

@@ -17,6 +17,11 @@ export class UploadDetailsComponent implements OnInit {
   public valid_files = [];
   publish_date = new Date('');
   today_date = new Date();
+  min_date = new Date(
+    this.today_date.getFullYear(),
+    this.today_date.getMonth() - 1,
+    this.today_date.getDate()
+  );
   public bucket_url = '';
   constructor(private activatedRoute: ActivatedRoute,private http: CommonService, private toster: ToastrService) { }
 

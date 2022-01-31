@@ -31,10 +31,10 @@
                 <span class="prc_tltp" *ngIf="(social_sharing_form.submitted || platform_name.touched) && platform_name.invalid">Platform is required</span>
             </div>
             <div class="mr_1">
-                <span>Select Publish Date <span class="required">*</span></span><br>
+                <span>Select Published Date <span class="required">*</span></span><br>
                 <mat-form-field appearance="outline" class="cal_wdth" color="accent">
                     <input matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY" required name="publish_date_name" #publish_date_name="ngModel"
-                    [(ngModel)]="publish_date" autocomplete="off" [max]="today_date">
+                    [(ngModel)]="publish_date" autocomplete="off" [max]="today_date" [min]='min_date'>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>

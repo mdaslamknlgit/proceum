@@ -226,7 +226,7 @@
           <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
         </ng-container>
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef cdkDrag mat-sort-header>Status</th>
+          <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
           <td mat-cell *matCellDef="let element">
             <mat-slide-toggle (click)="changeStatus(element.pk_id, element.status)"
               [checked]="element.status == 1 ? true : false"
@@ -234,7 +234,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="download_flag">
-          <th mat-header-cell *matHeaderCellDef cdkDrag mat-sort-header>Download Attachments</th>
+          <th mat-header-cell *matHeaderCellDef cdkDrag>Download Attachments</th>
           <td mat-cell *matCellDef="let element">
             <mat-slide-toggle (click)="downloadStatus(element.pk_id, element.download_flag)"
               [checked]="element.download_flag == 1 ? true : false"
@@ -242,7 +242,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+          <th mat-header-cell *matHeaderCellDef>Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="accent">
               <mat-icon matTooltip="click here to edit material" *ngIf="user['role'] == '1'" routerLink="/admin/teacher-material/edit/{{element.pk_id}}">edit_note</mat-icon>
