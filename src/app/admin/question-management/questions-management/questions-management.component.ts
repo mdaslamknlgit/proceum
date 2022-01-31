@@ -86,7 +86,9 @@ export class QuestionsManagementComponent implements OnInit {
         this.curriculum_labels = [];
         this.applyFilters();
         let params = {
-            url: 'get-courses-or-qbanks', type: this.filter_array['question_usage'] == 3 ?2:1
+            url: 'get-courses-or-qbanks', 
+            type: this.filter_array['question_usage'] == 2 ?1:2, //3 ?2:1, 
+            assessment_type: this.filter_array['question_usage'] == 1?1:0,
         };
         this.http.post(params).subscribe((res) => {
             if (res['error'] == false) {
