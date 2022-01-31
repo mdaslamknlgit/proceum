@@ -153,6 +153,23 @@ export class CreatePackageComponent implements OnInit {
     });
   }
 
+  appendChilds(node){
+    console.log(node);
+  }
+
+  insertItem(parent, newObject: any) {
+    if (parent.children) {
+      parent.children.push(this.dataSource.data);
+      this.treeControl.expand(parent);
+      parent.expanded = !parent.expanded;
+    }
+  }
+  addNewItem(node: CurriculumNode) {
+    console.log(node);
+    this.insertItem(node!, '');
+    this.treeControl.expand(node);
+  }
+
   submitCourses() {
     let result = [];let selected_ids = [];
     this.dataSource.data.forEach(node => {

@@ -51,7 +51,7 @@
                         <div class="crt_prt_hd">College</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYears(college_id,0)" required>
+                                <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYears(university_id,college_id,0)" required>
                                     <mat-option>
                                         <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
                                             [placeholderLabel]="'Search College'" name="search_college" ngModel
@@ -104,7 +104,7 @@
                         <div class="crt_prt_hd">Year</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getChildDropDownData(college_id,year_id)" required>
+                                <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getChildDropDownData(year_id)" required>
                                     <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -115,7 +115,7 @@
                         <div class="crt_prt_hd">Semester</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getGroups(college_id,semester_id)" >
+                                <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getGroups(semester_id)" >
                                     <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
