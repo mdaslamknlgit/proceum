@@ -276,11 +276,10 @@ export class CreatePartnerComponent implements OnInit {
     if (!this.validateEmail(this.email)) {
       return false;
     }
-
-    if (this.password.length < 6 && this.package_id < 1) {
+    if (this.password.length < 6 && this.partner_id < 0 ) {
       return;
     }
-    if ((this.password !== this.confirm_password) && this.package_id < 1) {
+    if ((this.password !== this.confirm_password) && this.confirm_password.length < 1  && this.partner_id < 0) {
       return;
     }
     if (!Number(this.phone) || (this.phone.length < 9 || this.phone.length > 13)) {
@@ -301,12 +300,10 @@ export class CreatePartnerComponent implements OnInit {
         return;
       }
     } */
-
-    if (this.partner_type != "" && this.partner_name != "" && this.email != "" && this.contact_name != "" && this.code != "" && this.gstin != "" && this.partner_type != "") {
+    if (this.partner_type != "" && this.partner_name != "" && this.email != "" && this.contact_name != ""  && this.gstin != "") {
       this.branding_info_expand = true;
       this.basic_details_expand = false;
     }
-
   }
 
   validateBrandingInfo() {

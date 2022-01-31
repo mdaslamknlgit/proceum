@@ -171,12 +171,15 @@ export class EditNewQuestionComponent implements OnInit {
                 //     this.getTopics(this.question.curriculum_id, '');
                 // }
                 this.question.questionUsageType = Number(questionData['question_for']);
-                if (this.question.questionUsageType == 3) {
+                if (this.question.questionUsageType == 1) {
                     this.question_Qbank = true;
-                    this.getcurriculums(2);
+                    this.getcurriculums(2, this.question.questionUsageType);
+                }else if (this.question.questionUsageType == 3) {
+                    this.question_Qbank = true;
+                    this.getcurriculums(2, this.question.questionUsageType);
                 }
                 else{
-                    this.getcurriculums(1);
+                    this.getcurriculums(1, this.question.questionUsageType);
                 }
                 if (questionData.q_bank_ids) {
                     this.question.q_bank_ids = Array.from(questionData.q_bank_ids.split(","), Number);
@@ -331,9 +334,9 @@ export class EditNewQuestionComponent implements OnInit {
             }
         });
     }
-    getcurriculums(type) {
+    getcurriculums(type, val) {
         let params = {
-            url: 'get-courses-or-qbanks', type: type
+            url: 'get-courses-or-qbanks', type: type, assessment_type:val == 1?1:0,
         };
         this.http.post(params).subscribe((res) => {
             //this.topics.next([]);
@@ -676,11 +679,14 @@ export class EditNewQuestionComponent implements OnInit {
     }
     public changeQUsageType(val) {
         this.question_Qbank = false;
-        if (val == 3) {
-            this.getcurriculums(2);
+        if (val == 1) {
+            this.getcurriculums(2,val);
+            this.question_Qbank = true;
+        }else if (val == 3) {
+            this.getcurriculums(2,val);
             this.question_Qbank = true;
         } else {
-            this.getcurriculums(1);
+            this.getcurriculums(1,val);
             this.question.q_bank_ids = []
         }
     }

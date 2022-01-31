@@ -17,7 +17,7 @@ export const environment = {
   video_types: [{ name: "KPoint", value: 'KPOINT' }, { name: "Youtube", value: 'YOUTUBE' }],
   ORGANIZATION_TYPES: [
     { value: '1', viewValue: 'University' },
-    //{value: '2', viewValue: 'College'},
+    { value: '2', viewValue: 'College' },
     { value: '3', viewValue: 'Institute' }
   ],
   DISCOUNT_TYPES: [
@@ -27,14 +27,14 @@ export const environment = {
 
   PROCEUM_ADMIN_SPECIFIC_ROLES: {
     SUPER_ADMIN: 1,
-    ADMIN: 13, //This role comes under above role
+    ADMIN: 13, //This role comes under SUPER_ADMIN
   },
 
   PARTNER_ADMIN_SPECIFIC_ROLES: {
     UNIVERSITY_ADMIN: 8,
     COLLEGE_ADMIN: 9,
     INSTITUTE_ADMIN: 10,
-    PARTNER_ADMIN: 14, //This role comes under above of 3 roles
+    UNIVERSITY_COLLEGE_ADMIN: 14,
   },
 
   ALL_ADMIN_SPECIFIC_ROLES: {
@@ -43,15 +43,35 @@ export const environment = {
     UNIVERSITY_ADMIN: 8,
     COLLEGE_ADMIN: 9,
     INSTITUTE_ADMIN: 10,
-    PARTNER_ADMIN: 14,
+    UNIVERSITY_COLLEGE_ADMIN: 14,
   },
+
+  ALL_ROLES: {
+    SUPER_ADMIN: 1,
+    STUDENT: 2,
+    CONTENT_EDITOR: 3,
+    REVIEWER_1: 4,
+    REVIEWER_2: 5,
+    REVIEWER_3: 6,
+    APPROVER: 7,
+    UNIVERSITY_ADMIN: 8,
+    COLLEGE_ADMIN: 9,
+    INSTITUTE_ADMIN: 10,
+    INDIVIDUAL: 11,
+    TEACHER: 12,
+    UNIVERSITY_COLLEGE_ADMIN: 14,
+  },
+
+  DISABLED_USER_ROLES_FOR_PROCEUM: [2],
+  DISABLED_USER_ROLES_FOR_ORGANIZATION: [1, 3, 4, 5, 6, 7],
+  
   // apiUrl: 'http://192.10.250.150:8000/api/',
   //apiUrl: 'http://127.0.0.1:8000/api/',
    // apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
     apiUrl: 'https://apiqa.proceum.com/api/',
 
-  //APP_BASE_URL: 'http://localhost:4200/',
-  APP_BASE_URL: 'http://192.10.250.150:4200/',
+  APP_BASE_URL: 'http://localhost:4200/',
+  // APP_BASE_URL: 'http://192.10.250.150:4200/',
 
   firebaseConfig: {
     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
