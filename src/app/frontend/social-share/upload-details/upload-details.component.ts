@@ -53,6 +53,7 @@ export class UploadDetailsComponent implements OnInit {
   }
 
   changePlatform(){
+    this.publish_url = '';
     if(this.platform_value == 'WHATSAPP'){
       this.publish_url_div = false;
     }else{
@@ -109,6 +110,17 @@ export class UploadDetailsComponent implements OnInit {
   }
 
   createSocialSharing(){
+    if (this.publish_url != '') {
+      var regExp = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+      var match = this.publish_url.match(regExp);
+      if (!match) {
+        this.toster.error("Invalid publish url", "Error", {
+          closeButton: true
+      });
+        return false;
+      }
+    }
+
     if (this.imageSrc.length == 0) {
       this.toster.error("Please upload screenshots", "Error", {
           closeButton: true

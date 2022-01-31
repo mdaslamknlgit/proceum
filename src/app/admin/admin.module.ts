@@ -226,6 +226,8 @@ const routes: Routes = [
 
       //Teacher Routes
       { path: 'materials', component: TeacherMaterialsComponent },
+      { path: 'materials/create', component: CreateTeacherMaterialComponent},
+      { path: 'materials/edit/:id', component: CreateTeacherMaterialComponent},
       { path: 'teacher-material', component: TeacherMaterialsComponent },
       { path: 'teacher-material/create', component: CreateTeacherMaterialComponent},
       { path: 'teacher-material/edit/:id', component: CreateTeacherMaterialComponent},

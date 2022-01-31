@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit,ViewChild } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,6 +9,7 @@ import { environment } from '../../../../environments/environment';
 import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
 import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 
 @Component({
   selector: 'app-create-teacher-material',
@@ -21,6 +22,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @ViewChild('editor', { static: false }) editor: CKEditorComponent;
   public page = 0;
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
@@ -37,6 +39,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   public attachments = [];
   public attachment_files = [];
   private subscription:Subscription;
+  private subscription_editor:Subscription;
   public material_description: string = '';
   public selected_courses = [];
   public curriculum_list = [];
@@ -48,7 +51,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   public user = [];
   public usersList = [];
   public teacher_id = '';
-  public page_title = 'Create Teacher Material';
+  public page_title = 'Add Teacher Material';
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
   }
 
@@ -70,6 +73,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
       }
     });
     this.getChildData();
+    this.getChildDataEditor();
   }
 
   deleteRecord(id){
@@ -295,8 +299,9 @@ export class CreateTeacherMaterialComponent implements OnInit {
   }
 
   saveMaterial(){
-    this.selected_level.shift();
-    this.subject_csv = this.selected_level.join();
+    //this.selected_level.shift();
+    this.subject_csv = this.selected_level.join().substr(1);
+    //console.log(this.subject_csv);
     if(this.user['role'] == 12){
       var user_id = this.user['id'];
     }else{
@@ -314,8 +319,8 @@ export class CreateTeacherMaterialComponent implements OnInit {
   }
 
   updateMaterial(){
-    this.selected_level.shift();
-    this.subject_csv = this.selected_level.join();
+    //this.selected_level.shift();
+    this.subject_csv = this.selected_level.join().substr(1);
     if(this.user['role'] == 12){
       var user_id = this.user['id'];
     }else{
@@ -339,19 +344,61 @@ export class CreateTeacherMaterialComponent implements OnInit {
     );
   }
 
-  htmlEditorConfig = {
+  @HostListener('window:open_library', ['$event'])
+  openCustomPopup(event) {
+    this.openAssetsLibrary('images/content_images', 'editor');
+  }
+
+  editorConfig = {
+    Plugins: [],
+    placeholder: 'Enter content',
     toolbar: {
       items: environment.ckeditor_toolbar,
-      table: {
-        contentToolbar: [
-          'tableColumn', 'tableRow', 'mergeTableCells',
-          'tableProperties', 'tableCellProperties'
-        ],
-      }
     },
+    link: {
+        decorators: {
+            openInNewTab: {
+                mode: 'manual',
+                label: 'Open in a new tab',
+                defaultValue: true,			// This option will be selected by default.
+                attributes: {
+                    target: '_blank',
+                    rel: 'noopener noreferrer'
+                }
+            }
+        }
+    },
+    image: {
+      upload: ['png'],
+      toolbar: [
+        'imageStyle:alignLeft',
+        'imageStyle:full',
+        'imageStyle:alignRight',
+        'imageStyle:side'
+      ],
+      styles: ['full', 'alignLeft', 'alignRight', 'side'],
+    },
+    // wproofreader: {
+    //     serviceId: 'your-service-ID',
+    //     srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js'
+    // },
+    table: {
+      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],
+    },
+    highlight: {
+        options: [
+            {
+                model: 'yellowMarker',
+                class: 'marker-yellow',
+                title: 'Yellow marker',
+                color: 'var(--ck-highlight-marker-yellow)',
+                type: 'marker'
+            }]
+        },
     mediaEmbed: {
       previewsInData: true,
     },
+    language: 'en',
   };
 
   onReady(eventData) {
@@ -359,7 +406,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
     eventData.plugins.get('FileRepository').createUploadAdapter = function (
       loader
     ) {
-      var data = new UploadAdapter(loader, apiUrl + 'upload-image');
+      var data = new UploadAdapter(loader, apiUrl + 'upload-content-image');
       return data;
     };
   }
@@ -386,8 +433,23 @@ export class CreateTeacherMaterialComponent implements OnInit {
     });
   }
 
+  getChildDataEditor() {
+    this.subscription_editor = this.http.child_data_editor.subscribe((res) => {
+      if (this.library_purpose == 'editor') {
+        let obj = { file_path: res['file_path'], path: res['path'] };
+        this.addImage(res['path']);
+        this.CloseLibraryModal();
+      }
+    });
+  }
+
+  addImage(src){
+    this.editor.editorInstance.execute("insertImage", { source: src });
+  }
+
   ngOnDestroy() { 
     this.subscription.unsubscribe();
+    this.subscription_editor.unsubscribe();
   }
 
   CloseLibraryModal() {
