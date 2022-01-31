@@ -16,11 +16,11 @@
                 <form autocomplete="off" #create_Partner_form1="ngForm" name="create_Partner_form1"
                     (ngSubmit)="create_Partner_form1.valid && validateBasicDeatils()" novalidate>
                     <div class="crt_pr_mn">
-                        <div class="crt_pr_dv">
+                        <div class="crt_pr_dv" *ngIf="!partner_id">
                             <div class="crt_prt_hd">Partner Type</div>
                             <div class="crt_prt_cnt">
                                 <mat-radio-group aria-label="Select an option" name="partner_type"
-                                    [(ngModel)]="partner_type" required>
+                                    [(ngModel)]="partner_type" (ngModelChange)="getPackages()" required>
                                     <mat-radio-button name="partner_type" value="1">University</mat-radio-button>
                                     <mat-radio-button name="partner_type" value="2">College</mat-radio-button>
                                     <mat-radio-button name="partner_type" value="3">Institute</mat-radio-button>
@@ -151,7 +151,7 @@
                                     (partner_type == '1') ? "University" : "College"}} Code is required</span>
                             </div>
                         </div>
-                        <div class="crt_pr_dv" *ngIf="partner_type == '2'">
+                        <!-- <div class="crt_pr_dv" *ngIf="partner_type == '2'">
                             <div class="crt_prt_hd">Select University</div>
                             <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p">
@@ -173,7 +173,7 @@
                                         class="prc_tltp">Select University</span>
                                 </mat-form-field>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="crt_pr_dv">
                             <div class="crt_prt_hd">GSTIN number</div>
                             <div class="err_tltp_par">
@@ -305,7 +305,7 @@
                             <div class="crt_prt_hd">Choose subscription package</div>
                             <mat-form-field appearance="outline" class="w_100p">
                                 <mat-select placeholder="Select Package" name="package_edit" #package_edit="ngModel"
-                                    [(ngModel)]="package_id" required>
+                                    [(ngModel)]="package_id" (ngModelChange)="fillLicenceDates()" required>
                                     <mat-option>
                                         <ngx-mat-select-search [noEntriesFoundLabel]="'No package found'"
                                             [placeholderLabel]="'Search Package'" name="search_package" ngModel
@@ -324,11 +324,11 @@
                             <div class="w_47p rsp_100p">
                                 <div class="crt_prt_hd">Licence start date</div>
                                 <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="Select Start Date" [matDatepicker]="picker1"
+                                    <input matInput placeholder="Licence Start Date" [matDatepicker]="picker1"
                                         #start_date="ngModel" [(ngModel)]="licence_start_date" name="start_date"
                                         [min]="today_date" autocomplete="off" readonly required>
                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+                                    <mat-datepicker #picker1 disabled="true"></mat-datepicker>
                                 </mat-form-field>
                                 <span class="prc_tltp"
                                     *ngIf="(create_Partner_form3.submitted || start_date.touched) && start_date.invalid">Licence
@@ -337,12 +337,12 @@
                             <div class="w_47p rsp_100p">
                                 <div class="crt_prt_hd">Licence end date</div>
                                 <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="Select End Date" [matDatepicker]="picker2"
+                                    <input matInput placeholder="Licence End Date" [matDatepicker]="picker2"
                                         #end_date="ngModel" [(ngModel)]="licence_end_date" name="end_date"
-                                        [min]="licence_start_date" autocomplete="off" readonly required>
+                                         autocomplete="off" readonly required>
                                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker color="accent" disabled="false"></mat-datepicker>
-                                    <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+                                    <mat-datepicker #picker color="accent" disabled="true"></mat-datepicker>
+                                    <mat-datepicker #picker2 disabled="true"></mat-datepicker>
                                 </mat-form-field>
                                 <span class="prc_tltp"
                                     *ngIf="(create_Partner_form3.submitted || end_date.touched) && end_date.invalid">Licence
@@ -358,13 +358,13 @@
 
                             </div>
                         </div>
-                        <div class="crt_pr_dv d-flex jc_sb">
+                        <!-- <div class="crt_pr_dv d-flex jc_sb">
                             <div class="w_47p">
                                 <div class="crt_prt_hd"></div>
                                 <mat-checkbox name="is_partner" [(ngModel)]="is_partner">Is Partner</mat-checkbox>
 
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="clear_fix"></div>
                         <div class="text_right float_right w_100p">

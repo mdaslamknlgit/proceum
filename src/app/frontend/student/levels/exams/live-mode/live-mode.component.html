@@ -25,18 +25,18 @@
             </div>
         </div>
     </div>
-    <div class="lv_md_mn  {{rvrsClr == false ? 'rvrs_clr':''}}">
-        <div class="lv_md_nms">
+    <div class="lv_md_mn {{rvrsClr == false ? 'rvrs_clr':''}}">
+        <div class="lv_md_nms {{lvmd_sqst ? '' : 'shw_qnnumbrs'}}">
             <ul>
                 <!-- <li class="lvmd_actvqst">1</li> -->
                 <li *ngFor="let q of questions_list; let question_index=index;"
-                    (click)="getQuestionOptions(question_index)"
+                    (click)="getQuestionOptions(question_index); lvmd_sqst = !lvmd_sqst;"
                     class="{{active_q_index==question_index?'lvmd_actvqst':''}}">{{question_index+1}}</li>
             </ul>
         </div>
         <div class="lv_md_qstn">
             <div class="lvmd_hd">
-                <div class="lvmd_hd_aa mr_1">
+                <div class="lvmd_hd_aa mr_1" (click)="lvmd_sqst = !lvmd_sqst">
                     Question {{active_q_index+1}} of {{questions_list.length}} <br>
                 </div>
                 <div class="lvmd_hd_ab">
@@ -54,8 +54,14 @@
                         Next
                     </div>
                 </div>
-                <div class="spacer"></div>
-                <div class="lvmd_hd_ad">
+                <div class="spacer rsp_dn_767"></div>
+                <div class="shw_lvmd_mnu">
+                    <button mat-icon-button (click)="lvmd_mno = !lvmd_mno">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                </div>
+                <div class="lvmd_hd_ad {{lvmd_mno == false ? '':'lvmd_mn_hd'}}" (click)="lvmd_mno = !lvmd_mno">
+                    
                     <div (click)="qstnsPup=true">
                         <img src="../../../assets/images/auto_translate.png" alt="" /><br>
                         Question Paper
@@ -83,7 +89,7 @@
                 </div>
             </div>
             <div class="lvmd_cnt">
-                <div class="w_47p rsp1025_100">
+                <div class="w_47p">
                     <!-- <div class="lvmd_cnt_aa">
                         <div>You are using the free Qbank. Go Premium to get all content and features!</div>
                         <div>
@@ -169,7 +175,11 @@
                 <div *ngIf="show_lab_values  == true" class="w_40p lb_vles_rgt">
                     <!-- *ngIf="lab_values.length>0" -->
                     <div class="lb_vles">
-                        <div>Lab Values</div>
+                        <div class="lbvl_hd">
+                            <div>Lab Values</div>
+                            <div class="spacer"></div>
+                            <div><button mat-raised-button color="accent" (click)="show_lab_values=!show_lab_values">Close</button></div>
+                        </div>
                         <div class="hgt_10"></div>
                         <div class="lb_vles_cnt">
                             <!-- *ngFor="let heading of lab_values_headings;let heading_index = index;" -->
@@ -808,20 +818,20 @@
                                     </table>
                                 </mat-tab>
                             </mat-tab-group>
-
-
                         </div>
                     </div>
                 </div>
             </div>
             <div class="lvmd_tggls" *ngIf="show_notes || show_calculater">
-                <span *ngIf="show_notes">
+                <span *ngIf="show_notes" class="lvmd_nts">
+                    <mat-icon class="clc_cls_icn" (click)="show_notes=!show_notes">close</mat-icon>
                     <mat-form-field appearance="outline">
                         <textarea matInput name="notes_name" [(ngModel)]="notes"></textarea>
                     </mat-form-field>
                     <button (click)="notes=''" mat-raised-button color="primary">Clear</button>
                 </span>
                 <span *ngIf="show_calculater">
+                    <mat-icon class="clc_cls_icn" (click)="show_calculater=!show_calculater">close</mat-icon>
                     <ng-calculator></ng-calculator>
                 </span>
             </div>
@@ -846,7 +856,7 @@
                     <mat-icon>lock</mat-icon><br>
                     Lock
                 </div> -->
-                <div class="spacer"></div>
+                <!-- <div class="spacer"></div> -->
                 <div class="text_center" (click)="showResult();" *ngIf="is_test_end == false">
                     <mat-icon>stop_circle</mat-icon><br>
                     End Block
@@ -855,7 +865,6 @@
         </div>
     </div>
 </div>
-
 <!-- Plabable design  -->
 <div class="mn_dshbrd" *ngIf="curriculum.length>0 && curriculum[0]['exam_template'] == 4">
     <div class="cust_mdl_par cust_mdl_cls">
@@ -870,7 +879,6 @@
             <div class="p_15px">
                 Values vary according to individual labs. All values below are for adults.
             </div>
-
             <div class="lv_md_mn">
                 <div class="lv_md_qstn">
                     <div class="lvmd_cnt fw_w">

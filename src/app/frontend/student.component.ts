@@ -13,6 +13,7 @@ export class StudentComponent {
   public user;
   public search_key=false;
   public current_url="";
+  public hasTapBarLoaded:Boolean =false;
   constructor(private router: Router,private http: CommonService,) {}
   ngOnInit() {
     this.user = this.http.getUser();

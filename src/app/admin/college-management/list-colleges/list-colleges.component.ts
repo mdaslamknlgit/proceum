@@ -4,8 +4,9 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-list-colleges',
@@ -18,9 +19,6 @@ export class ListCollegesComponent implements OnInit {
     'partner_name',
     'contact_number',
     'partner_email',
-    /* 'package_name', 
-    'licence_start_date',
-    'licence_end_date',*/
     'actions',
     'status',
   ];
@@ -29,11 +27,13 @@ export class ListCollegesComponent implements OnInit {
   public totalSize = 0;
   public sort_by: any;
   public search_box = '';
-  public type = 0;
+  public type = 1; //Colleges
   public page = 0;
-  public from_date='';
-  public to_date='';
+  public from_date = '';
+  public to_date = '';
+  public partner_id: number;
   public today = new Date();
+  private user: any;
   popoverTitle = '';
   popoverMessage = '';
   dataSource = new MatTableDataSource();
@@ -44,28 +44,55 @@ export class ListCollegesComponent implements OnInit {
     private http: CommonService,
     public toster: ToastrService,
     private router: Router,
-    ) { }
+    private activatedRoute: ActivatedRoute,
+    private _location: Location
+  ) { }
 
   ngOnInit(): void {
-    let param = {
-      url: 'get-colleges-for-partner' , type : this.type
+    let newParam = {
+      url: 'get-partner-childs', type: this.type
     };
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-        if (this.paginator != undefined) {
+    this.user = this.http.getUser();
+    if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
+      this.activatedRoute.params.subscribe((param) => {
+        this.partner_id = param.id;
+        let destructParam = { partner_id: this.partner_id, ...newParam }
+        this.http.post(destructParam).subscribe((res) => {
+          if (res['error'] == false) {
+            if (this.paginator != undefined) {
+              this.paginator.pageIndex = 0;
+              this.paginator.firstPage();
+            }
+            this.dataSource = new MatTableDataSource(res['data']['partners']);
+            this.totalSize = res['total_records'];
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+        });
+      });
+    } else if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
+      this.http.post(newParam).subscribe((res) => {
+        if (res['error'] == false) {
+          if (this.paginator != undefined) {
             this.paginator.pageIndex = 0;
             this.paginator.firstPage();
           }
-        this.dataSource = new MatTableDataSource(res['data']['partners']);
-        this.totalSize = res['total_records'];
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }
-    });
+          this.dataSource = new MatTableDataSource(res['data']['partners']);
+          this.totalSize = res['total_records'];
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+      });
+    } else {
+      this.toster.error('UnAuthorized!', 'Error', {
+        closeButton: true,
+      });
+      this._location.back();
+    }
   }
   public getPartners() {
     //console.log(this.type);
-    let param = { url: 'get-colleges-for-partner' , type : this.type};
+    let param = { url: 'get-partner-childs', type: this.type, partner_id: this.partner_id };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['partners']);
@@ -77,12 +104,13 @@ export class ListCollegesComponent implements OnInit {
   }
 
   public doFilter() {
-    let param = { 
-      url: 'get-colleges-for-partner', 
-      search: this.search_box , 
-      type : this.type,
-      from_date : this.from_date,
-      to_date : this.to_date,
+    let param = {
+      url: 'get-partner-childs',
+      search: this.search_box,
+      type: this.type,
+      partner_id: this.partner_id,
+      from_date: this.from_date,
+      to_date: this.to_date,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -98,14 +126,15 @@ export class ListCollegesComponent implements OnInit {
     //console.log("called");
     this.page = event.pageSize * event.pageIndex;
     let param = {
-      url: 'get-colleges-for-partner',
+      url: 'get-partner-childs',
       offset: this.page,
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
-      type : this.type,
-      from_date : this.from_date,
-      to_date : this.to_date,
+      type: this.type,
+      partner_id: this.partner_id,
+      from_date: this.from_date,
+      to_date: this.to_date,
     };
     this.http.post(param).subscribe((res) => {
       //console.log(res['data']['partners']);
@@ -121,10 +150,10 @@ export class ListCollegesComponent implements OnInit {
 
 
 
-  public deletePartner(partner_id, status){
+  public deletePartner(id, status) {
     let param = {
-      url: 'partner-status',
-      id: partner_id,
+      url: 'partner-child-status',
+      id: id,
       status: status,
     };
     this.http.post(param).subscribe((res) => {
@@ -137,22 +166,21 @@ export class ListCollegesComponent implements OnInit {
         });
       }
     });
-    
+
   }
 
-  navigateTo(url){
-      let user = this.http.getUser();
-      if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(user['role'])) > -1) {
-        url = "/admin/"+url;
-      }
-      //Later we must change this
-      if(user['role']== '3' || user['role']== '4' || user['role']== '5' || user['role']== '6' || user['role']== '7'){
-        url = "/admin/"+url;
-    }
+  navigateTo(url) {
+    if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(this.user['role'])) > -1) {
+      url = "/admin/" + url;
       this.router.navigateByUrl(url);
+    }else{
+      this.toster.error('UnAuthorized!', 'Error', {
+        closeButton: true,
+      });
+    }
   }
 
-  tabClick(event){
+  tabClick(event) {
     this.page = 0;
     if (this.paginator != undefined) {
       this.paginator.pageIndex = 0;
@@ -165,8 +193,8 @@ export class ListCollegesComponent implements OnInit {
     this.getPartners();
   }
 
-  resetFilters(){
-    this.search_box =   '';
+  resetFilters() {
+    this.search_box = '';
     this.from_date = '';
     this.to_date = '';
     this.doFilter();
