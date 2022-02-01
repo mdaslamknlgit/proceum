@@ -6,7 +6,7 @@
     <div style="z-index: 10000;" class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
       <div class="cust_mdl_chl">
         <div class="pg_ttl">
-          Proceum Library
+          Assets Library
           <span class="spacer"></span>
           <button (click)="CloseLibraryModal()" mat-icon-button class="float_right">
             &#x2715;
@@ -33,7 +33,7 @@
             <div class="frm_dvs">
               <span> Material Title<span class="required">*</span> </span>
               <div class="clear_fix"></div>
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" class="{{material_name_error == true?'mat-form-field-invalid':''}}">
                 <input matInput placeholder="Enter Material Title" [(ngModel)]="material_name"
                   name="material_name_name" maxlength="250" trim="blur" #material_name_name="ngModel" required />
               </mat-form-field>
@@ -47,7 +47,7 @@
               <mat-form-field appearance="outline">
                 <mat-select placeholder="Select Faculty" [(ngModel)]="teacher_id" name="teacher_name"
                   #teacher_name="ngModel" required>
-                  <mat-option *ngFor="let value of usersList" [value]="value['id']" [matTooltip]="value['name']">{{
+                  <mat-option *ngFor="let value of usersList" [disabled]="value['status'] == '0'" [value]="value['id']" [matTooltip]="value['name']">{{
                     value["name"] }}
                   </mat-option>
                 </mat-select>
@@ -101,7 +101,7 @@
               <span> Material Description<span class="required">*</span> </span>
               <span class="edtr_frm">
                 <span class="oc_w100p">
-                  <ckeditor (ready)="onReady($event)" id="editor" #editor [config]="htmlEditorConfig" required ngModel
+                  <ckeditor (ready)="onReady($event)" id="editor" #editor [config]="editorConfig" required ngModel
                     #material_description_name="ngModel" [(ngModel)]="material_description"
                     name="material_description_name" [editor]="Editor">
                   </ckeditor>

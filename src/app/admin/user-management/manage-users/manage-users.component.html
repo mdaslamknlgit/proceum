@@ -81,8 +81,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="brd_crm">Proceum &raquo; <strong>manage Users</strong></div>
     <div class="d-flex rsp_fw">
         <div class="pg_ttl">Manage Users</div>
@@ -97,14 +95,6 @@
     <hr />
     <div class="dsh_brd_crds">
         <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
-            <span>Role</span>
-            <mat-form-field appearance="outline">
-                <mat-select placeholder="Select Role" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="doFilter()">
-                    <mat-option *ngFor="let item of all_roles | async" [value]="item['id']">{{ item["role_name"] }}</mat-option>
-                </mat-select>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
             <span>Search</span>
             <mat-form-field appearance="outline" class="w_100p">
                 <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
@@ -112,6 +102,15 @@
                 <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
             </mat-form-field>
         </div>
+        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
+            <span>Role</span>
+            <mat-form-field appearance="outline">
+                <mat-select placeholder="Select Role" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="doFilter()">
+                    <mat-option *ngFor="let item of all_roles | async" [value]="item['id']">{{ item["role_name"] }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+      
         <div *ngIf="role_id == 12">
             <div class="cm_fltr_sc mr_1">
                 <span>Search</span>
@@ -184,7 +183,7 @@
                                 >
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["organization_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -192,7 +191,7 @@
                 <span>College</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year')">
-                        <mat-option *ngFor="let item of all_college | async" [value]="item['partner_id']">{{ item["organization_name"] }}</mat-option>
+                        <mat-option *ngFor="let item of all_college | async" [value]="item['pk_id']">{{ item["partner_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
