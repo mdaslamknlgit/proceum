@@ -434,15 +434,22 @@ export class CreateUserComponent implements OnInit {
 
   }
 
-  getYears(colleg_id, parent_id, call_child_fun = false) {
-    let param = { url: 'get-year-semester-group', partner_id: colleg_id, parent_id: parent_id, slug: 'year', partner_type_id: this.partner_type_id };
+  getYears(partner_id, partner_child_id, parent_id, call_child_fun = false) {
+    let param = {
+      url: 'get-year-semester-group',
+      partner_id: partner_id,
+      partner_child_id: partner_child_id,
+      parent_id: parent_id,
+      slug: 'year',
+      partner_type_id: this.partner_type_id
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.years = res['data'];
         if (this.years != undefined) {
           this.all_years.next(this.years.slice());
           if (call_child_fun) {
-            this.getChildDropDownData(colleg_id, this.year_id);
+            this.getChildDropDownData(this.year_id, partner_id, partner_child_id);
           }
         }
       } else {
@@ -451,20 +458,27 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  getChildDropDownData(college_id, year_id) {
+  getChildDropDownData(year_id, parnter_id, partner_child_id) {
     this.show_semester = false;
     this.show_group = false;
     let year_obj = this.years.find((year) => year.pk_id == year_id);
     if (year_obj.year_has_semester) {
-      this.getSemesters(college_id, Boolean(year_obj.year_has_group));
+      this.getSemesters(parnter_id, partner_child_id, Boolean(year_obj.year_has_group));
     } else if (year_obj.year_has_group) {
 
-      this.getGroups(college_id, year_id);
+      this.getGroups(year_id, parnter_id, partner_child_id);
     }
   }
 
-  getSemesters(college_id = 0, call_child_func = false) {
-    let param = { url: 'get-year-semester-group', partner_id: college_id, parent_id: this.year_id, slug: 'semester', partner_type_id: this.partner_type_id };
+  getSemesters(partner_id = 0, partner_child_id, call_child_func = false) {
+    let param = {
+      url: 'get-year-semester-group',
+      partner_id: partner_id,
+      partner_child_id: partner_child_id,
+      parent_id: this.year_id,
+      slug: 'semester',
+      partner_type_id: this.partner_type_id
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.semesters = res['data'];
@@ -472,7 +486,7 @@ export class CreateUserComponent implements OnInit {
           this.all_semesters.next(this.semesters.slice());
           this.show_semester = true;
           if (call_child_func) {
-            this.getGroups(college_id, this.semester_id);
+            this.getGroups(partner_id, partner_child_id, this.semester_id);
           }
         }
       } else {
@@ -481,7 +495,7 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  getGroups(college_id = 0, parent_id) {
+  getGroups(parent_id, partner_id = 0, partner_child_id) {
     let year_obj = this.years.find((year) => year.pk_id == this.year_id);
     if (!year_obj.year_has_group) {
       return false;
@@ -492,7 +506,14 @@ export class CreateUserComponent implements OnInit {
       parent_id = this.year_id;
     }
 
-    let param = { url: 'get-year-semester-group', partner_id: college_id, parent_id: parent_id, slug: 'group', partner_type_id: this.partner_type_id };
+    let param = {
+      url: 'get-year-semester-group',
+      partner_id: partner_id,
+      partner_child_id: partner_child_id,
+      parent_id: parent_id,
+      slug: 'group',
+      partner_type_id: this.partner_type_id
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.groups = res['data'];
@@ -610,27 +631,30 @@ export class CreateUserComponent implements OnInit {
           let callPartnerChilds = true;
           this.getPartners(callPartnerChilds);
           this.partner_id = this.university_id;
+          if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
+            this.getYears(this.partner_id, this.college_id, 0 , true);
+          }
         }
         else if (user_data.college_id) {
           this.organization = '2';
           this.partner_type_id = 2;
           this.getPartners();
           this.partner_id = this.college_id;
+          if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
+            this.getYears(this.partner_id, null, 0 , true);
+          }
         }
         else if (user_data.institute_id) {
           this.organization = '3';
           this.partner_type_id = 3;
           this.getPartners();
           this.partner_id = this.institute_id;
+          if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
+            this.getYears(this.partner_id, null, 0 , true);
+          }
         } else {
           this.organization = '4';//proceum
-          //this.getYears(this.college_id, 0, true);
-          /* this.getChildDropDownData(this.college_id,this.year_id);
-          this.getGroups(Number(this.college_id),this.year_id); */
-        }
-        if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
-          this.getYears(this.college_id, 0, true);
-        }
+        }        
         this.getCurriculumnHierarchy();
       }
     });
