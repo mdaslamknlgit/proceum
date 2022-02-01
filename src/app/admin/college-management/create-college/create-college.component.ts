@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
@@ -17,8 +16,7 @@ export class CreateCollegeComponent implements OnInit {
     private http: CommonService,
     private toster: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private _location: Location
+    private router: Router
   ) { }
 
   //Define vars
@@ -39,14 +37,14 @@ export class CreateCollegeComponent implements OnInit {
   public b_address_line_2 = '';
   public b_country_id: any = '';
   public b_state_id: any = '';
-  public b_city = '';
+  public b_city: any = '';
   public b_pincode = '';
   //Correspondence address
   public c_address_line_1 = '';
   public c_address_line_2 = '';
   public c_country_id: any = '';
   public c_state_id: any = '';
-  public c_city = '';
+  public c_city: any = '';
   public c_pincode = '';
   public domain = '';
   public code = '';
@@ -74,6 +72,10 @@ export class CreateCollegeComponent implements OnInit {
       if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
         this.partner_id = param.partner_id;
         this.pk_id = (param.pk_id) ? param.pk_id : 0;
+        if(!this.partner_id){
+            this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
+            window.location.href = environment.APP_BASE_URL;
+        }
         if (this.pk_id) {
           this.getCollege();
         }
@@ -83,10 +85,8 @@ export class CreateCollegeComponent implements OnInit {
           this.getCollege();
         }
       } else {
-        this.toster.error('UnAuthorized!', 'Error', {
-          closeButton: true,
-        });
-        this._location.back();
+        this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
+        window.location.href = environment.APP_BASE_URL;
       }
     });
     /* this.activatedRoute.params.subscribe((param) => {
@@ -207,6 +207,14 @@ export class CreateCollegeComponent implements OnInit {
       return false;
     }
 
+    if (!this.pk_id && this.password.length < 6) {
+      return false;
+    }
+
+    if (!this.pk_id && this.password != this.confirm_password) {
+      return false;
+    }
+
     if (this.college_name == "" || this.contact_name == "" && this.code == "") {
       return false;
     }
@@ -281,7 +289,16 @@ export class CreateCollegeComponent implements OnInit {
   }
 
   getCollege() {
-    let data = { url: 'edit-partner-child/' + this.pk_id, partner_id: this.partner_id };
+    let data = {};
+    if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
+      data = { url: 'edit-partner-child/' + this.pk_id, partner_id: this.partner_id };
+    }else if(Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN){
+      data = { url: 'edit-partner-child/' + this.pk_id };
+    }else{
+      this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
+      window.location.href = environment.APP_BASE_URL;
+    }
+    
     this.http.post(data).subscribe((res) => {
       if (res['error'] == false) {
         let partner = res['data'];
@@ -320,14 +337,16 @@ export class CreateCollegeComponent implements OnInit {
 
   navigateTo(url) {
     let user = this.http.getUser();
-    if (user['role'] == '1') {
+    if (Number(user['role']) == environment.ALL_ROLES.SUPER_ADMIN || Number(user['role']) == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN) {
       url = "/admin/" + url;
+      this.router.navigateByUrl(url);
+    }else{
+      this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
+      window.location.href = environment.APP_BASE_URL;
     }
-    //Later we must change this
-    if (user['role'] == '3' || user['role'] == '4' || user['role'] == '5' || user['role'] == '6' || user['role'] == '7') {
-      url = "/admin/" + url;
-    }
-    this.router.navigateByUrl(url);
+    
+    
+    
   }
 
   allAlphabetsWithSpaces(event) {
