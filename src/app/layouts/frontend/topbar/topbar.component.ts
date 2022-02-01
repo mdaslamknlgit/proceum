@@ -43,7 +43,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         //check subdomain
         let sub_domain = window.location.hostname.split('.')[0];
-        //sub_domain = 'iimsc';
+        sub_domain = 'drsprep';
         //If subdomain not exist in in app domains then check for partner domain
         if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
             this.getSubDomainDetails(sub_domain);
@@ -105,6 +105,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
             localStorage.removeItem('user');
             localStorage.removeItem('header_logo');
             localStorage.removeItem('footer_logo');
+            localStorage.removeItem('p_id');
+            localStorage.removeItem('p_type');
             this.route.navigate(['/login']);
         });
     }
@@ -158,6 +160,8 @@ export class TopbarComponent implements OnInit, OnDestroy {
                 localStorage.setItem('header_logo', res['data']['header_logo']);
                 localStorage.setItem('footer_logo', res['data']['footer_logo']);
                 localStorage.setItem('organization_name', res['data']['organization_name']);
+                localStorage.setItem('p_id', res['data']['p_id']);
+                localStorage.setItem('p_type', res['data']['p_type']);
                 localStorage.setItem('description', res['data']['description']);
                 //console.log(this.sub_domain_data);
             }else{

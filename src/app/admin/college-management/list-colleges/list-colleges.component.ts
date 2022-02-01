@@ -32,6 +32,7 @@ export class ListCollegesComponent implements OnInit {
   public from_date = '';
   public to_date = '';
   public partner_id: number;
+  public partner_id_with_fw_slash = '';
   public today = new Date();
   private user: any;
   popoverTitle = '';
@@ -56,6 +57,11 @@ export class ListCollegesComponent implements OnInit {
     if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
       this.activatedRoute.params.subscribe((param) => {
         this.partner_id = param.id;
+        if(!this.partner_id){
+            this.toster.error('Invalid partner!', 'Error', { closeButton: true });
+            window.location.href = environment.APP_BASE_URL;
+        }
+        this.partner_id_with_fw_slash = param.id+'/';
         let destructParam = { partner_id: this.partner_id, ...newParam }
         this.http.post(destructParam).subscribe((res) => {
           if (res['error'] == false) {
