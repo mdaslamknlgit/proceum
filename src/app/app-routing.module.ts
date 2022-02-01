@@ -22,6 +22,7 @@ import { ShoppingCartComponent } from './frontend/shopping-cart/shopping-cart.co
 import { QuestionBankComponent } from './admin/question-management/question-bank/question-bank.component';
 import { CreateExamComponent } from './admin/exam-modes/create-exam/create-exam.component';
 import { CouponsComponent } from './frontend/coupons/coupons.component';
+import { PartnerRegisterComponent } from './auth/partner-register/partner-register.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'our-team', component: OurTeamComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'signup', component: PartnerRegisterComponent },
   { path: 'library', component: ProceumLibraryComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },

@@ -96,6 +96,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   public partner_type_id: number;
   public child_type = 1;
   public id = 0;
+  public user: any;
 
   universities = [];
   colleges = [];
@@ -237,10 +238,12 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
   ngOnInit(): void {
     const user = JSON.parse(atob(localStorage.getItem('user')));
+    this.user = user;
     this.user_role = user.role;
     if (Object.values(environment.PROCEUM_ADMIN_SPECIFIC_ROLES).indexOf(Number(this.user_role)) > -1) {
       this.proceum_admin = true;
     } else {
+      this.partner_parent_id = user.partner_id;
       //Disable specific columns for partners 
       this.displayedColumnsYears.splice(2, 2);
       this.displayedColumnsSemesters.splice(3, 2);
@@ -258,7 +261,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.year_id = null;
     this.semester_id = null;
     this.group_id = null;
-    this.partner_id = null;
+    this.partner_parent_id = null;
     this.parent_id = null;
     this.name_of = '';
     this.organization = '';
@@ -280,11 +283,17 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       this.slug = 'group';
       this.page_title = 'Group';
     }
-    //finally fetch the data based on slug
+    //finally 
     this.getData();
   }
   public getData() {
-    let param = { url: 'get-year-semester-group-by-slug', 'slug': this.slug, 'partner_id': this.partner_id, offset: 0, limit: 10 };
+    let param = {
+      url: 'get-year-semester-group-by-slug',
+      slug: this.slug,
+      partner_id: this.partner_parent_id,
+      offset: 0,
+      limit: 10
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
@@ -326,7 +335,6 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         let item = res['data'];
-        this.partner_id = item.partner_id;
         this.partner_parent_id = item.partner_id;
         this.partner_child_id = item.partner_child_id;
         this.parent_id = item.parent_id;
@@ -375,7 +383,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
   public onAddingForChange() {
     this.year_id = null;
-    this.partner_id = null;
+    this.partner_parent_id = null;
     this.parent_id = null;
     this.name_of = '';
     this.organization = '';
@@ -485,13 +493,14 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.year_id = null;
     this.semester_id = null;
     this.group_id = null;
-    this.partner_id = null;
     this.parent_id = null;
     this.name_of = '';
     this.organization = '';
     this.organization_type = '';
     this.courses_ids_csv = '';
-    this.partner_parent_id = '';
+    if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).indexOf(Number(this.user['role'])) < 0) {
+      this.partner_parent_id = '';
+    }
     this.partner_child_id = '';
     this.self_or_other = 'other';
     this.show_radio = false;//true Changed to false on 05/1/2022
@@ -743,7 +752,8 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         if (res['error'] == false) {
           this.toster.success(res['message'], 'Success');
           if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(this.user_role)) > -1) {
-            this.partner_id = null;
+            this.partner_parent_id = null;
+            this.partner_child_id = null;
           }
           this.getData();
           this.model_status = false;
