@@ -189,7 +189,10 @@
     <div class="pg_ttl">Teacher Materials</div>
     <div class="spacer"></div>
     <div>
-      <button mat-raised-button color="accent" routerLink="/admin/teacher-material/create" class="float_right mt_0" type="button">
+      <button mat-raised-button color="accent" *ngIf="user['role'] == '1'" routerLink="/admin/teacher-material/create" class="float_right mt_0" type="button">
+        <mat-icon>add</mat-icon> Add Material
+      </button>
+      <button mat-raised-button color="accent" *ngIf="user['role'] == '12'" routerLink="/teacher/materials/create" class="float_right mt_0" type="button">
         <mat-icon>add</mat-icon> Add Material
       </button>
     </div>
@@ -207,8 +210,13 @@
           <td mat-cell *matCellDef="let element">{{ element.id }}</td>
         </ng-container>
         <ng-container matColumnDef="title">
+<<<<<<< HEAD
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Material Title</th>
           <td mat-cell *matCellDef="let element" class="ws_normal">{{ element.title }}</td>
+=======
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+>>>>>>> 714717358610d0eddfdc371b8c4c217861af7837
         </ng-container>
         <ng-container matColumnDef="uploaded_by">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Uploaded By</th>
@@ -223,7 +231,7 @@
           <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
         </ng-container>
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef cdkDrag mat-sort-header>Status</th>
+          <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
           <td mat-cell *matCellDef="let element">
             <mat-slide-toggle (click)="changeStatus(element.pk_id, element.status)"
               [checked]="element.status == 1 ? true : false"
@@ -231,18 +239,28 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="download_flag">
+<<<<<<< HEAD
           <th mat-header-cell *matHeaderCellDef cdkDrag mat-sort-header>Download Attachments</th>
           <td mat-cell *matCellDef="let element" class="text_center">
+=======
+          <th mat-header-cell *matHeaderCellDef cdkDrag>Download Attachments</th>
+          <td mat-cell *matCellDef="let element">
+>>>>>>> 714717358610d0eddfdc371b8c4c217861af7837
             <mat-slide-toggle (click)="downloadStatus(element.pk_id, element.download_flag)"
               [checked]="element.download_flag == 1 ? true : false"
               matTooltip="{{element.download_flag == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
+<<<<<<< HEAD
           <th mat-header-cell *matHeaderCellDef mat-sort-header class="jc_cnt">Action</th>
+=======
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+>>>>>>> 714717358610d0eddfdc371b8c4c217861af7837
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="accent">
-              <mat-icon matTooltip="click here to edit material" routerLink="/admin/teacher-material/edit/{{element.pk_id}}">edit_note</mat-icon>
+              <mat-icon matTooltip="click here to edit material" *ngIf="user['role'] == '1'" routerLink="/admin/teacher-material/edit/{{element.pk_id}}">edit_note</mat-icon>
+              <mat-icon matTooltip="click here to edit material" *ngIf="user['role'] == '12'" routerLink="/teacher/materials/edit/{{element.pk_id}}">edit_note</mat-icon>
             </button>
             <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
               [popoverMessage]="'Are you sure to delete <b>' + element.title + '</b> '" placement="auto"
