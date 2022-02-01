@@ -281,7 +281,7 @@ export class CreateCollegeComponent implements OnInit {
   }
 
   getCollege() {
-    let data = { url: 'edit-partner-child/' + this.pk_id };
+    let data = { url: 'edit-partner-child/' + this.pk_id, partner_id: this.partner_id };
     this.http.post(data).subscribe((res) => {
       if (res['error'] == false) {
         let partner = res['data'];
