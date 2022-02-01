@@ -184,7 +184,7 @@
                                 >
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["organization_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -192,7 +192,7 @@
                 <span>College</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year')">
-                        <mat-option *ngFor="let item of all_college | async" [value]="item['partner_id']">{{ item["organization_name"] }}</mat-option>
+                        <mat-option *ngFor="let item of all_college | async" [value]="item['pk_id']">{{ item["partner_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
