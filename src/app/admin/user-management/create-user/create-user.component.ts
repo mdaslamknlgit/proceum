@@ -662,7 +662,6 @@ export class CreateUserComponent implements OnInit {
 
   navigateTo(url) {
     let user = this.http.getUser();
-    this.router.navigateByUrl(url);
     if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(user['role'])) > -1) {
       url = "/admin/" + url;
       this.router.navigateByUrl(url);

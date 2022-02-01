@@ -540,7 +540,7 @@ export class CreatePartnerComponent implements OnInit {
         this.http.post(param).subscribe((res) => {
           if (res['error'] == false) {
             this.sub_domain_err = '';
-            this.toster.success('Subdomain Avaialable!', 'Success', { closeButton: true });
+            this.toster.success('Subdomain Available!', 'Success', { closeButton: true });
           } else {
             this.sub_domain_err = res['message'];
             this.toster.error(res['message'], 'Error', { closeButton: true });
