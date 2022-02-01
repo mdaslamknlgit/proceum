@@ -2,7 +2,7 @@
   <div style="z-index: 10000;" class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
-        Proceum Library
+        Assets Library
         <span class="spacer"></span>
         <button (click)="CloseLibraryModal()" mat-icon-button class="float_right">
           &#x2715;
@@ -196,7 +196,7 @@
   </div>
   <hr />
   <div class="dsh_brd_crds">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="xl_srch">
       <input matInput placeholder="Search" [(ngModel)]="search_txt" (keyup)="$event.keyCode == 13 ? doFilter() : ''" />
       <mat-icon matSuffix (click)="doFilter()">search</mat-icon>
     </mat-form-field>
@@ -208,7 +208,7 @@
         </ng-container>
         <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Material Title</th>
-          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+          <td mat-cell *matCellDef="let element" class="ws_normal">{{ element.title }}</td>
         </ng-container>
         <ng-container matColumnDef="uploaded_by">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Uploaded By</th>
@@ -232,14 +232,14 @@
         </ng-container>
         <ng-container matColumnDef="download_flag">
           <th mat-header-cell *matHeaderCellDef cdkDrag mat-sort-header>Download Attachments</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element" class="text_center">
             <mat-slide-toggle (click)="downloadStatus(element.pk_id, element.download_flag)"
               [checked]="element.download_flag == 1 ? true : false"
               matTooltip="{{element.download_flag == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="jc_cnt">Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="accent">
               <mat-icon matTooltip="click here to edit material" routerLink="/admin/teacher-material/edit/{{element.pk_id}}">edit_note</mat-icon>
