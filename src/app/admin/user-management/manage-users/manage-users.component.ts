@@ -222,7 +222,7 @@ export class ManageUsersComponent implements OnInit {
       is_admin_specific_role : '1',
       role_id:this.role_id
     };
-    
+    console.log(param);
     this.http.post(param).subscribe((res) => {    
       this.checkboxValue = false;
       if (res['error'] == false) {
@@ -394,32 +394,35 @@ export class ManageUsersComponent implements OnInit {
 
   onOrganizationTypeChange(){
     this.organization_list_id = '';
+    this.college_id = '';
     this.year_id = '';
     this.semester_id = '';
     this.group_id = '';
     this.all_organization_list.next();
+    this.all_college.next();
     this.all_years.next();
     this.all_semesters.next();
     this.all_groups.next();
+    this.is_college = false;
     if(this.organization_type_id == '1'){ //University
       this.getOrganizationList(1,0);
       this.organization_type_name = 'University';
       this.is_college = true;
     }
-    // else if(this.organization_type_id == '2'){ //College
-    //   this.getOrganizationList(2,0);
-    //   this.organization_type_name = 'College';
-    // }
+    else if(this.organization_type_id == '2'){ //College
+      this.getOrganizationList(2,0);
+      this.organization_type_name = 'College';
+    }
     else if(this.organization_type_id == '3'){ //Institute
       this.getOrganizationList(3,0);
       this.organization_type_name = 'Institute';
-      this.is_college = false;
     }
   }
 
   //To get all the Universities list
   getOrganizationList(type,check){
     if(check == 0){ // Only University or College or Institute
+      this.is_college = false;
       let param = { url: 'get-partners-list',partner_type_id : type };
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
@@ -433,13 +436,14 @@ export class ManageUsersComponent implements OnInit {
       });
     } else { // University => college
       this.organization_list = '';
-      let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+      //let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+      this.is_college = true;
+      let param = { url: 'get-partner-childs',child_type : type, partner_id : this.organization_list_id}
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.organization_list = res['data']['partners'];
           if(this.organization_list != undefined && res['data']['partners'] != ''){
             this.all_college.next(this.organization_list.slice());
-            this.is_college = true; 
             this.college_id = '';
           }          
         } else {
@@ -459,7 +463,7 @@ export class ManageUsersComponent implements OnInit {
     this.all_semesters.next();
     this.all_groups.next();
     if(org_type == '1'){ //University
-      this.getOrganizationList(2,1);
+      this.getOrganizationList(1,1);
       this.college_id = '';
       this.all_college.next();      
     }else{
@@ -469,9 +473,17 @@ export class ManageUsersComponent implements OnInit {
   }
 
   getYearSemsterGroup(org_type,parent_id,slug,type){     
-    let partner = '';
+    let partner = '';let partner_child_id = '';
     if(org_type == '1'){
-      partner = this.college_id;
+      if(this.is_college == true){
+        partner_child_id = this.college_id;
+        partner = this.organization_list_id;
+      }else{
+        partner = this.organization_list_id;
+      }
+    }
+    else if(org_type == '2'){
+      partner = this.organization_list_id;
     }
     else if(org_type == '3'){
       partner = this.organization_list_id;
@@ -479,8 +491,16 @@ export class ManageUsersComponent implements OnInit {
     else if(this.role_id == 12){
       partner = String(this.college_institute_id);
     }
-    //console.log('org_type => '+org_type+', partner => '+partner+', parent_id => '+parent_id+', slug => '+slug);   
-    let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
+    console.log('org_type => '+org_type+', partner => '+partner+', parent_id => '+parent_id+', slug => '+slug);   
+    let param = {
+      url: 'get-year-semester-group',
+      partner_id : partner,
+      parent_id : parent_id,
+      slug : slug,
+      partner_type_id: org_type,
+      partner_child_id: partner_child_id
+    };
+    console.log(param);
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.years = res['data'];
@@ -506,7 +526,8 @@ export class ManageUsersComponent implements OnInit {
               } 
             } 
           }else{
-            if(slug == 'year'){            
+            if(slug == 'year'){   
+              this.year_id = '';         
               this.semester_id = '';
               this.group_id = '';
               this.all_semesters.next();

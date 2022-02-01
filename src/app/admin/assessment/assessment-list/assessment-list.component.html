@@ -10,8 +10,13 @@
       </div>
     </div>
     <hr />
-    <div class="d_flx_ac">
-
+    <div class="d_flx_ac dsh_brd_crds">
+      <div class="cm_fltr_sc mr_1">
+        <mat-form-field appearance="outline"  class="mr_1">
+          <input  matInput (keyup)="$event.keyCode == 13 ? applyFilters() : ''" [(ngModel)]="search_txt" placeholder="Search" />
+          <mat-icon matSuffix class="cursor-pointer" color="accent">search</mat-icon>
+        </mat-form-field>
+      </div>
       <div class="cm_fltr_sc mr_1" *ngIf="is_display">
         <mat-form-field appearance="outline">
           <mat-select placeholder="Select" name="created_by" #created_by="ngModel" [(ngModel)]="created_by_id" >
@@ -34,11 +39,7 @@
         </mat-form-field>
       </div>
 
-      <div class="cm_fltr_sc mr_1">
-        <mat-form-field appearance="outline" class="mr_1">
-          <input  matInput (keyup)="$event.keyCode == 13 ? applyFilters() : ''" [(ngModel)]="search_txt" placeholder="Search" />
-        </mat-form-field>
-      </div>
+      
 
       <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm" (click)="applyFilters()" [disabled]="is_submit">
         Submit
