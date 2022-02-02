@@ -116,7 +116,7 @@ export class CreateUserComponent implements OnInit {
       }
       else {
         this.user_id = 0;
-        this.getCurriculumnHierarchy();
+        ///this.getCurriculumnHierarchy();
       }
 
     });
@@ -655,7 +655,7 @@ export class CreateUserComponent implements OnInit {
         } else {
           this.organization = '4';//proceum
         }        
-        this.getCurriculumnHierarchy();
+        //this.getCurriculumnHierarchy();
       }
     });
   }
