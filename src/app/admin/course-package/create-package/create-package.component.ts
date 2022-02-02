@@ -523,10 +523,10 @@ export class CreatePackageComponent implements OnInit {
         this.selected_level.forEach((opt, index) => {
           if (index > level_id) this.selected_level[index] = 0;
         });
-        if(data['steps']){
+        if (data['steps']) {
           this.enable_add_button = true;
         }
-        
+
       }
     });
   }
@@ -545,20 +545,40 @@ export class CreatePackageComponent implements OnInit {
   addTopic() {
     let dropdown = this.level_options[this.level_id];
     let selectedObj = dropdown.filter((item) => this.topic == item.pk_id);
+    let removeIndexs = [];
+    let i = 0;
     //remove when topic finds in parent or already added
     this.selected_topics.forEach((item, index, object) => {
-      let parentExist = item.source_parent_ids.split(',').includes(String(this.topic));
-      let topicExist = item.pk_id == this.topic;
-      if (parentExist || topicExist) {
-        object.splice(index, 1);
+      let parentExist;
+      if (item.source_parent_ids != null) {
+        parentExist = item.source_parent_ids.split(',').includes(String(this.topic));
+        if (parentExist) {
+          removeIndexs.push(index)
+        }
+      }
+      let topicExist = item.topic == this.topic;
+      if(selectedObj[0].parent_ids != undefined && selectedObj[0].parent_ids != null){
+        let exist = selectedObj[0].parent_ids.split(',').includes(String(item.topic));
+        if (exist) {
+          i++;
+          this.toster.error("You have already added selelcted level parent!", 'Error', { closeButton: true });
+          return false;
+        }
+      }
+      if (topicExist) {
+        removeIndexs.push(index)
       }
     });
-    let data = { 
-      pk_id: 0, 
-      course_qbank: this.curriculum_id, 
-      course_qbank_text: this.selected_course, 
-      topic: this.topic, 
-      topic_text: selectedObj[0].level_name, 
+    if (i) {
+      return false;
+    }
+    removeIndexs.forEach(i => this.removeTopic(i));
+    let data = {
+      pk_id: 0,
+      course_qbank: this.curriculum_id,
+      course_qbank_text: this.selected_course,
+      topic: this.topic,
+      topic_text: selectedObj[0].level_name,
       is_delete: 0,
       level_id: selectedObj[0].level_id,
       source_parent_ids: selectedObj[0].parent_ids,

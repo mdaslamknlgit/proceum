@@ -13,7 +13,7 @@ export class SidebarPartnerComponent implements OnInit {
   public user = [];
   constructor(private http: CommonService, private router: Router) { }
   ngOnInit(): void {
-    this.user = this.http.getUser();
+    this.user = this.http.getUser();    
     this.active_route = this.router.url;
     this.router.events.subscribe((ev) => {
       if (this.user.length == 0 && this.router.url != '/login') {

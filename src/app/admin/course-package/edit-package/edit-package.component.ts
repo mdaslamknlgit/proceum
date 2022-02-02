@@ -555,19 +555,27 @@ export class EditPackageComponent implements OnInit {
     let i = 0;
     //remove when topic finds in parent or already added
     this.selected_topics.forEach((item, index, object) => {
-      let parentExist = item.source_parent_ids.split(',').includes(String(this.topic));
-      let topicExist = item.pk_id == this.topic;
-      let exist = selectedObj[0].parent_ids.split(',').includes(String(item.topic));
-      if(exist){
-        i++;
-        this.toster.error("You have already added selelcted level parent!", 'Error', { closeButton: true });
-        return false;
+      let parentExist;
+      if (item.source_parent_ids != null) {
+        parentExist = item.source_parent_ids.split(',').includes(String(this.topic));
+        if (parentExist) {
+          removeIndexs.push(index)
+        }
       }
-      if (parentExist || topicExist) {
+      let topicExist = item.topic == this.topic;
+      if(selectedObj[0].parent_ids != undefined && selectedObj[0].parent_ids != null){
+        let exist = selectedObj[0].parent_ids.split(',').includes(String(item.topic));
+        if (exist) {
+          i++;
+          this.toster.error("You have already added selelcted level parent!", 'Error', { closeButton: true });
+          return false;
+        }
+      }
+      if (topicExist) {
         removeIndexs.push(index)
       }
     });
-    if(i){
+    if (i) {
       return false;
     }
     removeIndexs.forEach(i => this.removeTopic(i));

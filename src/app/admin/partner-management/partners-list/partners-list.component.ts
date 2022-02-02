@@ -37,6 +37,7 @@ export class PartnersListComponent implements OnInit {
   public from_date = '';
   public to_date = '';
   public today = new Date();
+  public user:any;
   popoverTitle = '';
   popoverMessage = '';
   dataSource = new MatTableDataSource();
@@ -50,6 +51,7 @@ export class PartnersListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.user = this.http.getUser();
     let param = {
       url: 'get-partners', partner_type_id: this.type
     };
