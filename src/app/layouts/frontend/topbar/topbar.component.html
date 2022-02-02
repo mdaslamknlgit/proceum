@@ -7,15 +7,7 @@
   </span>
   <span class="spacer"></span>
   <div class="nav" [ngClass]="{ menu_open: isOpen }">
-    <div class="top-right-icon mr_1 rsp_100p_767">
-      <div class="glbl_srch dsh_brd_crds glbsrc_act">
-        <mat-form-field appearance="outline">
-          <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''"
-            placeholder="Search" class="{{glbSrch == false ? '' : ''}}" autocomplete="off">
-          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">search</mat-icon>
-        </mat-form-field>
-      </div>
-    </div>
+    
     <app-white-board *ngIf="user['role'] == '1' || user['role'] == '12'"></app-white-board>
     <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }">
@@ -51,7 +43,7 @@
         </button>
       </mat-menu>
     </span> -->
-    <span class="tp_rt_mn">
+    <span class="tp_rt_mn mr_1">
       <span mat-list-item [matMenuTriggerFor]="appMenu" [class]="activeClass" class="d-flex" routerLinkActive="active">
         Curriculums
         <mat-icon matSuffix>arrow_drop_down</mat-icon>
@@ -62,11 +54,23 @@
         </button>
       </mat-menu>
     </span>
-
-    
-
+    <div class="top-right-icon rsp_100p_767 ml_1">
+      <!-- <div class="glbl_srch dsh_brd_crds glbsrc_act">
+        <mat-form-field appearance="outline">
+          <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''"
+            placeholder="Search" class="{{glbSrch == false ? '' : ''}}" autocomplete="off">
+          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">search</mat-icon>
+        </mat-form-field>
+      </div> -->
+      <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
+        <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
+          <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
+          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch"> {{glbSrch == false ? 'close' : 'search'}}</mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
   </div>
-
+  
   <!-- <div class="lg_inbtn" *ngIf="user['name']">
     <span><mat-icon>face</mat-icon> <span class="m_hide">{{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span></span></span>
   </div> -->
