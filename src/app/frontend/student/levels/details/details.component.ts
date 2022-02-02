@@ -113,7 +113,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     pdfQuery = '';
 
     api_url = environment.apiUrl;
-    student_structure_template = this.api_url.substring(0, this.api_url.length - 5) + '/web-api/public/master_feeds/ProceumPlayer.zip';
+    student_structure_template = this.api_url.substring(0, this.api_url.length - 5) + '/master_feeds/ProceumPlayer.zip';
     AppSquadzVideos = [];
     isChecked = false;
     public model_status = false;

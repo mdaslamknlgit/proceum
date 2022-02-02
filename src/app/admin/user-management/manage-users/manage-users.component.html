@@ -95,19 +95,19 @@
     <hr />
     <div class="dsh_brd_crds">
         <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
-            <span>Search</span>
-            <mat-form-field appearance="outline" class="w_100p">
-                <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-                    placeholder="Search" />
-                <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
             <span>Role</span>
             <mat-form-field appearance="outline">
                 <mat-select placeholder="Select Role" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="doFilter()">
                     <mat-option *ngFor="let item of all_roles | async" [value]="item['id']">{{ item["role_name"] }}</mat-option>
                 </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
+            <span>Search</span>
+            <mat-form-field appearance="outline" class="w_100p">
+                <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                    placeholder="Search" />
+                <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
             </mat-form-field>
         </div>
       
