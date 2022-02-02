@@ -2,7 +2,7 @@
   <div style="z-index: 10000;" class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
-        Proceum Library
+        Assets Library
         <span class="spacer"></span>
         <button (click)="CloseLibraryModal()" mat-icon-button class="float_right">
           &#x2715;
@@ -199,7 +199,7 @@
   </div>
   <hr />
   <div class="dsh_brd_crds">
-    <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline" class="xl_srch">
       <input matInput placeholder="Search" [(ngModel)]="search_txt" (keyup)="$event.keyCode == 13 ? doFilter() : ''" />
       <mat-icon matSuffix (click)="doFilter()">search</mat-icon>
     </mat-form-field>
@@ -242,7 +242,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <th mat-header-cell *matHeaderCellDef class="jc_cnt">Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="accent">
               <mat-icon matTooltip="click here to edit material" *ngIf="user['role'] == '1'" routerLink="/admin/teacher-material/edit/{{element.pk_id}}">edit_note</mat-icon>

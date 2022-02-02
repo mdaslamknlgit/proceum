@@ -12,7 +12,7 @@ export class CommonService {
   public isLoading = new BehaviorSubject(false);
   public apiURL: string;
   public kpoint_api_url = "https://proceum.kpoint.com/api/v1/xapi/";
-  public appsquadz_api_url = "https://qa.proceum.com/AppSquadz/index.php/";
+  public appsquadz_api_url = "https://dev.medvizz3d.com/AppSquadz/index.php/";
   public menu_status: String;
   ipResult : any;
   public lang = "en";

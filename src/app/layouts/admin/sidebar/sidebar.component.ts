@@ -35,17 +35,15 @@ export class SidebarComponent implements OnInit {
         this.http.post(params).subscribe((res) => {
         this.http.removeSession();
         setTimeout(res=>{
-            window.location.href='/login';
+            //window.location.href='/login';
         }, 1000)
-        //this.router.navigate(['/login']);
         });
       }
       else{
         this.http.removeSession();
         setTimeout(res=>{
-            window.location.href='/login';
+            //window.location.href='/login';
         }, 1000)
-        //this.router.navigate(['/login']);
       }
   }
   scrollHandler(event) {
