@@ -127,10 +127,6 @@ export class CreateUserComponent implements OnInit {
   onUserTypeChange() {
     this.show_organization_type = false;
     this.show_partners_dropdown = true;
-    if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
-      this.show_organization_type = true;
-      this.organization = "";
-    }
     if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
       this.organization = '1';
       this.child_type = 1;
@@ -152,10 +148,22 @@ export class CreateUserComponent implements OnInit {
       this.show_partners_dropdown = false;
       this.organization = '1';
     }
+
     if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN && Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
       this.university_id = this.user['partner_id'];
       this.show_partners_dropdown = false;
       this.organization = '1';
+    }
+
+    if (Number(this.user['role']) == environment.ALL_ROLES.SUPER_ADMIN && Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
+      this.university_id = '';
+      this.show_partners_dropdown = false;
+      this.organization = '';
+    }
+
+    if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
+      this.show_organization_type = true;
+      this.organization = '';
     }
 
     /* if(Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN){
@@ -404,6 +412,11 @@ export class CreateUserComponent implements OnInit {
         this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role for the selected organization type`, 'Error');
         return;
       }
+      if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN == Number(this.role)) {
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        return;
+      }
       this.partner_type_id = 1; //partner as Universities
       this.getPartners();
     } else if (this.organization == '2') { //College
@@ -413,6 +426,11 @@ export class CreateUserComponent implements OnInit {
         this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role for the selected organization type`, 'Error');
         return;
       }
+      if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN == Number(this.role)) {
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        return;
+      }
       this.partner_type_id = 2; //partner as Collges
       this.getPartners();
     } else if (this.organization == '3') { //Institute
@@ -420,6 +438,11 @@ export class CreateUserComponent implements OnInit {
         let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
         this.role = ''; this.organization = '';
         this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role for the selected organization type`, 'Error');
+        return;
+      }
+      if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN == Number(this.role)) {
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
         return;
       }
       this.partner_type_id = 3; //partner as Institutes

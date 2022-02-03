@@ -42,12 +42,12 @@
                             </div>
                         </div>
                         <div class="crt_pr_dv">
-                            <div class="crt_prt_hd">Email address</div>
+                            <div class="crt_prt_hd" *ngIf="partner_id > 0">{{(partner_id > 0) ? 'Contact Email' : 'Email address'}}</div>                            
                             <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p">
                                     <input matInput type="email" placeholder="Email" [(ngModel)]="email"
                                         name="email_edit" #email_edit="ngModel" autocomplete="off" required
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [disabled]="partner_id"/>
                                 </mat-form-field>
                                 <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || email_edit.touched) && email_edit.invalid">Email
