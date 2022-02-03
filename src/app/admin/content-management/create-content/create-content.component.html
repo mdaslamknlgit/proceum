@@ -299,8 +299,10 @@
                       <div *ngFor="let video of intro_video; let video_index=index">
                         <div class="hyt_lst_dv" *ngIf="video['status'] != 'delete'">
                           <div class="kp_yt_img">
-                            <img
-                              src="../../../assets/images/{{video['source'] == 'KPOINT'?'kpoint_k.png':'youtube.png'}}">
+                            <img *ngIf="{{video['source'] == 'KPOINT'" src="../../../assets/images/kpoint_k.png">
+                            <img *ngIf="{{video['source'] == 'YOUTUBE'" src="../../../assets/images/youtube.png">
+                            <img *ngIf="{{video['source'] == 'APP_SQUADZ'" src="../../../assets/images/app-squadz.png">
+                            <img *ngIf="{{video['source'] == 'VIDEO_CIPHER'" src="../../../assets/images/video-cipher.png">
                           </div>
                           <div class="mr_1 fnt_bold">{{video['title']}}
                             <div class="vd_pth">
