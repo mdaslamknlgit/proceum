@@ -44,7 +44,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         //check subdomain
         let sub_domain = window.location.hostname.split('.')[0];
-        //sub_domain = 'drsprep';
+        sub_domain = 'drsprep';
         //If subdomain not exist in in app domains then check for partner domain
         if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
             this.getSubDomainDetails(sub_domain);
@@ -166,7 +166,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
                 localStorage.setItem('description', res['data']['description']);
                 localStorage.setItem('licence_expired', res['data']['licence_expired']);
                 this.show_links = false;
-                this.route.navigateByUrl("/login");
+                //this.route.navigateByUrl("/login");
                 //console.log(this.sub_domain_data);
             }else{
                 //window.location.href = environment.APP_BASE_URL;
