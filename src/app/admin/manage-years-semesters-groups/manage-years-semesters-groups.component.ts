@@ -244,6 +244,11 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       this.proceum_admin = true;
     } else {
       this.partner_parent_id = user.partner_id;
+      this.parent_id = user.partner_id;
+      this.partner_type_id = 1;
+      if (Number(this.user_role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
+        this.getPartnerChilds();
+      }
       //Disable specific columns for partners 
       this.displayedColumnsYears.splice(2, 2);
       this.displayedColumnsSemesters.splice(3, 2);
@@ -308,7 +313,11 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   }
 
   getCurriculumnHierarchy() {
-    let params = { url: 'get-curriculumn-hierarchy', 'previous_selected_ids': this.courses_ids_csv, 'flag': 'subject' };
+    let params = { 
+      url: 'get-curriculumn-hierarchy', 
+      'previous_selected_ids': this.courses_ids_csv, 
+      'flag': 'subject' 
+    };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.course_count = res['data'].length;
@@ -540,7 +549,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
           this.all_universities.next(this.universities.slice());
         }
         if (callPartnerChilds) {
-          this.getPartnerChilds(this.partner_parent_id);
+          this.getPartnerChilds();
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -564,8 +573,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   }
 
   //To get all college list
-  getPartnerChilds(partner_id) {
+  getPartnerChilds() {
     if (this.partner_type_id != 1) {
+      this.all_colleges.next([]);
       return;
     }
     let param = {
@@ -581,7 +591,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
           this.all_colleges.next(this.colleges.slice());
         }
       } else {
-        //this.toster.error(res['message'], 'Error');
+        this.colleges = [];
+        this.all_colleges.next(this.colleges.slice());
+        this.toster.error("No colleges found", 'Error');
       }
     });
   }

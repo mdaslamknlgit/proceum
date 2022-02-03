@@ -31,7 +31,7 @@ export class ListCollegesComponent implements OnInit {
   public page = 0;
   public from_date = '';
   public to_date = '';
-  public partner_id: number;
+  public partner_id: any;
   public partner_id_with_fw_slash = '';
   public today = new Date();
   private user: any;
@@ -77,6 +77,7 @@ export class ListCollegesComponent implements OnInit {
         });
       });
     } else if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
+      this.partner_id = '';
       this.http.post(newParam).subscribe((res) => {
         if (res['error'] == false) {
           if (this.paginator != undefined) {

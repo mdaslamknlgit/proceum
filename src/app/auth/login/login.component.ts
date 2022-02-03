@@ -9,6 +9,7 @@ import {
   SocialUser,
   FacebookLoginProvider,
 } from 'angularx-social-login';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -164,9 +165,8 @@ export class LoginComponent implements OnInit {
                 let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/reviewer/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
-              }else if (res['data']['user']['role'] == 8 || res['data']['user']['role'] == 9 || res['data']['user']['role'] == 10){
+              }else if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(res['data']['user']['role']))){
                 let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/admin/dashboard';
-                localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
               }else if(res['data']['user']['role'] == 12){
                 let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/teacher/dashboard';
