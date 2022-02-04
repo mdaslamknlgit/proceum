@@ -3,35 +3,33 @@
   <button mat-icon-button (click)="toggleSidemenu('hello')" class="hmbrg_btn">
     <img src="./assets/images/hamburg-icon.svg" />
   </button>
-  <span class="logo_spn"><img src="{{ getHeaderLogo() }}"/></span>
-  <span class="usr_lgns" >{{"welcome_to_text"|translate}} {{ user["role_name"] }} {{"dashboard_text"|translate}}</span>
+  <span class="logo_spn"><img src="{{ getHeaderLogo() }}" /></span>
+  <span class="usr_lgns">{{"welcome_to_text"|translate}} {{ user["role_name"] }} {{"dashboard_text"|translate}}</span>
   <span class="spacer"></span>
-  <div class="top-right-icon mr_1"> 
-    <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
-      <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
-        <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? adminglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
-        <mat-icon matSuffix (click)="glbSrch = !glbSrch"> {{glbSrch == false ? 'close' : 'search'}}</mat-icon>
-      </mat-form-field>
-    </div>
-  </div>
   <app-white-board></app-white-board>
   <span class="tp_rt_mn ps_rel fr_bdg mr_0">
-      <span (click)="show_notifications = !show_notifications">
-        <mat-icon *ngIf="content_notifications.length > 0" class="tp_rt_mn lft_0" matBadge="{{content_notifications.length>0?content_notifications.length:''}}" matBadgeColor="warn">notification_important</mat-icon>
-        <mat-icon *ngIf="content_notifications.length == 0" class="tp_rt_mn lft_0" matTooltip="Notifications">notification_important</mat-icon>
-        <!-- <span>Notifications</span> -->
+    <span (click)="show_notifications = !show_notifications">
+      <mat-icon *ngIf="content_notifications.length > 0" class="tp_rt_mn lft_0"
+        matBadge="{{content_notifications.length>0?content_notifications.length:''}}" matBadgeColor="warn">
+        notification_important</mat-icon>
+      <mat-icon *ngIf="content_notifications.length == 0" class="tp_rt_mn lft_0" matTooltip="Notifications">
+        notification_important</mat-icon>
+      <!-- <span>Notifications</span> -->
     </span>
     <div class="noti_dv {{show_notifications == false?'d-none':''}}">
       <div class="noti_hd d-flex">
         <span class=" ">Notifications</span>
         <span class="spacer"></span>
-        <span (click)="show_notifications = !show_notifications"><mat-icon>close</mat-icon></span>
+        <span (click)="show_notifications = !show_notifications">
+          <mat-icon>close</mat-icon>
+        </span>
       </div>
       <div class="noti_cnt">
         <ul>
           <li *ngFor="let notification of content_notifications">
             <!-- <span class="noti_bld">This is bold notification</span> -->
-            <span (click)="navigateTo('create-content/'+notification['content_id'])">Content Review request from {{notification['first_name']}}</span>
+            <span (click)="navigateTo('create-content/'+notification['content_id'])">Content Review request from
+              {{notification['first_name']}}</span>
           </li>
           <!-- <li>
             <span class="noti_bld">This is bold notification</span>
@@ -39,16 +37,26 @@
           </li>-->
           <li>
             <span *ngIf="content_notifications.length == 0">No Notifications</span>
-          </li> 
-      </ul>
+          </li>
+        </ul>
       </div>
     </div>
   </span>
-  <span class="tp_rt_mn">
+  <span class="tp_rt_mn mr_50px">
     <mat-icon class="tp_rt_mn">account_circle</mat-icon>
-    <span>{{ user["name"]  }}</span>
+    <span>{{ user["name"] }}</span>
   </span>
-
+  <div class="top-right-icon admntpbr_two">
+    <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
+      <mat-icon matSuffix color="accent" (click)="glbSrch = false">search</mat-icon>
+      <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
+        <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? adminglobalsearch() : ''"
+          placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
+        <mat-icon matSuffix (click)="glbSrch = !glbSrch"> {{glbSrch == false ? 'close' : ''}}</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="{{ glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
+  </div>
   <span class="tp_rt_mn lgot_btn" (click)="logout()">
     <mat-icon matTooltip="Logout" color="warn">power_settings_new</mat-icon>
   </span>

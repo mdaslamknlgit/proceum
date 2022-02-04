@@ -15,9 +15,9 @@
                 </mat-expansion-panel-header>
                 <form autocomplete="off" #create_Partner_form1="ngForm" name="create_Partner_form1"
                     (ngSubmit)="create_Partner_form1.valid && validateBasicDeatils()" novalidate>
-                    <div class="crt_pr_mn">
+                    <div class="crt_pr_mn jc_fs">
                         <div class="crt_pr_dv" *ngIf="!partner_id">
-                            <div class="crt_prt_hd">Partner Type</div> 
+                            <div class="crt_prt_hd">Partner Type</div>
                             <div class="crt_prt_cnt">
                                 <mat-radio-group aria-label="Select an option" name="partner_type"
                                     [(ngModel)]="partner_type" (ngModelChange)="getPackages()" required>
@@ -27,127 +27,119 @@
                                 </mat-radio-group>
                             </div>
                         </div>
-                      <div class="clear_fix"></div>
-                        <div class="crt_pr_dv">
+                        <div class="clear_fix"></div>
+                        <div class="cm_fltr_sc mr_1">
                             <div class="crt_prt_hd">Partner Name</div>
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="Partner Name" maxlength="100"
-                                        [(ngModel)]="partner_name" name="partner_name_edit" #partner_name_edit="ngModel"
-                                        (keypress)="allAlphabetsWithSpaces($event)" required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Partner Name" maxlength="100" [(ngModel)]="partner_name"
+                                    name="partner_name_edit" #partner_name_edit="ngModel"
+                                    (keypress)="allAlphabetsWithSpaces($event)" required />
+                            </mat-form-field>
+                            <!-- <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || partner_name_edit.touched) && partner_name_edit.invalid">Partner
-                                    name is required</span>
-                            </div>
+                                    name is required</span> -->
                         </div>
-                        <div class="crt_pr_dv">
+                        <div class="cm_fltr_sc mr_1">
                             <div class="crt_prt_hd">Email address</div>
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput type="email" placeholder="Email" [(ngModel)]="email"
-                                        name="email_edit" #email_edit="ngModel" autocomplete="off" required
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
-                                </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_Partner_form1.submitted || email_edit.touched) && email_edit.invalid">Email
-                                    is required</span>
-                                <span class="prc_tltp"
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
+                                    #email_edit="ngModel" autocomplete="off" required
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                            </mat-form-field>
+                           <!-- <span class="prc_tltp"
+                                *ngIf="(create_Partner_form1.submitted || email_edit.touched) && email_edit.invalid">Email
+                                is required</span>
+                             <span class="prc_tltp"
                                     *ngIf="create_Partner_form1.submitted && email_edit.errors?.pattern">This is not a
-                                    valid Email!</span>
-                            </div>
+                                    valid Email!</span> -->
                         </div>
-                        <div class="crt_pr_dv" *ngIf="!partner_id">
+                        <div class="cm_fltr_sc mr_1" *ngIf="!partner_id">
                             <div class="crt_prt_hd">Password</div>
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput type="password" placeholder="Password" [(ngModel)]="password"
-                                        name="password_edit" #password_edit="ngModel" minlength="6" maxlength="16"
-                                        autocomplete="off" required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_Partner_form1.submitted || password_edit.touched) && password_edit.invalid">Password
-                                    is required</span>
-                                <span class="prc_tltp"
+
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput type="password" placeholder="Password" [(ngModel)]="password"
+                                    name="password_edit" #password_edit="ngModel" minlength="6" maxlength="16"
+                                    autocomplete="off" required />
+                            </mat-form-field>
+                            <!--<span class="prc_tltp"
+                                *ngIf="(create_Partner_form1.submitted || password_edit.touched) && password_edit.invalid">Password
+                                is required</span>
+                             <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || password_edit.touched) && (password != '' && password.length < 5) ">Minimum
-                                    of 6 characters password required!</span>
-                            </div>
+                                    of 6 characters password required!</span> -->
+
                         </div>
-                        <div class="crt_pr_dv" *ngIf="!partner_id">
+                        <div class="cm_fltr_sc mr_1" *ngIf="!partner_id">
                             <div class="crt_prt_hd">Confirm password</div>
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="w_100p"
-                                    class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
-                                    <input matInput type="password" placeholder="Confirm Password"
-                                        [(ngModel)]="confirm_password" name="confirm_password_edit"
-                                        #confirm_password_edit="ngModel" minlength="6" maxlength="16" required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_Partner_form1.submitted || confirm_password_edit.touched) && confirm_password_edit.invalid">confirm
-                                    password is required</span>
-                                <span class="prc_tltp"
+
+                            <mat-form-field appearance="outline" class="w_100p"
+                                class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
+                                <input matInput type="password" placeholder="Confirm Password"
+                                    [(ngModel)]="confirm_password" name="confirm_password_edit"
+                                    #confirm_password_edit="ngModel" minlength="6" maxlength="16" required />
+                            </mat-form-field>
+                           <!--  <span class="prc_tltp"
+                                *ngIf="(create_Partner_form1.submitted || confirm_password_edit.touched) && confirm_password_edit.invalid">confirm
+                                password is required</span>
+                            <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || confirm_password_edit.touched) && confirm_password != '' && (confirm_password != password)">Password
-                                    and Confirm Password must be match!</span>
-                            </div>
+                                    and Confirm Password must be match!</span> -->
+
                         </div>
-                        <div class="crt_pr_dv">
+                        <div class="cm_fltr_sc mr_1">
                             <div class="crt_prt_hd">Primary Contact Number</div>
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone"
-                                        name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9"
-                                        maxlength="13" required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_Partner_form1.submitted || phone_edit.touched) && phone_edit.invalid">Contact
-                                    number is required</span>
-                                <span class="prc_tltp"
+
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone"
+                                    name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13"
+                                    required />
+                            </mat-form-field>
+                            <!--<span class="prc_tltp"
+                                *ngIf="(create_Partner_form1.submitted || phone_edit.touched) && phone_edit.invalid">Contact
+                                number is required</span>
+                             <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 || phone.length > 13)">Invalid
-                                    Contact number.Minimun of 9, Maximum of 13 digits required!</span>
-                            </div>
+                                    Contact number.Minimun of 9, Maximum of 13 digits required!</span> -->
+
                         </div>
-                        <div class="crt_pr_dv" *ngIf="partner_type == '1'">
+                        <div class="cm_fltr_sc mr_1" *ngIf="partner_type == '1'">
                             <div class="crt_prt_hd">Secondery Contact Number</div>
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone"
-                                        name="second_phone_edit" #second_phone_edit="ngModel" appNumbersonly
-                                        minlength="9" maxlength="13" required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_Partner_form1.submitted || second_phone_edit.touched) && second_phone_edit.invalid">Contact
-                                    number is required</span>
-                                <span class="prc_tltp"
+
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone"
+                                    name="second_phone_edit" #second_phone_edit="ngModel" appNumbersonly minlength="9"
+                                    maxlength="13" required />
+                            </mat-form-field>
+                           <!-- <span class="prc_tltp"
+                                *ngIf="(create_Partner_form1.submitted || second_phone_edit.touched) && second_phone_edit.invalid">Contact
+                                number is required</span>
+                             <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || second_phone_edit.touched) && (second_phone != '') && (second_phone.length < 10 || second_phone.length > 13)">Invalid
-                                    Contact number.Minimun of 9, Maximum of 13 digits required!</span>
-                            </div>
+                                    Contact number.Minimun of 9, Maximum of 13 digits required!</span> -->
+
                         </div>
-                        <div class="crt_pr_dv">
+                        <div class="cm_fltr_sc mr_1">
                             <div class="crt_prt_hd">Contact Person</div>
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="Person Name" maxlength="50"
-                                        (keypress)="allAlphabetsWithSpaces($event)" [(ngModel)]="contact_name"
-                                        name="contact_name_edit" #contact_name_edit="ngModel" required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Person Name" maxlength="50"
+                                    (keypress)="allAlphabetsWithSpaces($event)" [(ngModel)]="contact_name"
+                                    name="contact_name_edit" #contact_name_edit="ngModel" required />
+                            </mat-form-field>
+                            <!-- <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || contact_name_edit.touched) && contact_name_edit.invalid">Contact
-                                    Person name is required</span>
-                            </div>
+                                    Person name is required</span> -->
+
                         </div>
-                        <div class="crt_pr_dv" *ngIf="partner_type == '1' || partner_type == '2'">
+                        <div class="cm_fltr_sc mr_1" *ngIf="partner_type == '1' || partner_type == '2'">
                             <div class="crt_prt_hd">{{ (partner_type == 1) ? "University" : "College"}} Code</div>
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput
-                                        placeholder="{{ (partner_type == '1') ? 'University' : 'College'}} Code"
-                                        maxlength="10" [(ngModel)]="code" name="code_edit" #code_edit="ngModel"
-                                        required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="{{ (partner_type == '1') ? 'University' : 'College'}} Code"
+                                    maxlength="10" [(ngModel)]="code" name="code_edit" #code_edit="ngModel" required />
+                            </mat-form-field>
+                            <!-- <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || code_edit.touched) && code_edit.invalid">{{
-                                    (partner_type == '1') ? "University" : "College"}} Code is required</span>
-                            </div>
+                                    (partner_type == '1') ? "University" : "College"}} Code is required</span> -->
+
                         </div>
                         <!-- <div class="crt_pr_dv" *ngIf="partner_type == '2'">
                             <div class="crt_prt_hd">Select University</div>
@@ -172,23 +164,21 @@
                                 </mat-form-field>
                             </div>
                         </div> -->
-                        <div class="crt_pr_dv">
+                        <div class="cm_fltr_sc mr_1">
                             <div class="crt_prt_hd">GSTIN number</div>
-                            <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p">
                                     <input matInput placeholder="GST/VAT" autocomplete="off" minlength="15"
                                         maxlength="15" required name="gstin_edit" [(ngModel)]="gstin"
                                         #gstin_edit="ngModel" ngModel
                                         onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))" />
                                 </mat-form-field>
-                                <span class="prc_tltp"
+                                <!-- <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || gstin_edit.touched) && gstin == ''">GSTIN
                                     is required</span>
                                 <span
                                     *ngIf="(create_Partner_form1.submitted || gstin_edit.touched) && gstin != '' && gstin_edit.errors?.pattern"
                                     class="prc_tltp">Please enter valid
-                                    GST/VAT</span>
-                            </div>
+                                    GST/VAT</span> -->
                         </div>
                         <div class="clear_fix"></div>
                         <div class="text_right float_right w_100p">
@@ -210,7 +200,7 @@
                         <div class="crt_pr_dv">
                             <div class="brnd_info_mn">
                                 <div class="d-flex w_100p ai_cntr">
-                                    <div class="crt_prt_hd">Partner Header Logo</div>
+                                    <div class="crt_prt_hd brnd_upttl">Partner Header Logo</div>
                                     <div class="spacer"></div>
                                     <div class="text_right">
                                         <button mat-raised-button class="no_bxsdw" color="accent"
@@ -220,7 +210,8 @@
                                                 type="file" style="display: none" />Browse
                                         </button>
                                         <div class="hgt_10"></div>
-                                        <div class="text_right w_100p fl_frmt_info">(Supported Formats: .png, .jpg, .jpeg)</div>
+                                        <div class="text_right w_100p fl_frmt_info">(Supported Formats: .png, .jpg,
+                                            .jpeg)</div>
                                     </div>
                                 </div>
                                 <div class="brnd_info_upld mt_1">
@@ -231,7 +222,7 @@
                             </div>
                             <div class="brnd_info_mn">
                                 <div class="d-flex w_100p ai_cntr">
-                                    <div class="crt_prt_hd">Footer Logo</div>
+                                    <div class="crt_prt_hd brnd_upttl">Footer Logo</div>
                                     <div class="spacer"></div>
                                     <div class="text_right">
                                         <button mat-raised-button class="no_bxsdw" color="accent"
@@ -241,7 +232,8 @@
                                                 type="file" style="display: none" />Browse
                                         </button>
                                         <div class="hgt_10"></div>
-                                        <div class="text_right w_100p fl_frmt_info">(Supported Formats: .png, .jpg, .jpeg)</div>
+                                        <div class="text_right w_100p fl_frmt_info">(Supported Formats: .png, .jpg,
+                                            .jpeg)</div>
                                     </div>
                                 </div>
                                 <div class="brnd_info_upld mt_1">
@@ -337,7 +329,7 @@
                                 <mat-form-field appearance="outline" class="w_100p">
                                     <input matInput placeholder="Licence End Date" [matDatepicker]="picker2"
                                         #end_date="ngModel" [(ngModel)]="licence_end_date" name="end_date"
-                                         autocomplete="off" readonly required>
+                                        autocomplete="off" readonly required>
                                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                                     <mat-datepicker #picker color="accent" disabled="true"></mat-datepicker>
                                     <mat-datepicker #picker2 disabled="true"></mat-datepicker>
@@ -444,7 +436,8 @@
                                     <div class="err_tltp_par">
                                         <mat-form-field appearance="outline" class="w_100p">
                                             <mat-select placeholder="Select State" name="state_edit"
-                                                #state_edit="ngModel" [(ngModel)]="b_state_id" (ngModelChange)="getCities(b_state_id)" required>
+                                                #state_edit="ngModel" [(ngModel)]="b_state_id"
+                                                (ngModelChange)="getCities(b_state_id)" required>
                                                 <mat-option>
                                                     <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                                                         [placeholderLabel]="'Search State'" name="search_state" ngModel
@@ -464,15 +457,15 @@
                                 <div class="w_47p rsp_100p">
                                     <div class="crt_prt_hd">City</div>
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <mat-select placeholder="Select City" name="city_edit"
-                                            #city_edit="ngModel" [(ngModel)]="b_city" required>
+                                        <mat-select placeholder="Select City" name="city_edit" #city_edit="ngModel"
+                                            [(ngModel)]="b_city" required>
                                             <mat-option>
                                                 <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
                                                     [placeholderLabel]="'Search City'" name="search_city" ngModel
                                                     (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
                                             </mat-option>
-                                            <mat-option *ngFor="let city of all_cities | async"
-                                                [value]="city['id']">{{ city["city_name"] }}</mat-option>
+                                            <mat-option *ngFor="let city of all_cities | async" [value]="city['id']">{{
+                                                city["city_name"] }}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
 
@@ -552,7 +545,8 @@
                                     <div class="err_tltp_par">
                                         <mat-form-field appearance="outline" class="w_100p">
                                             <mat-select placeholder="Select State" name="c_state_edit"
-                                                #c_state_edit="ngModel" [(ngModel)]="c_state_id" (ngModelChange)="getCities(c_state_id)"required>
+                                                #c_state_edit="ngModel" [(ngModel)]="c_state_id"
+                                                (ngModelChange)="getCities(c_state_id)" required>
                                                 <mat-option>
                                                     <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                                                         [placeholderLabel]="'Search State'" name="search_state" ngModel
@@ -572,15 +566,15 @@
                                 <div class="w_47p rsp_100p">
                                     <div class="crt_prt_hd">City</div>
                                     <mat-form-field appearance="outline" class="w_100p">
-                                        <mat-select placeholder="Select City" name="c_city_edit"
-                                            #c_city_edit="ngModel" [(ngModel)]="c_city" required>
+                                        <mat-select placeholder="Select City" name="c_city_edit" #c_city_edit="ngModel"
+                                            [(ngModel)]="c_city" required>
                                             <mat-option>
                                                 <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
                                                     [placeholderLabel]="'Search City'" name="c_search_city" ngModel
                                                     (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
                                             </mat-option>
-                                            <mat-option *ngFor="let city of all_cities | async"
-                                                [value]="city['id']">{{ city["city_name"] }}</mat-option>
+                                            <mat-option *ngFor="let city of all_cities | async" [value]="city['id']">{{
+                                                city["city_name"] }}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                     <span class="prc_tltp"
