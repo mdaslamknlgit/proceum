@@ -10,7 +10,7 @@ export const environment = {
   },
   ckeditor_toolbar: ['Heading', 'CustomFileExporer', 'PageBreak', 'FontBackgroundColor', 'Alignment', 'FontColor', 'FontFamily', 'FontSize', 'bold', 'italic', 'underline', 'link', 'bulletedList', 'numberedList', '|', '|', 'blockQuote', 'insertTable', 'undo', 'redo', 'MathType', 'ChemType', 'MediaEmbed', 'HorizontalLine', 'Highlight', 'ImageResize', 'SpecialCharacters'],
   //'uploadImage', 'ImageInsert', 'AutoImage', 'TextTransformation', 'imageUpload', 'CKFinder', 'CKFinderUploadAdapter', 'Essentials', 'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'List', 'Paragraph', 'Table', 'TableToolbar', 'htmlSource'
-  video_types: [{ name: "KPoint", value: 'KPOINT' }, { name: "Youtube", value: 'YOUTUBE' }, { name: "App Squadz", value: "APP_SQUADZ"}, { name: "Video Cipher", value: "VIDEO_CIPHER"}],
+  video_types: [{ name: "KPoint", value: 'KPOINT' }, { name: "Youtube", value: 'YOUTUBE' }/*, { name: "App Squadz", value: "APP_SQUADZ"}, { name: "Video Cipher", value: "VIDEO_CIPHER"}*/],
   ORGANIZATION_TYPES: [
     { value: '1', viewValue: 'University' },
     {value: '2', viewValue: 'College'},
