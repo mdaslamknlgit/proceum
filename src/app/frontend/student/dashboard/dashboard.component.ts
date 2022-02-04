@@ -43,6 +43,7 @@ export class DashboardComponent implements OnInit {
   public active_question = [];
   public is_test_end = false;
   public allow_end_test: boolean = false;
+  public bucket_url = '';
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {alert()
       // Your logic on beforeunload
@@ -109,6 +110,7 @@ export class DashboardComponent implements OnInit {
         // console.log(res['data']['caseoftheday']);
         this.quiz_questions = res['data']['questions'];
         this.case = res['data']['caseoftheday'];
+        this.bucket_url = res['data']['bucket_url'];
         if(this.quiz_questions.length > 0)
           this.getQuestionOptions(0);
       } else {
@@ -178,60 +180,60 @@ export class DashboardComponent implements OnInit {
         this.quiz_questions[this.active_q_index]['answer'].splice(index2,1);
     }
   }
-    showDetails(){
-        this.quiz_case_rslt = true;
-    }
-    hideDetails(){
-        this.quiz_case_rslt = false;
-    }
-    public correct_answers = 0;
-    public wrong_answers = 0;
-    public not_answered = 0;
-    public free_text_qs = 0;
-    showResult(){
-         Swal.fire({
-            title: 'Are you sure?',
-            text: 'Are you sure to end this test?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No'
-        }).then((result) => {
-            if (result.value) {
-                this.is_test_end = true;
-                let check = false;
-                let fff;
-                this.quiz_questions.forEach((q,index)=>{
-                    if([3,6,9,12].includes(q['q_type'])){
-                        this.free_text_qs = this.free_text_qs+1;
-                        return true;
-                    }
-                    if(q['answer'].length == 0){
-                        this.not_answered = this.not_answered+1;
-                    }
-                    else if(q['s_no'].split(',').length == q['answer'].length){
-                        const array2Sorted = q['answer'].slice().sort();
-                        check = q['s_no'].split(',').length === q['answer'].length && q['s_no'].split(',').slice().sort().every(function(value, index) {
-                            return value === array2Sorted[index];
-                        });
-                        if(check == true){
-                          this.correct_answers = this.correct_answers+1;
-                        }
-                        else{
-                          this.wrong_answers = this.wrong_answers+1;
-                        }
-                    }
-                    else{
-                      this.wrong_answers = this.wrong_answers+1;
-                    }
-                });
-                this.reviewQuestions();
-                this.quiz_case_rslt = true;
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                
-            }
-        });
-    }
+  showDetails(){
+      this.quiz_case_rslt = true;
+  }
+  hideDetails(){
+      this.quiz_case_rslt = false;
+  }
+  public correct_answers = 0;
+  public wrong_answers = 0;
+  public not_answered = 0;
+  public free_text_qs = 0;
+  showResult(){
+       Swal.fire({
+          title: 'Are you sure?',
+          text: 'Are you sure to end this test?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No'
+      }).then((result) => {
+          if (result.value) {
+              this.is_test_end = true;
+              let check = false;
+              let fff;
+              this.quiz_questions.forEach((q,index)=>{
+                  if([3,6,9,12].includes(q['q_type'])){
+                      this.free_text_qs = this.free_text_qs+1;
+                      return true;
+                  }
+                  if(q['answer'].length == 0){
+                      this.not_answered = this.not_answered+1;
+                  }
+                  else if(q['s_no'].split(',').length == q['answer'].length){
+                      const array2Sorted = q['answer'].slice().sort();
+                      check = q['s_no'].split(',').length === q['answer'].length && q['s_no'].split(',').slice().sort().every(function(value, index) {
+                          return value === array2Sorted[index];
+                      });
+                      if(check == true){
+                        this.correct_answers = this.correct_answers+1;
+                      }
+                      else{
+                        this.wrong_answers = this.wrong_answers+1;
+                      }
+                  }
+                  else{
+                    this.wrong_answers = this.wrong_answers+1;
+                  }
+              });
+              this.reviewQuestions();
+              this.quiz_case_rslt = true;
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+              
+          }
+      });
+  }
   checkAnswer(){
   }
   reviewQuestions(){
