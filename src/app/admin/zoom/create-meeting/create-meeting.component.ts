@@ -28,6 +28,7 @@ export class CreateMeetingComponent implements OnInit {
     public timezone = '';
     public start_time:any;
     public start_date:any;
+    public minDate = new Date();
     public duration = '';
     public countrys = [];
     public selected_country_id = '';
@@ -73,6 +74,10 @@ export class CreateMeetingComponent implements OnInit {
         if(this.user['role'] == '12'){
             this.teacher_id = this.user['id'];
         }
+
+        let d = new Date();
+        d.setDate(d.getDate() + 1);
+        this.minDate = d;
     }
     getData(){
         let param = {url: 'class/create-meeting'};
