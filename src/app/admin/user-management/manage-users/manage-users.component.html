@@ -81,13 +81,11 @@
             </div>
         </div>
     </div>
-
-
     <div class="brd_crm">Proceum &raquo; <strong>manage Users</strong></div>
     <div class="d-flex rsp_fw">
         <div class="pg_ttl">Manage Users</div>
         <div class="spacer"></div>
-        <div>
+        <div *ngIf="role_id != 12">
             <button mat-raised-button color="accent" (click)="navigateTo('create-user')">
                 <mat-icon>add</mat-icon>
                 Add New User
@@ -96,7 +94,7 @@
     </div>
     <hr />
     <div class="dsh_brd_crds">
-        <div class="cm_fltr_sc mr_1">
+        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
             <span>Role</span>
             <mat-form-field appearance="outline">
                 <mat-select placeholder="Select Role" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="doFilter()">
@@ -104,13 +102,53 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="cm_fltr_sc mr_1">
+        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
             <span>Search</span>
             <mat-form-field appearance="outline" class="w_100p">
                 <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
                     placeholder="Search" />
                 <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
             </mat-form-field>
+        </div>
+      
+        <div *ngIf="role_id == 12">
+            <div class="cm_fltr_sc mr_1">
+                <span>Search</span>
+                <mat-form-field appearance="outline" class="w_100p">
+                    <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                        placeholder="Search" />
+                    <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>Year</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester')">
+                        <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
+                <span>Semester</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group')" >
+                        <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="show_group_dropdown">
+                <span>Group</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select Group" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="doFilter()">
+                        <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mt_18px">
+                <button mat-raised-button (click)="resetFilters();" class="mt_6px" color="warn">
+                    <mat-icon>autorenew</mat-icon>
+                </button>
+            </div>
         </div>
         <div class="clear_fix"></div>
         <div *ngIf="role == '2'">
@@ -127,7 +165,7 @@
             </div>
         <!-- </div>
             <div *ngIf="role == '2' && (manage_students == '1' || manage_students == '2')"> -->
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>Organization Type</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select Organization Type" name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization_type_id" (ngModelChange)="onOrganizationTypeChange()">
@@ -135,17 +173,17 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit" #organization_list_edit="ngModel" [(ngModel)]="organization_list_id" (ngModelChange)="getCollege(organization_type_id,0,'year')">
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
-                                [placeholderLabel]="'Search'" name="search_university" ngModel
+                                [placeholderLabel]="'Search'" name="search_university" ngModel (ngModelChange)="filterPartners($event)"
                                 >
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["organization_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -153,7 +191,13 @@
                 <span>College</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year')">
-                        <mat-option *ngFor="let item of all_college | async" [value]="item['partner_id']">{{ item["organization_name"] }}</mat-option>
+                        <mat-option>
+                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
+                                [placeholderLabel]="'Search'" name="search_university" ngModel (ngModelChange)="filterCollege($event)"
+                                >
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let item of all_college | async" [value]="item['pk_id']">{{ item["partner_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -196,7 +240,7 @@
         </div>
         <div class="hgt_10"></div>
         <div>
-            <div class="rsp_tbl" *ngIf="role != '2'">
+            <div class="rsp_tbl" *ngIf="role != '2' && role_id != 12">
                 <table mat-table [dataSource]="dataSource" matSort>
                     <!-- Position Column -->
                     <ng-container matColumnDef="id">
@@ -273,7 +317,7 @@
                     </tr>
                 </table>
             </div>
-            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role != '2'">
+            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role != '2' && role_id != 12">
             </mat-paginator>
 
             <div class="rsp_tbl" *ngIf="role == '2'">
@@ -382,6 +426,73 @@
                 </table>
             </div>
             <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role == '2'">
+            </mat-paginator>
+
+            <div class="rsp_tbl" *ngIf="role_id == 12">
+                <table mat-table [dataSource]="dataSourceThree" matSort>
+                    <!-- Position Column -->                    
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>S.No</th>
+                        <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Name</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.name }}</span></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Email</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.email }}</span></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Contact</th>
+                        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Unique ID">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Unique ID</th>
+                        <td mat-cell *matCellDef="let element">{{ element.uuid }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Year">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Year</th>
+                        <td mat-cell *matCellDef="let element">{{ element.year_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Semester">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Semester</th>
+                        <td mat-cell *matCellDef="let element">{{ element.sem_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Group">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Group</th>
+                        <td mat-cell *matCellDef="let element">{{ element.grp_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="created_at">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>Created</th>
+                        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button matTooltip="Click to View" color="accent"
+                                (click)="navigateTo('edit-user/'+element.id)">
+                                <mat-icon>edit_notes</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container> -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsThree"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsThree"></tr>
+                    <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                        <td class="mat-cell" colspan="15">No Records Found</td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role_id == 12">
             </mat-paginator>
         </div>
     </div>

@@ -657,6 +657,9 @@ img {
 .mr_1p {
   margin-right: 1% !important;
 }
+.mr_50px{
+  margin-right: 50px;
+}
 .mt_1 {
   margin-top: 1em !important;
 }
@@ -1344,6 +1347,10 @@ span.download_icons mat-icon {
 }
 .logo_spn {
   cursor: pointer;
+  display: flex;
+  height: 80%;
+  margin-right: 15px;
+  img{height: 100%;}
 }
 // .sticky-header .nav .tp_rt_mn {
 //   color: #0F98A6;
@@ -2030,6 +2037,9 @@ span.w_100p {
 .w_42px{
   width: 42px !important;
 }
+.w_90px{
+  width: 90px;
+}
 .w_100px{
   width: 100px;
 }
@@ -2452,17 +2462,19 @@ mat-dialog-container .pg_ttl {
   // justify-content: center;
   max-height: 50vh;
   overflow-x: auto;
+  column-gap: 10px;
+  row-gap: 10px;
 }
 .mlti_fls_dv {
-  width: 9%;
-  margin: 5px 1% 20px 1%;
+  width: 10%; 
   text-align: center;
   cursor: pointer;
-  padding: 1%;
+  padding: 5px;
   position: relative;
   border-radius: 8px;
   border: 2px solid #c1c1c1;
   background-color: #f3f3f3;
+  overflow: hidden;
 }
 button.mt_5px {
   margin-top: 5px;
@@ -2560,10 +2572,10 @@ button.mt_6px {
   margin-bottom: 15px;
   justify-content: flex-start;
 }
-.img_prp_dets > ul > li {
-  float: left;
-  width: 31%;
-}
+// .img_prp_dets > ul > li {
+//   float: left;
+//   width: 31%;
+// }
 .img_prp img {
   width: auto;
   object-fit: contain;
@@ -2581,6 +2593,7 @@ button.mt_6px {
   // width: 100%;
   // float: left;
   margin-bottom: 5px;
+  width: 100%;
 }
 .img_info_hd, .img_info_dets {
   width: 100%;
@@ -2788,17 +2801,21 @@ div.cust_mdl_par div.mn_dshbrd {
           border: 1px solid #e7e7e7;
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
           .shw_ans{
-              position: absolute;
-              right: 10px;
-              bottom: 10px;
-              padding: 3px 8px;
-              border: 1px dashed #9f9f9f;
-              border-radius: 8px;
+              width: 100%;              
               font-size: 12px;
               color: #424242;
               cursor: pointer;
-            
+              text-align: right;
+              align-self: flex-end;
+              .shwans_txt{
+                padding: 3px 8px;
+                border: 1px dashed #9f9f9f;
+                border-radius: 8px;
+                float: right;
+                margin: 5px 20px 20px 0;
+              }
           }
           .flpcrd_bk{
             transform: rotateY(180deg);
@@ -3099,6 +3116,24 @@ div.cust_mdl_par div.mn_dshbrd {
   flex-wrap: wrap;
 }
 
+.intr_vd_tml{
+  .mat-expansion-panel{
+    margin-bottom: 10px;
+  }
+  .mat-expansion-panel-header{
+    background-color: #e6e6e6 !important;
+    &:hover{
+            background-color: #e6e6e6 !important;
+    }
+    &.mat-expanded{
+            background-color: #e6e6e6 !important;
+        &:hover{
+            background-color: #e6e6e6 !important;
+        }
+    }
+  }
+}
+
 .intr_vd_tml {
   .mat-expansion-panel-header.mat-expanded, .mat-expansion-panel-header{
     height: 45px;
@@ -3281,7 +3316,7 @@ div.cust_mdl_par div.mn_dshbrd {
   align-items: center;
   padding: 10px 5px;
   border-bottom: 1px dashed #e6e6e6;
-  .ct_fav, .ct_bm{cursor: pointer;}
+  .ct_fav, .ct_bm{cursor: pointer; display: flex;}
   .ct_hd {
     color: #0f98a6;
     cursor: pointer;
@@ -3734,7 +3769,7 @@ div.cust_mdl_par div.mn_dshbrd {
     flex-wrap: wrap;
     &.wbg_lst_vw{
       table.mat-table{box-shadow: none;}
-      .mat-table th.mat-header-cell{background-color: #fff; color:#41AB3C;}
+      // .mat-table th.mat-header-cell{background-color: #fff; color:#41AB3C;}
       .mat-table tr:nth-child(odd){background-color: #fff;}
     }
     .wbg_dv{
@@ -3756,7 +3791,7 @@ div.cust_mdl_par div.mn_dshbrd {
       padding: 20px;
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between;
+      // justify-content: space-between;
       .crt_prt_hd{
         margin-bottom: 0.25em;
       }
@@ -3835,7 +3870,7 @@ div.cust_mdl_par div.mn_dshbrd {
       }
     }
     .crt_pr_dv{
-      width: 49%;
+      width:32%;
       margin-bottom: 1em;
       .crt_pr_sbhd{font-size: 18px; color: #41ab3c;}
       .crt_prt_txt{height: 102px; resize: none;}
@@ -5354,6 +5389,9 @@ sup {
 }
 .jc_cnt{
   justify-content: center;
+  .mat-sort-header-container{
+    justify-content: center;
+  }
 }
 .shpncrt_tpbr{
   display: flex;

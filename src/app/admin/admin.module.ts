@@ -90,7 +90,6 @@ import { CreateAssessmentComponent } from './assessment/create-assessment/create
 import { AssessmentListComponent } from './assessment/assessment-list/assessment-list.component';
 import { ListCollegesComponent } from './college-management/list-colleges/list-colleges.component';
 import { CreateCollegeComponent } from './college-management/create-college/create-college.component';
-import { ChildPartnersComponent } from './partner-management/child-partners/child-partners.component';
 import { EditAssessmentComponent } from './assessment/edit-assessment/edit-assessment.component';
 import { AdminGlobalSearchComponent } from './admin-global-search/admin-global-search.component';
 import { AssessmentReportComponent } from './assessment/assessment-report/assessment-report.component';
@@ -199,7 +198,6 @@ const routes: Routes = [
       { path: 'prices-package-management', component: ListPackageComponent },
       { path: 'create-package', component: CreatePackageComponent },
       { path: 'edit-package/:id', component: EditPackageComponent },
-      { path: 'child-partners/:id', component: ChildPartnersComponent },
       
 
       { path: 'questions-mgt/qbank', component: QuestionBankComponent },
@@ -226,6 +224,8 @@ const routes: Routes = [
 
       //Teacher Routes
       { path: 'materials', component: TeacherMaterialsComponent },
+      { path: 'materials/create', component: CreateTeacherMaterialComponent},
+      { path: 'materials/edit/:id', component: CreateTeacherMaterialComponent},
       { path: 'teacher-material', component: TeacherMaterialsComponent },
       { path: 'teacher-material/create', component: CreateTeacherMaterialComponent},
       { path: 'teacher-material/edit/:id', component: CreateTeacherMaterialComponent},
@@ -245,8 +245,10 @@ const routes: Routes = [
       { path: 'edit-assessment/:id/:key', component: EditAssessmentComponent },
       //College routes
       { path: 'create-college', component: CreateCollegeComponent },
-      { path: 'edit-college/:id', component: CreateCollegeComponent },
+      { path: 'create-college/:partner_id', component: CreateCollegeComponent },
+      { path: 'create-college/:partner_id/:pk_id', component: CreateCollegeComponent },
       { path: 'college-list', component: ListCollegesComponent },
+      { path: 'college-list/:id', component: ListCollegesComponent },
       { path: 'global-search/:search_string', component: AdminGlobalSearchComponent },
     ],
   },
@@ -315,7 +317,6 @@ const routes: Routes = [
     AssessmentListComponent,
     ListCollegesComponent,
     CreateCollegeComponent,
-    ChildPartnersComponent,
     AssessmentReportComponent,
     EditAssessmentComponent,
     AdminGlobalSearchComponent

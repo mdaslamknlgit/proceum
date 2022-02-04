@@ -38,7 +38,7 @@ export class StudentTopbarComponent implements OnInit {
   }
   ngOnInit(): void {
     //check subdomain
-    let sub_domain = window.location.hostname;
+    let sub_domain = window.location.hostname.split('.')[0];
     //static sub domain
     //sub_domain = 'iimsc';
     //If subdomain not exist in in app domains then check for partner domain
@@ -102,7 +102,7 @@ export class StudentTopbarComponent implements OnInit {
         localStorage.setItem('description', res['data']['description']);
         //console.log(this.sub_domain_data);
       } else {
-        window.location.href = environment.APP_BASE_URL;
+        //window.location.href = environment.APP_BASE_URL;
       }
       this.load_top_bar = true;
       this.finishedLoading.emit(true);

@@ -3,6 +3,8 @@ import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-create-partner',
@@ -15,7 +17,8 @@ export class CreatePartnerComponent implements OnInit {
     private http: CommonService,
     private toster: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private _location: Location,
   ) { }
 
   //Tabs active vars
@@ -83,6 +86,25 @@ export class CreatePartnerComponent implements OnInit {
   ngOnInit(): void {
     this.domain = location.origin;
     this.user = this.http.getUser();
+    //Restrict if UnAuthorized
+    if (
+      (environment.ALL_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN != Number(this.user['role'])) &&
+      (environment.ALL_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN != Number(this.user['role'])) &&
+      (environment.ALL_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN != Number(this.user['role'])) &&
+      (environment.ALL_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN != Number(this.user['role']))
+    ) {
+      this.toster.error('UnAuthorized!', 'Error', {
+        closeButton: true,
+      });
+      this._location.back();
+    }
+
+    if (environment.ALL_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN != Number(this.user['role']) && !this.user['is_reseller']) {
+      this.toster.error('UnAuthorized!', 'Error', {
+        closeButton: true,
+      });
+    }
+
     this.activatedRoute.params.subscribe((param) => {
       this.partner_id = param.id;
       if (this.partner_id != undefined) {
@@ -94,7 +116,7 @@ export class CreatePartnerComponent implements OnInit {
     });
     this.getCountries();
     this.getPackages();
-    this.getPartnersListForUniversity();
+    //this.getPartnersListForUniversity();
   }
 
   getCountries() {
@@ -276,11 +298,10 @@ export class CreatePartnerComponent implements OnInit {
     if (!this.validateEmail(this.email)) {
       return false;
     }
-
-    if (this.password.length < 6 && this.package_id < 1) {
+    if (this.password.length < 6 && this.partner_id < 0 ) {
       return;
     }
-    if ((this.password !== this.confirm_password) && this.package_id < 1) {
+    if ((this.password !== this.confirm_password) && this.confirm_password.length < 1  && this.partner_id < 0) {
       return;
     }
     if (!Number(this.phone) || (this.phone.length < 9 || this.phone.length > 13)) {
@@ -301,12 +322,10 @@ export class CreatePartnerComponent implements OnInit {
         return;
       }
     } */
-
-    if (this.partner_type != "" && this.partner_name != "" && this.email != "" && this.contact_name != "" && this.code != "" && this.gstin != "" && this.partner_type != "") {
+    if (this.partner_type != "" && this.partner_name != "" && this.email != "" && this.contact_name != ""  && this.gstin != "") {
       this.branding_info_expand = true;
       this.basic_details_expand = false;
     }
-
   }
 
   validateBrandingInfo() {
@@ -543,7 +562,7 @@ export class CreatePartnerComponent implements OnInit {
         this.http.post(param).subscribe((res) => {
           if (res['error'] == false) {
             this.sub_domain_err = '';
-            this.toster.success('Subdomain Avaialable!', 'Success', { closeButton: true });
+            this.toster.success('Subdomain Available!', 'Success', { closeButton: true });
           } else {
             this.sub_domain_err = res['message'];
             this.toster.error(res['message'], 'Error', { closeButton: true });

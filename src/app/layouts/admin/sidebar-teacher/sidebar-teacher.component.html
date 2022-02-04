@@ -10,8 +10,28 @@
 
         <li (click)="menu_active = 1" routerLinkActive="active" routerLink="/teacher/materials">
             <div class="sd_mnuhd">
-            <mat-icon>dashboard</mat-icon> Material
+            <mat-icon>dashboard</mat-icon> Teacher Material
             </div>
+        </li>
+
+        <li class="hs_sbmnu {{
+            menu_active == 10 ||
+            active_route == '/teacher/students' ||
+            active_route == '/teacher/login-history'
+              ? 'active'
+              : ''
+          }}" routerLinkActive="active" (click)="activeMenu(10, menu_active)">
+          <div class="sd_mnuhd">
+            <mat-icon>manage_accounts</mat-icon> Students List
+          </div>
+          <ul class="sdmn_sub">
+            <li routerLinkActive="active" routerLink="/teacher/manage-users">
+              <mat-icon>assignment</mat-icon> Manage Students
+            </li>
+            <!-- <li routerLinkActive="active" routerLink="/teacher/login-history">
+              <mat-icon>assignment</mat-icon> Login History
+            </li> -->
+          </ul>
         </li>
 
         <li routerLinkActive="active" (click)="activeMenu(11, menu_active)" class="hs_sbmnu {{

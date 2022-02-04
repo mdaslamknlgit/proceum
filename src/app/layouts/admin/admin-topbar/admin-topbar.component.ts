@@ -35,9 +35,9 @@ export class AdminTopbarComponent implements OnInit {
   }
   ngOnInit(): void {
     //check subdomain
-    let sub_domain = window.location.hostname;
+    let sub_domain = window.location.hostname.split('.')[0];
     //static sub domain
-    //sub_domain = 'iimsc';
+    //sub_domain = 'drsprep';
     //If subdomain not exist in in app domains then check for partner domain
     if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
       this.getSubDomainDetails(sub_domain);
@@ -108,7 +108,7 @@ export class AdminTopbarComponent implements OnInit {
         localStorage.setItem('description', res['data']['description']);
         //console.log(this.sub_domain_data);
       } else {
-        window.location.href = environment.APP_BASE_URL;
+        //window.location.href = environment.APP_BASE_URL;
       }
       this.load_top_bar = true;
       this.finishedLoading.emit(true);

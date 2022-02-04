@@ -9,48 +9,98 @@
                 </button>
             </div>
             <div class="tbbd_bdy">
-                <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="sc_tre">
-                    <!-- This is the tree node template for leaf nodes -->
-                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
-                        [style.display]="!search || node.ok?'block':'none'">
-                        <li class="mat-tree-node">
-                            <!-- use a disabled button to provide padding for tree leaf -->
-                            <button type="button" mat-icon-button disabled></button>
-                            <mat-checkbox class="checklist-leaf-node"
-                                (change)="todoItemSelectionToggle($event.checked,node)" [checked]="node.selected">
-                                {{node.name}}</mat-checkbox>
-
-                        </li>
-                    </mat-tree-node>
-                    <!-- This is the tree node template for expandable nodes -->
-                    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild"
-                        [style.display]="!search || node.ok?'block':'none'">
-                        <li>
-                            <div class="mat-tree-node">
-                                <button type="button" mat-icon-button matTreeNodeToggle
-                                    [attr.aria-label]="'toggle ' + node.name">
-                                    <mat-icon class="mat-icon-rtl-mirror">
-                                        {{treeControl.isExpanded(node) ? 'expand_more' :
-                                        'chevron_right'}}
-                                    </mat-icon>
-                                </button>
-                                <mat-checkbox [checked]="node.selected"
-                                    [indeterminate]="node.indeterminate && !node.selected"
-                                    (change)="todoItemSelectionToggle($event.checked,node)">
-                                    {{node.name}}
-                                </mat-checkbox>
+                <div class="mb_0 w_100p">
+                    <div class="hgt_20"></div>
+                    <div class="d-flex fw_rsp_1100">
+                        <div class="d-flex fw_rsp_599 fw_w">
+                            <div class="cm_fltr_sc mr_1">
+                                <div class="crt_prt_hd">Courses<span class="required">*</span>
+                                </div>
+                                <div class="crt_prt_cnt">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select Course" name="curriculum_id_name"
+                                            [(ngModel)]="curriculum_id"
+                                            (ngModelChange)="setCourseText($event);getLabels();"
+                                            #curriculum_id_name="ngModel" ngModel="curriculum_id_name">
+                                            <mat-option [matTooltip]="value['curriculumn_name']"
+                                                *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                                {{value['curriculumn_name']}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
                             </div>
-                            <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
-                                <ng-container matTreeNodeOutlet></ng-container>
-                            </ul>
-                        </li>
-                    </mat-nested-tree-node>
-                </mat-tree>
-                <div class="w_100p text_right">
-                    <button type="button" mat-raised-button color="accent"
-                        (click)="submitCourses()">Submit</button><br />
+                            <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                                <div class="crt_prt_hd">{{ ucFirst(value["display_label"]) }}</div>
+                                <div class="crt_prt_cnt">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                                            name="level_{{value['level_number']}}"
+                                            [(ngModel)]="selected_level[value['level_number']]"
+                                            (ngModelChange)="getLevels(value['level_number']);">
+                                            <mat-option>
+                                                <ngx-mat-select-search
+                                                    [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                                    name="search_topic" ngModel
+                                                    (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">
+                                                    Select
+                                                    {{ucFirst(value['display_label'])}}
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let level of level_options[value['level_number']]"
+                                                [value]="level['pk_id']" [matTooltip]="level['level_name']">
+                                                {{level["level_name"] }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="w_100px">
+                                <div class="crt_prt_hd">&nbsp;</div>
+                                <button
+                                    [disabled]="!enable_add_button"
+                                    (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
+                                    Add (+)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rsp_tbl">
+                        <table mat-table [dataSource]="dataSource1">
+                            <ng-container matColumnDef="Sno">
+                                <th mat-header-cell *matHeaderCellDef> S.No</th>
+                                <td mat-cell *matCellDef="let element; let s_no=index"> {{s_no+1}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Course">
+                                <th mat-header-cell *matHeaderCellDef>{{question_Qbank?'QBank':'Course'}} </th>
+                                <td mat-cell *matCellDef="let element">{{element.course_qbank_text}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="Topic">
+                                <th mat-header-cell *matHeaderCellDef>Topic Path </th>
+                                <td mat-cell *matCellDef="let element" class="ws_normal">{{element.topic_text}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Action">
+                                <th mat-header-cell *matHeaderCellDef>Action</th>
+                                <td mat-cell *matCellDef="let element; let topic_index=index"><span
+                                        (click)="removeTopic(topic_index)">
+                                        <mat-icon color="warn" matTooltip="Delete">remove_circle_outline</mat-icon>
+                                    </span></td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                                <td style="text-align: center; margin: 20px" class="mat-cell"
+                                    [attr.colspan]="displayedColumns.length">
+                                    No Records Found
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="hgt_20"></div>
+                    <button type="button" mat-raised-button class="float_right mr_1 gry_btn" (click)="edit_model_status = !edit_model_status">
+                        Submit
+                    </button>
+                    <div class="hgt_20"></div>
                 </div>
-                <div class="hgt_20"></div>
             </div>
         </div>
     </div>
@@ -107,7 +157,8 @@
                                                             [(ngModel)]="package_img">
                                                     </div>
                                                 </div>
-                                                <div class="text_right w_100p">(Supported Formats: .png, .jpg, .jpeg)
+                                                <div class="text_right w_100p">(Supported Formats: .png, .jpg,
+                                                    .jpeg)
                                                 </div>
                                                 <div class="hgt_10"></div>
                                                 <div class="brnd_info_upld pkg_img">
@@ -144,7 +195,8 @@
                                                 <div class="err_tltp_par">
                                                     <mat-radio-group name="pricing_model" [(ngModel)]="pricing_model"
                                                         required>
-                                                        <mat-radio-button name="pricing_model" value="per_student">Per
+                                                        <mat-radio-button name="pricing_model" value="per_student">
+                                                            Per
                                                             student</mat-radio-button>
                                                         <mat-radio-button name="pricing_model" value="fixed">Fixed
                                                         </mat-radio-button>
@@ -161,7 +213,8 @@
                                                                     <mat-select
                                                                         [(ngModel)]="package_prices[i]['country_id']"
                                                                         name="package_price_country_{{i}}" required>
-                                                                        <mat-option value="">Select Country</mat-option>
+                                                                        <mat-option value="">Select Country
+                                                                        </mat-option>
                                                                         <ng-container
                                                                             *ngFor="let country of all_countries | async">
                                                                             <mat-option
@@ -217,7 +270,8 @@
                                                     </button>
                                                 </div>
                                                 <div *ngIf="!course_count">
-                                                    <mat-icon>warning</mat-icon> To select the courses, Create first from course section
+                                                    <mat-icon>warning</mat-icon> To select the courses, Create first
+                                                    from course section
                                                 </div>
                                             </div>
                                             <div class="cpm_pg_cnt">
@@ -231,7 +285,8 @@
                                                     <div>Duration (In days)</div>
                                                     <div class="err_tltp_par">
                                                         <mat-form-field appearance="outline">
-                                                            <input matInput type="number" placeholder="Enter Duration (In days)"
+                                                            <input matInput type="number"
+                                                                placeholder="Enter Duration (In days)"
                                                                 [(ngModel)]="duration" name="duration" appNumbersonly
                                                                 maxlength="3" minlength="1" required />
                                                             <span class="prc_tltp"
@@ -248,17 +303,24 @@
                                                 <span>Select Addons</span>
                                                 <div class="err_tltp_par">
                                                     <mat-form-field appearance="outline" class="w_100p">
-                                                        <mat-select placeholder="Select Addons" multiple name="addons" #addons="ngModel" [(ngModel)]="addons_arr">
-                                                          <mat-option>
-                                                            <ngx-mat-select-search (ngModelChange)="searchAddon($event)" [noEntriesFoundLabel]="'No Addons found'"
-                                                            name="search_addons" ngModel [placeholderLabel]="'Search Course'"></ngx-mat-select-search>
-                                                          </mat-option>
-                                                          <mat-option *ngFor="let addon of addons_list" [value]="addon['addon_id']">{{addon['addon_name']}}</mat-option>
+                                                        <mat-select placeholder="Select Addons" multiple name="addons"
+                                                            #addons="ngModel" [(ngModel)]="addons_arr">
+                                                            <mat-option>
+                                                                <ngx-mat-select-search
+                                                                    (ngModelChange)="searchAddon($event)"
+                                                                    [noEntriesFoundLabel]="'No Addons found'"
+                                                                    name="search_addons" ngModel
+                                                                    [placeholderLabel]="'Search Course'">
+                                                                </ngx-mat-select-search>
+                                                            </mat-option>
+                                                            <mat-option *ngFor="let addon of addons_list"
+                                                                [value]="addon['addon_id']">{{addon['addon_name']}}
+                                                            </mat-option>
                                                         </mat-select>
-                                                      </mat-form-field>
+                                                    </mat-form-field>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="hgt_20"></div>
                                             <div class="cpm_pg_hd">
                                                 Package access
@@ -319,7 +381,8 @@
                                                         <mat-radio-button name="billing_frequency" value="half-yearly">
                                                             Half yearly
                                                         </mat-radio-button>
-                                                        <mat-radio-button name="billing_frequency" value="yearly">Yearly
+                                                        <mat-radio-button name="billing_frequency" value="yearly">
+                                                            Yearly
                                                         </mat-radio-button>
                                                     </mat-radio-group>
                                                 </div>
@@ -353,7 +416,8 @@
                                                 </mat-select>
                                             </mat-form-field>
                                             <span class="prc_tltp"
-                                                *ngIf="sample_video_form.submitted && source_type == ''">Please select
+                                                *ngIf="sample_video_form.submitted && source_type == ''">Please
+                                                select
                                                 source</span>
                                         </div>
                                         <div class="err_tltp_par">
@@ -493,6 +557,7 @@
                                 </div>
                             </form>
                         </mat-tab>
+                        <div class="hgt_20"></div>
                         <!-- <mat-tab>
                     <ng-template mat-tab-label>
                     Introduction

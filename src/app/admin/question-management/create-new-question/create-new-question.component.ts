@@ -140,11 +140,12 @@ export class CreateNewQuestionComponent implements OnInit {
         });
 
     }
-    getcurriculums(type) {
+    getcurriculums(type, val) {
         this.question.curriculum_id = '';
         let params = {
-            url: 'get-courses-or-qbanks', type: type
+            url: 'get-courses-or-qbanks', type: type, assessment_type:val == 1?1:0,
         };
+        
         this.http.post(params).subscribe((res) => {
             this.topics.next([]);
             this.question.topic = '';
@@ -510,12 +511,15 @@ export class CreateNewQuestionComponent implements OnInit {
         this.question_Qbank = false;
         this.selected_topics = [];
         this.dataSource = new MatTableDataSource([]);
-        if (val == 3) {
-            this.getcurriculums(2);
+        if (val == 1) {
+            this.getcurriculums(2,val);
+            this.question_Qbank = true;
+        }else if (val == 3) {
+            this.getcurriculums(2,val);
             this.question_Qbank = true;
         } else {
             this.question.q_bank_ids = []
-            this.getcurriculums(1);
+            this.getcurriculums(1,val);
         }
     }
     public openFileExplor(id) {

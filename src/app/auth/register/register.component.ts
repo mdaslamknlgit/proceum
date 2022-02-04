@@ -11,7 +11,6 @@ import {
   SocialUser,
   FacebookLoginProvider,
 } from 'angularx-social-login';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-register',

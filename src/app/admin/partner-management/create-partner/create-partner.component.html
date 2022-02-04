@@ -17,7 +17,7 @@
                     (ngSubmit)="create_Partner_form1.valid && validateBasicDeatils()" novalidate>
                     <div class="crt_pr_mn">
                         <div class="crt_pr_dv" *ngIf="!partner_id">
-                            <div class="crt_prt_hd">Partner Type</div>
+                            <div class="crt_prt_hd">Partner Type</div> 
                             <div class="crt_prt_cnt">
                                 <mat-radio-group aria-label="Select an option" name="partner_type"
                                     [(ngModel)]="partner_type" (ngModelChange)="getPackages()" required>
@@ -27,9 +27,7 @@
                                 </mat-radio-group>
                             </div>
                         </div>
-                        <div class="crt_pr_dv">
-                            &nbsp;
-                        </div>
+                      <div class="clear_fix"></div>
                         <div class="crt_pr_dv">
                             <div class="crt_prt_hd">Partner Name</div>
                             <div class="err_tltp_par">
@@ -44,12 +42,12 @@
                             </div>
                         </div>
                         <div class="crt_pr_dv">
-                            <div class="crt_prt_hd">Email address</div>
+                            <div class="crt_prt_hd" *ngIf="partner_id > 0">{{(partner_id > 0) ? 'Contact Email' : 'Email address'}}</div>                            
                             <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p">
                                     <input matInput type="email" placeholder="Email" [(ngModel)]="email"
                                         name="email_edit" #email_edit="ngModel" autocomplete="off" required
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [disabled]="partner_id"/>
                                 </mat-form-field>
                                 <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || email_edit.touched) && email_edit.invalid">Email
@@ -151,7 +149,7 @@
                                     (partner_type == '1') ? "University" : "College"}} Code is required</span>
                             </div>
                         </div>
-                        <div class="crt_pr_dv" *ngIf="partner_type == '2'">
+                        <!-- <div class="crt_pr_dv" *ngIf="partner_type == '2'">
                             <div class="crt_prt_hd">Select University</div>
                             <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p">
@@ -173,7 +171,7 @@
                                         class="prc_tltp">Select University</span>
                                 </mat-form-field>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="crt_pr_dv">
                             <div class="crt_prt_hd">GSTIN number</div>
                             <div class="err_tltp_par">
@@ -272,7 +270,7 @@
                                     <input matInput matInput placeholder="Sub-Domain" [(ngModel)]="sub_domain"
                                         name="sub_domain_edit" #sub_domain_edit="ngModel"
                                         (ngModelChange)="checkSubDomainAvailable()" required />
-                                    <span matSuffix>.proceum.com</span>
+                                    <span matSuffix>.medvizz3d.com</span>
                                 </mat-form-field>
                                 <span class="prc_tltp"
                                     *ngIf="(create_Partner_form2.submitted || sub_domain_edit.touched) && sub_domain_edit.invalid">Sub-domain

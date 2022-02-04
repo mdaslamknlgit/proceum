@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import {MatTreeNestedDataSource} from '@angular/material/tree';
-import {NestedTreeControl} from '@angular/cdk/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
+import { NestedTreeControl } from '@angular/cdk/tree';
 
 interface CurriculumNode {
   id?: number;
@@ -29,13 +29,13 @@ export class CreateUserComponent implements OnInit {
 
   treeControl = new NestedTreeControl<CurriculumNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<CurriculumNode>();
-  constructor( 
+  constructor(
     private http: CommonService,
     private toster: ToastrService,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) { }
-  
+
   //Define vars;
   public user_id = 0; //edit record id
   public role = '';
@@ -47,30 +47,35 @@ export class CreateUserComponent implements OnInit {
   public phone = '';
   public address_line_1 = '';
   public address_line_2 = '';
-  public country_id : any = '';
-  public state_id : any = '';
-  public city : any = '';
+  public country_id: any = '';
+  public state_id: any = '';
+  public city: any = '';
   public pincode = '';
-  public university_id = '';
+  public university_id: any = '';
   public college_id = '';
   public institute_id = '';
-  public if_student : boolean = false;
-  public if_teacher : boolean = false;
-  public year_id : any = '';
-  public semester_id : any = '';
-  public group_id : any = '';
+  public if_student: boolean = false;
+  public if_teacher: boolean = false;
+  public year_id: any = '';
+  public semester_id: any = '';
+  public group_id: any = '';
   public uuid = '';
   public qualification = '';
   public subject_csv = '';
   public domain = '';
   public organization = '';
-  public partner_id = '';
   public edit_model_status = false;
   public courses_arr = [];
   public courses_div = false;
   public show_semester = false;
   public show_group = false;
   public selected_courses = [];
+  public show_organization_type = false;
+  public show_partners_dropdown = false;
+  public partner_type_id: number;
+  public partner_id: any;
+  public child_type = 1;
+  p
   countrys = [];
   states = [];
   cities = [];
@@ -84,7 +89,7 @@ export class CreateUserComponent implements OnInit {
   user = [];
   public organization_types = environment.ORGANIZATION_TYPES;
 
-  
+
 
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -100,37 +105,78 @@ export class CreateUserComponent implements OnInit {
   ngOnInit(): void {
     this.domain = location.origin;
     this.user = this.http.getUser();
-    this.getAdminSpecificRoles(this.user['role']);
+    if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes((Number(this.user['role'])))) {
+      this.university_id = this.user['partner_id'];
+    }
+    this.getRoles(this.user['role']);
     this.activatedRoute.params.subscribe((param) => {
       this.user_id = param.id;
       if (this.user_id != undefined) {
         this.getUser();
       }
-      else{
-          this.user_id = 0;
-          this.getCurriculumnHierarchy();
+      else {
+        this.user_id = 0;
+        this.getCurriculumnHierarchy(this.user['partner_id']);
       }
+
     });
     this.getCountries();
-    
+
   }
 
-  onUserTypeChange(){
-    this.if_student = false;
-    this.if_teacher = false;
-    if(this.role == '2'){ //Student
-      this.if_student = true;
-    }else if(this.role == '12'){ //Teacher
-      this.if_teacher = true;
+  onUserTypeChange() {
+    this.show_organization_type = false;
+    this.show_partners_dropdown = true;
+    if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
+      this.organization = '1';
+      this.child_type = 1;
+      this.university_id = this.user['partner_id'];
+      this.getPartnerChilds(this.user['partner_id']);
     }
+    if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN) {
+      this.college_id = this.user['partner_id'];
+      this.show_partners_dropdown = false;
+      this.organization = '2';
+    }
+    if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN) {
+      this.institute_id = this.user['partner_id'];
+      this.show_partners_dropdown = false;
+      this.organization = '3';
+    }
+    if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN) {
+      this.university_id = this.user['partner_id'];
+      this.show_partners_dropdown = false;
+      this.organization = '1';
+    }
+
+    if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN && Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
+      this.university_id = this.user['partner_id'];
+      this.show_partners_dropdown = false;
+      this.organization = '1';
+    }
+
+    if (Number(this.user['role']) == environment.ALL_ROLES.SUPER_ADMIN && Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
+      this.university_id = '';
+      this.show_partners_dropdown = false;
+      this.organization = '';
+    }
+
+    if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
+      this.show_organization_type = true;
+      this.organization = '';
+    }
+
+    /* if(Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN){
+      this.show_partners_dropdown = false;
+    } */
   }
 
-  getAdminSpecificRoles(role){
-    let param = { url: 'get-admin-specific-roles',role : role};
+  getRoles(role) {
+    let param = { url: 'get-roles', role: role };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.roles = res['data']['roles'];
-        if(this.roles != undefined){
+        if (this.roles != undefined) {
           this.all_roles.next(this.roles.slice());
         }
       } else {
@@ -139,12 +185,12 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  getCountries(){
+  getCountries() {
     let param = { url: 'get-countries' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.countrys = res['data']['countries'];
-        if(this.countrys != undefined){
+        if (this.countrys != undefined) {
           this.all_countrys.next(this.countrys.slice());
         }
       } else {
@@ -209,7 +255,7 @@ export class CreateUserComponent implements OnInit {
       state_id: selected_state_id,
     };
     this.http.post(params).subscribe((res) => {
-      if(res['error'] == false) {
+      if (res['error'] == false) {
         this.cities = res['data']['cities'];
         this.all_cities.next(this.cities.slice());
       }
@@ -236,15 +282,18 @@ export class CreateUserComponent implements OnInit {
     return regularExpression.test(String(email).toLowerCase());
   }
 
-  
+
   //To get all the Universities list
-  getUniversities(){
-    let param = { url: 'get-partners-list',partner_type_id : 1 };
+  getPartners(callPartnerChilds = false) {
+    let param = { url: 'get-partners', partner_type_id: this.partner_type_id, status: 1 };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.universities = res['data']['partners'];
-        if(this.universities != undefined){
-          this.all_universities.next(this.universities.slice()); 
+        if (this.universities != undefined) {
+          this.all_universities.next(this.universities.slice());
+        }
+        if (callPartnerChilds) {
+          this.getPartnerChilds(this.university_id);
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -252,7 +301,7 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  filterUniversity(event) {
+  filterPartners(event) {
     let search = event;
     if (!search) {
       this.all_universities.next(this.universities.slice());
@@ -262,19 +311,20 @@ export class CreateUserComponent implements OnInit {
     }
     this.all_universities.next(
       this.universities.filter(
-        (university) => university.name.toLowerCase().indexOf(search) > -1
+        (university) => university.partner_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
-  
+
   //To get all college list
-  getColleges(){
-    let param = { url: 'get-partners-list',partner_type_id : 2,parent_id: this.university_id };
+  getPartnerChilds(partner_id) {
+    this.partner_id = partner_id;
+    let param = { url: 'get-partner-childs', child_type: this.child_type, partner_id: this.partner_id, status: 1 };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.colleges = res['data']['partners'];
-        if(this.colleges != undefined){
-          this.all_colleges.next(this.colleges.slice()); 
+        if (this.colleges != undefined) {
+          this.all_colleges.next(this.colleges.slice());
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -292,19 +342,19 @@ export class CreateUserComponent implements OnInit {
     }
     this.all_colleges.next(
       this.colleges.filter(
-        (college) => college.organization_name.toLowerCase().indexOf(search) > -1
+        (college) => college.partner_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
 
   //To get all college list
-  getInstitutes(){
-    let param = { url: 'get-partners-list',partner_type_id : 3 };
+  getInstitutes() {
+    let param = { url: 'get-partners-list', partner_type_id: 3 };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.institutes = res['data']['partners'];
-        if(this.institutes != undefined){
-          this.all_institutes.next(this.institutes.slice()); 
+        if (this.institutes != undefined) {
+          this.all_institutes.next(this.institutes.slice());
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -327,29 +377,103 @@ export class CreateUserComponent implements OnInit {
     );
   }
 
-  onOrganizationTypeChange(){
+  onOrganizationTypeChange() {
     this.year_id = '';
     this.semester_id = '';
     this.group_id = '';
-    if(this.organization == '1'){ //University
-      this.getUniversities();
-    }else if(this.organization == '2'){ //College
-      this.getColleges();
-    }else if(this.organization == '3'){ //Institute
-      this.getInstitutes();
+    if (this.role == '') {
+      this.toster.error(`Please select role`, 'Error');
+      this.organization = '';
+      return;
     }
+    if (Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN && this.organization != '1') {
+      let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
+      this.role = ''; this.organization = '';
+      this.toster.error(`${diabledRole[0].role_name} role only applicable for Organization Type University`, 'Error');
+      return;
+    }
+    if (Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN && this.organization != '2') {
+      let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
+      this.role = ''; this.organization = '';
+      this.toster.error(`${diabledRole[0].role_name} role only applicable for Organization Type College`, 'Error');
+      return;
+    }
+    if (Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN && this.organization != '3') {
+      let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
+      this.role = ''; this.organization = '';
+      this.toster.error(`${diabledRole[0].role_name} role only applicable for Organization Type Institute`, 'Error');
+      return;
+    }
+
+    if (this.organization == '1') { //University 
+      if (environment.DISABLED_USER_ROLES_FOR_ORGANIZATION.includes(Number(this.role))) {
+        let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role for the selected organization type`, 'Error');
+        return;
+      }
+      if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN == Number(this.role)) {
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        return;
+      }
+      this.partner_type_id = 1; //partner as Universities
+      this.getPartners();
+    } else if (this.organization == '2') { //College
+      if (environment.DISABLED_USER_ROLES_FOR_ORGANIZATION.includes(Number(this.role))) {
+        let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role for the selected organization type`, 'Error');
+        return;
+      }
+      if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN == Number(this.role)) {
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        return;
+      }
+      this.partner_type_id = 2; //partner as Collges
+      this.getPartners();
+    } else if (this.organization == '3') { //Institute
+      if (environment.DISABLED_USER_ROLES_FOR_ORGANIZATION.includes(Number(this.role))) {
+        let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role for the selected organization type`, 'Error');
+        return;
+      }
+      if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN == Number(this.role)) {
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        return;
+      }
+      this.partner_type_id = 3; //partner as Institutes
+      this.getPartners();
+    } else if (this.organization == '4') {
+      if (environment.DISABLED_USER_ROLES_FOR_PROCEUM.includes(Number(this.role))) {
+        let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
+        this.role = '';this.organization = '';
+        this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role`, 'Error');
+      }
+    }
+
   }
-  
-  getYears(partner,parent_id,call_child_fun = false){
-    this.partner_id = partner;
-    let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : 'year' };
+
+  getYears(partner_id, partner_child_id, parent_id, call_child_fun = false) {
+    this.getCurriculumnHierarchy(partner_id);
+    let param = {
+      url: 'get-year-semester-group',
+      partner_id: partner_id,
+      partner_child_id: partner_child_id,
+      parent_id: parent_id,
+      slug: 'year',
+      partner_type_id: this.partner_type_id
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.years = res['data'];
-        if(this.years != undefined){
-          this.all_years.next(this.years.slice()); 
-          if(call_child_fun){
-            this.getChildDropDownData(partner,this.year_id);
+        if (this.years != undefined) {
+          this.all_years.next(this.years.slice());
+          if (call_child_fun) {
+            this.getChildDropDownData(this.year_id, partner_id, partner_child_id);
           }
         }
       } else {
@@ -358,52 +482,67 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  getChildDropDownData(partner_id,year_id){
+  getChildDropDownData(year_id, parnter_id, partner_child_id) {
     this.show_semester = false;
     this.show_group = false;
     let year_obj = this.years.find((year) => year.pk_id == year_id);
-    if(year_obj.year_has_semester){
-      this.getSemesters(partner_id, Boolean(year_obj.year_has_group));
-    }else if(year_obj.year_has_group){
-      this.getGroups(partner_id,year_id);
+    if (year_obj.year_has_semester) {
+      this.getSemesters(parnter_id, partner_child_id, Boolean(year_obj.year_has_group));
+    } else if (year_obj.year_has_group) {
+
+      this.getGroups(year_id, parnter_id, partner_child_id);
     }
   }
 
-  getSemesters(partner_id = 0, call_child_func = false){
-    let param = { url: 'get-year-semester-group',partner_id : partner_id, parent_id : this.year_id, slug : 'semester' };
+  getSemesters(partner_id = 0, partner_child_id, call_child_func = false) {
+    let param = {
+      url: 'get-year-semester-group',
+      partner_id: partner_id,
+      partner_child_id: partner_child_id,
+      parent_id: this.year_id,
+      slug: 'semester',
+      partner_type_id: this.partner_type_id
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.semesters = res['data'];
-        if(this.semesters != undefined){
-          this.all_semesters.next(this.semesters.slice()); 
+        if (this.semesters != undefined) {
+          this.all_semesters.next(this.semesters.slice());
           this.show_semester = true;
-          if(call_child_func){
-            this.getGroups(partner_id,this.semester_id);
+          if (call_child_func) {
+            this.getGroups(partner_id, partner_child_id, this.semester_id);
           }
         }
-
       } else {
         //this.toster.error(res['message'], 'Error');
       }
     });
   }
 
-  getGroups(partner_id = 0, parent_id){
+  getGroups(parent_id, partner_id = 0, partner_child_id) {
     let year_obj = this.years.find((year) => year.pk_id == this.year_id);
-    if(!year_obj.year_has_groups){
+    if (!year_obj.year_has_group) {
       return false;
     }
-    if(year_obj.year_has_semesters){
+    if (year_obj.year_has_semesters) {
       parent_id = this.semester_id;
-    }else{
+    } else {
       parent_id = this.year_id;
     }
-    let param = { url: 'get-year-semester-group',partner_id : partner_id, parent_id : parent_id, slug : 'group' };
+
+    let param = {
+      url: 'get-year-semester-group',
+      partner_id: partner_id,
+      partner_child_id: partner_child_id,
+      parent_id: parent_id,
+      slug: 'group',
+      partner_type_id: this.partner_type_id
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.groups = res['data'];
-        if(this.groups != undefined){
-          this.all_groups.next(this.groups.slice()); 
+        if (this.groups != undefined) {
+          this.all_groups.next(this.groups.slice());
           this.show_group = true;
         }
       } else {
@@ -412,27 +551,27 @@ export class CreateUserComponent implements OnInit {
     });
   }
 
-  submitFrom(){
-    if(this.role == '' || this.first_name == '' || this.phone == '' || this.address_line_1 == '' || this.country_id == '' || this.state_id == '' || this.city == '' || this.pincode == ''){
+  submitFrom() {
+    if (this.role == '' || this.first_name == '' || this.phone == '' || this.address_line_1 == '' || this.country_id == '' || this.state_id == '' || this.city == '' || this.pincode == '') {
       return;
     }
     //check password and confirm pass matched
-    if(this.user_id == 0 && (this.password.length < 5 || (this.password != this.confirm_password))){
+    if (this.user_id == 0 && (this.password.length < 6 || (this.password != this.confirm_password))) {
       return;
     }
-    if(!this.validateEmail(this.email)){
+    if (!this.validateEmail(this.email)) {
       return;
     }
-    if(this.role == '2'){
-      if(this.organization == '' || (this.university_id == '' && this.college_id == '' && this.institute_id == '' ) || this.year_id == ''){
+    if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
+      if (this.organization == '' || (this.university_id == '' && this.college_id == '' && this.institute_id == '') || this.year_id == '') {
         return;
       }
     }
-    if(this.role == '12'){
-      if(this.qualification == ''){
+    if (Number(this.role) == environment.ALL_ROLES.TEACHER) {
+      if (this.qualification == '') {
         return;
       }
-      if(this.subject_csv == ''){
+      if (this.subject_csv == '') {
         this.toster.error("Please select subjects!", 'Error', { closeButton: true });
         return;
       }
@@ -440,46 +579,47 @@ export class CreateUserComponent implements OnInit {
 
     //If everything clear, send data to backend
     let form_data = {
-      user_id : this.user_id,
-      role : this.role,
-      first_name : this.first_name,
-      last_name : this.last_name,
-      email : this.email,
-      password : this.password,
-      confirm_password : this.confirm_password,
-      phone : this.phone,
-      address_line_1 : this.address_line_1,
-      address_line_2 : this.address_line_2,
-      country_id : this.country_id,
-      state_id : this.state_id,
-      city : this.city,
-      pincode : this.pincode,
-      university_id : this.university_id,
-      college_id : this.college_id,
-      institute_id : this.institute_id,
-      year_id : this.year_id,
-      semester_id : this.semester_id,
-      group_id : this.group_id,
-      uuid : this.uuid,
-      qualification : this.qualification,
-      subject_csv : this.subject_csv,
-      organization : this.organization,
-      domain : this.domain,
+      user_id: this.user_id,
+      role: this.role,
+      first_name: this.first_name,
+      last_name: this.last_name,
+      email: this.email,
+      password: this.password,
+      confirm_password: this.confirm_password,
+      phone: this.phone,
+      address_line_1: this.address_line_1,
+      address_line_2: this.address_line_2,
+      country_id: this.country_id,
+      state_id: this.state_id,
+      city: this.city,
+      pincode: this.pincode,
+      university_id: this.university_id,
+      college_id: this.college_id,
+      institute_id: this.institute_id,
+      year_id: this.year_id,
+      semester_id: this.semester_id,
+      group_id: this.group_id,
+      uuid: this.uuid,
+      qualification: this.qualification,
+      subject_csv: this.subject_csv,
+      organization: this.organization,
+      domain: this.domain,
     };
+
     let params = { url: 'create-user', form_data: form_data };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
         this.navigateTo('manage-users');
       } else {
-          this.toster.error(res['message'], 'Error', { closeButton: true });
+        this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
 
   }
 
-  getUser(){
-    let data = { url: 'get-user',user_id : this.user_id};
+  getUser() {
+    let data = { url: 'get-user', user_id: this.user_id };
     this.http.post(data).subscribe((res) => {
       if (res['error'] == false) {
         let user_data = res['data'];
@@ -509,37 +649,48 @@ export class CreateUserComponent implements OnInit {
         this.qualification = user_data.qualification;
         this.subject_csv = user_data.subject_csv;
 
-        if(user_data.university_id){
+        if (user_data.university_id && user_data.college_id) {
           this.organization = '1';
-          this.getUniversities();
-          this.getColleges();
+          this.partner_type_id = 1;
+          let callPartnerChilds = true;
+          this.getPartners(callPartnerChilds);
           this.partner_id = this.university_id;
+          if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
+            this.getYears(this.partner_id, this.college_id, 0 , true);
+          }
         }
-        /* else if(user_data.college_id){
+        else if (user_data.college_id) {
           this.organization = '2';
-          this.getColleges();
+          this.partner_type_id = 2;
+          this.getPartners();
           this.partner_id = this.college_id;
-        } */
-        else if(user_data.institute_id){
+          if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
+            this.getYears(this.partner_id, null, 0 , true);
+          }
+        }
+        else if (user_data.institute_id) {
           this.organization = '3';
-          this.getInstitutes();
+          this.partner_type_id = 3;
+          this.getPartners();
           this.partner_id = this.institute_id;
-        }
-        if(this.role == '2'){
-           this.getYears(this.college_id, 0, true);
-           /* this.getChildDropDownData(this.college_id,this.year_id);
-           this.getGroups(Number(this.college_id),this.year_id); */
-        }
-        this.getCurriculumnHierarchy();
+          if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
+            this.getYears(this.partner_id, null, 0 , true);
+          }
+        } else {
+          this.organization = '4';//proceum
+        }    
+        if(Number(this.role) == environment.ALL_ROLES.TEACHER){
+          this.getCurriculumnHierarchy(this.partner_id);
+        }    
+        
       }
     });
   }
 
-  navigateTo(url){
+  navigateTo(url) {
     let user = this.http.getUser();
-    this.router.navigateByUrl(url);
     if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).indexOf(Number(user['role'])) > -1) {
-      url = "/admin/"+url;
+      url = "/admin/" + url;
       this.router.navigateByUrl(url);
     }
   }
@@ -548,10 +699,10 @@ export class CreateUserComponent implements OnInit {
     !!node.children && node.children.length > 0;
 
   setParent(data, parent) {
-   
-    if(data.children === undefined){
+
+    if (data.children === undefined) {
       data.has_children = false;
-    }else{
+    } else {
       data.has_children = true;
     }
     data.parent = parent;
@@ -647,12 +798,12 @@ export class CreateUserComponent implements OnInit {
   // }
 
   submitCourses() {
-    let result = [];let selected_ids = [];
+    let result = []; let selected_ids = [];
     this.dataSource.data.forEach(node => {
       result = result.concat(
         this.treeControl
           .getDescendants(node)
-          .filter(x => x.selected && x.id).map(x => [x.id,x.curriculum_id,x.has_children,x.name,x.parentid])
+          .filter(x => x.selected && x.id).map(x => [x.id, x.curriculum_id, x.has_children, x.name, x.parentid])
       );
       selected_ids = selected_ids.concat(
         this.treeControl
@@ -661,24 +812,24 @@ export class CreateUserComponent implements OnInit {
       );
       //Trying to select all items if childs are selected or indetermine
       this.treeControl
-          .getDescendants(node)
-          .filter((x) => {
-            if(x.selected && x.id){
-              this.todoItemSelectionToggle(x.selected,x);
-            }
-          })
+        .getDescendants(node)
+        .filter((x) => {
+          if (x.selected && x.id) {
+            this.todoItemSelectionToggle(x.selected, x);
+          }
+        })
     });
-    this.selected_courses = result.filter(function(node) {
-      if(selected_ids.indexOf(node[4]) == -1){
+    this.selected_courses = result.filter(function (node) {
+      if (selected_ids.indexOf(node[4]) == -1) {
         return node;
       }
     }).map(x => x[3]);
-    if(this.selected_courses){
+    if (this.selected_courses) {
       this.courses_div = true;
       this.edit_model_status = false;
       this.subject_csv = selected_ids.join();
       this.courses_arr = result;
-    }else{
+    } else {
       this.courses_div = false;
       this.edit_model_status = false;
       this.subject_csv = '';
@@ -687,20 +838,20 @@ export class CreateUserComponent implements OnInit {
     //console.log(this.subject_csv);
   }
 
-  getCurriculumnHierarchy(){
-    let params = { url: 'get-curriculumn-hierarchy','courses_ids_csv' : this.subject_csv, 'flag' : 'subject'};
-    this.http.post(params).subscribe((res) => {      
+  getCurriculumnHierarchy(partner_id) {
+    let params = { url: 'get-curriculumn-hierarchy', 'courses_ids_csv': this.subject_csv, 'flag': 'subject', partner_id: partner_id };
+    this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource.data = res['data'];
         this.dataSource.data.forEach(x => {
           this.setParent(x, null);
         });
         //Call below function for selected items should show on div
-        if(this.subject_csv != ""){
+        if (this.subject_csv != "") {
           this.submitCourses();
         }
       } else {
-          this.toster.error(res['message'], 'Error', { closeButton: true });
+        //this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
