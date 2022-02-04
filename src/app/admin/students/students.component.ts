@@ -58,7 +58,7 @@ export class StudentsComponent implements OnInit {
     this.getStudents();
   }
   getStudents() {
-    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt,"from_date":"","to_date":""};
+    let param = { url: 'get-users',"role":11,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt,"from_date":"","to_date":""};
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['users']);
       this.dataSource.paginator = this.paginator;
@@ -76,7 +76,7 @@ export class StudentsComponent implements OnInit {
   applyFilters(){
     let fromDate =this.from_date?this.datepipe.transform(this.from_date, 'yyyy-MM-dd'):""; 
     let toDate =this.to_date?this.datepipe.transform(this.to_date, 'yyyy-MM-dd'):""; 
-    let param = { url: 'get-users',"role":2,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt,"from_date":fromDate,"to_date":toDate};
+    let param = { url: 'get-users',"role":11,"offset": this.page, "limit": this.pageSize, "sort_by": this.sort_by,search_txt:this.search_txt,"from_date":fromDate,"to_date":toDate};
     this.http.post(param).subscribe((res) => {
       this.dataSource = new MatTableDataSource(res['users']);
       this.num_students = res['users_count'];
