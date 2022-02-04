@@ -459,6 +459,12 @@ export class CreateContentComponent implements OnInit {
                 this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
             }
         }
+        /*if(video_source == 'APP_SQUADZ'){
+            this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
+        }
+        if(video_source == 'VIDEO_CIPHER'){
+            this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
+        }*/
     }
   }
   addUpdateVideo(tab_index, param){

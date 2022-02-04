@@ -315,8 +315,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   getCurriculumnHierarchy() {
     let params = { 
       url: 'get-curriculumn-hierarchy', 
-      'previous_selected_ids': this.courses_ids_csv, 
-      'flag': 'subject' 
+      previous_selected_ids: this.courses_ids_csv, 
+      flag: 'subject',
+      partner_id: this.partner_parent_id, 
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
@@ -548,6 +549,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         if (this.universities != undefined) {
           this.all_universities.next(this.universities.slice());
         }
+        this.getCurriculumnHierarchy();
         if (callPartnerChilds) {
           this.getPartnerChilds();
         }
@@ -640,7 +642,11 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       this.getSemesters(year_id);
       this.name_field_disabled = false;
     } else {
-      if (year_obj.year_has_group == 0) {
+      if (this.slug == 'semester' && year_obj.year_has_semester == 0) {
+        this.toster.error("Disabled creating semester to selected year!", 'Error');
+        this.name_field_disabled = true;
+        this.name_of = '';
+      } else if (year_obj.year_has_group == 0) {
         this.toster.error("Disabled creating groups to selected year!", 'Error');
         this.name_field_disabled = true;
         this.name_of = '';

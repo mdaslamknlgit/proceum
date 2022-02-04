@@ -211,6 +211,19 @@
 
       </ul>
     </li> -->
+    <li class="hs_sbmnu {{ menu_active == 2 || active_route == '/teacher/class/list' || active_route == '/teacher/class/create' || active_route.includes('/teacher/class/edit')? 'active': ''}}" routerLinkActive="active" (click)="activeMenu(2, menu_active)">
+      <div class="sd_mnuhd">
+      <mat-icon>source</mat-icon> Class Management
+      </div>
+      <ul class="sdmn_sub">
+          <li routerLinkActive="active" routerLink="/teacher/class/create">
+              <mat-icon>add</mat-icon>Create Class
+          </li>
+          <li routerLinkActive="active" routerLink="/teacher/class/list">
+              <mat-icon>notes</mat-icon>Manage Classes
+          </li>
+      </ul>
+  </li>
     <li>
       <a (click)="menu_active = 0" routerLink="/white-board" [ngClass]="{
         active: active_route == '/white-board'
