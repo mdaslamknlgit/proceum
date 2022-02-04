@@ -80,14 +80,14 @@
                     <mat-form-field appearance="legacy">
                       <mat-select tabindex="7" placeholder="Select University" name="university" #university="ngModel"
                         [(ngModel)]="individualRegister.university" (ngModelChange)="getPartnersListForColleges()"
-                        required>
+                        >
                         <mat-option>
                           <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
                             [placeholderLabel]="'Search University'" name="search_university" ngModel
                             (ngModelChange)="filterPartnersListForUniversity($event)"></ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let university of all_universities | async" [value]="university['pk_id']">{{
-                          university["name"] }}</mat-option>
+                          university["organization_name"] }}</mat-option>
                         <mat-option value="other_university">Other</mat-option>
                       </mat-select>
                       <span *ngIf="individual_signup_form.submitted && individualRegister.university == ''"
@@ -98,7 +98,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="7.5" matInput placeholder="Enter University Name"
                         [(ngModel)]="individualRegister.other_university" name="other_university" maxlength="50"
-                        required>
+                        required (ngModelChange)="checkPartnerNameExist($event)">
                     </mat-form-field>
                   </div>
 
@@ -164,7 +164,7 @@
                             (ngModelChange)="filterPartnersListForCollege($event)"></ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let college of all_colleges | async" [value]="college['pk_id']">{{
-                          college["name"] }}</mat-option>
+                          college["organization_name"] }}</mat-option>
                         <mat-option value="other_college">Other</mat-option>
                       </mat-select>
                       <span
@@ -175,7 +175,7 @@
                   <div class="fir_name err_tltp_par" *ngIf="individualRegister.college == 'other_college'">
                     <mat-form-field appearance="legacy">
                       <input tabindex="8.5" matInput placeholder="Enter College Name"
-                        [(ngModel)]="individualRegister.other_college" name="other_college" maxlength="50" required>
+                        [(ngModel)]="individualRegister.other_college" name="other_college" maxlength="50" required (ngModelChange)="checkCollegeNameExist($event)">
                     </mat-form-field>
                   </div>
                   <div class="fir_name err_tltp_par">
@@ -591,7 +591,7 @@
                             (ngModelChange)="filterPartnersListForUniversity($event)"></ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let university of all_universities | async" [value]="university['pk_id']">{{
-                          university["name"] }}</mat-option>
+                          university["organization_name"] }}</mat-option>
                         <mat-option value="other_university">Other</mat-option>
                       </mat-select>
                       <span
@@ -603,7 +603,7 @@
                     *ngIf="institutionResgister.college_university == 'other_university'">
                     <mat-form-field appearance="legacy">
                       <input tabindex="8.5" matInput placeholder="Enter University Name"
-                        [(ngModel)]="institutionResgister.other_university" name="other_university" maxlength="50"
+                        [(ngModel)]="institutionResgister.other_university" name="other_university" (ngModelChange)="checkPartnerNameExist($event)" maxlength="50"
                         required>
                     </mat-form-field>
                   </div>

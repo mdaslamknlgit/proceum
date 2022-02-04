@@ -96,6 +96,7 @@ export class PartnerRegisterComponent implements OnInit {
   ngOnInit(): void {
     if(localStorage.getItem('p_id') == undefined || localStorage.getItem('p_id') == ''){
       this.route.navigateByUrl('/');
+      //alert()
     }
     this.domain = location.origin;
     this.getCountries();

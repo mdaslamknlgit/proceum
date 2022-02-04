@@ -22,6 +22,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     public innerWidth: any;
     public isOpen = false;
     public load_top_bar = false;
+    public show_links = true;
     public course_usage = 1;
     public curriculums;
     activeClass: string = 'tp_rt_mn';
@@ -163,6 +164,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
                 localStorage.setItem('p_id', res['data']['p_id']);
                 localStorage.setItem('p_type', res['data']['p_type']);
                 localStorage.setItem('description', res['data']['description']);
+                localStorage.setItem('licence_expired', res['data']['licence_expired']);
+                this.show_links = false;
+                //this.route.navigateByUrl("/login");
                 //console.log(this.sub_domain_data);
             }else{
                 //window.location.href = environment.APP_BASE_URL;

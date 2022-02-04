@@ -116,7 +116,7 @@ export class CreateUserComponent implements OnInit {
       }
       else {
         this.user_id = 0;
-        ///this.getCurriculumnHierarchy();
+        this.getCurriculumnHierarchy(this.user['partner_id']);
       }
 
     });
@@ -127,10 +127,6 @@ export class CreateUserComponent implements OnInit {
   onUserTypeChange() {
     this.show_organization_type = false;
     this.show_partners_dropdown = true;
-    if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
-      this.show_organization_type = true;
-      this.organization = "";
-    }
     if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
       this.organization = '1';
       this.child_type = 1;
@@ -152,10 +148,22 @@ export class CreateUserComponent implements OnInit {
       this.show_partners_dropdown = false;
       this.organization = '1';
     }
+
     if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN && Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
       this.university_id = this.user['partner_id'];
       this.show_partners_dropdown = false;
       this.organization = '1';
+    }
+
+    if (Number(this.user['role']) == environment.ALL_ROLES.SUPER_ADMIN && Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
+      this.university_id = '';
+      this.show_partners_dropdown = false;
+      this.organization = '';
+    }
+
+    if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
+      this.show_organization_type = true;
+      this.organization = '';
     }
 
     /* if(Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN){
@@ -404,6 +412,11 @@ export class CreateUserComponent implements OnInit {
         this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role for the selected organization type`, 'Error');
         return;
       }
+      if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN == Number(this.role)) {
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        return;
+      }
       this.partner_type_id = 1; //partner as Universities
       this.getPartners();
     } else if (this.organization == '2') { //College
@@ -411,6 +424,11 @@ export class CreateUserComponent implements OnInit {
         let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
         this.role = ''; this.organization = '';
         this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role for the selected organization type`, 'Error');
+        return;
+      }
+      if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN == Number(this.role)) {
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
         return;
       }
       this.partner_type_id = 2; //partner as Collges
@@ -422,12 +440,17 @@ export class CreateUserComponent implements OnInit {
         this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role for the selected organization type`, 'Error');
         return;
       }
+      if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN == Number(this.role)) {
+        this.role = ''; this.organization = '';
+        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        return;
+      }
       this.partner_type_id = 3; //partner as Institutes
       this.getPartners();
     } else if (this.organization == '4') {
       if (environment.DISABLED_USER_ROLES_FOR_PROCEUM.includes(Number(this.role))) {
         let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
-        this.organization = '';
+        this.role = '';this.organization = '';
         this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role`, 'Error');
       }
     }
@@ -435,6 +458,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   getYears(partner_id, partner_child_id, parent_id, call_child_fun = false) {
+    this.getCurriculumnHierarchy(partner_id);
     let param = {
       url: 'get-year-semester-group',
       partner_id: partner_id,
@@ -654,8 +678,11 @@ export class CreateUserComponent implements OnInit {
           }
         } else {
           this.organization = '4';//proceum
-        }        
-        //this.getCurriculumnHierarchy();
+        }    
+        if(Number(this.role) == environment.ALL_ROLES.TEACHER){
+          this.getCurriculumnHierarchy(this.partner_id);
+        }    
+        
       }
     });
   }
@@ -811,8 +838,8 @@ export class CreateUserComponent implements OnInit {
     //console.log(this.subject_csv);
   }
 
-  getCurriculumnHierarchy() {
-    let params = { url: 'get-curriculumn-hierarchy', 'courses_ids_csv': this.subject_csv, 'flag': 'subject' };
+  getCurriculumnHierarchy(partner_id) {
+    let params = { url: 'get-curriculumn-hierarchy', 'courses_ids_csv': this.subject_csv, 'flag': 'subject', partner_id: partner_id };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource.data = res['data'];
@@ -824,7 +851,7 @@ export class CreateUserComponent implements OnInit {
           this.submitCourses();
         }
       } else {
-        this.toster.error(res['message'], 'Error', { closeButton: true });
+        //this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }

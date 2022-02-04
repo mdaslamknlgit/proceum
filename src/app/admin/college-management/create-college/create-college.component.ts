@@ -51,6 +51,7 @@ export class CreateCollegeComponent implements OnInit {
   public second_phone = '';
   public partner_id: number = 0;
   public pk_id: number = 0;
+  public url_param:any;
 
   countrys = [];
   states = [];
@@ -71,6 +72,7 @@ export class CreateCollegeComponent implements OnInit {
     this.activatedRoute.params.subscribe((param) => {
       if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
         this.partner_id = param.partner_id;
+        this.url_param = '/'+param.partner_id;
         this.pk_id = (param.pk_id) ? param.pk_id : 0;
         if(!this.partner_id){
             this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
@@ -81,6 +83,7 @@ export class CreateCollegeComponent implements OnInit {
         }
       } else if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
         this.pk_id = (param.partner_id) ? param.partner_id : 0; //Here partner_id means partner child id(ie.,College)
+        this.url_param = '';
         if (this.pk_id) {
           this.getCollege();
         }

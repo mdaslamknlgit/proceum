@@ -10,7 +10,7 @@
                         <div class="crt_prt_hd">User Type</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select User Type" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="onUserTypeChange()" required>
+                                <mat-select placeholder="Select User Type" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="organization='';onUserTypeChange();" required>
                                     <mat-option *ngFor="let item of all_roles | async" [value]="item['id']">{{ item["role_name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -353,6 +353,7 @@
                     </li>
                 </mat-nested-tree-node>
             </mat-tree>
+            <span *ngIf="dataSource.data == undefined || dataSource.data.length < 1">No Subjects Found!</span>
             <div class="w_100p text_right">
                 <button type="button" mat-raised-button color="accent"
                     (click)="submitCourses()">Submit</button><br />
