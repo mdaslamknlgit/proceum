@@ -362,7 +362,7 @@
                     <span class="text-right w_100p rqrd_txtinfo">
                         All <span class="required">( * ) </span>marked fields are mandatory</span>
                     <div class="hgt_20"></div>
-                    <!-- <div class="frm_dvs" *ngIf="show_radio && !not_proceum_admin">
+                    <<<<<<< HEAD <!-- <div class="frm_dvs" *ngIf="show_radio && !not_proceum_admin">
                         <span>Adding For!<span class="required">*</span></span>
                         <span>
                             <span class="err_tltp_par">
@@ -374,9 +374,13 @@
                                 </mat-radio-group>
                             </span>
                         </span>
-                    </div> -->
-                    <div class="hgt_20"></div>
-                    <div class="cm_fltr_sc mr_1 w_100p" *ngIf="slug == 'year'">
+                </div> -->
+                <div class="hgt_20"></div>
+                <div class="cm_fltr_sc mr_1 w_100p" *ngIf="slug == 'year'">
+                    =======
+
+                    <div class="frm_dvs" *ngIf="slug == 'year'">
+                        >>>>>>> 1e5427a85f1999c4d867bcb1bdb5117f8ed12473
                         <span>Select If Yes!<span class="required"></span></span>
                         <div class="clear_fix"></div>
                         <span>
@@ -408,7 +412,7 @@
                     <div class="cm_fltr_sc mr_1"
                         *ngIf="proceum_admin && self_or_other == 'other' && organization_type == '1'">
                         <span>Select University <span class="required">*</span></span>
-                        <mat-form-field appearance="outline">
+                        <<<<<<< HEAD <mat-form-field appearance="outline">
                             <mat-select placeholder="Select University" name="university_edit"
                                 #university_edit="ngModel" [(ngModel)]="partner_parent_id"
                                 (ngModelChange)="getPartnerChilds()" required>
@@ -422,186 +426,235 @@
                                     item["partner_name"] }}
                                 </mat-option>
                             </mat-select>
-                        </mat-form-field>
-                        <!-- <span
+                            </mat-form-field>
+                            <!-- <span
+=======
+                        <span>
+                            <span class="err_tltp_par">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select University" name="university_edit"
+                                        #university_edit="ngModel" [(ngModel)]="partner_parent_id"
+                                        (ngModelChange)="getCurriculumnHierarchy();getPartnerChilds()" required>
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
+                                                [placeholderLabel]="'Search University'" name="search_university"
+                                                ngModel (ngModelChange)="filterUniversity($event)">
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let item of all_universities | async"
+                                            [value]="item['pk_id']">{{ item["partner_name"] }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <span
+>>>>>>> 1e5427a85f1999c4d867bcb1bdb5117f8ed12473
                                     *ngIf="(create_form.submitted || university_edit.touched) && university_edit.invalid"
                                     class="prc_tltp">
                                     University is required
                                 </span> -->
                     </div>
 
-                    <div class="cm_fltr_sc mr_1"
+                    <<<<<<< HEAD <div class="cm_fltr_sc mr_1"
                         *ngIf="(self_or_other == 'other' && organization_type == '1' && partner_parent_id != '' && user['role'] == '8')">
-                        <span>Select College <span class="required">*</span></span>
-                        <mat-form-field appearance="outline">
-                            <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel"
-                                [(ngModel)]="partner_child_id" (ngModelChange)="getYears(0);" required>
-                                <mat-option>
-                                    <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
-                                        [placeholderLabel]="'Search College'" name="search_college" ngModel
-                                        (ngModelChange)="filterCollege($event)">
-                                    </ngx-mat-select-search>
-                                </mat-option>
-                                <mat-option *ngFor="let item of all_colleges | async" [value]="item['pk_id']">{{
-                                    item["partner_name"] }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <!-- <span *ngIf="(create_form.submitted || college_edit.touched) && college_edit.invalid"
+                        =======
+                        <div class="frm_dvs"
+                            *ngIf="(self_or_other == 'other' && organization_type == '1' && partner_parent_id != '') || user['role'] == '8'">
+                            >>>>>>> 1e5427a85f1999c4d867bcb1bdb5117f8ed12473
+                            <span>Select College <span class="required">*</span></span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel"
+                                    [(ngModel)]="partner_child_id" (ngModelChange)="getYears(0);" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
+                                            [placeholderLabel]="'Search College'" name="search_college" ngModel
+                                            (ngModelChange)="filterCollege($event)">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of all_colleges | async" [value]="item['pk_id']">{{
+                                        item["partner_name"] }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- <span *ngIf="(create_form.submitted || college_edit.touched) && college_edit.invalid"
                                     class="prc_tltp">
                                     College is required
                                 </span> -->
-                    </div>
+                        </div>
 
-                    <div class="cm_fltr_sc mr_1" *ngIf="(self_or_other == 'other' && organization_type == '2')">
-                        <span>Select College <span class="required">*</span></span>
-                        <mat-form-field appearance="outline">
-                            <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel"
-                                [(ngModel)]="partner_parent_id" (ngModelChange)="getYears(0)" required>
-                                <mat-option>
-                                    <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
-                                        [placeholderLabel]="'Search College'" name="search_college" ngModel
-                                        (ngModelChange)="filterCollege($event)">
-                                    </ngx-mat-select-search>
-                                </mat-option>
-                                <mat-option *ngFor="let item of all_universities | async" [value]="item['pk_id']">{{
-                                    item["partner_name"] }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <!-- <span *ngIf="(create_form.submitted || college_edit.touched) && college_edit.invalid"
+                        <div class="cm_fltr_sc mr_1" *ngIf="(self_or_other == 'other' && organization_type == '2')">
+                            <span>Select College <span class="required">*</span></span>
+                            <<<<<<< HEAD <mat-form-field appearance="outline">
+                                <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel"
+                                    [(ngModel)]="partner_parent_id" (ngModelChange)="getYears(0)" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
+                                            [placeholderLabel]="'Search College'" name="search_college" ngModel
+                                            (ngModelChange)="filterCollege($event)">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of all_universities | async" [value]="item['pk_id']">{{
+                                        item["partner_name"] }}
+                                    </mat-option>
+                                </mat-select>
+                                </mat-form-field>
+                                <!-- <span *ngIf="(create_form.submitted || college_edit.touched) && college_edit.invalid"
+=======
+                        <span>
+                            <span class="err_tltp_par">
+                                <mat-form-field appearance="outline">
+                                    <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel"
+                                        [(ngModel)]="partner_parent_id" (ngModelChange)="getCurriculumnHierarchy();getYears(0)" required>
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
+                                                [placeholderLabel]="'Search College'" name="search_college" ngModel
+                                                (ngModelChange)="filterCollege($event)">
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let item of all_universities | async"
+                                            [value]="item['pk_id']">{{
+                                            item["partner_name"] }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <span *ngIf="(create_form.submitted || college_edit.touched) && college_edit.invalid"
+>>>>>>> 1e5427a85f1999c4d867bcb1bdb5117f8ed12473
                                     class="prc_tltp">
                                     College is required
                                 </span> -->
-                    </div>
+                        </div>
 
-                    <div class="cm_fltr_sc mr_1" *ngIf="self_or_other == 'other' && organization_type == '3'">
-                        <span>Select Institute <span class="required">*</span></span>
-                        <mat-form-field appearance="outline">
-                            <mat-select placeholder="Select Institute" name="institute_edit" #institute_edit="ngModel"
-                                [(ngModel)]="partner_parent_id" (ngModelChange)="getYears(0)" required>
-                                <mat-option>
-                                    <ngx-mat-select-search [noEntriesFoundLabel]="'No Institute found'"
-                                        [placeholderLabel]="'Search Institute'" name="search_institite" ngModel
-                                        (ngModelChange)="filterInstitute($event)">
-                                    </ngx-mat-select-search>
-                                </mat-option>
-                                <mat-option *ngFor="let item of all_universities | async" [value]="item['pk_id']">
-                                    {{ item["partner_name"] }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <!-- <span
-                                    *ngIf="(create_form.submitted || institute_edit.touched) && institute_edit.invalid"
-                                    class="prc_tltp">
-                                    Institute is required
-                                </span> -->
-                    </div>
-                    <div class="cm_fltr_sc mr_1" *ngIf="expand_course == true && slug == 'year'">
-                        <span>Select Subjects <span class="required">*</span></span>
-                        <div class="tbbd_bdy">
-                            <mat-tree [dataSource]="dataSourceForNestedTree" [treeControl]="treeControl" class="sc_tre">
-                                <!-- This is the tree node template for leaf nodes -->
-                                <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
-                                    [style.display]="!search || node.ok?'block':'none'">
-                                    <li class="mat-tree-node">
-                                        <!-- use a disabled button to provide padding for tree leaf -->
-                                        <button type="button" mat-icon-button disabled></button>
-                                        <mat-checkbox class="checklist-leaf-node"
-                                            (change)="todoItemSelectionToggle($event.checked,node)"
-                                            [checked]="node.selected">
-                                            {{node.name}}</mat-checkbox>
+                        <div class="cm_fltr_sc mr_1" *ngIf="self_or_other == 'other' && organization_type == '3'">
+                            <span>Select Institute <span class="required">*</span></span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="Select Institute" name="institute_edit"
+                                    #institute_edit="ngModel" [(ngModel)]="partner_parent_id"
+                                    (ngModelChange)="getCurriculumnHierarchy();getYears(0)" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No Institute found'"
+                                            [placeholderLabel]="'Search Institute'" name="search_institite" ngModel
+                                            (ngModelChange)="filterInstitute($event)">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of all_universities | async" [value]="item['pk_id']">
+                                        {{ item["partner_name"] }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- <span
+                                        *ngIf="(create_form.submitted || institute_edit.touched) && institute_edit.invalid"
+                                        class="prc_tltp">
+                                        Institute is required
+                                    </span> -->
+                        </div>
+                        <div class="cm_fltr_sc mr_1" *ngIf="expand_course == true && slug == 'year'">
+                            <span>Select Subjects <span class="required">*</span></span>
+                            <div class="tbbd_bdy">
+                                <mat-tree [dataSource]="dataSourceForNestedTree" [treeControl]="treeControl"
+                                    class="sc_tre">
+                                    <!-- This is the tree node template for leaf nodes -->
+                                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle
+                                        [style.display]="!search || node.ok?'block':'none'">
+                                        <li class="mat-tree-node">
+                                            <!-- use a disabled button to provide padding for tree leaf -->
+                                            <button type="button" mat-icon-button disabled></button>
+                                            <mat-checkbox class="checklist-leaf-node"
+                                                (change)="todoItemSelectionToggle($event.checked,node)"
+                                                [checked]="node.selected">
+                                                {{node.name}}</mat-checkbox>
 
-                                    </li>
-                                </mat-tree-node>
-                                <!-- This is the tree node template for expandable nodes -->
-                                <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild"
-                                    [style.display]="!search || node.ok?'block':'none'">
-                                    <li>
-                                        <div class="mat-tree-node">
-                                            <button type="button" mat-icon-button matTreeNodeToggle
-                                                [attr.aria-label]="'toggle ' + node.name">
-                                                <mat-icon class="mat-icon-rtl-mirror">
-                                                    {{treeControl.isExpanded(node) ? 'expand_more' :
-                                                    'chevron_right'}}
-                                                </mat-icon>
-                                            </button>
-                                            <mat-checkbox [checked]="node.selected"
-                                                [indeterminate]="node.indeterminate && !node.selected"
-                                                (change)="todoItemSelectionToggle($event.checked,node)">
-                                                {{node.name}}
-                                            </mat-checkbox>
-                                        </div>
-                                        <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
-                                            <ng-container matTreeNodeOutlet></ng-container>
-                                        </ul>
-                                    </li>
-                                </mat-nested-tree-node>
-                            </mat-tree>
-                            <!-- <div class="w_100p text_right">
+                                        </li>
+                                    </mat-tree-node>
+                                    <!-- This is the tree node template for expandable nodes -->
+                                    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild"
+                                        [style.display]="!search || node.ok?'block':'none'">
+                                        <li>
+                                            <div class="mat-tree-node">
+                                                <button type="button" mat-icon-button matTreeNodeToggle
+                                                    [attr.aria-label]="'toggle ' + node.name">
+                                                    <mat-icon class="mat-icon-rtl-mirror">
+                                                        {{treeControl.isExpanded(node) ? 'expand_more' :
+                                                        'chevron_right'}}
+                                                    </mat-icon>
+                                                </button>
+                                                <mat-checkbox [checked]="node.selected"
+                                                    [indeterminate]="node.indeterminate && !node.selected"
+                                                    (change)="todoItemSelectionToggle($event.checked,node)">
+                                                    {{node.name}}
+                                                </mat-checkbox>
+                                            </div>
+                                            <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+                                                <ng-container matTreeNodeOutlet></ng-container>
+                                            </ul>
+                                        </li>
+                                    </mat-nested-tree-node>
+                                </mat-tree>
+                                <!-- <div class="w_100p text_right">
                         <button type="button" mat-raised-button color="accent"
                             (click)="submitCourses()">Submit</button><br />
                     </div> -->
-                            <div class="hgt_20"></div>
+                                <div class="hgt_20"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="cm_fltr_sc mr_1"
-                        *ngIf="(self_or_other == 'other' && partner_parent_id != '' && slug != 'year') || (self_or_other == 'self' && slug != 'year')">
-                        <span>Select Year <span class="required">*</span></span>
-                        <mat-form-field appearance="outline">
-                            <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel"
-                                [(ngModel)]="year_id" (ngModelChange)="getChildDropDownData(year_id)" required>
-                                <mat-option>
-                                    <ngx-mat-select-search [noEntriesFoundLabel]="'No Year found'"
-                                        [placeholderLabel]="'Search Year'" name="search_year" ngModel
-                                        (ngModelChange)="filterYear($event)">
-                                    </ngx-mat-select-search>
-                                </mat-option>
-                                <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{
-                                    item["name"] }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <!-- <span *ngIf="(create_form.submitted || year_edit.touched) &&
+                        <div class="cm_fltr_sc mr_1"
+                            *ngIf="(self_or_other == 'other' && partner_parent_id != '' && slug != 'year') || (self_or_other == 'self' && slug != 'year')">
+                            <span>Select Year <span class="required">*</span></span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel"
+                                    [(ngModel)]="year_id" (ngModelChange)="getChildDropDownData(year_id)" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No Year found'"
+                                            [placeholderLabel]="'Search Year'" name="search_year" ngModel
+                                            (ngModelChange)="filterYear($event)">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{
+                                        item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- <span *ngIf="(create_form.submitted || year_edit.touched) &&
                             year_edit.invalid" class="prc_tltp">
                                 </span> -->
-                    </div>
-                    <div class="cm_fltr_sc mr_1"
-                        *ngIf="(self_or_other == 'other' && (partner_parent_id != '') && (year_id != '' && year_id != null) && slug == 'group') && show_semester_dropdown">
-                        <span>Select Semester <span class="required">*</span></span>
-                        <mat-form-field appearance="outline">
-                            <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel"
-                                [(ngModel)]="semester_id" (ngModelChange)="checkGroupCanCreate()" required>
-                                <mat-option>
-                                    <ngx-mat-select-search [noEntriesFoundLabel]="'No Semester found'"
-                                        [placeholderLabel]="'Search Semester'" name="search_semester" ngModel
-                                        (ngModelChange)="filterSemester($event)">
-                                    </ngx-mat-select-search>
-                                </mat-option>
-                                <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">
-                                    {{ item["name"] }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <!-- <span *ngIf="(create_form.submitted || semester_edit.touched) &&
+                        </div>
+                        <div class="cm_fltr_sc mr_1"
+                            *ngIf="(self_or_other == 'other' && (partner_parent_id != '') && (year_id != '' && year_id != null) && slug == 'group') && show_semester_dropdown">
+                            <span>Select Semester <span class="required">*</span></span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel"
+                                    [(ngModel)]="semester_id" (ngModelChange)="checkGroupCanCreate()" required>
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No Semester found'"
+                                            [placeholderLabel]="'Search Semester'" name="search_semester" ngModel
+                                            (ngModelChange)="filterSemester($event)">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">
+                                        {{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <!-- <span *ngIf="(create_form.submitted || semester_edit.touched) &&
                             semester_edit.invalid" class="prc_tltp">Semester is required
                                 </span> -->
-                    </div> 
-                    <div class="cm_fltr_sc mr_1">
-                        <span>{{ page_title }} Name<span class="required">*</span></span>
-                        <mat-form-field appearance="outline" *ngIf="slug == 'year'">
-                            <input maxlength="30" required name="title" [(ngModel)]="name_of" matInput
-                                placeholder="{{ page_title }} Name" #title="ngModel" />
-                            <span class="prc_tltp" *ngIf="(create_form.submitted || title.touched) && title.invalid">{{
-                                page_title
-                                }} name is required</span>
-                        </mat-form-field>
-                        <mat-form-field appearance="outline" *ngIf="slug == 'semester' || slug == 'group'">
-                            <input maxlength="30" required name="title" [(ngModel)]="name_of" matInput
-                                placeholder="{{ page_title }} Name" #title="ngModel" [disabled]="name_field_disabled" />
-                            <span class="prc_tltp" *ngIf="(create_form.submitted || title.touched) && title.invalid">{{
-                                page_title
-                                }} name is required</span>
-                        </mat-form-field>
-                    </div>
+                        </div>
+                        <div class="cm_fltr_sc mr_1">
+                            <span>{{ page_title }} Name<span class="required">*</span></span>
+                            <mat-form-field appearance="outline" *ngIf="slug == 'year'">
+                                <input maxlength="30" required name="title" [(ngModel)]="name_of" matInput
+                                    placeholder="{{ page_title }} Name" #title="ngModel" />
+                                <span class="prc_tltp"
+                                    *ngIf="(create_form.submitted || title.touched) && title.invalid">{{
+                                    page_title
+                                    }} name is required</span>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" *ngIf="slug == 'semester' || slug == 'group'">
+                                <input maxlength="30" required name="title" [(ngModel)]="name_of" matInput
+                                    placeholder="{{ page_title }} Name" #title="ngModel"
+                                    [disabled]="name_field_disabled" />
+                                <span class="prc_tltp"
+                                    *ngIf="(create_form.submitted || title.touched) && title.invalid">{{
+                                    page_title
+                                    }} name is required</span>
+                            </mat-form-field>
+                        </div>
                 </div>
             </div>
             <hr />

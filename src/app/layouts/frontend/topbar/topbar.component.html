@@ -9,25 +9,35 @@
   <div class="nav" [ngClass]="{ menu_open: isOpen }">
 
     <app-white-board *ngIf="user['role'] == '1' || user['role'] == '12'"></app-white-board>
-    <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active"
+    <span *ngIf="show_links" mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }">
       <mat-icon matTooltip="Home" color="accent">home</mat-icon>
     </span>
+<<<<<<< HEAD
     <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">
       <mat-icon matTooltip="Dashboard" color="accent">grid_view</mat-icon>
     </span>
     <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
     <span mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active">Pricing &amp;
       Packages</span>
+=======
+    <span *ngIf="user['id'] && show_links" mat-list-item class="tp_rt_mn" (click)="navigateTo()"><mat-icon matTooltip="Dashboard" color="accent">grid_view</mat-icon></span>
+    <span *ngIf="show_links" mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
+    <span *ngIf="show_links" mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active">Pricing &amp; Packages</span>
+>>>>>>> 1e5427a85f1999c4d867bcb1bdb5117f8ed12473
 
     <!-- <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
     <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
     <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
       >Register Trail</span
     > -->
-    <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
+    <span *ngIf="show_links" mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
 
+<<<<<<< HEAD
     <span mat-list-item class="tp_rt_mn"><a [href]="domain_name+'/blog'" target="_blank"> Blog</a></span>
+=======
+    <span *ngIf="show_links" mat-list-item class="tp_rt_mn" ><a [href]="domain_name+'/blog'" target="_blank"> Blog</a></span>
+>>>>>>> 1e5427a85f1999c4d867bcb1bdb5117f8ed12473
 
     <!-- <span *ngFor="let menu of menus" class="tp_rt_mn">
       <span *ngIf="menu.subMenus != undefined && menu.subMenus.length>0" mat-list-item [matMenuTriggerFor]="appMenu"
@@ -46,7 +56,7 @@
         </button>
       </mat-menu>
     </span> -->
-    <span class="tp_rt_mn mr_1">
+    <span *ngIf="show_links" class="tp_rt_mn mr_1">
       <span mat-list-item [matMenuTriggerFor]="appMenu" [class]="activeClass" class="d-flex" routerLinkActive="active">
         Curriculums
         <mat-icon matSuffix>arrow_drop_down</mat-icon>

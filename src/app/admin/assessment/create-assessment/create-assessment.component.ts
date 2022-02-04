@@ -43,6 +43,7 @@ export class CreateAssessmentComponent implements OnInit {
   public assessment_type = '';
   public timezone = '';
   public start_date = '';
+  public minDate = new Date();
   public start_time = '';
   public question_duration = '';
   public questions_count = 0;
@@ -64,8 +65,10 @@ export class CreateAssessmentComponent implements OnInit {
   public group_id = '';
   public organization_type_id = '';
   public organization_type_name = '';
+  public is_university = true;
   public is_college = false;
-  public organization_list = '';
+  public organization_list = [];
+  public college_list = [];
 
   public all_years: ReplaySubject<any> = new ReplaySubject<any>(1);
   public all_semesters: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -104,11 +107,47 @@ export class CreateAssessmentComponent implements OnInit {
     this.user = this.http.getUser();
     this.user_id = this.user['id'];
     this.role_id = this.user['role'];
-    if(this.role_id == 12){
+    if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
       this.getTeacherCollegeInstitute();
+    }else{
+      if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
+        this.is_college = true;
+        this.is_university = false;
+        this.organization_type_name = 'College';
+        this.college_id = this.user['partner_id'];
+        this.organization_type_id = '1';
+        this.getOrganizationList(1,1);
+      }
+      if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){  /// College Admin Role ID
+        this.is_college = false;
+        this.is_university = false;
+        this.organization_type_name = 'College';
+        this.organization_list_id = this.user['partner_id'];
+        this.organization_type_id = '2';
+        this.getYearSemsterGroup(2,0,'year');
+      }
+      if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
+        this.is_college = false;
+        this.is_university = false;
+        this.organization_type_name = 'Institute';
+        this.organization_list_id = this.user['partner_id'];
+        this.organization_type_id = '3';
+        this.getYearSemsterGroup(3,0,'year');
+      }
+      if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
+        this.is_college = false;
+        this.is_university = false;
+        this.organization_list_id = this.user['partner_id'];
+        this.organization_type_id = '1';
+        this.getYearSemsterGroup(1,0,'year');
+      }      
     }
     this.assessmentTypes();
     this.getcurriculums();
+
+    let d = new Date();
+    d.setDate(d.getDate() + 1);
+    this.minDate = d;
   }
 
   getTeacherCollegeInstitute(){
@@ -230,9 +269,23 @@ export class CreateAssessmentComponent implements OnInit {
     })
   }
   addQuestionCount(){
+    if(this.questions_count <= 0){
+      this.translate.get('admin.assessment.create.questions_count_error_msg').subscribe((data)=> {
+        this.toster.error(data, "Error", {closeButton:true});
+      });
+      return;
+    }
+    if(this.total_count < this.questions_count){
+      this.translate.get('admin.assessment.create.questions_count_error_msg1').subscribe((data)=> {
+        this.toster.error(data, "Error", {closeButton:true});
+      });
+      return;
+    }
     this.selected_topics.forEach(res => {
       if(res['course_qbank'] == this.curriculum_id && res['topic'] == this.selected_subject){
-          this.toster.error("Topic exists", "Error", {closeButton:true});
+          this.translate.get('admin.assessment.create.topic_exists_error_msg').subscribe((data)=> {
+            this.toster.error(data, "Error", {closeButton:true});
+          });
           this.is_topic_exist = true;
           return false;
       }
@@ -241,20 +294,22 @@ export class CreateAssessmentComponent implements OnInit {
       let param = {url: "get-topic-path", curriculum_id: this.curriculum_id, topic_id: this.selected_subject};
       this.http.post(param).subscribe((res) => {
           if (res['error'] == false) {
-              let data = {pk_id:0, course_qbank:this.curriculum_id, course_qbank_text: this.selected_course, topic:this.selected_subject, topic_text: res['data']['path'], is_delete:0, questions_count:this.questions_count};
-              this.selected_topics.push(data);
-              this.dataSource = new MatTableDataSource(this.selected_topics);
-              this.question_total = Number(this.questions_count)+Number(this.question_total);
-              this.curriculum_id = 0;
-              this.selected_course = '';
-              this.selected_topic = '';
-              this.level_options = [];
-              this.all_level_options = [];
-              this.selected_level = [];
-              this.level_id=0;
-              this.curriculum_labels = [];   
-              this.questions_count = 0;
-              this.total_count = 0; 
+              if(this.questions_count > 0){
+                let data = {pk_id:0, course_qbank:this.curriculum_id, course_qbank_text: this.selected_course, topic:this.selected_subject, topic_text: res['data']['path'], is_delete:0, questions_count:this.questions_count};
+                this.selected_topics.push(data);
+                this.dataSource = new MatTableDataSource(this.selected_topics);
+                this.question_total = Number(this.questions_count)+Number(this.question_total);
+                // this.curriculum_id = 0;
+                // this.selected_course = '';
+                // this.selected_topic = '';
+                // this.level_options = [];
+                // this.all_level_options = [];
+                // this.selected_level = [];
+                // this.level_id=0;
+                // this.curriculum_labels = [];   
+                this.questions_count = 0;
+                // this.total_count = 0;
+              } 
           }
       });
     }
@@ -285,10 +340,10 @@ export class CreateAssessmentComponent implements OnInit {
       this.organization_type_name = 'University';
       this.is_college = true;
     }
-    // else if(this.organization_type_id == '2'){ //College
-    //   this.getOrganizationList(2,0);
-    //   this.organization_type_name = 'College';
-    // }
+    else if(this.organization_type_id == '2'){ //College
+      this.getOrganizationList(2,0);
+      this.organization_type_name = 'College';
+    }
     else if(this.organization_type_id == '3'){ //Institute
       this.getOrganizationList(3,0);
       this.organization_type_name = 'Institute';
@@ -308,23 +363,21 @@ export class CreateAssessmentComponent implements OnInit {
         if (res['error'] == false) {
           this.organization_list = res['data']['partners'];
           if(this.organization_list != undefined){
-              this.all_organization_list.next(this.organization_list.slice()); 
-              this.total_organization_list = res['data']['partners']; 
+              this.all_organization_list.next(this.organization_list.slice());  
           }
         } else {
           //this.toster.error(res['message'], 'Error');
         }   
     });
     } else { // University => college
-      this.organization_list = '';
-      let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+      this.college_list = [];
+      this.is_college = true;
+      let param = { url: 'get-partner-childs',child_type : type, partner_id : this.organization_list_id}
       this.http.post(param).subscribe((res) => {
           if (res['error'] == false) {
-              this.organization_list = res['data']['partners'];
-              if(this.organization_list != undefined && res['data']['partners'] != ''){
-                  this.all_college.next(res['data']['partners'].slice());
-                  this.total_college = res['data']['partners'];
-                  this.is_college = true; 
+              this.college_list = res['data']['partners'];
+              if(this.college_list != undefined && res['data']['partners'] != ''){
+                  this.all_college.next(this.college_list.slice());
                   this.college_id = '';
               }          
           } else {
@@ -344,7 +397,7 @@ export class CreateAssessmentComponent implements OnInit {
     this.all_semesters.next();
     this.all_groups.next();
     if(org_type == '1'){ //University
-      this.getOrganizationList(2,1);
+      this.getOrganizationList(1,1);
       this.college_id = '';
       this.all_college.next();      
     }else{
@@ -353,17 +406,61 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   getYearSemsterGroup(org_type,parent_id,slug){
-    let partner = '';
+    // let partner = '';
+    // if(org_type == '1'){
+    //   partner = this.college_id;
+    // }
+    // else if(org_type == '3'){
+    //   partner = this.organization_list_id;
+    // }
+    // else if(this.role_id == 12){
+    //   partner = String(this.college_institute_id);
+    // }
+    // let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
+    let partner = '';let partner_child_id = 0;
     if(org_type == '1'){
-      partner = this.college_id;
+      if(this.is_college == true){
+        partner_child_id = Number(this.college_id);
+        partner = this.organization_list_id;
+      }else{
+        partner = this.organization_list_id;
+      }
+    }
+    else if(org_type == '2'){
+      partner = this.organization_list_id;
     }
     else if(org_type == '3'){
       partner = this.organization_list_id;
     }
-    else if(this.role_id == 12){
-      partner = String(this.college_institute_id);
+    else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){
+      partner = String(this.user_id);
+      org_type = 1;
+      partner_child_id = Number(this.college_id);
     }
-    let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
+    else if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){
+      partner = String(this.user_id);
+      org_type = 2;
+    }
+    else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){
+      partner = String(this.user_id);
+      org_type = 3;
+    }
+    else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
+      partner = this.user['partner_id'];
+      org_type = 1;
+      partner_child_id = this.user_id;
+    }
+    else if(this.role_id == environment.ALL_ROLES.TEACHER){
+      partner = String(this.college_institute_id);
+    } 
+    let param = {
+      url: 'get-year-semester-group',
+      partner_id : partner,
+      parent_id : parent_id,
+      slug : slug,
+      partner_type_id: org_type,
+      partner_child_id: partner_child_id
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.years = res['data'];
@@ -404,28 +501,40 @@ export class CreateAssessmentComponent implements OnInit {
   searchOrganizations(event){
     let search = event;
     if (!search) {
-      this.all_organization_list.next(this.total_organization_list.slice());
-    return;
+      this.all_organization_list.next(this.organization_list.slice());
+      return;
     } else {
       search = search.toLowerCase();
     }
     this.all_organization_list.next(
-      this.total_organization_list.filter(
-          (res) => res.name.toLowerCase().indexOf(search) > -1
+      this.organization_list.filter(
+        (organization_list) => organization_list.organization_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
   searchCollege(event){
+    // let search = event;
+    // if (!search) {
+    //   this.all_college.next(this.total_college.slice());
+    // return;
+    // } else {
+    //   search = search.toLowerCase();
+    // }
+    // this.all_college.next(
+    //   this.total_college.filter(
+    //       (res) => res.name.toLowerCase().indexOf(search) > -1
+    //   )
+    // );
     let search = event;
     if (!search) {
-      this.all_college.next(this.total_college.slice());
-    return;
+      this.all_college.next(this.college_list.slice());
+      return;
     } else {
       search = search.toLowerCase();
     }
     this.all_college.next(
-      this.total_college.filter(
-          (res) => res.name.toLowerCase().indexOf(search) > -1
+      this.college_list.filter(
+        (college_list) => college_list.partner_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
@@ -443,6 +552,9 @@ export class CreateAssessmentComponent implements OnInit {
             });
         }
         else{
+            this.translate.get('no_records_found_text').subscribe((data)=> {
+              this.toster.error(data, "Error", {closeButton:true});
+            });
             this.students = [];
             this.all_students = [];
         }
@@ -489,7 +601,7 @@ export class CreateAssessmentComponent implements OnInit {
       });
       return;
     }else if(this.question_total > 300){
-      this.translate.get('admin.assessment.create.questions_count_error_msg').subscribe((data)=> {
+      this.translate.get('admin.assessment.create.question_count_error_msg').subscribe((data)=> {
         this.toster.error(data, "Error", {closeButton:true});
       });
       return;
@@ -512,11 +624,11 @@ export class CreateAssessmentComponent implements OnInit {
                   this.toster.success(message, success_text, {closeButton:true});
               });
             });
-            if(this.role_id == 1){
-              this.router.navigateByUrl('/admin/assessment-list');
-            }else if(this.role_id == 12){
+            if(this.role_id == 12){
               this.router.navigateByUrl('/teacher/assessment-list');
-            }
+            }else{
+              this.router.navigateByUrl('/admin/assessment-list');
+            } 
           }
           else{
             this.translate.get('something_went_wrong_text').subscribe((data)=> {

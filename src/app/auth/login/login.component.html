@@ -81,7 +81,7 @@
   </div>
 </div> 
 
-<div *ngIf="isLoadedTopBar && app.localStorageItem('header_logo')" class="login_main partner_registration inner-container">
+<div *ngIf="isLoadedTopBar && app.localStorageItem('header_logo') && app.localStorageItem('licence_expired') == '0'" class="login_main partner_registration inner-container">
   <p class="sgn_hd">Login</p>
   <div class="log_mdl_cont">
       <!-- Partner information -->
@@ -138,6 +138,28 @@
                   </div>
                 </form>
 
+          </div>
+      </div>
+  </div>
+</div>
+
+<div *ngIf="isLoadedTopBar && app.localStorageItem('header_logo') && app.localStorageItem('licence_expired') == '1'" class="login_main partner_registration inner-container">
+  <p class="sgn_hd">Login</p>
+  <div class="log_mdl_cont">
+      <!-- Partner information -->
+      <div class="partner_info">
+          <div>
+              <h4>About </h4>
+              <h2>{{ app.localStorageItem('organization_name') }}</h2>
+              <hr> <br>
+              <h2>{{ app.localStorageItem('description') }}</h2>
+          </div>
+      </div>
+      <!-- Individual login form -->
+      <div class="log_div text_center">
+          <!-- <h2 class="clr_wht fnt_nrml wlcm_hd">Welcome to Proceum</h2> -->
+          <div class="sgn_sec">
+            <h3 style="color: darkred;">Subdomain is suspended, Please contact administrator</h3>
           </div>
       </div>
   </div>
