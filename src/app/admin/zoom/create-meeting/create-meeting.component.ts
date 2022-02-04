@@ -78,6 +78,7 @@ export class CreateMeetingComponent implements OnInit {
         let d = new Date();
         d.setDate(d.getDate() + 1);
         this.minDate = d;
+        this.selected_students.push({id:7932, name: 'hareesh'});
     }
     getData(){
         let param = {url: 'class/create-meeting'};
