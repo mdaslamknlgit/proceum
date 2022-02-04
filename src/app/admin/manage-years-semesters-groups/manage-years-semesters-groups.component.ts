@@ -642,7 +642,11 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       this.getSemesters(year_id);
       this.name_field_disabled = false;
     } else {
-      if (year_obj.year_has_group == 0) {
+      if (this.slug == 'semester' && year_obj.year_has_semester == 0) {
+        this.toster.error("Disabled creating semester to selected year!", 'Error');
+        this.name_field_disabled = true;
+        this.name_of = '';
+      } else if (year_obj.year_has_group == 0) {
         this.toster.error("Disabled creating groups to selected year!", 'Error');
         this.name_field_disabled = true;
         this.name_of = '';
