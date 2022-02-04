@@ -315,8 +315,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   getCurriculumnHierarchy() {
     let params = { 
       url: 'get-curriculumn-hierarchy', 
-      'previous_selected_ids': this.courses_ids_csv, 
-      'flag': 'subject' 
+      previous_selected_ids: this.courses_ids_csv, 
+      flag: 'subject',
+      partner_id: this.partner_parent_id, 
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
@@ -548,6 +549,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         if (this.universities != undefined) {
           this.all_universities.next(this.universities.slice());
         }
+        this.getCurriculumnHierarchy();
         if (callPartnerChilds) {
           this.getPartnerChilds();
         }
