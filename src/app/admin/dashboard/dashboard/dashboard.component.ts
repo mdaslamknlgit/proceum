@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
+import { GlobalApp } from 'src/global';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,9 +14,14 @@ export class DashboardComponent implements OnInit {
   public partners = [];
   public total_records = 0;
   public synchronous = false;
+  public user:any;
 
-  constructor(private http: CommonService) {}
+  constructor(
+    private http: CommonService,
+    public app:GlobalApp,
+  ) {}
   ngOnInit(): void {
+    this.user = this.http.getUser();
     this.getPartners();
   }
 
