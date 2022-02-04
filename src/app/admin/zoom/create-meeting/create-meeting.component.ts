@@ -82,6 +82,11 @@ export class CreateMeetingComponent implements OnInit {
         this.role_id = this.user['role'];
         if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
             this.teacher_id = this.user['id'];
+            this.is_college = false;
+            this.is_university = false;
+            this.organization_list_id = this.user['partner_id'];
+            this.organization_type_id = '1';
+            this.getYearSemsterGroup(1,0,'year');
           }else{
             if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
               this.is_college = true;
@@ -119,7 +124,6 @@ export class CreateMeetingComponent implements OnInit {
         let d = new Date();
         d.setDate(d.getDate() + 1);
         this.minDate = d;
-        this.selected_students.push({id:7932, name: 'hareesh'});
     }
     getData(){
         let param = {url: 'class/create-meeting'};
