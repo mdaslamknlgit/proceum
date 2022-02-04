@@ -139,7 +139,7 @@
                     </mat-select>
                 </mat-form-field>
             </div> -->
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{"admin.class.create.organization_type"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder='{{"admin.class.create.select_organization_type"|translate}}'
@@ -195,7 +195,7 @@
                     <textarea matInput placeholder="Select Student Group"></textarea>
                 </mat-form-field>
             </div> -->
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit"
@@ -208,7 +208,7 @@
                             </ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{
-                            item["name"] }}</mat-option>
+                            item["organization_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -225,7 +225,7 @@
                             </ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let item of all_college | async" [value]="''+item['pk_id']">{{
-                            item["organization_name"]?item["organization_name"]:item["name"] }}</mat-option>
+                            item["organization_name"]?item["organization_name"]:item["partner_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -240,7 +240,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
                 <span>{{"admin.class.create.semester"|translate}}</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.class.create.select_semester'|translate}}" name="semester_edit"
@@ -251,7 +251,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="show_group_dropdown">
                 <span>{{"admin.class.create.group"|translate}}</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.class.create.select_group'|translate}}" name="group_edit"
