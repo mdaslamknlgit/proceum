@@ -45,6 +45,7 @@ export class RegisterComponent implements OnInit {
   public address_details:boolean = false;
   public disabled:boolean = true;
   public isLoadedTopBar:boolean = false; 
+  public timer;
   //master data variables goes here
   universities = [];
   colleges = [];
@@ -430,7 +431,8 @@ export class RegisterComponent implements OnInit {
     }
 
     let params = {
-      url: 'register',
+      // url: 'register',
+      url: 'create-user-institution',
       first_name : this.individualRegister.first_name,
       last_name : this.individualRegister.last_name,
       email : this.individualRegister.email,
@@ -491,7 +493,8 @@ export class RegisterComponent implements OnInit {
     }
 
     let params = {
-      url: 'register',
+      // url: 'register',
+      url: 'create-user-institution',
       //Below are related to university registration
       university_name: this.institutionResgister.university_name,
       university_code: this.institutionResgister.university_code,
@@ -648,10 +651,21 @@ export class RegisterComponent implements OnInit {
 
   //To get all the Universities list
   getPartnersListForUniversity(){
-    let param = { url: 'get-partners-list',partner_type_id : 1 };
+    // let param = { url: 'get-partners-list',partner_type_id : 1 };
+    // this.http.post(param).subscribe((res) => {
+    //   if (res['error'] == false) {
+    //     this.universities = res['data']['partners'];
+    //     if(this.universities != undefined){
+    //       this.all_universities.next(this.universities.slice()); 
+    //     }
+    //   } else {
+    //     //this.toster.error(res['message'], 'Error');
+    //   }
+    // });
+    let param = { url: 'get-universities-colleges'};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        this.universities = res['data']['partners'];
+        this.universities = res['data'];
         if(this.universities != undefined){
           this.all_universities.next(this.universities.slice()); 
         }
@@ -678,19 +692,68 @@ export class RegisterComponent implements OnInit {
   
   //To get all college list
   getPartnersListForColleges(){
-    let param = { url: 'get-partners-list',partner_type_id : 2,parent_id : this.individualRegister.university };
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-        this.colleges = res['data']['partners'];
-        if(this.colleges != undefined){
-          this.all_colleges.next(this.colleges.slice()); 
+    // let param = { url: 'get-partners-list',partner_type_id : 2,parent_id : this.individualRegister.university };
+    if(this.individualRegister.university != 'other_university'){
+      let param = { url: 'get-universities-colleges',parent_id : this.individualRegister.university };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          // this.colleges = res['data']['partners'];
+          this.colleges = res['data'];
+          if(this.colleges != undefined){
+            this.all_colleges.next(this.colleges.slice()); 
+          }
+        } else {
+          //this.toster.error(res['message'], 'Error');
         }
-      } else {
-        //this.toster.error(res['message'], 'Error');
-      }
-    });
+      });
+    }else{
+        this.colleges = [];
+        this.all_colleges.next(this.colleges.slice()); 
+    }
   }
-
+  checkPartnerNameExist(){
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      let university;
+      if(this.individualRegister.other_university != ""){
+        university = this.individualRegister.other_university;
+      }
+      if(this.institutionResgister.other_university != ""){
+        university = this.institutionResgister.other_university;
+      }
+      let param = { url: 'check-university-exist',checkName : university};
+      if(university != ''){
+        this.http.post(param).subscribe((res) => {
+          if (res['error'] == false) {
+            this.universities = res['data'];
+            if(this.universities.length > 0){
+              this.toastr.error('University Found Please Select', 'Error');
+            }
+          } else {
+            //this.toster.error(res['message'], 'Error');
+          }
+        });
+      }
+    },1000);  
+  }
+  checkCollegeNameExist(){
+    clearTimeout(this.timer);
+    this.timer = setTimeout(() => {
+      let param = { url: 'check-university-exist',checkName : this.individualRegister.other_college };
+      if(this.individualRegister.other_college != ''){
+        this.http.post(param).subscribe((res) => {
+          if (res['error'] == false) {
+            this.colleges = res['data'];
+            if(this.colleges.length > 0){
+              this.toastr.success('College Name Found Please Select', 'Success', { closeButton: true });
+            }
+          } else {
+            //this.toster.error(res['message'], 'Error');
+          }
+        });
+      }
+    },1000);  
+  }
   filterPartnersListForCollege(event) {
     let search = event;
     if (!search) {
