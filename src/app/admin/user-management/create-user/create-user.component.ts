@@ -128,8 +128,8 @@ export class CreateUserComponent implements OnInit {
     this.show_organization_type = false;
     this.show_partners_dropdown = true;
     if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN) {
-        this.getYears(this.partner_id,'','');
-      }
+      this.getYears(this.partner_id,'','');
+    }
     if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
       this.organization = '1';
       this.child_type = 1;
@@ -322,7 +322,9 @@ export class CreateUserComponent implements OnInit {
 
   //To get all college list
   getPartnerChilds(partner_id) {
-    this.partner_id = partner_id;
+    if(partner_id != undefined){
+      this.partner_id = partner_id;
+    }
     let param = { url: 'get-partner-childs', child_type: this.child_type, partner_id: this.partner_id, status: 1 };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
