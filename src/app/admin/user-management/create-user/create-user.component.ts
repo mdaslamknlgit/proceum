@@ -127,6 +127,9 @@ export class CreateUserComponent implements OnInit {
   onUserTypeChange() {
     this.show_organization_type = false;
     this.show_partners_dropdown = true;
+    if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN) {
+        this.getYears(this.partner_id,'','');
+      }
     if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
       this.organization = '1';
       this.child_type = 1;
@@ -165,6 +168,7 @@ export class CreateUserComponent implements OnInit {
       this.show_organization_type = true;
       this.organization = '';
     }
+
 
     /* if(Number(this.role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN){
       this.show_partners_dropdown = false;
