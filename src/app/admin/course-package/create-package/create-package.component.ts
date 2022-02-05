@@ -31,6 +31,7 @@ export class CreatePackageComponent implements OnInit {
   public applicable_to_university = '';
   public applicable_to_college = '';
   public applicable_to_institute = '';
+  public applicable_to_individual = '';
   public valid_up_to: any = '';
   public billing_frequency = 'monthly';
   public today_date = new Date();
@@ -96,6 +97,7 @@ export class CreatePackageComponent implements OnInit {
         this.applicable_to_university = package_data.applicable_to_university;
         this.applicable_to_college = package_data.applicable_to_college;
         this.applicable_to_institute = package_data.applicable_to_institute;
+        this.applicable_to_individual = package_data.applicable_to_individual;
         this.billing_frequency = package_data.billing_frequency;
         //For reccuring datetime
         if (package_data.valid_up_to !== null) {
@@ -167,7 +169,7 @@ export class CreatePackageComponent implements OnInit {
   }
 
   createPackageService() {
-    if (this.applicable_to_university == '' && this.applicable_to_college == '' && this.applicable_to_institute == '') {
+    if (this.applicable_to_university == '' && this.applicable_to_college == '' && this.applicable_to_institute == '' && this.applicable_to_individual == '') {
       this.toster.error("Applicable to is required", 'Required!', { closeButton: true });
       return;
     }
@@ -190,6 +192,7 @@ export class CreatePackageComponent implements OnInit {
       applicable_to_university: this.applicable_to_university,
       applicable_to_college: this.applicable_to_college,
       applicable_to_institute: this.applicable_to_institute,
+      applicable_to_individual: this.applicable_to_college,
       valid_up_to: this.valid_up_to,
       billing_frequency: this.billing_frequency,
       addons_arr: this.addons_arr,
@@ -236,6 +239,7 @@ export class CreatePackageComponent implements OnInit {
     this.applicable_to_university = '';
     this.applicable_to_college = '';
     this.applicable_to_institute = '';
+    this.applicable_to_individual = '';
     this.valid_up_to = '';
     this.billing_frequency = '';
   }
@@ -416,7 +420,7 @@ export class CreatePackageComponent implements OnInit {
   }
 
   submitData() {
-    if (this.package_name == "" || this.package_desc == "" || this.pricing_model == "" || this.duration == "" || this.package_prices.length < 1 || this.selected_topics.length < 1 || (this.applicable_to_university == "" && this.applicable_to_college == "" && this.applicable_to_institute == "") || this.valid_up_to == "" || this.billing_frequency == "") {
+    if (this.package_name == "" || this.package_desc == "" || this.pricing_model == "" || this.duration == "" || this.package_prices.length < 1 || this.selected_topics.length < 1 || (this.applicable_to_university == "" && this.applicable_to_college == "" && this.applicable_to_institute == "" && this.applicable_to_individual == '') || this.valid_up_to == "" || this.billing_frequency == "") {
       this.toster.error("Basic Details are required!", 'Error', { closeButton: true });
       return;
     }

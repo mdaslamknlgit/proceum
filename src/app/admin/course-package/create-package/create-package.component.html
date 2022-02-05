@@ -269,15 +269,15 @@
                                                         <mat-icon>add</mat-icon> Add Courses
                                                     </button>
                                                 </div>
-                                                <div *ngIf="!course_count">
+                                                <div *ngIf="!selected_topics.length">
                                                     <mat-icon>warning</mat-icon> To select the courses, Create first
                                                     from course section
                                                 </div>
                                             </div>
-                                            <div class="cpm_pg_cnt">
-                                                <div class="mt_grd_dv mt_1 ad_mr_crs" *ngIf="courses_div">
+                                            <div class="cpm_pg_cnt"  *ngIf="selected_topics.length">
+                                                <div class="mt_grd_dv mt_1 ad_mr_crs">
                                                     <div *ngFor="let course of selected_courses;let i = index">
-                                                        <span>{{course}}</span>
+                                                        <span>{{course.topic_text}}</span>
                                                     </div>
                                                 </div>
                                                 <div class="hgt_20"></div>
@@ -336,12 +336,17 @@
                                                     <div class="mr_1">
                                                         <mat-checkbox class="mr_1" name="applicable_to_college"
                                                             [(ngModel)]="applicable_to_college">
-                                                        </mat-checkbox>Individual
+                                                        </mat-checkbox>College
                                                     </div>
                                                     <div class="mr_1">
                                                         <mat-checkbox class="mr_1" name="applicable_to_institute"
                                                             [(ngModel)]="applicable_to_institute"></mat-checkbox>
                                                         Institution
+                                                    </div>
+                                                    <div class="mr_1">
+                                                        <mat-checkbox class="mr_1" name="applicable_to_individual"
+                                                            [(ngModel)]="applicable_to_individual"></mat-checkbox>
+                                                        Individual
                                                     </div>
                                                 </div>
                                                 <div class="hgt_20"></div>

@@ -59,7 +59,7 @@
     <span> {{ user["name"] }}</span>
     <!-- <span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  -->
   </div>
-  <div class="top-right-icon mr_1"> 
+  <div class="top-right-icon"> 
     <!-- <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
       <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
         <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false || search_key!='' ? '' : 'd-none'}}" autocomplete="off">
@@ -67,11 +67,13 @@
       </mat-form-field>
     </div> -->
     <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
+      <mat-icon color="accent" matSuffix (click)="glbSrch = false">search</mat-icon>
       <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
         <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
         <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch"> {{glbSrch == false ? 'close' : 'search'}}</mat-icon>
       </mat-form-field>
     </div>
+    <div class="{{glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
   </div>
   <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
     <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
