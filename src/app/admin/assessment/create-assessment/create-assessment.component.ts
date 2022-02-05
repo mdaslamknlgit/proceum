@@ -147,7 +147,7 @@ export class CreateAssessmentComponent implements OnInit {
 
     let d = new Date();
     d.setDate(d.getDate() + 1);
-    this.minDate = d;
+    this.minDate = new Date();
   }
 
   getTeacherCollegeInstitute(){
