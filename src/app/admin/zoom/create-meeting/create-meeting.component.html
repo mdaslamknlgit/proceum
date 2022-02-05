@@ -18,15 +18,25 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
-                <div class="clear_fix"></div>
-                <div>{{"admin.class.create.course"|translate}}</div>
+            <div class="cm_fltr_sc mr_1" *ngIf="user['role'] != '12'">
+                <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="curriculum_id" #curriculum_id_name="ngModel" ngModel
-                        name="curriculum_id_name" placeholder='{{"admin.class.create.course"|translate}}'
-                        (ngModelChange)="getLabels()" required>
+                    <mat-select [(ngModel)]="teacher_id" name="teacher_id_name" (ngModelChange)="getTeacherSubjects();selected_subject=0;" required>
+                        <mat-option value="">{{"select_text"|translate}}</mat-option>
+                        <mat-option *ngFor="let teacher of teachers" [value]="teacher['id']">{{teacher['first_name']}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list.length>0">
+                <div class="clear_fix"></div>
+                <div>{{"admin.class.create.subject"|translate}}</div>
+                <mat-form-field appearance="outline">
+                    <mat-select [(ngModel)]="selected_subject" #curriculum_id_name="ngModel" ngModel
+                        name="curriculum_id_name" placeholder='{{"admin.class.create.subject"|translate}}'
+                         required>
                         <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
-                            [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                            [matTooltip]="value['level_name']">{{ value["level_name"] }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -60,16 +70,7 @@
                         placeholder='{{"admin.class.create.meeting_topic"|translate}}' required>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1" *ngIf="user['role'] != '12'">
-                <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="teacher_id" name="teacher_id_name" required>
-                        <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option *ngFor="let teacher of teachers" [value]="teacher['id']">{{teacher['first_name']}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+            
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.timezone"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline">

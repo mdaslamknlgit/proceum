@@ -74,14 +74,34 @@ export class CreateMeetingComponent implements OnInit {
     constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router) { 
         this.translate.setDefaultLang(this.http.lang);
     }
+    getTeacherSubjects(){
+        let params = {
+            url: 'class/get-teacher-subjects', user_id: this.teacher_id
+        };
+        this.http.post(params).subscribe((res) => {
+            if (res['error'] == false) {
+                if (res['data']['subjects'].length > 0)
+                    this.curriculum_list = res['data']['subjects'];
+                else
+                this.curriculum_list = [];
+            }
+        });
+    }
     ngOnInit(): void {
         this.getData();
-        this.getcurriculums();
+        
+        //this.getcurriculums();
         this.user = this.http.getUser();
         this.user_id = this.user['id'];
         this.role_id = this.user['role'];
         if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
             this.teacher_id = this.user['id'];
+            this.getTeacherSubjects();
+            this.is_college = false;
+            this.is_university = false;
+            this.organization_list_id = this.user['partner_id'];
+            this.organization_type_id = '1';
+            this.getYearSemsterGroup(1,0,'year');
           }else{
             if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
               this.is_college = true;
