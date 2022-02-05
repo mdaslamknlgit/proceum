@@ -372,10 +372,10 @@
               <ul>
                 <li *ngFor="let question of mcqs; let i = index" class="{{ i == active_mcq_index ? 'act_qstnm' : '' }}">
                   <span class="qstn_cnt" (click)="active_mcq_index = i;getXtToken(question);"
-                    matTooltip='{{question["question_string"]}}'>{{
-                    i + 1
-                    }} {{" "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
-                    question["question_string"]}}</span>
+                    matTooltip='{{question["question_string"]}}'>{{i + 1}} {{" "}}
+                    <span *ngIf='question["question_string"].length>25' [innerHtml]="question['question_string'].substring(0,25)+'...'"></span>
+                    <span *ngIf='question["question_string"].length<=25' [innerHtml]="question['question_string']"></span>
+                </span>
                 </li>
               </ul>
             </div>
@@ -688,8 +688,9 @@
                   <span class="qstn_cnt" (click)="active_case_index = i;getXtToken(question);"
                     matTooltip='{{question["question_string"]}}'>{{
                     i + 1
-                    }} {{" "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
-                    question["question_string"]}}</span>
+                    }} {{" "}}<span *ngIf='question["question_string"].length>25' [innerHtml]="question['question_string'].substring(0,25)+'...'"></span>
+                    <span *ngIf='question["question_string"].length<=25' [innerHtml]="question['question_string']"></span>
+                </span>
                 </li>
               </ul>
             </div>
@@ -817,9 +818,10 @@
                 <li *ngFor="let question of short_answers; let i = index"
                   class="{{ i == active_short_answer_index ? 'act_qstnm' : '' }}">
                   <span class="qstn_cnt" (click)="active_short_answer_index = i;getXtToken(question);"
-                    matTooltip='{{question["question_string"]}}'>{{ i + 1 }} {{"
-                    "}}{{question["question_string"].length>25?question["question_string"].substring(0,25)+'...':
-                    question["question_string"]}}</span>
+                    matTooltip='{{question["question_string"]}}'>{{ i + 1 }} 
+                    <span *ngIf='question["question_string"].length>25' [innerHtml]="question['question_string'].substring(0,25)+'...'"></span>
+                    <span *ngIf='question["question_string"].length<=25' [innerHtml]="question['question_string']"></span>
+                </span>
                 </li>
               </ul>
             </div>
