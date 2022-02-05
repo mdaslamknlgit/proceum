@@ -493,20 +493,22 @@ export class CreatePartnerComponent implements OnInit {
         //   );
         // }
         ////////console.log(this.licence_end_date);
+      }else{
+        this.toster.error(res['message'], 'Error');
+        this.navigateTo('partners-list');
       }
     });
   }
 
   navigateTo(url) {
     let user = this.http.getUser();
-    if (user['role'] == '1') {
+    if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).includes(Number(user['role']))) {
       url = "/admin/" + url;
+      this.router.navigateByUrl(url);
+    }else{
+      this.toster.error('UnAuthorized!', 'Error');
     }
-    //Later we must change this
-    if (user['role'] == '3' || user['role'] == '4' || user['role'] == '5' || user['role'] == '6' || user['role'] == '7') {
-      url = "/admin/" + url;
-    }
-    this.router.navigateByUrl(url);
+    
   }
 
   allAlphabetsWithSpaces(event) {
