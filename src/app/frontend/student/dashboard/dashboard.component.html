@@ -492,6 +492,19 @@
                   <button mat-mini-fab class="mr_02"><mat-icon>favorite_border</mat-icon></button> <button mat-icon-button  class="mr_02"><mat-icon>bookmark_remove</mat-icon></button>
                 </span> -->
               </div>
+              <div *ngIf="wish_list_data">
+                <div class="lfrt_grd" *ngFor="let list_data of wish_list_data">
+                  <span class="text_left">
+                    <button mat-mini-fab class="mr_1">
+                      <mat-icon>videocam</mat-icon>
+                    </button>
+                    <div>
+                      <span (click)="navigateTo(list_data.cur_id+'/'+list_data.level_id+'/'+list_data.cur_pk_id)">{{list_data.content_title}}</span>
+                      <span class="prg_btm_cnt">{{list_data.level_name}}</span>
+                    </div>
+                  </span>
+                </div>
+              </div>
               <hr>
             </li>
           </ul>

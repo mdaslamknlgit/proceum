@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit {
   public is_test_end = false;
   public allow_end_test: boolean = false;
   public bucket_url = '';
+  public wish_list_data:any = [];
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {alert()
       // Your logic on beforeunload
@@ -65,8 +66,9 @@ export class DashboardComponent implements OnInit {
     let param = { url: 'get-wishlist', id: this.user_id};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        if(res['data'].length){
-          this.wish_list = res['data'];
+        if(res['data']){
+          this.wish_list = res['data']['cart'];
+          this.wish_list_data = res['data']['wishlist'];
         }else{
           //this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
         }
