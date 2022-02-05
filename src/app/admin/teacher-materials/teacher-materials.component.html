@@ -211,19 +211,19 @@
         </ng-container>
         <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+          <td mat-cell *matCellDef="let element" class="ws_normal">{{ element.title }}</td>
         </ng-container>
         <ng-container matColumnDef="uploaded_by">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Uploaded By</th>
           <td mat-cell *matCellDef="let element">{{ element.uploaded_by }}</td>
         </ng-container>
         <ng-container matColumnDef="created_at">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Created Date</th>
-          <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="jc_cnt text-center">Created Date</th>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.created_at }}</td>
         </ng-container>
         <ng-container matColumnDef="updated_at">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Updated Date</th>
-          <td mat-cell *matCellDef="let element">{{ element.updated_at }}</td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="jc_cnt text-center">Updated Date</th>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.updated_at }}</td>
         </ng-container>
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
@@ -235,14 +235,14 @@
         </ng-container>
         <ng-container matColumnDef="download_flag">
           <th mat-header-cell *matHeaderCellDef cdkDrag>Download Attachments</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element" class="text-center">
             <mat-slide-toggle (click)="downloadStatus(element.pk_id, element.download_flag)"
               [checked]="element.download_flag == 1 ? true : false"
-              matTooltip="{{element.download_flag == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
+              matTooltip="{{element.download_flag == 1 ? 'Make Unavailable' : 'Make Available'}}"></mat-slide-toggle>
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="jc_cnt">Action</th>
+          <th mat-header-cell *matHeaderCellDef class="jc_cnt text-center">Action</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="accent">
               <mat-icon matTooltip="click here to edit material" *ngIf="user['role'] == '1'" routerLink="/admin/teacher-material/edit/{{element.pk_id}}">edit_note</mat-icon>
