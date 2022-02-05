@@ -262,6 +262,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   tabClick(tab) {
     //empty the table data first
     this.id = 0;
+    this.search_box = '';
     this.dataSource = new MatTableDataSource([]);
     this.year_id = null;
     this.semester_id = null;
