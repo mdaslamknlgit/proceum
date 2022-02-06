@@ -87,6 +87,21 @@ export class CreateMeetingComponent implements OnInit {
             }
         });
     }
+    checkTime(){
+        if(this.start_time == undefined){
+            return false;
+        }
+        else{
+            let time = this.start_time.split(':');
+            if(parseInt(time[0]) <= this.today_date.getHours()){
+                if(parseInt(time[1]) < this.today_date.getMinutes()){
+                    this.start_time = '';
+                    this.toster.error("Past time not allowed", "Invalid Time", {closeButton:true});
+                }
+            }
+        }
+        
+    }
     ngOnInit(): void {
         this.getData();
         
@@ -136,9 +151,9 @@ export class CreateMeetingComponent implements OnInit {
             }      
           }
 
-        let d = new Date();
+        /*let d = new Date();
         d.setDate(d.getDate() + 1);
-        this.minDate = d;
+        this.minDate = d;*/
     }
     getData(){
         let param = {url: 'class/create-meeting'};
@@ -345,7 +360,7 @@ export class CreateMeetingComponent implements OnInit {
         }
         this.all_college.next(
         this.total_college.filter(
-            (res) => res.name.toLowerCase().indexOf(search) > -1
+            (res) => res.organization_name.toLowerCase().indexOf(search) > -1
         )
         );
     }

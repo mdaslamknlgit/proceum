@@ -7,7 +7,7 @@
         <div class="spacer"></div>
     </div>
     <hr />
-    <form #create_class_form="ngForm" name="create_class_form" (ngSubmit)="createMeeting()" novalidate>
+    <form #create_class_form="ngForm" name="create_class_form" (ngSubmit)="create_class_form.form.valid && createMeeting()" novalidate>
         <div class="dsh_brd_crds">
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.schedule_for"|translate}} <span class="required">*</span></span>
@@ -91,10 +91,10 @@
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.start_time"|translate}} <span class="required">*</span></span>
+                <span>{{"admin.class.create.start_time"|translate}}<span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_47p">
-                    <input type="time" matInput min="{{today.today.getHours()}+':'+today.getMinutes()}"
-                        [(ngModel)]="start_time" name="start_time_name">
+                    <input (blur)="checkTime()" type="time" matInput 
+                        [(ngModel)]="start_time" required name="start_time_name">
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
