@@ -68,9 +68,9 @@ export const environment = {
 
   //apiUrl: 'http://192.10.250.150:8000/api/',
   //apiUrl: 'http://127.0.0.1:8000/api/',
-  // apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
-  apiUrl: 'https://apiqa.proceum.com/api/',
-
+   apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
+  // apiUrl: 'https://apiqa.proceum.com/api/',
+  
   //APP_BASE_URL: 'http://localhost:4200/',
    APP_BASE_URL: 'http://192.10.250.150:4200/',
 
