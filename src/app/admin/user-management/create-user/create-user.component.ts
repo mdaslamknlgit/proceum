@@ -530,19 +530,18 @@ export class CreateUserComponent implements OnInit {
     if (!year_obj.year_has_group) {
       return false;
     }
-    if (year_obj.year_has_semesters) {
-      parent_id = this.semester_id;
+    if (year_obj.year_has_semester) {
+      parent_id = (parent_id) ? parent_id : this.semester_id;
     } else {
       parent_id = this.year_id;
     }
-
     let param = {
       url: 'get-year-semester-group',
-      partner_id: partner_id,
-      partner_child_id: partner_child_id,
+      partner_id: year_obj.partner_id,
+      partner_child_id: year_obj.partner_child_id,
       parent_id: parent_id,
       slug: 'group',
-      partner_type_id: this.partner_type_id
+      partner_type_id: year_obj.partner_type_id
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -570,6 +569,12 @@ export class CreateUserComponent implements OnInit {
     }
     if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
       if (this.organization == '' || (this.university_id == '' && this.college_id == '' && this.institute_id == '') || this.year_id == '') {
+        return;
+      }
+    }
+    if (Number(this.user['role']) == environment.ALL_ROLES.SUPER_ADMIN && this.organization == '1' && Number(this.role) != environment.ALL_ROLES.UNIVERSITY_ADMIN) {
+      if (!this.college_id) {
+        this.toster.error("Please select College!", 'Error', { closeButton: true });
         return;
       }
     }
@@ -655,12 +660,15 @@ export class CreateUserComponent implements OnInit {
         this.qualification = user_data.qualification;
         this.subject_csv = user_data.subject_csv;
 
-        if (user_data.university_id && user_data.college_id) {
+        if ((user_data.university_id && user_data.college_id) || user_data.university_id) {
           this.organization = '1';
           this.partner_type_id = 1;
           let callPartnerChilds = true;
           this.getPartners(callPartnerChilds);
           this.partner_id = this.university_id;
+          if(user_data.college_id && this.user['role'] != environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
+            this.show_partners_dropdown = true;
+          }
           if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
             this.getYears(this.partner_id, this.college_id, 0 , true);
           }
@@ -686,6 +694,7 @@ export class CreateUserComponent implements OnInit {
           this.organization = '4';//proceum
         }    
         if(Number(this.role) == environment.ALL_ROLES.TEACHER){
+          //alert(user_data.partner_id);
           this.getCurriculumnHierarchy(this.partner_id);
         }    
         
@@ -845,7 +854,12 @@ export class CreateUserComponent implements OnInit {
   }
 
   getCurriculumnHierarchy(partner_id) {
-    let params = { url: 'get-curriculumn-hierarchy', 'courses_ids_csv': this.subject_csv, 'flag': 'subject', partner_id: partner_id };
+    let params = { 
+      url: 'get-curriculumn-hierarchy', 
+      previous_selected_ids: this.subject_csv, 
+      flag: 'subject', 
+      partner_id: partner_id 
+    };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource.data = res['data'];

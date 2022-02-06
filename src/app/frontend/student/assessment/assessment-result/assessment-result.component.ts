@@ -20,6 +20,7 @@ export class AssessmentResultComponent implements OnInit {
     public correct_answers = '';
     public wrong_answers = '';
     public skiped_questions = '';
+    public not_ans_questions = '';
     public percentage = '';
     constructor(private http: CommonService, public translate: TranslateService, public activatedRoute: ActivatedRoute) {
         this.translate.setDefaultLang(this.http.lang);
@@ -45,6 +46,7 @@ export class AssessmentResultComponent implements OnInit {
                 this.correct_answers = data['correct_answers'];
                 this.wrong_answers = data['wrong_answers'];
                 this.skiped_questions = data['skiped_questions'];
+                this.not_ans_questions = data['not_ans_questions'];
                 this.percentage = data['percentage'];
             }
         })
