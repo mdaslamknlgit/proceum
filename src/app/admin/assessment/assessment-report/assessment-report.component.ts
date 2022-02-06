@@ -25,12 +25,16 @@ export class AssessmentReportComponent implements OnInit {
     public assessment_id = 0;
     public apiUrl = "";
     public assessment = [];
+    public user = [];
+    public partner_id = 0;
     constructor(private http: CommonService, public toster: ToastrService, private activatedRoute: ActivatedRoute, public translate: TranslateService) {
         this.translate.setDefaultLang(this.http.lang);
         this.apiUrl = this.http.apiURL;
      }
 
     ngOnInit(): void {
+        this.user = this.http.getUser();
+        this.partner_id = this.user['partner_id'];
         this.activatedRoute.params.subscribe(res=>{
             this.assessment_id = res.assessment_id
             if(this.assessment_id > 0){
