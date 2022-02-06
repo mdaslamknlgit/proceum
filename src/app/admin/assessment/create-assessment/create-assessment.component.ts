@@ -99,6 +99,7 @@ export class CreateAssessmentComponent implements OnInit {
   public role_id = 0;
   public college_institute_id = 0;
   public user = [];
+  public org_type = '';
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);
    }
@@ -109,6 +110,8 @@ export class CreateAssessmentComponent implements OnInit {
     this.role_id = this.user['role'];
     if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
       this.getTeacherCollegeInstitute();
+      this.is_college = false;
+      this.is_university = false;
     }else{
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
         this.is_college = true;
@@ -160,10 +163,12 @@ export class CreateAssessmentComponent implements OnInit {
         if(res['user_details']['college_id'] != null){
           this.college_id = this.college_institute_id = res['user_details']['college_id'];
           this.getYearSemsterGroup('1',0,'year');
+          this.org_type = '1';
         }
         if(res['user_details']['institute_id'] != null){
           this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
           this.getYearSemsterGroup('3',0,'year');
+          this.org_type = '3';
         }
       }
     });
@@ -452,6 +457,7 @@ export class CreateAssessmentComponent implements OnInit {
     }
     else if(this.role_id == environment.ALL_ROLES.TEACHER){
       partner = String(this.college_institute_id);
+      org_type = this.org_type;
     } 
     let param = {
       url: 'get-year-semester-group',
