@@ -572,6 +572,12 @@ export class CreateUserComponent implements OnInit {
         return;
       }
     }
+    if (Number(this.user['role']) == environment.ALL_ROLES.SUPER_ADMIN && this.organization == '1' && Number(this.role) != environment.ALL_ROLES.UNIVERSITY_ADMIN) {
+      if (!this.college_id) {
+        this.toster.error("Please select College!", 'Error', { closeButton: true });
+        return;
+      }
+    }
     if (Number(this.role) == environment.ALL_ROLES.TEACHER) {
       if (this.qualification == '') {
         return;
@@ -660,6 +666,9 @@ export class CreateUserComponent implements OnInit {
           let callPartnerChilds = true;
           this.getPartners(callPartnerChilds);
           this.partner_id = this.university_id;
+          if(user_data.college_id && this.user['role'] != environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
+            this.show_partners_dropdown = true;
+          }
           if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
             this.getYears(this.partner_id, this.college_id, 0 , true);
           }
