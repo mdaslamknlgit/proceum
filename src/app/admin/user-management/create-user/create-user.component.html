@@ -10,7 +10,7 @@
                         <div class="crt_prt_hd">User Type</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select User Type" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="onUserTypeChange()" required>
+                                <mat-select placeholder="Select User Type" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="organization='';onUserTypeChange();" required>
                                     <mat-option *ngFor="let item of all_roles | async" [value]="item['id']">{{ item["role_name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -34,7 +34,7 @@
                         <div class="crt_prt_hd">University</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select University" name="university_edit" #university_edit="ngModel" [(ngModel)]="university_id" (ngModelChange)="getPartnerChilds()" required>
+                                <mat-select placeholder="Select University" name="university_edit" #university_edit="ngModel" [(ngModel)]="university_id" (ngModelChange)="getPartnerChilds(university_id)" required>
                                     <mat-option>
                                         <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
                                             [placeholderLabel]="'Search University'" name="search_university" ngModel
@@ -47,7 +47,7 @@
                             <span *ngIf="(create_user_form.submitted || university_edit.touched) && university_edit.invalid" class="prc_tltp">University is required</span>
                         </div>
                     </div>
-                    <div class="crt_pr_dv" *ngIf="organization == '1' && show_partners_dropdown">
+                    <div class="crt_pr_dv" *ngIf="(organization == '1' && show_partners_dropdown) || user['role'] == '8'">
                         <div class="crt_prt_hd">College</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
@@ -194,7 +194,7 @@
                         <div class="crt_prt_hd">Address Line 1</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Address Line1" maxlength="50" appAlphabetOnly [(ngModel)]="address_line_1" name="address_line_1_edit" #address_line_1_edit="ngModel" required/>
+                                <input matInput placeholder="Address Line1" maxlength="100" [(ngModel)]="address_line_1" name="address_line_1_edit" #address_line_1_edit="ngModel" required/>
                             </mat-form-field>
                             <span class="prc_tltp" *ngIf="(create_user_form.submitted || address_line_1_edit.touched) && address_line_1_edit.invalid">Address Line1 is required</span>
                         </div>
@@ -203,7 +203,7 @@
                         <div class="crt_prt_hd">Address Line 2</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Address Line2" maxlength="50" appAlphabetOnly [(ngModel)]="address_line_2" name="address_line_2_edit" #address_line_2_edit="ngModel"/>
+                                <input matInput placeholder="Address Line2" maxlength="100" [(ngModel)]="address_line_2" name="address_line_2_edit" #address_line_2_edit="ngModel"/>
                             </mat-form-field>
                             <span class="prc_tltp" *ngIf="(create_user_form.submitted || address_line_2_edit.touched) && address_line_2_edit.invalid">Address Line 2 is required</span>
                         </div>
@@ -353,6 +353,7 @@
                     </li>
                 </mat-nested-tree-node>
             </mat-tree>
+            <span *ngIf="dataSource.data == undefined || dataSource.data.length < 1">No Subjects Found!</span>
             <div class="w_100p text_right">
                 <button type="button" mat-raised-button color="accent"
                     (click)="submitCourses()">Submit</button><br />

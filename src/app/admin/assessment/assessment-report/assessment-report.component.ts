@@ -25,12 +25,16 @@ export class AssessmentReportComponent implements OnInit {
     public assessment_id = 0;
     public apiUrl = "";
     public assessment = [];
+    public user = [];
+    public partner_id = 0;
     constructor(private http: CommonService, public toster: ToastrService, private activatedRoute: ActivatedRoute, public translate: TranslateService) {
         this.translate.setDefaultLang(this.http.lang);
         this.apiUrl = this.http.apiURL;
      }
 
     ngOnInit(): void {
+        this.user = this.http.getUser();
+        this.partner_id = this.user['partner_id'];
         this.activatedRoute.params.subscribe(res=>{
             this.assessment_id = res.assessment_id
             if(this.assessment_id > 0){
@@ -45,10 +49,11 @@ export class AssessmentReportComponent implements OnInit {
         if (res['error'] == false) {
             let data = res['data'];
             this.dataSource = new MatTableDataSource(data['reports']);
-            if (data['reports'].length > 0) {
-            this.dataSource.paginator = this.paginator;
             this.report_count = data['report_count'];
+            this.assessment = [];
             this.assessment.push(data['assessment']);
+            if (this.dataSource.paginator == undefined) {
+                this.dataSource.paginator = this.paginator;
             }
         } else {
             this.toster.error(res['message'], 'Error', { closeButton: true });

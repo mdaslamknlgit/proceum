@@ -30,6 +30,7 @@ export class EditPackageComponent implements OnInit {
   public applicable_to_university = '';
   public applicable_to_college = '';
   public applicable_to_institute = '';
+  public applicable_to_individual = '';
   public valid_up_to: any = '';
   public billing_frequency = '';
   public today_date = new Date();
@@ -111,6 +112,7 @@ export class EditPackageComponent implements OnInit {
         this.applicable_to_university = package_data.applicable_to_university;
         this.applicable_to_college = package_data.applicable_to_college;
         this.applicable_to_institute = package_data.applicable_to_institute;
+        this.applicable_to_individual = package_data.applicable_to_individual;
         this.billing_frequency = package_data.billing_frequency;
 
         //For reccuring datetime
@@ -191,7 +193,7 @@ export class EditPackageComponent implements OnInit {
 
   updatePackageService() {
 
-    if (this.applicable_to_university == '' && this.applicable_to_college == '' && this.applicable_to_institute == '') {
+    if (this.applicable_to_university == '' && this.applicable_to_college == '' && this.applicable_to_institute == '' && this.applicable_to_individual == '') {
       this.toster.error("Applicable to is required", 'Error', { closeButton: true });
       return;
     }
@@ -214,6 +216,7 @@ export class EditPackageComponent implements OnInit {
       applicable_to_university: this.applicable_to_university,
       applicable_to_college: this.applicable_to_college,
       applicable_to_institute: this.applicable_to_institute,
+      applicable_to_individual: this.applicable_to_individual,
       valid_up_to: this.valid_up_to,
       billing_frequency: this.billing_frequency,
       addons_arr: this.addons_arr,
@@ -416,7 +419,7 @@ export class EditPackageComponent implements OnInit {
   }
 
   submitData() {
-    if (this.package_name == "" || this.package_desc == "" || this.pricing_model == "" || this.duration == "" || this.package_prices.length < 1 || this.selected_topics.length < 1 || (this.applicable_to_university == "" && this.applicable_to_college == "" && this.applicable_to_institute == "") || this.valid_up_to == "" || this.billing_frequency == "") {
+    if (this.package_name == "" || this.package_desc == "" || this.pricing_model == "" || this.duration == "" || this.package_prices.length < 1 || this.selected_topics.length < 1 || (this.applicable_to_university == "" && this.applicable_to_college == "" && this.applicable_to_institute == "" && this.applicable_to_individual == "") || this.valid_up_to == "" || this.billing_frequency == "") {
       this.toster.error("Please fill required Basic details first!", 'Error', { closeButton: true });
       return;
     }
@@ -555,19 +558,27 @@ export class EditPackageComponent implements OnInit {
     let i = 0;
     //remove when topic finds in parent or already added
     this.selected_topics.forEach((item, index, object) => {
-      let parentExist = item.source_parent_ids.split(',').includes(String(this.topic));
-      let topicExist = item.pk_id == this.topic;
-      let exist = selectedObj[0].parent_ids.split(',').includes(String(item.topic));
-      if(exist){
-        i++;
-        this.toster.error("You have already added selelcted level parent!", 'Error', { closeButton: true });
-        return false;
+      let parentExist;
+      if (item.source_parent_ids != null) {
+        parentExist = item.source_parent_ids.split(',').includes(String(this.topic));
+        if (parentExist) {
+          removeIndexs.push(index)
+        }
       }
-      if (parentExist || topicExist) {
+      let topicExist = item.topic == this.topic;
+      if(selectedObj[0].parent_ids != undefined && selectedObj[0].parent_ids != null){
+        let exist = selectedObj[0].parent_ids.split(',').includes(String(item.topic));
+        if (exist) {
+          i++;
+          this.toster.error("You have already added selelcted level parent!", 'Error', { closeButton: true });
+          return false;
+        }
+      }
+      if (topicExist) {
         removeIndexs.push(index)
       }
     });
-    if(i){
+    if (i) {
       return false;
     }
     removeIndexs.forEach(i => this.removeTopic(i));
@@ -593,9 +604,7 @@ export class EditPackageComponent implements OnInit {
     this.level_id = 0;
     this.curriculum_labels = [];
     this.enable_add_button = false;
-    console.log(this.selected_topics);
-    console.log(this.delete_topics);
-    
+    console.log(this.selected_topics);    
   }
 
   removeTopic(index) {

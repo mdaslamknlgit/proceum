@@ -30,15 +30,16 @@
     </ul>
     <ul class="crds_ul Clients" *ngIf="partners.length > 0">
       <li>
-        <div>
+        <div class="d-flex">
           <span>Clients/Partners</span>
           <!-- <img src="./assets/images/ipsum_1.jpg" /> -->
+          <button mat-raised-button color="accent"  routerLink="/admin/partners-list">View All</button>
         </div>
       </li>
     </ul>
     <ul class="crds_ul anly_crd" *ngIf="partners.length > 0">
       <li *ngFor="let partner of partners">
-        <div class="uni_lg_img">
+        <div class="uni_lg_img" routerLink="/admin/create-partner/{{partner.pk_id}}">
           <span class="text_center">{{ partner.partner_name }}</span>
           <img src="{{ partner.header_logo }}" />
         </div>

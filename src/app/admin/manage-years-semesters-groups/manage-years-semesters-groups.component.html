@@ -20,9 +20,9 @@
                                         <div class="xl_srch mr_1">
                                             <mat-form-field appearance="outline" class="w_100p">
                                                 <input matInput [(ngModel)]="search_box"
-                                                    (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                                                    (keyup)="$event.keyCode == 13 ? doFilter($event) : ''"
                                                     placeholder="Search" />
-                                                <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
+                                                <mat-icon (click)="doFilter($event)" matSuffix>search</mat-icon>
                                             </mat-form-field>
                                         </div>
                                         <div>
@@ -234,9 +234,9 @@
                                         <div class="xl_srch mr_1">
                                             <mat-form-field appearance="outline" class="w_100p">
                                                 <input matInput [(ngModel)]="search_box"
-                                                    (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                                                    (keyup)="$event.keyCode == 13 ? doFilter($event) : ''"
                                                     placeholder="Search" />
-                                                <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
+                                                <mat-icon (click)="doFilter($event)" matSuffix>search</mat-icon>
                                             </mat-form-field>
                                         </div>
                                         <div>
@@ -363,20 +363,6 @@
                         All <span class="required">( * ) </span>marked fields are
                         mandatory</span>
                     <div class="hgt_20"></div>
-                    <!-- <div class="frm_dvs" *ngIf="show_radio && !not_proceum_admin">
-                        <span>Adding For!<span class="required">*</span></span>
-                        <span>
-                            <span class="err_tltp_par">
-                                <mat-radio-group name="self_or_other" [(ngModel)]="self_or_other"
-                                    (ngModelChange)="onAddingForChange()" required>
-                                    <mat-radio-button name="self_or_other" value="self">Proceum</mat-radio-button>
-                                    <mat-radio-button name="self_or_other" value="other">Partners
-                                    </mat-radio-button>
-                                </mat-radio-group>
-                            </span>
-                        </span>
-                    </div> -->
-                    <div class="hgt_20"></div>
 
                     <div class="frm_dvs" *ngIf="slug == 'year'">
                         <span>Select If Yes!<span class="required"></span></span>
@@ -420,7 +406,7 @@
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select University" name="university_edit"
                                         #university_edit="ngModel" [(ngModel)]="partner_parent_id"
-                                        (ngModelChange)="getPartnerChilds()" required>
+                                        (ngModelChange)="getCurriculumnHierarchy();getPartnerChilds()" required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
                                                 [placeholderLabel]="'Search University'" name="search_university"
@@ -443,7 +429,7 @@
                     </div>
 
                     <div class="frm_dvs"
-                        *ngIf="(self_or_other == 'other' && organization_type == '1' && partner_parent_id != '' && user['role'] == '8')">
+                        *ngIf="(self_or_other == 'other' && organization_type == '1' && partner_parent_id != '') || user['role'] == '8'">
                         <span>Select College <span class="required">*</span></span>
                         <span>
                             <span class="err_tltp_par">
@@ -477,7 +463,7 @@
                             <span class="err_tltp_par">
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel"
-                                        [(ngModel)]="partner_parent_id" (ngModelChange)="getYears(0)" required>
+                                        [(ngModel)]="partner_parent_id" (ngModelChange)="getCurriculumnHierarchy();getYears(0)" required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
                                                 [placeholderLabel]="'Search College'" name="search_college" ngModel
@@ -506,7 +492,7 @@
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select Institute" name="institute_edit"
                                         #institute_edit="ngModel" [(ngModel)]="partner_parent_id"
-                                        (ngModelChange)="getYears(0)" required>
+                                        (ngModelChange)="getCurriculumnHierarchy();getYears(0)" required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Institute found'"
                                                 [placeholderLabel]="'Search Institute'" name="search_institite" ngModel

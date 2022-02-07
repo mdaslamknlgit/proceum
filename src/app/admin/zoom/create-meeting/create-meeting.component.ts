@@ -28,6 +28,7 @@ export class CreateMeetingComponent implements OnInit {
     public timezone = '';
     public start_time:any;
     public start_date:any;
+    public minDate = new Date();
     public duration = '';
     public countrys = [];
     public selected_country_id = '';
@@ -63,16 +64,96 @@ export class CreateMeetingComponent implements OnInit {
     public selected_value = '';
     public today_date = new Date();
     public user;
+    public user_id = 0;
+    public role_id = 0;
+    public is_university = true;
+
+    public show_semester_dropdown = true;
+    public show_group_dropdown = true;
+
     constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router) { 
         this.translate.setDefaultLang(this.http.lang);
     }
+    getTeacherSubjects(){
+        let params = {
+            url: 'class/get-teacher-subjects', user_id: this.teacher_id
+        };
+        this.http.post(params).subscribe((res) => {
+            if (res['error'] == false) {
+                if (res['data']['subjects'].length > 0)
+                    this.curriculum_list = res['data']['subjects'];
+                else
+                this.curriculum_list = [];
+            }
+        });
+    }
+    checkTime(){
+        if(this.start_time == undefined){
+            return false;
+        }
+        else{
+            let time = this.start_time.split(':');
+            if(parseInt(time[0]) <= this.today_date.getHours()){
+                if(parseInt(time[1]) < this.today_date.getMinutes()){
+                    this.start_time = '';
+                    this.toster.error("Past time not allowed", "Invalid Time", {closeButton:true});
+                }
+            }
+        }
+        
+    }
     ngOnInit(): void {
         this.getData();
-        this.getcurriculums();
-        this.user = this.http.getUser();console.log(this.user)
-        if(this.user['role'] == '12'){
+        
+        //this.getcurriculums();
+        this.user = this.http.getUser();
+        this.user_id = this.user['id'];
+        this.role_id = this.user['role'];
+        if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
             this.teacher_id = this.user['id'];
-        }
+            this.getTeacherSubjects();
+            this.is_college = false;
+            this.is_university = false;
+            this.organization_list_id = this.user['partner_id'];
+            this.organization_type_id = '1';
+            this.getYearSemsterGroup(1,0,'year');
+          }else{
+            if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
+              this.is_college = true;
+              this.is_university = false;
+              this.organization_type_name = 'College';
+              this.college_id = this.user['partner_id'];
+              this.organization_type_id = '1';
+              this.getOrganizationList(1,1);
+            }
+            if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){  /// College Admin Role ID
+              this.is_college = false;
+              this.is_university = false;
+              this.organization_type_name = 'College';
+              this.organization_list_id = this.user['partner_id'];
+              this.organization_type_id = '2';
+              this.getYearSemsterGroup(2,0,'year');
+            }
+            if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
+              this.is_college = false;
+              this.is_university = false;
+              this.organization_type_name = 'Institute';
+              this.organization_list_id = this.user['partner_id'];
+              this.organization_type_id = '3';
+              this.getYearSemsterGroup(3,0,'year');
+            }
+            if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
+              this.is_college = false;
+              this.is_university = false;
+              this.organization_list_id = this.user['partner_id'];
+              this.organization_type_id = '1';
+              this.getYearSemsterGroup(1,0,'year');
+            }      
+          }
+
+        let d = new Date();
+        d.setDate(d.getDate() + 1);
+        this.minDate = new Date();
     }
     getData(){
         let param = {url: 'class/create-meeting'};
@@ -233,11 +314,27 @@ export class CreateMeetingComponent implements OnInit {
     }
     
   getCollege(partner,parent_id,slug){
-    if(this.organization_type_id == '1'){ //University
-      this.getOrganizationList(2,1);
+    // if(this.organization_type_id == '1'){ //University
+    //   this.getOrganizationList(2,1);
+    //   this.college_id = '';
+    // }
+    // this.getYearSemsterGroup(partner,parent_id,slug);
+
+    this.show_semester_dropdown = true;
+    this.show_group_dropdown = true;
+    this.year_id = '';
+    this.semester_id = '';
+    this.group_id = '';
+    this.all_years.next();
+    this.all_semesters.next();
+    this.all_groups.next();
+    if(partner == '1'){ //University
+      this.getOrganizationList(1,1);
       this.college_id = '';
+      this.all_college.next();      
+    }else{
+      this.getYearSemsterGroup(partner,parent_id,slug);
     }
-    this.getYearSemsterGroup(partner,parent_id,slug);
   }
     searchOrganizations(event){
         let search = event;
@@ -263,12 +360,57 @@ export class CreateMeetingComponent implements OnInit {
         }
         this.all_college.next(
         this.total_college.filter(
-            (res) => res.name.toLowerCase().indexOf(search) > -1
+            (res) => res.organization_name.toLowerCase().indexOf(search) > -1
         )
         );
     }
-  getYearSemsterGroup(partner,parent_id,slug){  
-    let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
+  getYearSemsterGroup(org_type,parent_id,slug){  
+    //let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
+    let partner = '';let partner_child_id = "";
+    if(org_type == '1'){
+      if(this.is_college == true){
+        partner_child_id = this.college_id;
+        partner = this.organization_list_id;
+      }else{
+        partner = this.organization_list_id;
+      }
+    }
+    else if(org_type == '2'){
+      partner = this.organization_list_id;
+    }
+    else if(org_type == '3'){
+      partner = this.organization_list_id;
+    }
+    else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){
+      partner = String(this.user_id);
+      org_type = 1;
+      partner_child_id = this.college_id;
+    }
+    else if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){
+      partner = String(this.user_id);
+      org_type = 2;
+    }
+    else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){
+      partner = String(this.user_id);
+      org_type = 3;
+    }
+    else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
+      partner = this.user['partner_id'];
+      org_type = 1;
+      partner_child_id = "";
+    }
+    else if(this.role_id == environment.ALL_ROLES.TEACHER){
+      partner = String(this.teacher_id);
+      partner_child_id = "";
+    } 
+    let param = {
+      url: 'get-year-semester-group',
+      partner_id : partner,
+      parent_id : parent_id,
+      slug : slug,
+      partner_type_id: org_type,
+      partner_child_id: partner_child_id
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.years = res['data'];
@@ -276,15 +418,29 @@ export class CreateMeetingComponent implements OnInit {
           if(slug == 'year'){
             this.semester_id = '';
             this.group_id = '';
+            this.all_semesters.next();
+            this.all_groups.next();
             this.all_years.next(this.years.slice());
             this.total_years=res['data'];
+
           }else if(slug == 'semester'){
+            this.semester_id = '';
             this.group_id = '';
+            this.all_groups.next();
             this.all_semesters.next(this.years.slice());
             this.total_semesters==res['data'];
+            this.show_semester_dropdown = true;
+            if(this.years.length == 0){
+              this.getYearSemsterGroup(org_type,parent_id,'group');
+              this.show_semester_dropdown = false;
+            }
           }else if(slug == 'group'){
             this.all_groups.next(this.years.slice());
             this.total_groups==res['data'];
+            this.show_group_dropdown = true;
+            if(this.years.length == 0){
+              this.show_group_dropdown = false;
+            }
           }           
         }
         //this.doFilter();

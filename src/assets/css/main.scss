@@ -657,6 +657,9 @@ img {
 .mr_1p {
   margin-right: 1% !important;
 }
+.mr_50px{
+  margin-right: 50px !important;
+}
 .mt_1 {
   margin-top: 1em !important;
 }
@@ -1066,6 +1069,11 @@ app-topbar.inner-header mat-toolbar {
 .text-center {
   text-align: center;
 }
+th.mat-header-cell{
+  &.text-center {
+    text-align: center;
+  }
+}
 .glance .mat-card-content .mat-list .mat-list-item-content {
   padding-left: 0 !important;
 }
@@ -1107,12 +1115,7 @@ app-topbar.inner-header mat-toolbar {
     position: fixed !important;
     background-color: red;
   }
-  .lg_inbtn {
-    position: fixed;
-    right: 75px;
-    top: 10px;
-    /* color: #FFF !important; */
-  }
+
   div.nav.menu_open {
     display: flex !important;
   }
@@ -1344,6 +1347,10 @@ span.download_icons mat-icon {
 }
 .logo_spn {
   cursor: pointer;
+  display: flex; 
+  margin-right: 15px;
+  height: 55px;
+  img{object-fit: contain;}
 }
 // .sticky-header .nav .tp_rt_mn {
 //   color: #0F98A6;
@@ -1577,7 +1584,7 @@ input:-webkit-autofill:active {
   color: #fff;
   z-index: 97;
   width: 58px;
-  // box-shadow: 0 7px 20px 2px #d8d8d8;
+  box-shadow: 0 0px 8px -2px #808080;
 }
 
 .sd_cls {
@@ -1961,6 +1968,9 @@ ul.mlty_fl_mnu {
   white-space: normal;
   max-width:500px; 
   margin: auto;
+  p{
+    word-break: break-word;
+  }
 }
 .popover-content.popover-body {
   word-break: break-all;
@@ -2563,12 +2573,12 @@ button.mt_6px {
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 15px;
-  justify-content: flex-start;
+  justify-content: center;
 }
-.img_prp_dets > ul > li {
-  float: left;
-  width: 31%;
-}
+// .img_prp_dets > ul > li {
+//   float: left;
+//   width: 31%;
+// }
 .img_prp img {
   width: auto;
   object-fit: contain;
@@ -2626,6 +2636,9 @@ div.cust_mdl_par div.mn_dshbrd {
   display: inline-block;
   max-width: 270px;
   word-break: break-word;
+  &.w_100p{
+    max-width: none;
+  }
   .mat-form-field{
     width: 100%;
   }
@@ -2645,6 +2658,7 @@ div.cust_mdl_par div.mn_dshbrd {
   color: rgb(0, 0, 0);
   padding: 5px 10px;
   border-radius: 6px;
+  box-sizing: border-box;
   &.wrn_bg{
     background-color: #ff9494b5;
     border: 1px dashed #8e1919;
@@ -2794,17 +2808,21 @@ div.cust_mdl_par div.mn_dshbrd {
           border: 1px solid #e7e7e7;
           display: flex;
           align-items: center;
+          flex-wrap: wrap;
           .shw_ans{
-              position: absolute;
-              right: 10px;
-              bottom: 10px;
-              padding: 3px 8px;
-              border: 1px dashed #9f9f9f;
-              border-radius: 8px;
+              width: 100%;              
               font-size: 12px;
               color: #424242;
               cursor: pointer;
-            
+              text-align: right;
+              align-self: flex-end;
+              .shwans_txt{
+                padding: 3px 8px;
+                border: 1px dashed #9f9f9f;
+                border-radius: 8px;
+                float: right;
+                margin: 5px 20px 20px 0;
+              }
           }
           .flpcrd_bk{
             transform: rotateY(180deg);
@@ -3103,6 +3121,24 @@ div.cust_mdl_par div.mn_dshbrd {
   display: flex;
   column-gap: 10px;
   flex-wrap: wrap;
+}
+
+.intr_vd_tml{
+  .mat-expansion-panel{
+    margin-bottom: 10px;
+  }
+  .mat-expansion-panel-header{
+    background-color: #e6e6e6 !important;
+    &:hover{
+            background-color: #e6e6e6 !important;
+    }
+    &.mat-expanded{
+            background-color: #e6e6e6 !important;
+        &:hover{
+            background-color: #e6e6e6 !important;
+        }
+    }
+  }
 }
 
 .intr_vd_tml {
@@ -3740,7 +3776,7 @@ div.cust_mdl_par div.mn_dshbrd {
     flex-wrap: wrap;
     &.wbg_lst_vw{
       table.mat-table{box-shadow: none;}
-      .mat-table th.mat-header-cell{background-color: #fff; color:#41AB3C;}
+      // .mat-table th.mat-header-cell{background-color: #fff; color:#41AB3C;}
       .mat-table tr:nth-child(odd){background-color: #fff;}
     }
     .wbg_dv{
@@ -3763,6 +3799,9 @@ div.cust_mdl_par div.mn_dshbrd {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      &.jc_fs{
+        justify-content: flex-start;
+      }
       .crt_prt_hd{
         margin-bottom: 0.25em;
       }
@@ -3841,7 +3880,7 @@ div.cust_mdl_par div.mn_dshbrd {
       }
     }
     .crt_pr_dv{
-      width:32%;
+      width:49%;
       margin-bottom: 1em;
       .crt_pr_sbhd{font-size: 18px; color: #41ab3c;}
       .crt_prt_txt{height: 102px; resize: none;}
@@ -4971,6 +5010,9 @@ sup {
   display: inline-block !important;
   width: 100%;
 }
+.jc_fs{
+  justify-content: flex-start;
+}
 .crt_prtnr .crt_pr_dv .brnd_info_mn .brnd_info_upld.jc_fs{
   justify-content: flex-start;
 }
@@ -5773,6 +5815,7 @@ sup {
           display: flex;
           width: 100%;
           justify-content: center;
+          margin-bottom: 15px;
           li{
             padding: 0 10px;
           }
@@ -6960,19 +7003,28 @@ sup {
   position: relative;
   .glbl_srch{
     position: absolute;
-    right: 10px; 
-    top: -15px;
-    width: 50px;
+    right: 10px;
+    top: -10px;
     transition: width 0.2s;
     transition-timing-function: ease;
     &.dsh_brd_crds > mat-form-field.mat-form-field{
-      width: 100%;
+      width: 100px;
       font-size: 16px;
+      position: absolute;
+      top: 69px;
+      z-index: 9; 
+      right: 53px;
+      visibility: hidden;
     }
-    &.glbsrc_act{  
-      width: 300px;
-      top: -23px;
-      right: -2px;
+    &.glbsrc_act{
+      &.dsh_brd_crds > mat-form-field.mat-form-field{
+        position: fixed;
+        width: 50%; 
+        transition: width 0.2s;
+        right: 53px;
+        transition-timing-function: ease-in-out;
+        visibility: visible;
+      }
     }
     mat-icon{
       position: static !important;
@@ -7399,3 +7451,27 @@ sup {
 }
 .of_hdn{overflow: hidden !important;}
 .bg_sprtr_accrd{background: #f5f7f9; padding-bottom: 1px;}
+.srch_spprt{
+  position: fixed;
+  width: 100%;
+  height: 58px;
+  background-color: #0f16260d;
+  top: 65px;
+  right: 0;
+} 
+.lgot_btn .mat-icon {
+  color: rgba(232, 53, 53, 0.7098039216) !important;
+}
+.top-right-icon.admntpbr_two .glbl_srch.dsh_brd_crds > mat-form-field.mat-form-field{
+  right: 48px;
+}
+.aud_flnm{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 80%;
+  overflow: hidden;
+}
+.brnd_upttl{
+  align-self: flex-start;
+    font-size: 16px;
+}

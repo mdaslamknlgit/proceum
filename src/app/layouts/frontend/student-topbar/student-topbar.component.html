@@ -4,17 +4,10 @@
   </button>
   <span class="logo_spn" routerLink="/"><img src="{{ getHeaderLogo() }}" /></span>
   <!-- <span class="usr_lgns">Welcome to {{user['role'] == '2' ? 'Student': 'Teacher'}} Dashboard</span> -->
-  <span class="usr_lgns" >{{"welcome_to_text"|translate}} {{ user["role_name"] }} {{"dashboard_text"|translate}}</span>
+  <span class="usr_lgns">{{"welcome_to_text"|translate}} {{ user["role_name"] }} {{"dashboard_text"|translate}}</span>
   <span class="spacer"></span>
   <!-- <div class="nav" [ngClass]="{ menu_open: isOpen }"> -->
-    <div class="top-right-icon mr_1"> 
-      <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
-        <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
-          <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false || search_key!='' ? '' : 'd-none'}}" autocomplete="off">
-          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">search</mat-icon>
-        </mat-form-field>
-      </div>
-    </div>
+    
     <app-white-board *ngIf="user['role'] == '1' || user['role'] == '12'"></app-white-board>
     <!-- <div class="top-right-icon mr_1"> 
       <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
@@ -61,11 +54,27 @@
       
   <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">Dashboard</span>
 
-  <span *ngIf="user['name']" mat-list-item class="tp_rt_mn">
+  <div *ngIf="user['name']" mat-list-item class="tp_rt_mn mr_50px">
     <mat-icon color="accent">account_circle</mat-icon>
     <span> {{ user["name"] }}</span>
     <!-- <span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  -->
-  </span>
+  </div>
+  <div class="top-right-icon"> 
+    <!-- <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
+      <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
+        <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false || search_key!='' ? '' : 'd-none'}}" autocomplete="off">
+        <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">search</mat-icon>
+      </mat-form-field>
+    </div> -->
+    <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
+      <mat-icon color="accent" matSuffix (click)="glbSrch = false">search</mat-icon>
+      <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
+        <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''" placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
+        <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch"> {{glbSrch == false ? 'close' : 'search'}}</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="{{glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
+  </div>
   <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
     <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
   </div>

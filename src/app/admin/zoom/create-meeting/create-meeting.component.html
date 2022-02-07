@@ -7,7 +7,7 @@
         <div class="spacer"></div>
     </div>
     <hr />
-    <form #create_class_form="ngForm" name="create_class_form" (ngSubmit)="createMeeting()" novalidate>
+    <form #create_class_form="ngForm" name="create_class_form" (ngSubmit)="create_class_form.form.valid && createMeeting()" novalidate>
         <div class="dsh_brd_crds">
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.schedule_for"|translate}} <span class="required">*</span></span>
@@ -18,15 +18,25 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
-                <div class="clear_fix"></div>
-                <div>{{"admin.class.create.course"|translate}}</div>
+            <div class="cm_fltr_sc mr_1" *ngIf="user['role'] != '12'">
+                <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="curriculum_id" #curriculum_id_name="ngModel" ngModel
-                        name="curriculum_id_name" placeholder='{{"admin.class.create.course"|translate}}'
-                        (ngModelChange)="getLabels()" required>
+                    <mat-select [(ngModel)]="teacher_id" name="teacher_id_name" (ngModelChange)="getTeacherSubjects();selected_subject=0;" required>
+                        <mat-option value="">{{"select_text"|translate}}</mat-option>
+                        <mat-option *ngFor="let teacher of teachers" [value]="teacher['id']">{{teacher['first_name']}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list.length>0">
+                <div class="clear_fix"></div>
+                <div>{{"admin.class.create.subject"|translate}}</div>
+                <mat-form-field appearance="outline">
+                    <mat-select [(ngModel)]="selected_subject" #curriculum_id_name="ngModel" ngModel
+                        name="curriculum_id_name" placeholder='{{"admin.class.create.subject"|translate}}'
+                         required>
                         <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
-                            [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
+                            [matTooltip]="value['level_name']">{{ value["level_name"] }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -60,16 +70,7 @@
                         placeholder='{{"admin.class.create.meeting_topic"|translate}}' required>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1" *ngIf="user['role'] != '12'">
-                <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="teacher_id" name="teacher_id_name" required>
-                        <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option *ngFor="let teacher of teachers" [value]="teacher['id']">{{teacher['first_name']}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+            
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.timezone"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline">
@@ -83,17 +84,17 @@
             <div class="cm_fltr_sc mr_1">
                 <span>{{"admin.class.create.start_date"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline">
-                    <input matInput [(ngModel)]="start_date" name="start_date_name" readonly [matDatepicker]="picker"
+                    <input matInput [(ngModel)]="start_date" name="start_date_name" readonly [matDatepicker]="picker" [min]="minDate"
                         required placeholder='{{"admin.class.create.start_date"|translate}}' autocomplete="off">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.start_time"|translate}} <span class="required">*</span></span>
+                <span>{{"admin.class.create.start_time"|translate}}<span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_47p">
-                    <input type="time" matInput min="{{today.today.getHours()}+':'+today.getMinutes()}"
-                        [(ngModel)]="start_time" name="start_time_name">
+                    <input (blur)="checkTime()" type="time" matInput 
+                        [(ngModel)]="start_time" required name="start_time_name">
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
@@ -139,7 +140,7 @@
                     </mat-select>
                 </mat-form-field>
             </div> -->
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{"admin.class.create.organization_type"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder='{{"admin.class.create.select_organization_type"|translate}}'
@@ -195,7 +196,7 @@
                     <textarea matInput placeholder="Select Student Group"></textarea>
                 </mat-form-field>
             </div> -->
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit"
@@ -208,7 +209,7 @@
                             </ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{
-                            item["name"] }}</mat-option>
+                            item["organization_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -225,7 +226,7 @@
                             </ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let item of all_college | async" [value]="''+item['pk_id']">{{
-                            item["organization_name"]?item["organization_name"]:item["name"] }}</mat-option>
+                            item["organization_name"]?item["organization_name"]:item["partner_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -240,7 +241,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
                 <span>{{"admin.class.create.semester"|translate}}</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.class.create.select_semester'|translate}}" name="semester_edit"
@@ -251,7 +252,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="show_group_dropdown">
                 <span>{{"admin.class.create.group"|translate}}</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.class.create.select_group'|translate}}" name="group_edit"

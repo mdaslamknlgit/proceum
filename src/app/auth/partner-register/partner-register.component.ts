@@ -39,6 +39,7 @@ export class PartnerRegisterComponent implements OnInit {
   public year_id: any;
   public semester_id: any;
   public group_id: any;
+  public timer: any;
   //master data variables goes here
   universities = [];
   colleges = [];
@@ -93,6 +94,10 @@ export class PartnerRegisterComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if(localStorage.getItem('p_id') == undefined || localStorage.getItem('p_id') == ''){
+      this.route.navigateByUrl('/');
+      //alert()
+    }
     this.domain = location.origin;
     this.getCountries();
   }
@@ -123,7 +128,7 @@ export class PartnerRegisterComponent implements OnInit {
       (this.year_id != '')) {
       return true;
       //this.individual_address_details = true;
-    }else{
+    } else {
       return false;
     }
   }
@@ -224,7 +229,7 @@ export class PartnerRegisterComponent implements OnInit {
 
   doPartnerStudentRegistraion() {
     let validate = this.validateindividualsBasicDetails();
-    if(!validate){
+    if (!validate) {
       return false;
     }
 
@@ -242,7 +247,7 @@ export class PartnerRegisterComponent implements OnInit {
     }
 
     let params = {
-      url: 'register',
+      url: 'partner-student-register',
       first_name: this.pStudentRegister.first_name,
       last_name: this.pStudentRegister.last_name,
       email: this.pStudentRegister.email,
@@ -251,6 +256,7 @@ export class PartnerRegisterComponent implements OnInit {
       semester_id: this.semester_id,
       group_id: this.group_id,
       partner_id: localStorage.getItem('p_id'),
+      partner_type_id: localStorage.getItem('p_type'),
       college_id: this.pStudentRegister.college,
       password: this.pStudentRegister.password,
       confirm_pwd: this.pStudentRegister.confirm_pwd,
@@ -287,7 +293,7 @@ export class PartnerRegisterComponent implements OnInit {
     this.password_hide = !this.password_hide;
   }
 
-  getPartnerChilds(callFromEmail = 0) {
+  async getPartnerChilds(callFromEmail = 0) {
     if (localStorage.getItem('p_type') != '1') {
       return false;
     }
@@ -296,22 +302,26 @@ export class PartnerRegisterComponent implements OnInit {
         return false;
       }
     }
-    let param = {
-      url: 'get-colleges',
-      child_type: 1,
-      partner_id: localStorage.getItem('p_id'),
-      status: 1
-    };
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-        this.colleges = res['data']['partners'];
-        if (this.colleges != undefined) {
-          this.all_colleges.next(this.colleges.slice());
+    //clearTimeout(this.timer);
+    //this.timer = setTimeout(() => {
+      let param = {
+        url: 'get-colleges',
+        child_type: 1,
+        partner_id: localStorage.getItem('p_id'),
+        status: 1
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.colleges = res['data']['partners'];
+          if (this.colleges != undefined) {
+            this.all_colleges.next(this.colleges.slice());
+          }
+        } else {
+          //this.toster.error(res['message'], 'Error');
         }
-      } else {
-        //this.toster.error(res['message'], 'Error');
-      }
-    });
+      });
+    //},5000);
+
   }
 
   filterPartnerCollege(event) {

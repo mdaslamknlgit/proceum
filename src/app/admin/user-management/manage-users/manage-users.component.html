@@ -95,19 +95,19 @@
     <hr />
     <div class="dsh_brd_crds">
         <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
-            <span>Search</span>
-            <mat-form-field appearance="outline" class="w_100p">
-                <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-                    placeholder="Search" />
-                <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
-            </mat-form-field>
-        </div>
-        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
             <span>Role</span>
             <mat-form-field appearance="outline">
                 <mat-select placeholder="Select Role" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="doFilter()">
                     <mat-option *ngFor="let item of all_roles | async" [value]="item['id']">{{ item["role_name"] }}</mat-option>
                 </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
+            <span>Search</span>
+            <mat-form-field appearance="outline" class="w_100p">
+                <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                    placeholder="Search" />
+                <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
             </mat-form-field>
         </div>
       
@@ -165,7 +165,7 @@
             </div>
         <!-- </div>
             <div *ngIf="role == '2' && (manage_students == '1' || manage_students == '2')"> -->
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>Organization Type</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select Organization Type" name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization_type_id" (ngModelChange)="onOrganizationTypeChange()">
@@ -173,13 +173,13 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit" #organization_list_edit="ngModel" [(ngModel)]="organization_list_id" (ngModelChange)="getCollege(organization_type_id,0,'year')">
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
-                                [placeholderLabel]="'Search'" name="search_university" ngModel
+                                [placeholderLabel]="'Search'" name="search_university" ngModel (ngModelChange)="filterPartners($event)"
                                 >
                             </ngx-mat-select-search>
                         </mat-option>
@@ -191,6 +191,12 @@
                 <span>College</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year')">
+                        <mat-option>
+                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
+                                [placeholderLabel]="'Search'" name="search_university" ngModel (ngModelChange)="filterCollege($event)"
+                                >
+                            </ngx-mat-select-search>
+                        </mat-option>
                         <mat-option *ngFor="let item of all_college | async" [value]="item['pk_id']">{{ item["partner_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
