@@ -276,14 +276,15 @@ export class EditMeetingComponent implements OnInit {
         });
         } else { // University => college
         this.organization_list = '';
-        let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+        this.is_college = true;
+        //let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+        let param = { url: 'get-partner-childs',child_type : type, partner_id : this.organization_list_id}
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
                 this.organization_list = res['data']['partners'];
                 if(this.organization_list != undefined && res['data']['partners'] != ''){
                     this.all_college.next(res['data']['partners'].slice());
-                    this.total_college = res['data']['partners'];
-                    this.is_college = true; 
+                    this.total_college = res['data']['partners'];                     
                     this.college_id = '';
                 }          
             } else {

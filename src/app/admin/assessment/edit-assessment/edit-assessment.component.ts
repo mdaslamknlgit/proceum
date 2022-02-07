@@ -47,7 +47,8 @@ export class EditAssessmentComponent implements OnInit {
   public organization_type_name = '';
   public is_university = true;
   public is_college = false;
-  public organization_list = '';
+  public organization_list = [];
+  public college_list = [];
 
   public all_years: ReplaySubject<any> = new ReplaySubject<any>(1);
   public all_semesters: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -218,10 +219,10 @@ export class EditAssessmentComponent implements OnInit {
       this.organization_type_name = 'University';
       this.is_college = true;
     }
-    // else if(this.organization_type_id == '2'){ //College
-    //   this.getOrganizationList(2,0);
-    //   this.organization_type_name = 'College';
-    // }
+    else if(this.organization_type_id == '2'){ //College
+      this.getOrganizationList(2,0);
+      this.organization_type_name = 'College';
+    }
     else if(this.organization_type_id == '3'){ //Institute
       this.getOrganizationList(3,0);
       this.organization_type_name = 'Institute';
@@ -249,17 +250,17 @@ export class EditAssessmentComponent implements OnInit {
         }   
     });
     } else { // University => college
-      this.organization_list = '';
-      let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+      this.college_list = [];
+      this.is_college = true;
+      //let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+      let param = { url: 'get-partner-childs',child_type : type, partner_id : this.organization_list_id}
       this.http.post(param).subscribe((res) => {
           if (res['error'] == false) {
-              this.organization_list = res['data']['partners'];
-              if(this.organization_list != undefined && res['data']['partners'] != ''){
-                  this.all_college.next(res['data']['partners'].slice());
-                  this.total_college = res['data']['partners'];
-                  this.is_college = true; 
+              this.college_list = res['data']['partners'];
+              if(this.college_list != undefined && res['data']['partners'] != ''){
+                  this.all_college.next(this.college_list.slice());
                   this.college_id = '';
-              }          
+              }         
           } else {
           //this.toster.error(res['message'], 'Error');
           }   
@@ -389,21 +390,21 @@ export class EditAssessmentComponent implements OnInit {
     }
     this.all_organization_list.next(
       this.total_organization_list.filter(
-          (res) => res.name.toLowerCase().indexOf(search) > -1
+          (total_organization_list) => total_organization_list.organization_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
   searchCollege(event){
     let search = event;
     if (!search) {
-      this.all_college.next(this.total_college.slice());
-    return;
+      this.all_college.next(this.college_list.slice());
+      return;
     } else {
       search = search.toLowerCase();
     }
     this.all_college.next(
-      this.total_college.filter(
-          (res) => res.name.toLowerCase().indexOf(search) > -1
+      this.college_list.filter(
+        (college_list) => college_list.partner_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
