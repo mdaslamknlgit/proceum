@@ -334,67 +334,41 @@
         <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon class="mr_02">videocam</mat-icon>
-            Free Videos
+            Free Content
           </ng-template>
           <ul class="crds_ul full_crd">
-            <li>
+            <li *ngIf="free_content.length==0">
               <div class="lfrt_grd">
+                <span>No Free Content Found</span>
+              </div>
+            </li>
+            <li *ngIf="free_content.length>0">
+              <div class="lfrt_grd" *ngFor="let item of free_content">
                 <span class="text_left">
-                  <button mat-mini-fab class="mr_1">
+                  <button (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)" mat-mini-fab class="mr_1">
                     <mat-icon>videocam</mat-icon>
                   </button>
                   <div>
-                    <span>Cellular Pathology: Basic Principles and Practices</span>
-                    <span class="prg_btm_cnt">Microbiology</span>
+                    <span (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)">{{item.content_title}}</span>
+                    <span class="prg_btm_cnt">{{item.level_name}}</span>
                   </div>
                 </span>
                 <span>
-                  <button mat-icon-button class="mr_02">
+                  <button *ngIf="item.is_fav != 1 ? true : false" matTooltip="Make Favorite" (click)="updateBookmarkFavorite(item.id,'fav')" mat-icon-button class="mr_02">
                     <mat-icon>favorite_border</mat-icon>
-                  </button> <button mat-icon-button class="mr_02">
+                  </button> 
+                  <button *ngIf="item.is_fav == 1 ? true : false" matTooltip="Unfavourite" (click)="updateBookmarkFavorite(item.id,'fav')" mat-mini-fab class="mr_02">
+                    <mat-icon>favorite_border</mat-icon>
+                  </button>
+                  <button *ngIf="item.is_bookmark != 1 ? true : false" matTooltip="Add Bookmark" (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-icon-button class="mr_02">
+                    <mat-icon>bookmark_add</mat-icon>
+                  </button>
+                  <button *ngIf="item.is_bookmark == 1 ? true : false" matTooltip="Remove Bookmark" (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-mini-fab class="mr_02">
                     <mat-icon>bookmark_add</mat-icon>
                   </button>
                 </span>
+                <hr>              
               </div>
-              <hr>
-              <div class="lfrt_grd">
-                <span class="text_left">
-                  <button mat-mini-fab class="mr_1">
-                    <mat-icon>videocam</mat-icon>
-                  </button>
-                  <div>
-                    <span>Biochemistry: Basics</span>
-                    <span class="prg_btm_cnt">Biochemistry</span>
-                  </div>
-                </span>
-                <span>
-                  <button mat-icon-button class="mr_02">
-                    <mat-icon>favorite_border</mat-icon>
-                  </button> <button mat-icon-button class="mr_02">
-                    <mat-icon>bookmark_add</mat-icon>
-                  </button>
-                </span>
-              </div>
-              <hr>
-              <div class="lfrt_grd">
-                <span class="text_left">
-                  <button mat-mini-fab class="mr_1">
-                    <mat-icon>videocam</mat-icon>
-                  </button>
-                  <div>
-                    <span>Pharmacology and Implications for Nursing</span>
-                    <span class="prg_btm_cnt">Pharmacology</span>
-                  </div>
-                </span>
-                <span>
-                  <button mat-icon-button class="mr_02">
-                    <mat-icon>favorite_border</mat-icon>
-                  </button> <button mat-icon-button class="mr_02">
-                    <mat-icon>bookmark_add</mat-icon>
-                  </button>
-                </span>
-              </div>
-              <hr>
             </li>
           </ul>
         </mat-tab>
@@ -469,7 +443,7 @@
       <mat-tab *ngIf="user_id">
         <!-- wishlist -->
         <ng-template mat-tab-label>
-          <mat-icon class="mr_02">favorite_border</mat-icon>
+          <mat-icon class="mr_02">playlist_add_check</mat-icon>
           My Wishlist
         </ng-template>
         <ul class="crds_ul full_crd">
