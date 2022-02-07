@@ -519,18 +519,6 @@ export class CreateAssessmentComponent implements OnInit {
     );
   }
   searchCollege(event){
-    // let search = event;
-    // if (!search) {
-    //   this.all_college.next(this.total_college.slice());
-    // return;
-    // } else {
-    //   search = search.toLowerCase();
-    // }
-    // this.all_college.next(
-    //   this.total_college.filter(
-    //       (res) => res.name.toLowerCase().indexOf(search) > -1
-    //   )
-    // );
     let search = event;
     if (!search) {
       this.all_college.next(this.college_list.slice());
