@@ -18,6 +18,40 @@
                     </mat-select>
                 </mat-form-field>
             </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
+                <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit1"
+                        #organization_list_edit="ngModel" [(ngModel)]="organization_list_id1"
+                        (ngModelChange)="selected_name='university_id';selected_value=organization_list_id1;getCollege(organization_list_id1,0,'year')">
+                        <mat-option>
+                            <ngx-mat-select-search [noEntriesFoundLabel]="'no_records_found_text'|translate"
+                                [placeholderLabel]="'search_text'|translate" name="search_university" ngModel
+                                (ngModelChange)="searchOrganizations($event)">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{
+                            item["organization_name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="is_college">
+                <span>{{"admin.class.create.college"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'admin.class.create.select_college' | translate}}" name="college_edit"
+                        #college_edit="ngModel" [(ngModel)]="college_id1"
+                        (ngModelChange)="selected_name='college_id1';selected_value=college_id1;getTeachers()">
+                        <mat-option>
+                            <ngx-mat-select-search [noEntriesFoundLabel]="'no_records_found_text'|translate"
+                                [placeholderLabel]="'search_text'|translate" name="search_college" ngModel
+                                (ngModelChange)="searchCollege($event)">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let item of all_college | async" [value]="''+item['pk_id']">{{
+                            item["organization_name"]?item["organization_name"]:item["partner_name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
             <div class="cm_fltr_sc mr_1" *ngIf="user['role'] != '12'">
                 <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline">
@@ -113,33 +147,6 @@
                 </mat-form-field>
             </div>
             <hr />
-            <!-- <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.select_country"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="selected_country_id" name="selected_country_id_name" (ngModelChange)="getStates(selected_country_id)">
-                        <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option *ngFor="let country of countrys" [value]="country['pk_id']">{{country['country_name']}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.select_state"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select value="">
-                        <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option *ngFor="let state of states" value="state['id']">{{state['state_name']}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>Select City <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select value="0">
-                        <mat-option value="0">Select</mat-option>
-                        <mat-option *ngFor="let state of states" value="state['id']">{{state['state_name']}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div> -->
             <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{"admin.class.create.organization_type"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_100p">

@@ -70,9 +70,20 @@ export class CreateMeetingComponent implements OnInit {
 
     public show_semester_dropdown = true;
     public show_group_dropdown = true;
-
+    public organization_list_id1 = '';
+    public college_id1='';
     constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router) { 
         this.translate.setDefaultLang(this.http.lang);
+    }
+    getTeachers(){
+        let params = {
+            url: 'class/get-teachers', college_id: this.college_id1
+        };
+        this.http.post(params).subscribe((res) => {
+            if (res['error'] == false) {
+                this.teachers = res['data']['teachers'];
+            }
+        });
     }
     getTeacherSubjects(){
         let params = {
