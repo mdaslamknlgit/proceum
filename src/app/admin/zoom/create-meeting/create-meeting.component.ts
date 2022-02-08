@@ -90,11 +90,14 @@ export class CreateMeetingComponent implements OnInit {
             }
         });
     }
-    checkTime(){
+    checkTime(){alert(this.start_time)
         if(this.start_time == undefined){
             return false;
         }
         else{
+            if(this.start_date > new Date()){
+                return false;
+            }
             let time = this.start_time.split(':');
             if(parseInt(time[0]) <= this.today_date.getHours()){
                 if(parseInt(time[1]) < this.today_date.getMinutes()){

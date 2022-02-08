@@ -55,12 +55,12 @@ export class StudentTopbarComponent implements OnInit {
       this.getCartCount();
     }
     this.route.events.subscribe((ev) => {
-      if (ev instanceof NavigationEnd) {
-        // if (this.width < 1024) {
-        this.sidemenu_status = this.http.menu_status = 'sd_cls';
-        // }
-      }
-    });
+        if (ev instanceof NavigationEnd) {
+          // if (this.width < 1024) {
+          this.sidemenu_status = this.http.menu_status = 'sd_cls';
+          // }
+        }
+      });
   }
 
   // toggleSidemenu(param) {

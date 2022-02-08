@@ -495,6 +495,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         else if(this.content['attachments'] !=undefined && this.content['attachments'].length>0){
             this.showDiv(5);
         }
+        
     }
   showDiv(div) {
     this.images = [];
@@ -506,8 +507,19 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         }
       }
     this.fetchImages(0);
-    this.active_div = div;
+    this.active_div = div;    
   }
+  scrollto(el) {
+    var element = document.getElementById('content_div');
+    var headerOffset = 130;
+    var elementPosition = element.getBoundingClientRect().top;
+    var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    
+    window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+    });   
+}
   fetchImages(class_index){
     setTimeout(res=>{
         let class_name = document.getElementsByClassName("ck_editor_view");
