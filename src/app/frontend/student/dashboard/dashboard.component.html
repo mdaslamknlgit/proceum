@@ -406,7 +406,7 @@
           <ul class="crds_ul full_crd" *ngIf="bookmarks">
             <li *ngIf="bookmarks.length==0">
               <div class="lfrt_grd">
-                <span>No Favorites Found</span>
+                <span>No Bookmarks Found</span>
               </div>
             </li>
             <li *ngIf="bookmarks.length>0">
@@ -474,7 +474,11 @@
         </ng-template>
         <ul class="crds_ul full_crd">
           <li>
-            <div class="lfrt_grd" *ngFor="let item of wish_list">
+            <div class="lfrt_grd" *ngIf="wish_list.length==0 && wish_list_data==0">
+                <span>No Wishlist Found</span>
+              </div>
+            <div *ngIf="wish_list">
+              <div class="lfrt_grd" *ngFor="let item of wish_list">
               <span class="text_left">
                 <button mat-mini-fab class="mr_1" [routerLink]="['/package-details', item.product_id]">
                   <div class="crs_img">
@@ -491,6 +495,7 @@
                   <button mat-mini-fab class="mr_02"><mat-icon>favorite_border</mat-icon></button> <button mat-icon-button  class="mr_02"><mat-icon>bookmark_remove</mat-icon></button>
                 </span> -->
               </div>
+            </div>
               <div *ngIf="wish_list_data">
                 <div class="lfrt_grd" *ngFor="let list_data of wish_list_data">
                   <span class="text_left">
@@ -504,8 +509,8 @@
                   </span>
                 </div>
               </div>
-              <hr>
-            </li>
+            <hr>
+          </li>
           </ul>
         </mat-tab>
       </mat-tab-group>
