@@ -165,13 +165,11 @@ export class CreateMeetingComponent implements OnInit {
         let param = {url: 'class/create-meeting'};
         this.http.post(param).subscribe(res=>{
             if(res['error']==false){
-                if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
-                    this.teachers = res['data']['teachers'];
-                }
+                this.teachers = res['data']['teachers'];
                 this.countrys = res['data']['countrys'];
             }
         });
-    }
+    } 
     getTeachers(){
         let params = {
             url: 'class/get-teachers', college_id: this.teacher_college_id
