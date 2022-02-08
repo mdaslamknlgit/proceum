@@ -86,7 +86,7 @@
                     </mat-select>
                 </mat-form-field>
             </div> -->
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{"admin.class.create.organization_type"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder='{{"admin.class.create.select_organization_type"|translate}}'
@@ -142,12 +142,12 @@
                     <textarea matInput placeholder="Select Student Group"></textarea>
                 </mat-form-field>
             </div> -->
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit"
                         #organization_list_edit="ngModel" [(ngModel)]="organization_list_id"
-                        (ngModelChange)="selected_name='university_id';selected_value=organization_list_id;getCollege(organization_list_id,0,'year')">
+                        (ngModelChange)="selected_name='university_id';selected_value=organization_list_id;getCollege(organization_type_id,0,'year')">
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'no_records_found_text'|translate"
                                 [placeholderLabel]="'search_text'|translate" name="search_university" ngModel
@@ -155,7 +155,7 @@
                             </ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{
-                            item["name"] }}</mat-option>
+                            item["organization_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -164,7 +164,7 @@
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.class.create.select_college' | translate}}" name="college_edit"
                         #college_edit="ngModel" [(ngModel)]="college_id"
-                        (ngModelChange)="selected_name='college_id';selected_value=college_id;getYearSemsterGroup(organization_list_id,college_id,'year')">
+                        (ngModelChange)="selected_name='college_id';selected_value=college_id;getYearSemsterGroup(organization_type_id,0,'year')">
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'no_records_found_text'|translate"
                                 [placeholderLabel]="'search_text'|translate" name="search_college" ngModel
@@ -172,7 +172,7 @@
                             </ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let item of all_college | async" [value]="''+item['pk_id']">{{
-                            item["organization_name"]?item["organization_name"]:item["name"] }}</mat-option>
+                            item["organization_name"]?item["organization_name"]:item["partner_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
@@ -181,24 +181,24 @@
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.class.create.select_year'|translate}}" name="year_edit"
                         #year_edit="ngModel" [(ngModel)]="year_id"
-                        (ngModelChange)="selected_name='year_id';selected_value=year_id;getYearSemsterGroup(organization_list_id,year_id,'semester')">
+                        (ngModelChange)="selected_name='year_id';selected_value=year_id;getYearSemsterGroup(organization_type_id,year_id,'semester')">
                         <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
                 <span>{{"admin.class.create.semester"|translate}}</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.class.create.select_semester'|translate}}" name="semester_edit"
                         #semester_edit="ngModel" [(ngModel)]="semester_id"
-                        (ngModelChange)="selected_name='semester_id';selected_value=semester_id;getYearSemsterGroup(organization_list_id,semester_id,'group')">
+                        (ngModelChange)="selected_name='semester_id';selected_value=semester_id;getYearSemsterGroup(organization_type_id,semester_id,'group')">
                         <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"]
                             }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1">
+            <div class="cm_fltr_sc mr_1" *ngIf="show_group_dropdown">
                 <span>{{"admin.class.create.group"|translate}}</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.class.create.select_group'|translate}}" name="group_edit"

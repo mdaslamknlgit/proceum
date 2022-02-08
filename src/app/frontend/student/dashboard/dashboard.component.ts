@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
 
   //wishlist items variables
   public wish_list:any = []; 
+  public free_content:any = [];
   public expiration_courses:any = []; 
   public bookmarks:any = [];
   public favorites:any = [];
@@ -59,6 +60,7 @@ export class DashboardComponent implements OnInit {
       this.getBookmarksFavorite();
       this.getRandomQuestions();
       this.getPackagesAboutToExpire();
+      this.getFreeContent();
     }
   }
   //Get wishlist items
@@ -77,6 +79,19 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  //Get free content
+  getFreeContent(){
+    let param = { url: 'get-free-content'};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.free_content = res['data'];
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
   getBookmarksFavorite(){
     let param = { url: 'student-bookmarks-favorite', id: this.user_id};
     this.http.post(param).subscribe((res) => {
@@ -95,6 +110,7 @@ export class DashboardComponent implements OnInit {
     let param = { url: 'manage-statistics', source_id: source_id,type:type};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
+        this.getFreeContent();
         this.getBookmarksFavorite();
         this.toster.success(res['message'], 'Success', { closeButton: true });
       }else{
