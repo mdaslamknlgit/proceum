@@ -47,7 +47,7 @@
                             <span *ngIf="(create_user_form.submitted || university_edit.touched) && university_edit.invalid" class="prc_tltp">University is required</span>
                         </div>
                     </div>
-                    <div class="crt_pr_dv" *ngIf="(organization == '1' && show_partners_dropdown) || user['role'] == '8'">
+                    <div class="crt_pr_dv" *ngIf="(organization == '1' && show_partners_dropdown  && user['role'] != '9' && user['role'] != '10') || user['role'] == '8'">
                         <div class="crt_prt_hd">College</div>
                         <div class="err_tltp_par">
                             <mat-form-field appearance="outline" class="w_100p">
@@ -295,8 +295,8 @@
                         </div>
                         <div class="hgt_10"></div>
                         <div class="crt_prt_hd">
-                            <button mat-raised-button color="accent" type="button" (click)="edit_model_status = true">
-                                <mat-icon>add</mat-icon> Check Subject
+                            <button mat-raised-button color="accent" type="button" (click)="toggleModel()">
+                                <mat-icon>add</mat-icon> Select Subject
                             </button>
                         </div>
                     </div>
