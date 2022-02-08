@@ -47,7 +47,8 @@ export class EditAssessmentComponent implements OnInit {
   public organization_type_name = '';
   public is_university = true;
   public is_college = false;
-  public organization_list = '';
+  public organization_list = [];
+  public college_list = [];
 
   public all_years: ReplaySubject<any> = new ReplaySubject<any>(1);
   public all_semesters: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -94,6 +95,8 @@ export class EditAssessmentComponent implements OnInit {
     this.role_id = this.user['role'];
     if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
       this.getTeacherCollegeInstitute();
+      this.is_college = false;
+      this.is_university = false;
     }else{
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
         this.is_college = true;
@@ -216,10 +219,10 @@ export class EditAssessmentComponent implements OnInit {
       this.organization_type_name = 'University';
       this.is_college = true;
     }
-    // else if(this.organization_type_id == '2'){ //College
-    //   this.getOrganizationList(2,0);
-    //   this.organization_type_name = 'College';
-    // }
+    else if(this.organization_type_id == '2'){ //College
+      this.getOrganizationList(2,0);
+      this.organization_type_name = 'College';
+    }
     else if(this.organization_type_id == '3'){ //Institute
       this.getOrganizationList(3,0);
       this.organization_type_name = 'Institute';
@@ -247,17 +250,17 @@ export class EditAssessmentComponent implements OnInit {
         }   
     });
     } else { // University => college
-      this.organization_list = '';
-      let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+      this.college_list = [];
+      this.is_college = true;
+      //let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+      let param = { url: 'get-partner-childs',child_type : type, partner_id : this.organization_list_id}
       this.http.post(param).subscribe((res) => {
           if (res['error'] == false) {
-              this.organization_list = res['data']['partners'];
-              if(this.organization_list != undefined && res['data']['partners'] != ''){
-                  this.all_college.next(res['data']['partners'].slice());
-                  this.total_college = res['data']['partners'];
-                  this.is_college = true; 
+              this.college_list = res['data']['partners'];
+              if(this.college_list != undefined && res['data']['partners'] != ''){
+                  this.all_college.next(this.college_list.slice());
                   this.college_id = '';
-              }          
+              }         
           } else {
           //this.toster.error(res['message'], 'Error');
           }   
@@ -295,10 +298,10 @@ export class EditAssessmentComponent implements OnInit {
     //   partner = String(this.college_institute_id);
     // }
     // let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
-    let partner = '';let partner_child_id = 0;
+    let partner = '';let partner_child_id = "";
     if(org_type == '1'){
       if(this.is_college == true){
-        partner_child_id = Number(this.college_id);
+        partner_child_id = this.college_id;
         partner = this.organization_list_id;
       }else{
         partner = this.organization_list_id;
@@ -313,7 +316,7 @@ export class EditAssessmentComponent implements OnInit {
     else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){
       partner = String(this.user_id);
       org_type = 1;
-      partner_child_id = Number(this.college_id);
+      partner_child_id = this.college_id;
     }
     else if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){
       partner = String(this.user_id);
@@ -326,7 +329,7 @@ export class EditAssessmentComponent implements OnInit {
     else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
       partner = this.user['partner_id'];
       org_type = 1;
-      partner_child_id = this.user_id;
+      partner_child_id = "";
     }
     else if(this.role_id == environment.ALL_ROLES.TEACHER){
       partner = String(this.college_institute_id);
@@ -387,21 +390,21 @@ export class EditAssessmentComponent implements OnInit {
     }
     this.all_organization_list.next(
       this.total_organization_list.filter(
-          (res) => res.name.toLowerCase().indexOf(search) > -1
+          (total_organization_list) => total_organization_list.organization_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
   searchCollege(event){
     let search = event;
     if (!search) {
-      this.all_college.next(this.total_college.slice());
-    return;
+      this.all_college.next(this.college_list.slice());
+      return;
     } else {
       search = search.toLowerCase();
     }
     this.all_college.next(
-      this.total_college.filter(
-          (res) => res.name.toLowerCase().indexOf(search) > -1
+      this.college_list.filter(
+        (college_list) => college_list.partner_name.toLowerCase().indexOf(search) > -1
       )
     );
   }
