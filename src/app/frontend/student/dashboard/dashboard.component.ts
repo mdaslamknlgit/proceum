@@ -25,6 +25,7 @@ export class DashboardComponent implements OnInit {
 
   //wishlist items variables
   public wish_list:any = []; 
+  public free_content:any = [];
   public expiration_courses:any = []; 
   public bookmarks:any = [];
   public favorites:any = [];
@@ -44,6 +45,7 @@ export class DashboardComponent implements OnInit {
   public is_test_end = false;
   public allow_end_test: boolean = false;
   public bucket_url = '';
+  public wish_list_data:any = [];
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {alert()
       // Your logic on beforeunload
@@ -58,6 +60,7 @@ export class DashboardComponent implements OnInit {
       this.getBookmarksFavorite();
       this.getRandomQuestions();
       this.getPackagesAboutToExpire();
+      this.getFreeContent();
     }
   }
   //Get wishlist items
@@ -65,8 +68,9 @@ export class DashboardComponent implements OnInit {
     let param = { url: 'get-wishlist', id: this.user_id};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        if(res['data'].length){
-          this.wish_list = res['data'];
+        if(res['data']){
+          this.wish_list = res['data']['cart'];
+          this.wish_list_data = res['data']['wishlist'];
         }else{
           //this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
         }
@@ -75,6 +79,19 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
+
+  //Get free content
+  getFreeContent(){
+    let param = { url: 'get-free-content'};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.free_content = res['data'];
+      } else {
+        this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
   getBookmarksFavorite(){
     let param = { url: 'student-bookmarks-favorite', id: this.user_id};
     this.http.post(param).subscribe((res) => {
@@ -93,6 +110,7 @@ export class DashboardComponent implements OnInit {
     let param = { url: 'manage-statistics', source_id: source_id,type:type};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
+        this.getFreeContent();
         this.getBookmarksFavorite();
         this.toster.success(res['message'], 'Success', { closeButton: true });
       }else{

@@ -232,7 +232,7 @@ export class RegisterComponent implements OnInit {
     }
 
     if((this.individualRegister.first_name != '' && this.individualRegister.email != '' && this.individualRegister.last_name != '' && 
-    this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.password.length > 5 && this.individualRegister.confirm_pwd != '' && this.individualRegister.qualification != '' && this.individualRegister.profession != '') && (this.individualRegister.university != '' || this.individualRegister.college != '') ){
+    this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.password.length > 5 && this.individualRegister.confirm_pwd != '')){
       stepper.next();
       //this.individual_address_details = true;
     }
@@ -685,7 +685,7 @@ export class RegisterComponent implements OnInit {
     }
     this.all_universities.next(
       this.universities.filter(
-        (university) => university.name.toLowerCase().indexOf(search) > -1
+        (university) => university.organization_name.toLowerCase().indexOf(search) > -1
       )
     );
   }

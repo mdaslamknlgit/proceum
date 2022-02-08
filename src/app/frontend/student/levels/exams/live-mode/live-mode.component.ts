@@ -55,7 +55,9 @@ export class LiveModeComponent implements OnInit {
             this.getTestQuestions();
         });
     }
-  
+    ngOnDestroy(){
+        clearInterval(this.set_interval);
+    }
 
 /* View in fullscreen */
  openFullscreen() {

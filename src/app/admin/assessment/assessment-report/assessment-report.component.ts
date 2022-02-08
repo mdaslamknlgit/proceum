@@ -49,10 +49,11 @@ export class AssessmentReportComponent implements OnInit {
         if (res['error'] == false) {
             let data = res['data'];
             this.dataSource = new MatTableDataSource(data['reports']);
-            if (data['reports'].length > 0) {
-            this.dataSource.paginator = this.paginator;
             this.report_count = data['report_count'];
+            this.assessment = [];
             this.assessment.push(data['assessment']);
+            if (this.dataSource.paginator == undefined) {
+                this.dataSource.paginator = this.paginator;
             }
         } else {
             this.toster.error(res['message'], 'Error', { closeButton: true });

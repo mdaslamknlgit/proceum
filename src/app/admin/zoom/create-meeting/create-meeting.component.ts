@@ -21,6 +21,7 @@ export class CreateMeetingComponent implements OnInit {
     public teachers = [];
     public subjects = [];
     public schedule_for = 'meeting';
+    public teacher_college_id = '';
     public selected_course = '';
     public selected_subject = 0;
     public meeting_topic = '';
@@ -70,10 +71,12 @@ export class CreateMeetingComponent implements OnInit {
 
     public show_semester_dropdown = true;
     public show_group_dropdown = true;
-
+    public organization_list_id1 = '';
+    public college_id1='';
     constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router) { 
         this.translate.setDefaultLang(this.http.lang);
     }
+    
     getTeacherSubjects(){
         let params = {
             url: 'class/get-teacher-subjects', user_id: this.teacher_id
@@ -86,6 +89,24 @@ export class CreateMeetingComponent implements OnInit {
                 this.curriculum_list = [];
             }
         });
+    }
+    checkTime(){alert(this.start_time)
+        if(this.start_time == undefined){
+            return false;
+        }
+        else{
+            if(this.start_date > new Date()){
+                return false;
+            }
+            let time = this.start_time.split(':');
+            if(parseInt(time[0]) <= this.today_date.getHours()){
+                if(parseInt(time[1]) < this.today_date.getMinutes()){
+                    this.start_time = '';
+                    this.toster.error("Past time not allowed", "Invalid Time", {closeButton:true});
+                }
+            }
+        }
+        
     }
     ngOnInit(): void {
         this.getData();
@@ -138,14 +159,26 @@ export class CreateMeetingComponent implements OnInit {
 
         let d = new Date();
         d.setDate(d.getDate() + 1);
-        this.minDate = d;
+        this.minDate = new Date();
     }
     getData(){
         let param = {url: 'class/create-meeting'};
         this.http.post(param).subscribe(res=>{
             if(res['error']==false){
-                this.teachers = res['data']['teachers'];
+                if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
+                    this.teachers = res['data']['teachers'];
+                }
                 this.countrys = res['data']['countrys'];
+            }
+        });
+    }
+    getTeachers(){
+        let params = {
+            url: 'class/get-teachers', college_id: this.teacher_college_id
+        };
+        this.http.post(params).subscribe((res) => {
+            if (res['error'] == false) {
+                this.teachers = res['data']['teachers'];
             }
         });
     }
@@ -270,25 +303,26 @@ export class CreateMeetingComponent implements OnInit {
         let param = { url: 'get-partners-list',partner_type_id : type };
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
-            this.organization_list = res['data']['partners'];
-            if(this.organization_list != undefined){
-                this.all_organization_list.next(this.organization_list.slice()); 
-                this.total_organization_list = res['data']['partners']; 
-            }
+                this.organization_list = res['data']['partners'];
+                if(this.organization_list != undefined){
+                    this.all_organization_list.next(this.organization_list.slice()); 
+                    this.total_organization_list = res['data']['partners']; 
+                }
             } else {
             //this.toster.error(res['message'], 'Error');
             }   
         });
         } else { // University => college
         this.organization_list = '';
-        let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+        this.is_college = true;
+        //let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+        let param = { url: 'get-partner-childs',child_type : type, partner_id : this.organization_list_id}
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
                 this.organization_list = res['data']['partners'];
                 if(this.organization_list != undefined && res['data']['partners'] != ''){
                     this.all_college.next(res['data']['partners'].slice());
-                    this.total_college = res['data']['partners'];
-                    this.is_college = true; 
+                    this.total_college = res['data']['partners'];                     
                     this.college_id = '';
                 }          
             } else {
@@ -331,7 +365,7 @@ export class CreateMeetingComponent implements OnInit {
         }
         this.all_organization_list.next(
         this.total_organization_list.filter(
-            (res) => res.name.toLowerCase().indexOf(search) > -1
+            (total_organization_list) => total_organization_list.organization_name.toLowerCase().indexOf(search) > -1
         )
         );
     }
@@ -345,16 +379,16 @@ export class CreateMeetingComponent implements OnInit {
         }
         this.all_college.next(
         this.total_college.filter(
-            (res) => res.name.toLowerCase().indexOf(search) > -1
+            (total_college) => total_college.partner_name.toLowerCase().indexOf(search) > -1
         )
         );
     }
   getYearSemsterGroup(org_type,parent_id,slug){  
     //let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
-    let partner = '';let partner_child_id = 0;
+    let partner = '';let partner_child_id = "";
     if(org_type == '1'){
       if(this.is_college == true){
-        partner_child_id = Number(this.college_id);
+        partner_child_id = this.college_id;
         partner = this.organization_list_id;
       }else{
         partner = this.organization_list_id;
@@ -369,7 +403,7 @@ export class CreateMeetingComponent implements OnInit {
     else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){
       partner = String(this.user_id);
       org_type = 1;
-      partner_child_id = Number(this.college_id);
+      partner_child_id = this.college_id;
     }
     else if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){
       partner = String(this.user_id);
@@ -382,10 +416,11 @@ export class CreateMeetingComponent implements OnInit {
     else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
       partner = this.user['partner_id'];
       org_type = 1;
-      partner_child_id = this.user_id;
+      partner_child_id = "";
     }
     else if(this.role_id == environment.ALL_ROLES.TEACHER){
       partner = String(this.teacher_id);
+      partner_child_id = "";
     } 
     let param = {
       url: 'get-year-semester-group',
@@ -402,15 +437,29 @@ export class CreateMeetingComponent implements OnInit {
           if(slug == 'year'){
             this.semester_id = '';
             this.group_id = '';
+            this.all_semesters.next();
+            this.all_groups.next();
             this.all_years.next(this.years.slice());
             this.total_years=res['data'];
+
           }else if(slug == 'semester'){
+            this.semester_id = '';
             this.group_id = '';
+            this.all_groups.next();
             this.all_semesters.next(this.years.slice());
             this.total_semesters==res['data'];
+            this.show_semester_dropdown = true;
+            if(this.years.length == 0){
+              this.getYearSemsterGroup(org_type,parent_id,'group');
+              this.show_semester_dropdown = false;
+            }
           }else if(slug == 'group'){
             this.all_groups.next(this.years.slice());
             this.total_groups==res['data'];
+            this.show_group_dropdown = true;
+            if(this.years.length == 0){
+              this.show_group_dropdown = false;
+            }
           }           
         }
         //this.doFilter();

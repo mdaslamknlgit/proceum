@@ -27,6 +27,7 @@ export class ExamModeComponent implements OnInit {
     public remain_time = '';
     public seconds = 0;
     public curriculum = [];
+    public set_interval:any;
     constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService) { }
 
     ngOnInit(): void {
@@ -36,6 +37,10 @@ export class ExamModeComponent implements OnInit {
             this.getTestQuestions();
         });
     }
+    ngOnDestroy(){
+        clearInterval(this.set_interval);
+    }
+    
     getTestQuestions(){
         let param = {url: "qbank/get-exam-mode-questions", qbank_id:this.filter_array.qbank_id, exam_id: this.filter_array.exam_id};
         this.http.post(param).subscribe(res=>{
@@ -50,7 +55,7 @@ export class ExamModeComponent implements OnInit {
                     this.getQuestionOptions(0);
                     let minutes = this.exam[0]['question_duration'] * this.questions_list.length;
                     this.seconds = minutes*60;
-                    let set_interval = setInterval(res=>{
+                    this.set_interval = setInterval(res=>{
                         this.seconds = this.seconds-1;
                         if(this.seconds >= 0)
                         {
@@ -60,7 +65,7 @@ export class ExamModeComponent implements OnInit {
                             }
                         }
                         else{
-                            clearInterval(set_interval);
+                            clearInterval(this.set_interval);
                             this.toster.info("Test time completed", "Time up", {closeButton:true});
                             this.caluculateResult();
                         }
@@ -177,8 +182,10 @@ export class ExamModeComponent implements OnInit {
             }
         });
     }
+
     caluculateResult(){
         this.is_test_end = true;
+        clearInterval(this.set_interval);
         let check = false;
         this.questions_list.forEach((q,index)=>{
             if([3,6,9,12].includes(q['q_type'])){
