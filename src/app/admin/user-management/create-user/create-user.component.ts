@@ -882,6 +882,10 @@ export class CreateUserComponent implements OnInit {
 
 
   toggleModel() {
+    /* this.treeControl =  new NestedTreeControl<CurriculumNode>(node => node.children);
+    this.dataSource.data.forEach(x => {
+      this.setParent(x, null);
+    }); */
     this.edit_model_status = true;
   }
 
