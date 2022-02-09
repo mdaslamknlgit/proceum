@@ -64,8 +64,9 @@ export class ListPackagesComponent implements OnInit {
         this.user_id = res['data']['user_id']; 
         this.admin_role_ids = res['data']['avoid_roles'];
       } else {
+        this.packages = [];
         this.toster.error(res['message'], 'Error');
-        this.router.navigateByUrl('/');
+        //this.router.navigateByUrl('/');
       }
     });
   }
