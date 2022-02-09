@@ -235,7 +235,7 @@ export class StudyPlannerComponent implements OnInit {
         }
     }
     assignTest(){
-        if(this.selected_day_index > 0 && (this.study_plan.schdule[this.selected_day_index-1]['is_test_day'] == true || this.study_plan.schdule[this.selected_day_index+1]['is_test_day'] == true)){
+        if(this.selected_day_index > 0 && (this.study_plan.schdule[this.selected_day_index-1]['is_test_day'] == true || (this.study_plan.schdule[this.selected_day_index+1] != undefined && this.study_plan.schdule[this.selected_day_index+1]['is_test_day'] == true))){
             this.toster.error("Test not allowed for this day", "Not Allowed", {closeButton:true});
             return false;
         }

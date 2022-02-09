@@ -54,12 +54,12 @@
                 <div class="spacer"></div>
                 <div class="pc_dsc_mn">
                     <span class="{{package.discount_percent ? 'strk_price':''}}">{{package.discount_percent ? 'Actual
-                        Price':'Total Price'}} {{ package.currency_symbol}} {{ package.selling_price}}</span>
+                        Price':'Total Price'}} {{ package.currency_symbol}} {{ package.original_price}}</span>
                     <span *ngIf="package.discount_percent">
                         <span class="fnt_16px">Discounted Price
                             <span class="per_dsc">{{ package.discount_percent}}% off</span>
                         </span>
-                        <strong>{{ package.currency_symbol}} {{ package.original_price}}</strong>
+                        <strong>{{ package.currency_symbol}} {{ package.selling_price}}</strong>
                     </span>
                 </div>
             </div>
@@ -72,6 +72,10 @@
                 </div>
             </div>
         </div>
+        <div class="crs_chld" *ngIf="!packages.length">
+            No Packages Found!
+        </div>
+
         <!-- item End-->
     </div>
 </div>
