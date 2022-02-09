@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {  Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-level',
   templateUrl: './level.component.html',
@@ -13,14 +13,19 @@ export class LevelComponent implements OnInit {
   public search = '';
   public is_loaded = false;
   public q_is_loaded = false;
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private http: CommonService
-  ) {}
+  public user = [];
+  constructor(private router: Router, private http: CommonService) {}
 
   ngOnInit(): void {
-    this.getCurriculums();
-    this.getQbanks();
+    this.user = this.http.getUser();
+    if(parseInt(this.user['role']) == environment.ALL_ROLES.INDIVIDUAL){
+        this.router.navigateByUrl("/student/individual-courses");
+    }
+    else{
+        this.getCurriculums();
+        this.getQbanks();
+    }
+    
   }
   getCurriculums() {
       this.is_loaded = false;
