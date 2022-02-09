@@ -180,7 +180,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   getRoles(role) {
-    let param = { url: 'get-roles', role: role };
+    let param = { url: 'get-roles', role: role, status:1 };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.roles = res['data']['roles'];
