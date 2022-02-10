@@ -19,7 +19,7 @@ export class LevelComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.http.getUser();
     if(parseInt(this.user['role']) == environment.ALL_ROLES.INDIVIDUAL){
-        this.router.navigateByUrl("/student/individual-courses");
+        this.router.navigateByUrl("/student/purchased-courses");
     }
     else{
         this.getCurriculums();
