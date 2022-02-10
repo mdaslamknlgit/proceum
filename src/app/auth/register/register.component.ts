@@ -215,6 +215,25 @@ export class RegisterComponent implements OnInit {
     if(!Number(this.individualRegister.contact_number) || (this.individualRegister.contact_number.length < 10 || this.individualRegister.contact_number.length > 13)){
       return;
     }
+    if(this.individualRegister.first_name.trim().length==0){
+      let result = <HTMLInputElement>document.getElementById("first_name");
+      result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+      return;
+    }
+    else{
+      let result = <HTMLInputElement>document.getElementById("first_name");
+      result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+    }
+
+    if(this.individualRegister.last_name.trim().length==0){
+      let result = <HTMLInputElement>document.getElementById("last_name");
+      result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+      return;
+    }
+    else{
+      let result = <HTMLInputElement>document.getElementById("last_name");
+      result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+    }
 
     //email
     if(!this.validateEmail(this.individualRegister.email)){
@@ -245,10 +264,32 @@ export class RegisterComponent implements OnInit {
       if(!Number(this.institutionResgister.university_primary_contact) || (this.institutionResgister.university_primary_contact.length < 10 || this.institutionResgister.university_primary_contact.length > 13)){
         return;
       }
-      if(!Number(this.institutionResgister.university_secondary_contact) || (this.institutionResgister.university_secondary_contact.length < 10 || this.institutionResgister.university_secondary_contact.length > 13)){
-        return;
-      }
+      // if(!Number(this.institutionResgister.university_secondary_contact) || (this.institutionResgister.university_secondary_contact.length < 10 || this.institutionResgister.university_secondary_contact.length > 13)){
+      //   return;
+      // }
       
+      if(this.institutionResgister.university_name.trim().length==0){
+        let result = <HTMLInputElement>document.getElementById("university_name");
+        result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+        return false;
+      }else{
+        let result = <HTMLInputElement>document.getElementById("university_name");
+        result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+      }
+
+      if(this.institutionResgister.university_contact_person.trim().length==0){
+        let result = <HTMLInputElement>document.getElementById("university_contact_person");
+        result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+        return false;
+      }
+      else{
+        let result = <HTMLInputElement>document.getElementById("university_contact_person");
+        result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+      }
+      if(this.profile_pic == ''){
+        this.toastr.error('Please Upload Logo', 'Error');
+        return false;
+      }
       //Password validation
       if(this.institutionResgister.password.length < 6){
         return;
@@ -264,7 +305,7 @@ export class RegisterComponent implements OnInit {
         return;
       }
 
-      if(this.institutionResgister.university_name != '' && this.institutionResgister.university_primary_contact != '' && this.institutionResgister.university_contact_person != '' && this.institutionResgister.password != '' && this.institutionResgister.university_code != '' && this.institutionResgister.university_secondary_contact != '' && this.institutionResgister.university_email != '' && this.institutionResgister.confirm_pwd != '' ){
+      if(this.institutionResgister.university_name != '' && this.institutionResgister.university_primary_contact != '' && this.institutionResgister.university_contact_person != '' && this.institutionResgister.password != '' && this.profile_pic != '' && this.institutionResgister.university_email != '' && this.institutionResgister.confirm_pwd != '' ){
        stepper.next();
       }
     }
@@ -276,6 +317,36 @@ export class RegisterComponent implements OnInit {
         return;
       }
       
+      if(this.institutionResgister.college_name.trim().length==0){
+        let result = <HTMLInputElement>document.getElementById("college_name");
+        result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+        return;
+      }else{
+        let result = <HTMLInputElement>document.getElementById("college_name");
+        result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+      }
+
+      if(this.institutionResgister.college_contact_person.trim().length==0){
+        let result = <HTMLInputElement>document.getElementById("college_contact_person");
+        result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+        return;
+      }else{
+        let result = <HTMLInputElement>document.getElementById("college_contact_person");
+        result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+      }
+
+      if(this.institutionResgister.college_code.trim().length==0){
+        let result = <HTMLInputElement>document.getElementById("college_code");
+        result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+        return;
+      }else{
+        let result = <HTMLInputElement>document.getElementById("college_code");
+        result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+      }
+      if(this.profile_pic == ''){
+        this.toastr.error('Please Upload Logo', 'Error');
+        return false;
+      }
       //Password validation
       if(this.institutionResgister.password.length < 6){
         return;
@@ -291,7 +362,7 @@ export class RegisterComponent implements OnInit {
         return;
       }
 
-      if(this.institutionResgister.college_name != '' && this.institutionResgister.college_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.college_code != '' && this.institutionResgister.college_contact_person != '' && this.institutionResgister.college_email != '' && this.institutionResgister.confirm_pwd != '' ){
+      if(this.institutionResgister.college_name != '' && this.institutionResgister.college_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.college_code != '' && this.institutionResgister.college_contact_person != '' && this.institutionResgister.college_email != '' && this.institutionResgister.confirm_pwd != '' && this.profile_pic != ''){
         stepper.next();
       }
     }
@@ -301,7 +372,29 @@ export class RegisterComponent implements OnInit {
       if(!Number(this.institutionResgister.institute_primary_contact) || (this.institutionResgister.institute_primary_contact.length < 10 || this.institutionResgister.institute_primary_contact.length > 13)){
         return;
       }
+      if(this.institutionResgister.institute_name.trim().length==0){
+        let result = <HTMLInputElement>document.getElementById("institute_name");
+        result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+        return;
+      }else{
+        let result = <HTMLInputElement>document.getElementById("institute_name");
+        result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+      }
       
+      if(this.institutionResgister.institute_contact_person.trim().length==0){
+        let result = <HTMLInputElement>document.getElementById("institute_contact_person");
+        result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+        return;
+      }
+      else{
+        let result = <HTMLInputElement>document.getElementById("institute_contact_person");
+        result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+      }
+      
+      if(this.profile_pic == ''){
+        this.toastr.error('Please Upload Logo', 'Error');
+        return false;
+      }
       //email
       if(!this.validateEmail(this.institutionResgister.institute_email)){
         return false;
@@ -317,7 +410,7 @@ export class RegisterComponent implements OnInit {
         return;
       }
 
-      if(this.institutionResgister.institute_name != '' && this.institutionResgister.institute_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.institute_contact_person != '' && this.institutionResgister.institute_email != '' && this.institutionResgister.confirm_pwd != '' ){
+      if(this.institutionResgister.institute_name != '' && this.institutionResgister.institute_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.institute_contact_person != '' && this.institutionResgister.institute_email != '' && this.institutionResgister.confirm_pwd != '' && this.profile_pic != ''){
         stepper.next();
        }
     }
@@ -805,7 +898,7 @@ export class RegisterComponent implements OnInit {
     }
     let param = { url: 'upload-picture' };
     this.http.imageUpload(param, uploadData).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       if (res['error'] == false) {
         //this.toastr.success('Files successfully uploaded.', 'File Uploaded');
         this.profile_pic = res['url'];
