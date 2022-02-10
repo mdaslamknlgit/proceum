@@ -79,7 +79,7 @@
                         </span>
                         <span class="cs_av">
                             <div class="spacer"></div>
-                            <span class="cs_vw">View<mat-icon>
+                            <span class="cs_vw">View<mat-icon> 
                                 east</mat-icon></span>
                           </span>
                     </div> -->
@@ -96,8 +96,9 @@
                             <span class="cs_stc_nm">{{m['duration']}} {{"min_text"|translate}}</span><br/>
                             <span class="cs_stc_hd pl_0">{{"student.class.list.status_text"|translate}}</span>
                             <span class="cs_stc_nm">
-                                <span *ngIf="m['join_status'] == 0" [translate]="'student.class.list.not_atended'"></span>
-                                <span *ngIf="m['join_status'] == 1" [translate]="'student.class.list.atended'"></span>
+                                <span *ngIf="m['status'] != 3 && m['join_status'] == 0" [translate]="'student.class.list.not_started'"></span>
+                                <span *ngIf="m['status'] == 3" [translate]="'student.class.list.canceled'"></span> 
+                                <span *ngIf="m['status'] != 3 && m['join_status'] == 1" [translate]="'student.class.list.atended'"></span>
                             </span>
                         </span>
                         <span class="cs_av" *ngIf="m['status'] == 0 || m['status'] == 1">
@@ -121,8 +122,9 @@
                         <span class="cs_stc">
                             <span class="cs_stc_hd pl_0">{{"student.class.list.status_text"|translate}}</span>
                             <span class="cs_stc_nm">
-                                <span *ngIf="m['join_status'] == 0" [translate]="'student.class.list.not_atended'"></span>
-                                <span *ngIf="m['join_status'] == 1" [translate]="'student.class.list.atended'"></span>
+                                <span *ngIf="m['status'] != 3 && m['join_status'] == 0" [translate]="'student.class.list.not_atended'"></span>
+                                <span *ngIf="m['status'] != 3 && m['join_status'] == 1" [translate]="'student.class.list.atended'"></span>
+                                <span *ngIf="m['status'] == 3" [translate]="'student.class.list.canceled'"></span> 
                             </span>
                         </span>
                         <span class="cs_av" *ngIf="m['status'] == 0 || m['status'] == 1">

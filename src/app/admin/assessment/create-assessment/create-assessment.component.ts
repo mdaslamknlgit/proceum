@@ -197,14 +197,19 @@ export class CreateAssessmentComponent implements OnInit {
     this.curriculum_id = 0;
     this.curriculum_labels = [];
     let params = {
-      url: 'get-courses-or-qbanks', type: 2, assessment_type: 1
+      url: 'assessment/get-curriculums-list', usage_type: 2, addon_type: 2, assessment_type: 1
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
-        if (res['data']['list'].length > 0)
+        if (res['data']['list'].length > 0){
           this.curriculum_list = res['data']['list'];
-        else
+        }          
+        else{
           this.curriculum_list = [];
+          this.translate.get('admin.assessment.create.qbank_list_err').subscribe((data)=> {
+            this.toster.error(data, "Error", {closeButton:true});
+          });
+        }
       }
     });
   }
@@ -519,18 +524,6 @@ export class CreateAssessmentComponent implements OnInit {
     );
   }
   searchCollege(event){
-    // let search = event;
-    // if (!search) {
-    //   this.all_college.next(this.total_college.slice());
-    // return;
-    // } else {
-    //   search = search.toLowerCase();
-    // }
-    // this.all_college.next(
-    //   this.total_college.filter(
-    //       (res) => res.name.toLowerCase().indexOf(search) > -1
-    //   )
-    // );
     let search = event;
     if (!search) {
       this.all_college.next(this.college_list.slice());

@@ -29,7 +29,7 @@ export class AttendAssessmentComponent implements OnInit {
     public allow_end_test: boolean = false;
     public remain_time = '';
     public seconds = 0;
-
+    public set_interval:any;
 constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, private toster: ToastrService, public translate: TranslateService, private location: Location, http_client: HttpClient) { 
         this.translate.setDefaultLang(this.http.lang);
     }
@@ -41,7 +41,10 @@ constructor(private activatedRoute: ActivatedRoute, private router: Router, priv
             this.getTestQuestions();
         });
     }
-    public set_interval:any;
+    ngOnDestroy(){
+        clearInterval(this.set_interval);
+    }
+    
     getTestQuestions(){
         let param = {url: "assessment/get-questions", assessment_id:this.assessment_id};
         this.http.post(param).subscribe(res=>{

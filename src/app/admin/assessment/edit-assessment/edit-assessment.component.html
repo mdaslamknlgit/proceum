@@ -68,7 +68,7 @@
                     <ng-container matColumnDef="Subject">
                         <th mat-header-cell *matHeaderCellDef> {{"s_no_text"|translate}} </th>
                         <td mat-cell *matCellDef="let element; let s_no=index"> {{s_no+1}} </td>
-                        <td mat-footer-cell *matFooterCellDef> Total  </td>
+                        <td mat-footer-cell *matFooterCellDef> {{"admin.assessment.create.total"|translate}}  </td>
                     </ng-container>
                     <ng-container matColumnDef="Chapter">
                         <th mat-header-cell *matHeaderCellDef> {{"admin.assessment.create.qbank"|translate}} </th>
@@ -102,7 +102,7 @@
                 </div> -->
             </div>
             <hr class="hgt_10">
-            <div class="cm_fltr_sc mr_1" *ngIf="role_id == 1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{"admin.assessment.create.organization_type"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder='{{"admin.assessment.create.select_organization_type"|translate}}' name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization_type_id" (ngModelChange)="onOrganizationTypeChange()">
@@ -110,7 +110,7 @@
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1" *ngIf="role_id == 1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="Select {{ organization_type_name }}" name="organization_list_edit" #organization_list_edit="ngModel" [(ngModel)]="organization_list_id" (ngModelChange)="selected_name='university_id';selected_value=organization_list_id;getCollege(organization_type_id,0,'year')">
@@ -120,11 +120,11 @@
                                 >
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']" matTooltip='{{ item["organization_name"] }}'>{{ item["organization_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1" *ngIf="is_college && role_id == 1">
+            <div class="cm_fltr_sc mr_1" *ngIf="is_college">
                 <span>{{"admin.assessment.create.college"|translate}}</span>
                 <mat-form-field appearance="outline">
                     <mat-select placeholder="{{'admin.assessment.create.select_college' | translate}}" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="selected_name='college_id';selected_value=college_id;getYearSemsterGroup(organization_type_id,0,'year')">
@@ -134,7 +134,9 @@
                                 >
                             </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let item of all_college | async" [value]="''+item['partner_id']">{{ item["organization_name"]?item["organization_name"]:item["name"] }}</mat-option>
+                        <mat-option *ngFor="let item of all_college | async" [value]="''+item['pk_id']" matTooltip='{{
+                            item["organization_name"]?item["organization_name"]:item["partner_name"] }}'>
+                            {{ item["organization_name"]?item["organization_name"]:item["partner_name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>

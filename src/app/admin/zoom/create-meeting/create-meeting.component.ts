@@ -21,6 +21,7 @@ export class CreateMeetingComponent implements OnInit {
     public teachers = [];
     public subjects = [];
     public schedule_for = 'meeting';
+    public teacher_college_id = '';
     public selected_course = '';
     public selected_subject = 0;
     public meeting_topic = '';
@@ -70,10 +71,12 @@ export class CreateMeetingComponent implements OnInit {
 
     public show_semester_dropdown = true;
     public show_group_dropdown = true;
-
+    public organization_list_id1 = '';
+    public college_id1='';
     constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router) { 
         this.translate.setDefaultLang(this.http.lang);
     }
+    
     getTeacherSubjects(){
         let params = {
             url: 'class/get-teacher-subjects', user_id: this.teacher_id
@@ -87,11 +90,14 @@ export class CreateMeetingComponent implements OnInit {
             }
         });
     }
-    checkTime(){
+    checkTime(){alert(this.start_time)
         if(this.start_time == undefined){
             return false;
         }
         else{
+            if(this.start_date > new Date()){
+                return false;
+            }
             let time = this.start_time.split(':');
             if(parseInt(time[0]) <= this.today_date.getHours()){
                 if(parseInt(time[1]) < this.today_date.getMinutes()){
@@ -161,6 +167,16 @@ export class CreateMeetingComponent implements OnInit {
             if(res['error']==false){
                 this.teachers = res['data']['teachers'];
                 this.countrys = res['data']['countrys'];
+            }
+        });
+    } 
+    getTeachers(){
+        let params = {
+            url: 'class/get-teachers', college_id: this.teacher_college_id
+        };
+        this.http.post(params).subscribe((res) => {
+            if (res['error'] == false) {
+                this.teachers = res['data']['teachers'];
             }
         });
     }
@@ -285,25 +301,26 @@ export class CreateMeetingComponent implements OnInit {
         let param = { url: 'get-partners-list',partner_type_id : type };
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
-            this.organization_list = res['data']['partners'];
-            if(this.organization_list != undefined){
-                this.all_organization_list.next(this.organization_list.slice()); 
-                this.total_organization_list = res['data']['partners']; 
-            }
+                this.organization_list = res['data']['partners'];
+                if(this.organization_list != undefined){
+                    this.all_organization_list.next(this.organization_list.slice()); 
+                    this.total_organization_list = res['data']['partners']; 
+                }
             } else {
             //this.toster.error(res['message'], 'Error');
             }   
         });
         } else { // University => college
         this.organization_list = '';
-        let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+        this.is_college = true;
+        //let param = { url: 'get-partners-list',parent_id : this.organization_list_id };
+        let param = { url: 'get-partner-childs',child_type : type, partner_id : this.organization_list_id}
         this.http.post(param).subscribe((res) => {
             if (res['error'] == false) {
                 this.organization_list = res['data']['partners'];
                 if(this.organization_list != undefined && res['data']['partners'] != ''){
                     this.all_college.next(res['data']['partners'].slice());
-                    this.total_college = res['data']['partners'];
-                    this.is_college = true; 
+                    this.total_college = res['data']['partners'];                     
                     this.college_id = '';
                 }          
             } else {
@@ -346,7 +363,7 @@ export class CreateMeetingComponent implements OnInit {
         }
         this.all_organization_list.next(
         this.total_organization_list.filter(
-            (res) => res.name.toLowerCase().indexOf(search) > -1
+            (total_organization_list) => total_organization_list.organization_name.toLowerCase().indexOf(search) > -1
         )
         );
     }
@@ -360,7 +377,7 @@ export class CreateMeetingComponent implements OnInit {
         }
         this.all_college.next(
         this.total_college.filter(
-            (res) => res.organization_name.toLowerCase().indexOf(search) > -1
+            (total_college) => total_college.partner_name.toLowerCase().indexOf(search) > -1
         )
         );
     }
