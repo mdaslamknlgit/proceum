@@ -24,6 +24,7 @@ export class StudyPlannerStudentComponent implements OnInit {
     public plans_list = [];
     public topics = [];
     public user_data = [];
+    public is_loaded = false;
   constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
     ngOnInit(): void {
@@ -36,12 +37,14 @@ export class StudyPlannerStudentComponent implements OnInit {
         this.user_data = this.http.getUser();
     }
     getPlansList(){
+        this.is_loaded = false;
         let param = {
-            url: 'study-plan/list',
+            url: 'study-plan/individual-list',
             offset: 0,
             limit: this.pageSize
         };
         this.http.post(param).subscribe((res) => {
+            this.is_loaded = true;
             if (res['error'] == false) {
                 this.plans_list = res['data']['plans_list'];
                 if(this.plans_list.length>0 && this.study_plan_id == null || this.study_plan_id == 0){

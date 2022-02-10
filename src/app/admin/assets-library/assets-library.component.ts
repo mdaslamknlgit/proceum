@@ -20,6 +20,7 @@ export class AssetsLibraryComponent implements OnInit {
   public active_class_file = '';
   public files = [];
   public directories = [];
+  public all_directories = [];
   public bucket_path = '';
   public preview_path = '';
   public library_purpose = '';
@@ -69,11 +70,16 @@ export class AssetsLibraryComponent implements OnInit {
       this.files = res['data']['files'];
       this.all_files.next(this.files.slice());
       this.directories = res['data']['directories'];
+      this.all_directories = res['data']['directories'];
       this.bucket_path = res['data']['url'];
     });
   }
   filterFiles() {
     let search = this.search_images.replace(' ','_');
+    let options = this.all_directories;
+        this.directories = options.filter(
+            item => item.toLowerCase().includes(search.toLowerCase())
+        );
     if (!search) {
       this.all_files.next(this.files.slice());
       return;
@@ -99,6 +105,7 @@ export class AssetsLibraryComponent implements OnInit {
       this.files = res['data']['files'];
       this.all_files.next(this.files.slice());
       this.directories = res['data']['directories'];
+      this.all_directories = res['data']['directories'];
       this.bucket_path = res['data']['url'];
     });
   }

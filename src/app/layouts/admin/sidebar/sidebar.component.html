@@ -6,7 +6,7 @@
         <mat-icon>dashboard</mat-icon> Dashboard
       </div>
     </li>
-
+    <!--
     <li class="hs_sbmnu {{
         menu_active == 1 ||
         active_route == '/admin/roles-list' ||
@@ -25,10 +25,10 @@
           <mat-icon>manage_accounts</mat-icon> Privilege/Access Matrix
         </li>
       </ul>
-    </li>
+    </li>-->
     <li class="hs_sbmnu {{
         menu_active == 2 ||
-        active_route == '/admin/students' ||
+        active_route == '/admin/students' || active_route == '/admin/roles-list' ||
         active_route == '/admin/login-history'
           ? 'active'
           : ''
@@ -37,6 +37,9 @@
         <mat-icon>manage_accounts</mat-icon> User Management
       </div>
       <ul class="sdmn_sub">
+        <li routerLinkActive="active" routerLink="/admin/roles-list">
+          <mat-icon>manage_accounts</mat-icon> Roles List
+        </li>
         <li routerLinkActive="active" routerLink="/admin/manage-users">
           <mat-icon>assignment</mat-icon> Manage Users
         </li>
@@ -139,7 +142,9 @@
         <mat-icon>today</mat-icon> Study Planner
       </div>
     </li>
-    <li class="hs_sbmnu {{ menu_active == 6 || active_route == '/admin/questions-mgt/qbank' || active_route == '/admin/questions-mgt/questions-list' || active_route.includes('/questions-mgt/create-question') || active_route.includes('/questions-mgt/edit-question/') || active_route == '/admin/questions-mgt/lab-values' ? 'active': ''}}" (click)="activeMenu(6, menu_active)">
+    <li
+      class="hs_sbmnu {{ menu_active == 6 || active_route == '/admin/questions-mgt/qbank' || active_route == '/admin/questions-mgt/questions-list' || active_route.includes('/questions-mgt/create-question') || active_route.includes('/questions-mgt/edit-question/') || active_route == '/admin/questions-mgt/lab-values' ? 'active': ''}}"
+      (click)="activeMenu(6, menu_active)">
       <div class="sd_mnuhd">
         <mat-icon>quiz</mat-icon>Questions Management
       </div>
@@ -148,10 +153,12 @@
           [ngClass]="{ active: active_route == '/admin/questions-mgt/qbank' }">
           <mat-icon>quiz</mat-icon>Question Banks
         </li> -->
-        <li routerLink="/admin/questions-mgt/create-question" [ngClass]="{ active: active_route.includes('/questions-mgt/create-question')}">
+        <li routerLink="/admin/questions-mgt/create-question"
+          [ngClass]="{ active: active_route.includes('/questions-mgt/create-question')}">
           <mat-icon>quiz</mat-icon>Create Question
         </li>
-        <li routerLink="/admin/questions-mgt/questions-list" [ngClass]="{ active: active_route == '/admin/questions-mgt/questions-list' || active_route.includes('/questions-mgt/edit-question/') }">
+        <li routerLink="/admin/questions-mgt/questions-list"
+          [ngClass]="{ active: active_route == '/admin/questions-mgt/questions-list' || active_route.includes('/questions-mgt/edit-question/') }">
           <mat-icon>quiz</mat-icon>Manage Questions
         </li>
         <!-- <li routerLink="/admin/questions-mgt/lab-values"
@@ -242,6 +249,7 @@
     <li class="hs_sbmnu {{
         menu_active == 9 ||
         active_route == '/admin/settings/email-templates' ||
+        active_route == '/admin/universities-colleges' ||
         active_route == '/admin/countries' ||
         active_route == '/admin/settings' ||
         active_route == '/admin/custom-page' ||
@@ -254,6 +262,11 @@
         <mat-icon>settings</mat-icon> Settings
       </div>
       <ul class="sdmn_sub">
+        <li routerLink="/admin/universities-colleges" [ngClass]="{
+          active: active_route == '/admin/universities-colleges'
+        }">
+          <mat-icon>work_outline</mat-icon>Universities-Colleges
+        </li>
         <li routerLink="/admin/countries" [ngClass]="{
             active: active_route == '/admin/countries'
           }">

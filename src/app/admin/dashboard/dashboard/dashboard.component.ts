@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.user = this.http.getUser();
+    
     this.getPartners();
   }
 

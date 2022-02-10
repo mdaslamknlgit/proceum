@@ -33,35 +33,35 @@ export class ListPackagesComponent implements OnInit {
       this.role_id =  Number(this.user['role']);
     }
     //get client ip
-    this.http.getClientIp().subscribe((res) => {
+    /* this.http.getClientIp().subscribe((res) => {
       this.ip = res['ip'];
       this.getPackages();
-    });     
+    });    */ 
+    this.getPackages(); 
   }
 
   public getPackages() {
-    let param = { url: 'get-packages-to-purchase', id: this.user_id, ip: this.ip, country_id: this.country_id };
+    let param = { url: 'get-packages-to-purchase'};
     this.http.nonAuthenticatedPost(param).subscribe((res) => {
       //console.log(res);
       if (res['error'] == false) {
         this.packages = res['data']['packages'];
         this.country_id = res['data']['country_id'];
-        this.user_id = res['data']['user_id'];
         this.admin_role_ids = res['data']['avoid_roles'];
       } else {
+        this.packages = [];
         this.toster.error(res['message'], 'Error');
-        this.router.navigateByUrl('/');
+        //this.router.navigateByUrl('/');
       }
     });
   }
 
   public doFilter() {
-    let param = { url: 'get-packages-to-purchase', search: this.search_box, id: this.user_id, ip: this.ip, country_id: this.country_id };
+    let param = { url: 'get-packages-to-purchase', search: this.search_box };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.packages = res['data']['packages'];
         this.country_id = res['data']['country_id'];
-        this.user_id = res['data']['user_id']; 
         this.admin_role_ids = res['data']['avoid_roles'];
       } else {
         this.packages = [];
