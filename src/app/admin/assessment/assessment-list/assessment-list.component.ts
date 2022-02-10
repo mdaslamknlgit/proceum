@@ -23,7 +23,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./assessment-list.component.scss']
 })
 export class AssessmentListComponent implements OnInit {
-  displayedColumns: string[] = ['Sno', 'SubName', 'assNme', 'dtndTm', 'qstns', 'eqDrtn', 'invTd', 'created_by',  'acTn']; //'appeRd', 'absnTee',
+  displayedColumns: string[] = ['Sno', 'assNme', 'dtndTm', 'qstns', 'eqDrtn', 'invTd', 'created_by',  'acTn']; //'SubName', 'appeRd', 'absnTee',
   
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
