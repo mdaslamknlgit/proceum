@@ -1,4 +1,5 @@
 <app-topbar (finishedLoading)="isLoadedTopBar = $event"></app-topbar>
+<div class="mn_dshbrd mlr_auto">
 <div *ngIf="isLoadedTopBar && !is_show" class="login_main inner-container">
   <div class="log_mdl_cont">
     <!-- Choose account section -->
@@ -46,7 +47,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="1" matInput placeholder="First Name" [(ngModel)]="individualRegister.first_name"
                         name="first_name" #first_name="ngModel" maxlength="50" required
-                        (keypress)="allAlphabetsWithSpaces($event)">
+                        (keypress)="allAlphabetsWithSpaces($event)" id="first_name">
                       <span class="prc_tltp" *ngIf="(individual_signup_form.submitted ||
                     first_name.touched) &&
                   first_name.invalid">First Name is required</span>
@@ -120,7 +121,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="2" matInput placeholder="Last Name" [(ngModel)]="individualRegister.last_name"
                         name="last_name" #last_name="ngModel" required maxlength="50"
-                        (keypress)="allAlphabetsWithSpaces($event)">
+                        (keypress)="allAlphabetsWithSpaces($event)" id="last_name">
                       <span class="prc_tltp"
                         *ngIf="(individual_signup_form.submitted || last_name.touched) && last_name.invalid">Last Name
                         is required</span>
@@ -377,7 +378,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="1" matInput placeholder="University Name"
                         [(ngModel)]="institutionResgister.university_name" name="university_name"
-                        #university_name="ngModel" maxlength="100" (keypress)="allAlphabetsWithSpaces($event)">
+                        #university_name="ngModel" maxlength="100" (keypress)="allAlphabetsWithSpaces($event)" id="university_name" required>
 
                       <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let university of universities" [value]="university.name">
@@ -438,7 +439,7 @@
                         [(ngModel)]="institutionResgister.university_secondary_contact"
                         name="university_secondary_contact" ngModel #university_secondary_contact="ngModel"
                         pattern="^\s*(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$"
-                        required maxlength="15">
+                         maxlength="15">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || university_secondary_contact.touched) && institutionResgister.university_secondary_contact == ''">Secondary
                         Contact Number is required</span>
@@ -488,7 +489,7 @@
                       <input tabindex="6" matInput placeholder="Contact Person Name"
                         [(ngModel)]="institutionResgister.university_contact_person" name="university_contact_person"
                         #university_contact_person="ngModel" required maxlength="30"
-                        (keypress)="allAlphabetsWithSpaces($event)">
+                        (keypress)="allAlphabetsWithSpaces($event)" id="university_contact_person">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || university_contact_person.touched) && institutionResgister.university_contact_person == ''">Contact
                         Person
@@ -496,7 +497,7 @@
                     </mat-form-field>
                   </div>
                   <div class="fir_name text_left">
-                    Upload Logo
+                    Upload Logo *
                   </div>
                   <div class="fir_name reg_imgupld mt_1">
                     <!-- <div class="unilogup" *ngIf="profile_pic != ''">
@@ -517,8 +518,8 @@
                           color="accent" class="mt_5px no_bxsdw" matTooltip="Upload Logo">
                           <mat-icon>upload</mat-icon>
                           <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
-                            id="imageToUpload" type="file" style="display: none" />
-                        </button>
+                            id="imageToUpload" required type="file" style="display: none" />
+                        </button>                        
                       </div>
                     </div>
                   </div>
@@ -534,7 +535,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="1" matInput placeholder="College Name"
                         [(ngModel)]="institutionResgister.college_name" name="college_name" #college_name="ngModel"
-                        required maxlength="100" (keypress)="allAlphabetsWithSpaces($event)">
+                        required maxlength="100" (keypress)="allAlphabetsWithSpaces($event)" id="college_name">
                       <!-- <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let college of colleges" [value]="college.name">
                           {{college.name}}
@@ -564,7 +565,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="5" matInput placeholder="College Code"
                         [(ngModel)]="institutionResgister.college_code" name="college_code" #college_code="ngModel"
-                        required maxlength="10">
+                        required maxlength="10" id="college_code">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted  || college_code.touched) && institutionResgister.college_code == ''">College
                         Code is
@@ -575,7 +576,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="7" matInput placeholder="Contact Person Name"
                         [(ngModel)]="institutionResgister.college_contact_person" name="college_contact_person"
-                        #college_contact_person="ngModel" required (keypress)="allAlphabetsWithSpaces($event)">
+                        #college_contact_person="ngModel" required (keypress)="allAlphabetsWithSpaces($event)" id="college_contact_person">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted  || college_code.touched) && institutionResgister.college_contact_person == ''">Contact
                         Person
@@ -660,7 +661,7 @@
                   </div>
 
                   <div class="fir_name text_left">
-                    Upload Logo
+                    Upload Logo *
                   </div>
                   <div class="fir_name reg_imgupld mt_1">
                     <!-- <div class="unilogup" *ngIf="profile_pic != ''">
@@ -681,7 +682,7 @@
                           color="accent" class="mt_5px no_bxsdw" matTooltip="Upload Logo">
                           <mat-icon>upload</mat-icon>
                           <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
-                            id="imageToUpload" type="file" style="display: none" />
+                            id="imageToUpload" type="file" required style="display: none" />
                         </button>
                       </div>
                     </div>
@@ -699,7 +700,7 @@
                     <mat-form-field appearance="legacy">
                       <input tabindex="1" matInput placeholder="Institute Name"
                         [(ngModel)]="institutionResgister.institute_name" name="institute_name"
-                        #institute_name="ngModel" required maxlength="100" (keypress)="allAlphabetsWithSpaces($event)">
+                        #institute_name="ngModel" required maxlength="100" (keypress)="allAlphabetsWithSpaces($event)" id="institute_name">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || institute_name.touched) && institutionResgister.institute_name != ''">Institute
                         Name is required</span>
@@ -729,7 +730,7 @@
                       <input tabindex="5" matInput placeholder="Contact Person Name"
                         [(ngModel)]="institutionResgister.institute_contact_person" name="institute_contact_person"
                         #institute_contact_person="ngModel" required maxlength="30"
-                        (keypress)="allAlphabetsWithSpaces($event)">
+                        (keypress)="allAlphabetsWithSpaces($event)" id="institute_contact_person">
                       <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || institute_contact_person.touched) && institutionResgister.institute_contact_person == ''">Contact
                         Person
@@ -785,10 +786,10 @@
                         and Confirm Password must be match.</span>
                     </mat-form-field>
                   </div>
-                  <div class="fir_name text_left">
-                    Upload Logo
+                  <div class="fir_name text_left" id="text_left">
+                    Upload Logo *
                   </div>
-                  <div class="fir_name reg_imgupld mt_1">
+                  <div class="fir_name reg_imgupld mt_1" id="reg_imgupld">
                     <!-- <div class="unilogup" *ngIf="profile_pic != ''">
                         <img src="{{ profile_pic }}" alt="">
                       </div> -->
@@ -807,7 +808,7 @@
                           color="accent" class="mt_5px no_bxsdw" matTooltip="Upload Logo">
                           <mat-icon>upload</mat-icon>
                           <input (change)="uploadImage($event)" accept="image/x-png,image/gif,image/jpeg"
-                            id="imageToUpload" type="file" style="display: none" />
+                            id="imageToUpload" type="file" required style="display: none" />
                         </button>
                       </div>
                     </div>
@@ -973,5 +974,6 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 <app-footer></app-footer>

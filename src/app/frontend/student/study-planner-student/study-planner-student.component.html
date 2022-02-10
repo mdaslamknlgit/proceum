@@ -56,23 +56,24 @@
             </div>
         </div> -->
         <div class="hgt_20"></div>
-        <div class="sp_cnt d-flex dsh_brd_crds">
+        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="plans_list.length == 0 && is_loaded">No Records Found</div>
+        <div *ngIf="plans_list.length>0" class="sp_cnt d-flex dsh_brd_crds">
             <div class="sp_cnt_lft">
                 <div class="sp_sbhd">
-                    Course List
+                    Plans List
                 </div>
                 <div class="sp_bdy">
                     <ul class="">
-                        <li *ngFor="let plan of plans_list" (click)="getStudyPlan(plan['id'])">
+                        <li *ngFor="let plan of plans_list" class="{{study_plan_id == plan['id']?'active':''}}" (click)="getStudyPlan(plan['id'])">
                             <mat-icon *ngIf="study_plan_id==plan['id']">check</mat-icon>{{plan['plan_name']}}
                             <div class="clear_fix"></div>
-                            <div class="prg_div">
+                            <!--<div class="prg_div">
                                 <span class="prg_sp">
                                     <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="5">
                                     </mat-progress-bar>
                                 </span>
                                 <span class="cnt_sp">5%</span>
-                            </div>
+                            </div>-->
                         </li>
                     </ul>
                 </div>

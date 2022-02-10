@@ -1,4 +1,4 @@
-<app-topbar (finishedLoading)="isLoadedTopBar = $event"></app-topbar>
+<app-topbar (finishedLoading)="isLoadedTopBar = $event;getPartnerChilds()"></app-topbar>
 <div *ngIf="isLoadedTopBar && app.localStorageItem('header_logo') != '' && !is_show"
     class="login_main partner_registration inner-container">
     <p class="sgn_hd">Student Registration</p>
@@ -37,8 +37,7 @@
                             <div class="fir_name err_tltp_par">
                                 <mat-form-field appearance="legacy">
                                     <input tabindex="3" matInput placeholder="Email"
-                                        [(ngModel)]="pStudentRegister.email" name="email" #email="ngModel"
-                                        (input)="getPartnerChilds(1)" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                        [(ngModel)]="pStudentRegister.email" name="email" #email="ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                                         required>
                                     <span class="prc_tltp"
                                         *ngIf="(partner_sign_up_form.submitted || email.touched) && email.invalid">Email
@@ -63,7 +62,7 @@
                                 </mat-form-field>
                             </div>
 
-                            <div class="fir_name err_tltp_par" *ngIf="app.localStorageItem('p_type_id') != ''">
+                            <div class="fir_name err_tltp_par" *ngIf="app.localStorageItem('p_type') == '1'">
                                 <mat-form-field appearance="legacy">
                                     <mat-select tabindex="8" placeholder="Select College" name="college"
                                         #college="ngModel" [(ngModel)]="pStudentRegister.college"

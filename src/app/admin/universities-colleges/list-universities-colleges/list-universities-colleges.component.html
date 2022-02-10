@@ -1,0 +1,181 @@
+<div class="mn_dshbrd">
+    <div class="brd_crm">Proceum &raquo; <strong>Universities/Colleges</strong></div>
+    <div class="d-flex rsp_fw">
+        <div class="pg_ttl">Universities/Colleges</div>
+        <div class="spacer"></div>
+        <div>
+            <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm"
+                (click)="navigateTo('create-university-or-college')">
+                <mat-icon>add</mat-icon>
+                Add New
+            </button>
+        </div>
+    </div>
+
+    <hr />
+    <div class="dsh_brd_crds">
+        <div class="d_flx_ac">
+            <mat-form-field appearance="outline" class="mr_1">
+                <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                    placeholder="Search" />
+                <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
+            </mat-form-field>
+            <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm" (click)="doFilter()"
+                [disabled]="!from_date || !to_date">
+                Submit
+            </button>
+            <button mat-raised-button class="float_right mr_1 btn_st_frm" (click)="resetFilters()" color="warn"
+                matTooltip="Reset">
+                <mat-icon>restart_alt</mat-icon>
+            </button>
+        </div>
+        <div class="hgt_20"></div>
+        <div>
+            <mat-tab-group (selectedTabChange)="tabClick($event)">
+                <mat-tab label="University">
+                    <div class="rsp_tbl">
+                        <table mat-table [dataSource]="dataSource" matSort class="whtspc_nml">
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef>S.No</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.s_no }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="organization_name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                                    Organization Name
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span>{{ element.organization_name }}</span>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="contact_email">
+                                <th mat-header-cell *matHeaderCellDef cdkDrag>
+                                    Contact Email
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{ element.contact_email }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="contact_person">
+                                <th mat-header-cell *matHeaderCellDef cdkDrag>
+                                    Contact Person
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{ element.contact_person }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="contact_number">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                                    Contact Number
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span>{{ element.contact_number }}</span>
+                                </td>
+                            </ng-container>
+                        
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
+                                <td mat-cell *matCellDef="let element">
+
+                                    <mat-slide-toggle (click)="deleteRecord(element.pk_id, element.status)"
+                                        [checked]="element.status == 1 ? true : false"
+                                        matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+                                    </mat-slide-toggle>
+
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef class="text_center">Actions</th>
+                                <td mat-cell *matCellDef="let element" class="ws_nw">
+                                    <button mat-icon-button matTooltip="Click to edit" color="accent"
+                                        (click)="navigateTo('edit-university-or-college/'+element.pk_id)">
+                                        <mat-icon>edit_notes</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                                <td class="mat-cell" [attr.colspan]="displayedColumns.length">No Records Found</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="page_size_options"
+                        [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)">
+                    </mat-paginator>
+                </mat-tab>
+                <mat-tab label="College">
+                    <div class="rsp_tbl">
+                        <table mat-table [dataSource]="dataSource" matSort class="whtspc_nml">
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef>S.No</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.s_no }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="organization_name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                                    Organization Name
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span>{{ element.organization_name }}</span>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="contact_email">
+                                <th mat-header-cell *matHeaderCellDef cdkDrag>
+                                    Contact Email
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{ element.contact_email }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="contact_person">
+                                <th mat-header-cell *matHeaderCellDef cdkDrag>
+                                    Contact Person
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{ element.contact_person }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="contact_number">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                                    Contact Number
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span>{{ element.contact_number }}</span>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
+                                <td mat-cell *matCellDef="let element">
+
+                                    <mat-slide-toggle (click)="deleteRecord(element.pk_id, element.status)"
+                                        [checked]="element.status == 1 ? true : false"
+                                        matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+                                    </mat-slide-toggle>
+
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="actions">
+                                <th mat-header-cell *matHeaderCellDef color="accent">Actions</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <button mat-icon-button matTooltip="Click to edit" color="accent"
+                                        (click)="navigateTo('create-partner/'+element.pk_id)">
+                                        <mat-icon>edit_notes</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                                <td class="mat-cell" [attr.colspan]="displayedColumns.length">No Records Found</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="page_size_options"
+                        [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)">
+                    </mat-paginator>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</div>
