@@ -46,6 +46,9 @@ export class DashboardComponent implements OnInit {
   public allow_end_test: boolean = false;
   public bucket_url = '';
   public wish_list_data:any = [];
+  public notes;
+  public assessments;
+  public classes;
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {alert()
       // Your logic on beforeunload
@@ -56,11 +59,12 @@ export class DashboardComponent implements OnInit {
     if(this.user){
       this.user_id = this.user['id'];
       this.role_id =  Number(this.user['role']);
-      this.getWishList();
-      this.getBookmarksFavorite();
-      this.getRandomQuestions();
       this.getPackagesAboutToExpire();
+      this.getDashboardCount();
+      this.getRandomQuestions();
       this.getFreeContent();
+      this.getBookmarksFavorite();
+      this.getWishList();
     }
   }
   //Get wishlist items
@@ -88,6 +92,18 @@ export class DashboardComponent implements OnInit {
         this.free_content = res['data'];
       } else {
         this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  //Get dashboard Count
+  getDashboardCount(){
+    let param = { url: 'student-dashboard'};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.notes = res['data'].notes_accesed;
+        this.assessments = res['data'].assessment;
+        this.classes = res['data'].meetings;
       }
     });
   }
