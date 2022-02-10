@@ -24,6 +24,8 @@ export class IndividualCoursesComponent implements OnInit {
   public previousUrl = '';
   public rating = [];
   public is_loaded = false;
+  public q_is_loaded = false;
+  public q_levels = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService,
@@ -38,6 +40,7 @@ export class IndividualCoursesComponent implements OnInit {
       this.level_id = param.level_id ? param.level_id : 0;
       this.level_parent_id = param.level_parent_id ? param.level_parent_id : 0;
       this.getLevels();
+      this.getQbanks();
     });
   }
   setTitle(val) {
@@ -96,6 +99,23 @@ export class IndividualCoursesComponent implements OnInit {
       }
     });
   }
+  getQbanks() {
+    this.q_is_loaded = false;
+  let param = {
+    url: 'qbank-list',
+    search: this.search,
+    type:2
+  };
+  this.http.post(param).subscribe((res) => {
+      this.q_is_loaded = true;
+    if (res['error'] == false) {
+      let data = res['data'];
+      this.q_levels = data['levels'];
+    } else {
+      this.q_levels = [];
+    }
+  });
+}
   setHoverRating(value, level_id){
     this.rating[level_id] = value;
   }

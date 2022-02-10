@@ -345,119 +345,126 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   setTitle(val) {
     return val;
   }
-  getLevelDetails() {
-    let param = {
-      url: 'curriculum-level-details',
-      curriculum_id: this.curriculum_id,
-      level_id: this.level_id,
-      level_parent_id: this.level_parent_id,
-      content_id: this.content_id,
-    };
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-        let data = res['data'];
-        this.is_loaded = true;
-        this.statistics = data['statistics'];
-        this.bucket_url = data['bucket_url'];
-        this.curriculum = data['curriculum'];
-        this.breadcome = res['breadcome'];
-        this.content_list = data['content_list'];
-        this.content = data['content'] ? data['content'] : [];
-        if(!this.content['title']){
-            this.toster.error("No Contents Found", "Error", {closeButton:true});
-        }
-        if(this.content['images'].length > 0){
-            this.content['images'].forEach(element => {
-                this.images.push(element.path);
-            });
-        }
-        this.highyields = data['highyields'];
-        this.learning_notes = data['learning_notes'];
-        this.mcqs = data['mcqs'];
-        this.flash_cards = data['flash_cards'];   
-        this.materials = data['materials'];
-        this.short_answers = data['short_answers'];
-        this.cases = data['cases'];
-        this.main_content = this.sanitizer.bypassSecurityTrustHtml(
-          this.content['main_content']
-        );
-        this.content_id = data['selected_content_id'];
-        if (this.breadcome.length > 0) {
-          this.breadcome.forEach((val) => {
-            this.title = val['name'];
-          });
-        }
-        this.videos = data['videos'];
-        this.xt = data['xt'];
-        let i=0;
-        this.videos.forEach((video, index) => {
-            if(video['video_section'] == "INTRO") {
-                this.intro_video.push(video);
-                if(i==0){
-                    this.playVideo(video);
-                    i++;
-                }
+    getLevelDetails() {
+        let param = {
+          url: 'curriculum-level-details',
+          curriculum_id: this.curriculum_id,
+          level_id: this.level_id,
+          level_parent_id: this.level_parent_id,
+          content_id: this.content_id,
+        };
+        this.http.post(param).subscribe((res) => {
+          if (res['error'] == false) {
+            let data = res['data'];
+            this.is_loaded = true;
+            this.statistics = data['statistics'];
+            this.bucket_url = data['bucket_url'];
+            this.curriculum = data['curriculum'];
+            this.breadcome = res['breadcome'];
+            this.content_list = data['content_list'];
+            this.content = data['content'] ? data['content'] : [];
+            if(!this.content['title']){
+                this.toster.error("No Contents Found", "Error", {closeButton:true});
             }
-            if(video['video_section'] == "2D") {
-                this.two_d_videos.push(video);
+            if(this.content['images'].length > 0){
+                this.content['images'].forEach(element => {
+                    this.images.push(element.path);
+                });
             }
-            if(video['video_section'] == "3D") {
-                this.three_d_videos.push(video);
+            this.highyields = data['highyields'];
+            this.learning_notes = data['learning_notes'];
+            this.mcqs = data['mcqs'];
+            this.flash_cards = data['flash_cards'];   
+            this.materials = data['materials'];
+            this.short_answers = data['short_answers'];
+            this.cases = data['cases'];
+            this.main_content = this.sanitizer.bypassSecurityTrustHtml(
+              this.content['main_content']
+            );
+            this.content_id = data['selected_content_id'];
+            if (this.breadcome.length > 0) {
+              this.breadcome.forEach((val) => {
+                this.title = val['name'];
+              });
             }
-            if(video['video_section'] == "CLINICAL_ESSENTIALS") {
-                this.clinical_videos.push(video);
-            }
-            if(video['video_section'] == "PROCEDURAL") {
-                this.procedural_videos.push(video);
-             }
-            if(video['video_section'] == "BOARD_LECTURES") {
-                this.board_lecture_videos.push(video);
-            }
-            if((index+1) == this.videos.length && i==0){
-                if(this.two_d_videos[0] != undefined){
-                    this.playVideo(video);
+            this.videos = data['videos'];
+            this.xt = data['xt'];
+            let i=0;
+            this.videos.forEach((video, index) => {
+                if(video['video_section'] == "INTRO") {
+                    this.intro_video.push(video);
+                    if(i==0){
+                        this.playVideo(video);
+                        i++;
+                    }
                 }
-                else if(this.board_lecture_videos[0] != undefined){
-                    this.playVideo(video);
+                if(video['video_section'] == "2D") {
+                    this.two_d_videos.push(video);
                 }
-                else if(this.clinical_videos[0] != undefined){
-                    this.playVideo(video);
+                if(video['video_section'] == "3D") {
+                    this.three_d_videos.push(video);
                 }
-                else if(this.procedural_videos[0] != undefined){
-                    this.playVideo(video);
+                if(video['video_section'] == "CLINICAL_ESSENTIALS") {
+                    this.clinical_videos.push(video);
                 }
-                else if(this.three_d_videos[0] != undefined){
-                    this.playVideo(video);
+                if(video['video_section'] == "PROCEDURAL") {
+                    this.procedural_videos.push(video);
+                 }
+                if(video['video_section'] == "BOARD_LECTURES") {
+                    this.board_lecture_videos.push(video);
                 }
-            }
-        });
-        setTimeout(()=>{
-            if(this.intro_video.length == 0){
-                if(this.videos.length){
+                if((index+1) == this.videos.length && i==0){
                     if(this.two_d_videos[0] != undefined){
-                        this.playVideo(this.two_d_videos[0]);
+                        this.playVideo(video);
                     }
                     else if(this.board_lecture_videos[0] != undefined){
-                        this.playVideo(this.board_lecture_videos[0]);
+                        this.playVideo(video);
                     }
                     else if(this.clinical_videos[0] != undefined){
-                        this.playVideo(this.clinical_videos[0]);
+                        this.playVideo(video);
                     }
                     else if(this.procedural_videos[0] != undefined){
-                        this.playVideo(this.procedural_videos[0]);
+                        this.playVideo(video);
                     }
                     else if(this.three_d_videos[0] != undefined){
-                        this.playVideo(this.three_d_videos[0]);
+                        this.playVideo(video);
                     }
                 }
-            }
-        },1000)
-        this.setDefaultDiv();
-      } else {
-        this.breadcome = res['data']['breadcome'];
-      }
-    });
-  }
+            });
+            setTimeout(()=>{
+                if(this.intro_video.length == 0){
+                    if(this.videos.length){
+                        if(this.two_d_videos[0] != undefined){
+                            this.playVideo(this.two_d_videos[0]);
+                        }
+                        else if(this.board_lecture_videos[0] != undefined){
+                            this.playVideo(this.board_lecture_videos[0]);
+                        }
+                        else if(this.clinical_videos[0] != undefined){
+                            this.playVideo(this.clinical_videos[0]);
+                        }
+                        else if(this.procedural_videos[0] != undefined){
+                            this.playVideo(this.procedural_videos[0]);
+                        }
+                        else if(this.three_d_videos[0] != undefined){
+                            this.playVideo(this.three_d_videos[0]);
+                        }
+                    }
+                }
+            },1000)
+            this.setDefaultDiv();
+            this.studentContent(this.content_id,this.level_parent_id)
+          } else {
+            this.breadcome = res['data']['breadcome'];
+          }
+        });
+    }
+    studentContent(contentid,levelid){
+        let param = {url: 'add-notes-accessed',content_id: contentid,source_id:levelid};
+        this.http.post(param).subscribe((res) => {
+            
+        });
+    }
     setDefaultDiv(){
         if(this.content['learning_obj_content']!=undefined && this.content['learning_obj_content'].trim() != ''){
             this.showDiv(3);
@@ -495,33 +502,32 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         else if(this.content['attachments'] !=undefined && this.content['attachments'].length>0){
             this.showDiv(5);
         }
-        
     }
-  showDiv(div) {
-    this.images = [];
-      if(div == 4){
-        if(this.content['images'].length > 0){
-            this.content['images'].forEach(element => {
-                this.images.push(element.path);
-            });
-        }
-      }
-    this.fetchImages(0);
-    this.active_div = div;    
-  }
-  scrollto(el) {
-    var element = document.getElementById('content_div');
-    var headerOffset = 130;
-    var elementPosition = element.getBoundingClientRect().top;
-    var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-    
-    window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-    });   
-}
-  fetchImages(class_index){
-    setTimeout(res=>{
+    showDiv(div) {
+        this.images = [];
+          if(div == 4){
+            if(this.content['images'].length > 0){
+                this.content['images'].forEach(element => {
+                    this.images.push(element.path);
+                });
+            }
+          }
+        this.fetchImages(0);
+        this.active_div = div;    
+    }
+    scrollto(el) {
+        var element = document.getElementById('content_div');
+        var headerOffset = 130;
+        var elementPosition = element.getBoundingClientRect().top;
+        var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });   
+    }
+    fetchImages(class_index){
+        setTimeout(res=>{
         let class_name = document.getElementsByClassName("ck_editor_view");
         if(class_name != undefined){
             if(class_name[class_index] == undefined)return false;
@@ -542,158 +548,157 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             }
         }
       },1000)
-  }
-  openLibrary(index){
-      this.image_index = index;
-    this.library_popup = true;
-  }
-  openFlashCardLibrary(index,flash_cards_index,flash_card_type){ // added by Phanindra
-    this.flashCardsArray = this.flash_cards[flash_cards_index][flash_card_type].map((item) => {
-      return item.path;
-    });
-    this.flash_index = index;
-    this.flash_card_popup = true;
-  }
-  openPdf(path){
+    }
+    openLibrary(index){
+        this.image_index = index;
+        this.library_popup = true;
+    }
+    openFlashCardLibrary(index,flash_cards_index,flash_card_type){ // added by Phanindra
+        this.flashCardsArray = this.flash_cards[flash_cards_index][flash_card_type].map((item) => {
+          return item.path;
+        });
+        this.flash_index = index;
+        this.flash_card_popup = true;
+    }
+    openPdf(path){
       console.log(path)
       this.pdf_popup = true;
       this.pdf_file_path = path
-  }
-  manageStatistics(type) {
-    let param = {
-      url: 'manage-statistics',
-      type: type,
-      source_id: this.content_id,
-    };
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-        this.statistics = res['data']['statistics'];
-        // this.toster.success(res['message'], 'Info', { closeButton: true });
-      } else {
-        this.toster.info('Something went wrong. Please try again.', 'Error', {
-          closeButton: true,
+    }
+    manageStatistics(type) {
+        let param = {
+          url: 'manage-statistics',
+          type: type,
+          source_id: this.content_id,
+        };
+        this.http.post(param).subscribe((res) => {
+          if (res['error'] == false) {
+            this.statistics = res['data']['statistics'];
+            // this.toster.success(res['message'], 'Info', { closeButton: true });
+          } else {
+            this.toster.info('Something went wrong. Please try again.', 'Error', {
+              closeButton: true,
+            });
+          }
         });
-      }
-    });
-  }
-  nextQuestion() {
-    if (this.active_div == 1) {
-      this.active_mcq_index = this.active_mcq_index + 1;
-      this.getXtToken(this.mcqs[this.active_mcq_index]);
     }
-    if (this.active_div == 7) {
-      this.active_case_index = this.active_case_index + 1;
-      this.getXtToken(this.cases[this.active_mcq_index]);
-    }
-    if (this.active_div == 10) {
-      this.active_short_answer_index = this.active_short_answer_index + 1;
-      this.getXtToken(this.short_answers[this.active_mcq_index]);
-    }
-    if (this.active_div == 11) {
-      this.active_flash_cards_index = this.active_flash_cards_index + 1;
-      this.getXtToken(this.flash_cards[this.active_mcq_index]);
-    }
-    
-  }
-  prevQuestion() {
-    if (this.active_div == 1) {
-      this.active_mcq_index = this.active_mcq_index - 1;
-      this.getXtToken(this.mcqs[this.active_mcq_index]);
-    }
-    if (this.active_div == 7) {
-      this.active_case_index = this.active_case_index - 1;
-      this.getXtToken(this.cases[this.active_mcq_index]);
-    }
-    if (this.active_div == 10) {
-      this.active_short_answer_index = this.active_short_answer_index - 1;
-      this.getXtToken(this.short_answers[this.active_mcq_index]);
-    }
-    if (this.active_div == 11) {
-      this.active_flash_cards_index = this.active_flash_cards_index - 1;
-      this.getXtToken(this.flash_cards[this.active_mcq_index]);
-    }
-  }
-  kpoint_iframe_url='';
-  getXtToken(question){
-      if(question['q_source'] == 'KPOINT'){
-        let param = {"url": "get-kpoint-token"};
-        this.xt = '';
-        this.http.post(param).subscribe(res=>{
-            this.xt = res['data']['xt'];
-            this.kpoint_iframe_url = "https://proceum.kpoint.com/kapsule/"+question['q_source_value']+"/nv3/embedded?xt="+this.xt;
-            
-        });
-      }
-  }
-  checkAnswer(event, option_id,question_id){
-    if(event.checked == true){
-        if(this.checked_options[question_id] == undefined){
-            this.checked_options[question_id] = [];
+    nextQuestion() {
+        if (this.active_div == 1) {
+          this.active_mcq_index = this.active_mcq_index + 1;
+          this.getXtToken(this.mcqs[this.active_mcq_index]);
         }
-        this.checked_options[question_id].push(option_id);
+        if (this.active_div == 7) {
+          this.active_case_index = this.active_case_index + 1;
+          this.getXtToken(this.cases[this.active_mcq_index]);
+        }
+        if (this.active_div == 10) {
+          this.active_short_answer_index = this.active_short_answer_index + 1;
+          this.getXtToken(this.short_answers[this.active_mcq_index]);
+        }
+        if (this.active_div == 11) {
+          this.active_flash_cards_index = this.active_flash_cards_index + 1;
+          this.getXtToken(this.flash_cards[this.active_mcq_index]);
+        }
     }
-    else{
-        let index = this.checked_options[question_id].indexOf(option_id);
-        this.checked_options[question_id].splice(index,1);
+    prevQuestion() {
+        if (this.active_div == 1) {
+          this.active_mcq_index = this.active_mcq_index - 1;
+          this.getXtToken(this.mcqs[this.active_mcq_index]);
+        }
+        if (this.active_div == 7) {
+          this.active_case_index = this.active_case_index - 1;
+          this.getXtToken(this.cases[this.active_mcq_index]);
+        }
+        if (this.active_div == 10) {
+          this.active_short_answer_index = this.active_short_answer_index - 1;
+          this.getXtToken(this.short_answers[this.active_mcq_index]);
+        }
+        if (this.active_div == 11) {
+          this.active_flash_cards_index = this.active_flash_cards_index - 1;
+          this.getXtToken(this.flash_cards[this.active_mcq_index]);
+        }
     }
-  }
-  ValidateAnswer(question_id){
-    this.validated_questions.push(question_id)
-  }
-  getOptionClass(question_id, correct_ans_ids, option_id){
-    let answers = correct_ans_ids.split(',');
-    if(this.validated_questions.includes(question_id) && answers.includes(''+option_id)){
-        return "crrct_rdo";
+    kpoint_iframe_url='';
+    getXtToken(question){
+        if(question['q_source'] == 'KPOINT'){
+            let param = {"url": "get-kpoint-token"};
+            this.xt = '';
+            this.http.post(param).subscribe(res=>{
+                this.xt = res['data']['xt'];
+                this.kpoint_iframe_url = "https://proceum.kpoint.com/kapsule/"+question['q_source_value']+"/nv3/embedded?xt="+this.xt;
+                
+            });
+        }
     }
-    else if(this.validated_questions.includes(question_id) && !answers.includes(''+option_id)){
-        return "wrng_rdo";
+    checkAnswer(event, option_id,question_id){
+        if(event.checked == true){
+            if(this.checked_options[question_id] == undefined){
+                this.checked_options[question_id] = [];
+            }
+            this.checked_options[question_id].push(option_id);
+        }
+        else{
+            let index = this.checked_options[question_id].indexOf(option_id);
+            this.checked_options[question_id].splice(index,1);
+        }
     }
-  }
-  selectOption(value) {
-    if (this.active_div == 1) {
-      this.mcqs[this.active_mcq_index]['selected_option'] = value;
+    ValidateAnswer(question_id){
+        this.validated_questions.push(question_id)
     }
-    if (this.active_div == 7) {
-      this.cases[this.active_case_index]['selected_option'] = value;
+    getOptionClass(question_id, correct_ans_ids, option_id){
+        let answers = correct_ans_ids.split(',');
+        if(this.validated_questions.includes(question_id) && answers.includes(''+option_id)){
+            return "crrct_rdo";
+        }
+        else if(this.validated_questions.includes(question_id) && !answers.includes(''+option_id)){
+            return "wrng_rdo";
+        }
     }
-    if (this.active_div == 10) {
-      this.short_answers[this.active_short_answer_index]['selected_option'] =
-        value;
+    selectOption(value) {
+        if (this.active_div == 1) {
+          this.mcqs[this.active_mcq_index]['selected_option'] = value;
+        }
+        if (this.active_div == 7) {
+          this.cases[this.active_case_index]['selected_option'] = value;
+        }
+        if (this.active_div == 10) {
+          this.short_answers[this.active_short_answer_index]['selected_option'] =
+            value;
+        }
     }
-  }
-  viewContent(content_id) {
-    this.content = [];
-    this.mcqs = [];
-    this.flash_cards = [];
-    this.short_answers = [];
-    this.cases = [];
-    this.show_content_list = !this.show_content_list;
-    this.router.navigateByUrl(
-      '/student/curriculum/details/' +
-        this.curriculum_id +
-        '/' +
-        this.level_id +
-        '/' +
-        this.level_parent_id +
-        '/' +
-        content_id
-    );
-  }
-  searchQueryChanged(newQuery: string) {
-    if (newQuery !== this.pdfQuery) {
-      this.pdfQuery = newQuery;
-      this.pdfComponent.pdfFindController.executeCommand('find', {
-        query: this.pdfQuery,
-        highlightAll: true
-      });
-    } else {
-      this.pdfComponent.pdfFindController.executeCommand('findagain', {
-        query: this.pdfQuery,
-        highlightAll: true
-      });
+    viewContent(content_id) {
+        this.content = [];
+        this.mcqs = [];
+        this.flash_cards = [];
+        this.short_answers = [];
+        this.cases = [];
+        this.show_content_list = !this.show_content_list;
+        this.router.navigateByUrl(
+          '/student/curriculum/details/' +
+            this.curriculum_id +
+            '/' +
+            this.level_id +
+            '/' +
+            this.level_parent_id +
+            '/' +
+            content_id
+        );
     }
-  }
-  toggleModel() {
-    this.model_status = !this.model_status;
-  }
+    searchQueryChanged(newQuery: string) {
+        if (newQuery !== this.pdfQuery) {
+          this.pdfQuery = newQuery;
+          this.pdfComponent.pdfFindController.executeCommand('find', {
+            query: this.pdfQuery,
+            highlightAll: true
+          });
+        } else {
+          this.pdfComponent.pdfFindController.executeCommand('findagain', {
+            query: this.pdfQuery,
+            highlightAll: true
+          });
+        }
+    }
+    toggleModel() {
+        this.model_status = !this.model_status;
+    }
 }
