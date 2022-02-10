@@ -29,6 +29,9 @@ export class AssessmentListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  public sujectDataSource = new MatTableDataSource();
+  subjectDisplayedColumns: string[] = ['Sno', 'Course', 'Topic', 'Count'];
+
   public page: number = 0;
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
@@ -48,6 +51,8 @@ export class AssessmentListComponent implements OnInit {
   public maxDate= new Date();
   public is_submit:boolean=false;
   public is_display:boolean=false;
+  public edit_model_status:boolean= false;
+  public question_total = 0;
   
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);
@@ -92,6 +97,25 @@ export class AssessmentListComponent implements OnInit {
       }
       
     });
+  }
+
+  public openDetailsModel(param:any){
+    this.edit_model_status = true;
+    let assessment_id = param.pk_id;
+
+    let params = { 
+      url: 'assessment/get-subject-list', 
+      assessment_id:assessment_id
+    };
+    this.sujectDataSource = new MatTableDataSource();
+    this.question_total = 0;
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        this.sujectDataSource = new MatTableDataSource(res['data']['topics']);
+        this.question_total = param.total_questions_count;
+      }
+    });
+
   }
 
   public deleteContentData(id){
