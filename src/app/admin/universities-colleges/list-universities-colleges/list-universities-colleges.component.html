@@ -5,7 +5,7 @@
         <div class="spacer"></div>
         <div>
             <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm"
-                (click)="navigateTo('create-university-college')">
+                (click)="navigateTo('create-university-or-college')">
                 <mat-icon>add</mat-icon>
                 Add New
             </button>
@@ -76,7 +76,7 @@
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
                                 <td mat-cell *matCellDef="let element">
 
-                                    <mat-slide-toggle (click)="deletePartner(element.pk_id, element.status)"
+                                    <mat-slide-toggle (click)="deleteRecord(element.pk_id, element.status)"
                                         [checked]="element.status == 1 ? true : false"
                                         matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
                                     </mat-slide-toggle>
@@ -87,12 +87,8 @@
                                 <th mat-header-cell *matHeaderCellDef class="text_center">Actions</th>
                                 <td mat-cell *matCellDef="let element" class="ws_nw">
                                     <button mat-icon-button matTooltip="Click to edit" color="accent"
-                                        (click)="navigateTo('create-partner/'+element.pk_id)">
+                                        (click)="navigateTo('edit-university-or-college/'+element.pk_id)">
                                         <mat-icon>edit_notes</mat-icon>
-                                    </button>
-                                    <button mat-icon-button (click)="navigateTo('college-list/'+element.pk_id)"
-                                        *ngIf="element.partner_type == 'University' && user['role'] == '1'">
-                                        <mat-icon matTooltip="View Colleges" class="accent">assignment</mat-icon>
                                     </button>
                                 </td>
                             </ng-container>
@@ -151,7 +147,7 @@
                                 <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
                                 <td mat-cell *matCellDef="let element">
 
-                                    <mat-slide-toggle (click)="deletePartner(element.pk_id, element.status)"
+                                    <mat-slide-toggle (click)="deleteRecord(element.pk_id, element.status)"
                                         [checked]="element.status == 1 ? true : false"
                                         matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
                                     </mat-slide-toggle>

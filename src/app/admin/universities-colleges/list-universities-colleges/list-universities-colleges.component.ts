@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 export class ListUniversitiesCollegesComponent implements OnInit {
 
   displayedColumns: string[] = [
-    'pk_id',
+    'id',
     'organization_name',
     'contact_email',
     'contact_person',
@@ -29,7 +29,7 @@ export class ListUniversitiesCollegesComponent implements OnInit {
   public totalSize = 0;
   public sort_by: any;
   public search_box = '';
-  public type = 0;
+  public flag = 1;
   public page = 0;
   public from_date = '';
   public to_date = '';
@@ -54,7 +54,7 @@ export class ListUniversitiesCollegesComponent implements OnInit {
   }
   public getUniversitiesOrColleges() {
     let param = {
-      url: 'get-universities-or-colleges', type: this.type
+      url: 'get-universities-or-colleges', flag: this.flag
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -74,7 +74,7 @@ export class ListUniversitiesCollegesComponent implements OnInit {
     let param = {
       url: 'get-universities-or-colleges',
       search: this.search_box,
-      partner_type_id: this.type,
+      flag: this.flag,
       from_date: this.from_date,
       to_date: this.to_date,
     };
@@ -98,7 +98,7 @@ export class ListUniversitiesCollegesComponent implements OnInit {
       limit: event.pageSize,
       order_by: this.sort_by,
       search: this.search_box,
-      partner_type_id: this.type,
+      flag: this.flag,
       from_date: this.from_date,
       to_date: this.to_date,
     };
@@ -114,10 +114,10 @@ export class ListUniversitiesCollegesComponent implements OnInit {
 
 
 
-  public deletePartner(partner_id, status) {
+  public deleteRecord(pk_id, status) {
     let param = {
-      url: 'partner-status',
-      id: partner_id,
+      url: 'update-universities-or-colleges-status',
+      id: pk_id,
       status: status,
     };
     this.http.post(param).subscribe((res) => {
@@ -154,7 +154,7 @@ export class ListUniversitiesCollegesComponent implements OnInit {
     this.search_box = '';
     this.from_date = '';
     this.to_date = '';
-    this.type = event.index;
+    this.flag = event.index+1;
     this.getUniversitiesOrColleges();
   }
 
