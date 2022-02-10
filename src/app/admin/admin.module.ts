@@ -93,6 +93,8 @@ import { CreateCollegeComponent } from './college-management/create-college/crea
 import { EditAssessmentComponent } from './assessment/edit-assessment/edit-assessment.component';
 import { AdminGlobalSearchComponent } from './admin-global-search/admin-global-search.component';
 import { AssessmentReportComponent } from './assessment/assessment-report/assessment-report.component';
+import { ListUniversitiesCollegesComponent } from './universities-colleges/list-universities-colleges/list-universities-colleges.component';
+import { CreateUniversitiesCollegesComponent } from './universities-colleges/create-universities-colleges/create-universities-colleges.component';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -250,6 +252,11 @@ const routes: Routes = [
       { path: 'college-list', component: ListCollegesComponent },
       { path: 'college-list/:id', component: ListCollegesComponent },
       { path: 'global-search/:search_string', component: AdminGlobalSearchComponent },
+
+      //Universities Collegs
+      { path: 'universities-colleges', component: ListUniversitiesCollegesComponent },
+      { path: 'create-university-or-college', component: CreateUniversitiesCollegesComponent },
+      { path: 'edit-university-or-college/:id', component: CreateUniversitiesCollegesComponent },
     ],
   },
 ];
@@ -319,7 +326,9 @@ const routes: Routes = [
     CreateCollegeComponent,
     AssessmentReportComponent,
     EditAssessmentComponent,
-    AdminGlobalSearchComponent
+    AdminGlobalSearchComponent,
+    ListUniversitiesCollegesComponent,
+    CreateUniversitiesCollegesComponent
   ],
   imports: [
     MaterialModule,

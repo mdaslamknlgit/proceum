@@ -1,8 +1,7 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { MatStepper } from '@angular/material/stepper';
 import { ReplaySubject } from 'rxjs';
 import { GlobalApp } from '../../../global';
 import { environment } from 'src/environments/environment';
@@ -95,13 +94,12 @@ export class PartnerRegisterComponent implements OnInit {
 
   ngOnInit(): void {
     if(localStorage.getItem('p_id') == undefined || localStorage.getItem('p_id') == ''){
-      this.route.navigateByUrl('/');
-      //alert()
+      //this.route.navigateByUrl('/');
+      //alert(localStorage.getItem('p_id'))
     }
     this.domain = location.origin;
     this.getCountries();
   }
-
 
   validateindividualsBasicDetails() {
     //Contact number validation
