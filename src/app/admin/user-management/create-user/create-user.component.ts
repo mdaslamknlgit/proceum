@@ -108,6 +108,10 @@ export class CreateUserComponent implements OnInit {
     if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes((Number(this.user['role'])))) {
       this.university_id = this.user['partner_id'];
     }
+    if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN == Number(this.user['role']) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN == Number(this.user['role'])) {
+      //If login user is callge partner or institute partner then get years
+      this.getYears(this.user['partner_id'], '', '');
+    }
     this.getRoles(this.user['role']);
     this.activatedRoute.params.subscribe((param) => {
       this.user_id = param.id;
@@ -128,7 +132,7 @@ export class CreateUserComponent implements OnInit {
     this.show_organization_type = false;
     this.show_partners_dropdown = true;
     if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN) {
-      this.getYears(this.partner_id,'','');
+      this.getYears(this.partner_id, '', '');
     }
     if (Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
       this.organization = '1';
@@ -176,7 +180,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   getRoles(role) {
-    let param = { url: 'get-roles', role: role };
+    let param = { url: 'get-roles', role: role, status:1 };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.roles = res['data']['roles'];
@@ -322,7 +326,7 @@ export class CreateUserComponent implements OnInit {
 
   //To get all college list
   getPartnerChilds(partner_id) {
-    if(partner_id != undefined){
+    if (partner_id != undefined) {
       this.partner_id = partner_id;
     }
     let param = { url: 'get-partner-childs', child_type: this.child_type, partner_id: this.partner_id, status: 1 };
@@ -456,7 +460,7 @@ export class CreateUserComponent implements OnInit {
     } else if (this.organization == '4') {
       if (environment.DISABLED_USER_ROLES_FOR_PROCEUM.includes(Number(this.role))) {
         let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
-        this.role = '';this.organization = '';
+        this.role = ''; this.organization = '';
         this.toster.error(`Proceum can not create a User with ${diabledRole[0].role_name} role`, 'Error');
       }
     }
@@ -666,11 +670,11 @@ export class CreateUserComponent implements OnInit {
           let callPartnerChilds = true;
           this.getPartners(callPartnerChilds);
           this.partner_id = this.university_id;
-          if(user_data.college_id && this.user['role'] != environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
+          if (user_data.college_id && this.user['role'] != environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN) {
             this.show_partners_dropdown = true;
           }
           if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
-            this.getYears(this.partner_id, this.college_id, 0 , true);
+            this.getYears(this.partner_id, this.college_id, 0, true);
           }
         }
         else if (user_data.college_id) {
@@ -679,7 +683,7 @@ export class CreateUserComponent implements OnInit {
           this.getPartners();
           this.partner_id = this.college_id;
           if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
-            this.getYears(this.partner_id, null, 0 , true);
+            this.getYears(this.partner_id, null, 0, true);
           }
         }
         else if (user_data.institute_id) {
@@ -688,16 +692,16 @@ export class CreateUserComponent implements OnInit {
           this.getPartners();
           this.partner_id = this.institute_id;
           if (Number(this.role) == environment.ALL_ROLES.STUDENT) {
-            this.getYears(this.partner_id, null, 0 , true);
+            this.getYears(this.partner_id, null, 0, true);
           }
         } else {
           this.organization = '4';//proceum
-        }    
-        if(Number(this.role) == environment.ALL_ROLES.TEACHER){
+        }
+        if (Number(this.role) == environment.ALL_ROLES.TEACHER) {
           //alert(user_data.partner_id);
           this.getCurriculumnHierarchy(this.partner_id);
-        }    
-        
+        }
+
       }
     });
   }
@@ -854,11 +858,11 @@ export class CreateUserComponent implements OnInit {
   }
 
   getCurriculumnHierarchy(partner_id) {
-    let params = { 
-      url: 'get-curriculumn-hierarchy', 
-      previous_selected_ids: this.subject_csv, 
-      flag: 'subject', 
-      partner_id: partner_id 
+    let params = {
+      url: 'get-curriculumn-hierarchy',
+      previous_selected_ids: this.subject_csv,
+      flag: 'subject',
+      partner_id: partner_id
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
@@ -874,6 +878,15 @@ export class CreateUserComponent implements OnInit {
         //this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
+  }
+
+
+  toggleModel() {
+    /* this.treeControl =  new NestedTreeControl<CurriculumNode>(node => node.children);
+    this.dataSource.data.forEach(x => {
+      this.setParent(x, null);
+    }); */
+    this.edit_model_status = true;
   }
 
 }

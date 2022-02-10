@@ -81,13 +81,14 @@ export class PackageDetailsComponent implements OnInit {
     });
 
      //get client ip
-     this.http.getClientIp().subscribe((res) => {
+     /* this.http.getClientIp().subscribe((res) => {
       this.ip = res['ip'];
       this.getPackage();
     },
     error => {
       this.toster.error("Looks your internet is off!", 'Error', { closeButton: true });
-    });  
+    });  */ 
+    this.getPackage();
   }
 
   public getPackage() {

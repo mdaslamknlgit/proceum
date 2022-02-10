@@ -57,6 +57,7 @@ import { AssessmentResultComponent } from './student/assessment/assessment-resul
 import { StudentGlobalSearchComponent } from './student-global-search/student-global-search.component';
 import { CouponsComponent } from './coupons/coupons.component';
 import { ShareModule } from 'ngx-sharebuttons';
+import { IndividualCoursesComponent } from './student/individual-courses/individual-courses.component';
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
 const routes: Routes = [
@@ -131,6 +132,7 @@ const routes: Routes = [
       // { path: 'coupons', component: CouponsComponent },
       { path: 'order-details/:order_id', component: OrderDetailsComponent },
       { path: 'my-earnings', component:  MyEarningsComponent},
+      { path: 'purchased-courses', component: IndividualCoursesComponent},
     ],
   },
 ];
@@ -178,6 +180,7 @@ const routes: Routes = [
     AssessmentResultComponent,
     StudentGlobalSearchComponent,
     Frontend_level_listComponent,
+    IndividualCoursesComponent,
   ],
   imports: [
     CommonModule,
