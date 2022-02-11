@@ -33,9 +33,7 @@ export class MyAccountComponent implements OnInit {
   profile: Profile = {
     first_name: '',
     last_name: '',
-    phone: '',
     email: '',
-    uuid: '',
     profile_pic: '',
     current_password: '',
     new_password: '',
@@ -168,9 +166,7 @@ export class MyAccountComponent implements OnInit {
       this.profile = {
         first_name: res['data'].first_name,
         last_name: res['data'].last_name,
-        phone: res['data'].phone,
         email: res['data'].email,
-        uuid: res['data'].uuid,
         profile_pic: '',
         current_password: '',
         new_password: '',
@@ -311,9 +307,7 @@ export interface Response {
 export interface Profile {
   first_name: string;
   last_name: string;
-  phone: string;
   email: string;
-  uuid: string;
   current_password: any;
   new_password: any;
   confirm_pwd: any;
