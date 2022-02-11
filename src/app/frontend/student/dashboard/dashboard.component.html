@@ -1,40 +1,46 @@
 <div class="mn_dshbrd">
   <div class="cust_mdl_par {{quiz_case_model == false ? 'cust_mdl_opn':'cust_mdl_cls'}} ">
-    <div class="cust_mdl_chl w_50p">
+    <div class="cust_mdl_chl w_50p rsp_80p_767">
       <div class="pg_ttl">
-       <mat-icon color="accent" class="mr_5px">quiz</mat-icon> Quiz of the Day
-       <span class="spacer"></span>
-       <button type="button" mat-icon-button class="float_right" (click)="closeModal()">
-        &#x2715;
-      </button>
-    </div>
-    <div class="dsh_brd_crds db_dod" *ngIf="!quiz_case_rslt">
-      <div *ngIf="quiz_questions.length > 0">
-        <!-- <form #myForm="ngForm" id="quiz_form"> -->
+        <mat-icon color="accent" class="mr_5px">quiz</mat-icon> Quiz of the Day
+        <span class="spacer"></span>
+        <button type="button" mat-icon-button class="float_right" (click)="closeModal()">
+          &#x2715;
+        </button>
+      </div>
+      <div class="dsh_brd_crds db_dod" *ngIf="!quiz_case_rslt">
+        <div *ngIf="quiz_questions.length > 0">
+          <!-- <form #myForm="ngForm" id="quiz_form"> -->
           <div class="hgt_20"></div>
-<div class="qofddy_inncnt">
-   <div class="d-flex">
-            <div class="qstnof_cnt">Question ({{active_q_index+1}}/{{quiz_questions.length}})</div>
-          </div>
-          <div class="qstn_hds">
-            <div *ngIf='active_question["question"]!=""' innerHtml='{{active_question["question"]}}'></div>
+          <div class="qofddy_inncnt">
+            <div class="d-flex">
+              <div class="qstnof_cnt">Question ({{active_q_index+1}}/{{quiz_questions.length}})</div>
+            </div>
+            <div class="qstn_hds">
+              <div *ngIf='active_question["question"]!=""' innerHtml='{{active_question["question"]}}'></div>
               <div>
-                <div class="mcb_aud" *ngIf='[4,5,6].includes(active_question["q_type"]) && active_question["q_source_value"]'>
+                <div class="mcb_aud"
+                  *ngIf='[4,5,6].includes(active_question["q_type"]) && active_question["q_source_value"]'>
                   <audio controls controlsList="nodownload">
                     <source [src]="bucket_url+active_question['q_source_value']" type="audio/mpeg">
                   </audio>
                 </div>
-                <div class="mcb_img" *ngIf='[10,11,12].includes(active_question["q_type"]) && active_question["q_source_value"]'>
+                <div class="mcb_img"
+                  *ngIf='[10,11,12].includes(active_question["q_type"]) && active_question["q_source_value"]'>
                   <img [src]="bucket_url+active_question['q_source_value']" alt="">
 
                 </div>
-                <div class="mcb_img" *ngIf='[7,8,9].includes(active_question["q_type"]) && active_question["q_source_value"]'>
+                <div class="mcb_img"
+                  *ngIf='[7,8,9].includes(active_question["q_type"]) && active_question["q_source_value"]'>
                   <div *ngIf="active_question['q_source'] == 'YOUTUBE'">
-                    <iframe [src]='active_question["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
-                    frameborder="0" allowfullscreen></iframe>
+                    <iframe
+                      [src]='active_question["q_source_value"].replace("/watch?v=","/embed/") | safe: "resourceUrl"'
+                      frameborder="0" allowfullscreen></iframe>
                   </div>
                   <div *ngIf="active_question['q_source'] == 'KPOINT'">
-                    <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"' data-video-params=' "hide": "search, share, like"' allowFullScreen webkitallowFullScreen mozallowFullScreen frameborder="0"></iframe>
+                    <iframe [src]='kpoint_iframe_url | safe: "resourceUrl"'
+                      data-video-params=' "hide": "search, share, like"' allowFullScreen webkitallowFullScreen
+                      mozallowFullScreen frameborder="0"></iframe>
                   </div>
                 </div>
                 <!-- <div class="mcb_img">
@@ -43,228 +49,258 @@
                     </div>
                 </div> -->
               </div>
-          </div>
-          <div class="tstsqst_ans">
-            <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(active_question["q_type"])' [(ngModel)]="active_question['answer'][0]">
+            </div>
+            <div class="tstsqst_ans">
+              <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(active_question["q_type"])'
+                [(ngModel)]="active_question['answer'][0]">
                 <div *ngFor="let option of active_question['options']">
-                  <mat-radio-button [value]="''+option['pk_id']" class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
-                      {{ option["option_text"] }}
+                  <mat-radio-button [value]="''+option['pk_id']"
+                    class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}">
+                    {{ option["option_text"] }}
                   </mat-radio-button>
-                  <div class="tstsopt_img" *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
+                  <div class="tstsopt_img"
+                    *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
                     <img [src]="bucket_url+option['option_image']" />
                   </div>
                 </div>
-            </mat-radio-group>
-            <div *ngIf='[2,5,8,11].includes(active_question["q_type"])' class="mcb_cb">
-              <div *ngFor="let option of active_question['options']; let i_option = index">
-                <mat-checkbox class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}" (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
-                <div class="tstsqst_img">
-                  <img *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null" [src]="bucket_url+option['option_image']" />
+              </mat-radio-group>
+              <div *ngIf='[2,5,8,11].includes(active_question["q_type"])' class="mcb_cb">
+                <div *ngFor="let option of active_question['options']; let i_option = index">
+                  <mat-checkbox
+                    class="{{active_question['show_answer'] && active_question['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{active_question['show_answer'] && !active_question['s_no'].includes(''+option['pk_id'])?'tstwrng_ans':''}}"
+                    (change)="setAnswer($event,option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
+                  <div class="tstsqst_img">
+                    <img
+                      *ngIf="active_question['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+                      [src]="bucket_url+option['option_image']" />
+                  </div>
                 </div>
               </div>
             </div>
+            <div class="hgt_20"></div>
           </div>
-          <div class="hgt_20"></div>
-</div>
 
-         
-         <hr>
-         <div class="hgt_5"></div>
+
+          <hr>
+          <div class="hgt_5"></div>
           <div class="tstsqst_navs d-flex" *ngIf="quiz_questions.length>0">
             <div class="spacer"></div>
-            <button class="mr_1" mat-raised-button color="accent" [disabled]="active_q_index == 0" (click)="getQuestionOptions(active_q_index-1)">
+            <button class="mr_1" mat-raised-button color="accent" [disabled]="active_q_index == 0"
+              (click)="getQuestionOptions(active_q_index-1)">
               <mat-icon>arrow_left</mat-icon> Prev
             </button>
-            <button mat-raised-button color="accent" *ngIf="active_q_index != (quiz_questions.length-1)" [disabled]="active_q_index == (quiz_questions.length-1)" (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
+            <button mat-raised-button color="accent" *ngIf="active_q_index != (quiz_questions.length-1)"
+              [disabled]="active_q_index == (quiz_questions.length-1)"
+              (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
             </button>
-            <button (click)="checkAnswer();showResult();" *ngIf="is_test_end == false && active_q_index == (quiz_questions.length-1)" [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button color="accent" class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">Submit</button>
+            <button (click)="checkAnswer();showResult();"
+              *ngIf="is_test_end == false && active_q_index == (quiz_questions.length-1)"
+              [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button color="accent"
+              class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">Submit</button>
           </div>
           <div class="hgt_20"></div>
-        <!-- </form> -->
-    </div>
-    </div>
-    <div class="dsh_brd_crds db_dod" *ngIf="quiz_case_rslt">
-      <div class="dys_tsks_dv">
-      <div class="hgt_20"></div>
-      <div class="sbmtd_ans_dv">
-        <div>
-          <span>Total Questions</span>
-          <span class="spacer"></span>
-          <span class="dys_cnt nt_ans">{{quiz_questions.length}}</span>
-        </div>
-        <div>
-          <span>Correct Answers:</span>
-          <span class="spacer"></span>
-          <span class="dys_cnt">{{correct_answers}}</span>
-        </div>
-        <div>
-          <span>Wrong Answers:</span>
-          <span class="spacer"></span>
-          <span class="dys_cnt">{{wrong_answers}}</span>
-        </div>
-        <div>
-          <span>Not Answered:</span>
-          <span class="spacer"></span>
-          <span class="dys_cnt">{{not_answered}}</span>
+          <!-- </form> -->
         </div>
       </div>
-      <div class="hgt_20"></div>
-    </div>
-    <div>
-      <div *ngIf="quiz_questions.length > 0">
-        <div class="qstn_hds rslt_swaa">
-          <div *ngFor="let questions of quiz_questions;let i_option = index">
-            <span>Q. {{questions.question_string}}</span>
-            <div class="tstsqst_ans rslt_swdod">
-              <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(questions["q_type"])'
-                  [(ngModel)]="questions['answer'][0]">
-                  <div *ngFor="let option of questions['options']">
+      <div class="dsh_brd_crds db_dod" *ngIf="quiz_case_rslt">
+        <div class="dys_tsks_dv">
+          <div class="hgt_20"></div>
+          <div class="sbmtd_ans_dv">
+            <div>
+              <span>Total Questions</span>
+              <span class="spacer"></span>
+              <span class="dys_cnt nt_ans">{{quiz_questions.length}}</span>
+            </div>
+            <div>
+              <span>Correct Answers:</span>
+              <span class="spacer"></span>
+              <span class="dys_cnt">{{correct_answers}}</span>
+            </div>
+            <div>
+              <span>Wrong Answers:</span>
+              <span class="spacer"></span>
+              <span class="dys_cnt">{{wrong_answers}}</span>
+            </div>
+            <div>
+              <span>Not Answered:</span>
+              <span class="spacer"></span>
+              <span class="dys_cnt">{{not_answered}}</span>
+            </div>
+          </div>
+          <div class="hgt_20"></div>
+        </div>
+        <div>
+          <div *ngIf="quiz_questions.length > 0">
+            <div class="qstn_hds rslt_swaa">
+              <div *ngFor="let questions of quiz_questions;let i_option = index">
+                <span>Q. {{questions.question_string}}</span>
+                <div class="tstsqst_ans rslt_swdod">
+                  <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(questions["q_type"])'
+                    [(ngModel)]="questions['answer'][0]">
+                    <div *ngFor="let option of questions['options']">
                       <mat-radio-button [value]="''+option['pk_id']"
-                          class="{{questions['show_answer'] && questions['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions['show_answer'] && !questions['s_no'].includes(''+option['pk_id'])?'wrng_rdo':'crrct_rdo'}}">
-                          {{ option["option_text"] }}
+                        class="{{questions['show_answer'] && questions['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions['show_answer'] && !questions['s_no'].includes(''+option['pk_id'])?'wrng_rdo':'crrct_rdo'}}">
+                        {{ option["option_text"] }}
                       </mat-radio-button>
                       <div class="tstsopt_img"
-                          *ngIf="questions['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
-                          <img [src]="bucket_url+option['option_image']" />
+                        *ngIf="questions['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null">
+                        <img [src]="bucket_url+option['option_image']" />
                       </div>
                       <div class="rdo_desc"
-                          *ngIf="questions['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                          <span [innerHtml]="option['option_explanation']"></span>
+                        *ngIf="questions['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
+                        <span [innerHtml]="option['option_explanation']"></span>
                       </div>
-                  </div>
-              </mat-radio-group>
-              <div *ngIf='[2,5,8,11].includes(questions["q_type"])' class="mcb_cb">
-                <div *ngFor="let option of questions['options']; let i_option = index">
-                  <mat-checkbox class="{{questions['show_answer'] && questions['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions['show_answer'] && !questions['s_no'].includes(''+option['pk_id'])?'wrng_rdo':'crrct_rdo'}}" [checked]="questions['answer'].includes(''+option['pk_id'])">{{ option["option_text"] }}</mat-checkbox>
-                  <div class="tstsqst_img">
-                    <img *ngIf="questions['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null" [src]="bucket_url+option['option_image']" />
-                  </div>
-                  <div class="rdo_desc" *ngIf="questions['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() ''">
-                    <div class="qstn_hds">Explanation</div>
-                    <div [innerHtml]="option['option_explanation']"></div>
+                    </div>
+                  </mat-radio-group>
+                  <div *ngIf='[2,5,8,11].includes(questions["q_type"])' class="mcb_cb">
+                    <div *ngFor="let option of questions['options']; let i_option = index">
+                      <mat-checkbox
+                        class="{{questions['show_answer'] && questions['s_no'].includes(''+option['pk_id'])?'actvfr_dsc':''}} {{questions['show_answer'] && !questions['s_no'].includes(''+option['pk_id'])?'wrng_rdo':'crrct_rdo'}}"
+                        [checked]="questions['answer'].includes(''+option['pk_id'])">{{ option["option_text"] }}
+                      </mat-checkbox>
+                      <div class="tstsqst_img">
+                        <img
+                          *ngIf="questions['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+                          [src]="bucket_url+option['option_image']" />
+                      </div>
+                      <div class="rdo_desc"
+                        *ngIf="questions['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() ''">
+                        <div class="qstn_hds">Explanation</div>
+                        <div [innerHtml]="option['option_explanation']"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div class="hgt_20"></div>
+            <button mat-raised-button class="gry_btn float_right" (click)="closeModal()">Close</button>
+            <div class="hgt_20"></div>
           </div>
         </div>
-            <button mat-raised-button class="gry_btn" (click)="closeModal()">Close</button>
       </div>
     </div>
+  </div>
+  <div class="cust_mdl_par {{case_model == false ? 'cust_mdl_opn':'cust_mdl_cls'}} ">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        <mat-icon color="accent" class="mr_5px">today</mat-icon> Case of the Day
+        <span class="spacer"></span>
+        <button type="button" mat-icon-button class="float_right" (click)="CloseCaseModal()">
+          &#x2715;
+        </button>
+      </div>
+      <div class="dsh_brd_crds db_dod" *ngIf="case.length>0">
+        <div class="qstn_hds" *ngFor="let case_q of case"> Q. {{case_q.question_string}} </div>
+        <mat-radio-group *ngIf='[1,3,4,6,7,9,10,12,13].includes(case[active_case_index]["q_type"])'
+          aria-label="Select an option" [(ngModel)]="case[active_case_index]['selected_option']">
+          <mat-radio-button *ngFor="let option of case[active_case_index]['options'];let i_option = index"
+            (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']"
+            class="{{ case[active_case_index]['selected_option'] != undefined && case[active_case_index]['s_no'] == option['pk_id']? 'crrct_rdo': '' }} {{case[active_case_index]['selected_option'] != undefined && (case[active_case_index]['selected_option'] != option['pk_id'] || case[active_case_index]['selected_option'] != case[active_case_index]['s_no']) ? 'wrng_rdo' : ''  }}">
+            {{ option["option_text"] }}
+            <img
+              *ngIf="case[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+              [src]="bucket_url+option['option_image']" />
+            <div
+              *ngIf="case[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''"
+              class="rdo_exp_txt">
+              <div class="qstn_hds">Explanation</div>
+              <div [innerHtml]="option['option_explanation']"></div>
+            </div>
+          </mat-radio-button>
+        </mat-radio-group>
+        <div class="clear_fix"></div>
+        <button mat-raised-button class="gry_btn float_right" (click)="CloseCaseModal()">Close</button>
+        <div class="hgt_20"></div>
+      </div>
     </div>
   </div>
-</div>
-<div class="cust_mdl_par {{case_model == false ? 'cust_mdl_opn':'cust_mdl_cls'}} ">
-  <div class="cust_mdl_chl">
-    <div class="pg_ttl">
-       <mat-icon color="accent" class="mr_5px">today</mat-icon> Case of the Day
-       <span class="spacer"></span>
-       <button type="button" mat-icon-button class="float_right" (click)="CloseCaseModal()">
-        &#x2715;
-      </button>
-    </div>
-    <div class="dsh_brd_crds db_dod" *ngIf="case.length>0">
-      <div class="qstn_hds" *ngFor="let case_q of case"> Q. {{case_q.question_string}} </div>
-      <mat-radio-group *ngIf='[1,3,4,6,7,9,10,12,13].includes(case[active_case_index]["q_type"])' aria-label="Select an option" [(ngModel)]="case[active_case_index]['selected_option']">
-        <mat-radio-button *ngFor="let option of case[active_case_index]['options'];let i_option = index" (change)="selectOption(option['pk_id'])" color="warn" [value]="option['pk_id']" class="{{ case[active_case_index]['selected_option'] != undefined && case[active_case_index]['s_no'] == option['pk_id']? 'crrct_rdo': '' }} {{case[active_case_index]['selected_option'] != undefined && (case[active_case_index]['selected_option'] != option['pk_id'] || case[active_case_index]['selected_option'] != case[active_case_index]['s_no']) ? 'wrng_rdo' : ''  }}">  {{ option["option_text"] }}
-          <img *ngIf="case[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null" [src]="bucket_url+option['option_image']" />
-          <div *ngIf="case[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''" class="rdo_exp_txt">
-            <div class="qstn_hds">Explanation</div>
-            <div [innerHtml]="option['option_explanation']"></div>
-          </div>
-        </mat-radio-button>
-      </mat-radio-group>
-      <div class="clear_fix"></div>
-      <button mat-raised-button class="gry_btn float_right" (click)="CloseCaseModal()">Close</button>
-      <div class="hgt_20"></div>
+  <div class="hgt_20"></div>
+  <div class="sp_mn">
+    <div class="brdcrm_br">
+      <mat-icon color="accent" routerLink="/">home</mat-icon>
+      <mat-icon>navigate_next</mat-icon>
+      <strong>Student Dashboard</strong>
     </div>
   </div>
-</div>
-<div class="hgt_20"></div>
-<div class="sp_mn">
-  <div class="brdcrm_br">
-    <mat-icon color="accent" routerLink="/">home</mat-icon>
-    <mat-icon>navigate_next</mat-icon>
-    <strong>Student Dashboard</strong>
-  </div>
-</div>
-<div class="hgt_20"></div>
+  <div class="hgt_20"></div>
   <div class="sp_mn" *ngFor="let course of expiration_courses">
-      <div  class="rqrd_txtinfo">
-        <!-- <mat-icon>warning</mat-icon> -->
-        Your Subscription for <strong>{{ course.package_name }}</strong> ends on <strong>{{ course.valid_up_to }}</strong>. {{ course.days }} Day(s) left.
-        Please renewal your account ASAP to avoid service interruption.
-      </div>
+    <div class="rqrd_txtinfo">
+      <!-- <mat-icon>warning</mat-icon> -->
+      Your Subscription for <strong>{{ course.package_name }}</strong> ends on <strong>{{ course.valid_up_to
+        }}</strong>. {{ course.days }} Day(s) left.
+      Please renewal your account ASAP to avoid service interruption.
+    </div>
   </div>
-<div class="dsh_brd_crds">
-  <ul class="crds_ul anl_crd">
-    <li>
-      <div class="crd_dv">
-        Notes Accessed
-        <span>{{notes}}</span>
-      </div>
-    </li>
-    <li>
-      <div class="crd_dv">
-        Assessments Attended
-        <span>{{assessments}}</span>
-      </div>
-    </li>
-    <li>
-      <div class="crd_dv">
-        Classes / Webinars Attended
-        <span>{{classes}}</span>
-      </div>
-    </li>
-    <!-- <li>
+  <div class="dsh_brd_crds">
+    <ul class="crds_ul anl_crd">
+      <li>
+        <div class="crd_dv">
+          Notes Accessed
+          <span>{{notes}}</span>
+        </div>
+      </li>
+      <li>
+        <div class="crd_dv">
+          Assessments Attended
+          <span>{{assessments}}</span>
+        </div>
+      </li>
+      <li>
+        <div class="crd_dv">
+          Classes / Webinars Attended
+          <span>{{classes}}</span>
+        </div>
+      </li>
+      <!-- <li>
       <div class="crd_dv">
         Courses Registered
         <span>60</span>
       </div>
     </li> -->
-  </ul>
+    </ul>
 
-  <ul class="crds_ul">
-    <li>
-      <div class="lfrt_grd">
-        <span class="text_left">
-          <button mat-mini-fab class="mr_1">
-            <mat-icon>live_help</mat-icon>
-          </button>
-          Quiz of the Day
-        </span>
-      </div>
-      <hr />
-      <div class="crd_cnt" *ngIf="quiz_questions">
-        <span *ngFor="let questions of quiz_questions;;let i_option = index"> Q. {{questions.question_string}}</span>
-        <span class="vw_mre_fw">
-          <a (click)="quiz_case_model = !quiz_case_model">View Details</a>
-        </span>
-      </div>
-    </li>
-    <li>
-      <div class="lfrt_grd">
-        <span class="text_left">
-          <button mat-mini-fab class="mr_1">
-            <mat-icon>today</mat-icon>
-          </button>
-          Case of the Day
-        </span>
-      </div>
-      <hr />
-      <div class="crd_cnt" *ngIf="case">
-        <span  *ngFor="let case_q of case">{{case_q.question_string}}</span>
-        <span class="vw_mre_fw">
-          <a (click)="case_model = !case_model">View Details</a>
-        </span>
-      </div>
-    </li>
-  </ul>
+    <ul class="crds_ul">
+      <li>
+        <div class="lfrt_grd">
+          <span class="text_left">
+            <button mat-mini-fab class="mr_1">
+              <mat-icon>live_help</mat-icon>
+            </button>
+            Quiz of the Day
+          </span>
+        </div>
+        <hr />
+        <div class="crd_cnt" *ngIf="quiz_questions">
+          <span *ngFor="let questions of quiz_questions;;let i_option = index"> Q. {{questions.question_string}}</span>
+          <span class="vw_mre_fw">
+            <a (click)="quiz_case_model = !quiz_case_model">View Details</a>
+          </span>
+        </div>
+      </li>
+      <li>
+        <div class="lfrt_grd">
+          <span class="text_left">
+            <button mat-mini-fab class="mr_1">
+              <mat-icon>today</mat-icon>
+            </button>
+            Case of the Day
+          </span>
+        </div>
+        <hr />
+        <div class="crd_cnt" *ngIf="case">
+          <span *ngFor="let case_q of case">{{case_q.question_string}}</span>
+          <span class="vw_mre_fw">
+            <a (click)="case_model = !case_model">View Details</a>
+          </span>
+        </div>
+      </li>
+    </ul>
 
-  <ul class="crds_ul rcnt_vw">
-    <li>
-      <mat-tab-group animationDuration="800ms">
-        <!-- <mat-tab>
+    <ul class="crds_ul rcnt_vw">
+      <li>
+        <mat-tab-group animationDuration="800ms">
+          <!-- <mat-tab>
           <ng-template mat-tab-label>
             <mat-icon class="mr_02">videocam</mat-icon>
             Recent Videos
@@ -331,166 +367,174 @@
             </li>
           </ul>
         </mat-tab> -->
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon class="mr_02">videocam</mat-icon>
-            Free Content
-          </ng-template>
-          <ul class="crds_ul full_crd">
-            <li *ngIf="free_content.length==0">
-              <div class="lfrt_grd">
-                <span>No Free Content Found</span>
-              </div>
-            </li>
-            <li *ngIf="free_content.length>0">
-              <div class="lfrt_grd" *ngFor="let item of free_content">
-                <span class="text_left">
-                  <button (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)" mat-mini-fab class="mr_1">
-                    <mat-icon>videocam</mat-icon>
-                  </button>
-                  <div>
-                    <span (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)">{{item.content_title}}</span>
-                    <span class="prg_btm_cnt">{{item.level_name}}</span>
-                  </div>
-                </span>
-                <span>
-                  <button *ngIf="item.is_fav != 1 ? true : false" matTooltip="Make Favorite" (click)="updateBookmarkFavorite(item.id,'fav')" mat-icon-button class="mr_02">
-                    <mat-icon>favorite_border</mat-icon>
-                  </button> 
-                  <button *ngIf="item.is_fav == 1 ? true : false" matTooltip="Unfavourite" (click)="updateBookmarkFavorite(item.id,'fav')" mat-mini-fab class="mr_02">
-                    <mat-icon>favorite_border</mat-icon>
-                  </button>
-                  <button *ngIf="item.is_bookmark != 1 ? true : false" matTooltip="Add Bookmark" (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-icon-button class="mr_02">
-                    <mat-icon>bookmark_add</mat-icon>
-                  </button>
-                  <button *ngIf="item.is_bookmark == 1 ? true : false" matTooltip="Remove Bookmark" (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-mini-fab class="mr_02">
-                    <mat-icon>bookmark_add</mat-icon>
-                  </button>
-                </span>
-                <hr>              
-              </div>
-            </li>
-          </ul>
-        </mat-tab>
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <mat-icon class="mr_02">class</mat-icon>
-            My Bookmarks
-          </ng-template>
-          <ul class="crds_ul full_crd" *ngIf="bookmarks">
-            <li *ngIf="bookmarks.length==0">
-              <div class="lfrt_grd">
-                <span>No Bookmarks Found</span>
-              </div>
-            </li>
-            <li *ngIf="bookmarks.length>0">
-              <div class="lfrt_grd" *ngFor="let bookmark of bookmarks">
-                <span class="text_left">
-                  <button mat-mini-fab class="mr_1">
-                    <mat-icon>videocam</mat-icon>
-                  </button>
-                  <div>
-                    <span
-                    (click)="navigateTo(bookmark.cur_id+'/'+bookmark.level_id+'/'+bookmark.cur_pk_id)">{{bookmark.content_title}}
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr_02">videocam</mat-icon>
+              Free Content
+            </ng-template>
+            <ul class="crds_ul full_crd">
+              <li *ngIf="free_content.length==0">
+                <div class="lfrt_grd">
+                  <span>No Free Content Found</span>
+                </div>
+              </li>
+              <li *ngIf="free_content.length>0">
+                <div class="lfrt_grd" *ngFor="let item of free_content">
+                  <span class="w_100p">
+                    <button (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)" mat-mini-fab
+                      class="mr_1">
+                      <mat-icon>videocam</mat-icon>
+                    </button>
+                    <div>
+                      <span
+                        (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)">{{item.content_title}}</span>
+                      <span class="prg_btm_cnt">{{item.level_name}}</span>
+                    </div>
+                    <span class="spacer"></span>
+                    <span>
+                      <button *ngIf="item.is_fav != 1 ? true : false" matTooltip="Make Favorite"
+                        (click)="updateBookmarkFavorite(item.id,'fav')" mat-icon-button class="mr_02">
+                        <mat-icon>favorite_border</mat-icon>
+                      </button>
+                      <button *ngIf="item.is_fav == 1 ? true : false" matTooltip="Unfavourite"
+                        (click)="updateBookmarkFavorite(item.id,'fav')" mat-mini-fab class="mr_02">
+                        <mat-icon>favorite_border</mat-icon>
+                      </button>
+                      <button *ngIf="item.is_bookmark != 1 ? true : false" matTooltip="Add Bookmark"
+                        (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-icon-button class="mr_02">
+                        <mat-icon>bookmark_add</mat-icon>
+                      </button>
+                      <button *ngIf="item.is_bookmark == 1 ? true : false" matTooltip="Remove Bookmark"
+                        (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-mini-fab class="mr_02">
+                        <mat-icon>bookmark_add</mat-icon>
+                      </button>
+                    </span>
                   </span>
-                  <span class="prg_btm_cnt">{{bookmark.level_name}}</span>
+                  <hr>
                 </div>
-              </span>
-              <span>
-                <button mat-mini-fab class="mr_02" (click)="updateBookmarkFavorite(bookmark.source_id,'bookmark')">
-                  <mat-icon>bookmark_add</mat-icon>
-                </button>
-              </span>
-            </div>
-            <hr>
-          </li>
-        </ul>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="mr_02">favorite_border</mat-icon>
-          My Favorites
-        </ng-template>
-        <ul class="crds_ul full_crd" *ngIf="favorites">
-          <li *ngIf="favorites.length==0">
-            <div class="lfrt_grd">
-              <span>No Favorites Found</span>
-            </div>
-          </li>
-          <li *ngIf="favorites.length>0">
-            <div class="lfrt_grd" *ngFor="let favorite of favorites">
-              <span class="text_left">
-                <button mat-mini-fab class="mr_1">
-                  <mat-icon>videocam</mat-icon>
-                </button>
-                <div>
-                  <span
-                  (click)="navigateTo(favorite.cur_id+'/'+favorite.level_id+'/'+favorite.cur_pk_id)">{{favorite.content_title}}</span>
-                  <span class="prg_btm_cnt">{{favorite.level_name}}</span>
+              </li>
+            </ul>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr_02">class</mat-icon>
+              My Bookmarks
+            </ng-template>
+            <ul class="crds_ul full_crd" *ngIf="bookmarks">
+              <li *ngIf="bookmarks.length==0">
+                <div class="lfrt_grd">
+                  <span>No Bookmarks Found</span>
                 </div>
-              </span>
-              <span>
-                <button mat-mini-fab class="mr_02" (click)="updateBookmarkFavorite(favorite.source_id,'fav')">
-                  <mat-icon>favorite_border</mat-icon>
-                </button>
-              </span>
-              <div class="clear_fix"></div>
-              <hr>
-            </div>
-          </li>
-        </ul>
-      </mat-tab>
-      <mat-tab *ngIf="user_id">
-        <!-- wishlist -->
-        <ng-template mat-tab-label>
-          <mat-icon class="mr_02">playlist_add_check</mat-icon>
-          My Wishlist
-        </ng-template>
-        <ul class="crds_ul full_crd">
-          <li>
-            <div class="lfrt_grd" *ngIf="wish_list.length==0 && wish_list_data==0">
-                <span>No Wishlist Found</span>
-              </div>
-            <div *ngIf="wish_list">
-              <div class="lfrt_grd" *ngFor="let item of wish_list">
-              <span class="text_left">
-                <button mat-mini-fab class="mr_1" [routerLink]="['/package-details', item.product_id]">
-                  <div class="crs_img">
-                    <img src="{{ item.product_img != '' ? item.product_img : product_default_img  }}">
-                  </div>
-                </button>
-                <div>
-                  <span [routerLink]="['/package-details', item.product_id]">{{ item.product_name }}</span>
-                  <span class="prg_btm_cnt">{{ (item.product_desc && item.product_desc.length > 100) ? (
-                  item.product_desc | slice:0:100 ) + '....' : (item.product_desc) }}</span>
-                </div>
-              </span>
-                <!-- <span>
-                  <button mat-mini-fab class="mr_02"><mat-icon>favorite_border</mat-icon></button> <button mat-icon-button  class="mr_02"><mat-icon>bookmark_remove</mat-icon></button>
-                </span> -->
-              </div>
-            </div>
-              <div *ngIf="wish_list_data">
-                <div class="lfrt_grd" *ngFor="let list_data of wish_list_data">
+              </li>
+              <li *ngIf="bookmarks.length>0">
+                <div class="lfrt_grd" *ngFor="let bookmark of bookmarks">
                   <span class="text_left">
                     <button mat-mini-fab class="mr_1">
                       <mat-icon>videocam</mat-icon>
                     </button>
                     <div>
-                      <span (click)="navigateTo(list_data.cur_id+'/'+list_data.level_id+'/'+list_data.cur_pk_id)">{{list_data.content_title}}</span>
-                      <span class="prg_btm_cnt">{{list_data.level_name}}</span>
+                      <span
+                        (click)="navigateTo(bookmark.cur_id+'/'+bookmark.level_id+'/'+bookmark.cur_pk_id)">{{bookmark.content_title}}
+                      </span>
+                      <span class="prg_btm_cnt">{{bookmark.level_name}}</span>
                     </div>
                   </span>
+                  <span>
+                    <button mat-mini-fab class="mr_02" (click)="updateBookmarkFavorite(bookmark.source_id,'bookmark')">
+                      <mat-icon>bookmark_add</mat-icon>
+                    </button>
+                  </span>
                 </div>
-              </div>
-            <hr>
-          </li>
-          </ul>
-        </mat-tab>
-      </mat-tab-group>
-    </li>
-  </ul>
-<ul class="crds_ul rcnt_vw">
+                <hr>
+              </li>
+            </ul>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr_02">favorite_border</mat-icon>
+              My Favorites
+            </ng-template>
+            <ul class="crds_ul full_crd" *ngIf="favorites">
+              <li *ngIf="favorites.length==0">
+                <div class="lfrt_grd">
+                  <span>No Favorites Found</span>
+                </div>
+              </li>
+              <li *ngIf="favorites.length>0">
+                <div class="lfrt_grd" *ngFor="let favorite of favorites">
+                  <span class="text_left">
+                    <button mat-mini-fab class="mr_1">
+                      <mat-icon>videocam</mat-icon>
+                    </button>
+                    <div>
+                      <span
+                        (click)="navigateTo(favorite.cur_id+'/'+favorite.level_id+'/'+favorite.cur_pk_id)">{{favorite.content_title}}</span>
+                      <span class="prg_btm_cnt">{{favorite.level_name}}</span>
+                    </div>
+                  </span>
+                  <span>
+                    <button mat-mini-fab class="mr_02" (click)="updateBookmarkFavorite(favorite.source_id,'fav')">
+                      <mat-icon>favorite_border</mat-icon>
+                    </button>
+                  </span>
+                  <div class="clear_fix"></div>
+                  <hr>
+                </div>
+              </li>
+            </ul>
+          </mat-tab>
+          <mat-tab *ngIf="user_id">
+            <!-- wishlist -->
+            <ng-template mat-tab-label>
+              <mat-icon class="mr_02">playlist_add_check</mat-icon>
+              My Wishlist
+            </ng-template>
+            <ul class="crds_ul full_crd">
+              <li>
+                <div class="lfrt_grd" *ngIf="wish_list.length==0 && wish_list_data==0">
+                  <span>No Wishlist Found</span>
+                </div>
+                <div *ngIf="wish_list">
+                  <div class="lfrt_grd" *ngFor="let item of wish_list">
+                    <span class="text_left">
+                      <button mat-mini-fab class="mr_1" [routerLink]="['/package-details', item.product_id]">
+                        <div class="crs_img">
+                          <img src="{{ item.product_img != '' ? item.product_img : product_default_img  }}">
+                        </div>
+                      </button>
+                      <div>
+                        <span [routerLink]="['/package-details', item.product_id]">{{ item.product_name }}</span>
+                        <span class="prg_btm_cnt">{{ (item.product_desc && item.product_desc.length > 100) ? (
+                          item.product_desc | slice:0:100 ) + '....' : (item.product_desc) }}</span>
+                      </div>
+                    </span>
+                    <!-- <span>
+                  <button mat-mini-fab class="mr_02"><mat-icon>favorite_border</mat-icon></button> <button mat-icon-button  class="mr_02"><mat-icon>bookmark_remove</mat-icon></button>
+                </span> -->
+                  </div>
+                </div>
+                <div *ngIf="wish_list_data">
+                  <div class="lfrt_grd" *ngFor="let list_data of wish_list_data">
+                    <span class="text_left">
+                      <button mat-mini-fab class="mr_1">
+                        <mat-icon>videocam</mat-icon>
+                      </button>
+                      <div>
+                        <span
+                          (click)="navigateTo(list_data.cur_id+'/'+list_data.level_id+'/'+list_data.cur_pk_id)">{{list_data.content_title}}</span>
+                        <span class="prg_btm_cnt">{{list_data.level_name}}</span>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+                <hr>
+              </li>
+            </ul>
+          </mat-tab>
+        </mat-tab-group>
+      </li>
+    </ul>
+    <ul class="crds_ul rcnt_vw">
       <li>
         <span class="text_left">Subject Knowledge</span>
         <hr />
@@ -612,7 +656,7 @@
       </li>
     </ul>
 
-  <!-- <ul class="crds_ul full_crd">
+    <!-- <ul class="crds_ul full_crd">
     <li>
       <div class="lfrt_grd">
         <span class="text_left">
@@ -651,5 +695,5 @@
       <p class="faint_txt">No recent history found</p>
     </li>
   </ul> -->
-</div>
+  </div>
 </div>

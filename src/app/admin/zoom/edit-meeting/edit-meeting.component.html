@@ -8,8 +8,8 @@
     <hr />
     <form #create_class_form="ngForm" name="create_class_form" (ngSubmit)="updateMeeting()" novalidate>
         <div class="dsh_brd_crds">
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.schedule_for"|translate}} <span class="required">*</span></span>
+            <div class="cm_fltr_sc mr_1 w_270px">
+                <span>{{"admin.class.create.schedule_for"|translate}} <span class="required">*</span></span><br>
                 <span *ngIf="meeting_data['type']==2" [translate]="'admin.class.list.meeting'"></span>
                 <span *ngIf="meeting_data['type']!=2" [translate]="'admin.class.list.webinar'"></span>
             </div>
@@ -42,20 +42,20 @@
                   </mat-select>
                 </mat-form-field>
               </div> -->
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.meeting_topic"|translate}} <span class="required">*</span></span>
+            <div class="cm_fltr_sc mr_1 w_270px">
+                <span>{{"admin.class.create.meeting_topic"|translate}} <span class="required">*</span></span><br>
                 {{meeting_data['topic']}}
             </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span>
+            <div class="cm_fltr_sc mr_1 w_270px">
+                <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span><br>
                 {{meeting_data['first_name']+' ('+meeting_data['email']+')'}}
             </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.start_date"|translate}} <span class="required">*</span></span>
+            <div class="cm_fltr_sc mr_1 w_270px">
+                <span>{{"admin.class.create.start_date"|translate}} <span class="required">*</span></span><br>
                 {{meeting_time}}
             </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.duration"|translate}} <span class="required">*</span></span>
+            <div class="cm_fltr_sc mr_1 w_270px">
+                <span>{{"admin.class.create.duration"|translate}} <span class="required">*</span></span><br>
                 {{meeting_data['duration']}} {{"min_text"|translate}}
             </div>
             <hr />
@@ -242,7 +242,7 @@
                         <div>Student List</div>
                         <div class="spacer"></div>
                         <div>
-                            <button (click)="addStudents()" type="button" mat-raised-button color="accent" class="mr_1">
+                            <button (click)="addStudents()" type="button" mat-button color="accent" class="mr_1">
                                 <mat-icon>add</mat-icon> {{"admin.class.create.add_all"|translate}}
                             </button>
                         </div>
@@ -261,13 +261,13 @@
                         <div class="spacer"></div>
                         <div>
                             <button type="button" (click)="selected_students=[];selected_student_ids = [];"
-                                mat-raised-button color="accent">{{"admin.class.create.remove_all"|translate}}</button>
+                                mat-button color="accent" matTooltip="Remove All"><mat-icon>chevron_left</mat-icon> {{"admin.class.create.remove_all"|translate}}</button>
                         </div>
                     </div>
                     <span class="zmsu_lft" *ngFor="let s of selected_students; let s_s_index=index;">
                         <span>{{s['name']}}</span>
                         <button mat-icon-button color="accent">
-                            <mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])">remove</mat-icon>
+                            <mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" color="warn" matTooltip="Remove Student">highlight_off</mat-icon>
                         </button>
                     </span>
                 </div>
