@@ -23,11 +23,14 @@ const ELEMENT_DATA: PeriodicElement[] = [
   styleUrls: ['./student-assessment-list.component.scss']
 })
 export class StudentAssessmentListComponent implements OnInit {
-  displayedColumns: string[] = ['assId', 'assTyp', 'assName', 'SubName', 'dtndTm', 'qstns', 'eqDrtn', 'mrKs', 'prCent', 'reSlt', 'stTs', 'acTn'];
+  displayedColumns: string[] = ['assId', 'assTyp', 'assName', 'dtndTm', 'qstns', 'eqDrtn', 'mrKs', 'prCent', 'reSlt', 'stTs', 'acTn']; //'SubName',
   
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  public sujectDataSource = new MatTableDataSource();
+  subjectDisplayedColumns: string[] = ['Sno', 'Course', 'Topic', 'Count'];
 
   private subscription : Subscription;
   public dateNow = new Date();
@@ -59,6 +62,9 @@ export class StudentAssessmentListComponent implements OnInit {
   public action_id = 0;
   public remain_time = '';
   public assessment_name = '';
+
+  public edit_model_status:boolean= false;
+  public question_total = 0;
 
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);
@@ -132,6 +138,25 @@ export class StudentAssessmentListComponent implements OnInit {
     this.assessment_name = '';
     this.exam_id = 0;
     this.exam_instructions_popup=false;
+  }
+
+  public openDetailsModel(param:any){
+    this.edit_model_status = true;
+    let assessment_id = param.pk_id;
+
+    let params = { 
+      url: 'assessment/get-subject-list', 
+      assessment_id:assessment_id
+    };
+    this.sujectDataSource = new MatTableDataSource();
+    this.question_total = 0;
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        this.sujectDataSource = new MatTableDataSource(res['data']['topics']);
+        this.question_total = param.total_questions_count;
+      }
+    });
+
   }
 
   public submitExam(exam_id){
