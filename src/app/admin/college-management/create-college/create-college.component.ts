@@ -221,11 +221,8 @@ export class CreateCollegeComponent implements OnInit {
     if (this.college_name == "" || this.contact_name == "" && this.code == "") {
       return false;
     }
-    if (this.c_address_line_1 != "" && this.c_country_id != 0 && this.c_state_id != "" &&
-      this.c_city != "" && this.c_pincode != "" && this.b_address_line_1 != "" &&
-      this.b_address_line_2 != "" && this.b_country_id != 0 && this.b_state_id != "" &&
+    if (this.b_address_line_1 != ""  && this.b_country_id != 0 && this.b_state_id != "" &&
       this.b_city != "" && this.b_pincode != "") {
-      console.log('4');
       this.createCollegeService();
     }
   }
@@ -284,7 +281,12 @@ export class CreateCollegeComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.navigateTo('partners-list');
+        if (Number(this.user['role']) == environment.PROCEUM_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN) {
+          this.navigateTo('college-list/'+this.partner_id);
+        }else{
+          this.navigateTo('college-list');
+        }
+        
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -340,7 +342,7 @@ export class CreateCollegeComponent implements OnInit {
 
   navigateTo(url) {
     let user = this.http.getUser();
-    if (Number(user['role']) == environment.ALL_ROLES.SUPER_ADMIN || Number(user['role']) == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN) {
+    if (Number(user['role']) == environment.ALL_ROLES.SUPER_ADMIN || Number(user['role']) == environment.ALL_ROLES.UNIVERSITY_ADMIN) {
       url = "/admin/" + url;
       this.router.navigateByUrl(url);
     }else{

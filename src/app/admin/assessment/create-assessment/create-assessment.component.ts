@@ -158,17 +158,19 @@ export class CreateAssessmentComponent implements OnInit {
       url: 'assessment/get-teacher-details', user_id: this.user_id
     };
     this.http.post(params).subscribe((res) => {
-      //console.log(res['user_details']);
       if (res['error'] == false) {
-        if(res['user_details']['college_id'] != null){
+        if(res['user_details']['university_id'] != null){
           this.college_id = this.college_institute_id = res['user_details']['college_id'];
-          this.getYearSemsterGroup('1',0,'year');
           this.org_type = '1';
-        }
-        if(res['user_details']['institute_id'] != null){
+          this.getYearSemsterGroup('',0,'year');          
+        }else if(res['user_details']['college_id'] != null){
+          this.college_id = this.college_institute_id = res['user_details']['college_id'];
+          this.org_type = '2';
+          this.getYearSemsterGroup('',0,'year');          
+        }else if(res['user_details']['institute_id'] != null){
           this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
-          this.getYearSemsterGroup('3',0,'year');
           this.org_type = '3';
+          this.getYearSemsterGroup('',0,'year');          
         }
       }
     });
@@ -416,17 +418,6 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   getYearSemsterGroup(org_type,parent_id,slug){
-    // let partner = '';
-    // if(org_type == '1'){
-    //   partner = this.college_id;
-    // }
-    // else if(org_type == '3'){
-    //   partner = this.organization_list_id;
-    // }
-    // else if(this.role_id == 12){
-    //   partner = String(this.college_institute_id);
-    // }
-    // let param = { url: 'get-year-semester-group',partner_id : partner, parent_id : parent_id, slug : slug };
     let partner = '';let partner_child_id = "";
     if(org_type == '1'){
       if(this.is_college == true){
@@ -461,8 +452,11 @@ export class CreateAssessmentComponent implements OnInit {
       partner_child_id = "";
     }
     else if(this.role_id == environment.ALL_ROLES.TEACHER){
-      partner = String(this.college_institute_id);
+      partner = this.user['partner_id'];
       org_type = this.org_type;
+      if(this.org_type == '1'){        
+        partner_child_id = String(this.college_institute_id);//this.user['partner_child_id'];
+      }
     } 
     let param = {
       url: 'get-year-semester-group',
@@ -615,7 +609,7 @@ export class CreateAssessmentComponent implements OnInit {
     else{
       let param = {url:'assessment/store',assessment_name: this.assessment_name,assessment_type: this.assessment_type,timezone: this.timezone,
       start_date: this.start_date, start_time: this.start_time,duration: this.question_duration,question_total:this.question_total,
-      course:this.selected_topics,students: this.selected_students,assessment_value: 1,role:this.role_id,user:this.user_id}; //course: this.selected_subject,
+      course:this.selected_topics,students: this.selected_students,assessment_value: 1,role:this.role_id,user:this.user_id,domain:location.origin}; //course: this.selected_subject,
       this.http.post(param).subscribe(res=>{
           if(res['error'] == false){
             this.translate.get('success_text').subscribe((success_text)=> {
