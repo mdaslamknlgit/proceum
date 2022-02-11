@@ -48,7 +48,7 @@ export class ContactUsComponent implements OnInit {
 export interface ContactUs {
   name:string;
   email: string;
-  mobile_number:any;
+  mobile_number:string;
   query: any;
 }
 
