@@ -73,6 +73,8 @@ export class CreatePartnerComponent implements OnInit {
   countrys = [];
   states = [];
   cities = [];
+  c_states = [];
+  c_cities = [];
   packages = [];
   public user = [];
   universities = [];
@@ -80,6 +82,8 @@ export class CreatePartnerComponent implements OnInit {
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_cities: ReplaySubject<any> = new ReplaySubject<any>(1);
+  c_all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
+  c_all_cities: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_packages: ReplaySubject<any> = new ReplaySubject<any>(1);
 
 
@@ -211,6 +215,68 @@ export class CreatePartnerComponent implements OnInit {
     );
   }
 
+  cgetStates(selected_country_id: number) {
+    if (selected_country_id > 0) {
+      let param = {
+        url: 'get-states',
+        country_id: selected_country_id,
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.c_states = res['data']['states'];
+          this.c_all_states.next(this.c_states.slice());
+        } else {
+          let message = res['errors']['title']
+            ? res['errors']['title']
+            : res['message'];
+          //this.toster.error(message, 'Error', { closeButton: true });
+        }
+      });
+    }
+  }
+
+  cfilterStates(event) {
+    let search = event;
+    if (!search) {
+      this.c_all_states.next(this.states.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.c_all_states.next(
+      this.c_states.filter(
+        (state) => state.state_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  cgetCities(selected_state_id: number) {
+    let params = {
+      url: 'get-cities',
+      state_id: selected_state_id,
+    };
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        this.c_cities = res['data']['cities'];
+        this.c_all_cities.next(this.c_cities.slice());
+      }
+    });
+  }
+
+  cfilterCities(event) {
+    let search = event;
+    if (!search) {
+      this.c_all_cities.next(this.cities.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.c_all_cities.next(
+      this.c_cities.filter(
+        (city) => city.city_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
   getPackages() {
     let filter = {};
     if (this.partner_type == '1') {
@@ -333,10 +399,10 @@ export class CreatePartnerComponent implements OnInit {
       this.toster.error('Header Logo required!', 'Error', { closeButton: true });
       return;
     }
-    if (!this.footer_logo) {
+    /* if (!this.footer_logo) {
       this.toster.error('Footer Logo required!', 'Error', { closeButton: true });
       return;
-    }
+    } */
     if (this.sub_domain_err != '') {
       this.toster.error(this.sub_domain_err, 'Error', { closeButton: true });
       return;
@@ -472,9 +538,9 @@ export class CreatePartnerComponent implements OnInit {
         this.c_address_line_1 = partner.c_address_line_1;
         this.c_address_line_2 = partner.c_address_line_2;
         this.c_country_id = partner.c_country_id;
-        this.getStates(this.c_country_id);
+        this.cgetStates(this.c_country_id);
         this.c_state_id = partner.c_state_id;
-        this.getCities(this.c_state_id);
+        this.cgetCities(this.c_state_id);
         this.c_city = partner.c_city;
         this.c_pincode = partner.c_pincode;
         this.is_reseller_account = partner.is_reseller_account;
