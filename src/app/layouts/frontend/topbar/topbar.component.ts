@@ -74,7 +74,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     navigateTo() {
         if (this.user['role'] == '1' || this.user['role'] == '8' || this.user['role'] == '9' || this.user['role'] == '10') {
             this.route.navigateByUrl('/admin/dashboard');
-        } else if (this.user['role'] == '2') {
+        } else if (this.user['role'] == '2' || this.user['role'] == '11') {
             this.route.navigateByUrl('/student/dashboard');
         }
         else if (this.user['role'] == '3' || this.user['role'] == '4' || this.user['role'] == '5' || this.user['role'] == '6' || this.user['role'] == '7') {

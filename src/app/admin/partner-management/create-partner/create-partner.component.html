@@ -29,7 +29,7 @@
                         </div>
                         <div class="clear_fix"></div>
                         <div class="cm_fltr_sc mr_1">
-                            <div class="crt_prt_hd">Partner Name</div>
+                            <div class="crt_prt_hd">Partner Name*</div>
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput placeholder="Partner Name" maxlength="100" [(ngModel)]="partner_name"
                                     name="partner_name_edit" #partner_name_edit="ngModel"
@@ -41,7 +41,7 @@
                         </div>
                         <div class="cm_fltr_sc mr_1">
                             <div class="crt_prt_hd">{{(partner_id) ? 'Contact Email' : 'Email
-                                address'}}</div>
+                                address'}}*</div>
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
                                     #email_edit="ngModel" autocomplete="off" required
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="cm_fltr_sc mr_1" *ngIf="!partner_id">
-                            <div class="crt_prt_hd">Password</div>
+                            <div class="crt_prt_hd">Password*</div>
 
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput type="password" placeholder="Password" [(ngModel)]="password"
@@ -72,7 +72,7 @@
 
                         </div>
                         <div class="cm_fltr_sc mr_1" *ngIf="!partner_id">
-                            <div class="crt_prt_hd">Confirm password</div>
+                            <div class="crt_prt_hd">Confirm password*</div>
 
                             <mat-form-field appearance="outline" class="w_100p"
                                 class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
@@ -89,7 +89,7 @@
 
                         </div>
                         <div class="cm_fltr_sc mr_1">
-                            <div class="crt_prt_hd">Primary Contact Number</div>
+                            <div class="crt_prt_hd">Primary Contact Number*</div>
 
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone"
@@ -105,7 +105,7 @@
 
                         </div>
                         <div class="cm_fltr_sc mr_1" *ngIf="partner_type == '1'">
-                            <div class="crt_prt_hd">Secondery Contact Number</div>
+                            <div class="crt_prt_hd">Secondary Contact Number*</div>
 
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone"
@@ -121,7 +121,7 @@
 
                         </div>
                         <div class="cm_fltr_sc mr_1">
-                            <div class="crt_prt_hd">Contact Person</div>
+                            <div class="crt_prt_hd">Contact Person*</div>
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput placeholder="Person Name" maxlength="50"
                                     (keypress)="allAlphabetsWithSpaces($event)" [(ngModel)]="contact_name"
@@ -133,7 +133,7 @@
 
                         </div>
                         <div class="cm_fltr_sc mr_1" *ngIf="partner_type == '1' || partner_type == '2'">
-                            <div class="crt_prt_hd">{{ (partner_type == 1) ? "University" : "College"}} Code</div>
+                            <div class="crt_prt_hd">{{ (partner_type == 1) ? "University" : "College"}} Code*</div>
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput placeholder="{{ (partner_type == '1') ? 'University' : 'College'}} Code"
                                     maxlength="10" [(ngModel)]="code" name="code_edit" #code_edit="ngModel" required />
@@ -143,31 +143,8 @@
                                     (partner_type == '1') ? "University" : "College"}} Code is required</span> -->
 
                         </div>
-                        <!-- <div class="crt_pr_dv" *ngIf="partner_type == '2'">
-                            <div class="crt_prt_hd">Select University</div>
-                            <div class="err_tltp_par">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <mat-select tabindex="8" placeholder="Select University"
-                                        name="college_university_edit" #college_university_edit="ngModel"
-                                        [(ngModel)]="parent_partner_id" required>
-                                        <mat-option>
-                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
-                                                [placeholderLabel]="'Search University'" name="search_university"
-                                                ngModel (ngModelChange)="filterPartnersListForUniversity($event)">
-                                            </ngx-mat-select-search>
-                                        </mat-option>
-                                        <mat-option *ngFor="let university of all_universities | async"
-                                            [value]="university['pk_id']">{{
-                                            university["name"] }}</mat-option>
-                                    </mat-select>
-                                    <span
-                                        *ngIf="(create_Partner_form1.submitted  || college_university_edit.touched) && college_university == ''"
-                                        class="prc_tltp">Select University</span>
-                                </mat-form-field>
-                            </div>
-                        </div> -->
                         <div class="cm_fltr_sc mr_1">
-                            <div class="crt_prt_hd">GSTIN number</div>
+                            <div class="crt_prt_hd">GSTIN number*</div>
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput placeholder="GST/VAT" autocomplete="off" minlength="15" maxlength="15"
                                     required name="gstin_edit" [(ngModel)]="gstin" #gstin_edit="ngModel" ngModel
@@ -201,7 +178,7 @@
                         <div class="crt_pr_dv">
                             <div class="brnd_info_mn">
                                 <div class="d-flex w_100p ai_cntr">
-                                    <div class="crt_prt_hd brnd_upttl">Partner Header Logo</div>
+                                    <div class="crt_prt_hd brnd_upttl">Partner Header Logo*</div>
                                     <div class="spacer"></div>
                                     <div class="text_right">
                                         <button mat-raised-button class="no_bxsdw" color="accent"
@@ -221,7 +198,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="brnd_info_mn">
+                            <!-- <div class="brnd_info_mn">
                                 <div class="d-flex w_100p ai_cntr">
                                     <div class="crt_prt_hd brnd_upttl">Footer Logo</div>
                                     <div class="spacer"></div>
@@ -242,10 +219,10 @@
                                         <img src="{{ footer_logo }}" alt="Header Logo">
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="crt_pr_dv">
-                            <div class="crt_prt_hd">Description</div>
+                            <div class="crt_prt_hd">Description*</div>
                             <mat-form-field appearance="outline" class="w_100p">
                                 <textarea matInput class="crt_prt_txt" [(ngModel)]="description" name="description_edit"
                                     #description_edit="ngModel" required></textarea>
@@ -255,7 +232,7 @@
                                     is required</span> -->
                         </div>
                         <div class="crt_pr_dv">
-                            <div class="crt_prt_hd">Sub-Domain</div>
+                            <div class="crt_prt_hd">Sub-Domain*</div>
                             <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p sffx_tp_0">
                                     <input appAlphabetOnly matInput placeholder="Sub-Domain" [(ngModel)]="sub_domain"
@@ -291,7 +268,7 @@
                     (ngSubmit)="create_Partner_form3.valid" novalidate>
                     <div class="crt_pr_mn frrsp_768">
                         <div class="crt_pr_dv">
-                            <div class="crt_prt_hd">Choose subscription package</div>
+                            <div class="crt_prt_hd">Choose subscription package*</div>
                             <mat-form-field appearance="outline" class="w_100p">
                                 <mat-select placeholder="Select Package" name="package_edit" #package_edit="ngModel"
                                     [(ngModel)]="package_id" (ngModelChange)="fillLicenceDates()" required>
@@ -384,7 +361,7 @@
                             <div class="crt_pr_sbhd">Billing address</div>
                             <div class="hgt_10"></div>
                             <div class="brnd_info_mn">
-                                <div class="crt_prt_hd">Address line 1</div>
+                                <div class="crt_prt_hd">Address line 1*</div>
                                 <div class="brnd_info_upld">
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <input matInput matInput placeholder="Address line 1"
@@ -408,13 +385,13 @@
                             </div>
                             <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                                 <div class="w_47p rsp_100p">
-                                    <div class="crt_prt_hd">Country</div>
+                                    <div class="crt_prt_hd">Country*</div>
                                     <div class="err_tltp_par">
                                         <mat-form-field appearance="outline" class="w_100p">
                                             <mat-select placeholder="Select Country" name="country_edit"
                                                 #country_edit="ngModel" [(ngModel)]="b_country_id"
                                                 (ngModelChange)="getStates(b_country_id)" required>
-                                                <<mat-option>
+                                                <mat-option>
                                                     <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
                                                         [placeholderLabel]="'Search Country'" name="search_country"
                                                         ngModel (ngModelChange)="filterCountries($event)">
@@ -431,7 +408,7 @@
                                     </div>
                                 </div>
                                 <div class="w_47p rsp_100p">
-                                    <div class="crt_prt_hd">State</div>
+                                    <div class="crt_prt_hd">State*</div>
                                     <div class="err_tltp_par">
                                         <mat-form-field appearance="outline" class="w_100p">
                                             <mat-select placeholder="Select State" name="state_edit"
@@ -454,7 +431,7 @@
                             </div>
                             <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                                 <div class="w_47p rsp_100p">
-                                    <div class="crt_prt_hd">City</div>
+                                    <div class="crt_prt_hd">City*</div>
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <mat-select placeholder="Select City" name="city_edit" #city_edit="ngModel"
                                             [(ngModel)]="b_city" required>
@@ -473,7 +450,7 @@
                                         is required</span>
                                 </div>
                                 <div class="w_47p rsp_100p">
-                                    <div class="crt_prt_hd">Postcode</div>
+                                    <div class="crt_prt_hd">Postcode*</div>
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <input matInput placeholder="ZIP/Pin code" [(ngModel)]="b_pincode"
                                             name="pincode_edit" #pincode_edit="ngModel" appNumbersonly minlength="4"
@@ -493,7 +470,7 @@
                             <div class="crt_pr_sbhd">Correspondence address</div>
                             <div class="hgt_10"></div>
                             <div class="brnd_info_mn">
-                                <div class="crt_prt_hd">Address line 1</div>
+                                <div class="crt_prt_hd">Address line 1*</div>
                                 <div class="brnd_info_upld">
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <input matInput matInput placeholder="Address line 1"
@@ -517,13 +494,13 @@
                             </div>
                             <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                                 <div class="w_47p rsp_100p">
-                                    <div class="crt_prt_hd">Country</div>
+                                    <div class="crt_prt_hd">Country*</div>
                                     <div class="err_tltp_par">
                                         <mat-form-field appearance="outline" class="w_100p">
                                             <mat-select placeholder="Select Country" name="c_country_edit"
                                                 #c_country_edit="ngModel" [(ngModel)]="c_country_id"
-                                                (ngModelChange)="getStates(c_country_id)" required>
-                                                <<mat-option>
+                                                (ngModelChange)="cgetStates(c_country_id)" required>
+                                                <mat-option>
                                                     <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
                                                         [placeholderLabel]="'Search Country'" name="search_country"
                                                         ngModel (ngModelChange)="filterCountries($event)">
@@ -540,18 +517,18 @@
                                     </div>
                                 </div>
                                 <div class="w_47p rsp_100p">
-                                    <div class="crt_prt_hd">State</div>
+                                    <div class="crt_prt_hd">State*</div>
                                     <div class="err_tltp_par">
                                         <mat-form-field appearance="outline" class="w_100p">
                                             <mat-select placeholder="Select State" name="c_state_edit"
                                                 #c_state_edit="ngModel" [(ngModel)]="c_state_id"
-                                                (ngModelChange)="getCities(c_state_id)" required>
+                                                (ngModelChange)="cgetCities(c_state_id)" required>
                                                 <mat-option>
                                                     <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                                                         [placeholderLabel]="'Search State'" name="search_state" ngModel
-                                                        (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
+                                                        (ngModelChange)="cfilterStates($event)"></ngx-mat-select-search>
                                                 </mat-option>
-                                                <mat-option *ngFor="let state of all_states | async"
+                                                <mat-option *ngFor="let state of c_all_states | async"
                                                     [value]="state['id']">{{ state["state_name"] }}</mat-option>
                                             </mat-select>
                                         </mat-form-field>
@@ -563,16 +540,16 @@
                             </div>
                             <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                                 <div class="w_47p rsp_100p">
-                                    <div class="crt_prt_hd">City</div>
+                                    <div class="crt_prt_hd">City*</div>
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <mat-select placeholder="Select City" name="c_city_edit" #c_city_edit="ngModel"
                                             [(ngModel)]="c_city" required>
                                             <mat-option>
                                                 <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
                                                     [placeholderLabel]="'Search City'" name="c_search_city" ngModel
-                                                    (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                                                    (ngModelChange)="cfilterCities($event)"></ngx-mat-select-search>
                                             </mat-option>
-                                            <mat-option *ngFor="let city of all_cities | async" [value]="city['id']">{{
+                                            <mat-option *ngFor="let city of c_all_cities | async" [value]="city['id']">{{
                                                 city["city_name"] }}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
@@ -581,7 +558,7 @@
                                         is required</span>
                                 </div>
                                 <div class="w_47p rsp_100p">
-                                    <div class="crt_prt_hd">Postcode</div>
+                                    <div class="crt_prt_hd">Postcode*</div>
                                     <mat-form-field appearance="outline" class="w_100p">
                                         <input matInput placeholder="ZIP/Pin code" [(ngModel)]="c_pincode"
                                             name="c_pincode_edit" #c_pincode_edit="ngModel" appNumbersonly minlength="4"

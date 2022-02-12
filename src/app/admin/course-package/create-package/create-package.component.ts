@@ -28,10 +28,10 @@ export class CreatePackageComponent implements OnInit {
   public package_desc = '';
   public pricing_model = 'fixed';
   public duration = '';
-  public applicable_to_university = '';
-  public applicable_to_college = '';
-  public applicable_to_institute = '';
-  public applicable_to_individual = '';
+  public applicable_to_university: any = '1';
+  public applicable_to_college: any = '1';
+  public applicable_to_institute: any = '1';
+  public applicable_to_individual: any = '1';
   public valid_up_to: any = '';
   public billing_frequency = 'monthly';
   public today_date = new Date();
