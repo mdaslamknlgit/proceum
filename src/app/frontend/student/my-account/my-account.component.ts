@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../auth/auth.service';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-my-account',
@@ -33,7 +34,20 @@ export class MyAccountComponent implements OnInit {
   profile: Profile = {
     first_name: '',
     last_name: '',
+    phone: '',
     email: '',
+    uuid: '',
+    year: '',
+    semester: '',
+    group: '',
+    country_id: '',
+    state_id: '',
+    city: '',
+    address1: '',
+    address2: '',
+    university: '',
+    college: '',
+    institute: '',
     profile_pic: '',
     current_password: '',
     new_password: '',
@@ -44,6 +58,12 @@ export class MyAccountComponent implements OnInit {
   public auto_generate = false;
   public dis_frnd_referral_code = true;
   public domain: string;
+  countrys = [];
+  states = [];
+  cities = [];
+  all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_cities: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   constructor(
     private http: CommonService,
@@ -55,6 +75,98 @@ export class MyAccountComponent implements OnInit {
     this.domain = location.origin;
     this.src = this.url;
     this.getStudentProfile();
+  }
+
+  getCountries() {
+    let param = { url: 'get-countries' };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.countrys = res['data']['countries'];
+        if (this.countrys != undefined) {
+          this.all_countrys.next(this.countrys.slice());
+        }
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  filterCountries(event) {
+    let search = event;
+    if (!search) {
+      this.all_countrys.next(this.countrys.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_countrys.next(
+      this.countrys.filter(
+        (country) => country.country_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  getStates(selected_country_id: number) {
+    if (selected_country_id > 0) {
+      let param = {
+        url: 'get-states',
+        country_id: selected_country_id,
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.states = res['data']['states'];
+          this.all_states.next(this.states.slice());
+        } else {
+          let message = res['errors']['title']
+            ? res['errors']['title']
+            : res['message'];
+          //this.toster.error(message, 'Error', { closeButton: true });
+        }
+      });
+    }
+  }
+
+  filterStates(event) {
+    let search = event;
+    if (!search) {
+      this.all_states.next(this.states.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_states.next(
+      this.states.filter(
+        (state) => state.state_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
+  getCities(selected_state_id: number) {
+    let params = {
+      url: 'get-cities',
+      state_id: selected_state_id,
+    };
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        this.cities = res['data']['cities'];
+        this.all_cities.next(this.cities.slice());
+      }
+    });
+  }
+
+  filterCities(event) {
+    let search = event;
+    if (!search) {
+      this.all_cities.next(this.cities.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_cities.next(
+      this.cities.filter(
+        (city) => city.city_name.toLowerCase().indexOf(search) > -1
+      )
+    );
   }
 
   addEmail(){
@@ -166,7 +278,20 @@ export class MyAccountComponent implements OnInit {
       this.profile = {
         first_name: res['data'].first_name,
         last_name: res['data'].last_name,
+        phone: res['data'].phone,
         email: res['data'].email,
+        uuid: res['data'].uuid,
+        year: res['data'].year_name,
+        semester: res['data'].sem_name,
+        group: res['data'].grp_name,
+        country_id: res['data'].country_id,
+        state_id: res['data'].state_id,
+        city: res['data'].city,
+        address1: res['data'].address_line_1,
+        address2: res['data'].address_line_2,
+        university: res['data'].university_name,
+        college: res['data'].college_name,
+        institute: res['data'].institute_name,
         profile_pic: '',
         current_password: '',
         new_password: '',
@@ -174,6 +299,9 @@ export class MyAccountComponent implements OnInit {
         referral_code: res['data'].referral_code?res['data'].referral_code:'',
         frnd_referral_code: res['data'].frnd_referral_code?res['data'].frnd_referral_code:'',
       };
+      this.getCountries();
+      this.getStates(res['data'].country_id);
+      this.getCities(res['data'].state_id);
       this.auto_generate = res['data'].referral_code?false:true;
       this.dis_frnd_referral_code = res['data'].frnd_referral_code?true:false;
       this.src = res['data'].profile_pic ? res['data'].profile_pic : this.url;
@@ -307,7 +435,20 @@ export interface Response {
 export interface Profile {
   first_name: string;
   last_name: string;
+  phone: string;
   email: string;
+  uuid: string;
+  year: string;
+  semester: string;
+  group: string;
+  country_id: any,
+  state_id: any,
+  city: any,
+  address1: any,
+  address2: any,
+  university: any,
+  college: any,
+  institute: any,
   current_password: any;
   new_password: any;
   confirm_pwd: any;
