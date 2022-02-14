@@ -8,12 +8,16 @@ import { GlobalApp } from 'src/global';
 })
 export class FooterComponent implements OnInit {
   currentYear: number = new Date().getFullYear();
+  public showSecondpartFooter = true;
   constructor(
     public app:GlobalApp
   ) { }
 
   ngOnInit(): void {
-    
+    let segment = window.location.pathname.split('/')[1];
+    if(segment == 'admin' || segment == 'student'){
+      this.showSecondpartFooter = false;
+    }
   }
   
   getFooterLogo() {

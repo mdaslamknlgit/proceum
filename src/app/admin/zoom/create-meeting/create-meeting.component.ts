@@ -90,7 +90,7 @@ export class CreateMeetingComponent implements OnInit {
             }
         });
     }
-    checkTime(){alert(this.start_time)
+    checkTime(){//alert(this.start_time)
         if(this.start_time == undefined){
             return false;
         }
