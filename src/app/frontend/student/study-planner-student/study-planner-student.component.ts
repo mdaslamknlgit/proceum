@@ -33,8 +33,9 @@ export class StudyPlannerStudentComponent implements OnInit {
             if(this.study_plan_id != null && this.study_plan_id >0)
                 this.getStudyPlan(this.study_plan_id);
         });
-        this.getPlansList();
+        
         this.user_data = this.http.getUser();
+        this.getPlansList();
     }
     getPlansList(){
         this.is_loaded = false;
@@ -43,6 +44,9 @@ export class StudyPlannerStudentComponent implements OnInit {
             offset: 0,
             limit: this.pageSize
         };
+        if(parseInt(this.user_data['role']) == environment.ALL_ROLES.STUDENT){
+            //param.url = "study-plan/list";
+        }
         this.http.post(param).subscribe((res) => {
             this.is_loaded = true;
             if (res['error'] == false) {

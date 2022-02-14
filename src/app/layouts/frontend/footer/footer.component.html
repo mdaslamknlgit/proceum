@@ -1,16 +1,22 @@
 <footer>
-    <div class="second-part-footer">
+    <div class="second-part-footer"> <!-- *ngIf="showSecondpartFooter" -->
         <div class="container">
             <div class="footer-main-menu">
+                <div class="block mr_1">
+                    <div *ngIf="app.localStorageItem('footer_logo') && app.localStorageItem('footer_logo') != 'null' ">
+                        <span class="title">Partnered With:</span>
+                        <div class="clear_fix"></div>
+                        <span>
+                            <img src="{{ app.localStorageItem('footer_logo') }}" />
+                        </span>
+                    </div>
+                </div>
                 <div class="block">
-                    <!-- *ngIf="app.localStorageItem('header_logo')" -->
+                    <span class="title">Powered By:</span>
+                    <div class="clear_fix"></div>
                     <span>
-                        <img src="{{ getFooterLogo() }}" />
+                        <img src="./assets/images/ProceumLogo.png" />
                     </span>
-                    <div class="title">Powered By Proceum</div>
-                    <!-- <ul class="rsp_dn_1100">
-                        <li></li>
-                    </ul> -->
                 </div>
                 <div class="spacer"></div>
                 <!-- <div class="block">
