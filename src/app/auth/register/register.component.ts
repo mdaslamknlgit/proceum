@@ -268,6 +268,7 @@ export class RegisterComponent implements OnInit {
         let result = <HTMLInputElement>document.getElementById("university_name");
         result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
       }
+      
       //Password validation
       if(this.institutionResgister.password.length < 6){
         return;
