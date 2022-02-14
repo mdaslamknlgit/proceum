@@ -126,6 +126,7 @@ export class ManageUsersComponent implements OnInit {
   public role_id = 0;
   public college_institute_id = 0;
   public user = [];
+  public org_type = '';
 
   constructor(
     private http: CommonService,
@@ -137,17 +138,19 @@ export class ManageUsersComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.user = this.http.getUser();
+    this.user = this.http.getUser(); console.log(this.user);
     this.user_id = this.user['id'];
     this.role_id = this.user['role'];
     if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
       this.getTeacherCollegeInstitute();
+      this.is_college = false;
+      this.is_university = false;
     }else{
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
         this.is_college = true;
         this.is_university = false;
         this.organization_type_name = 'College';
-        this.college_id = this.user['partner_id'];
+        this.organization_list_id = this.user['partner_id'];
         this.organization_type_id = '1';
         this.getOrganizationList(1,1);
       }
@@ -170,11 +173,13 @@ export class ManageUsersComponent implements OnInit {
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
         this.is_college = false;
         this.is_university = false;
+        this.organization_type_name = 'College';
         this.organization_list_id = this.user['partner_id'];
+        this.college_id = this.user['partner_child_id'];
         this.organization_type_id = '1';
         this.getYearSemsterGroup(1,0,'year','');
       }
-      this.getAdminUsers();
+      this.doFilter();
       this.getRoleList(this.user['role']);
       
     }
@@ -187,15 +192,21 @@ export class ManageUsersComponent implements OnInit {
     };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
-        if(res['user_details']['college_id'] != null){
+        if(res['user_details']['university_id'] != null){
+          this.college_institute_id = res['user_details']['university_id'];
+          this.college_id = res['user_details']['college_id'];
+          this.org_type = this.organization_type_id = '1';
+          this.getYearSemsterGroup('',0,'year','');          
+        }else if(res['user_details']['college_id'] != null){
           this.college_id = this.college_institute_id = res['user_details']['college_id'];
-          this.getYearSemsterGroup('1',0,'year','');
-        }
-        if(res['user_details']['institute_id'] != null){
+          this.org_type = this.organization_type_id = '2';
+          this.getYearSemsterGroup('',0,'year','');          
+        }else if(res['user_details']['institute_id'] != null){
           this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
-          this.getYearSemsterGroup('3',0,'year','');
+          this.org_type = this.organization_type_id = '3';
+          this.getYearSemsterGroup('',0,'year','');          
         }
-        this.getAdminUsers();
+        this.doFilter();
       }
     });
   }
@@ -264,6 +275,7 @@ export class ManageUsersComponent implements OnInit {
           this.dataSourceThree = new MatTableDataSource(res['data']);
           this.dataSourceThree.paginator = this.paginator;
           this.dataSourceThree.sort = this.sort;
+          this.totalSize = res['total_records'];
           return false;
         }
         if(this.role == '2'){
@@ -280,12 +292,15 @@ export class ManageUsersComponent implements OnInit {
               };
             });
           }
+          this.totalSize = res['total_records'];
         }else{
           this.dataSource = new MatTableDataSource(res['data']);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+          this.totalSize = res['total_records'];
         }
-        this.totalSize = res['total_records'];        
+        
+        console.log(this.totalSize);
       } else {
         if(this.role_id == environment.ALL_ROLES.TEACHER){
           this.dataSourceThree = new MatTableDataSource([]);
@@ -395,6 +410,7 @@ export class ManageUsersComponent implements OnInit {
   // }
 
   public onManageStudentChange() {
+    console.log(this.organization_list_id+' => '+this.manage_students);
     if(this.organization_list_id == '' && this.manage_students == '1'){
       this.toster.error('Please Select University / College / Institute', 'Error', { closeButton: true });
       return;
@@ -541,9 +557,13 @@ export class ManageUsersComponent implements OnInit {
       partner_child_id = this.user_id;
     }
     else if(this.role_id == environment.ALL_ROLES.TEACHER){
-      partner = String(this.college_institute_id);
+      //partner = String(this.college_institute_id);
+      partner = this.user['partner_id'];
+      org_type = this.org_type;
+      if(this.org_type == '1'){        
+        partner_child_id = Number(this.college_id);
+      }
     }
-    //console.log('org_type => '+org_type+', partner => '+partner+', parent_id => '+parent_id+', slug => '+slug);   
     let param = {
       url: 'get-year-semester-group',
       partner_id : partner,
@@ -692,7 +712,7 @@ export class ManageUsersComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.getAdminUsers();
+        //this.getAdminUsers();
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -713,25 +733,36 @@ export class ManageUsersComponent implements OnInit {
   }
 
   resetFilters(){
+    if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
+      this.college_id = '';
+      this.all_years.next();
+    }else if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){  /// College Admin Role ID
+
+    }else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
+      
+    }else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
+      
+    }else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
+    
+    }else if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
+    
+    }else{
+      this.organization_type_id = '';
+      this.organization_list_id = '';
+      this.college_id = '';
+      this.all_organization_list.next();
+      this.all_college.next();
+      this.all_years.next();
+    }
     this.search_box = '';
-    this.all_organization_list.next();
-    this.all_college.next();
     this.all_semesters.next();
     this.all_groups.next();
-    this.organization_type_id = '';
-    this.college_id = '';
     this.year_id = '';
     this.semester_id = '';
     this.group_id = '';
     this.show_semester_dropdown = true;
     this.show_group_dropdown = true;
-    if(this.role_id != 12){
-      this.all_years.next();
-      this.organization_list_id = '';
-      this.doFilter();
-    }else{
-      this.getAdminUsers();
-    }
+    this.doFilter();
   }
 
   filterPartners(event) {
