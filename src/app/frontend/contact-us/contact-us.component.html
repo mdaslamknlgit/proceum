@@ -1,9 +1,9 @@
-<app-topbar  class="inner-header"></app-topbar>
+<app-topbar class="inner-header"></app-topbar>
 <div class="white-bg">
     <div class="mn_dshbrd mlr_auto">
         <div class="title-header">
             <div class="section-title">
-                <h3 >Contact us</h3>
+                <h3>Contact Us</h3>
             </div>
         </div>
         <div class="contactus-maindiv">
@@ -24,68 +24,118 @@
                     </span>
                     <br>
                     <div class="social-icons">
-                        <span><a href="https://www.facebook.com/dr.g.bhanuprakashkulkarni/" target="_blank"><img src="../../../assets/images/fb-oc.svg" alt="facebook"></a></span>
-                        <span><a href="https://twitter.com/drbhanuprakash?lang=en" target="_blank"><img src="../../../assets/images/tw-oc.svg" alt="Twitter"></a></span>
-                        <span><a href="https://www.youtube.com/channel/UCG5TBPANNSiKf1Dp-R5Dibg" target="_blank"><img src="../../../assets/images/yt-oc.svg" alt="Youtube"></a></span>
-                        <span><a href="https://in.linkedin.com/in/dr-g-bhanuprakash-kulkarni-8ab83950" target="_blank"><img src="../../../assets/images/li-oc.svg" alt="LinkedIn"></a></span>
-                        <span><a href="https://www.instagram.com/p/Bx7OYehhH2w/" target="_blank"><img src="../../../assets/images/in-oc.svg" alt="Instagram"></a></span>
+                        <span><a href="https://www.facebook.com/dr.g.bhanuprakashkulkarni/" target="_blank"><img
+                                    src="../../../assets/images/fb-oc.svg" alt="facebook"></a></span>
+                        <span><a href="https://twitter.com/drbhanuprakash?lang=en" target="_blank"><img
+                                    src="../../../assets/images/tw-oc.svg" alt="Twitter"></a></span>
+                        <span><a href="https://www.youtube.com/channel/UCG5TBPANNSiKf1Dp-R5Dibg" target="_blank"><img
+                                    src="../../../assets/images/yt-oc.svg" alt="Youtube"></a></span>
+                        <span><a href="https://in.linkedin.com/in/dr-g-bhanuprakash-kulkarni-8ab83950"
+                                target="_blank"><img src="../../../assets/images/li-oc.svg" alt="LinkedIn"></a></span>
+                        <span><a href="https://www.instagram.com/p/Bx7OYehhH2w/" target="_blank"><img
+                                    src="../../../assets/images/in-oc.svg" alt="Instagram"></a></span>
                     </div>
                 </div>
             </div>
             <div class="right-block">
-                <form #contact_form="ngForm" id="contact_form" name="contact_form" novalidate (ngSubmit)="contact_form.valid && submitContactUs()">
-                <div class="form-fields">
-                    <div class="inp_par_dv err_tltp_par"  >
-                    <mat-form-field appearance="outline">
-                        <mat-label>Name</mat-label>
-                        <input matInput placeholder="Full name" ngModel #name="ngModel" name="name"
-                        [(ngModel)]="contact.name"  pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"
-                        required maxlength="30"
-                        onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))'
-                        >
-                    </mat-form-field>
-                    <span class="prc_tltp" *ngIf="contact_form.submitted && name.errors?.required">Name is required</span>
-                    <span class="prc_tltp" *ngIf="contact_form.submitted && name.errors?.pattern">Name is required</span>
+                <form #contact_form="ngForm" id="contact_form" name="contact_form" novalidate
+                    (ngSubmit)="contact_form.valid && submitContactUs()">
+                    <div class="form-fields">
+                        <div class="inp_par_dv err_tltp_par">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Name</mat-label>
+                                <input matInput placeholder="Full name" ngModel #name="ngModel" name="name"
+                                    [(ngModel)]="contact.name" pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+" required
+                                    maxlength="30" 
+                                    onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <=122 )|| (event.charCode ==32 ))'>
+                            </mat-form-field> 
+                            <!-- <span class="prc_tltp" *ngIf="contact_form.submitted && name.errors?.required">Name is
+                                required</span>
+                            <span class="prc_tltp" *ngIf="contact_form.submitted && name.errors?.pattern">Name is
+                                required</span> -->
+                        </div>
+                        <div class="inp_par_dv err_tltp_par">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Email Address</mat-label>
+                                <input matInput placeholder="Your email address" maxlength="254" #email="ngModel"
+                                    ngModel name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                    onkeypress='return (event.charCode !=32)' [(ngModel)]="contact.email" required>
+                            </mat-form-field>
+                            <!-- <span class="prc_tltp" *ngIf="contact_form.submitted && email.errors?.pattern">Please enter
+                                valid email</span>
+                            <span class="prc_tltp" *ngIf="contact_form.submitted && email.errors?.required">Email is
+                                required</span> -->
+                        </div>
+                        <div class="inp_par_dv">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Phone Number</mat-label>
+                                <input matInput placeholder="Contact number" maxlength="10"
+                                    [(ngModel)]="contact.mobile_number"
+                                    onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'>
+                            </mat-form-field>
+                        </div>
+                        <div class="inp_par_dv err_tltp_par">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Description</mat-label>
+                                <textarea matInput maxlength="255" placeholder="your query" #query="ngModel" ngModel
+                                    name="query" [(ngModel)]="contact.query" required rows="4" cols="30"></textarea>
+                            </mat-form-field>
+                            <!-- <span class="prc_tltp" *ngIf="contact_form.submitted && description_check == true">{{desMessage}}</span> -->
+                            <span class="prc_tltp" *ngIf="contact_form.submitted && query.errors?.required">Description
+                                is required</span>
+                        </div>
+                        <div class="text-center">
+                            <button mat-flat-button color="accent" type="submit">
+                                <mat-icon>send</mat-icon>
+                                Send
+                            </button>
+                        </div>
+
                     </div>
-                <div class="inp_par_dv err_tltp_par"  >
-                    <mat-form-field appearance="outline">
-                        <mat-label>Email Address</mat-label>
-                        <input matInput placeholder="Your email address"  maxlength="254" #email="ngModel" ngModel name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-                        onkeypress='return (event.charCode !=32)'
-                        [(ngModel)]="contact.email" 
-                        required >
-                    </mat-form-field>
-                    <span class="prc_tltp" *ngIf="contact_form.submitted && email.errors?.pattern">Please enter valid email</span>
-                    <span class="prc_tltp" *ngIf="contact_form.submitted && email.errors?.required">Email is required</span>
+                    <div class="inp_par_dv err_tltp_par">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Email Address</mat-label>
+                            <input matInput placeholder="Your email address" maxlength="254" #email="ngModel" ngModel
+                                name="email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                                onkeypress='return (event.charCode !=32)' [(ngModel)]="contact.email" required>
+                        </mat-form-field>
+                        <span class="prc_tltp" *ngIf="contact_form.submitted && email.errors?.pattern">Please enter
+                            valid email</span>
+                        <span class="prc_tltp" *ngIf="contact_form.submitted && email.errors?.required">Email is
+                            required</span>
                     </div>
-                    <div class="inp_par_dv" >
-                    <mat-form-field appearance="outline">
-                        <mat-label>Phone Number</mat-label>
-                        <input matInput placeholder="Contact number" maxlength="10" #mobile_number="ngModel" ngModel name="mobile_number" [(ngModel)]="contact.mobile_number" onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'>
-                    </mat-form-field>
+                    <div class="inp_par_dv">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Phone Number</mat-label>
+                            <input matInput placeholder="Contact number" maxlength="10" #mobile_number="ngModel" ngModel
+                                name="mobile_number" [(ngModel)]="contact.mobile_number"
+                                onkeypress='return (event.charCode >= 48 && event.charCode <= 57)'>
+                        </mat-form-field>
                     </div>
-                    <div class="inp_par_dv err_tltp_par" >
-                    <mat-form-field appearance="outline"> 
-                         <mat-label>Description</mat-label>
-                        <textarea matInput maxlength="255"placeholder="your query" #query="ngModel" ngModel name="query"
-                        [(ngModel)]="contact.query" required rows="4" cols="30"></textarea>
-                     </mat-form-field> 
-                     <!-- <span class="prc_tltp" *ngIf="contact_form.submitted && description_check == true">{{desMessage}}</span> -->
-                     <span class="prc_tltp"  *ngIf="contact_form.submitted && query.errors?.required">Description is required</span>
+                    <div class="inp_par_dv err_tltp_par">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput maxlength="255" placeholder="your query" #query="ngModel" ngModel
+                                name="query" [(ngModel)]="contact.query" required rows="4" cols="30"></textarea>
+                        </mat-form-field>
+                        <!-- <span class="prc_tltp" *ngIf="contact_form.submitted && description_check == true">{{desMessage}}</span> -->
+                        <span class="prc_tltp" *ngIf="contact_form.submitted && query.errors?.required">Description is
+                            required</span>
                     </div>
                     <div class="text-center">
                         <button mat-flat-button color="accent" type="submit">
                             <mat-icon>send</mat-icon>
-                            Send</button>
+                            Send
+                        </button>
                     </div>
-                    
-                </div>
             </form>
-            </div>
-        </div>
-        <div class="address-map">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.9471494114355!2d78.40754031487671!3d17.41432378806247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb96cfb3704b0b%3A0x7f7553c4232051f7!2sPROCEUM%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1616555596369!5m2!1sen!2sin" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
     </div>
+    <div class="address-map">
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.9471494114355!2d78.40754031487671!3d17.41432378806247!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb96cfb3704b0b%3A0x7f7553c4232051f7!2sPROCEUM%20Pvt.%20Ltd.!5e0!3m2!1sen!2sin!4v1616555596369!5m2!1sen!2sin"
+            height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+</div>
 </div>
 <app-footer></app-footer>
