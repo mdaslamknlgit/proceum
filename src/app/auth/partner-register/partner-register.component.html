@@ -64,6 +64,7 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="fir_name err_tltp_par" *ngIf="app.localStorageItem('p_type') == '1'">
+
                                     <mat-form-field appearance="legacy">
                                         <mat-select tabindex="7" placeholder="Select College" name="college"
                                             #college="ngModel" [(ngModel)]="pStudentRegister.college"
@@ -80,11 +81,14 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                                <div class="fir_name err_tltp_par" *ngIf="app.localStorageItem('p_type') != '1'">
+                                <div class="fir_name dsbld_frmfld" *ngIf="app.localStorageItem('p_type') != '1'">
                                     <mat-form-field appearance="legacy">
-                                        <mat-select tabindex="7" placeholder="{{ app.localStorageItem('organization_name') }}" disabled="true">
+                                        <mat-label>College / Institute</mat-label>
+                                        
+                                        <!-- <mat-select tabindex="7" placeholder="{{ app.localStorageItem('organization_name') }}"  disabled="true">
                                             <mat-option value="">{{ app.localStorageItem('organization_name') }}</mat-option>
-                                        </mat-select>
+                                        </mat-select> -->
+                                        <input matInput value="{{ app.localStorageItem('organization_name') }}" disabled="true">
                                     </mat-form-field>
                                 </div>
                                 
@@ -280,7 +284,7 @@
                         <!-- </mat-step> -->
                         <!-- </mat-horizontal-stepper> -->
                     </form>
-                    <div class="mt_1 text_right">Already Registered? click to <button mat-raised-button color="accent" routerLink="/login" class="ml_1">Login</button> </div>
+                    <div class="mt_1 text_left">Already Registered? <span routerLink="/login" class="lgn_hr">Login here.</span></div>
                 </div>
                 
             </div>
