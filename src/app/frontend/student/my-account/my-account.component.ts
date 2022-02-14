@@ -331,7 +331,7 @@ export class MyAccountComponent implements OnInit {
 
   updateProfile() {
     const pwdregex = new RegExp(
-      '(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&#^()><?/:;,.])[A-Za-zd$@$!%*?&#^()><?/:;,.].{7,15}'
+      '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$'
     );
     var myFormData = new FormData();
     if (this.isrequired) {
@@ -397,6 +397,11 @@ export class MyAccountComponent implements OnInit {
     myFormData.append('last_name', this.profile.last_name);
     myFormData.append('referral_code', this.profile.referral_code);
     myFormData.append('frnd_referral_code', this.profile.frnd_referral_code);
+    myFormData.append('country_id', this.profile.country_id);
+    myFormData.append('state_id', this.profile.state_id);
+    myFormData.append('city', this.profile.city);
+    myFormData.append('address_line_1', this.profile.address1);
+    myFormData.append('address_line_2', this.profile.address2);
     let param = {
       url: 'update-student-profile',
     };

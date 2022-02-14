@@ -187,7 +187,7 @@
           <div class="my_prf_dv">
             <span>Last Name</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Last Name" autocomplete="off" required name="last_name" #last_name='ngModel'
+              <input matInput placeholder="Last Name" autocomplete="off" name="last_name" #last_name='ngModel'
                 ngModel [(ngModel)]="profile.last_name"
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
             </mat-form-field>
@@ -214,21 +214,21 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
-            <span>Year <span class="required">*</span></span>
+            <span>Year</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Year"  name="year" [disabled]="'disabled'" [(ngModel)]="profile.year" autocomplete="off" required />
+              <input matInput placeholder="Year"  name="year" [disabled]="'disabled'" [(ngModel)]="profile.year" autocomplete="off" />
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
             <span>Semester</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Semester" name="semester" [disabled]="'disabled'" [(ngModel)]="profile.semester" autocomplete="off" required />
+              <input matInput placeholder="Semester" name="semester" [disabled]="'disabled'" [(ngModel)]="profile.semester" autocomplete="off" />
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
             <span>Group</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Group" name="group" [disabled]="'disabled'" [(ngModel)]="profile.group" autocomplete="off" required />             
+              <input matInput placeholder="Group" name="group" [disabled]="'disabled'" [(ngModel)]="profile.group" autocomplete="off" />             
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
@@ -279,36 +279,36 @@
           <div class="my_prf_dv rsp_mypdv_bg">
             <span>Address line 1 <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 1" name="address1" [disabled]="'disabled'" [(ngModel)]="profile.address1"></textarea>
+              <textarea matInput placeholder="Address Line 1" required name="address1" [(ngModel)]="profile.address1"></textarea>
             </mat-form-field>
           </div>
           <div class="my_prf_dv mypdv_bg">
             <span>Address line 2</span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 2" name="address2" [disabled]="'disabled'" [(ngModel)]="profile.address2"></textarea>
+              <textarea matInput placeholder="Address Line 2" name="address2" required [(ngModel)]="profile.address2"></textarea>
             </mat-form-field>
           </div>
           <div class="my_prf_dv">
-            <span>University <span class="required">*</span></span>
+            <span>University</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                <input matInput placeholder="University" name="university" [disabled]="'disabled'" [(ngModel)]="profile.university" autocomplete="off" required />
+                <input matInput placeholder="University" name="university" [disabled]="'disabled'" [(ngModel)]="profile.university" autocomplete="off" />
               </mat-form-field>
             </span>
           </div>
           <div class="my_prf_dv">
-            <span>College <span class="required">*</span></span>
+            <span>College</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                <input matInput placeholder="College" name="college" [disabled]="'disabled'" [(ngModel)]="profile.college" autocomplete="off" required />
+                <input matInput placeholder="College" name="college" [disabled]="'disabled'" [(ngModel)]="profile.college" autocomplete="off" />
               </mat-form-field>
             </span>
           </div>
           <div class="my_prf_dv">
-            <span>Institute <span class="required">*</span></span>
+            <span>Institute</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                <input matInput placeholder="Institute" name="institute" [disabled]="'disabled'" [(ngModel)]="profile.institute" autocomplete="off" required />
+                <input matInput placeholder="Institute" name="institute" [disabled]="'disabled'" [(ngModel)]="profile.institute" autocomplete="off" />
               </mat-form-field>
             </span>
           </div>
@@ -325,7 +325,7 @@
             <span *ngIf='isdisplay'>Current Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
               <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
-                autocomplete="off" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="8"
+                autocomplete="off" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="6"
                 maxlength="16" name="current_password" onkeypress='return (event.charCode != 32)'
                 #current_password="ngModel" ngModel [readonly]="!isrequired">
               <mat-icon matSuffix (click)="passwordFun('old')">{{current_password_hide ? 'visibility_off' :
