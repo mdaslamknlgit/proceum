@@ -1,145 +1,243 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/college-list{{url_param}}"><strong>Manage Colleges</strong></span></div>
+    <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/college-list{{url_param}}"><strong>Manage
+                Colleges</strong></span></div>
     <div class="pg_ttl">{{ (pk_id > 0) ? "Edit" : "Create" }} College</div>
     <hr />
-    
-        <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
-            <form autocomplete="off" #create_college="ngForm" name="create_college" (ngSubmit)="create_college.valid && submitFrom()">
-                <div class="crt_pr_mn">
-                    <div class="clear_fix w_100p"></div>
-                    <div class="crt_pr_dv">
-                        <div class="hgt_10"></div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">College Name*</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="College Name" maxlength="100"
-                                        [(ngModel)]="college_name" name="college_name_edit" #college_name_edit="ngModel"
-                                        (keypress)="allAlphabetsWithSpaces($event)" required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_college.submitted || college_name_edit.touched) && college_name_edit.invalid">college
-                                    name is required</span>
-                            </div>
-                        </div>
-                        <div class="brnd_info_mn" *ngIf="!pk_id">
-                            <div class="crt_prt_hd">Password*</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput type="password" placeholder="Password" [(ngModel)]="password"
-                                        name="password_edit" #password_edit="ngModel" minlength="6" maxlength="16"
-                                        autocomplete="off" required />
-                                </mat-form-field>
-                                <span class="prc_tltp" *ngIf="(create_college.submitted || password_edit.touched) && (password.length < 6) ">
-                                    Minimum of 6 characters password required!
-                                </span>
-                            </div>
-                        </div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Primary Contact Number*</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone"
-                                        name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9"
-                                        maxlength="13" required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_college.submitted || phone_edit.touched) && phone_edit.invalid">Contact
-                                    number is required</span>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_college.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 || phone.length > 13)">Invalid
-                                    Contact number.Minimun of 9, Maximum of 13 digits required!</span>
-                            </div>
-                        </div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Contact Person*</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="Person Name" maxlength="50"
-                                        (keypress)="allAlphabetsWithSpaces($event)" [(ngModel)]="contact_name"
-                                        name="contact_name_edit" #contact_name_edit="ngModel" required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_college.submitted || contact_name_edit.touched) && contact_name_edit.invalid">Contact
-                                    Person name is required</span>
-                            </div>
-                        </div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">GSTIN</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="GST/VAT" autocomplete="off" minlength="0"
-                                        maxlength="15"  name="gstin_edit" [(ngModel)]="gstin"
-                                        #gstin_edit="ngModel" ngModel
-                                        onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))" />
-                                </mat-form-field>
-                            </div>
+
+    <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
+        <form autocomplete="off" #create_college="ngForm" name="create_college"
+            (ngSubmit)="create_college.valid && submitFrom()">
+            <div class="crt_pr_mn">
+                <div class="clear_fix w_100p"></div>
+                <div class="crt_pr_dv">
+                    <div class="hgt_10"></div>
+                    <div class="brnd_info_mn">
+                        <div class="crt_prt_hd">College Name*</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="College Name" maxlength="100" [(ngModel)]="college_name"
+                                    name="college_name_edit" #college_name_edit="ngModel"
+                                    (keypress)="allAlphabetsWithSpaces($event)" required tabindex="1"/>
+                            </mat-form-field>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || college_name_edit.touched) && college_name_edit.invalid">college
+                                name is required</span>
                         </div>
                     </div>
-                    <div class="crt_pr_dv">
-                        <div class="hgt_10"></div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Email*</div>
-                            <div class="brnd_info_upld">
+                    <div class="brnd_info_mn" *ngIf="!pk_id">
+                        <div class="crt_prt_hd">Password*</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput type="password" placeholder="Password" [(ngModel)]="password"
+                                    name="password_edit" #password_edit="ngModel" minlength="6" maxlength="16"
+                                    autocomplete="off" required tabindex="3"/>
+                            </mat-form-field>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || password_edit.touched) && (password.length < 6) ">
+                                Minimum of 6 characters password required!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="brnd_info_mn">
+                        <div class="crt_prt_hd">Primary Contact Number*</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone"
+                                    name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13"
+                                    required tabindex="5"/>
+                            </mat-form-field>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || phone_edit.touched) && phone_edit.invalid">Contact
+                                number is required</span>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 || phone.length > 13)">Invalid
+                                Contact number.Minimun of 9, Maximum of 13 digits required!</span>
+                        </div>
+                    </div>
+                    <div class="brnd_info_mn">
+                        <div class="crt_prt_hd">Contact Person*</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Person Name" maxlength="50"
+                                    (keypress)="allAlphabetsWithSpaces($event)" [(ngModel)]="contact_name"
+                                    name="contact_name_edit" #contact_name_edit="ngModel" required tabindex="7"/>
+                            </mat-form-field>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || contact_name_edit.touched) && contact_name_edit.invalid">Contact
+                                Person name is required</span>
+                        </div>
+                    </div>
+                    <!-- <div class="brnd_info_mn">
+                        <div class="crt_prt_hd">GSTIN</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="GST/VAT" autocomplete="off" minlength="0" maxlength="15"
+                                    name="gstin_edit" [(ngModel)]="gstin" #gstin_edit="ngModel" ngModel
+                                    onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))" />
+                            </mat-form-field>
+                        </div>
+                    </div> -->
+                    <div class="brnd_info_mn">
+                        <div class="crt_prt_hd">Address line 1*</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput matInput placeholder="Address line 1" [(ngModel)]="b_address_line_1"
+                                    name="address_line_1_edit" #address_line_1_edit="ngModel" required tabindex="9"/>
+                            </mat-form-field>
+                            <span class="prc_tltp"
+                                *ngIf="(address_line_1_edit.touched) && address_line_1_edit.invalid">Address
+                                Line 1 is required</span>
+                        </div>
+                    </div>
+                    <div class="brnd_info_mn d-flex jc_sb rsp_fw">
+                        <div class="w_47p rsp_100p">
+                            <div class="crt_prt_hd">Country*</div>
+                            <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput type="email" placeholder="Email" [(ngModel)]="email"
-                                        name="email_edit" #email_edit="ngModel" autocomplete="off" required
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                                    <mat-select placeholder="Select Country" name="country_edit" #country_edit="ngModel"
+                                        [(ngModel)]="b_country_id" (ngModelChange)="getStates(b_country_id)" required tabindex="11">
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
+                                                [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                                                (ngModelChange)="filterCountries($event)">
+                                            </ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let country of all_countrys | async"
+                                            [value]="country['id']">{{ country["country_name"] }}
+                                        </mat-option>
+                                    </mat-select>
                                 </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_college.submitted || email_edit.touched) && email_edit.invalid">Email
-                                    is required</span>
-                                <span class="prc_tltp"
-                                    *ngIf="create_college.submitted && email_edit.errors?.pattern">This is not a
-                                    valid Email!</span>
+                                <span *ngIf="(country_edit.touched) && country_edit.invalid" class="prc_tltp">Country is
+                                    required</span>
                             </div>
                         </div>
-                        <div class="brnd_info_mn" *ngIf="!pk_id">
-                            <div class="crt_prt_hd">Confirm Password*</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline"class="w_100p {{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
-                                    <input matInput type="password" placeholder="Confirm Password"
-                                        [(ngModel)]="confirm_password" name="confirm_password_edit"
-                                        #confirm_password_edit="ngModel" minlength="6" maxlength="16" required />
-                                </mat-form-field>
-                                <span class="prc_tltp" *ngIf="(create_college.submitted || confirm_password_edit.touched) && confirm_password != '' || (confirm_password != password)">
-                                    Minimum of 6 characters password required!, Password and Confirm Password must be match!
-                                </span>   
-                            </div>
-                        </div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">Secondary Contact Number*</div>
-                            <div class="brnd_info_upld">
+                        <div class="w_47p rsp_100p">
+                            <div class="crt_prt_hd">State*</div>
+                            <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone"
-                                        name="second_phone_edit" #second_phone_edit="ngModel" appNumbersonly
-                                        minlength="9" maxlength="13" required />
+                                    <mat-select placeholder="Select State" name="state_edit" #state_edit="ngModel"
+                                        [(ngModel)]="b_state_id" (ngModelChange)="getCities(b_state_id)" required tabindex="12">
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
+                                                [placeholderLabel]="'Search State'" name="search_state" ngModel
+                                                (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{
+                                            state["state_name"] }}</mat-option>
+                                    </mat-select>
                                 </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_college.submitted || second_phone_edit.touched) && second_phone_edit.invalid">Contact
-                                    number is required</span>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_college.submitted || second_phone_edit.touched) && (second_phone != '') && (second_phone.length < 10 || second_phone.length > 13)">Invalid
-                                    Contact number.Minimun of 9, Maximum of 13 digits required!</span>
-                            </div>
-                        </div>
-                        <div class="brnd_info_mn">
-                            <div class="crt_prt_hd">College Code*</div>
-                            <div class="brnd_info_upld">
-                                <mat-form-field appearance="outline" class="w_100p">
-                                    <input matInput
-                                        placeholder="College Code"
-                                        maxlength="10" [(ngModel)]="code" name="code_edit" #code_edit="ngModel"
-                                        required />
-                                </mat-form-field>
-                                <span class="prc_tltp"
-                                    *ngIf="(create_college.submitted || code_edit.touched) && code_edit.invalid">
-                                    College Code is required</span>
+                                <span *ngIf="(state_edit.touched) && state_edit.invalid" class="prc_tltp">State is
+                                    required</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="crt_pr_mn">
+                <div class="crt_pr_dv">
+                    <div class="hgt_10"></div>
+                    <div class="brnd_info_mn">
+                        <div class="crt_prt_hd">Email*</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
+                                    #email_edit="ngModel" autocomplete="off" required tabindex="2"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                            </mat-form-field>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || email_edit.touched) && email_edit.invalid">Email
+                                is required</span>
+                            <span class="prc_tltp" *ngIf="create_college.submitted && email_edit.errors?.pattern">This
+                                is not a
+                                valid Email!</span>
+                        </div>
+                    </div>
+                    <div class="brnd_info_mn" *ngIf="!pk_id">
+                        <div class="crt_prt_hd">Confirm Password*</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline"
+                                class="w_100p {{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
+                                <input matInput type="password" placeholder="Confirm Password"
+                                    [(ngModel)]="confirm_password" name="confirm_password_edit"
+                                    #confirm_password_edit="ngModel" minlength="6" maxlength="16" required tabindex="4"/>
+                            </mat-form-field>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || confirm_password_edit.touched) && confirm_password != '' || (confirm_password != password)">
+                                Minimum of 6 characters password required!, Password and Confirm Password must be match!
+                            </span>
+                        </div>
+                    </div>
+                    <div class="brnd_info_mn">
+                        <div class="crt_prt_hd">Secondary Contact Number</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone"
+                                    name="second_phone_edit" #second_phone_edit="ngModel" appNumbersonly minlength="9"
+                                    maxlength="13" tabindex="6"/>
+                            </mat-form-field>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || second_phone_edit.touched) && second_phone_edit.invalid">Contact
+                                number is required</span>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || second_phone_edit.touched) && (second_phone != '') && (second_phone.length < 10 || second_phone.length > 13)">Invalid
+                                Contact number.Minimun of 9, Maximum of 13 digits required!</span>
+                        </div>
+                    </div>
+                    <div class="brnd_info_mn">
+                        <div class="crt_prt_hd">College Code*</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="College Code" maxlength="10" [(ngModel)]="code"
+                                    name="code_edit" #code_edit="ngModel" required tabindex="8"/>
+                            </mat-form-field>
+                            <span class="prc_tltp"
+                                *ngIf="(create_college.submitted || code_edit.touched) && code_edit.invalid">
+                                College Code is required</span>
+                        </div>
+                    </div>
+                    
+                    <div class="brnd_info_mn">
+                        <div class="crt_prt_hd">Address line 2</div>
+                        <div class="brnd_info_upld">
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput matInput placeholder="Address line 2" [(ngModel)]="b_address_line_2"
+                                    name="address_line_2_edit" #address_line_2_edit="ngModel" tabindex="10"/>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <div class="brnd_info_mn d-flex jc_sb rsp_fw">
+                        <div class="w_47p rsp_100p">
+                            <div class="crt_prt_hd">City*</div>
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <mat-select placeholder="Select City" name="city_edit" #city_edit="ngModel"
+                                    [(ngModel)]="b_city" required tabindex="13">
+                                    <mat-option>
+                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
+                                            [placeholderLabel]="'Search City'" name="search_city" ngModel
+                                            (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngFor="let city of all_cities | async" [value]="city['id']">{{
+                                        city["city_name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(city_edit.touched) && city_edit.invalid">City*
+                                is required</span>
+                        </div>
+                        <div class="w_47p rsp_100p">
+                            <div class="crt_prt_hd">ZIP/Pin code*</div>
+                            <mat-form-field appearance="outline" class="w_100p">
+                                <input matInput placeholder="ZIP/Pin code" [(ngModel)]="b_pincode" name="pincode_edit"
+                                    #pincode_edit="ngModel" appNumbersonly minlength="4" maxlength="13" required tabindex="14"/>
+                            </mat-form-field>
+                            <span class="prc_tltp" *ngIf="(pincode_edit.touched) && pincode_edit.invalid">ZIP/Pincode*
+                                is required</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text_right float_right w_100p">
+                    <button mat-raised-button type="submit" class="no_bxsdw" color="accent">Submit</button>
+                </div>
+            </div>
+            <!-- <div class="crt_pr_mn">
                     <div class="clear_fix w_100p"></div>
                     <div class="crt_pr_dv">
                         <div class="text_right w_100p">
@@ -357,9 +455,9 @@
                             <button mat-raised-button type="submit" class="no_bxsdw" color="accent">Submit</button>
                         </div>
                     </div>
-                </div>
-            
-                
-            </form>
-        </div>
+                </div> -->
+
+
+        </form>
+    </div>
 </div>

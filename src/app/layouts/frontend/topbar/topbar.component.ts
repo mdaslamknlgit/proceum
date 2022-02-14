@@ -43,7 +43,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         //check subdomain
         let sub_domain = window.location.hostname.split('.')[0];
-        //sub_domain = 'rmu';
+        //sub_domain = 'mmch';
         //If subdomain not exist in in app domains then check for partner domain
         if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
             this.getSubDomainDetails(sub_domain);
@@ -74,7 +74,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     navigateTo() {
         if (this.user['role'] == '1' || this.user['role'] == '8' || this.user['role'] == '9' || this.user['role'] == '10') {
             this.route.navigateByUrl('/admin/dashboard');
-        } else if (this.user['role'] == '2') {
+        } else if (this.user['role'] == '2' || this.user['role'] == '11') {
             this.route.navigateByUrl('/student/dashboard');
         }
         else if (this.user['role'] == '3' || this.user['role'] == '4' || this.user['role'] == '5' || this.user['role'] == '6' || this.user['role'] == '7') {
