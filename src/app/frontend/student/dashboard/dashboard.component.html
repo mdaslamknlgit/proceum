@@ -432,9 +432,9 @@
                       <mat-icon>videocam</mat-icon>
                     </button>
                     <div>
-                      <span
-                        (click)="navigateTo(bookmark.cur_id+'/'+bookmark.level_id+'/'+bookmark.cur_pk_id)">{{bookmark.content_title}}
-                      </span>
+                      <a
+                        (click)="navigateTo(bookmark.cur_id+'/'+bookmark.level_id+'/'+bookmark.cur_pk_id)">{{ bookmark.content_title.length>10?bookmark.content_title.substring(0,99)+'...': bookmark.content_title}}
+                      </a>
                       <span class="prg_btm_cnt">{{bookmark.level_name}}</span>
                     </div>
                   </span>
@@ -466,8 +466,8 @@
                       <mat-icon>videocam</mat-icon>
                     </button>
                     <div>
-                      <span
-                        (click)="navigateTo(favorite.cur_id+'/'+favorite.level_id+'/'+favorite.cur_pk_id)">{{favorite.content_title}}</span>
+                      <a
+                        (click)="navigateTo(favorite.cur_id+'/'+favorite.level_id+'/'+favorite.cur_pk_id)">{{ favorite.content_title.length>10?favorite.content_title.substring(0,99)+'...': favorite.content_title}}</a>
                       <span class="prg_btm_cnt">{{favorite.level_name}}</span>
                     </div>
                   </span>
