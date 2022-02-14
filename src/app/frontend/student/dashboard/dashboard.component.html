@@ -1,6 +1,6 @@
 <div class="mn_dshbrd">
   <div class="cust_mdl_par {{quiz_case_model == false ? 'cust_mdl_opn':'cust_mdl_cls'}} ">
-    <div class="cust_mdl_chl w_50p rsp_80p_767">
+    <div class="cust_mdl_chl w_50p">
       <div class="pg_ttl">
         <mat-icon color="accent" class="mr_5px">quiz</mat-icon> Quiz of the Day
         <span class="spacer"></span>
@@ -79,6 +79,8 @@
             </div>
             <div class="hgt_20"></div>
           </div>
+
+
           <hr>
           <div class="hgt_5"></div>
           <div class="tstsqst_navs d-flex" *ngIf="quiz_questions.length>0">
@@ -92,15 +94,9 @@
               (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
             </button>
             <button (click)="checkAnswer();showResult();"
-              *ngIf="is_test_end == false && active_q_index == (quiz_questions.length-1)"
-              [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button color="accent"
-              class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">
-              Submit</button>
-            <button (click)="checkAnswer();showResult();"
               *ngIf="is_test_end == false && active_q_index == (quiz_questions.length-1)" mat-raised-button
               color="accent"
               class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">Submit</button>
-
           </div>
           <div class="hgt_20"></div>
           <!-- </form> -->
@@ -177,9 +173,7 @@
                 </div>
               </div>
             </div>
-            <div class="hgt_20"></div>
-            <button mat-raised-button class="gry_btn float_right" (click)="closeModal()">Close</button>
-            <div class="hgt_20"></div>
+            <button mat-raised-button class="gry_btn" (click)="closeModal()">Close</button>
           </div>
         </div>
       </div>
@@ -263,6 +257,7 @@
       </div>
     </li> -->
     </ul>
+
     <ul class="crds_ul">
       <li>
         <div class="lfrt_grd">
@@ -299,6 +294,7 @@
         </div>
       </li>
     </ul>
+
     <ul class="crds_ul rcnt_vw">
       <li>
         <mat-tab-group animationDuration="800ms">
@@ -382,35 +378,37 @@
               </li>
               <li *ngIf="free_content.length>0">
                 <div class="lfrt_grd" *ngFor="let item of free_content">
-                  <span class="text_left">
+                  <div class="d-flex w_100p">
                     <button (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)" mat-mini-fab
                       class="mr_1">
                       <mat-icon>videocam</mat-icon>
                     </button>
                     <div>
                       <a
-                        (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)">{{item.content_title}}</a>
+                        (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)">{{ item.content_title.length>10?item.content_title.substring(0,99)+'...': item.content_title}}</a>
                       <span class="prg_btm_cnt">{{item.level_name}}</span>
                     </div>
-                  </span>
-                  <span>
-                    <button *ngIf="item.is_fav != 1 ? true : false" matTooltip="Make Favorite"
-                      (click)="updateBookmarkFavorite(item.id,'fav')" mat-icon-button class="mr_02">
-                      <mat-icon>favorite_border</mat-icon>
-                    </button>
-                    <button *ngIf="item.is_fav == 1 ? true : false" matTooltip="Unfavourite"
-                      (click)="updateBookmarkFavorite(item.id,'fav')" mat-mini-fab class="mr_02">
-                      <mat-icon>favorite_border</mat-icon>
-                    </button>
-                    <button *ngIf="item.is_bookmark != 1 ? true : false" matTooltip="Add Bookmark"
-                      (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-icon-button class="mr_02">
-                      <mat-icon>bookmark_add</mat-icon>
-                    </button>
-                    <button *ngIf="item.is_bookmark == 1 ? true : false" matTooltip="Remove Bookmark"
-                      (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-mini-fab class="mr_02">
-                      <mat-icon>bookmark_add</mat-icon>
-                    </button>
-                  </span>
+                    <span class="spacer"></span>
+                    <span>
+                      <button *ngIf="item.is_fav != 1 ? true : false" matTooltip="Make Favorite"
+                        (click)="updateBookmarkFavorite(item.id,'fav')" mat-icon-button class="mr_02">
+                        <mat-icon>favorite_border</mat-icon>
+                      </button>
+                      <button *ngIf="item.is_fav == 1 ? true : false" matTooltip="Unfavourite"
+                        (click)="updateBookmarkFavorite(item.id,'fav')" mat-mini-fab class="mr_02">
+                        <mat-icon>favorite_border</mat-icon>
+                      </button>
+                      <button *ngIf="item.is_bookmark != 1 ? true : false" matTooltip="Add Bookmark"
+                        (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-icon-button class="mr_02">
+                        <mat-icon>bookmark_add</mat-icon>
+                      </button>
+                      <button *ngIf="item.is_bookmark == 1 ? true : false" matTooltip="Remove Bookmark"
+                        (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-mini-fab class="mr_02">
+                        <mat-icon>bookmark_add</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+
                   <hr>
                 </div>
               </li>
@@ -434,37 +432,9 @@
                       <mat-icon>videocam</mat-icon>
                     </button>
                     <div>
-                      <span
-                        (click)="navigateTo(bookmark.cur_id+'/'+bookmark.level_id+'/'+bookmark.cur_pk_id)">{{bookmark.content_title}}
-                      </span>
-                      <hr>
-                    </div>
-                  </span>
-                </div>
-              </li>
-            </ul>
-          </mat-tab>
-          <mat-tab>
-            <ng-template mat-tab-label>
-              <mat-icon class="mr_02">class</mat-icon>
-              My Bookmarks
-            </ng-template>
-            <ul class="crds_ul full_crd" *ngIf="bookmarks">
-              <li *ngIf="bookmarks.length==0">
-                <div class="lfrt_grd">
-                  <span>No Bookmarks Found</span>
-                </div>
-              </li>
-              <li *ngIf="bookmarks.length>0">
-                <div class="lfrt_grd" *ngFor="let bookmark of bookmarks">
-                  <span class="text_left">
-                    <button mat-mini-fab class="mr_1">
-                      <mat-icon>videocam</mat-icon>
-                    </button>
-                    <div>
-                      <span
-                        (click)="navigateTo(bookmark.cur_id+'/'+bookmark.level_id+'/'+bookmark.cur_pk_id)">{{bookmark.content_title}}
-                      </span>
+                      <a
+                        (click)="navigateTo(bookmark.cur_id+'/'+bookmark.level_id+'/'+bookmark.cur_pk_id)">{{ bookmark.content_title.length>10?bookmark.content_title.substring(0,99)+'...': bookmark.content_title}}
+                      </a>
                       <span class="prg_btm_cnt">{{bookmark.level_name}}</span>
                     </div>
                   </span>
@@ -496,8 +466,8 @@
                       <mat-icon>videocam</mat-icon>
                     </button>
                     <div>
-                      <span
-                        (click)="navigateTo(favorite.cur_id+'/'+favorite.level_id+'/'+favorite.cur_pk_id)">{{favorite.content_title}}</span>
+                      <a
+                        (click)="navigateTo(favorite.cur_id+'/'+favorite.level_id+'/'+favorite.cur_pk_id)">{{ favorite.content_title.length>10?favorite.content_title.substring(0,99)+'...': favorite.content_title}}</a>
                       <span class="prg_btm_cnt">{{favorite.level_name}}</span>
                     </div>
                   </span>
@@ -509,6 +479,54 @@
                   <div class="clear_fix"></div>
                   <hr>
                 </div>
+              </li>
+            </ul>
+          </mat-tab>
+          <mat-tab *ngIf="user_id">
+            <!-- wishlist -->
+            <ng-template mat-tab-label>
+              <mat-icon class="mr_02">playlist_add_check</mat-icon>
+              My Wishlist
+            </ng-template>
+            <ul class="crds_ul full_crd">
+              <li>
+                <div class="lfrt_grd" *ngIf="wish_list.length==0 && wish_list_data==0">
+                  <span>No Wishlist Found</span>
+                </div>
+                <div *ngIf="wish_list">
+                  <div class="lfrt_grd" *ngFor="let item of wish_list">
+                    <span class="text_left">
+                      <button mat-mini-fab class="mr_1" [routerLink]="['/package-details', item.product_id]">
+                        <div class="crs_img">
+                          <img src="{{ item.product_img != '' ? item.product_img : product_default_img  }}">
+                        </div>
+                      </button>
+                      <div>
+                        <span [routerLink]="['/package-details', item.product_id]">{{ item.product_name }}</span>
+                        <span class="prg_btm_cnt">{{ (item.product_desc && item.product_desc.length > 100) ? (
+                          item.product_desc | slice:0:100 ) + '....' : (item.product_desc) }}</span>
+                      </div>
+                    </span>
+                    <!-- <span>
+                  <button mat-mini-fab class="mr_02"><mat-icon>favorite_border</mat-icon></button> <button mat-icon-button  class="mr_02"><mat-icon>bookmark_remove</mat-icon></button>
+                </span> -->
+                  </div>
+                </div>
+                <div *ngIf="wish_list_data">
+                  <div class="lfrt_grd" *ngFor="let list_data of wish_list_data">
+                    <span class="text_left">
+                      <button mat-mini-fab class="mr_1">
+                        <mat-icon>videocam</mat-icon>
+                      </button>
+                      <div>
+                        <span
+                          (click)="navigateTo(list_data.cur_id+'/'+list_data.level_id+'/'+list_data.cur_pk_id)">{{list_data.content_title}}</span>
+                        <span class="prg_btm_cnt">{{list_data.level_name}}</span>
+                      </div>
+                    </span>
+                  </div>
+                </div>
+                <hr>
               </li>
             </ul>
           </mat-tab>
@@ -668,13 +686,13 @@
         <span>35/40</span>
       </div>
     </li>
-    </ul>
-    <ul class="crds_ul rcnt_vw">
-      <li>
-        <span class="text_left"> Recently Viewed </span>
-        <hr />
-        <p class="faint_txt">No recent history found</p>
-      </li>
-      </ul> -->
+  </ul>
+  <ul class="crds_ul rcnt_vw">
+    <li>
+      <span class="text_left"> Recently Viewed </span>
+      <hr />
+      <p class="faint_txt">No recent history found</p>
+    </li>
+  </ul> -->
   </div>
 </div>
