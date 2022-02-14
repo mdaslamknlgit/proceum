@@ -171,13 +171,19 @@ export class MyAccountComponent implements OnInit {
 
   addEmail(){
     if(this.recipient_emails != ''){
-      let recipient_emails = this.recipient_emails.split(',');  
-      recipient_emails.forEach((opt, index) => {
-        this.recipient_emails_list.push(opt);
+      this.recipient_emails.split(',').forEach((opt, index) => {
+        if(this.validateEmail(opt)){
+          this.recipient_emails_list.push(opt);
+        }
       });
       this.recipient_emails = '';
     }
   }
+
+  validateEmail(email) {
+    const regularExpression = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regularExpression.test(String(email.replace(/\s/g, "")).toLowerCase());
+   }
 
   removeEmail(index){
     this.recipient_emails_list.splice(index, 1);
