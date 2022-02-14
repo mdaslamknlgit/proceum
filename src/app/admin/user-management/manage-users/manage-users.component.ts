@@ -325,6 +325,7 @@ export class ManageUsersComponent implements OnInit {
       order_by: this.sort_by,
       search: this.search_box,
       role: this.role,
+      list_type_id: this.organization_type_id,
       organization: this.role_id != 12?this.organization_list_id:this.college_institute_id,
       college_id: this.college_id,
       year: this.year_id,
