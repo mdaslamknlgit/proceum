@@ -43,9 +43,9 @@ export class StudyPlannerStudentComponent implements OnInit {
             url: 'study-plan/individual-list',
             offset: 0,
             limit: this.pageSize
-        };console.log(this.user_data['role'])
+        };
         if(parseInt(this.user_data['role']) == environment.ALL_ROLES.STUDENT){
-            param.url = "study-plan/list";
+            //param.url = "study-plan/list";
         }
         this.http.post(param).subscribe((res) => {
             this.is_loaded = true;
