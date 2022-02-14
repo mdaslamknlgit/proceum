@@ -44,6 +44,7 @@ export class ShoppingCartComponent implements OnInit {
   public state_id:any = '';
   public state_name = '';
   public city = '';
+  public city_name = '';
   public address = '';
   public zip_code = '';
   public referral_count = 0;
@@ -52,8 +53,10 @@ export class ShoppingCartComponent implements OnInit {
   //Country and state related data variables
   public countrys = [];
   public states = [];
+  public cities = [];
   all_countrys: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_states: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_cities: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   //Order related variable
   public order_id:any = '';
@@ -112,11 +115,15 @@ export class ShoppingCartComponent implements OnInit {
           if(this.user_address){
             this.country_id = this.user_address["country_id"];
             this.country_name = this.user_address["country_name"];
-            this.state_id = this.user_address["state_id"];
+            this.state_id = this.user_address["state_id"];            
+            if(this.country_id > 0){
+              this.getStates(this.country_id);
+            }
             if(this.state_id > 0){
-              this.getStates(this.state_id);
+              this.getCities(this.state_id);
             }
             this.state_name = this.user_address["state_name"];
+            this.city_name = this.user_address["city_name"];
             this.city = this.user_address["city"];
             this.address = this.user_address["address_line_1"]+ ' ' + this.user_address["address_line_2"];
             this.zip_code = this.user_address["zip_code"];
@@ -267,6 +274,46 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+   //Set state name by stateid 
+   public setCityName(){
+    if(this.state_id > 0) {
+      //set state_name
+      this.cities.filter((item) => {
+        if(item.id == this.city){
+          this.city_name = item.city_name;
+        }
+      });
+    }
+  }
+
+  getCities(selected_state_id: number) {
+    let params = {
+      url: 'get-cities',
+      state_id: selected_state_id,
+    };
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        this.cities = res['data']['cities'];
+        this.all_cities.next(this.cities.slice());
+      }
+    });
+  }
+
+  filterCities(event) {
+    let search = event;
+    if (!search) {
+      this.all_cities.next(this.cities.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_cities.next(
+      this.cities.filter(
+        (city) => city.city_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+
   //Update cart amounts when there is any event occured related to cart
   public updateAmounts(res){
     this.total_amount = res['total_amount'];
@@ -338,7 +385,7 @@ export class ShoppingCartComponent implements OnInit {
     let adressDetails = {
       a_contact_name  : this.contact_name,
       b_address       : this.address,
-      c_city          : this.city,
+      c_city          : this.city_name,
       d_state_name    : this.state_name,
       e_country_name  : this.country_name,
       f_zip_code      : this.zip_code,
