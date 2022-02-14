@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="fir_name err_tltp_par" *ngIf="app.localStorageItem('p_type') == '1'">
                                     <mat-form-field appearance="legacy">
-                                        <mat-select tabindex="8" placeholder="Select College" name="college"
+                                        <mat-select tabindex="7" placeholder="Select College" name="college"
                                             #college="ngModel" [(ngModel)]="pStudentRegister.college"
                                             (ngModelChange)="getYears(pStudentRegister.college)" required>
                                             <mat-option>
@@ -80,17 +80,14 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                                <div class="fir_name err_tltp_par">
+                                <div class="fir_name err_tltp_par" *ngIf="app.localStorageItem('p_type') != '1'">
                                     <mat-form-field appearance="legacy">
-                                        <input tabindex="12" matInput placeholder="Address Line1"
-                                            [(ngModel)]="pStudentRegister.address_line_1" name="address_line_1"
-                                            #address_line_1="ngModel" maxlength="70" required>
-                                        <!-- <span class="prc_tltp"
-                                        *ngIf="((partner_sign_up_form.submitted)  || address_line_1.touched) && pStudentRegister.address_line_1 == ''">Address
-                                        Line1 is
-                                        required</span> -->
+                                        <mat-select tabindex="7" placeholder="{{ app.localStorageItem('organization_name') }}" disabled="true">
+                                            <mat-option value="">{{ app.localStorageItem('organization_name') }}</mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
+                                
                                 <div class="fir_name err_tltp_par">
                                     <mat-form-field appearance="legacy"
                                         class="{{ ((partner_sign_up_form.submitted || country_id.touched) && pStudentRegister.country_id == 0) ? 'mat-form-field-invalid' : ''}}">
@@ -115,7 +112,28 @@
                                 </div>
                                 <div class="fir_name err_tltp_par">
                                     <mat-form-field appearance="legacy">
-                                        <mat-select tabindex="14" placeholder="Select City" name="city" #city="ngModel"
+                                        <mat-select tabindex="15" placeholder="Select State" #state_id="ngModel"
+                                            name="state_id" [(ngModel)]="pStudentRegister.state_id"
+                                            (ngModelChange)="getCities(pStudentRegister.state_id)" required>
+                                            <mat-option>
+                                                <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
+                                                    [placeholderLabel]="'Search State'" name="search_state" ngModel
+                                                    (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let state of all_states | async"
+                                                [value]="'' + state['id']">
+                                                {{
+                                                state["state_name"] }}
+                                            </mat-option>
+                                        </mat-select>
+                                        <span class="prc_tltp"
+                                            *ngIf="((partner_sign_up_form.submitted)  || state_id.touched) && pStudentRegister.state_id == ''">State/Province
+                                            is required</span>
+                                    </mat-form-field>
+                                </div>
+                                <div class="fir_name err_tltp_par">
+                                    <mat-form-field appearance="legacy">
+                                        <mat-select tabindex="16" placeholder="Select City" name="city" #city="ngModel"
                                             [(ngModel)]="pStudentRegister.city" required>
                                             <mat-option>
                                                 <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'"
@@ -178,7 +196,7 @@
 
                                 <div class="fir_name err_tltp_par">
                                     <mat-form-field appearance="legacy">
-                                        <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel"
+                                        <mat-select tabindex="8" placeholder="Select Year" name="year_edit" #year_edit="ngModel"
                                             [(ngModel)]="year_id" (ngModelChange)="getChildDropDownData(year_id)"
                                             required>
                                             <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">
@@ -189,9 +207,9 @@
                                 </div>
                                 <div class="fir_name err_tltp_par" *ngIf="show_semester">
                                     <mat-form-field appearance="legacy">
-                                        <mat-select placeholder="Select Semester" name="semester_edit"
+                                        <mat-select tabindex="9" placeholder="Select Semester" name="semester_edit"
                                             #semester_edit="ngModel" [(ngModel)]="semester_id"
-                                            (ngModelChange)="getGroups(semester_id)">
+                                            (ngModelChange)="getGroups(semester_id)" required>
                                             <mat-option *ngFor="let item of all_semesters | async"
                                                 [value]="item['pk_id']">
                                                 {{ item["name"] }}</mat-option>
@@ -200,7 +218,7 @@
                                 </div>
                                 <div class="fir_name err_tltp_par" *ngIf="show_group">
                                     <mat-form-field appearance="legacy">
-                                        <mat-select placeholder="Select Group" name="group_edit" #group_edit="ngModel"
+                                        <mat-select tabindex="10" placeholder="Select Group" name="group_edit" #group_edit="ngModel"
                                             [(ngModel)]="group_id">
                                             <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">
                                                 {{
@@ -208,36 +226,26 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
+                                <div class="fir_name err_tltp_par">
+                                    <mat-form-field appearance="legacy">
+                                        <input tabindex="18" matInput placeholder="Address Line1"
+                                            [(ngModel)]="pStudentRegister.address_line_1" name="address_line_1"
+                                            #address_line_1="ngModel" maxlength="70" required>
+                                        <!-- <span class="prc_tltp"
+                                        *ngIf="((partner_sign_up_form.submitted)  || address_line_1.touched) && pStudentRegister.address_line_1 == ''">Address
+                                        Line1 is
+                                        required</span> -->
+                                    </mat-form-field>
+                                </div>
                                 <div class="fir_name">
                                     <mat-form-field appearance="legacy">
-                                        <input tabindex="13" matInput placeholder="Address Line2"
+                                        <input tabindex="22" matInput placeholder="Address Line2"
                                             [(ngModel)]="pStudentRegister.address_line_2" name="address_line_2">
                                     </mat-form-field>
                                 </div>
                                 <div class="fir_name err_tltp_par">
                                     <mat-form-field appearance="legacy">
-                                        <mat-select tabindex="15" placeholder="Select State" #state_id="ngModel"
-                                            name="state_id" [(ngModel)]="pStudentRegister.state_id"
-                                            (ngModelChange)="getCities(pStudentRegister.state_id)" required>
-                                            <mat-option>
-                                                <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
-                                                    [placeholderLabel]="'Search State'" name="search_state" ngModel
-                                                    (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
-                                            </mat-option>
-                                            <mat-option *ngFor="let state of all_states | async"
-                                                [value]="'' + state['id']">
-                                                {{
-                                                state["state_name"] }}
-                                            </mat-option>
-                                        </mat-select>
-                                        <span class="prc_tltp"
-                                            *ngIf="((partner_sign_up_form.submitted)  || state_id.touched) && pStudentRegister.state_id == ''">State/Province
-                                            is required</span>
-                                    </mat-form-field>
-                                </div>
-                                <div class="fir_name err_tltp_par">
-                                    <mat-form-field appearance="legacy">
-                                        <input tabindex="17" matInput placeholder="ZIP/Postal Code"
+                                        <input tabindex="20" matInput placeholder="ZIP/Postal Code"
                                             [(ngModel)]="pStudentRegister.zip_code" name="zip_code" ngModel
                                             #zip_code="ngModel" pattern="^[0-9][0-9\- ]{4,10}[0-9]$" minlength="5"
                                             maxlength="10" required>
@@ -255,7 +263,7 @@
                         </div>
                         <!-- Conditions -->
                         <div class="conditions_div">
-                            <mat-checkbox tabindex="18" name="accepeted_terms" class="example-margin" matInput required
+                            <mat-checkbox tabindex="21" name="accepeted_terms" class="example-margin" matInput
                                 [(ngModel)]="pStudentRegister.accepeted_terms">
                                 <a routerLink="/privacy-policy" routerLinkActive="active" target="_blank" rel="terms">I
                                     accept
@@ -266,7 +274,7 @@
                         </div>
                         <div class="clear_fix"></div>
                         <div class="login_btns">
-                            <button tabindex="19" mat-raised-button color="accent" class="">Register</button>
+                            <button tabindex="22" mat-raised-button color="accent" >Register</button>
                             <!-- teal_btn sign_btn lgn_btn -->
                         </div>
                         <!-- </mat-step> -->
@@ -278,6 +286,22 @@
             </div>
         </div>
     </div>
+    <div class="indvidual_main" *ngIf="is_show">
+        <div class="ind_mdl_cont">
+          <div class="ind_logo_img">
+           <!--  <a routerLink="/"> <img src="assets/images/ProceumLogo_w.png" /></a> -->
+          </div>
+          <div class="message-box-div">
+            <mat-icon>forward_to_inbox</mat-icon>
+            <div class="message-area">
+              <p>Thank you for registering with us! </p>
+              <p>A verification link has been sent to your email. Please check your inbox/spam/junk folder to verify your
+                mail
+                and activate account. </p>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
 <div class="clear_fix"></div>
 <app-footer *ngIf="isLoadedTopBar"></app-footer>

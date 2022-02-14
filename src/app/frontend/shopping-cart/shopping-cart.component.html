@@ -61,7 +61,7 @@
                             <div>
                                 <mat-form-field appearance="outline">
                                     <mat-select placeholder="Select State" #edit_state_id="ngModel" name="edit_state_id"
-                                        [(ngModel)]="state_id" (ngModelChange)="setStateName()" required>
+                                        [(ngModel)]="state_id" (ngModelChange)="setStateName();getCities(state_id)" required>
                                         <mat-option>
                                             <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
                                                 [placeholderLabel]="'Search State'" name="search_state" ngModel
@@ -78,9 +78,17 @@
                         <div class="w_47p">
                             <div>City/Town</div>
                             <div>
-                                <mat-form-field appearance="outline">
-                                    <input matInput name="edit_city" #edit_city="ngModel" [(ngModel)]="city"
-                                        placeholder="City/Town" required maxlength="30" autocomplete="off" />
+                                <mat-form-field appearance="outline" class="w_100p">
+                                    <mat-select placeholder="Select City" name="edit_city" #edit_city="ngModel"
+                                        [(ngModel)]="city" (ngModelChange)="setCityName()"required>
+                                        <mat-option>
+                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
+                                                [placeholderLabel]="'Search City'" name="search_city" ngModel
+                                                (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                                        </mat-option>
+                                        <mat-option *ngFor="let city of all_cities | async" [value]="city['id']">{{
+                                            city["city_name"] }}</mat-option>
+                                    </mat-select>
                                 </mat-form-field>
                             </div>
                         </div>
@@ -186,7 +194,7 @@
                         <div>
                             {{ contact_name }}<br>
                             {{ address }}<br>
-                            {{ city }}<br>
+                            {{ city_name }}<br>
                             {{ state_name }}<br>
                             {{ country_name }}<br>
                             {{ zip_code }}<br>
