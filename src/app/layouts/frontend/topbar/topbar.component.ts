@@ -43,7 +43,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         //check subdomain
         let sub_domain = window.location.hostname.split('.')[0];
-        //sub_domain = 'rcollegepartner';
+        sub_domain = 'rmu';
         //If subdomain not exist in in app domains then check for partner domain
         if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
             this.getSubDomainDetails(sub_domain);
