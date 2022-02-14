@@ -235,7 +235,6 @@ export class PartnerRegisterComponent implements OnInit {
       this.address_details = true;
       return;
     }
-
     if (!this.pStudentRegister.accepeted_terms) {
       this.toastr.error("Please accept terms & conditions", 'Error', {
         closeButton: true,
@@ -278,7 +277,7 @@ export class PartnerRegisterComponent implements OnInit {
         });
       } else {
         this.is_show = true;
-        console.log(this.domain)
+        //console.log(this.domain)
       }
     });
   }
@@ -293,6 +292,7 @@ export class PartnerRegisterComponent implements OnInit {
 
   async getPartnerChilds(callFromEmail = 0) {
     if (localStorage.getItem('p_type') != '1') {
+      this.getYears();
       return false;
     }
     if (callFromEmail) {
