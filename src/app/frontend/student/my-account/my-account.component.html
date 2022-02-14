@@ -213,19 +213,19 @@
                 [(ngModel)]="profile.email">
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div *ngIf="user['role'] == 2" class="my_prf_dv">
             <span>Year</span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Year"  name="year" [disabled]="'disabled'" [(ngModel)]="profile.year" autocomplete="off" />
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div *ngIf="user['role'] == 2" class="my_prf_dv">
             <span>Semester</span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Semester" name="semester" [disabled]="'disabled'" [(ngModel)]="profile.semester" autocomplete="off" />
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div *ngIf="user['role'] == 2" class="my_prf_dv">
             <span>Group</span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Group" name="group" [disabled]="'disabled'" [(ngModel)]="profile.group" autocomplete="off" />             
@@ -288,7 +288,7 @@
               <textarea matInput placeholder="Address Line 2" name="address2" required [(ngModel)]="profile.address2"></textarea>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div *ngIf="profile.university != null" class="my_prf_dv">
             <span>University</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
@@ -296,7 +296,7 @@
               </mat-form-field>
             </span>
           </div>
-          <div class="my_prf_dv">
+          <div *ngIf="profile.college != null" class="my_prf_dv">
             <span>College</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
@@ -304,7 +304,7 @@
               </mat-form-field>
             </span>
           </div>
-          <div class="my_prf_dv">
+          <div *ngIf="profile.institute != null" class="my_prf_dv">
             <span>Institute</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
