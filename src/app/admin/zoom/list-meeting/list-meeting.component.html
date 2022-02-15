@@ -67,7 +67,7 @@
                         <button type="button"  mat-icon-button color="accent" *ngIf="element.status == 0 || element.status == 1" (click)="startClass(element.meeting_id)" matTooltip="{{'admin.class.list.click_to_start_class'|translate}}">
                             {{'admin.class.list.start'|translate}}
                         </button>
-                        <button routerLink="/teacher/class/edit/{{element.meeting_id}}" mat-icon-button color="accent" matTooltip="{{'click_to_edit_text'|translate}}">
+                        <button routerLink="/teacher/class/edit/{{element.meeting_id}}" *ngIf="element['show_edit']" mat-icon-button color="accent" matTooltip="{{'click_to_edit_text'|translate}}">
                             <mat-icon>edit_note</mat-icon>
                         </button>
                         <button [disabled]="element.status > 0" mat-icon-button color="warn" mwlConfirmationPopover [popoverTitle]="'are_you_sure_text'|translate" [popoverMessage]="are_you_sure_to_cancel_text+'<b>' + element.topic + '</b> '" placement="left" (confirm)="cancelClass(element.meeting_id, index)" confirmButtonType="danger" cancelButtonType="outline-secondary"  matTooltip="{{'click_to_cancel_text'|translate}}">

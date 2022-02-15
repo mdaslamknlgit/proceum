@@ -56,9 +56,8 @@
                             </div>
                             <div class="w_100px">
                                 <div class="crt_prt_hd">&nbsp;</div>
-                                <button
-                                    [disabled]="!enable_add_button"
-                                    (click)="addTopic()" mat-raised-button color="accent" type="button" class="mt_3px">
+                                <button [disabled]="!enable_add_button" (click)="addTopic()" mat-raised-button
+                                    color="accent" type="button" class="mt_3px">
                                     Add (+)
                                 </button>
                             </div>
@@ -96,7 +95,8 @@
                         </table>
                     </div>
                     <div class="hgt_20"></div>
-                    <button type="button" mat-raised-button class="float_right mr_1 gry_btn" (click)="edit_model_status = !edit_model_status">
+                    <button type="button" mat-raised-button class="float_right mr_1 gry_btn"
+                        (click)="edit_model_status = !edit_model_status">
                         Submit
                     </button>
                     <div class="hgt_20"></div>
@@ -260,29 +260,31 @@
                                             </div>
 
                                             <div class="hgt_20"></div>
-                                            <div class="cpm_pg_hd d-flex ai_cntr">
-                                                <div>Courses</div>
-                                                <div class="spacer"></div>
-                                                <div *ngIf="course_count">
-                                                    <button mat-raised-button color="accent" type="button"
-                                                        (click)="edit_model_status = true">
-                                                        <mat-icon>add</mat-icon> Add Courses
-                                                    </button>
-                                                </div>
-                                                <div class="hgt_5"></div>
-                                                <div *ngIf="!selected_topics.length" class="rqrd_txtinfo ai_cntr d-flex">
-                                                    <mat-icon>warning</mat-icon> To select the courses, Create first
-                                                    from course section
-                                                </div>
+                                            <div class="cpm_pg_hd">
+                                                Courses
                                             </div>
-                                            <div class="cpm_pg_cnt"  *ngIf="selected_topics.length">
-                                                <div class="mt_grd_dv mt_1 ad_mr_crs">
-                                                    <div *ngFor="let course of selected_courses;let i = index">
+                                            <div class="cpm_pg_cnt">
+                                                <div class="mt_grd_dv sctd_crsdv_mn mt_1"
+                                                    *ngIf="selected_topics.length">
+                                                    <div class="mb_1"><strong>Selected Courses</strong></div>
+                                                    <div class="clear_fix"></div>
+                                                    <div *ngFor="let course of selected_topics;let i = index"
+                                                        class="slctd_itms">
                                                         <span>{{course.topic_text}}</span>
                                                     </div>
                                                 </div>
+                                                <div *ngIf="course_count" class="text_right w_100p mt_1">
+                                                    <button mat-raised-button color="accent" type="button"
+                                                        (click)="edit_model_status = true">
+                                                        <mat-icon>settings</mat-icon> Assign / Un-assign
+                                                    </button>
+                                                </div>
+                                                <div *ngIf="!selected_topics.length" class="text_right w_100p mt_1">
+                                                    <mat-icon>warning</mat-icon> To select the courses, Create first
+                                                    from course section
+                                                </div>
                                                 <div class="hgt_20"></div>
-                                                <div class="w_50p mr_1 rsp_100p">
+                                                <div class="w_50p mr_1">
                                                     <div>Duration (In days)</div>
                                                     <div class="err_tltp_par">
                                                         <mat-form-field appearance="outline">
