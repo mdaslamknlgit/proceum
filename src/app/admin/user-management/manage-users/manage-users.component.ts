@@ -146,6 +146,7 @@ export class ManageUsersComponent implements OnInit {
       this.is_college = false;
       this.is_university = false;
     }else{
+      this.role = '2';
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
         this.is_college = true;
         this.is_university = false;
