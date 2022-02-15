@@ -243,7 +243,7 @@
                       <mat-form-field appearance="legacy"
                         class="{{ (((address_details && individual_signup_form.submitted) || city.touched) && individualRegister.city == '') ? 'mat-form-field-invalid' : ''}}">
                         <mat-select tabindex="16" placeholder="Select City" name="city" #city="ngModel"
-                          [(ngModel)]="individualRegister.city">
+                          [(ngModel)]="individualRegister.city" [required]="address_details">
                           <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'"
                               [placeholderLabel]="'Search City'" name="search_city" ngModel
@@ -866,7 +866,7 @@
                       <mat-form-field appearance="legacy"
                         class="{{ (((address_details && institution_signup_form.submitted) || city.touched) && institutionResgister.city == '') ? 'mat-form-field-invalid' : ''}}">
                         <mat-select tabindex="85" placeholder="Select City" name="city" #city="ngModel"
-                          [(ngModel)]="institutionResgister.city">
+                          [(ngModel)]="institutionResgister.city" [required]="address_details">
                           <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'"
                               [placeholderLabel]="'Search City'" name="search_city" ngModel
