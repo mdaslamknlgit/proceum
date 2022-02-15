@@ -122,8 +122,7 @@
         <div class="d-flex w_100p ai_cntr">
           <!--<h2 class="section-title m_0">My Profile</h2>-->
           <div class="spacer"></div>
-          <div class="rqrd_txtinfo">All <span class="required">( * ) </span>marked
-            fields are mandatory
+          <div class="rqrd_txtinfo">Fields marked with <span class="required">( * ) </span> are mandatory!
           </div>
         </div>
 
@@ -176,65 +175,65 @@
           </div>
         </div>
         <div class="my_prfl_mn">
-          <div class="my_prf_dv">
+          <div class="my_prf_dv fld_readonly">
             <span>First Name <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="First Name" autocomplete="off" name="first_name" #first_name='ngModel'
+              <input matInput placeholder="First Name" [disabled]="'disabled'" autocomplete="off" name="first_name" #first_name='ngModel'
                 ngModel [(ngModel)]="profile.first_name" required
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv fld_readonly">
             <span>Last Name</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Last Name" autocomplete="off" name="last_name" #last_name='ngModel'
+              <input matInput placeholder="Last Name" autocomplete="off" [disabled]="'disabled'" name="last_name" #last_name='ngModel'
                 ngModel [(ngModel)]="profile.last_name"
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv fld_readonly">
             <span>Registration Number/UUID</span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Registration Number/UUID" disabled="disabled" name="uuid" [(ngModel)]="profile.uuid">
             </mat-form-field>
           </div>
 
-          <div class="my_prf_dv">
+          <div class="my_prf_dv fld_readonly">
             <span>Mobile <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Mobile" name="phone" [(ngModel)]="profile.phone" required disabled="disabled">
             </mat-form-field>
           </div>
 
-          <div class="my_prf_dv mypdv_bg">
+          <div class="my_prf_dv mypdv_bg fld_readonly">
             <span>Email <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
                 [(ngModel)]="profile.email">
             </mat-form-field>
           </div>
-          <div *ngIf="user['role'] == 2" class="my_prf_dv">
+          <div *ngIf="user['role'] == 2" class="my_prf_dv fld_readonly">
             <span>Year</span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Year"  name="year" [disabled]="'disabled'" [(ngModel)]="profile.year" autocomplete="off" />
             </mat-form-field>
           </div>
-          <div *ngIf="user['role'] == 2" class="my_prf_dv">
+          <div *ngIf="user['role'] == 2" class="my_prf_dv fld_readonly">
             <span>Semester</span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Semester" name="semester" [disabled]="'disabled'" [(ngModel)]="profile.semester" autocomplete="off" />
             </mat-form-field>
           </div>
-          <div *ngIf="user['role'] == 2" class="my_prf_dv">
+          <div *ngIf="user['role'] == 2" class="my_prf_dv fld_readonly">
             <span>Group</span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Group" name="group" [disabled]="'disabled'" [(ngModel)]="profile.group" autocomplete="off" />             
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv fld_readonly">
             <span>Country <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select Country" name="country" #country="ngModel"
+              <mat-select placeholder="Select Country" [disabled]="'disabled'" name="country" #country="ngModel"
               [(ngModel)]="profile.country_id" (ngModelChange)="getStates(profile.country_id)" required>
                 <mat-option>
                 <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
@@ -246,10 +245,10 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv fld_readonly">
             <span>State <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select State" name="state" #state="ngModel"
+              <mat-select placeholder="Select State" [disabled]="'disabled'" name="state" #state="ngModel"
               [(ngModel)]="profile.state_id" (ngModelChange)="getCities(profile.state_id)" required>
                 <mat-option>
                 <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
@@ -261,10 +260,10 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv fld_readonly">
             <span>City <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select City" name="city_name" #city_name="ngModel" [(ngModel)]="profile.city"
+              <mat-select placeholder="Select City" name="city_name" [disabled]="'disabled'" #city_name="ngModel" [(ngModel)]="profile.city"
               required>
                 <mat-option>
                 <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'"
@@ -276,19 +275,19 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv rsp_mypdv_bg">
+          <div class="my_prf_dv rsp_mypdv_bg fld_readonly">
             <span>Address line 1 <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 1" required name="address1" [(ngModel)]="profile.address1"></textarea>
+              <textarea matInput placeholder="Address Line 1" required name="address1" [disabled]="'disabled'" [(ngModel)]="profile.address1"></textarea>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv mypdv_bg">
+          <div class="my_prf_dv fld_readonly">
             <span>Address line 2</span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 2" name="address2" required [(ngModel)]="profile.address2"></textarea>
+              <textarea matInput placeholder="Address Line 2" name="address2" [disabled]="'disabled'" [(ngModel)]="profile.address2"></textarea>
             </mat-form-field>
           </div>
-          <div *ngIf="profile.university != null" class="my_prf_dv">
+          <div *ngIf="profile.university != null" class="my_prf_dv fld_readonly">
             <span>University</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
@@ -296,7 +295,7 @@
               </mat-form-field>
             </span>
           </div>
-          <div *ngIf="profile.college != null" class="my_prf_dv">
+          <div *ngIf="profile.college != null" class="my_prf_dv fld_readonly">
             <span>College</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
@@ -304,7 +303,7 @@
               </mat-form-field>
             </span>
           </div>
-          <div *ngIf="profile.institute != null" class="my_prf_dv">
+          <div *ngIf="profile.institute != null" class="my_prf_dv fld_readonly">
             <span>Institute</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
@@ -316,9 +315,12 @@
         <div class="clear_fix"></div>
         <div class="updpss_mndv">
           <div class="my_prf_dv">
-            <span class="accent">
-              <mat-checkbox (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update Login
-                Password</mat-checkbox>
+            <span class="d-flex">
+              <mat-checkbox class="mr_5px" (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update Login
+                Password 
+              </mat-checkbox>
+              <mat-icon  class="tst_infoicn" matTooltipPosition="right" matTooltipClass="tst_infotxt"
+              matTooltip="Password lenght should be between 6-16 and must contain at least one lowercase letter, uppercase letter, digit, special character.">info</mat-icon>
             </span>
           </div>
           <div class="my_prf_dv">
@@ -337,8 +339,8 @@
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
               <input matInput (keyup)="passwordVerification()" placeholder="New password"
                 [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
-                [(ngModel)]="profile.new_password" minlength="8" maxlength="16" name="new_password"
-                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$"
+                [(ngModel)]="profile.new_password" minlength="6" maxlength="16" name="new_password"
+                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,16}$"
                 onkeypress='return (event.charCode != 32)' #new_password="ngModel" ngModel [readonly]="!isrequired">
               <mat-icon matSuffix (click)="passwordFun('new')">{{new_password_hide ? 'visibility_off' :
                 'visibility'}}</mat-icon>
@@ -350,8 +352,8 @@
             <mat-form-field appearance="outline" [class]="errClass" *ngIf='isdisplay'>
               <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off"
                 [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
-                [(ngModel)]="profile.confirm_pwd" minlength="8" maxlength="16" name="confirm_pwd"
-                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$" validateEqual="password"
+                [(ngModel)]="profile.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd"
+                pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,16}$" validateEqual="password"
                 onkeypress='return (event.charCode != 32)' #confirm_pwd="ngModel" ngModel [readonly]="!isrequired">
               <mat-icon matSuffix (click)="passwordFun('confirm')">{{confirm_password_hide ? 'visibility_off' :
                 'visibility'}}</mat-icon>
