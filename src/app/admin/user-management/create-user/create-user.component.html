@@ -1,14 +1,19 @@
 <div class="mn_dshbrd">
     <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/manage-users"><strong>Manage Users</strong></span>
         &raquo; <strong>{{ (user_id > 0) ? "Edit" : "Create" }} User</strong></div>
-    <div class="pg_ttl">{{ (user_id > 0) ? "Edit" : "Create" }} User</div>
+    <div class="pg_ttl">{{ (user_id > 0) ? "Edit" : "Create" }} User 
+        <div class="rqrd_txtinfo">Fields marked with <span class="required">( * ) </span>
+            are mandatory!
+        </div>
+    </div>
+    
     <hr />
 
     <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
         <form autocomplete="off" #create_user_form="ngForm" name="create_user_form" (ngSubmit)="create_user_form.valid">
             <!-- <div class="crt_pr_mn"> </div> -->
             <div class="cm_fltr_sc mr_1">
-                <div class="crt_prt_hd">User Type</div>
+                <div class="crt_prt_hd">User Type<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select User Type" name="role_edit" #role_edit="ngModel" [(ngModel)]="role"
                         (ngModelChange)="organization='';onUserTypeChange();" required>
@@ -20,7 +25,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_organization_type">
-                <div class="crt_prt_hd">Organization Type</div>
+                <div class="crt_prt_hd">Organization Type<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select Organization Type" name="organization_edit"
                         #organization_edit="ngModel" [(ngModel)]="organization"
@@ -35,7 +40,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="organization == '1' && show_organization_type">
-                <div class="crt_prt_hd">University</div>
+                <div class="crt_prt_hd">University<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select University" name="university_edit" #university_edit="ngModel"
                         [(ngModel)]="university_id" (ngModelChange)="getPartnerChilds(university_id)" required>
@@ -54,7 +59,7 @@
             </div>
             <div class="cm_fltr_sc mr_1"
                 *ngIf="(organization == '1' && show_partners_dropdown  && user['role'] != '9' && user['role'] != '10') || user['role'] == '8'">
-                <div class="crt_prt_hd">College</div>
+                <div class="crt_prt_hd">College<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel"
                         [(ngModel)]="college_id" (ngModelChange)="getYears(university_id,college_id,0)" required>
@@ -73,7 +78,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="organization == '2' && show_partners_dropdown">
-                <div class="crt_prt_hd">College</div>
+                <div class="crt_prt_hd">College<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select College" name="college_edit" #college_edit="ngModel"
                         [(ngModel)]="college_id" (ngModelChange)="getYears(college_id,0)" required>
@@ -92,7 +97,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="organization == '3' && show_partners_dropdown">
-                <div class="crt_prt_hd">Institute</div>
+                <div class="crt_prt_hd">Institute<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select Institute" name="institute_edit" #institute_edit="ngModel"
                         [(ngModel)]="institute_id" (ngModelChange)="getYears(institute_id,0)" required>
@@ -111,7 +116,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="role == '2'">
-                <div class="crt_prt_hd">Year</div>
+                <div class="crt_prt_hd">Year<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select Year" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id"
@@ -125,7 +130,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_semester">
-                <div class="crt_prt_hd">Semester</div>
+                <div class="crt_prt_hd">Semester<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select Semester" name="semester_edit" #semester_edit="ngModel"
@@ -138,7 +143,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_group">
-                <div class="crt_prt_hd">Group</div>
+                <div class="crt_prt_hd">Group<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select Group" name="group_edit" #group_edit="ngModel"
@@ -151,7 +156,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-                <div class="crt_prt_hd">Email address</div>
+                <div class="crt_prt_hd">Email Address<span class="required">*</span></div>
                 <div class="err_tltp_par">
                     <mat-form-field appearance="outline" class="w_100p">
                         <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
@@ -166,7 +171,7 @@
                 </div>
             </div>
             <div class="cm_fltr_sc mr_1">
-                <div class="crt_prt_hd">First Name</div>
+                <div class="crt_prt_hd">First Name<span class="required">*</span></div>
                 <div class="err_tltp_par">
                     <mat-form-field appearance="outline" class="w_100p">
                         <input matInput placeholder="First Name" maxlength="50" [(ngModel)]="first_name"
@@ -187,7 +192,7 @@
                 </div>
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="!user_id">
-                <div class="crt_prt_hd">Password</div>
+                <div class="crt_prt_hd">Password<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
                     <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password_edit"
                         #password_edit="ngModel" minlength="6" maxlength="20" autocomplete="off" required />
@@ -201,7 +206,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="!user_id">
-                <div class="crt_prt_hd">Confirm Password</div>
+                <div class="crt_prt_hd">Confirm Password<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p"
                     class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
@@ -217,7 +222,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-                <div class="crt_prt_hd">Contact Number</div>
+                <div class="crt_prt_hd">Contact Number<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <input matInput placeholder="Contact Number" [(ngModel)]="phone" name="phone_edit"
@@ -232,7 +237,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-                <div class="crt_prt_hd">Address Line 1</div>
+                <div class="crt_prt_hd">Address Line 1<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <input matInput placeholder="Address Line1" maxlength="100" [(ngModel)]="address_line_1"
@@ -256,7 +261,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-                <div class="crt_prt_hd">Country</div>
+                <div class="crt_prt_hd">Country<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select Country" name="country_edit" #country_edit="ngModel"
@@ -275,7 +280,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-                <div class="crt_prt_hd">State</div>
+                <div class="crt_prt_hd">State<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select State" name="state_edit" #state_edit="ngModel"
                         [(ngModel)]="state_id" (ngModelChange)="getCities(state_id)" required>
@@ -293,7 +298,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-                <div class="crt_prt_hd">City</div>
+                <div class="crt_prt_hd">City<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="Select City" name="city_edit" #city_edit="ngModel" [(ngModel)]="city"
@@ -313,7 +318,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-                <div class="crt_prt_hd">ZIP/Pincode Code</div>
+                <div class="crt_prt_hd">ZIP/Pincode Code<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <input matInput placeholder="ZIP/Pin code" [(ngModel)]="pincode" name="pincode_edit"
@@ -326,7 +331,7 @@
             </div>
 
             <div class="cm_fltr_sc mr_1" *ngIf="role == '2'">
-                <div class="crt_prt_hd">Registration/UUID Number</div>
+                <div class="crt_prt_hd">Registration/UUID Number<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <input matInput placeholder="Registration/UUID Number" maxlength="50" [(ngModel)]="uuid"
@@ -338,7 +343,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="role == '12'">
-                <div class="crt_prt_hd">Qualification</div>
+                <div class="crt_prt_hd">Qualification<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
                     <input matInput placeholder="Qualification" maxlength="50" [(ngModel)]="qualification"
@@ -351,19 +356,20 @@
             </div>
             <div class="w_100p" *ngIf="role == '12'">
                 <div class="mt_grd_dv sctd_crsdv_mn" *ngIf="courses_div">
-                    <div>Selected Subjects</div>
+                    <div class="mb_1"><strong>Selected Subjects</strong></div>
                     <div class="clear_fix"></div>
-                    <div *ngFor="let course of selected_courses;let i = index" class="sctd_crsdv">
-                        <span>{{course}}</span>
+                    <div *ngFor="let course of selected_courses;let i = index" >
+                        <span class="slctd_itms">{{course}}</span>
                     </div>
                 </div>
                 <div class="hgt_10"></div>
                 <div class="crt_prt_hd">
                     <button mat-raised-button color="accent" type="button" (click)="toggleModel()">
-                        <mat-icon>settings_applications</mat-icon> Manage Subject
+                        <mat-icon>settings</mat-icon>Assign / Un-assign Subject(s)
                     </button>
                 </div>
             </div>
+            <hr class="line-sep"/>
             <div class="hgt_10"></div>
             <div class="text_right float_right w_100p">
                 <button mat-raised-button class="no_bxsdw" color="accent" (click)="submitFrom()">Submit</button>
@@ -374,7 +380,7 @@
 <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: edit_model_status }">
     <div class="cust_mdl_chl">
         <div class="pg_ttl">
-            Add/Update Subjects
+            Assign / Un-assign Subject(s)
             <span class="spacer"></span>
             <button mat-icon-button (click)="edit_model_status = !edit_model_status">
                 &#x2715;

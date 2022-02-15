@@ -95,7 +95,8 @@
                         </table>
                     </div>
                     <div class="hgt_20"></div>
-                    <button type="button" mat-raised-button class="float_right mr_1 gry_btn" (click)="edit_model_status = !edit_model_status">
+                    <button type="button" mat-raised-button class="float_right mr_1 gry_btn"
+                        (click)="edit_model_status = !edit_model_status">
                         Submit
                     </button>
                     <div class="hgt_20"></div>
@@ -266,21 +267,24 @@
                                                 Courses
                                             </div>
                                             <div class="cpm_pg_cnt">
-                                                <div>Courses</div>
+                                                <div class="mt_grd_dv sctd_crsdv_mn mt_1"
+                                                    *ngIf="selected_topics.length">
+                                                    <div class="mb_1"><strong>Selected Courses</strong></div>
+                                                    <div class="clear_fix"></div>
+                                                    <div *ngFor="let course of selected_topics;let i = index"
+                                                        class="slctd_itms">
+                                                        <span>{{course.topic_text}}</span>
+                                                    </div>
+                                                </div>
                                                 <div *ngIf="course_count" class="text_right w_100p mt_1">
                                                     <button mat-raised-button color="accent" type="button"
                                                         (click)="edit_model_status = true">
-                                                        <mat-icon>add</mat-icon> Add More
+                                                        <mat-icon>settings</mat-icon> Assign / Un-assign
                                                     </button>
                                                 </div>
                                                 <div *ngIf="!selected_topics.length" class="text_right w_100p mt_1">
                                                     <mat-icon>warning</mat-icon> To select the courses, Create first
                                                     from course section
-                                                </div>
-                                                <div class="mt_grd_dv mt_1" *ngIf="selected_topics.length">
-                                                    <div *ngFor="let course of selected_topics;let i = index">
-                                                        <span>{{course.topic_text}}</span>
-                                                    </div>
                                                 </div>
                                                 <div class="hgt_20"></div>
                                                 <div class="w_50p mr_1">
