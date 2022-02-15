@@ -98,8 +98,8 @@
             <span>Role</span>
             <mat-form-field appearance="outline">
                 <mat-select placeholder="Select Role" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="doFilter()">
-                    <mat-option [value]="">All</mat-option>
-                    <mat-option *ngFor="let item of all_roles | async" [value]="item['id']">{{ item["role_name"] }}</mat-option>
+                    <!-- <mat-option [value]="">All</mat-option> -->
+                    <mat-option *ngFor="let item of all_roles | async" [value]="''+item['id']">{{ item["role_name"] }}</mat-option>
                 </mat-select>
             </mat-form-field>
         </div>
