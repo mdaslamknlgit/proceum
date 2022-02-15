@@ -112,7 +112,7 @@ export class EditAssessmentComponent implements OnInit {
         this.organization_type_name = 'College';
         this.organization_list_id = this.user['partner_id'];
         this.organization_type_id = '2';
-        this.getYearSemsterGroup(2,0,'year');
+        this.getYearSemsterGroup('',0,'year');
       }
       if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
         this.is_college = false;
@@ -120,14 +120,14 @@ export class EditAssessmentComponent implements OnInit {
         this.organization_type_name = 'Institute';
         this.organization_list_id = this.user['partner_id'];
         this.organization_type_id = '3';
-        this.getYearSemsterGroup(3,0,'year');
+        this.getYearSemsterGroup('',0,'year');
       }
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
         this.is_college = false;
         this.is_university = false;
         this.organization_list_id = this.user['partner_id'];
         this.organization_type_id = '1';
-        this.getYearSemsterGroup(1,0,'year');
+        this.getYearSemsterGroup('',0,'year');
       }      
     }
     this.assessmentTypes();
@@ -331,7 +331,7 @@ export class EditAssessmentComponent implements OnInit {
     else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
       partner = this.user['partner_id'];
       org_type = 1;
-      partner_child_id = "";
+      partner_child_id = this.user['partner_child_id'];
     }
     else if(this.role_id == environment.ALL_ROLES.TEACHER){
       partner = this.user['partner_id'];
