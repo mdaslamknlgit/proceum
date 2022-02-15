@@ -160,7 +160,7 @@ export class ManageUsersComponent implements OnInit {
         this.organization_type_name = 'College';
         this.organization_list_id = this.user['partner_id'];
         this.organization_type_id = '2';
-        this.getYearSemsterGroup(2,0,'year','');
+        this.getYearSemsterGroup('',0,'year','');
       }
       if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
         this.is_college = false;
@@ -168,7 +168,7 @@ export class ManageUsersComponent implements OnInit {
         this.organization_type_name = 'Institute';
         this.organization_list_id = this.user['partner_id'];
         this.organization_type_id = '3';
-        this.getYearSemsterGroup(3,0,'year','');
+        this.getYearSemsterGroup('',0,'year','');
       }
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
         this.is_college = false;
@@ -177,7 +177,7 @@ export class ManageUsersComponent implements OnInit {
         this.organization_list_id = this.user['partner_id'];
         this.college_id = this.user['partner_child_id'];
         this.organization_type_id = '1';
-        this.getYearSemsterGroup(1,0,'year','');
+        this.getYearSemsterGroup('',0,'year','');
       }
       this.doFilter();
       this.getRoleList(this.user['role']);
