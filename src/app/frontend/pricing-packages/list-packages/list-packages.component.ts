@@ -19,6 +19,7 @@ export class ListPackagesComponent implements OnInit {
   public admin_role_ids:any = [];
   public role_id:any = '';
   public cart_count:any; 
+  public noPackagesFound = false;
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -41,7 +42,7 @@ export class ListPackagesComponent implements OnInit {
   }
 
   public getPackages() {
-    let param = { url: 'get-packages-to-purchase'};
+    let param = { url: 'get-packages-to-purchase', user_id: this.user['id']};
     this.http.nonAuthenticatedPost(param).subscribe((res) => {
       //console.log(res);
       if (res['error'] == false) {
@@ -52,12 +53,13 @@ export class ListPackagesComponent implements OnInit {
         this.packages = [];
         this.toster.error(res['message'], 'Error');
         //this.router.navigateByUrl('/');
+        this.noPackagesFound = true;
       }
     });
   }
 
   public doFilter() {
-    let param = { url: 'get-packages-to-purchase', search: this.search_box };
+    let param = { url: 'get-packages-to-purchase', user_id: this.user['id'], search: this.search_box };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.packages = res['data']['packages'];
@@ -66,6 +68,7 @@ export class ListPackagesComponent implements OnInit {
       } else {
         this.packages = [];
         this.toster.error(res['message'], 'Error');
+        this.noPackagesFound = true;
         //this.router.navigateByUrl('/');
       }
     });

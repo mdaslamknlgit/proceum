@@ -430,6 +430,10 @@ export class CreatePartnerComponent implements OnInit {
 
   sameAsBillingAddress() {
     if (this.same_as_billing_address) {
+      this.c_states = this.states;
+      this.c_cities = this.cities;
+      this.c_all_states = this.all_states;
+      this.c_all_cities = this.all_cities;
       this.c_address_line_1 = this.b_address_line_1;
       this.c_address_line_2 = this.b_address_line_2;
       this.c_country_id = this.b_country_id;;
