@@ -275,7 +275,7 @@
                             <div class="cnq_img_thmb text_center"
                                 [ngClass]="{ aud_upldd: audio_single_option || audio_multiple_option || audio_clip_free_text}"
                                 *ngIf="audio_single_option || audio_multiple_option || image_single_option || image_multiple_option || audio_clip_free_text || image_free_text">
-                                <div>
+                                <div class="w_100p">
                                     <div class="hgt_10"></div>
                                     <div *ngIf="image_single_option||image_multiple_option || image_free_text">
                                         <div class="close_icon" *ngIf="option_images['file']">
@@ -289,7 +289,6 @@
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                     </div>
-
                                     <div *ngIf="audio_single_option||audio_multiple_option || audio_clip_free_text">
                                         <!-- <div class="d-flex w_100p mb_1">
                                             <div class="fl_frmt_info">System will accent only .mp3</div>
@@ -305,16 +304,13 @@
                                             (click)="playAudio(imageSrc['file']?imageSrc['file']:bucket_url+this['fileName'])">
                                             play_arrow</mat-icon>
                                         <mat-icon (click)="pauseAudio()">pause</mat-icon> -->
-
-
-
                                         <button mat-mini-fab class="cnq_upld_btn"
                                             onclick="document.getElementById('file').click()" type="button"
                                             color="accent">
                                             <mat-icon>file_upload</mat-icon>
                                         </button>
                                         <div class="hgt_10"></div>
-                                        <div>{{fileName}}</div>
+                                        <div class="aud_flnm" matTooltip="{{fileName}}">{{fileName}}</div>
                                         <div class="hgt_10"></div>
                                         <div>
                                             <mat-icon

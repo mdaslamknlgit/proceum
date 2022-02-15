@@ -763,7 +763,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         url: 'create-year-semester-group',
         name: this.name_of,
         partner_id: this.partner_parent_id,
-        partner_child_id: this.partner_child_id,
+        partner_child_id: (Number(this.partner_type_id) == 1)?this.partner_child_id:null,
         parent_id: parent_id,
         slug: this.slug,
         id: id,
