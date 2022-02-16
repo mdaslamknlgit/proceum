@@ -112,7 +112,7 @@
       </div>
       <div class="tbbd_bdy dsh_brd_crds">
         <div class="hgt_20"></div>
-        <span class="err_tltp_par" *ngIf="reviewers.length>0">
+        <span class="err_tltp_par">
           <mat-form-field appearance="outline" color="accent" class="w_47p mr_1">
             <input readonly="true" placeholder="Select Date" name="publish_date_name" #publish_date_name="ngModel"
               [(ngModel)]="publish_date" matInput [matDatepicker]="picker" autocomplete="off" [min]="today_date" />
@@ -1951,10 +1951,10 @@
               Make a Copy
             </button>
           </div>
-          <div *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || (user['role'] == '7' && dataentry_uid == user['id']) || user['role'] == '1') && (content_parent_id == 0) && (is_published != '1')">
+          <div *ngIf="((user['role'] == '7' && user['role']+'' == ''+content_reviewer_role) || (user['role'] == '7' && content_id == 0) || (user['role'] == '7' && dataentry_uid == user['id']) || user['role'] == '1') && (content_parent_id == 0) && (is_published != '1' || show_schedule)">
             <button
               
-              type="button" mat-raised-button color="accent" class="ml_1" (click)="schdule_publish=true">
+              type="button" mat-raised-button color="accent" class="ml_1" (click)="schedulePublish()">
               Schedule Publish
             </button>
           </div>
