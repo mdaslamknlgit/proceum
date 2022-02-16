@@ -6,14 +6,14 @@
     <div class="brdcrm_br">
       <mat-icon color="accent" routerLink="/">home</mat-icon>
       <mat-icon>navigate_next</mat-icon>
-      <span routerLink="/student/curriculums">Courses & Qbanks</span>
-      <mat-icon>navigate_next</mat-icon>
-      <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
+      <span routerLink="/student/purchased-courses">Courses & Qbanks</span>
+      <mat-icon *ngIf="false">navigate_next</mat-icon>
+      <span *ngIf="false" routerLink="/student/purchased-courses/{{ curriculum['pk_id'] }}">{{
         curriculum["curriculumn_name"]
         }}</span>
 
       <span *ngFor="let bread of breadcome; let i = index">
-        <span *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
+        <span *ngIf="i < breadcome.length - 1" routerLink="/student/purchased-courses/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
         }}">
           <mat-icon>navigate_next</mat-icon>{{ bread["name"] }}
@@ -40,7 +40,7 @@
       <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
-          <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+          <span class="ct_hd" routerLink="/student/purchased-courses/{{ level['curriculum_id'] }}/{{
               level['level_id']
             }}/{{ level['id'] }}">{{(i+1)+". "+ level["name"] }}
             <span *ngIf="level['description'] && level['level_id'] > 3"> - {{level['description']}}</span>
@@ -100,7 +100,7 @@
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div *ngFor="let level of levels; let i = index">
           <div class="crs_tbbd_dv" *ngIf="level['is_bookmark'] == 1">
-            <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+            <span class="ct_hd" routerLink="/student/purchased-courses/{{ level['curriculum_id'] }}/{{
               level['level_id']
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
             <span class="spacer"></span>
@@ -155,7 +155,7 @@
       <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
         <div *ngFor="let level of levels; let i = index">
           <div class="crs_tbbd_dv" *ngIf="level['is_fav'] == 1">
-            <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+            <span class="ct_hd" routerLink="/student/purchased-courses/{{ level['curriculum_id'] }}/{{
               level['level_id']
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
             <span class="spacer"></span>
