@@ -59,7 +59,7 @@ export const environment = {
 
   DISABLED_USER_ROLES_FOR_PROCEUM: [2],
   DISABLED_USER_ROLES_FOR_ORGANIZATION: [1,3,4,5,6,7],
-  
+
   //apiUrl: 'https://apidev.proceum.com/api/',
   //apiUrl: 'https://apiqa.proceum.com/api/',
   apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
@@ -73,8 +73,8 @@ export const environment = {
     messagingSenderId: "1050534849110",
     appId: "1:1050534849110:web:942b6b83ec40e05c9669f7"
   },
-  /* 
-* Below array used to check domian or subdomian from in app users or partners 
+  /*
+* Below array used to check domian or subdomian from in app users or partners
 */
   INAPP_DOMAINS_ARRAY: ["localhost", "dev", "uat", "master"],
   PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',

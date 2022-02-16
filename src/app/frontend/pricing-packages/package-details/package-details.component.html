@@ -101,7 +101,7 @@
                     </div>
                     <div class="hgt_20"></div>
                 </mat-tab>
-                <!-- <mat-tab>
+                <mat-tab>
                     <ng-template mat-tab-label>
                         <mat-icon>topic</mat-icon>
                         Topics
@@ -113,7 +113,7 @@
                             </mat-tree-node>
                             <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
                                 <div class="mat-tree-node">
-                                    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
+                                    <button mat-icon-button (click)="appendChilds(node)" matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
                                         <mat-icon class="mat-icon-rtl-mirror">
                                             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                                         </mat-icon>
@@ -126,7 +126,7 @@
                             </mat-nested-tree-node>
                         </mat-tree>
                     </div>
-                </mat-tab> -->
+                </mat-tab>
                 <mat-tab>
                     <ng-template mat-tab-label>
                         <mat-icon>library_books</mat-icon>
@@ -141,12 +141,12 @@
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
                                 <mat-list *ngFor="let item of addon.value">
-                                    <mat-list-item> 
-                                        <mat-icon>fiber_manual_record</mat-icon> 
+                                    <mat-list-item>
+                                        <mat-icon>fiber_manual_record</mat-icon>
                                         {{ item }}
                                     </mat-list-item>
                                 </mat-list>
-                              
+
                             </mat-expansion-panel>
                         </mat-accordion>
                     </div>
@@ -274,7 +274,7 @@
 
                     </div>
                 </mat-tab>
-                
+
                 <!-- sample videos -->
                 <mat-tab *ngIf="sample_videos.length > 0">
                     <ng-template mat-tab-label>
