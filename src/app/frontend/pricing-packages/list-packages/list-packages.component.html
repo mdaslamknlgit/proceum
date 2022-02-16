@@ -20,57 +20,68 @@
     <div class="crs_par">
         <!-- item -->
         <div class="crs_chld" *ngFor="let package of packages">
-            <div class="crs_icn pkg_img_bg grn_bg" *ngIf="package.package_img">
-                <img src="{{ package.package_img }}" alt="">
-            </div>
-            <div class="crs_icn grn_bg" *ngIf="!package.package_img || package.package_img == null">
-                <mat-icon>work_outline</mat-icon>
+            
+            <div class="d-flex crs_innr_prc">
+                <div>
+                    <div class="crs_icn pkg_img_bg grn_bg" *ngIf="package.package_img">
+                        <img src="{{ package.package_img }}" alt="">
+                    </div>
+                    <div class="crs_icn grn_bg" *ngIf="!package.package_img || package.package_img == null">
+                        <mat-icon>work_outline</mat-icon>
+                    </div>
+                </div>
+                <div class="ml_05 w_100p">
+                    <div class="pc_dsc_mn">
+                        
+                        <span class="{{package.discount_percent ? 'strk_price':''}}">{{package.discount_percent ? 'Actual
+                            Price':'Price'}} {{ package.currency_symbol}} {{ package.original_price}}</span>
+                        <span *ngIf="package.discount_percent">
+                            <span class="per_dsc">{{ package.discount_percent}}% off</span>
+                            <span class="fnt_16px">Price </span>
+                            <strong>{{ package.currency_symbol}} {{ package.selling_price}}</strong>
+                        </span>
+                    </div>
+                    <div class="w_100p tmr_dv" *ngIf="package.duration">
+                        <mat-icon>timelapse</mat-icon> {{ package.duration }}
+                    </div>
+                    <div class="rtng_par">
+                        <div class="crs_rtng str_slctd">
+                            <mat-icon class="{{package.package_avg_rating > 0 ?'ct_slctd':''}}">star</mat-icon>
+                            <mat-icon class="hlf_str1 {{package.package_avg_rating > 0.5 ?'ct_slctd':''}}">star</mat-icon>
+                            <mat-icon class="{{package.package_avg_rating > 1 ?'ct_slctd':''}}">star</mat-icon>
+                            <mat-icon class="hlf_str2 {{package.package_avg_rating > 1.5?'ct_slctd':''}}">star</mat-icon>
+                            <mat-icon class="{{package.package_avg_rating > 2?'ct_slctd':''}}">star</mat-icon>
+                            <mat-icon class="hlf_str3 {{package.package_avg_rating > 2.5?'ct_slctd':''}}">star</mat-icon>
+                            <mat-icon class="{{package.package_avg_rating > 3 ?'ct_slctd':''}}">star</mat-icon>
+                            <mat-icon class="hlf_str4 {{package.package_avg_rating > 3.5 ?'ct_slctd':''}}">star</mat-icon>
+                            <mat-icon class="{{package.package_avg_rating > 4 ?'ct_slctd':''}}">star</mat-icon>
+                            <mat-icon class="hlf_str5 {{package.package_avg_rating > 4.5?'ct_slctd':''}}">star</mat-icon>
+                        </div>
+                    </div>
+                    <div class="crs_pr_bynw fw_w">
+                        <div class="pr_btn_dv mb_05" [routerLink]="['/package-details', package.pk_id]">
+                            <mat-icon>play_circle</mat-icon> Preview
+                        </div>
+                        <div class="clear_fix"></div>
+                        <div class="bn_btn_dv" *ngIf="admin_role_ids.indexOf(role_id) == -1" (click)="addToCart(package.pk_id)">
+                            <mat-icon>shopping_cart</mat-icon> Add To Cart
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="crs_hdng">
                 {{ package.package_name }}
-            </div>
-            <div class="rtng_par">
-                <div class="crs_rtng str_slctd">
-                    <mat-icon class="{{package.package_avg_rating > 0 ?'ct_slctd':''}}">star</mat-icon>
-                    <mat-icon class="hlf_str1 {{package.package_avg_rating > 0.5 ?'ct_slctd':''}}">star</mat-icon>
-                    <mat-icon class="{{package.package_avg_rating > 1 ?'ct_slctd':''}}">star</mat-icon>
-                    <mat-icon class="hlf_str2 {{package.package_avg_rating > 1.5?'ct_slctd':''}}">star</mat-icon>
-                    <mat-icon class="{{package.package_avg_rating > 2?'ct_slctd':''}}">star</mat-icon>
-                    <mat-icon class="hlf_str3 {{package.package_avg_rating > 2.5?'ct_slctd':''}}">star</mat-icon>
-                    <mat-icon class="{{package.package_avg_rating > 3 ?'ct_slctd':''}}">star</mat-icon>
-                    <mat-icon class="hlf_str4 {{package.package_avg_rating > 3.5 ?'ct_slctd':''}}">star</mat-icon>
-                    <mat-icon class="{{package.package_avg_rating > 4 ?'ct_slctd':''}}">star</mat-icon>
-                    <mat-icon class="hlf_str5 {{package.package_avg_rating > 4.5?'ct_slctd':''}}">star</mat-icon>
-                </div>
             </div>
             <div class="crs_dsc" *ngIf="package.package_desc">
                 {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' :
                 (package.package_desc) }}
             </div>
-            <div class="crs_d_r_p">
-                <div class="d-flex ai_cntr w_100p" *ngIf="package.duration">
-                    <mat-icon class="mr_5px">timelapse</mat-icon> {{ package.duration }}
-                </div>
+            <!-- <div class="crs_d_r_p">
+                
                 <div class="spacer"></div>
-                <div class="pc_dsc_mn">
-                    <span class="{{package.discount_percent ? 'strk_price':''}}">{{package.discount_percent ? 'Actual
-                        Price':'Total Price'}} {{ package.currency_symbol}} {{ package.original_price}}</span>
-                    <span *ngIf="package.discount_percent">
-                        <span class="fnt_16px">Discounted Price
-                            <span class="per_dsc">{{ package.discount_percent}}% off</span>
-                        </span>
-                        <strong>{{ package.currency_symbol}} {{ package.selling_price}}</strong>
-                    </span>
-                </div>
-            </div>
-            <div class="crs_pr_bynw">
-                <div class="pr_btn_dv" [routerLink]="['/package-details', package.pk_id]">
-                    <mat-icon>play_circle</mat-icon> Preview
-                </div>
-                <div class="bn_btn_dv" *ngIf="admin_role_ids.indexOf(role_id) == -1" (click)="addToCart(package.pk_id)">
-                    <mat-icon>shopping_cart</mat-icon> Add To Cart
-                </div>
-            </div>
+               
+            </div> -->
+           
         </div>
         <div class="crs_chld" *ngIf="!packages.length && noPackagesFound">
             No Packages Found!

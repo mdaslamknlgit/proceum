@@ -1516,27 +1516,30 @@ input:-webkit-autofill:active {
   z-index: 97;
   width: 58px;
   box-shadow: 0 0px 8px -2px #808080;
+  
 }
 .sd_cls {
-  animation-name: sd_cls;
+  // animation-name: sd_cls;
   animation-duration:0.0s;
 }
 @keyframes sd_cls {
   from {
     width: 25.2%;
-    max-width: 320px;
+    width: auto;
   }
   to {
     width: 58px;
   }
 }
 .sd_opn {
-  animation-name: sd_opn;
-  animation-duration: 0.2s;
+  // animation-name: sd_opn;
+  // animation-duration: 0.2s;
+   transition: width 0.2s;
 }
 .sd_br:hover {
   animation-name: sd_opn;
   width: 25%;
+  width: auto;
   animation-duration: 0s;
   animation-timing-function: ease-in-out;
   animation-delay: 0.5s;
@@ -1547,13 +1550,18 @@ input:-webkit-autofill:active {
   }
   to {
     width: 25.2%;
+    width: auto;
   }
 }
 .sd_br.sd_opn, .sd_br:hover {
   // width: 25%;
   width: 18%;
+  width: 300px;
   display: block;
-  max-width: 320px;
+  // max-width: 320px;
+}
+.sd_br.frnt_sdbr.sd_opn, .sd_br.frnt_sdbr:hover{
+  width: 190px;
 }
 .sdmn_cntul {
   margin: 0;
@@ -1581,7 +1589,7 @@ input:-webkit-autofill:active {
   font-size: 14px;
 }
 .sdmn_cntul mat-icon {
-  margin-right: 15px;
+  margin-right: 10px;
   align-self: baseline;
   line-height: 24px;
   font-size: 18px;
@@ -1600,7 +1608,7 @@ input:-webkit-autofill:active {
 .sd_mnuhd {
   display: flex;
   align-items: center;
-  padding-right: 28px;
+  // padding-right: 28px;
   color: #000000;
 }
 .sdmn_sub {
@@ -1803,7 +1811,6 @@ li.hs_sbmnu.active:before {
 .mat-mini-fab.ml_1 {
   margin-left: 1em;
 }
-
 .dsflx {
   display: flex;
   align-items: center;
@@ -1818,6 +1825,10 @@ li.hs_sbmnu.active:before {
 .my_1 {
   margin: 1em 0;
 }
+.my_0{
+  margin-top: 0;
+  margin-bottom: 0;
+}
 .ml_1 {
   margin-left: 1em;
 }
@@ -1826,6 +1837,9 @@ li.hs_sbmnu.active:before {
 }
 .mb_0{
   margin-bottom: 0 !important;
+}
+.mb_05{
+  margin-bottom: 0.5em;
 }
 .pb_0{
   padding-bottom: 0 !important;
@@ -2057,16 +2071,23 @@ mat-icon.w_50px {
 }
 .crs_par {
   display: flex;
-  flex-wrap: wrap;
-  column-gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.d-flex.crs_innr_prc {
+  border-bottom: 1px dashed #d2d5dd;
+    padding-bottom: 15px;
+    margin-bottom: 10px;
 }
 .crs_chld {
   background: #fff;
-  margin-bottom: 2%;
-  padding: 1%;
-  flex-basis: 32%;
-  box-sizing: border-box;
-  .rtng_par{
+    margin-bottom: 10px;
+    flex-basis: 24.5%;
+    box-sizing: border-box;
+    padding: 1%;
+    position: relative;
+    overflow: hidden;
+    .rtng_par{
     padding: 10px 0;
     .crs_rtng{
       margin: 0;
@@ -2117,6 +2138,14 @@ span.rpe_sym {
   align-items: center;
   margin: 0;
 }
+.tmr_dv{
+  mat-icon{
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+  }
+}
 .pr_btn_dv,
 .bn_btn_dv {
   border-radius: 12px;
@@ -2124,12 +2153,12 @@ span.rpe_sym {
   color: #fff;
   display: flex;
   align-items: center;
-  flex: auto;
-  margin: 4% 2%;
   justify-content: center;
-  padding: 2px 0;
-  font-size: 14px;
+  padding: 1px 0;
+  font-size: 10px;
   cursor: pointer;
+  width: 85%;
+  margin: 0 auto 5px 0;
 }
 .pr_btn_dv,
 .bn_btn_dv {
@@ -2158,19 +2187,22 @@ span.rpe_sym {
   margin-top: 10px;
 }
 .crs_icn {
-  border-radius: 50%;
+  // border-radius: 50%;
   width: 80px;
   height: 80px;
   display: flex;
-  margin: auto;
+  // margin: auto;
+  margin-bottom:15px;
   align-items: center;
   justify-content: center;
   margin-bottom: 15px;
   color: #fff;
   overflow: hidden;
   &.pkg_img_bg{
-    width: 150px;
-    height: 150px;
+    // width: 150px;
+    // height: 150px;
+    width: 100px;
+    height: 100px;
   }
 }
 .crs_tp_sc {
@@ -2224,7 +2256,7 @@ span.rpe_sym {
       font-weight: bold;
       &.strk_price{
         text-decoration: line-through;
-        font-size: 16px;
+        font-size: 10px !important;
         color: #b1b1b1;
       }
     }
@@ -6751,9 +6783,16 @@ sup {
   }
 }
 .per_dsc{
-  font-size: 14px;
-  color: $accent_clr;
+  color: #41AB3C;
   margin-right: 10px;
+  position: absolute;
+  left: -39px;
+  background-color: #fff;
+  transform: rotate(-45deg);
+  width: 150px;
+  text-align: center;
+  top: 26px;
+  font-size: 12px !important;
 }
 .qp_lvmd_cnt{
   padding:0 15px;
