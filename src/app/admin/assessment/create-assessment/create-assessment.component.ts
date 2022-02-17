@@ -564,8 +564,8 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   searchSelectedStudents(search){
-    let options = this.selected_students;
-    this.selected_students_list = options.filter(
+    let options = this.selected_students_list;
+    this.selected_students = options.filter(
         item => item.name.toLowerCase().includes(search.toLowerCase())
     );
   }
@@ -590,6 +590,7 @@ export class CreateAssessmentComponent implements OnInit {
     this.students.forEach(row=>{
         if(!this.selected_student_ids.includes(row['id'])){
             this.selected_student_ids.push(row['id']);
+            this.selected_students_list.push({id:row['id'], name: row.name});
             this.selected_students.push({id:row['id'], name: row.name});
         }
     })
