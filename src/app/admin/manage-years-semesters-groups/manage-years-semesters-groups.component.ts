@@ -33,7 +33,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     'id',
     'name',
     'organization_name',
-    'partner_type',
+    'partner_child_name',
     'actions',
     'status',
   ];
@@ -42,7 +42,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     'name',
     'year_name',
     'organization_name',
-    'partner_type',
+    'partner_child_name',
     'actions',
     'status',
   ];
@@ -52,7 +52,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     'year_name',
     'semester_name',
     'organization_name',
-    'partner_type',
+    'partner_child_name',
     'actions',
     'status',
   ];
@@ -249,10 +249,16 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       if (Number(this.user_role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN) {
         this.getPartnerChilds();
       }
-      //Disable specific columns for partners 
-      this.displayedColumnsYears.splice(2, 2);
-      this.displayedColumnsSemesters.splice(3, 2);
-      this.displayedColumnsGroups.splice(4, 2);
+      //Disable specific columns based on partner role
+      if(Number(this.user_role) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN){
+        this.displayedColumnsYears.splice(2, 1);
+        this.displayedColumnsSemesters.splice(3, 1);
+        this.displayedColumnsGroups.splice(4, 1);
+      }else{
+        this.displayedColumnsYears.splice(2, 2);
+        this.displayedColumnsSemesters.splice(3, 2);
+        this.displayedColumnsGroups.splice(4, 2);
+      }
     }
     this.getData();
     if (this.slug == 'year') {
@@ -289,7 +295,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       this.slug = 'group';
       this.page_title = 'Group';
     }
-    //finally 
+    //finally
     this.getData();
   }
   public getData() {
@@ -535,7 +541,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
 
   onOrganizationTypeChange() {
-    if (this.organization_type == '1') { //University 
+    if (this.organization_type == '1') { //University
       this.partner_type_id = 1; //partner as Universities
       this.getPartners();
     } else if (this.organization_type == '2') { //College
