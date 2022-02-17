@@ -11,11 +11,11 @@ import { filter, pairwise } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
-  selector: 'app-level_list',
-  templateUrl: './level_list.component.html',
-  styleUrls: ['./level_list.component.scss'],
+  selector: 'app-individual_levels_list',
+  templateUrl: './individual_levels_list.component.html',
+  styleUrls: ['./individual_levels_list.component.scss'],
 })
-export class Level_listComponent implements OnInit {
+export class Individual_levels_listComponent implements OnInit {
   public title = '';
   public curriculum = [];
   public curriculum_id = 0;
@@ -63,13 +63,13 @@ export class Level_listComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: false
+      is_individual: true
     };
     this.http.post(param).subscribe((res) => {
         this.is_loaded = true;
         if (res['error'] == false) {
             let data = res['data'];
-            this.curriculum = res['data']['curriculum'];
+            this.curriculum = data['curriculum'];
             this.levels = data['levels'];
             this.total_items = res['total_records'];
             this.breadcome = res['breadcome'];
@@ -84,7 +84,6 @@ export class Level_listComponent implements OnInit {
         this.breadcome = res['breadcome'];
         this.levels = [];
         this.total_items = 0;
-        this.curriculum = res['data']['curriculum'];
         if (res['check_data'] == 0) {
             let data = res['data'];
             this.curriculum = data['curriculum'];
@@ -125,7 +124,7 @@ export class Level_listComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: false
+      is_individual: true
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

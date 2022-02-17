@@ -27,7 +27,9 @@ export class DashboardComponent implements OnInit {
   }
 
   public getPartners() {
-    //console.log(this.type);
+    if(this.user['role'] != '1'){
+        return false;
+    }
     let param = { 
       url: 'get-partners' , 
       offset : this.offset,

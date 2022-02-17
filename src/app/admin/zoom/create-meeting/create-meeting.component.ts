@@ -579,11 +579,15 @@ export class CreateMeetingComponent implements OnInit {
                     this.router.navigateByUrl('/teacher/class/list');
                 }
                 else{
-                    this.translate.get('something_went_wrong_text').subscribe((data)=> {
-                        this.translate.get('error_text').subscribe((error_text)=> {
-                            this.toster.error(data, error_text, {closeButton:true});
+                    if(this.schedule_for == 'webinar'){
+                        this.toster.error("To schedule a webinar you need to buy licence in zoom", "Error", {closeButton:true});
+                    }else{
+                        this.translate.get('something_went_wrong_text').subscribe((data)=> {
+                            this.translate.get('error_text').subscribe((error_text)=> {
+                                this.toster.error(data, error_text, {closeButton:true});
+                            });
                         });
-                    })
+                    }
                 }
             });
         }

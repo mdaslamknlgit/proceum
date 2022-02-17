@@ -58,6 +58,7 @@ import { StudentGlobalSearchComponent } from './student-global-search/student-gl
 import { CouponsComponent } from './coupons/coupons.component';
 import { ShareModule } from 'ngx-sharebuttons';
 import { IndividualCoursesComponent } from './student/individual-courses/individual-courses.component';
+import { Individual_levels_listComponent } from './student/individual-courses/individual_levels_list/individual_levels_list.component';
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
 const routes: Routes = [
@@ -74,10 +75,7 @@ const routes: Routes = [
         component: MyAccountComponent,
       },
       { path: 'curriculums', component: LevelComponent },
-      {
-        path: 'curriculum/details/:curriculum_id/:level_id/:level_parent_id',
-        component: DetailsComponent,
-      },
+      { path: 'curriculum/details/:curriculum_id/:level_id/:level_parent_id', component: DetailsComponent },
       {
         path: 'curriculum/details/:curriculum_id/:level_id/:level_parent_id/:content_id',
         component: DetailsComponent,
@@ -87,24 +85,11 @@ const routes: Routes = [
         component: DetailsComponent,
       },
       { path: 'curriculums/:curriculum_id', component: Level_listComponent },
-      {
-        path: 'curriculums/:curriculum_id/:level_id',
-        component: Level_listComponent,
-      },
-      {
-        path: 'curriculums/:curriculum_id/:level_id/:level_parent_id',
-        component: Level_listComponent,
-      },
-      
+      { path: 'curriculums/:curriculum_id/:level_id', component: Level_listComponent},
+      { path: 'curriculums/:curriculum_id/:level_id/:level_parent_id', component: Level_listComponent},      
       { path: 'curriculum/:curriculum_id', component: Frontend_level_listComponent },
-      {
-        path: 'curriculum/:curriculum_id/:level_id',
-        component: Frontend_level_listComponent,
-      },
-      {
-        path: 'curriculum/:curriculum_id/:level_id/:level_parent_id',
-        component: Frontend_level_listComponent,
-      },
+      { path: 'curriculum/:curriculum_id/:level_id', component: Frontend_level_listComponent},
+      { path: 'curriculum/:curriculum_id/:level_id/:level_parent_id', component: Frontend_level_listComponent},
       { path: 'qbank/create-exam/:qbank_id', component: ExamPrepmodeComponent },
       { path: 'qbank/study-mode/:qbank_id/:source_id', component: StudyModeComponent },
       { path: 'qbank/exam-mode/:qbank_id/:exam_id', component: ExamModeComponent },
@@ -133,6 +118,9 @@ const routes: Routes = [
       { path: 'order-details/:order_id', component: OrderDetailsComponent },
       { path: 'my-earnings', component:  MyEarningsComponent},
       { path: 'purchased-courses', component: IndividualCoursesComponent},
+      { path: 'purchased-courses/:curriculum_id/:level_id', component: Individual_levels_listComponent},
+      { path: 'purchased-courses/:curriculum_id/:level_id/:level_parent_id', component: Individual_levels_listComponent},
+      { path: 'purchased-courses/details/:curriculum_id/:level_id/:level_parent_id', component: Individual_levels_listComponent },
     ],
   },
 ];
@@ -181,6 +169,7 @@ const routes: Routes = [
     StudentGlobalSearchComponent,
     Frontend_level_listComponent,
     IndividualCoursesComponent,
+    Individual_levels_listComponent
   ],
   imports: [
     CommonModule,
