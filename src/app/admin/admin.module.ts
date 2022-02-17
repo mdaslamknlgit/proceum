@@ -95,6 +95,7 @@ import { AdminGlobalSearchComponent } from './admin-global-search/admin-global-s
 import { AssessmentReportComponent } from './assessment/assessment-report/assessment-report.component';
 import { ListUniversitiesCollegesComponent } from './universities-colleges/list-universities-colleges/list-universities-colleges.component';
 import { CreateUniversitiesCollegesComponent } from './universities-colleges/create-universities-colleges/create-universities-colleges.component';
+import { ReviewerComponent } from './dashboard/reviewer/reviewer.component';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -328,7 +329,8 @@ const routes: Routes = [
     EditAssessmentComponent,
     AdminGlobalSearchComponent,
     ListUniversitiesCollegesComponent,
-    CreateUniversitiesCollegesComponent
+    CreateUniversitiesCollegesComponent,
+    ReviewerComponent
   ],
   imports: [
     MaterialModule,
