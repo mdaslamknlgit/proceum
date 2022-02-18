@@ -73,6 +73,8 @@ export class CreateMeetingComponent implements OnInit {
     public show_group_dropdown = true;
     public organization_list_id1 = '';
     public college_id1='';
+    public college_institute_id = 0;
+    public org_type = '';   
     constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router) { 
         this.translate.setDefaultLang(this.http.lang);
     }
@@ -116,13 +118,13 @@ export class CreateMeetingComponent implements OnInit {
         this.user_id = this.user['id'];
         this.role_id = this.user['role'];
         if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
+            this.getTeacherCollegeInstitute();
             this.teacher_id = this.user['id'];
             this.getTeacherSubjects();
             this.is_college = false;
             this.is_university = false;
             this.organization_list_id = this.user['partner_id'];
             this.organization_type_id = '1';
-            this.getYearSemsterGroup(1,0,'year');
           }else{
             if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
               this.is_college = true;
@@ -138,7 +140,7 @@ export class CreateMeetingComponent implements OnInit {
               this.organization_type_name = 'College';
               this.organization_list_id = this.user['partner_id'];
               this.organization_type_id = '2';
-              this.getYearSemsterGroup(2,0,'year');
+              this.getYearSemsterGroup('',0,'year');
             }
             if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
               this.is_college = false;
@@ -146,14 +148,14 @@ export class CreateMeetingComponent implements OnInit {
               this.organization_type_name = 'Institute';
               this.organization_list_id = this.user['partner_id'];
               this.organization_type_id = '3';
-              this.getYearSemsterGroup(3,0,'year');
+              this.getYearSemsterGroup('',0,'year');
             }
             if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
               this.is_college = false;
               this.is_university = false;
               this.organization_list_id = this.user['partner_id'];
               this.organization_type_id = '1';
-              this.getYearSemsterGroup(1,0,'year');
+              this.getYearSemsterGroup('',0,'year');
             }      
           }
 
@@ -161,6 +163,29 @@ export class CreateMeetingComponent implements OnInit {
         d.setDate(d.getDate() + 1);
         this.minDate = new Date();
     }
+
+    getTeacherCollegeInstitute(){
+        let params = {
+          url: 'assessment/get-teacher-details', user_id: this.user_id
+        };
+        this.http.post(params).subscribe((res) => {
+          if (res['error'] == false) {
+            if(res['user_details']['university_id'] != null){
+              this.college_id = this.college_institute_id = res['user_details']['college_id'];
+              this.org_type = '1';
+              this.getYearSemsterGroup('',0,'year');          
+            }else if(res['user_details']['college_id'] != null){
+              this.college_id = this.college_institute_id = res['user_details']['college_id'];
+              this.org_type = '2';
+              this.getYearSemsterGroup('',0,'year');          
+            }else if(res['user_details']['institute_id'] != null){
+              this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
+              this.org_type = '3';
+              this.getYearSemsterGroup('',0,'year');          
+            }
+          }
+        });
+      }
     getData(){
         let param = {url: 'class/create-meeting'};
         this.http.post(param).subscribe(res=>{
@@ -414,11 +439,14 @@ export class CreateMeetingComponent implements OnInit {
     else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
       partner = this.user['partner_id'];
       org_type = 1;
-      partner_child_id = "";
+      partner_child_id = this.user['partner_child_id'];
     }
     else if(this.role_id == environment.ALL_ROLES.TEACHER){
-      partner = String(this.teacher_id);
-      partner_child_id = "";
+        partner = this.user['partner_id'];
+        org_type = this.org_type;
+        if(this.org_type == '1'){        
+          partner_child_id = String(this.college_institute_id);//this.user['partner_child_id'];
+        }
     } 
     let param = {
       url: 'get-year-semester-group',
@@ -468,9 +496,11 @@ export class CreateMeetingComponent implements OnInit {
   }
     public students = [];
     public selected_students = [];
+    public selected_students_list = [];
     public selected_student_ids = [];
     public all_students = [];
     public search_student = '';
+    public search_selected_student = '';
     getStudents(){
         let param = {url:'class/get-students', organization_type_id: this.organization_type_id, 'selected_name':this.selected_name, 'selected_value': this.selected_value};
         this.http.post(param).subscribe((res) => {
@@ -495,11 +525,19 @@ export class CreateMeetingComponent implements OnInit {
             item => item.name.toLowerCase().includes(search.toLowerCase())
         );
     }
+
+    searchSelectedStudents(search){
+      let options = this.selected_students_list;
+      this.selected_students = options.filter(
+          item => item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
     addStudents(){
         this.students.forEach(row=>{
             if(!this.selected_student_ids.includes(row['id'])){
                 this.selected_student_ids.push(row['id']);
                 this.selected_students.push({id:row['id'], name: row.name});
+                this.selected_students_list.push({id:row['id'], name: row.name});
             }
         })
     }
@@ -507,6 +545,7 @@ export class CreateMeetingComponent implements OnInit {
         if(!this.selected_student_ids.includes(row['id'])){
             this.selected_student_ids.push(row['id']);
             this.selected_students.push({id:row['id'], name: row.name});
+            this.selected_students_list.push({id:row['id'], name: row.name});
         }
     }
     removeStudent(index){
@@ -518,6 +557,7 @@ export class CreateMeetingComponent implements OnInit {
             this.selected_student_ids.splice(s_index, 1);
         }
         this.selected_students.splice(index, 1);
+        this.selected_students_list.push(index, 1);
     }
     createMeeting(){
         if(this.selected_students.length == 0){
@@ -539,11 +579,15 @@ export class CreateMeetingComponent implements OnInit {
                     this.router.navigateByUrl('/teacher/class/list');
                 }
                 else{
-                    this.translate.get('something_went_wrong_text').subscribe((data)=> {
-                        this.translate.get('error_text').subscribe((error_text)=> {
-                            this.toster.error(data, error_text, {closeButton:true});
+                    if(this.schedule_for == 'webinar'){
+                        this.toster.error("To schedule a webinar you need to buy licence in zoom", "Error", {closeButton:true});
+                    }else{
+                        this.translate.get('something_went_wrong_text').subscribe((data)=> {
+                            this.translate.get('error_text').subscribe((error_text)=> {
+                                this.toster.error(data, error_text, {closeButton:true});
+                            });
                         });
-                    })
+                    }
                 }
             });
         }

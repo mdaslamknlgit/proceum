@@ -23,7 +23,7 @@
         <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
         <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
           <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
-            <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+            <span class="ct_hd" routerLink="/student/purchased-courses/{{ level['curriculum_id'] }}/{{
                 level['level_id']
               }}/{{ level['id'] }}">{{(i+1)+". "+ level["name"] }}
               <span *ngIf="level['description'] && level['level_id'] > 3"> - {{level['description']}}</span>
@@ -83,7 +83,7 @@
         <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
           <div *ngFor="let level of levels; let i = index">
             <div class="crs_tbbd_dv" *ngIf="level['is_bookmark'] == 1">
-              <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+              <span class="ct_hd" routerLink="/student/purchased-courses/{{ level['curriculum_id'] }}/{{
                 level['level_id']
               }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
               <span class="spacer"></span>
@@ -136,7 +136,7 @@
       <mat-tab label="Most Rated" *ngIf="false && is_loaded">
         <div class="crs_tbbd_mn">
           <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
-            <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+            <span class="ct_hd" routerLink="/student/purchased-courses/{{ level['curriculum_id'] }}/{{
                 level['level_id']
               }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
             <span class="spacer"></span>
@@ -191,7 +191,7 @@
         <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
           <div *ngFor="let level of levels; let i = index">
             <div class="crs_tbbd_dv" *ngIf="level['is_fav'] == 1">
-              <span class="ct_hd" routerLink="/student/curriculums/{{ level['curriculum_id'] }}/{{
+              <span class="ct_hd" routerLink="/student/purchased-courses/{{ level['curriculum_id'] }}/{{
                 level['level_id']
               }}/{{ level['id'] }}">{{ level["name"] }} - (Code : {{ level["code"] }})</span>
               <span class="spacer"></span>

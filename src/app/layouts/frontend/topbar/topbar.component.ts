@@ -42,10 +42,9 @@ export class TopbarComponent implements OnInit, OnDestroy {
     id: number = undefined;
     ngOnInit(): void {
         //check subdomain
-        let sub_domain = window.location.hostname.split('.')[0];
-        // sub_domain = 'rinstitute';
+        let sub_domain = (window.location.hostname.split('.')[0] != 'localhost')? window.location.hostname.split('.')[0] : '';
         //If subdomain not exist in in app domains then check for partner domain
-        if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
+        if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1 && sub_domain) {
             this.getSubDomainDetails(sub_domain);
         } else {
             localStorage.setItem('header_logo', '');
@@ -166,7 +165,7 @@ export class TopbarComponent implements OnInit, OnDestroy {
                 localStorage.setItem('licence_expired', res['data']['licence_expired']);
                 //console.log(this.sub_domain_data);
             }else{
-                //window.location.href = environment.APP_BASE_URL;
+                window.location.href = environment.APP_BASE_URL;
             }
             this.load_top_bar = true;
             this.finishedLoading.emit(true);

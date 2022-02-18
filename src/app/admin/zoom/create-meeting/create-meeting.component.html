@@ -264,53 +264,72 @@
                 </div>
             </div>
             <div class="hgt_20"></div>
-            <div class="xl_srch">
-                <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput [(ngModel)]="search_student" name="search_student_name"
-                        (keyup)="searchStudents(search_student)" placeholder="{{'search_text'|translate}}" />
-                    <mat-icon (click)="searchStudents(search_student)" matSuffix color="accent">search</mat-icon>
-                </mat-form-field>
+            <div class="d-flex">
+                <div class="w_49p mr_1p swt_lft">
+                    <mat-form-field appearance="outline" class="w_100p">
+                        <input matInput [(ngModel)]="search_student" name="search_student_name" autocomplete="off"
+                            (keyup)="searchStudents(search_student)" placeholder="{{'admin.class.create.srch_student_lft'|translate}}" />
+                        <mat-icon (click)="searchStudents(search_student)" matSuffix color="accent">search</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="w_50p">
+                    <mat-form-field appearance="outline" class="w_100p" color="accent">
+                        <input matInput [(ngModel)]="search_selected_student" name="search_selected_student_name" autocomplete="off"
+                            (keyup)="searchSelectedStudents(search_selected_student)" placeholder="{{'admin.class.create.srch_student_rgt'|translate}}" />
+                        <mat-icon (click)="searchSelectedStudents(search_selected_student)" matSuffix color="accent">search</mat-icon> 
+                    </mat-form-field>
+                </div>
             </div>
             <div class="d-flex zm_swtchusrs">
-                <div class="w_49p mr_1p">
+                <div class="w_49p mr_1p swt_lft">
                     <div class="zm_mvusrs">
-                        <div>Student List</div>
+                        <div class="zm_mvusrs_hd">{{"admin.class.create.student_list"|translate}}</div>
                         <div class="spacer"></div>
                         <div>
-                            <button [disabled]="selected_name == '' || selected_value == ''" (click)="addStudents()" type="button" matTooltip="Add All" mat-button color="accent" class="mr_1">
+                            <button [disabled]="selected_name == '' || selected_value == ''" (click)="addStudents()" type="button" matTooltip="{{'admin.class.create.add_all'|translate}}" mat-button color="accent" class="mr_1">
                                 {{"admin.class.create.add_all"|translate}} <mat-icon>chevron_right</mat-icon>
                             </button>
                         </div>
                     </div>
-                    <span class="zmsu_lft" *ngFor="let s of students; let s_index=index;"
-                        [hidden]="this.selected_student_ids.includes(s['id'])">
-                        <span>{{s['name']}}</span>
-                        <button mat-icon-button color="accent" type="button">
-                            <mat-icon (click)="addStudent(s)" matTooltip="Add Student">add</mat-icon>
-                        </button>
+                    <div class="zmsu_cnt">
+                        <span class="zmsu_lft" *ngFor="let s of students; let s_index=index;"
+                            [hidden]="this.selected_student_ids.includes(s['id'])">
+                            <span>{{s['name']}}</span>
+                            <button mat-icon-button color="accent" type="button">
+                                <mat-icon (click)="addStudent(s)" matTooltip="Add Student">add</mat-icon>
+                            </button>
+                        </span>
+                    </div>
+                    <span class="rqrd_txtinfo" *ngIf="students.length<=0">
+                        <mat-icon class="mr_05">info</mat-icon> {{"admin.class.create.students_list_text"|translate}}
                     </span>
                 </div>
-                <div class="w_50p">
+                <div class="w_50p swt_rgt">
                     <div class="zm_mvusrs">
-                        <div>Selected Students</div>
+                        <div class="zm_mvusrs_hd">{{"admin.class.create.selected_students"|translate}}</div>
                         <div class="spacer"></div>
                         <div>
-                            <button [disabled]="selected_name == '' || selected_value == ''" mat-button type="button" matTooltip="Remove All"
+                            <button [disabled]="selected_name == '' || selected_value == ''" mat-button type="button" matTooltip="{{'admin.class.create.remove_all'|translate}}"
                                 (click)="selected_students=[];selected_student_ids = [];"
                                 color="warn"><mat-icon>chevron_left</mat-icon> {{"admin.class.create.remove_all"|translate}}</button>
                         </div>
                     </div>
-                    <span class="zmsu_lft" *ngFor="let s of selected_students; let s_s_index=index;">
-                        <span>{{s['name']}}</span>
-                        <button mat-icon-button color="accent" type="button">
-                            <mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" matTooltip="Remove Student"
-                            color="warn">highlight_off</mat-icon>
-                        </button>
-
+                    <div class="zmsu_cnt">
+                        <span class="zmsu_lft" *ngFor="let s of selected_students; let s_s_index=index;">
+                            <span>{{s['name']}}</span>
+                            <button mat-icon-button color="accent" type="button">
+                                <mat-icon (click)="removeSelectedStudent(s_s_index, s['id'])" matTooltip="Remove Student"
+                                color="warn">highlight_off</mat-icon>
+                            </button>
+                        </span>
+                    </div>
+                    <span class="rqrd_txtinfo" *ngIf="selected_students.length<=0">
+                        <mat-icon class="mr_05">info</mat-icon> {{"admin.class.create.selected_students_list_text"|translate}}
                     </span>
                 </div>
             </div>
             <div class="hgt_10"></div>
+            <hr class="line-sep"/>
             <div class="d-flex">
                 <div class="spacer"></div>
                 <button mat-raised-button color="accent">Save</button>

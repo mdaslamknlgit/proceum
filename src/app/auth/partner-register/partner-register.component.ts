@@ -442,11 +442,11 @@ export class PartnerRegisterComponent implements OnInit {
   }
 
   getGroups(parent_id, partner_id = 0, partner_child_id) {
-    let year_obj = this.years.find((year) => year.pk_id == this.year_id);
+    let year_obj = this.years.find((year) => year.pk_id == this.year_id);    
     if (!year_obj.year_has_group) {
       return false;
     }
-    if (year_obj.year_has_semesters) {
+    if (year_obj.year_has_semester) {
       parent_id = this.semester_id;
     } else {
       parent_id = this.year_id;
@@ -454,7 +454,7 @@ export class PartnerRegisterComponent implements OnInit {
 
     let param = {
       url: 'get-year-semester-group-register',
-      partner_id: partner_id,
+      partner_id: localStorage.getItem('p_id'),
       partner_child_id: partner_child_id,
       parent_id: parent_id,
       slug: 'group',

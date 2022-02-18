@@ -71,9 +71,11 @@ export class EditAssessmentComponent implements OnInit {
 
   public students = [];
   public selected_students = [];
+  public selected_students_list = [];
   public selected_student_ids = [];
   public all_students = [];
   public search_student = '';
+  public search_selected_student = '';
 
   public user_id = 0;
   public role_id = 0;
@@ -112,7 +114,7 @@ export class EditAssessmentComponent implements OnInit {
         this.organization_type_name = 'College';
         this.organization_list_id = this.user['partner_id'];
         this.organization_type_id = '2';
-        this.getYearSemsterGroup(2,0,'year');
+        this.getYearSemsterGroup('',0,'year');
       }
       if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
         this.is_college = false;
@@ -120,14 +122,14 @@ export class EditAssessmentComponent implements OnInit {
         this.organization_type_name = 'Institute';
         this.organization_list_id = this.user['partner_id'];
         this.organization_type_id = '3';
-        this.getYearSemsterGroup(3,0,'year');
+        this.getYearSemsterGroup('',0,'year');
       }
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
         this.is_college = false;
         this.is_university = false;
         this.organization_list_id = this.user['partner_id'];
         this.organization_type_id = '1';
-        this.getYearSemsterGroup(1,0,'year');
+        this.getYearSemsterGroup('',0,'year');
       }      
     }
     this.assessmentTypes();
@@ -154,6 +156,7 @@ export class EditAssessmentComponent implements OnInit {
           students.forEach(element => {
             if(!this.selected_student_ids.includes(element.student_id)){
             this.selected_students.push({id:element.student_id, name: element.first_name+'<'+element.email+'>'});
+            this.selected_students_list.push({id:element.student_id, name: element.first_name+'<'+element.email+'>'});
             this.selected_student_ids.push(element.student_id);
             }
         });
@@ -331,7 +334,7 @@ export class EditAssessmentComponent implements OnInit {
     else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){
       partner = this.user['partner_id'];
       org_type = 1;
-      partner_child_id = "";
+      partner_child_id = this.user['partner_child_id'];
     }
     else if(this.role_id == environment.ALL_ROLES.TEACHER){
       partner = this.user['partner_id'];
@@ -440,9 +443,17 @@ export class EditAssessmentComponent implements OnInit {
     );
   }
 
+  searchSelectedStudents(search){
+    let options = this.selected_students_list;
+    this.selected_students = options.filter(
+        item => item.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
   addStudent(row){
     if(!this.selected_student_ids.includes(row['id'])){
         this.selected_student_ids.push(row['id']);
+        this.selected_students_list.push({id:row['id'], name: row.name});
         this.selected_students.push({id:row['id'], name: row.name});
     }
   }
@@ -452,12 +463,14 @@ export class EditAssessmentComponent implements OnInit {
       this.selected_student_ids.splice(s_index, 1);
     }
     this.selected_students.splice(index, 1);
+    this.selected_students_list.push(index, 1);
   }
 
   addStudents(){
     this.students.forEach(row=>{
         if(!this.selected_student_ids.includes(row['id'])){
             this.selected_student_ids.push(row['id']);
+            this.selected_students_list.push({id:row['id'], name: row.name});
             this.selected_students.push({id:row['id'], name: row.name});
         }
     })

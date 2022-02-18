@@ -13,13 +13,17 @@
     <div class="dsh_brd_crds">
         <div class="asess_lst">
             <div class="asess_lst_hd">
-                {{"student.assessments.result.assmnt-rslt"|translate}}
+                <mat-icon>assignment</mat-icon> {{"student.assessments.result.assmnt-rslt"|translate}}
             </div>
             <ul *ngIf="student_details.length>0">
                 <!-- <li>
                     <span>{{"student.assessments.result.subject"|translate}}</span>
                     <span>Subject</span>
                 </li> -->
+                <li>
+                    <span>{{"student.assessments.list.assessment_name"|translate}}</span>
+                    <span>{{assessment[0]['assessment_name']}}</span>
+                </li>
                 <li>
                     <span>{{"student.assessments.result.date"|translate}}</span>
                     <span>{{assessment_date_time}}</span>
@@ -41,12 +45,12 @@
                     <span>{{student_details[0]['year']}}</span>
                 </li>
                 <li>
-                      <span>{{"student.assessments.result.semester"|translate}}</span>
-                    <span>{{student_details[0]['semister']}}</span>
+                    <span>{{"student.assessments.result.semester"|translate}}</span>
+                    <span>{{student_details[0]['semister']?student_details[0]['semister']:'--'}}</span>
                 </li>
                 <li>
-                      <span>{{"student.assessments.result.group"|translate}}</span>
-                    <span>{{student_details[0]['year_group']}}</span>
+                    <span>{{"student.assessments.result.group"|translate}}</span>
+                    <span>{{student_details[0]['year_group']?student_details[0]['year_group']:'--'}}</span>
                 </li>
                 <!-- <li>
                       <span>{{"student.assessments.result.assmnt-type"|translate}}</span>
@@ -77,33 +81,39 @@
                     <span>{{wrong_answers}}</span>
                 </li>
                 <li>
-                      <span>{{"student.assessments.result.skppd-qstns"|translate}}</span>
+                     <span>{{"student.assessments.result.skppd-qstns"|translate}}</span>
                     <span>{{skiped_questions}}</span>
                 </li>
                 <li>
                     <span>{{"student.assessments.result.not-ans-qstns"|translate}}</span>
-                  <span>{{not_ans_questions}}</span>
+                    <span>{{not_ans_questions}}</span>
                 </li>
                 <li>
-                      <span>{{"student.assessments.result.ttl-mrks"|translate}}</span>
+                    <span>{{"student.assessments.result.ttl-mrks"|translate}}</span>
                     <span>{{correct_answers}}</span>
                 </li>
                 <li>
-                      <span>{{"student.assessments.result.prcnt"|translate}}</span>
+                    <span>{{"student.assessments.result.prcnt"|translate}}</span>
                     <span>{{percentage}} %</span>
                 </li>
                 <li>
-                      <span>{{"student.assessments.result.stts"|translate}}</span>
-                    <span *ngIf="(percentage)>=35">{{"student.assessments.result.pass"|translate}}</span>
-                    <span *ngIf="(percentage)<35">{{"student.assessments.result.fail"|translate}}</span>
+                    <span>{{"student.assessments.result.stts"|translate}}</span>
+                    <span>
+                        <span *ngIf="(percentage)>=35" class="exm_pass">{{"student.assessments.result.pass"|translate}}</span>
+                        <span *ngIf="(percentage)<35" class="exm_fail">{{"student.assessments.result.fail"|translate}}</span>
+                    </span>
+                    
                 </li>
             </ul>
             <div class="hgt_10"></div>
+            <hr class="line-sep"/>
+            <div class="hgt_10"></div>
             <div class="asess_lst_btn">
                 <button routerLink="/student/assessments/list" mat-raised-button color="accent">
-                    {{"student.assessments.result.rtrn-to-list"|translate}}
+                    <mat-icon>keyboard_double_arrow_left</mat-icon> {{"student.assessments.result.rtrn-to-list"|translate}}
                 </button>
             </div>
+            
         </div>
     </div>
 </div>
