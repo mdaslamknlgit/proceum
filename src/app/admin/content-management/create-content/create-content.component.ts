@@ -110,6 +110,7 @@ export class CreateContentComponent implements OnInit {
   @ViewChild('external_editor', { static: false }) external_editor: CKEditorComponent;
   public focus_editor =  '';
   public Editor = Editor;
+    show_schedule = false;
   @HostListener('window:open_library', ['$event'])
   openCustomPopup(event) {
     this.openAssetsLibrary('images/content_images', 'editor');
@@ -273,7 +274,7 @@ export class CreateContentComponent implements OnInit {
   private subscription:Subscription;
   private subscription_editor:Subscription;
   public schdule_publish = false;
-  public publish_date = new Date();
+  public publish_date:any;
   public publish_time = '';
   public today_date = new Date();
   constructor(
@@ -399,6 +400,11 @@ export class CreateContentComponent implements OnInit {
         this.selected_cases = data['selected_cases'];
         this.selected_flash_cards = data['selected_flash_cards'];
         this.selected_teacher_materials = data['selected_teacher_materials'];
+        this.show_schedule = data['show_schedule'];
+        if(data['show_schedule']){
+            this.publish_date = new Date("'"+data['published_at'][0]+"'");
+            this.publish_time = data['published_at'][1];
+        }
       }
     });
   }
@@ -1535,9 +1541,17 @@ searchLevelByName(search,level){
   CloseSchdulePublish(){
       this.schdule_publish = false;
   }
+  schedulePublish(){
+      if(this.title.trim() == ''){
+          this.toster.error("Please enter content Title", "Error", {closeButton:true});
+
+      }else{
+        this.schdule_publish=true;
+      }
+  }
   createContent(is_draft) {
     this.is_submit = true;
-    if(this.title == ''){
+    if(this.title.trim() == ''){
         return false;
     }
     let form_data = {

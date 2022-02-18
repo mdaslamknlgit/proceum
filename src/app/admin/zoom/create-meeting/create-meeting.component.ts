@@ -496,9 +496,11 @@ export class CreateMeetingComponent implements OnInit {
   }
     public students = [];
     public selected_students = [];
+    public selected_students_list = [];
     public selected_student_ids = [];
     public all_students = [];
     public search_student = '';
+    public search_selected_student = '';
     getStudents(){
         let param = {url:'class/get-students', organization_type_id: this.organization_type_id, 'selected_name':this.selected_name, 'selected_value': this.selected_value};
         this.http.post(param).subscribe((res) => {
@@ -523,11 +525,19 @@ export class CreateMeetingComponent implements OnInit {
             item => item.name.toLowerCase().includes(search.toLowerCase())
         );
     }
+
+    searchSelectedStudents(search){
+      let options = this.selected_students_list;
+      this.selected_students = options.filter(
+          item => item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
     addStudents(){
         this.students.forEach(row=>{
             if(!this.selected_student_ids.includes(row['id'])){
                 this.selected_student_ids.push(row['id']);
                 this.selected_students.push({id:row['id'], name: row.name});
+                this.selected_students_list.push({id:row['id'], name: row.name});
             }
         })
     }
@@ -535,6 +545,7 @@ export class CreateMeetingComponent implements OnInit {
         if(!this.selected_student_ids.includes(row['id'])){
             this.selected_student_ids.push(row['id']);
             this.selected_students.push({id:row['id'], name: row.name});
+            this.selected_students_list.push({id:row['id'], name: row.name});
         }
     }
     removeStudent(index){
@@ -546,6 +557,7 @@ export class CreateMeetingComponent implements OnInit {
             this.selected_student_ids.splice(s_index, 1);
         }
         this.selected_students.splice(index, 1);
+        this.selected_students_list.push(index, 1);
     }
     createMeeting(){
         if(this.selected_students.length == 0){
@@ -567,11 +579,15 @@ export class CreateMeetingComponent implements OnInit {
                     this.router.navigateByUrl('/teacher/class/list');
                 }
                 else{
-                    this.translate.get('something_went_wrong_text').subscribe((data)=> {
-                        this.translate.get('error_text').subscribe((error_text)=> {
-                            this.toster.error(data, error_text, {closeButton:true});
+                    if(this.schedule_for == 'webinar'){
+                        this.toster.error("To schedule a webinar you need to buy licence in zoom", "Error", {closeButton:true});
+                    }else{
+                        this.translate.get('something_went_wrong_text').subscribe((data)=> {
+                            this.translate.get('error_text').subscribe((error_text)=> {
+                                this.toster.error(data, error_text, {closeButton:true});
+                            });
                         });
-                    })
+                    }
                 }
             });
         }

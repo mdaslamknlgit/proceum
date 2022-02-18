@@ -140,6 +140,7 @@ export class EditMeetingComponent implements OnInit {
                 let students = res['data']['attendies'];
                 students.forEach(element => {
                     this.selected_students.push({id:element.user_id, name: element.first_name+'<'+element.email+'>'});
+                    this.selected_students_list.push({id:element.user_id, name: element.first_name+'<'+element.email+'>'});
                     this.selected_student_ids.push(element.user_id);
                 });
             }
@@ -416,9 +417,11 @@ export class EditMeetingComponent implements OnInit {
   }
     public students = [];
     public selected_students = [];
+    public selected_students_list = [];
     public selected_student_ids = [];
     public all_students = [];
     public search_student = '';
+    public search_selected_student = '';
     getStudents(){
         let param = {url:'class/get-students', organization_type_id: this.organization_type_id, 'selected_name':this.selected_name, 'selected_value': this.selected_value};
         this.http.post(param).subscribe((res) => {
@@ -443,11 +446,18 @@ export class EditMeetingComponent implements OnInit {
             item => item.name.toLowerCase().includes(search.toLowerCase())
         );
     }
+    searchSelectedStudents(search){
+        let options = this.selected_students_list;
+        this.selected_students = options.filter(
+            item => item.name.toLowerCase().includes(search.toLowerCase())
+        );
+    }
     addStudents(){
         this.students.forEach(row=>{
             if(!this.selected_student_ids.includes(row['id'])){
                 this.selected_student_ids.push(row['id']);
                 this.selected_students.push({id:row['id'], name: row.name});
+                this.selected_students_list.push({id:row['id'], name: row.name});
             }
         })
     }
@@ -455,6 +465,7 @@ export class EditMeetingComponent implements OnInit {
         if(!this.selected_student_ids.includes(row['id'])){
             this.selected_student_ids.push(row['id']);
             this.selected_students.push({id:row['id'], name: row.name});
+            this.selected_students_list.push({id:row['id'], name: row.name});
         }
     }
     removeStudent(index){
@@ -466,6 +477,7 @@ export class EditMeetingComponent implements OnInit {
             this.selected_student_ids.splice(s_index, 1);
         }
         this.selected_students.splice(index, 1);
+        this.selected_students_list.push(index, 1);
     }
     updateMeeting(){
         if(this.selected_students.length == 0){

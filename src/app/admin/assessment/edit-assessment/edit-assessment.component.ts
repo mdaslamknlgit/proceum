@@ -71,9 +71,11 @@ export class EditAssessmentComponent implements OnInit {
 
   public students = [];
   public selected_students = [];
+  public selected_students_list = [];
   public selected_student_ids = [];
   public all_students = [];
   public search_student = '';
+  public search_selected_student = '';
 
   public user_id = 0;
   public role_id = 0;
@@ -154,6 +156,7 @@ export class EditAssessmentComponent implements OnInit {
           students.forEach(element => {
             if(!this.selected_student_ids.includes(element.student_id)){
             this.selected_students.push({id:element.student_id, name: element.first_name+'<'+element.email+'>'});
+            this.selected_students_list.push({id:element.student_id, name: element.first_name+'<'+element.email+'>'});
             this.selected_student_ids.push(element.student_id);
             }
         });
@@ -440,9 +443,17 @@ export class EditAssessmentComponent implements OnInit {
     );
   }
 
+  searchSelectedStudents(search){
+    let options = this.selected_students_list;
+    this.selected_students = options.filter(
+        item => item.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
   addStudent(row){
     if(!this.selected_student_ids.includes(row['id'])){
         this.selected_student_ids.push(row['id']);
+        this.selected_students_list.push({id:row['id'], name: row.name});
         this.selected_students.push({id:row['id'], name: row.name});
     }
   }
@@ -452,12 +463,14 @@ export class EditAssessmentComponent implements OnInit {
       this.selected_student_ids.splice(s_index, 1);
     }
     this.selected_students.splice(index, 1);
+    this.selected_students_list.push(index, 1);
   }
 
   addStudents(){
     this.students.forEach(row=>{
         if(!this.selected_student_ids.includes(row['id'])){
             this.selected_student_ids.push(row['id']);
+            this.selected_students_list.push({id:row['id'], name: row.name});
             this.selected_students.push({id:row['id'], name: row.name});
         }
     })
