@@ -64,15 +64,15 @@ export const environment = {
 
   DISABLED_USER_ROLES_FOR_PROCEUM: [2,12],
   DISABLED_USER_ROLES_FOR_ORGANIZATION: [1, 3, 4, 5, 6, 7],
-  
-   apiUrl: 'http://192.10.250.150:8000/api/',
-  //apiUrl: 'http://127.0.0.1:8000/api/',
-  // apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
+
+   //apiUrl: 'http://192.10.250.150:8000/api/',
+  apiUrl: 'http://127.0.0.1:8000/api/',
+  //apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
   //apiUrl: 'https://uat.proceum.com/web-api/public/api/',
   // apiUrl: 'https://apiqa.proceum.com/api/',
 
-  //APP_BASE_URL: 'http://localhost:4200/',
-  APP_BASE_URL: 'http://192.10.250.150:4200/',
+  APP_BASE_URL: 'http://localhost:4200/',
+  // APP_BASE_URL: 'http://192.10.250.150:4200/',
 
 firebaseConfig: {
     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
@@ -83,8 +83,8 @@ firebaseConfig: {
     appId: "1:41849089517:web:daea02011d4e30db528be4"
   },
 
-  /* 
-  * Below array used to check domian or subdomian from in app users or partners 
+  /*
+  * Below array used to check domian or subdomian from in app users or partners
   */
   INAPP_DOMAINS_ARRAY: ["localhost", "dev", "master", "192"],
   PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',

@@ -47,9 +47,9 @@ export class CreateUserComponent implements OnInit {
   public phone = '';
   public address_line_1 = '';
   public address_line_2 = '';
-  public country_id: any = '';
-  public state_id: any = '';
-  public city: any = '';
+  public country_id: any;
+  public state_id: any;
+  public city: any;
   public pincode = '';
   public university_id: any = '';
   public college_id = '';
@@ -415,7 +415,7 @@ export class CreateUserComponent implements OnInit {
       return;
     }
 
-    if (this.organization == '1') { //University 
+    if (this.organization == '1') { //University
       if (environment.DISABLED_USER_ROLES_FOR_ORGANIZATION.includes(Number(this.role))) {
         let diabledRole = this.roles.filter((role) => role.id == Number(this.role));
         this.role = ''; this.organization = '';
