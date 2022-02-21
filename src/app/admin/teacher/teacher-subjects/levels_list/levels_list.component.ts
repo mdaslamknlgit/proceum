@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
-import { Location } from '@angular/common';
+
 @Component({
-  selector: 'app-individual-courses',
-  templateUrl: './individual-courses.component.html',
-  styleUrls: ['./individual-courses.component.scss']
+  selector: 'app-levels_list',
+  templateUrl: './levels_list.component.html',
+  styleUrls: ['./levels_list.component.scss'],
 })
-export class IndividualCoursesComponent implements OnInit {
-    public title = '';
+export class Levels_listComponent implements OnInit {
+  public title = '';
   public curriculum = [];
   public curriculum_id = 0;
   public level_id = 0;
@@ -24,8 +25,6 @@ export class IndividualCoursesComponent implements OnInit {
   public previousUrl = '';
   public rating = [];
   public is_loaded = false;
-  public q_is_loaded = false;
-  public q_levels = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService,
@@ -36,11 +35,10 @@ export class IndividualCoursesComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
-      //this.curriculum_id = param.curriculum_id;
+      this.curriculum_id = param.curriculum_id;
       this.level_id = param.level_id ? param.level_id : 0;
       this.level_parent_id = param.level_parent_id ? param.level_parent_id : 0;
       this.getLevels();
-      this.getQbanks();
     });
   }
   setTitle(val) {
@@ -51,14 +49,15 @@ export class IndividualCoursesComponent implements OnInit {
       this.is_loaded = false;
     this.offset = 0;
     let param = {
-      url: 'individual-list',
-      //curriculum_id: this.curriculum_id,
-      //level_id: this.level_id,
-      //level_parent_id: this.level_parent_id,
+      url: 'curriculum-levels',
+      curriculum_id: this.curriculum_id,
+      level_id: this.level_id,
+      level_parent_id: this.level_parent_id,
       search: this.search,
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
+      is_individual: true
     };
     this.http.post(param).subscribe((res) => {
         this.is_loaded = true;
@@ -73,13 +72,13 @@ export class IndividualCoursesComponent implements OnInit {
                 this.title = val['name'];
             });
             } else {
-            //this.title = this.curriculum['curriculumn_name'];
+            this.title = this.curriculum['curriculumn_name'];
             }
         } else {
         this.breadcome = res['breadcome'];
         this.levels = [];
         this.total_items = 0;
-        /*if (res['check_data'] == 0) {
+        if (res['check_data'] == 0) {
             let data = res['data'];
             this.curriculum = data['curriculum'];
             if(this.curriculum['usage_type'] == 2){
@@ -95,27 +94,10 @@ export class IndividualCoursesComponent implements OnInit {
                     this.route.navigateByUrl(url);
                 }
             }
-        }*/
+        }
       }
     });
   }
-  getQbanks() {
-    this.q_is_loaded = false;
-  let param = {
-    url: 'qbank-list',
-    search: this.search,
-    type:2
-  };
-  this.http.post(param).subscribe((res) => {
-      this.q_is_loaded = true;
-    if (res['error'] == false) {
-      let data = res['data'];
-      this.q_levels = data['levels'];
-    } else {
-      this.q_levels = [];
-    }
-  });
-}
   setHoverRating(value, level_id){
     this.rating[level_id] = value;
   }
@@ -128,14 +110,15 @@ export class IndividualCoursesComponent implements OnInit {
   loadMore() {
     this.offset = this.offset + this.itemsPerPage;
     let param = {
-      url: 'individual-list',
-      //curriculum_id: this.curriculum_id,
-      //level_id: this.level_id,
-      //level_parent_id: this.level_parent_id,
+      url: 'curriculum-levels',
+      curriculum_id: this.curriculum_id,
+      level_id: this.level_id,
+      level_parent_id: this.level_parent_id,
       search: this.search,
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
+      is_individual: true
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

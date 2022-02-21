@@ -1,22 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RoutesRecognized,
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { filter, pairwise } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
-
+import { Location } from '@angular/common';
 @Component({
-  selector: 'app-individual_levels_list',
-  templateUrl: './individual_levels_list.component.html',
-  styleUrls: ['./individual_levels_list.component.scss'],
+  selector: 'app-teacher-subjects',
+  templateUrl: './teacher-subjects.component.html',
+  styleUrls: ['./teacher-subjects.component.scss']
 })
-export class Individual_levels_listComponent implements OnInit {
-  public title = '';
+export class TeacherSubjectsComponent implements OnInit {
+    public title = '';
   public curriculum = [];
   public curriculum_id = 0;
   public level_id = 0;
@@ -31,6 +24,9 @@ export class Individual_levels_listComponent implements OnInit {
   public previousUrl = '';
   public rating = [];
   public is_loaded = false;
+  public q_is_loaded = false;
+  public q_levels = [];
+  public user = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService,
@@ -40,8 +36,9 @@ export class Individual_levels_listComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+      this.user = this.http.getUser();
     this.activatedRoute.params.subscribe((param) => {
-      this.curriculum_id = param.curriculum_id;
+      //this.curriculum_id = param.curriculum_id;
       this.level_id = param.level_id ? param.level_id : 0;
       this.level_parent_id = param.level_parent_id ? param.level_parent_id : 0;
       this.getLevels();
@@ -55,36 +52,25 @@ export class Individual_levels_listComponent implements OnInit {
       this.is_loaded = false;
     this.offset = 0;
     let param = {
-      url: 'curriculum-levels',
-      curriculum_id: this.curriculum_id,
-      level_id: this.level_id,
-      level_parent_id: this.level_parent_id,
+      url: 'class/get-teacher-subjects',
+      user_id: this.user['id'],
       search: this.search,
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: true
     };
     this.http.post(param).subscribe((res) => {
         this.is_loaded = true;
         if (res['error'] == false) {
             let data = res['data'];
-            this.curriculum = data['curriculum'];
-            this.levels = data['levels'];
+            //this.curriculum = data['curriculum'];
+            this.levels = data['subjects'];
             this.total_items = res['total_records'];
-            this.breadcome = res['breadcome'];
-            if (this.breadcome.length > 0) {
-            this.breadcome.forEach((val) => {
-                this.title = val['name'];
-            });
-            } else {
-            this.title = this.curriculum['curriculumn_name'];
-            }
         } else {
         this.breadcome = res['breadcome'];
         this.levels = [];
         this.total_items = 0;
-        if (res['check_data'] == 0) {
+        /*if (res['check_data'] == 0) {
             let data = res['data'];
             this.curriculum = data['curriculum'];
             if(this.curriculum['usage_type'] == 2){
@@ -100,31 +86,30 @@ export class Individual_levels_listComponent implements OnInit {
                     this.route.navigateByUrl(url);
                 }
             }
-        }
+        }*/
       }
     });
   }
-  setHoverRating(value, level_id){
+  /*setHoverRating(value, level_id){
     this.rating[level_id] = value;
   }
   resetHoverRating(value, level_id){
     this.rating[level_id] = value;
-  }
+  }*/
   doFilter() {
     this.getLevels();
   }
   loadMore() {
     this.offset = this.offset + this.itemsPerPage;
     let param = {
-      url: 'curriculum-levels',
-      curriculum_id: this.curriculum_id,
-      level_id: this.level_id,
-      level_parent_id: this.level_parent_id,
+      url: 'class/get-teacher-subjects',
+      //curriculum_id: this.curriculum_id,
+      //level_id: this.level_id,
+      //level_parent_id: this.level_parent_id,
       search: this.search,
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: true
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -152,6 +137,7 @@ export class Individual_levels_listComponent implements OnInit {
       this.getLevels();
     }
   }
+  /*
   manageStatistics(type, id, i, rating=0) {
       this.rating[id]=rating;
     let param = {
@@ -184,5 +170,5 @@ export class Individual_levels_listComponent implements OnInit {
         });
       }
     });
-  }
+  }*/
 }
