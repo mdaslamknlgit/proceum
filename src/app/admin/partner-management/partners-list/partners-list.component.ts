@@ -188,15 +188,15 @@ export class PartnersListComponent implements OnInit {
     let newdomain;
     newdomain = window.location.href.replace('uat',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
-      window.open(newdomain,'_blank');
+      window.open(newdomain,'_blank');return;
     }
     newdomain = window.location.href.replace('localhost',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
-      window.open(newdomain,'_blank');
+      window.open(newdomain,'_blank');return;
     }
     newdomain = window.location.href.replace('localhost',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
-      window.open(newdomain,'_blank');
+      window.open(newdomain,'_blank');return;
     }
   }
 
