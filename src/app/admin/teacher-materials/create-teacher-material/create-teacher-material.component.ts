@@ -151,10 +151,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   applyCourseFilters(level_id) {
     let param = {
       url: 'content-map-list',
-      offset: 0,
-      limit: 0,
       curriculum_id: this.curriculum_id,
-      step_id: this.selected_level[level_id],
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -176,6 +173,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
     let param = {
       url: 'get-levels-by-level',
       step_id: this.selected_level[level_id],
+      level_id: level_id,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -214,8 +212,6 @@ export class CreateTeacherMaterialComponent implements OnInit {
     this.all_level_options = [];
     let params = {
       url: 'content-map-list',
-      offset: 0,
-      limit: 0,
       curriculum_id: param[0]['curriculum_id'],
     };
     this.http.post(params).subscribe((res) => {
@@ -284,8 +280,6 @@ export class CreateTeacherMaterialComponent implements OnInit {
     this.all_level_options = [];
     let param = {
       url: 'content-map-list',
-      offset: 0,
-      limit: 0,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

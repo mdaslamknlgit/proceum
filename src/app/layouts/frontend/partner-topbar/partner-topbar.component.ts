@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { environment } from 'src/environments/environment';
 import { CartCountService } from '../../../services/cart-count.service';
@@ -61,6 +61,13 @@ export class PartnerTopbarComponent implements OnInit,OnDestroy {
     }
     this.http.menu_status = '';
     this.user = this.http.getUser();
+    this.route.events.subscribe((ev) => {
+        if (ev instanceof NavigationEnd) {
+          // if (this.width < 1024) {
+          this.sidemenu_status = this.http.menu_status = 'sd_cls';
+          // }
+        }
+      });
     if(this.user){
       this.user_id = this.user['id'];
     }

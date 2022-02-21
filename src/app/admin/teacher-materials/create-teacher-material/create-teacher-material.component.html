@@ -31,30 +31,24 @@
           (ngSubmit)="material_form.valid && (!model_edit_status? saveMaterial() : updateMaterial())" novalidate>
           <div class="grd_2c no_bxsdw">
             <div class="frm_dvs">
-              <span> Material Title<span class="required">*</span> </span>
+              <span> Title<span class="required">*</span> </span>
               <div class="clear_fix"></div>
-              <mat-form-field appearance="outline" class="{{material_name_error == true?'mat-form-field-invalid':''}}">
+              <mat-form-field appearance="outline" class="w_100p {{material_name_error == true?'mat-form-field-invalid':''}}">
                 <input matInput placeholder="Enter Material Title" [(ngModel)]="material_name"
                   name="material_name_name" maxlength="250" trim="blur" #material_name_name="ngModel" required />
-              </mat-form-field>
-              <span class="prc_tltp"
-                *ngIf="(material_form.submitted || material_name_name.touched) && material_name_name.invalid">Material
-                Title is Required</span>
+              </mat-form-field>             
             </div>
             <div *ngIf="user!= undefined && user['role'] == '1'" class="frm_dvs">
               <span> Faculty<span class="required">*</span> </span>
               <div class="clear_fix"></div>
-              <mat-form-field appearance="outline">
+              <mat-form-field appearance="outline" class="w_100p">
                 <mat-select placeholder="Select Faculty" [(ngModel)]="teacher_id" name="teacher_name"
                   #teacher_name="ngModel" required>
                   <mat-option *ngFor="let value of usersList" [disabled]="value['status'] == '0'" [value]="value['id']" [matTooltip]="value['name']">{{
                     value["name"] }}
                   </mat-option>
                 </mat-select>
-              </mat-form-field>
-              <span class="prc_tltp"
-                *ngIf="(material_form.submitted || teacher_name.touched) && teacher_name.invalid">Faculty is
-                Required</span>
+              </mat-form-field>              
             </div>
             <div class="frm_dvs" *ngIf="curriculum_list == undefined">
               No Courses Found
@@ -70,9 +64,6 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <span class="prc_tltp"
-                *ngIf="(material_form.submitted || course_list_0.touched) && course_list_0.invalid">Course is
-                Required</span>
             </div>
             <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
               <span>{{ ucFirst(value["display_label"]) }}<span
@@ -98,16 +89,13 @@
               </mat-form-field>
             </div>
             <div class="frm_dvs">
-              <span> Material Description<span class="required">*</span> </span>
+              <span> Description<span class="required">*</span> </span>
               <span class="edtr_frm">
                 <span class="oc_w100p">
                   <ckeditor (ready)="onReady($event)" id="editor" #editor [config]="editorConfig" required ngModel
                     #material_description_name="ngModel" [(ngModel)]="material_description"
                     name="material_description_name" [editor]="Editor">
-                  </ckeditor>
-                  <span class="prc_tltp"
-                    *ngIf="(material_form.submitted || material_description_name.touched) && material_description_name.invalid">Material
-                    Description is Required</span>
+                  </ckeditor>                 
                 </span>
               </span>
             </div>
