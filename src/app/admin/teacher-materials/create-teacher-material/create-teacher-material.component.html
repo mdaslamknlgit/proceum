@@ -185,7 +185,7 @@
                           </mat-select>
                         </mat-form-field>
                       </div>
-                      <div class="dsh_brd_crds" *ngIf="is_display">
+                      <div class="dsh_brd_crds" *ngIf="all_display">
                         <mat-form-field appearance="outline" class="w_100p">
                           <input [(ngModel)]="search_question" name="search_question" (keyup)="
                               $event.keyCode == 13 ? searchteacherMaterialQuestions() : ''
@@ -196,7 +196,7 @@
                         </mat-form-field>
                       </div>
 
-                      <table mat-table [dataSource]="teacher_materials_all_questions" class="qsp_pp_mn whtspc_nml" *ngIf="is_display">
+                      <table mat-table [dataSource]="teacher_materials_all_questions" class="qsp_pp_mn whtspc_nml" *ngIf="all_display">
                         <ng-container matColumnDef="s_no">
                           <td mat-cell *matCellDef="let element" class="w_50px">
                             <mat-checkbox [value]="element['id']" [checked]="
@@ -224,7 +224,7 @@
                           </td>
                         </tr>
                       </table>
-                      <mat-paginator *ngIf="teacher_materials_all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
+                      <mat-paginator *ngIf="teacher_materials_all_questions.data.length > 0 && all_display" [pageSizeOptions]="page_size_options"
                         [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
                         (page)="getTeacherMaterialServerData($event)"></mat-paginator>
                     </mat-tab>
@@ -273,7 +273,7 @@
                         </mat-form-field>
                       </div>
 
-                      <table mat-table [dataSource]="teacher_materials_all_questions" class="qsp_pp_mn whtspc_nml" *ngIf="selected_teacher_materials.length > 0">
+                      <table mat-table [dataSource]="teacher_materials_all_questions" class="qsp_pp_mn whtspc_nml" *ngIf="selected_teacher_materials.length > 0 && selected_display">
                         <ng-container matColumnDef="s_no">
                           <td mat-cell *matCellDef="let element" class="w_50px">
                             <mat-checkbox [value]="element['id']" [checked]="
@@ -302,7 +302,7 @@
                           </td>
                         </tr>
                       </table>
-                      <mat-paginator *ngIf="teacher_materials_all_questions.data.length > 0" [pageSizeOptions]="page_size_options"
+                      <mat-paginator *ngIf="teacher_materials_all_questions.data.length > 0 && selected_display" [pageSizeOptions]="page_size_options"
                         [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons
                         (page)="getTeacherMaterialServerData($event)"></mat-paginator>
                     </mat-tab>
