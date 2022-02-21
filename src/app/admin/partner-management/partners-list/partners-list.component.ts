@@ -186,17 +186,17 @@ export class PartnersListComponent implements OnInit {
 
   openInNewTab(subdomain){
     let newdomain;
-    newdomain = window.location.href.replace('uat',subdomain);
+    newdomain = window.location.origin.replace('uat',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
-      window.open(newdomain,'_blank');return;
+      window.open(newdomain+'/login','_blank');return;
     }
-    newdomain = window.location.href.replace('localhost',subdomain);
+    newdomain = window.location.origin.replace('localhost',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
-      window.open(newdomain,'_blank');return;
+      window.open(newdomain+'/login','_blank');return;
     }
-    newdomain = window.location.href.replace('localhost',subdomain);
+    newdomain = window.location.origin.replace('localhost',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
-      window.open(newdomain,'_blank');return;
+      window.open(newdomain+'/login','_blank');return;
     }
   }
 
