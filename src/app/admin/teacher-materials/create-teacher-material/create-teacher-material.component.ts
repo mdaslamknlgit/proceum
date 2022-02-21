@@ -71,7 +71,8 @@ export class CreateTeacherMaterialComponent implements OnInit {
   public selected_level1 = [];
   public level_options1 = [];
   public all_level_options1 = [];
-  public is_display = false;
+  public all_display = false;
+  public selected_display = false;
 
 
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
@@ -553,10 +554,10 @@ export class CreateTeacherMaterialComponent implements OnInit {
         });
         
         if(tabName == 'teacherMaterialTab' && data['steps'].length == 0){
-          this.is_display = true;
+          this.all_display = true;
           this.searchteacherMaterialQuestions();
         }else{
-          this.is_display = false;
+          this.all_display = false;
           this.teacher_materials_all_questions = new MatTableDataSource([]);
         }
       }
@@ -572,6 +573,8 @@ export class CreateTeacherMaterialComponent implements OnInit {
     this.filter_array.level_id=0;
     this.filter_array.curriculum_id=0;
     this.curriculum_labels1 = [];
+    this.all_display = false;
+    this.selected_display = false;
     if (tab_index == 0) {
       this.all_or_selected = 'all';
       let data = {
@@ -593,6 +596,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
         all_or_selected: this.all_or_selected,
         question_ids: question_ids,
       };
+      this.selected_display = true;
       if (question_ids.length > 0) {
         this.getTeacherMaterialAllQuestions(data);
       } else {
@@ -634,7 +638,6 @@ export class CreateTeacherMaterialComponent implements OnInit {
       curriculum_id: this.filter_array.curriculum_id,
       level_id: this.filter_array.level_id
     };
-    console.log(param);
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.teacher_materials_all_questions = new MatTableDataSource(
@@ -684,8 +687,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
       if (index > -1) {
         this.selected_teacher_materials.splice(index, 1);
       }
-    }
-    console.log(this.selected_teacher_materials);    
+    }   
   }
 
   resetPagination() {
