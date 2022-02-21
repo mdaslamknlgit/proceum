@@ -204,57 +204,6 @@
                     </div>
                   </div>
                 </div>
-<<<<<<< HEAD
-                <div class="divider">
-
-                </div>
-                <div class="crs_innr_dsc p_1">
-                    <div class="crs_innr_hd">
-                        {{ package.package_name }}
-                    </div>
-                    
-                    <div class="rtng_par">
-                        <div class="crs_rtng str_slctd">
-                            <mat-icon class="{{package_avg_rating > 0 ?'ct_slctd':''}}">star</mat-icon>
-                            <mat-icon class="hlf_str1 {{package_avg_rating > 0.5 ?'ct_slctd':''}}">star</mat-icon>
-                            <mat-icon class="{{package_avg_rating > 1 ?'ct_slctd':''}}">star</mat-icon>
-                            <mat-icon class="hlf_str2 {{package_avg_rating > 1.5?'ct_slctd':''}}">star</mat-icon>
-                            <mat-icon class="{{package_avg_rating > 2?'ct_slctd':''}}">star</mat-icon>
-                            <mat-icon class="hlf_str3 {{package_avg_rating > 2.5?'ct_slctd':''}}">star</mat-icon>
-                            <mat-icon class="{{package_avg_rating > 3 ?'ct_slctd':''}}">star</mat-icon>
-                            <mat-icon class="hlf_str4 {{package_avg_rating > 3.5 ?'ct_slctd':''}}">star</mat-icon>
-                            <mat-icon class="{{package_avg_rating > 4 ?'ct_slctd':''}}">star</mat-icon>
-                            <mat-icon class="hlf_str5 {{package_avg_rating > 4.5?'ct_slctd':''}}">star</mat-icon>
-                        </div>
-                    </div>
-                    <div class="hgt_10"></div>
-                    <div class="crs_innr_prc">
-                        <div class="pc_dsc_mn">
-                            <span class="{{package_prices[0].discount_percent ? 'strk_price':''}}">{{ package_prices[0].currency_symbol}} {{ package_prices[0].original_price}}</span>
-                            <span *ngIf="package_prices[0].discount_percent">
-                                {{ package_prices[0].currency_symbol}} {{ package_prices[0].selling_price}}
-                                <span class="grn_clr">{{ package_prices[0].discount_percent }}% off</span>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="crs_dsc" *ngIf="package.package_desc">
-                        {{ (package.package_desc.length > 200) ? ( package.package_desc | slice:0:200 ) + '..' :
-                        (package.package_desc) }}
-                    </div>
-                    <hr class="wht_hr">
-                    <div class="buynow_block">
-                        <div class="crs_d_r_p">
-                            <span *ngIf="package.converted_duration">
-                                <mat-icon class="primary_color">timelapse</mat-icon> &nbsp;&nbsp; {{ package.converted_duration }}
-                            </span>
-                        </div>
-                        <div class="spacer"></div>
-                        <div class="bn_btn_dv grn_bg rsp_m_auto" *ngIf="admin_role_ids.indexOf(role_id) == -1"
-                            (click)="addToCart(package.pk_id)">
-                            <mat-icon>shopping_cart</mat-icon> Add To Cart
-                        </div>
-                    </div>
-=======
                 <div class="testi_ab mt_05">
                   <!-- <div class="testi_ac">
                                         An awesome activity to experience
@@ -265,49 +214,9 @@
                   <div class="testi_ae">
                     {{ testimonial.created_at }}
                   </div>
->>>>>>> a2b90bc770924fabda613bddc0ce34a27d423557
                 </div>
               </div>
             </div>
-<<<<<<< HEAD
-            <div class="crs_innr_dets c_block">
-                <span class="crs_dets_hd c_block_title">
-                    <mat-icon>subject</mat-icon>
-                    <label for="Course details">Course details</label>
-                </span>
-                <div class="c_block_content">
-                    <ul class="crs_innr_dets_tbl">
-                        <li *ngIf="package.converted_duration">
-                            <span class="dets_tbl_hd">Length</span>
-                            <span class="dets_tbl_cnt">{{ package.converted_duration | titlecase }}</span>
-                        </li>
-                        <li *ngIf="package.billing_frequency">
-                            <span class="dets_tbl_hd">Billing Frequency</span>
-                            <span class="dets_tbl_cnt">{{ package.billing_frequency | titlecase }}</span>
-                        </li>
-                        <li *ngIf="package.pricing_model">
-                            <span class="dets_tbl_hd">Pricing</span>
-                            <span class="dets_tbl_cnt">{{ package.pricing_model | titlecase }} </span>
-                        </li>
-                        <li *ngIf="package.valid_up_to">
-                            <span class="dets_tbl_hd">Available Till</span>
-                            <span class="dets_tbl_cnt">{{ package.valid_up_to }}</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="hgt_20"></div>
-        <div class="crs_tbbd_sc">
-            <mat-tab-group>
-                <mat-tab>
-                    <ng-template mat-tab-label>
-                        <mat-icon>description</mat-icon>
-                        Description
-                    </ng-template>
-                    <div class="crs_tbbs_cnt">
-                        {{package.package_desc}}
-=======
             <div class="hgt_20"></div>
             <div *ngIf="user_id">
               <div class="testi_hd">
@@ -341,7 +250,6 @@
                       <div>
                         {{rating}}/5
                       </div>
->>>>>>> a2b90bc770924fabda613bddc0ce34a27d423557
                     </div>
                     <div class="mt_1">Write Your Review</div>
                     <div class="err_tltp_par">
@@ -354,29 +262,6 @@
                         *ngIf="(review_form.submitted || rating_review.touched) && review_error">Please
                         write some review!</span>
                     </div>
-<<<<<<< HEAD
-                </mat-tab>
-                <mat-tab>
-                    <ng-template mat-tab-label>
-                        <mat-icon>library_books</mat-icon>
-                        Addons
-                    </ng-template>
-                    <div class="crs_tbbs_cnt intr_vd_tml">
-                        <mat-accordion>
-                            <mat-expansion-panel *ngFor="let addon of addons_arr">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                    {{ addon.key }}
-                                    </mat-panel-title>
-                                </mat-expansion-panel-header>
-                                <mat-list *ngFor="let item of addon.value">
-                                    <mat-list-item>
-                                        <mat-icon>keyboard_double_arrow_right</mat-icon>
-                                        {{ item }}
-                                    </mat-list-item>
-                                </mat-list>
-=======
->>>>>>> a2b90bc770924fabda613bddc0ce34a27d423557
 
                     <div class="text_right">
                       <button type="submit" mat-raised-button color="accent">Submit</button>
@@ -423,8 +308,6 @@
                 <div>Ans: {{ faq.answer }}</div>
               </mat-expansion-panel>
             </mat-accordion>
-
-
           </div>
         </mat-tab>
       </mat-tab-group>
