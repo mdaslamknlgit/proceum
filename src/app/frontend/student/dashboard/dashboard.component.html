@@ -192,7 +192,7 @@
     <div class="dsh_brd_crds db_dod" *ngIf="case.length>0">
       <div class="qstn_hds" *ngFor="let case_q of case"> Q. {{case_q.question_string}} </div>
       <mat-radio-group *ngIf='[1,3,4,6,7,9,10,12,13].includes(case[active_case_index]["q_type"])' aria-label="Select an option" [(ngModel)]="case[active_case_index]['selected_option']">
-        <mat-radio-button *ngFor="let option of case[active_case_index]['options'];let i_option = index" (change)="selectOption(option['pk_id'])" [value]="option['pk_id']" class="{{ case[active_case_index]['selected_option'] != undefined ? (case[active_case_index]['s_no'] == option['pk_id'] ? 'crrct_rdo': 'wrng_rdo') : '' }}"> {{case[active_case_index]['selected_option']}}  {{ option["option_text"] }}
+        <mat-radio-button *ngFor="let option of case[active_case_index]['options'];let i_option = index" (change)="selectOption(option['pk_id'])" [value]="option['pk_id']" class="{{ case[active_case_index]['selected_option'] != undefined ? (case[active_case_index]['s_no'] == option['pk_id'] ? 'crrct_rdo': 'wrng_rdo') : '' }}"> {{ option["option_text"] }}
           <img *ngIf="case[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null" [src]="bucket_url+option['option_image']" />
           <div *ngIf="case[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''" class="rdo_exp_txt">
             <div class="qstn_hds">Explanation</div>

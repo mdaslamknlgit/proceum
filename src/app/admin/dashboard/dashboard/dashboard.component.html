@@ -1,17 +1,17 @@
-<app-reviewer *ngIf="user['role'] != '1'"></app-reviewer>
-<div class="mn_dshbrd" *ngIf="user['role'] == '1'">
+<app-reviewer *ngIf="!loadAdmin"></app-reviewer>
+<div class="mn_dshbrd" *ngIf="loadAdmin">
   <div class="brd_crm">Proceum &raquo; <strong>Dashboard</strong></div>
   <div class="pg_ttl">Dashboard</div>
   <div class="dsh_brd_crds">
     <div class="admin-notify" *ngIf="notifications.collegeNotify || notifications.yearSemGroupNotify || notifications.teacherNotify">
-      <div class="admin-notify-child" *ngIf="notifications.collegeNotify">
-        {{ notifications.collegeNotify }}
+      <div class="rqrd_txtinfo mb_1" *ngIf="notifications.collegeNotify">
+        {{ notifications.collegeNotify }} <a  class="float_right" routerLink="/admin/college-list">create</a>
       </div>
-      <div class="admin-notify-child" *ngIf="notifications.yearSemGroupNotify">
-        {{ notifications.yearSemGroupNotify }}
+      <div class="rqrd_txtinfo mb_1" *ngIf="notifications.yearSemGroupNotify">
+        {{ notifications.yearSemGroupNotify }} <a  class="float_right" routerLink="/admin/manage-year-semester-group">create</a>
       </div>
-      <div class="admin-notify-child" *ngIf="notifications.teacherNotify">
-        {{ notifications.teacherNotify }}
+      <div class="rqrd_txtinfo mb_1" *ngIf="notifications.teacherNotify">
+        {{ notifications.teacherNotify }} <a  class="float_right" routerLink="/admin/manage-users">create</a>
       </div>
     </div>
     <ul class="crds_ul">

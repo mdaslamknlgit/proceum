@@ -62,10 +62,10 @@ export const environment = {
   
   //apiUrl: 'https://apidev.proceum.com/api/',
   //apiUrl: 'https://apiqa.proceum.com/api/',
-  //apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
-  apiUrl: 'https://uat.proceum.com/web-api/public/api/',
-  //APP_BASE_URL: 'http://dev.medvizz3d.com/',
-  APP_BASE_URL: 'http://uat.proceum.com/',
+  apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
+  //apiUrl: 'https://uat.proceum.com/web-api/public/api/',
+  APP_BASE_URL: 'http://dev.medvizz3d.com/',
+  //APP_BASE_URL: 'http://uat.proceum.com/',
   firebaseConfig: {
     apiKey: "AIzaSyBSuwf5lz04-nZEPjXUCW6W41FgD3v8hvE",
     authDomain: "proceum-qa-34a1f.firebaseapp.com",

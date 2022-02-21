@@ -75,6 +75,8 @@ export class PartnersListComponent implements OnInit {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['partners']);
         this.totalSize = res['total_records'];
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       } else {
         this.dataSource = new MatTableDataSource([]);
       }
@@ -180,6 +182,22 @@ export class PartnersListComponent implements OnInit {
     this.from_date = '';
     this.to_date = '';
     this.doFilter();
+  }
+
+  openInNewTab(subdomain){
+    let newdomain;
+    newdomain = window.location.href.replace('uat',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+      window.open(newdomain,'_blank');return;
+    }
+    newdomain = window.location.href.replace('localhost',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+      window.open(newdomain,'_blank');return;
+    }
+    newdomain = window.location.href.replace('localhost',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+      window.open(newdomain,'_blank');return;
+    }
   }
 
 
