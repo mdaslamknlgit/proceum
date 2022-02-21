@@ -64,17 +64,10 @@ export const environment = {
 
   DISABLED_USER_ROLES_FOR_PROCEUM: [2,12],
   DISABLED_USER_ROLES_FOR_ORGANIZATION: [1, 3, 4, 5, 6, 7],
-<<<<<<< HEAD
-  
-  //  apiUrl: 'http://192.10.250.150:8000/api/',
-  //apiUrl: 'http://127.0.0.1:8000/api/',
-  apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
-=======
 
-   apiUrl: 'http://192.10.250.150:8000/api/',
-  //apiUrl: 'http://127.0.0.1:8000/api/',
+  //  apiUrl: 'http://192.10.250.150:8000/api/',
+  apiUrl: 'http://127.0.0.1:8000/api/',
   //apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
->>>>>>> a2b90bc770924fabda613bddc0ce34a27d423557
   //apiUrl: 'https://uat.proceum.com/web-api/public/api/',
   // apiUrl: 'https://apiqa.proceum.com/api/',
 
