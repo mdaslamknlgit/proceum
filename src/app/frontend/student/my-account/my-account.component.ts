@@ -337,7 +337,7 @@ export class MyAccountComponent implements OnInit {
 
   updateProfile() {
     const pwdregex = new RegExp(
-      '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,16}$'
+      '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,16}$'
     );
     var myFormData = new FormData();
     if (this.isrequired) {

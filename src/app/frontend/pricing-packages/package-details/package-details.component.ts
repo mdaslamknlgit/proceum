@@ -115,9 +115,6 @@ export class PackageDetailsComponent implements OnInit {
         this.package_avg_rating = res['data']['package_avg_rating'];
         this.admin_role_ids = res['data']['avoid_roles'];
         //Get the topics if package courses not empty
-        if (this.package.courses_ids_csv != '') {
-          //this.getPackageTopicsHierarchy();
-        }
         this.dataSource.data = res['data']['topics'];
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });

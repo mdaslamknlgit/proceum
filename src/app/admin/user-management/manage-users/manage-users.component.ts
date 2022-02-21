@@ -14,46 +14,12 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./manage-users.component.scss']
 })
 export class ManageUsersComponent implements OnInit {
-  displayedColumns: string[] = [
-    'id',
-    'name',
-    'email',
-    'role_name',
-    'phone',
-    'created_at',
-    'actions',
-    'status',
-  ];
+  displayedColumns: string[] = ['id','name','email','role_name','phone','Organization','created_at','actions','status',];
 
-  displayedColumnsTwo: string[] = [
-    'CB',
-    'id',
-    'name',
-    'email',
-    //'role_name',
-    'phone',
-    'Unique ID',
-    'Organization',
-    //'Campus',
-    'Year',
-    'Semester',
-    'Group',
-    'created_at',
-    'actions',
-    'status',
-  ];
-  displayedColumnsThree: string[] = [
-    'id',
-    'name',
-    'email',
-    'phone',
-    'Unique ID',
-    'Year',
-    'Semester',
-    'Group',
-    'created_at',
-    //'actions',
-  ];
+  displayedColumnsTwo: string[] = ['CB','id','name','email','phone','Unique ID','Organization','Year','Semester','Group','created_at',
+    'actions','status',];//'Campus',//'role_name',
+  displayedColumnsThree: string[] = ['id','name','email','phone','Unique ID','Year','Semester','Group','created_at',];//'actions',\
+
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
   public totalSize = 0;
@@ -146,7 +112,7 @@ export class ManageUsersComponent implements OnInit {
       this.is_college = false;
       this.is_university = false;
     }else{
-      this.role = '2';
+      this.role = '12';
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
         this.is_college = true;
         this.is_university = false;
@@ -156,6 +122,8 @@ export class ManageUsersComponent implements OnInit {
         this.getOrganizationList(1,1);
       }
       if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){  /// College Admin Role ID
+        let i = this.displayedColumns.indexOf('Organization');
+        let opr = i > -1 ? this.displayedColumns.splice(i, 1) : undefined;
         this.is_college = false;
         this.is_university = false;
         this.organization_type_name = 'College';
@@ -164,6 +132,8 @@ export class ManageUsersComponent implements OnInit {
         this.getYearSemsterGroup('',0,'year','');
       }
       if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
+        let i = this.displayedColumns.indexOf('Organization');
+        let opr = i > -1 ? this.displayedColumns.splice(i, 1) : undefined;
         this.is_college = false;
         this.is_university = false;
         this.organization_type_name = 'Institute';
@@ -172,6 +142,8 @@ export class ManageUsersComponent implements OnInit {
         this.getYearSemsterGroup('',0,'year','');
       }
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
+        let i = this.displayedColumns.indexOf('Organization');
+        let opr = i > -1 ? this.displayedColumns.splice(i, 1) : undefined;
         this.is_college = false;
         this.is_university = false;
         this.organization_type_name = 'College';
@@ -212,26 +184,26 @@ export class ManageUsersComponent implements OnInit {
     });
   }
 
-  public getAdminUsers() {
-    let param = { url: 'get-user-list',offset: this.page,limit: this.pageSize, is_admin_specific_role : '1',role_id:this.role_id,organization: this.college_institute_id };
-    this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {
-        if(this.role_id != 12){
-          this.dataSource = new MatTableDataSource(res['data']);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          this.totalSize = res['total_records'];
-        }else if(this.role_id == environment.ALL_ROLES.TEACHER){
-          this.dataSourceThree = new MatTableDataSource(res['data']);
-          this.dataSourceThree.paginator = this.paginator;
-          this.dataSourceThree.sort = this.sort;
-          this.totalSize = res['total_records'];
-        }
-      } else {
-        //this.toster.error(res['message'], 'Error');
-      }
-    });
-  }
+  // public getAdminUsers() {
+  //   let param = { url: 'get-user-list',offset: this.page,limit: this.pageSize, is_admin_specific_role : '1',role_id:this.role_id,organization: this.college_institute_id };
+  //   this.http.post(param).subscribe((res) => {
+  //     if (res['error'] == false) {
+  //       if(this.role_id != 12){
+  //         this.dataSource = new MatTableDataSource(res['data']);
+  //         this.dataSource.paginator = this.paginator;
+  //         this.dataSource.sort = this.sort;
+  //         this.totalSize = res['total_records'];
+  //       }else if(this.role_id == environment.ALL_ROLES.TEACHER){
+  //         this.dataSourceThree = new MatTableDataSource(res['data']);
+  //         this.dataSourceThree.paginator = this.paginator;
+  //         this.dataSourceThree.sort = this.sort;
+  //         this.totalSize = res['total_records'];
+  //       }
+  //     } else {
+  //       //this.toster.error(res['message'], 'Error');
+  //     }
+  //   });
+  // }
 
   public getRoleList(role) {      // Added by Phanindra
     //let param1 = { url: 'get-roles',is_admin_specific_role : '1'};
@@ -340,6 +312,7 @@ export class ManageUsersComponent implements OnInit {
       if (res['error'] == false) {
         if(this.role_id == environment.ALL_ROLES.TEACHER){
           this.dataSourceThree = new MatTableDataSource(res['data']);
+          this.totalSize = res['total_records'];
           return false;
         }
         if(this.role == '2'){
@@ -354,10 +327,11 @@ export class ManageUsersComponent implements OnInit {
               };
             });
           }
+          this.totalSize = res['total_records'];
         } else{
           this.dataSource = new MatTableDataSource(res['data']);
+          this.totalSize = res['total_records'];
         }        
-        this.totalSize = res['total_records'];
       } else {
         //this.toster.info(res['message'], 'Error');
         if(this.role_id == environment.ALL_ROLES.TEACHER){
