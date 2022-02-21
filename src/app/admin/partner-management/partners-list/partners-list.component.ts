@@ -190,14 +190,18 @@ export class PartnersListComponent implements OnInit {
     if(newdomain.indexOf(subdomain) > -1){
       window.open(newdomain+'/login','_blank');return;
     }
-    newdomain = window.location.origin.replace('localhost',subdomain);
+    newdomain = window.location.origin.replace('dev',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
       window.open(newdomain+'/login','_blank');return;
     }
-    newdomain = window.location.origin.replace('localhost',subdomain);
+    newdomain = window.location.origin.replace('master',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
       window.open(newdomain+'/login','_blank');return;
     }
+    /* newdomain = window.location.origin.replace('localhost',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+      window.open(newdomain+'/login','_blank');return;
+    } */
   }
 
 
