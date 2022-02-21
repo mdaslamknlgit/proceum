@@ -8,84 +8,45 @@
     <hr />
     <form #create_class_form="ngForm" name="create_class_form" (ngSubmit)="updateMeeting()" novalidate>
         <div class="dsh_brd_crds">
-            <div class="cm_fltr_sc mr_1 w_270px">
-                <span>{{"admin.class.create.schedule_for"|translate}} <span class="required">*</span></span><br>
+            <div class="cm_fltr_sc mr_1 fld_readonly">
+                <span>{{"admin.class.create.schedule_for"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline">
+                    <mat-select [(ngModel)]="schedule_for" name="schedule_for_name" required disabled="true">
+                        <mat-option value="meeting" *ngIf="meeting_data['type']==2">{{"admin.class.create.a_meeting"|translate}}</mat-option>
+                        <mat-option value="webinar" *ngIf="meeting_data['type']!=2">{{"admin.class.create.a_webinar"|translate}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <!-- <mat-form-field appearance="outline" class="w_47p">
                 <span *ngIf="meeting_data['type']==2" [translate]="'admin.class.list.meeting'"></span>
                 <span *ngIf="meeting_data['type']!=2" [translate]="'admin.class.list.webinar'"></span>
+                </mat-form-field> -->
             </div>
-            <!-- <div class="cm_fltr_sc mr_1" *ngIf="curriculum_list != undefined">
-                <div class="clear_fix"></div>
-                <div>{{"admin.class.create.course"|translate}}</div>
-                <mat-form-field appearance="outline">
-                  <mat-select [(ngModel)]="curriculum_id" #curriculum_id_name="ngModel" ngModel name="curriculum_id_name" placeholder='{{"admin.class.create.course"|translate}}' (ngModelChange)="getLabels()" required>
-                    <mat-option *ngFor="let value of curriculum_list" [value]="value['pk_id']"
-                      [matTooltip]="value['curriculumn_name']">{{ value["curriculumn_name"] }}
-                    </mat-option>
-                  </mat-select>
+            <div class="cm_fltr_sc mr_1 fld_readonly">
+                <span>{{"admin.class.create.meeting_topic"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline" class="w_47p">
+                    <input matInput required value="{{meeting_data['topic']}}" disabled="true">
                 </mat-form-field>
-              </div>
-              <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
-                <span>{{ ucFirst(value["display_label"]) }}</span>
-                <div class="clear_fix"></div>
-                <mat-form-field appearance="outline">
-                  <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="selected_level_name"
-                    [(ngModel)]="selected_level[value['level_number']]" (selectionChange)="getLevels(value['level_number'])">
-                    <mat-option>
-                      <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
-                        name="search_topic" ngModel (ngModelChange)="searchLevelByName($event,value['level_number'])"
-                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">{{"select_text"|translate}} 
-                        {{ucFirst(value['display_label'])}}
-                      </ngx-mat-select-search>
-                    </mat-option>
-                    <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
-                      [matTooltip]="level['level_name']">{{level["level_name"] }}</mat-option>
-                  </mat-select>
+            </div>
+            <div class="cm_fltr_sc mr_1 fld_readonly">
+                <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline" class="w_47p">
+                    <input matInput required value="{{meeting_data['first_name']+' ('+meeting_data['email']+')'}}" disabled="true">
                 </mat-form-field>
-              </div> -->
-            <div class="cm_fltr_sc mr_1 w_270px">
-                <span>{{"admin.class.create.meeting_topic"|translate}} <span class="required">*</span></span><br>
-                {{meeting_data['topic']}}
             </div>
-            <div class="cm_fltr_sc mr_1 w_270px">
-                <span>{{"admin.class.create.teacher_host_name"|translate}} <span class="required">*</span></span><br>
-                {{meeting_data['first_name']+' ('+meeting_data['email']+')'}}
+            <div class="cm_fltr_sc mr_1 fld_readonly">
+                <span>{{"admin.class.create.start_date"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline" class="w_47p">
+                    <input matInput required value="{{meeting_time}}" disabled="true">
+                </mat-form-field>
             </div>
-            <div class="cm_fltr_sc mr_1 w_270px">
-                <span>{{"admin.class.create.start_date"|translate}} <span class="required">*</span></span><br>
-                {{meeting_time}}
-            </div>
-            <div class="cm_fltr_sc mr_1 w_270px">
-                <span>{{"admin.class.create.duration"|translate}} <span class="required">*</span></span><br>
-                {{meeting_data['duration']}} {{"min_text"|translate}}
+            <div class="cm_fltr_sc mr_1 fld_readonly">
+                <span>{{"admin.class.create.duration"|translate}} <span class="required">*</span></span>
+                <mat-form-field appearance="outline" class="w_47p">
+                    <input matInput required value="{{meeting_data['duration']}} {{'min_text'|translate}}" disabled="true">
+                </mat-form-field>
             </div>
             <hr />
-            <!-- <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.select_country"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select [(ngModel)]="selected_country_id" name="selected_country_id_name" (ngModelChange)="getStates(selected_country_id)">
-                        <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option *ngFor="let country of countrys" [value]="country['pk_id']">{{country['country_name']}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.class.create.select_state"|translate}} <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select value="">
-                        <mat-option value="">{{"select_text"|translate}}</mat-option>
-                        <mat-option *ngFor="let state of states" value="state['id']">{{state['state_name']}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>Select City <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select value="0">
-                        <mat-option value="0">Select</mat-option>
-                        <mat-option *ngFor="let state of states" value="state['id']">{{state['state_name']}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div> -->
+            
             <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{"admin.class.create.organization_type"|translate}} <span class="required">*</span></span>
                 <mat-form-field appearance="outline" class="w_100p">
@@ -95,53 +56,9 @@
                         <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue }}
                         </mat-option>
                     </mat-select>
-                    <!-- <mat-select placeholder="Select Organization Type" name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization" (ngModelChange)="onOrganizationTypeChange()" required>
-                        <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue }}</mat-option>
-                    </mat-select> -->
                 </mat-form-field>
             </div>
-            <!-- <div class="cm_fltr_sc mr_1">
-                <span>Select University <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select value="0">
-                        <mat-option value="0">Select</mat-option>
-                        <mat-option value="0">India</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>Select College <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select value="0">
-                        <mat-option value="0">Select</mat-option>
-                        <mat-option value="0">India</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>Select Year <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select value="0">
-                        <mat-option value="0">Select</mat-option>
-                        <mat-option value="0">1</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="cm_fltr_sc mr_1">
-                <span>Select Semester <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <mat-select value="0">
-                        <mat-option value="0">Select Semester</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="clear_fix"></div>
-            <div class="cm_fltr_sc ">
-                <span>Select Student Group <span class="required">*</span></span>
-                <mat-form-field appearance="outline">
-                    <textarea matInput placeholder="Select Student Group"></textarea>
-                </mat-form-field>
-            </div> -->
+            
             <div class="cm_fltr_sc mr_1" *ngIf="is_university">
                 <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
                 <mat-form-field appearance="outline">

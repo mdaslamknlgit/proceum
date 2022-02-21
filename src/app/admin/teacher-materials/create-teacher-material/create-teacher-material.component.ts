@@ -17,7 +17,7 @@ import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
   styleUrls: ['./create-teacher-material.component.scss']
 })
 export class CreateTeacherMaterialComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'title', 'uploaded_by', 'created_at', 'updated_at', 'action', 'status', 'download_flag'];
+  //displayedColumns: string[] = ['id', 'title', 'uploaded_by', 'created_at', 'updated_at', 'action', 'status', 'download_flag'];
   displayedTeacherColumns: string[] = ['id', 'title', 'created_at', 'updated_at', 'action', 'status', 'download_flag'];
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -53,6 +53,27 @@ export class CreateTeacherMaterialComponent implements OnInit {
   public teacher_id = '';
   public page_title = 'Add Teacher Material';
   public material_name_error = false;
+
+  //Added by Phanindra
+  public displayedColumns: string[] = ['s_no', 'question', 'action'];
+  public teacher_materials_all_questions = new MatTableDataSource();
+  public teachermaterials_tab = 0;
+  public search_question = '';
+  public filter_array = {question_flag:'', question_usage:0, question_bank:'', curriculum_id:0, level_id:0};
+  public all_or_selected = 'all';
+  public limit = environment.page_size;
+  public offset = 0;
+  public selected_teacher_materials = [];
+  public loading_questions=false;
+  public totalSize: 0;
+
+  public curriculum_labels1 = [];
+  public selected_level1 = [];
+  public level_options1 = [];
+  public all_level_options1 = [];
+  public is_display = false;
+
+
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
   }
 
@@ -151,10 +172,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   applyCourseFilters(level_id) {
     let param = {
       url: 'content-map-list',
-      offset: 0,
-      limit: 0,
       curriculum_id: this.curriculum_id,
-      step_id: this.selected_level[level_id],
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -176,6 +194,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
     let param = {
       url: 'get-levels-by-level',
       step_id: this.selected_level[level_id],
+      level_id: level_id,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -207,15 +226,15 @@ export class CreateTeacherMaterialComponent implements OnInit {
     this.model_edit_status = true;
     this.material_id = param[0]['pk_id'];
     this.material_name = param[0]['title'];
-    this.material_description = param[0]['description'];  
+    this.material_description = param[0]['description'];
+    this.selected_teacher_materials = param[0]['content_info_ids_csv'];  
     let course_ids_csv = param[0]['course_ids_csv'].split(',').map(Number);  
     this.selected_level = [];
     this.level_options = [];
     this.all_level_options = [];
+    //this.searchteacherMaterialQuestions();
     let params = {
       url: 'content-map-list',
-      offset: 0,
-      limit: 0,
       curriculum_id: param[0]['curriculum_id'],
     };
     this.http.post(params).subscribe((res) => {
@@ -282,10 +301,9 @@ export class CreateTeacherMaterialComponent implements OnInit {
     this.selected_level = [];
     this.level_options = [];
     this.all_level_options = [];
+    //this.searchteacherMaterialQuestions();
     let param = {
       url: 'content-map-list',
-      offset: 0,
-      limit: 0,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -309,7 +327,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
     }else{
       var user_id = this.teacher_id;
     }
-    let params={url: 'save-teacher-material',curriculum_id:this.curriculum_id,subject_csv:this.subject_csv,user_id:user_id,role_id:this.user['role'],material_name:this.material_name,material_description:this.material_description,attachments: this.attachments};
+    let params={url: 'save-teacher-material',curriculum_id:this.curriculum_id,subject_csv:this.subject_csv,user_id:user_id,role_id:this.user['role'],material_name:this.material_name,material_description:this.material_description,attachments: this.attachments,content_info_ids_csv: this.selected_teacher_materials};
     this.http.post(params).subscribe((res: Response) => {
       if (res.error) {
         if(res.message == 'This material title already used'){
@@ -332,7 +350,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
     }else{
       var user_id = this.teacher_id;
     }
-    let params={url: 'update-teacher-material',material_name:this.material_name,user_id:user_id,role_id:this.user['role'],material_description:this.material_description,attachments: this.attachments,subject_csv: this.subject_csv,curriculum_id:this.curriculum_id,material_id:this.material_id};
+    let params={url: 'update-teacher-material',material_name:this.material_name,user_id:user_id,role_id:this.user['role'],material_description:this.material_description,attachments: this.attachments,subject_csv: this.subject_csv,curriculum_id:this.curriculum_id,material_id:this.material_id,content_info_ids_csv: this.selected_teacher_materials};
     this.http.post(params).subscribe((res: Response) => {
       if (res.error) {     
         if(res.message == 'This material title already used'){
@@ -487,6 +505,201 @@ export class CreateTeacherMaterialComponent implements OnInit {
     return this.http.ucFirst(string);
   }
 
+  //Added by Phanindra
+  getLabels(tabName){
+    // if(tabName == 'teacherMaterialTab'){
+    //   this.searchteacherMaterialQuestions();
+    // }    
+    this.level_options1 = [];
+    this.all_level_options1 = [];
+    this.selected_level1 = [];
+    this.filter_array.level_id=0;
+    let param = {
+        url: 'get-curriculum-labels',
+        curriculum_id: this.filter_array.curriculum_id,
+    };
+    this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+        let data = res['data'];
+        this.level_options1[1] = data['level_1'];
+        this.all_level_options1[1] = data['level_1'];
+        this.curriculum_labels1 = data['curriculum_labels'];
+            if(this.curriculum_labels1.length == 0){
+                this.level_options1 = [];
+                this.all_level_options1 = [];
+                this.selected_level1 = [];
+            }
+        }
+    });
+  }
+  getLevels1(level_id,tabName){
+    this.filter_array.level_id = this.selected_level1[level_id];  
+    let param = {
+      url: 'get-levels-by-level',
+      step_id: this.selected_level1[level_id],
+      level_id: level_id, 
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        let data = res['data'];
+        this.level_options1[level_id + 1] = data['steps'];
+        this.all_level_options1[level_id + 1] = data['steps'];
+        this.level_options1.forEach((opt, index) => {
+          if (index > level_id + 1) this.level_options1[index] = [];
+        });
+        //aded with out test here
+        this.selected_level1.forEach((opt, index) => {
+          if (index > level_id) this.selected_level1[index] = 0;
+        });
+        
+        if(tabName == 'teacherMaterialTab' && data['steps'].length == 0){
+          this.is_display = true;
+          this.searchteacherMaterialQuestions();
+        }else{
+          this.is_display = false;
+          this.teacher_materials_all_questions = new MatTableDataSource([]);
+        }
+      }
+    });
+  }
+  teacherMaterialTab(tab){
+    let tab_index = tab.index;
+    this.search_question = '';
+    //level filters clear
+    this.level_options1 = [];
+    this.all_level_options1 = [];
+    this.selected_level1 = [];
+    this.filter_array.level_id=0;
+    this.filter_array.curriculum_id=0;
+    this.curriculum_labels1 = [];
+    if (tab_index == 0) {
+      this.all_or_selected = 'all';
+      let data = {
+        url: 'get-content-list-materials',
+        limit: this.limit,
+        offset: this.offset,
+        all_or_selected: this.all_or_selected,
+      };
+      //this.getTeacherMaterialAllQuestions(data);
+    }
+    if (tab_index == 1) {
+      let question_ids = [];
+      question_ids = this.selected_teacher_materials;
+      this.all_or_selected = 'selected';
+      let data = {
+        url: 'get-content-list-materials',
+        limit: this.limit,
+        offset: this.offset,
+        all_or_selected: this.all_or_selected,
+        question_ids: question_ids,
+      };
+      if (question_ids.length > 0) {
+        this.getTeacherMaterialAllQuestions(data);
+      } else {
+        this.teacher_materials_all_questions = new MatTableDataSource([]);
+      }
+    }
+  }
+
+  getTeacherMaterialAllQuestions(param){
+    this.loading_questions=true;
+    this.teacher_materials_all_questions = new MatTableDataSource([]);
+    this.resetPagination();
+    this.http.post(param).subscribe((res) => {
+      this.loading_questions=false;
+      if (res['error'] == false) {
+        this.teacher_materials_all_questions = new MatTableDataSource(
+          res['data']['materials_list']
+        );
+        this.totalSize = res['total_records'];
+
+        this.teacher_materials_all_questions.paginator = this.paginator;
+      } else {
+        this.teacher_materials_all_questions = new MatTableDataSource([]);
+      }
+    });
+  }
+
+  searchteacherMaterialQuestions(){
+    this.resetPagination();
+    let question_ids = [];
+    question_ids = this.selected_teacher_materials;
+    let param = {
+      url: 'get-content-list-materials',
+      offset: this.page,
+      limit: this.limit,
+      search: this.search_question,
+      all_or_selected: this.all_or_selected,
+      question_ids: question_ids,
+      curriculum_id: this.filter_array.curriculum_id,
+      level_id: this.filter_array.level_id
+    };
+    console.log(param);
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.teacher_materials_all_questions = new MatTableDataSource(
+          res['data']['materials_list']
+        );
+        this.totalSize = res['total_records'];
+      } else {
+        //this.toster.info(res['message'], 'Error');
+        this.teacher_materials_all_questions = new MatTableDataSource([]);
+      }
+    });
+  }
+
+  public getTeacherMaterialServerData(event?: PageEvent) {
+    this.page = event.pageSize * event.pageIndex;
+    let question_ids = [];
+    question_ids = this.selected_teacher_materials;
+    let param = {
+      url: 'get-content-list-materials',
+      offset: this.page,
+      limit: event.pageSize,
+      search: this.search_question,
+      all_or_selected: this.all_or_selected,
+      question_ids: question_ids,
+      curriculum_id: this.filter_array.curriculum_id,
+      level_id: this.filter_array.level_id
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.teacher_materials_all_questions = new MatTableDataSource(
+          res['data']['materials_list']
+        );
+        this.totalSize = res['total_records'];
+      } else {
+        //this.toster.info(res['message'], 'Error');
+        this.teacher_materials_all_questions = new MatTableDataSource([]);
+      }
+    });
+  }
+
+  selectTeacherMaterialQuestion(event, id) {
+    id = '' + id;
+    if (event['checked'] == true) {
+      this.selected_teacher_materials.push(id);
+    } else {
+      const index = this.selected_teacher_materials.indexOf(id);
+      if (index > -1) {
+        this.selected_teacher_materials.splice(index, 1);
+      }
+    }
+    console.log(this.selected_teacher_materials);    
+  }
+
+  resetPagination() {
+    //console.log(this.all_questions.paginator.page);
+    if (this.paginator != undefined) {
+      this.paginator.pageIndex = 0;
+      this.paginator.firstPage();
+    }
+    this.offset = 0;
+    this.limit = environment.page_size;
+    this.totalSize = 0;
+    this.page = 0;
+  }
+
 }
 
 export interface Response {
@@ -494,3 +707,4 @@ export interface Response {
   message: string;
   errors?: any;
 }
+

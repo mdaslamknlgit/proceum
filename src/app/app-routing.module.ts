@@ -86,7 +86,7 @@ const routes: Routes = [
       import('./frontend/frontend.module').then((m) => m.FrontendModule),
     canActivate: [AuthGuard],
     data: {
-      role: '2,1,3,4,5,6,7,11',
+      role: '2,1,3,4,5,6,7,11,12',
     },
   },
   {
