@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonService } from '../../../services/common.service';
+import { CommonService } from '../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../../auth/auth.service';
 import { ReplaySubject } from 'rxjs';
 
 @Component({
@@ -37,9 +36,6 @@ export class MyAccountComponent implements OnInit {
     phone: '',
     email: '',
     uuid: '',
-    year: '',
-    semester: '',
-    group: '',
     country_id: '',
     state_id: '',
     city: '',
@@ -68,7 +64,6 @@ export class MyAccountComponent implements OnInit {
   constructor(
     private http: CommonService,
     private toaster: ToastrService,
-    private http1: AuthService
   ) {}
   filedata: any;
   ngOnInit(): void {
@@ -176,7 +171,6 @@ export class MyAccountComponent implements OnInit {
           this.recipient_emails_list.push(opt);
         }
       });
-      this.recipient_emails_list = this.recipient_emails_list.filter((item, i, ar) => ar.indexOf(item) === i);
       this.recipient_emails = '';
     }
   }
@@ -288,9 +282,6 @@ export class MyAccountComponent implements OnInit {
         phone: res['data'].phone,
         email: res['data'].email,
         uuid: res['data'].uuid,
-        year: res['data'].year_name,
-        semester: res['data'].sem_name,
-        group: res['data'].grp_name,
         country_id: res['data'].country_id,
         state_id: res['data'].state_id,
         city: res['data'].city,
@@ -303,14 +294,12 @@ export class MyAccountComponent implements OnInit {
         current_password: '',
         new_password: '',
         confirm_pwd: '',
-        referral_code: res['data'].referral_code?res['data'].referral_code:'',
-        frnd_referral_code: res['data'].frnd_referral_code?res['data'].frnd_referral_code:'',
+        referral_code: '',
+        frnd_referral_code: '',
       };
       this.getCountries();
       this.getStates(res['data'].country_id);
       this.getCities(res['data'].state_id);
-      this.auto_generate = res['data'].referral_code?false:true;
-      this.dis_frnd_referral_code = res['data'].frnd_referral_code?true:false;
       this.src = res['data'].profile_pic ? res['data'].profile_pic : this.url;
     });
   }
@@ -450,9 +439,6 @@ export interface Profile {
   phone: string;
   email: string;
   uuid: string;
-  year: string;
-  semester: string;
-  group: string;
   country_id: any,
   state_id: any,
   city: any,

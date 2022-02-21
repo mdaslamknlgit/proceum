@@ -96,6 +96,7 @@ import { AssessmentReportComponent } from './assessment/assessment-report/assess
 import { ListUniversitiesCollegesComponent } from './universities-colleges/list-universities-colleges/list-universities-colleges.component';
 import { CreateUniversitiesCollegesComponent } from './universities-colleges/create-universities-colleges/create-universities-colleges.component';
 import { ReviewerComponent } from './dashboard/reviewer/reviewer.component';
+import { MyAccountComponent } from './my-account/my-account.component';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -258,6 +259,7 @@ const routes: Routes = [
       { path: 'universities-colleges', component: ListUniversitiesCollegesComponent },
       { path: 'create-university-or-college', component: CreateUniversitiesCollegesComponent },
       { path: 'edit-university-or-college/:id', component: CreateUniversitiesCollegesComponent },
+      { path: 'my-account', component: MyAccountComponent },
     ],
   },
 ];
@@ -330,7 +332,8 @@ const routes: Routes = [
     AdminGlobalSearchComponent,
     ListUniversitiesCollegesComponent,
     CreateUniversitiesCollegesComponent,
-    ReviewerComponent
+    ReviewerComponent,
+    MyAccountComponent
   ],
   imports: [
     MaterialModule,
