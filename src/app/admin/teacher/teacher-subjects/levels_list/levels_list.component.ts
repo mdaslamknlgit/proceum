@@ -1,21 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RoutesRecognized,
-} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { filter, pairwise } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
-  selector: 'app-level_list',
-  templateUrl: './level_list.component.html',
-  styleUrls: ['./level_list.component.scss'],
+  selector: 'app-levels_list',
+  templateUrl: './levels_list.component.html',
+  styleUrls: ['./levels_list.component.scss'],
 })
-export class Level_listComponent implements OnInit {
+export class Levels_listComponent implements OnInit {
   public title = '';
   public curriculum = [];
   public curriculum_id = 0;
@@ -63,13 +57,13 @@ export class Level_listComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: false
+      is_individual: true
     };
     this.http.post(param).subscribe((res) => {
         this.is_loaded = true;
         if (res['error'] == false) {
             let data = res['data'];
-            this.curriculum = res['data']['curriculum'];
+            this.curriculum = data['curriculum'];
             this.levels = data['levels'];
             this.total_items = res['total_records'];
             this.breadcome = res['breadcome'];
@@ -84,7 +78,6 @@ export class Level_listComponent implements OnInit {
         this.breadcome = res['breadcome'];
         this.levels = [];
         this.total_items = 0;
-        this.curriculum = res['data']['curriculum'];
         if (res['check_data'] == 0) {
             let data = res['data'];
             this.curriculum = data['curriculum'];
@@ -94,7 +87,7 @@ export class Level_listComponent implements OnInit {
             }
             else{
                 if (res['check_content'] == 0) {
-                    this.toster.info('No content Added', 'Comming Soon', {closeButton: true});
+                    this.toster.error('No content Found', 'Error', {closeButton: true});
                     this.location.back();
                 } else {
                     let url = '/student/curriculum/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
@@ -125,7 +118,7 @@ export class Level_listComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: false
+      is_individual: true
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

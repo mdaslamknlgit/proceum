@@ -7,15 +7,15 @@
   <span class="usr_lgns">{{"welcome_to_text"|translate}} {{ user["role_name"] }} {{"dashboard_text"|translate}}</span>
   <span class="spacer"></span>
   <app-white-board></app-white-board>
-  <span class="tp_rt_mn ps_rel fr_bdg mr_0">
-    <span (click)="show_notifications = !show_notifications">
+  <span class="tp_rt_mn ps_rel notification_span_icon fr_bdg mr_0">
+    <div (click)="show_notifications = !show_notifications">
       <mat-icon *ngIf="content_notifications.length > 0" class="tp_rt_mn lft_0"
         matBadge="{{content_notifications.length>0?content_notifications.length:''}}" matBadgeColor="warn">
         notification_important</mat-icon>
       <mat-icon *ngIf="content_notifications.length == 0" class="tp_rt_mn lft_0" matTooltip="Notifications">
         notification_important</mat-icon>
       <!-- <span>Notifications</span> -->
-    </span>
+      </div>
     <div class="noti_dv {{show_notifications == false?'d-none':''}}">
       <div class="noti_hd d-flex">
         <span class=" ">Notifications</span>
@@ -42,11 +42,11 @@
       </div>
     </div>
   </span>
-  <span class="tp_rt_mn mr_50px">
+  <span class="tp_rt_mn">
     <mat-icon class="tp_rt_mn">account_circle</mat-icon>
     <span>{{ user["name"] }}</span>
   </span>
-  <div class="top-right-icon admntpbr_two">
+  <div class="tp_rt_mn top-right-icon admntpbr_two">
     <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
       <mat-icon matSuffix color="accent" (click)="glbSrch = false">search</mat-icon>
       <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">

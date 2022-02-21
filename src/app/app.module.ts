@@ -78,12 +78,14 @@ import { GlobalApp } from '../global';
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '495801232918-cb2avq8af4fd8slu1a4n7cc8htakc22g.apps.googleusercontent.com'
+              // '495801232918-cb2avq8af4fd8slu1a4n7cc8htakc22g.apps.googleusercontent.com'
+              '133709969080-dv2iq6ndsm9ohtrk5oqt1l57lkroic5j.apps.googleusercontent.com'
             ),
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('851700872077265'),
+            // provider: new FacebookLoginProvider('851700872077265'),
+            provider: new FacebookLoginProvider('3043214965895790'),
           },
         ],
       } as SocialAuthServiceConfig,
