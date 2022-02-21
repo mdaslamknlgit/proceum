@@ -97,6 +97,8 @@ import { ListUniversitiesCollegesComponent } from './universities-colleges/list-
 import { CreateUniversitiesCollegesComponent } from './universities-colleges/create-universities-colleges/create-universities-colleges.component';
 import { ReviewerComponent } from './dashboard/reviewer/reviewer.component';
 import { MyAccountComponent } from './my-account/my-account.component';
+import { TeacherSubjectsComponent } from './teacher/teacher-subjects/teacher-subjects.component';
+import { Levels_listComponent } from './teacher/teacher-subjects/levels_list/levels_list.component';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -227,6 +229,8 @@ const routes: Routes = [
       { path: 'poc-videos', component: PocVideosComponent },
 
       //Teacher Routes
+      { path: 'subjects', component: TeacherSubjectsComponent },
+      { path: 'subjects/:curriculum_id/:level_id/:level_parent_id', component: Levels_listComponent },
       { path: 'materials', component: TeacherMaterialsComponent },
       { path: 'materials/create', component: CreateTeacherMaterialComponent},
       { path: 'materials/edit/:id', component: CreateTeacherMaterialComponent},
@@ -305,7 +309,6 @@ const routes: Routes = [
     EditNewQuestionComponent,
     PartnersListComponent,
     OrderByPipe,
-    //SafePipe,
     ManageUsersComponent,
     CreateUserComponent,
     PackageTestimonialsComponent,
@@ -333,7 +336,9 @@ const routes: Routes = [
     ListUniversitiesCollegesComponent,
     CreateUniversitiesCollegesComponent,
     ReviewerComponent,
-    MyAccountComponent
+    MyAccountComponent,
+    TeacherSubjectsComponent,
+    Levels_listComponent
   ],
   imports: [
     MaterialModule,

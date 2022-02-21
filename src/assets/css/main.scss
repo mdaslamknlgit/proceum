@@ -238,7 +238,16 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 .theme-alternate {
   @include angular-material-theme($altTheme);
 }
-
+.primary_color{ color: #41AB3C; }
+.divider{
+  background: rgb(218,218,218);
+  background: linear-gradient(180deg, rgba(218,218,218,1) 0%, rgba(118,124,125,1) 50%, rgba(221,221,221,1) 100%);
+  width: 1px;
+  height: 80%;
+  opacity: 0.3;
+  top: 25px;
+  position: relative;
+}
 .d-none{ display:none;}
 .d-none-imp{ display:none !important;}
 // Form fields customization
@@ -799,6 +808,7 @@ img {
   // background: #0f98a6;
   color: $accent_clr;
   opacity: 1;
+  background: #f5f7f9;
 }
 .mat-tab-group, .mat-option {
   font-family: "NunitoSans";
@@ -826,7 +836,7 @@ img {
 
 div.mat-tab-label {
   border-radius: 8px 8px 0 0;
-  height: 60px;
+  height: 50px;
   padding: 0 15px;
   // min-width: 120px;
 }
@@ -1838,6 +1848,15 @@ li.hs_sbmnu.active:before {
 .ml_1 {
   margin-left: 1em;
 }
+.ml_02 {
+  margin-left: 2em;
+}
+.ml_03 {
+  margin-left: 3em;
+}
+.ml_04 {
+  margin-left: 4em;
+}
 .ml_05{
   margin-left: 0.5em;
 }
@@ -2078,7 +2097,9 @@ mat-icon.w_50px {
 .crs_par {
   display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    // justify-content: space-between;
+    column-gap:15px;
+    row-gap:15px;
 }
 .d-flex.crs_innr_prc {
   border-bottom: 1px dashed #d2d5dd;
@@ -2087,12 +2108,21 @@ mat-icon.w_50px {
 }
 .crs_chld {
   background: #fff;
-    margin-bottom: 10px;
-    flex-basis: 24.5%;
+    // margin-bottom: 10px;
+    flex-basis: 24%;
     box-sizing: border-box;
     padding: 1%;
     position: relative;
     overflow: hidden;
+    box-sizing: border-box;
+    box-shadow: 0 3px 8px 0px #e8e8e8;
+    border-radius: 8px;
+    transition: all 0.3s ease-in;
+    &:hover{
+      box-shadow: 0 3px 8px 0px #d1cdcd;
+      transform: scale(1.01, 1.01);
+      cursor: pointer;
+    }
     .rtng_par{
     padding: 10px 0;
     .crs_rtng{
@@ -2105,6 +2135,18 @@ mat-icon.w_50px {
 }
 .crs_dsc {
   font-size: 12px;
+}
+.buynow_block {
+  display: flex;
+  justify-content: space-around;
+}
+.buynow_block > div:nth-child(1) {
+  flex-basis: 50%;
+  align-items: flex-start;
+}
+.buynow_block > div:nth-child(3) {
+  flex-basis: 30%;
+  
 }
 .crs_d_r_p {
   display: flex;
@@ -2163,7 +2205,7 @@ span.rpe_sym {
   padding: 1px 0;
   font-size: 10px;
   cursor: pointer;
-  width: 85%;
+  width: 83%;
   margin: 0 auto 5px 0;
 }
 .pr_btn_dv,
@@ -2272,7 +2314,7 @@ span.rpe_sym {
   background-color: #fff;
   border-radius: 6px;
 }
-.crs_innr_dets_tbl{padding: 0;}
+.crs_innr_dets_tbl{padding: 0; margin:0;}
 .crs_innr_dets_tbl li {
   border-bottom: 1px solid #f7f7f7;
   display: flex;
@@ -2288,10 +2330,14 @@ span.rpe_sym {
 .dets_tbl_cnt {
   width: 50%;
 }
-.crs_innr_lgo,
-.crs_innr_dsc,
+.crs_innr_lgo{
+  flex-basis:30%
+}
+.crs_innr_dsc{
+  flex-basis: 70%;
+}
 .crs_innr_dets {
-  flex-basis: 33%;
+  flex-basis: 30%;
 }
 .crs_dets_hd {
   padding: 10px;
@@ -3101,7 +3147,8 @@ div.cust_mdl_par div.mn_dshbrd {
 
 .intr_vd_tml{
   .mat-expansion-panel{
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
+    border: 1px solid #e6e6e6;
   }
   .mat-expansion-panel-header{
     background-color: #e6e6e6 !important;
@@ -3309,7 +3356,8 @@ div.cust_mdl_par div.mn_dshbrd {
 .crs_tbbd_dv, .rtng_par {
   display: flex;
   align-items: center;
-  padding: 10px 5px;
+  // padding: 10px 5px; /* Removed for product preview pave */
+  padding: 10px 0px; 
   border-bottom: 1px dashed #e6e6e6;
   .ct_fav, .ct_bm{cursor: pointer; display: flex;}
   .ct_hd {
@@ -3544,10 +3592,11 @@ div.cust_mdl_par div.mn_dshbrd {
   }
 }
 .qsp_pp_mn {
-  border: 1px solid #707070;
+  border: 1px solid #cccdcd;
   overflow: auto;
   max-height: 55vh;
-  padding: 0 15px;
+  padding: 10px 15px;
+  border-radius: 6px;
   &.mat-table tr:nth-child(odd){background-color: #fff;}
   .chk_20px{width:20px;}
   &.qsp_wt_src {
@@ -4297,6 +4346,8 @@ sup {
 .page_buttons{
   display: flex;
   justify-content: flex-end;
+  flex-wrap:wrap;
+  row-gap:10px;
 }
 .cm_sts_info{
   .cpy, .pblshd, .drft, .crct_pnd, .aw_aprvl, .rw_pndg, .dclnd, .apprvd{
@@ -7033,9 +7084,9 @@ sup {
 .top-right-icon{
   position: relative;
   .glbl_srch{
-    position: absolute;
-    right: 10px;
-    top: -10px;
+    // position: absolute;
+    // right: 10px;
+    // top: -10px;
     transition: width 0.2s;
     transition-timing-function: ease;
     &.dsh_brd_crds > mat-form-field.mat-form-field{
@@ -7058,7 +7109,7 @@ sup {
       }
     }
     mat-icon{
-      position: static !important;
+      position: relative !important;
       font-size: 24px !important;
     }
   }
