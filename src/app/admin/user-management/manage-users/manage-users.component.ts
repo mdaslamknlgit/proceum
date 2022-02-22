@@ -72,6 +72,7 @@ export class ManageUsersComponent implements OnInit {
   promote_all_years: ReplaySubject<any> = new ReplaySubject<any>(1);
   promote_all_semesters: ReplaySubject<any> = new ReplaySubject<any>(1);
   promote_all_groups: ReplaySubject<any> = new ReplaySubject<any>(1);
+  public mng_student_details_popup = false;
   public mng_student_popup = false;
   public show_semester_dropdown = true;
   public show_group_dropdown = true;
@@ -104,7 +105,7 @@ export class ManageUsersComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.user = this.http.getUser(); console.log(this.user);
+    this.user = this.http.getUser();
     this.user_id = this.user['id'];
     this.role_id = this.user['role'];
     if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
@@ -272,8 +273,6 @@ export class ManageUsersComponent implements OnInit {
           this.dataSource.sort = this.sort;
           this.totalSize = res['total_records'];
         }
-        
-        console.log(this.totalSize);
       } else {
         if(this.role_id == environment.ALL_ROLES.TEACHER){
           this.dataSourceThree = new MatTableDataSource([]);
@@ -386,7 +385,7 @@ export class ManageUsersComponent implements OnInit {
   // }
 
   public onManageStudentChange() {
-    console.log(this.organization_list_id+' => '+this.manage_students);
+    //console.log(this.organization_list_id+' => '+this.manage_students);
     if(this.organization_list_id == '' && this.manage_students == '1'){
       this.toster.error('Please Select University / College / Institute', 'Error', { closeButton: true });
       return;
@@ -769,5 +768,118 @@ export class ManageUsersComponent implements OnInit {
         (college_list) => college_list.partner_name.toLowerCase().indexOf(search) > -1
       )
     );
+  }
+
+  //Added by Phanindra 22-02-2022
+  src : any = '../../../../assets/images/Demo-placeholder.jpeg';
+  countrys = [];
+  states = [];
+  cities = [];
+  public first_name = '';
+  public last_name = '';
+  public phone = '';
+  public email = '';
+  public uuid = '';
+  public year = '';
+  public semester = '';
+  public group = '';
+  public country_id = '';
+  public state_id = '';
+  public city_id = '';
+  public country_name = '';
+  public state_name = '';
+  public city_name = '';
+  public address1 = '';
+  public address2 = '';
+  public university = '';
+  public college = '';
+  public institute = '';
+  public profile_pic = '';
+  
+  public openDetailsModel(param:any){
+    this.mng_student_details_popup = true;
+    let user_id = param.id;
+    let role = param.role;
+    let params = {
+      url: 'get-student-profile',
+      id: user_id,
+      role: role,
+    };
+    this.http.post(params).subscribe((res) => {
+      this.first_name = res['data'].first_name;
+      this.last_name = res['data'].last_name;
+      this.phone = res['data'].phone;
+      this.email = res['data'].email;
+      this.uuid = res['data'].uuid;
+      this.year = res['data'].year_name;
+      this.semester = res['data'].sem_name;
+      this.group = res['data'].grp_name;
+      this.country_id = res['data'].country_id;
+      this.state_id = res['data'].state_id;
+      this.city_id = res['data'].city;
+      this.address1 = res['data'].address_line_1;
+      this.address2 = res['data'].address_line_2;
+      this.university = res['data'].university_name;
+      this.college = res['data'].college_name;
+      this.institute = res['data'].institute_name;
+      this.getCountries();
+      this.getStates(res['data'].country_id);
+      this.getCities(res['data'].state_id);
+      this.profile_pic = res['data'].profile_pic ? res['data'].profile_pic : this.src;
+    });
+  }
+
+  getCountries() {
+    let param = { url: 'get-countries' };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.countrys = res['data']['countries'];
+        if (this.countrys != undefined) {
+          let found = this.countrys.find(element => element.id === this.country_id);
+          this.country_name = found.country_name;          
+        }
+      } else {
+        //this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  getStates(selected_country_id: number) {
+    if (selected_country_id > 0) {
+      let param = {
+        url: 'get-states',
+        country_id: selected_country_id,
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.states = res['data']['states'];
+          if (this.states != undefined) {
+            let found = this.states.find(element => element.id === this.state_id);
+            this.state_name = found.state_name;          
+          }
+        } else {
+          let message = res['errors']['title']
+            ? res['errors']['title']
+            : res['message'];
+          //this.toster.error(message, 'Error', { closeButton: true });
+        }
+      });
+    }
+  }
+
+  getCities(selected_state_id: number) {
+    let params = {
+      url: 'get-cities',
+      state_id: selected_state_id,
+    };
+    this.http.post(params).subscribe((res) => {
+      if (res['error'] == false) {
+        this.cities = res['data']['cities'];
+        if (this.cities != undefined) {
+          let found = this.cities.find(element => element.id === this.city_id);
+          this.city_name = found.city_name;          
+        }
+      }
+    });
   }
 }
