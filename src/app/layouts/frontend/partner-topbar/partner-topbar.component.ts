@@ -27,14 +27,14 @@ export class PartnerTopbarComponent implements OnInit,OnDestroy {
   subMenuCount: number = 0;
   isCustomMenuShow: boolean = true;
   sub_domain_data: any = [];
- 
+
   constructor(
     private http: CommonService,
     private authHttp: AuthService,
     private route: Router,
     private activeRoute: ActivatedRoute,
     private cartCountService:CartCountService,
-    
+
   ) {
     //for cart badge
     this.subscription = this.cartCountService.getNumber().subscribe(number => { this.number = number });
@@ -47,7 +47,7 @@ export class PartnerTopbarComponent implements OnInit,OnDestroy {
     let sub_domain = window.location.hostname;
     //static sub domain
     //sub_domain = 'jhvfdjvdf_jfdhghjdf';
-    
+
     //If subdomain not exist in in app domains then check for partner domain
     if(environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1){
       if(!localStorage.getItem('header_logo')){
@@ -166,7 +166,7 @@ export class PartnerTopbarComponent implements OnInit,OnDestroy {
       this.load_top_bar = true;
     });
   }
-  
+
   getHeaderLogo(){
     let header_logo = localStorage.getItem('header_logo');
     if(header_logo){
@@ -180,7 +180,7 @@ export class PartnerTopbarComponent implements OnInit,OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  
+
 
 }
 

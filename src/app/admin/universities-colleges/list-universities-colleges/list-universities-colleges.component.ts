@@ -30,6 +30,7 @@ export class ListUniversitiesCollegesComponent implements OnInit {
   public sort_by: any;
   public search_box = '';
   public flag = 1;
+  public addedFrom = 1;
   public page = 0;
   public from_date = '';
   public to_date = '';
@@ -54,7 +55,7 @@ export class ListUniversitiesCollegesComponent implements OnInit {
   }
   public getUniversitiesOrColleges() {
     let param = {
-      url: 'get-universities-or-colleges', flag: this.flag
+      url: 'get-universities-or-colleges', flag: this.flag, added_from: this.addedFrom
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -73,6 +74,7 @@ export class ListUniversitiesCollegesComponent implements OnInit {
   public doFilter() {
     let param = {
       url: 'get-universities-or-colleges',
+      added_from: this.addedFrom,
       search: this.search_box,
       flag: this.flag,
       from_date: this.from_date,
@@ -82,8 +84,6 @@ export class ListUniversitiesCollegesComponent implements OnInit {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
         this.totalSize = res['total_records'];
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
       } else {
         this.dataSource = new MatTableDataSource([]);
       }
@@ -94,6 +94,7 @@ export class ListUniversitiesCollegesComponent implements OnInit {
     this.page = event.pageSize * event.pageIndex;
     let param = {
       url: 'get-universities-or-colleges',
+      added_from: this.addedFrom,
       offset: this.page,
       limit: event.pageSize,
       order_by: this.sort_by,
