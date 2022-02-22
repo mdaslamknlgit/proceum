@@ -53,7 +53,7 @@ export class PartnersListComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.http.getUser();
     let param = {
-      url: 'get-partners', partner_type_id: this.type
+      url: 'get-partners', partner_type_id: this.type, offset: this.page, limit: this.pageSize
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -69,12 +69,18 @@ export class PartnersListComponent implements OnInit {
     });
   }
   public getPartners() {
-    //console.log(this.type);
-    let param = { url: 'get-partners', partner_type_id: this.type };
+    let param = {
+      url: 'get-partners',
+      partner_type_id: this.type,
+      offset: this.page,
+      limit: this.pageSize,
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['partners']);
         this.totalSize = res['total_records'];
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       } else {
         this.dataSource = new MatTableDataSource([]);
       }
@@ -180,6 +186,26 @@ export class PartnersListComponent implements OnInit {
     this.from_date = '';
     this.to_date = '';
     this.doFilter();
+  }
+
+  openInNewTab(subdomain){
+    let newdomain;
+    newdomain = window.location.origin.replace('uat',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+      window.open(newdomain+'/login','_blank');return;
+    }
+    newdomain = window.location.origin.replace('dev',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+      window.open(newdomain+'/login','_blank');return;
+    }
+    newdomain = window.location.origin.replace('master',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+      window.open(newdomain+'/login','_blank');return;
+    }
+    /* newdomain = window.location.origin.replace('localhost',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+      window.open(newdomain+'/login','_blank');return;
+    } */
   }
 
 
