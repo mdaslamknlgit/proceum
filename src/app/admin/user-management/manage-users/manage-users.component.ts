@@ -731,6 +731,9 @@ export class ManageUsersComponent implements OnInit {
         } else {
           this.toster.error(res['message'], 'Error', { closeButton: true });
         }
+        // this.studentListArray = [];
+        // this.checkboxValue = false;
+        // this.checkUncheckAll('false');
       });
     }else{
       this.toster.error('Please Select Students', 'Error', { closeButton: true });
