@@ -583,6 +583,20 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       )
     );
   }
+  filterPartnerChilds(event) {
+    let search = event;
+    if (!search) {
+      this.all_colleges.next(this.colleges.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_colleges.next(
+      this.colleges.filter(
+        (college) => college.partner_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
 
   //To get all college list
   getPartnerChilds() {

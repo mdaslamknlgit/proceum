@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 export class ManageUsersComponent implements OnInit {
   displayedColumns: string[] = ['id','name','email','role_name','phone','Organization','created_at','actions','status',];
 
-  displayedColumnsTwo: string[] = ['CB','id','name','email','phone','Unique ID','Organization','Year','Semester','Group','created_at',
+  displayedColumnsTwo: string[] = ['CB','id','name','email','phone','Unique ID','Organization','Year','Semester','Group','Blog Access','created_at',
     'actions','status',];//'Campus',//'role_name',
   displayedColumnsThree: string[] = ['id','name','email','phone','Unique ID','Year','Semester','Group','created_at',];//'actions',\
 
@@ -694,7 +694,47 @@ export class ManageUsersComponent implements OnInit {
     });
     
   }
-
+  public allowBlogAccess(student_id){
+    if(student_id != ''){
+      let param = {
+        url: 'blog-access-student',
+        id: student_id,
+        domain:location.origin,
+      };
+      this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.toster.success(res['message'], 'Success', { closeButton: true });
+        //this.getAdminUsers();
+      } else {
+        this.toster.error(res['message'], 'Error', { closeButton: true });
+      }
+    });
+    }
+  }
+  public allowBlogAccessforAll(){
+    let studentArrayBlog = [];
+    this.studentListArray.forEach((opt, index) => {
+      if(opt.is_selected == true){
+        studentArrayBlog.push(index);
+      }
+    })
+    if(studentArrayBlog.length > 0){
+      let param = {
+        url: 'blog-access-student',
+        studentids:studentArrayBlog,
+        domain:location.origin,
+      };
+      this.http.post(param).subscribe((res) => {
+        if (res['error'] == false) {
+          this.toster.success(res['message'], 'Success', { closeButton: true });
+        } else {
+          this.toster.error(res['message'], 'Error', { closeButton: true });
+        }
+      });
+    }else{
+      this.toster.error('Please Select Students', 'Error', { closeButton: true });
+    }
+  }
   navigateTo(url){
       let user = this.http.getUser();
       if(Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).includes(Number(user['role']))){
