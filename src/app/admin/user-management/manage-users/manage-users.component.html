@@ -1,4 +1,92 @@
 <div class="mn_dshbrd">
+    <div class="cust_mdl_par {{ mng_student_details_popup ? 'cust_mdl_opn' : '' }}">
+        <div class="cust_mdl_chl w_80p">
+            <div class="pg_ttl">
+                <div>Student Details</div> 
+                <span class="spacer"></span>
+                <button (click)="mng_student_details_popup=false" mat-icon-button class="float_right">
+                    &#x2715;
+                </button>
+            </div>
+
+            <div class="usrmgmnt_ppdv tbbd_bdy dsh_brd_crds at_mn_dv">
+                <div> 
+                    <span class="profile_pic">
+                    <img src="{{profile_pic}}" alt="">
+                    </span>
+                </div>
+                <div class="hgt_20"></div>
+                <div class="my_prfl_mn w_100p">
+                    <div class="my_prf_dv">
+                      <span>First Name</span><br>
+                      <label>{{ first_name }}</label>
+                    </div>                    
+                    <div class="my_prf_dv">
+                        <span>Last Name</span><br>
+                        <label>{{ last_name }}</label>
+                    </div>
+                    <div class="my_prf_dv">
+                        <span>Registration Number / UUID</span><br>
+                        <label>{{ uuid }}</label>
+                    </div>
+                    <div class="my_prf_dv">
+                        <span>Mobile</span><br>
+                        <label>{{ phone }}</label>
+                    </div>            
+                    <div class="my_prf_dv">
+                        <span>Email</span><br>
+                        <label>{{ email }}</label>
+                    </div>
+                    <div *ngIf="year != ''" class="my_prf_dv">
+                        <span>Year</span><br>
+                        <label>{{ year }}</label>
+                    </div>
+                    <div *ngIf="semester != ''" class="my_prf_dv">
+                        <span>Semester</span><br>
+                        <label>{{ semester }}</label>
+                    </div>
+                    <div *ngIf="group != ''" class="my_prf_dv">
+                        <span>Group</span><br>
+                        <label>{{ group }}</label>
+                    </div>
+                    <div class="my_prf_dv">
+                        <span>Country </span><br>
+                        <label>{{ country_name }}</label>
+                    </div>
+                    <div class="my_prf_dv">
+                        <span>State </span><br>
+                        <label>{{ state_name }}</label>
+                    </div>
+                    <div class="my_prf_dv">
+                        <span>City </span><br>
+                        <label>{{ city_name }}</label>
+                    </div>
+                    <div class="my_prf_dv rsp_mypdv_bg">
+                        <span>Address line 1 </span><br>
+                        <label>{{ address1 }}</label>
+                      </div>
+                      <div class="my_prf_dv">
+                        <span>Address line 2</span><br>
+                        <label>{{ address2 }}</label>
+                      </div>
+                      <div *ngIf="university != null" class="my_prf_dv">
+                        <span>University</span><br>
+                        <label>{{ university }}</label>
+                      </div>
+                      <div *ngIf="college != null" class="my_prf_dv">
+                        <span>College</span><br>
+                        <label>{{ college }}</label>
+                      </div>
+                      <div *ngIf="institute != null" class="my_prf_dv">
+                        <span>Institute</span><br>
+                        <label>{{ institute }}</label>
+                      </div>
+
+                  </div> 
+            </div>
+        </div>
+    </div>
+
     <div class="cust_mdl_par {{ mng_student_popup ? 'cust_mdl_opn' : '' }}">
         <div class="cust_mdl_chl w_30p">
             <div class="pg_ttl">
@@ -404,7 +492,7 @@
                     <ng-container matColumnDef="Blog Access">
                         <th mat-header-cell *matHeaderCellDef cdkDrag>Blog Access</th>
                         <td mat-cell *matCellDef="let element"> 
-                            <mat-slide-toggle (click)="allowBlogAccess(element.id)"> </mat-slide-toggle></td>
+                            <mat-slide-toggle (click)="allowBlogAccess(element.id)" [checked]="element.blog_access == 1 ? true : false"> </mat-slide-toggle></td>
                     </ng-container>
 
                     <ng-container matColumnDef="status">
@@ -451,7 +539,9 @@
 
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Name</th>
-                        <td mat-cell *matCellDef="let element"><span>{{ element.name }}</span></td>
+                        <td mat-cell *matCellDef="let element">
+                            <span color="accent" (click)="openDetailsModel(element)" class="primary_color">{{ element.name }}</span>
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="email">

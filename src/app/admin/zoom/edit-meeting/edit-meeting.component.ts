@@ -72,7 +72,8 @@ export class EditMeetingComponent implements OnInit {
 
     public show_semester_dropdown = true;
     public show_group_dropdown = true;
-
+    public college_institute_id = 0;
+    public org_type = '';
     constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router, private activatedRoute: ActivatedRoute) { 
         this.translate.setDefaultLang(this.http.lang);
     }
@@ -85,12 +86,13 @@ export class EditMeetingComponent implements OnInit {
             this.user_id = this.user['id'];
             this.role_id = this.user['role'];
             if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
+                this.getTeacherCollegeInstitute();
                 this.teacher_id = this.user['id'];
                 this.is_college = false;
                 this.is_university = false;
                 this.organization_list_id = this.user['partner_id'];
-                this.organization_type_id = '1';
-                this.getYearSemsterGroup(1,0,'year');
+                //this.organization_type_id = '1';
+                //this.getYearSemsterGroup(1,0,'year');
             }else{
                 if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
                 this.is_college = true;
@@ -129,6 +131,28 @@ export class EditMeetingComponent implements OnInit {
         //this.getcurriculums();
     }
     public meeting_time = '';
+    getTeacherCollegeInstitute(){
+        let params = {
+          url: 'assessment/get-teacher-details', user_id: this.user_id
+        };
+        this.http.post(params).subscribe((res) => {
+          if (res['error'] == false) {
+            if(res['user_details']['university_id'] != null){
+              this.college_id = this.college_institute_id = res['user_details']['college_id'];
+              this.org_type = '1';
+              this.getYearSemsterGroup('',0,'year');          
+            }else if(res['user_details']['college_id'] != null){
+              this.college_id = this.college_institute_id = res['user_details']['college_id'];
+              this.org_type = '2';
+              this.getYearSemsterGroup('',0,'year');          
+            }else if(res['user_details']['institute_id'] != null){
+              this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
+              this.org_type = '3';
+              this.getYearSemsterGroup('',0,'year');          
+            }
+          }
+        });
+    }
     getData(){
         let param = {url: 'class/edit', meeting_id: this.meeting_id};
         this.http.post(param).subscribe(res=>{
@@ -367,7 +391,10 @@ export class EditMeetingComponent implements OnInit {
     }
     else if(this.role_id == environment.ALL_ROLES.TEACHER){
       partner = String(this.teacher_id);
-      partner_child_id = "";
+      org_type = this.org_type;
+        if(this.org_type == '1'){        
+            partner_child_id = String(this.college_institute_id);//this.user['partner_child_id'];
+        }
     } 
     let param = {
       url: 'get-year-semester-group',

@@ -26,11 +26,17 @@
           <div class="spacer"></div>
           <div class="grn_clr">{{result_count}} Results Found</div>
         </div>
-        <div class="gs_rs_cnt" *ngFor="let curriculum of search_result">
-          <span (click)="navigateTo(curriculum[0].cur_id+'/'+curriculum[0].level_id+'/'+curriculum[0].cur_pk_id)">{{
-            curriculum[0].content_title}}</span>
-          <span class="lk_bdg">{{curriculum[0].curriculumn_name}}</span>
+         <div *ngFor="let curriculum of search_result | keyvalue">
+          <div class="gs_rslts" *ngFor="let data_n of curriculum.value | keyvalue">
+            <div class="gs_rs_hd">{{data_n.key.toString().split("-")[1]}}</div>
+            <div class="gs_rs_cnt" *ngFor="let data_content of data_n.value | keyvalue">
+              <span (click)="navigateTo(data_content.value.curriculumn_id+'/'+data_content.value.level_id+'/'+data_content.value.pk_id)">{{data_content.value.level_code}} {{data_content.value.level_description}}</span>
+                <span class="lk_bdg">{{data_content.value.curriculumn_name}}</span>
+            </div>
+          </div>
+          <div class="hgt_5"></div>
         </div>
+
       </div>
       <div class="hgt_5"></div>
     </div>
@@ -49,10 +55,16 @@
         </div>
         <div *ngIf="curriculum.key=='competencies'">
           <div class="gs_rslts" *ngIf="curriculum.value.length>0">
-            <div class="gs_rs_hd">Competencies</div>
-            <div class="gs_rs_cnt" *ngFor="let competencies of curriculum.value">
-              <span matBadge="{{competencies[0].curriculumn_name}}"
-                (click)="navigateTo(competencies[0].cur_id+'/'+competencies[0].level_id+'/'+competencies[0].cur_pk_id)">{{competencies[0].content_title}}</span>
+            <div class="gs_rs_hd">Competencies</div>            
+          </div>
+          <div *ngFor="let competencies of curriculum.value | keyvalue">
+            <div *ngFor="let data_comp of competencies.value | keyvalue">
+              <div class="gs_rslts" *ngFor="let competencies_n of data_comp.value | keyvalue">
+                <div class="gs_rs_cnt">
+                  <span (click)="navigateTo(competencies_n.value.cur_id+'/'+competencies_n.value.level_id+'/'+competencies_n.value.cur_pk_id)">{{competencies_n.value.level_code}} {{competencies_n.value.level_description}}</span>
+                  <span class="lk_bdg">{{competencies_n.value.curriculumn_name}}</span>
+                </div>
+              </div>              
             </div>
           </div>
           <div class="hgt_5"></div>

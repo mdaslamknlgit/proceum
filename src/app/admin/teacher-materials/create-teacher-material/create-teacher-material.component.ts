@@ -596,8 +596,8 @@ export class CreateTeacherMaterialComponent implements OnInit {
         all_or_selected: this.all_or_selected,
         question_ids: question_ids,
       };
-      this.selected_display = true;
       if (question_ids.length > 0) {
+        this.selected_display = true;
         this.getTeacherMaterialAllQuestions(data);
       } else {
         this.teacher_materials_all_questions = new MatTableDataSource([]);
@@ -616,7 +616,6 @@ export class CreateTeacherMaterialComponent implements OnInit {
           res['data']['materials_list']
         );
         this.totalSize = res['total_records'];
-
         this.teacher_materials_all_questions.paginator = this.paginator;
       } else {
         this.teacher_materials_all_questions = new MatTableDataSource([]);
