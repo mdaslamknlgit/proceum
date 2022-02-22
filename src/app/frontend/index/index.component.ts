@@ -32,6 +32,17 @@ export class IndexComponent implements OnInit {
   public result;
   ngOnInit(): void {
     this.user = this.service.getUser();
+    if(localStorage.getItem('p_id') && !this.user){
+      this.router.navigateByUrl('/login');
+    }
+    let role = Number(this.user['role']);
+    if(Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(role)) {
+      this.router.navigateByUrl('/admin/dashboard');
+    }else if(role == environment.ALL_ROLES.STUDENT && localStorage.getItem('p_id')){
+      this.router.navigateByUrl('/student/dashboard');
+    }else if(role == environment.ALL_ROLES.TEACHER && localStorage.getItem('p_id')){
+      this.router.navigateByUrl('/teacher/dashboard');
+    }
     this.getcoupons();
   }
   navigateTo() {
@@ -92,24 +103,7 @@ export class IndexComponent implements OnInit {
     }
   }
 
-  getSubDomainDetails(sub_domain) {
-    let params = {
-      url: 'get-subdomain-details',
-      sub_domain: sub_domain,
-    };
-    this.http.post(params).subscribe((res) => {
-      if (!res['error']) {
-        this.sub_domain_data = res['data'];
-        localStorage.setItem('sub_domain_data', this.sub_domain_data);
-        //console.log(this.sub_domain_data);
-        this.load_powered_by = true;
-      } else {
-        console.log("No subdomain data found");
-        this.load_powered_by = false;
-      }
 
-    });
-  }
   getcoupons() {
     let param = { url: 'get-latest-coupon' };
     this.http.post(param).subscribe((res) => {
@@ -117,6 +111,20 @@ export class IndexComponent implements OnInit {
         this.result = res['data'];
       }
     })
+  }
+
+  checkSubDomainAvailable(){
+    if(localStorage.getItem('p_id') && !this.user){
+      this.router.navigateByUrl('/login');
+    }
+    let role = Number(this.user['role']);
+    if(Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(role)) {
+      this.router.navigateByUrl('/admin/dashboard');
+    }else if(role == environment.ALL_ROLES.STUDENT && localStorage.getItem('p_id')){
+      this.router.navigateByUrl('/student/dashboard');
+    }else if(role == environment.ALL_ROLES.TEACHER && localStorage.getItem('p_id')){
+      this.router.navigateByUrl('/teacher/dashboard');
+    }
   }
 }
 
