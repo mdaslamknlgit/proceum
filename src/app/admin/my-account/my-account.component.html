@@ -1,5 +1,3 @@
-<app-student-topbar></app-student-topbar>
-<app-sidemenu></app-sidemenu>
 <div class="mn_dshbrd">
   <div class="cust_mdl_par cust_mdl_cls" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl w_50p">
@@ -10,28 +8,22 @@
           &#x2715;
         </button>
       </div>
-      <div class="tbbd_bdy dsh_brd_crds bs_bb">
+      <div class="tbbd_bdy">
         <div class="hgt_10"></div>
         <div class="d-flex zm_swtchusrs fw_w">
           <div class="p_0 d-flex ai_cntr w_100p my_prfl_mn">
-            <div class="w_100p my_prf_dv d_flex_imp fw_w jc_sb">
-              <span>Provide E-Mail ID</span>
-              <div class="clear_fix"></div>
-              <div class="w_90p">
-                <mat-form-field appearance="outline">
-                   <input type='text' (keyup)="$event.keyCode == 13 ? addEmail() : ''" [(ngModel)]="recipient_emails"
-                    matInput placeholder="Provide E-Mail ID">
-                </mat-form-field>
-              </div>
-              <div>
-                <button mat-mini-fab color="accent" class="">
-                  <mat-icon (click)="addEmail()">add</mat-icon>
-                </button>
-              </div>
-            
-            
+            <div class="w_100p my_prf_dv">
+              <span>E-Mail ID (multiple with comma separated)</span>
+              <mat-form-field appearance="outline" class="w_100p">
+                <textarea style="height: 50px;" (keyup)="autoGrowTextZone($event)" [(ngModel)]="recipient_emails"
+                  matInput placeholder="Add E-Mail ID (multiple with comma separated)"></textarea>
+              </mat-form-field>
             </div>
-            
+            <!-- <div>
+              <button mat-mini-fab color="accent" class="">
+                <mat-icon (click)="addEmail()">chevron_right</mat-icon>
+              </button>
+            </div> -->
           </div>
           <div class="w_100p p_0">
             <span class="zmsu_lft" *ngFor="let email of recipient_emails_list; let email_index=index;">
@@ -43,9 +35,8 @@
           </div>
 
         </div>
-        <hr *ngIf="recipient_emails_list.length > 0" class='line-sep'>
         <div class="hgt_10"></div>
-        <button *ngIf="recipient_emails_list.length > 0" (click)="sendReferral()" mat-raised-button color="accent" class="float_right">
+        <button (click)="sendReferral()" mat-raised-button color="accent" class="float_right">
           Send Referral
         </button>
         <div class="hgt_20"></div>
@@ -149,38 +140,7 @@
             </button>
             <div class="hgt_10"></div>
             <div *ngIf="imgMessage"><span style="margin-top: 15px;" class="required">{{imgMessage}}</span></div>
-            <div class="hgt_5"></div>
-            <div class="my_prf_dv">
-              <span>My Referral Code</span>
-              <span>
-                <span *ngIf="!auto_generate" class="showCoupon">
-                  <span>{{profile.referral_code}}</span>
-                  <mat-icon (click)='openViewModel()' color="accent" matTooltip="Share Referral Code">share</mat-icon>
-                </span>
-                <!--<span *ngIf="auto_generate">
-                  <mat-form-field appearance="outline">
-                    <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="My Referral Code"
-                      name="referral_code" [disabled]="'disabled'" [(ngModel)]="profile.referral_code">
-                  </mat-form-field>
-                </span>
-                <button *ngIf="auto_generate" (click)="generateReferralCode()" mat-raised-button color="accent"
-                  class="ml_1 margin-bottom_20" type="button">
-                  Auto Generate
-                </button>-->
-              </span>
-              <div class="hgt_10"></div>
-              <span *ngIf="user['role'] == 11">Apply Referral Code</span>
-              <mat-form-field *ngIf="user['role'] == 11" appearance="outline">
-                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Apply Referral Code"
-                  [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
-                  [(ngModel)]="profile.frnd_referral_code">
-              </mat-form-field>
-              <button *ngIf="user['role'] == 11 && dis_frnd_referral_code == false" (click)='applyReferralCode()'
-                class="brws_dpbtn" mat-raised-button color="accent" type="button">
-                Apply Referral
-              </button>
-
-            </div>
+            <div class="hgt_5"></div>            
           </div>
         </div>
         <div class="my_prfl_mn">
@@ -221,27 +181,6 @@
             <mat-form-field appearance="outline">
               <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
                 [(ngModel)]="profile.email">
-            </mat-form-field>
-          </div>
-          <div *ngIf="user['role'] == 2" class="my_prf_dv fld_readonly">
-            <span>Year</span>
-            <mat-form-field appearance="outline">
-              <input matInput placeholder="Year" name="year" [disabled]="'disabled'" [(ngModel)]="profile.year"
-                autocomplete="off" />
-            </mat-form-field>
-          </div>
-          <div *ngIf="user['role'] == 2" class="my_prf_dv fld_readonly">
-            <span>Semester</span>
-            <mat-form-field appearance="outline">
-              <input matInput placeholder="Semester" name="semester" [disabled]="'disabled'"
-                [(ngModel)]="profile.semester" autocomplete="off" />
-            </mat-form-field>
-          </div>
-          <div *ngIf="user['role'] == 2" class="my_prf_dv fld_readonly">
-            <span>Group</span>
-            <mat-form-field appearance="outline">
-              <input matInput placeholder="Group" name="group" [disabled]="'disabled'" [(ngModel)]="profile.group"
-                autocomplete="off" />
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">

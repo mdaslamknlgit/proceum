@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
   public profile_pic: string = '';
   public address_details:boolean = false;
   public disabled:boolean = true;
-  public isLoadedTopBar:boolean = false; 
+  public isLoadedTopBar:boolean = false;
   public timer;
   //master data variables goes here
   universities = [];
@@ -128,7 +128,7 @@ export class RegisterComponent implements OnInit {
     other_college: '',
     other_university: '',
   }
-  
+
   constructor(
     private http: AuthService,
     private route: Router,
@@ -142,7 +142,7 @@ export class RegisterComponent implements OnInit {
     this.getCountries();
     this.getPartnersListForUniversity();
   }
-  
+
   //Activate html form institution types
   radioChange(institution_type: string, form) {
     form.resetForm();
@@ -250,7 +250,7 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    if((this.individualRegister.first_name != '' && this.individualRegister.email != '' && this.individualRegister.last_name != '' && 
+    if((this.individualRegister.first_name != '' && this.individualRegister.email != '' && this.individualRegister.last_name != '' &&
     this.individualRegister.contact_number != '' && this.individualRegister.password != '' && this.individualRegister.password.length > 5 && this.individualRegister.confirm_pwd != '')){
       stepper.next();
       //this.individual_address_details = true;
@@ -258,7 +258,7 @@ export class RegisterComponent implements OnInit {
   }
 
   validateInstitutionBasicDetails(stepper:MatStepper){
-    
+
     if(this.is_university){
       if(this.institutionResgister.university_name && this.institutionResgister.university_name.trim().length==0){
         let result = <HTMLInputElement>document.getElementById("university_name");
@@ -268,7 +268,7 @@ export class RegisterComponent implements OnInit {
         let result = <HTMLInputElement>document.getElementById("university_name");
         result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
       }
-      
+
       //email
       if(!this.validateEmail(this.institutionResgister.university_email)){
         return;
@@ -285,7 +285,7 @@ export class RegisterComponent implements OnInit {
       // if(!Number(this.institutionResgister.university_secondary_contact) || (this.institutionResgister.university_secondary_contact.length < 10 || this.institutionResgister.university_secondary_contact.length > 13)){
       //   return;
       // }
-            
+
       if(this.institutionResgister.university_contact_person && this.institutionResgister.university_contact_person.trim().length==0){
         let result = <HTMLInputElement>document.getElementById("university_contact_person");
         result.closest('mat-form-field').classList.add('mat-form-field-invalid');
@@ -299,7 +299,7 @@ export class RegisterComponent implements OnInit {
         this.toastr.error('Please Upload Logo', 'Error');
         return;
       }
-      
+
       if(this.institutionResgister.university_name != '' && this.institutionResgister.university_primary_contact != '' && this.institutionResgister.university_contact_person != '' && this.institutionResgister.password != '' && this.profile_pic != '' && this.institutionResgister.university_email != '' && this.institutionResgister.confirm_pwd != '' ){
        stepper.next();
       }
@@ -355,7 +355,7 @@ export class RegisterComponent implements OnInit {
       if(this.profile_pic == ''){
         this.toastr.error('Please Upload Logo', 'Error');
         return;
-      }      
+      }
 
       if(this.institutionResgister.college_name != '' && this.institutionResgister.college_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.college_code != '' && this.institutionResgister.college_contact_person != '' && this.institutionResgister.college_email != '' && this.institutionResgister.confirm_pwd != '' && this.profile_pic != ''){
         stepper.next();
@@ -371,11 +371,11 @@ export class RegisterComponent implements OnInit {
         let result = <HTMLInputElement>document.getElementById("institute_name");
         result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
       }
-      
+
       //Contact number validation
       if(!Number(this.institutionResgister.institute_primary_contact) || (this.institutionResgister.institute_primary_contact.length < 10 || this.institutionResgister.institute_primary_contact.length > 13)){
         return;
-      }     
+      }
       //email
       if(!this.validateEmail(this.institutionResgister.institute_email)){
         return;
@@ -400,12 +400,12 @@ export class RegisterComponent implements OnInit {
         let result = <HTMLInputElement>document.getElementById("institute_contact_person");
         result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
       }
-      
+
       if(this.profile_pic == ''){
         this.toastr.error('Please Upload Logo', 'Error');
         return;
       }
-      
+
       if(this.institutionResgister.institute_name != '' && this.institutionResgister.institute_primary_contact != '' && this.institutionResgister.password != '' && this.institutionResgister.institute_contact_person != '' && this.institutionResgister.institute_email != '' && this.institutionResgister.confirm_pwd != '' && this.profile_pic != ''){
         stepper.next();
       }
@@ -419,7 +419,7 @@ export class RegisterComponent implements OnInit {
         this.countrys = res['data']['countries'];
         if(this.countrys != undefined){
           this.all_countrys.next(this.countrys.slice());
-          
+
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -558,27 +558,25 @@ export class RegisterComponent implements OnInit {
         this.is_individual = false;
         this.is_institution = false;
         this.is_show = true;
-      }  
+      }
     });
   }
 
   doInstitutionRegistraion(){
     if(this.institutionResgister.address_line_1 == '' || this.institutionResgister.country_id == '' || this.institutionResgister.state_id == '' || this.institutionResgister.city == '' || this.institutionResgister.zip_code == ''){
       this.address_details = true;
-      return;
+      return false;
     }
-
     if(this.institutionResgister.address_line_1 == null || this.institutionResgister.country_id == null || this.institutionResgister.state_id == null || this.institutionResgister.city == null || this.institutionResgister.zip_code == null){
       this.address_details = true;
-      return;
+      return false;
     }
-
     if(!this.institutionResgister.accepeted_terms){
       this.toastr.error("Please accept terms & conditions", 'Error', {
         closeButton: true,
         timeOut: 5000,
       });
-      return;
+      return false;
     }
 
     let params = {
@@ -591,7 +589,7 @@ export class RegisterComponent implements OnInit {
       university_secondary_contact: this.institutionResgister.university_secondary_contact,
       university_contact_person: this.institutionResgister.university_contact_person,
       university_email: this.institutionResgister.university_email,
-      
+
       //Below are related to college registration
       college_name: this.institutionResgister.college_name,
       college_code: this.institutionResgister.college_code,
@@ -599,13 +597,13 @@ export class RegisterComponent implements OnInit {
       college_university: this.institutionResgister.college_university,
       college_contact_person: this.institutionResgister.college_contact_person,
       college_email: this.institutionResgister.college_email,
-      
+
       //Below are related to coaching institute registration
       institute_name: this.institutionResgister.institute_name,
       institute_primary_contact: this.institutionResgister.institute_primary_contact,
       institute_contact_person: this.institutionResgister.institute_contact_person,
       institute_email: this.institutionResgister.institute_email,
-      
+
       //common fields
       password : this.institutionResgister.password,
       confirm_pwd : this.institutionResgister.confirm_pwd,
@@ -634,7 +632,7 @@ export class RegisterComponent implements OnInit {
         this.is_individual = false;
         this.is_institution = false;
         this.is_show = true;
-      } 
+      }
 
     });
   }
@@ -745,7 +743,7 @@ export class RegisterComponent implements OnInit {
     //   if (res['error'] == false) {
     //     this.universities = res['data']['partners'];
     //     if(this.universities != undefined){
-    //       this.all_universities.next(this.universities.slice()); 
+    //       this.all_universities.next(this.universities.slice());
     //     }
     //   } else {
     //     //this.toster.error(res['message'], 'Error');
@@ -756,7 +754,7 @@ export class RegisterComponent implements OnInit {
       if (res['error'] == false) {
         this.universities = res['data'];
         if(this.universities != undefined){
-          this.all_universities.next(this.universities.slice()); 
+          this.all_universities.next(this.universities.slice());
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -778,7 +776,7 @@ export class RegisterComponent implements OnInit {
       )
     );
   }
-  
+
   //To get all college list
   getPartnersListForColleges(){
     // let param = { url: 'get-partners-list',partner_type_id : 2,parent_id : this.individualRegister.university };
@@ -789,7 +787,7 @@ export class RegisterComponent implements OnInit {
           // this.colleges = res['data']['partners'];
           this.colleges = res['data'];
           if(this.colleges != undefined){
-            this.all_colleges.next(this.colleges.slice()); 
+            this.all_colleges.next(this.colleges.slice());
           }
         } else {
           //this.toster.error(res['message'], 'Error');
@@ -797,7 +795,7 @@ export class RegisterComponent implements OnInit {
       });
     }else{
         this.colleges = [];
-        this.all_colleges.next(this.colleges.slice()); 
+        this.all_colleges.next(this.colleges.slice());
     }
   }
   checkPartnerNameExist(){
@@ -823,7 +821,7 @@ export class RegisterComponent implements OnInit {
           }
         });
       }
-    },1000);  
+    },1000);
   }
   checkCollegeNameExist(){
     clearTimeout(this.timer);
@@ -841,7 +839,7 @@ export class RegisterComponent implements OnInit {
           }
         });
       }
-    },1000);  
+    },1000);
   }
   filterPartnersListForCollege(event) {
     let search = event;
@@ -865,7 +863,7 @@ export class RegisterComponent implements OnInit {
       if (res['error'] == false) {
         this.institutes = res['data']['institutes'];
         if(this.institutes != undefined){
-          this.all_institutes.next(this.institutes.slice()); 
+          this.all_institutes.next(this.institutes.slice());
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -907,10 +905,10 @@ export class RegisterComponent implements OnInit {
     return regularExpression.test(String(email).toLowerCase());
    }
 
-  allAlphabetsWithSpaces(event){   
-    // var k;  
+  allAlphabetsWithSpaces(event){
+    // var k;
     // k = event.charCode;  //         k = event.keyCode;  (Both can be used)
-    // return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+    // return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
     var inp = String.fromCharCode(event.keyCode);
 
     if (/^[a-zA-Z ]*$/.test(inp)) {

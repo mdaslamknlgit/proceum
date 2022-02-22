@@ -94,7 +94,7 @@ export class Level_listComponent implements OnInit {
             }
             else{
                 if (res['check_content'] == 0) {
-                    this.toster.error('No content Found', 'Error', {closeButton: true});
+                    this.toster.info('No content Added', 'Comming Soon', {closeButton: true});
                     this.location.back();
                 } else {
                     let url = '/student/curriculum/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;

@@ -155,6 +155,10 @@ export class LoginComponent implements OnInit {
               localStorage.setItem('_token', res['data'].token);
               let json_user = btoa(JSON.stringify(res['data'].user));
               localStorage.setItem('user', json_user);
+              //If login user has subdomain the send him to land on subdomain
+              if(res['data']['user']['sub_domain']){
+                this.landOnSubdomain(res['data']['user']);
+              }
               if (res['data']['user']['role'] == 1) {
                 //admin
                 let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/admin/dashboard';
@@ -183,6 +187,31 @@ export class LoginComponent implements OnInit {
           });
         }
       }
+    }
+  }
+
+  landOnSubdomain(userData){
+    let subdomain = userData['sub_domain'];
+    let role = Number(userData['role']);
+    let dashboard = "/student/dashboard";
+    if(Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).includes(role)){
+      dashboard = "/admin/dashboard";
+    }
+    if(role == environment.ALL_ROLES.TEACHER){
+      dashboard = "/teacher/dashboard";
+    }
+    let newdomain;
+    newdomain = window.location.origin.replace('uat',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+     window.location.href = newdomain + dashboard; return;
+    }
+    newdomain = window.location.origin.replace('dev',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+     window.location.href = newdomain + dashboard; return;
+    }
+    newdomain = window.location.origin.replace('master',subdomain);
+    if(newdomain.indexOf(subdomain) > -1){
+     window.location.href = newdomain + dashboard; return;
     }
   }
 

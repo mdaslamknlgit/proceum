@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { GlobalApp } from 'src/global';
-
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,12 +10,13 @@ import { GlobalApp } from 'src/global';
 export class DashboardComponent implements OnInit {
 
   public offset = 0;
-  public limit = 10;
+  public limit = 12;
   public partners = [];
   public notifications = [];
   public total_records = 0;
   public synchronous = false;
   public user: any;
+  public loadAdmin = false;
 
   constructor(
     private http: CommonService,
@@ -23,7 +24,11 @@ export class DashboardComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.user = this.http.getUser();
-
+    let role = Number(this.user['role']);
+    const adminRole = Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).includes(role);
+    if(adminRole){
+      this.loadAdmin = true;
+    }
     this.getPartners();
     this.getDashboardData();
   }
@@ -63,7 +68,7 @@ export class DashboardComponent implements OnInit {
   onScroll(): void {
     if (this.bottomReached() && (this.offset < this.total_records) && this.synchronous) {
       this.synchronous = false;
-      this.getPartners();
+      //this.getPartners();
     }
   }
 
