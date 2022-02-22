@@ -29,8 +29,11 @@ export class DashboardComponent implements OnInit {
     if(adminRole){
       this.loadAdmin = true;
     }
-    this.getPartners();
-    this.getDashboardData();
+    if(!environment.CONTENT_USER_ROLES.includes(role)){
+        this.getPartners();
+        this.getDashboardData();
+    }
+    
   }
 
   public getPartners() {
