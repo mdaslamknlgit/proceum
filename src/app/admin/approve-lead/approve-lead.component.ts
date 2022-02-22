@@ -412,7 +412,7 @@ export class ApproveLeadComponent implements OnInit {
   }
 
   validateAddressDetails() {
-    if (this.c_address_line_1 != "" && this.c_country_id != 0 && this.c_state_id != "" && this.c_city != "" && this.c_pincode != "" && this.b_address_line_1 != "" && this.b_address_line_2 != "" && this.b_country_id != 0 && this.b_state_id != "" && this.b_city != "" && this.b_pincode != "") {
+    if (this.c_address_line_1 != "" && this.c_country_id != 0 && this.c_state_id != "" && this.c_city != "" && this.c_pincode != "" && this.b_address_line_1 != "" && this.b_country_id != 0 && this.b_state_id != "" && this.b_city != "" && this.b_pincode != "") {
       this.createPartnerService();
     } else {
       console.log('validation error')
