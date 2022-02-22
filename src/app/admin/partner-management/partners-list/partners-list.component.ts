@@ -53,7 +53,7 @@ export class PartnersListComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.http.getUser();
     let param = {
-      url: 'get-partners', partner_type_id: this.type
+      url: 'get-partners', partner_type_id: this.type, offset: this.page, limit: this.pageSize
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -69,8 +69,12 @@ export class PartnersListComponent implements OnInit {
     });
   }
   public getPartners() {
-    //console.log(this.type);
-    let param = { url: 'get-partners', partner_type_id: this.type };
+    let param = {
+      url: 'get-partners',
+      partner_type_id: this.type,
+      offset: this.page,
+      limit: this.pageSize,
+    };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']['partners']);
