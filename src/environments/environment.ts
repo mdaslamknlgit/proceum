@@ -86,7 +86,7 @@ firebaseConfig: {
   /*
   * Below array used to check domian or subdomian from in app users or partners
   */
-  INAPP_DOMAINS_ARRAY: ["localhost", "dev", "master", "192"],
+  INAPP_DOMAINS_ARRAY: ["localhost", "dev", "master", "192", "uat"],
   PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',
 };
 

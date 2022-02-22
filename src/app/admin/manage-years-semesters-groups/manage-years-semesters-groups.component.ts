@@ -308,10 +308,14 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
+        if (this.paginator != undefined) {
+          this.paginator.pageIndex = 0;
+          this.paginator.firstPage();
+        }
         this.dataSource = new MatTableDataSource(res['data']);
+        this.totalSize = res['total_records'];
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.totalSize = res['total_records'];
       } else {
         this.dataSource = new MatTableDataSource();
       }
@@ -420,12 +424,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
         this.totalSize = res['total_records'];
       } else {
         this.dataSource = new MatTableDataSource([]);
-        //this.toster.error(res['message'], 'Error');
       }
     });
   }
@@ -441,14 +442,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       slug: this.slug,
     };
     this.http.post(param).subscribe((res) => {
-      //console.log(res['data']);
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
         this.totalSize = res['total_records'];
       } else {
-        //this.toster.info(res['message'], 'Error');
         this.dataSource = new MatTableDataSource([]);
       }
     });
@@ -583,6 +580,20 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.all_universities.next(
       this.universities.filter(
         (university) => university.partner_name.toLowerCase().indexOf(search) > -1
+      )
+    );
+  }
+  filterPartnerChilds(event) {
+    let search = event;
+    if (!search) {
+      this.all_colleges.next(this.colleges.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_colleges.next(
+      this.colleges.filter(
+        (college) => college.partner_name.toLowerCase().indexOf(search) > -1
       )
     );
   }

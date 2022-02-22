@@ -1,0 +1,481 @@
+<div class="mn_dshbrd">
+  <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/leads"><strong>Leads</strong></span> &raquo; <strong>Approve Lead as Partner</strong>
+  </div>
+  <div class="pg_ttl">Approve Lead as Partner</div>
+  <hr />
+  <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
+      <mat-accordion>
+          <mat-expansion-panel [expanded]="basic_details_expand" hideToggle>
+              <mat-expansion-panel-header style="pointer-events: none;">
+                  <mat-panel-title>
+                      Basic details
+                  </mat-panel-title>
+                  <mat-panel-description></mat-panel-description>
+              </mat-expansion-panel-header>
+              <form autocomplete="off" #create_Partner_form1="ngForm" name="create_Partner_form1"
+                  (ngSubmit)="create_Partner_form1.valid && validateBasicDeatils()" novalidate>
+                  <div class="crt_pr_mn jc_fs">
+                      <div class="crt_pr_dv" *ngIf="!partner_id">
+                          <div class="crt_prt_hd">Partner Type</div>
+                          <div class="crt_prt_cnt">
+                              <mat-radio-group aria-label="Select an option" name="partner_type"
+                                  [(ngModel)]="partner_type" (ngModelChange)="getPackages()" required>
+                                  <mat-radio-button name="partner_type" value="1">University</mat-radio-button>
+                                  <mat-radio-button name="partner_type" value="2">College</mat-radio-button>
+                                  <mat-radio-button name="partner_type" value="3">Institute</mat-radio-button>
+                              </mat-radio-group>
+                          </div>
+                      </div>
+                      <div class="clear_fix"></div>
+                      <div class="cm_fltr_sc mr_1">
+                          <div class="crt_prt_hd">Partner Name*</div>
+                          <mat-form-field appearance="outline" class="w_100p">
+                              <input matInput placeholder="Partner Name" maxlength="100" [(ngModel)]="partner_name"
+                                  name="partner_name_edit" #partner_name_edit="ngModel"
+                                  (keypress)="allAlphabetsWithSpaces($event)" required />
+                          </mat-form-field>
+                      </div>
+                      <div class="cm_fltr_sc mr_1">
+                          <div class="crt_prt_hd">Login Email*</div>
+                          <mat-form-field appearance="outline" class="w_100p">
+                              <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
+                                  #email_edit="ngModel" autocomplete="off" required
+                                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [disabled]="email" />
+                          </mat-form-field>
+                      </div>
+
+
+                      <div class="cm_fltr_sc mr_1">
+                          <div class="crt_prt_hd">Primary Contact Number*</div>
+
+                          <mat-form-field appearance="outline" class="w_100p">
+                              <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone"
+                                  name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13"
+                                  required />
+                          </mat-form-field>
+
+                      </div>
+                      <div class="cm_fltr_sc mr_1" *ngIf="partner_type == '1'">
+                          <div class="crt_prt_hd">Secondary Contact Number*</div>
+
+                          <mat-form-field appearance="outline" class="w_100p">
+                              <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone"
+                                  name="second_phone_edit" #second_phone_edit="ngModel" appNumbersonly minlength="9"
+                                  maxlength="13" required />
+                          </mat-form-field>
+
+                      </div>
+                      <div class="cm_fltr_sc mr_1">
+                          <div class="crt_prt_hd">Contact Person*</div>
+                          <mat-form-field appearance="outline" class="w_100p">
+                              <input matInput placeholder="Person Name" maxlength="50"
+                                  (keypress)="allAlphabetsWithSpaces($event)" [(ngModel)]="contact_name"
+                                  name="contact_name_edit" #contact_name_edit="ngModel" required />
+                          </mat-form-field>
+
+                      </div>
+                      <div class="cm_fltr_sc mr_1" *ngIf="partner_type == '1' || partner_type == '2'">
+                          <div class="crt_prt_hd">{{ (partner_type == 1) ? "University" : "College"}} Code*</div>
+                          <mat-form-field appearance="outline" class="w_100p">
+                              <input matInput placeholder="{{ (partner_type == '1') ? 'University' : 'College'}} Code"
+                                  maxlength="10" [(ngModel)]="code" name="code_edit" #code_edit="ngModel" required />
+                          </mat-form-field>
+
+                      </div>
+                      <div class="cm_fltr_sc mr_1">
+                          <div class="crt_prt_hd">GSTIN number*</div>
+                          <mat-form-field appearance="outline" class="w_100p">
+                              <input matInput placeholder="GST/VAT" autocomplete="off" minlength="15" maxlength="15"
+                                  required name="gstin_edit" [(ngModel)]="gstin" #gstin_edit="ngModel" ngModel
+                                  onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))" />
+                          </mat-form-field>
+                      </div>
+                      <div class="clear_fix"></div>
+                      <div class="text_right float_right w_100p">
+                          <button mat-raised-button class="no_bxsdw" color="accent" type="submit">Next</button>
+                      </div>
+                  </div>
+              </form>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="branding_info_expand" hideToggle>
+              <mat-expansion-panel-header style="pointer-events: none;">
+                  <mat-panel-title>
+                      Branding info
+                  </mat-panel-title>
+                  <mat-panel-description></mat-panel-description>
+              </mat-expansion-panel-header>
+              <form autocomplete="off" #create_Partner_form2="ngForm" name="create_Partner_form2"
+                  (ngSubmit)="create_Partner_form2.valid" novalidate>
+                  <div class="crt_pr_mn">
+                      <div class="crt_pr_dv">
+                          <div class="brnd_info_mn">
+                              <div class="d-flex w_100p ai_cntr">
+                                  <div class="crt_prt_hd brnd_upttl">Partner Header Logo*</div>
+                                  <div class="spacer"></div>
+                                  <div class="text_right">
+                                      <button mat-raised-button class="no_bxsdw" color="accent"
+                                          onclick="document.getElementById('imageToUpload1').click()" type="button">
+                                          <input (change)="uploadImage($event,'header_logo')"
+                                              accept="image/x-png,image/gif,image/jpeg" id="imageToUpload1"
+                                              type="file" style="display: none" />Browse
+                                      </button>
+                                      <div class="hgt_10"></div>
+                                      <div class="text_right w_100p fl_frmt_info">(Supported Formats: .png, .jpg,
+                                          .jpeg)</div>
+                                  </div>
+                              </div>
+                              <div class="brnd_info_upld mt_1">
+                                  <div *ngIf="header_logo">
+                                      <img src="{{ header_logo }}" alt="Header Logo">
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="crt_pr_dv">
+                          <div class="crt_prt_hd">Description*</div>
+                          <mat-form-field appearance="outline" class="w_100p">
+                              <textarea matInput class="crt_prt_txt" [(ngModel)]="description" name="description_edit"
+                                  #description_edit="ngModel" required></textarea>
+                          </mat-form-field>
+                      </div>
+                      <div class="crt_pr_dv">
+                          <div class="crt_prt_hd">Sub-Domain*</div>
+                          <div class="err_tltp_par">
+                              <mat-form-field appearance="outline" class="w_100p sffx_tp_0">
+                                  <input appAlphabetOnly matInput placeholder="Sub-Domain" [(ngModel)]="sub_domain"
+                                      name="sub_domain_edit" #sub_domain_edit="ngModel"
+                                      (ngModelChange)="checkSubDomainAvailable()" required />
+                                  <span matSuffix class="sffx_subdmn">.proceum.com</span>
+                              </mat-form-field>
+
+                          </div>
+                      </div>
+                      <div class="clear_fix"></div>
+                      <div class="text_right float_right w_100p">
+                          <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1"
+                              (click)="branding_info_expand=false;basic_details_expand=true">Back</button>
+                          <button mat-raised-button class="no_bxsdw" color="accent"
+                              (click)="validateBrandingInfo()">Next</button>
+                      </div>
+                  </div>
+              </form>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="licence_info_expand" hideToggle>
+              <mat-expansion-panel-header style="pointer-events: none;">
+                  <mat-panel-title>
+                      Licence info
+                  </mat-panel-title>
+                  <mat-panel-description></mat-panel-description>
+              </mat-expansion-panel-header>
+              <form autocomplete="off" #create_Partner_form3="ngForm" name="create_Partner_form3"
+                  (ngSubmit)="create_Partner_form3.valid" novalidate>
+                  <div class="crt_pr_mn frrsp_768">
+                      <div class="crt_pr_dv">
+                          <div class="crt_prt_hd">Choose subscription package*</div>
+                          <mat-form-field appearance="outline" class="w_100p">
+                              <mat-select placeholder="Select Package" name="package_edit" #package_edit="ngModel"
+                                  [(ngModel)]="package_id" (ngModelChange)="fillLicenceDates()" required>
+                                  <mat-option>
+                                      <ngx-mat-select-search [noEntriesFoundLabel]="'No package found'"
+                                          [placeholderLabel]="'Search Package'" name="search_package" ngModel
+                                          (ngModelChange)="filterPackages($event)"></ngx-mat-select-search>
+                                  </mat-option>
+                                  <mat-option *ngFor="let package of all_packages | async" [value]="package['pk_id']">
+                                      {{ package["package_name"] }}</mat-option>
+                              </mat-select>
+                          </mat-form-field>
+                          <span
+                              *ngIf="(create_Partner_form3.submitted || package_edit.touched) && (package_edit.invalid || package_id == 0 || package_id == '')"
+                              class="prc_tltp">Package is required</span>
+                      </div>
+                      <div class="clear_fix w_100p"></div>
+                      <div class="crt_pr_dv d-flex jc_sb rsp_fw">
+                          <div class="w_47p rsp_100p">
+                              <div class="crt_prt_hd">Licence start date</div>
+                              <mat-form-field appearance="outline" class="w_100p">
+                                  <input matInput placeholder="Licence Start Date" [matDatepicker]="picker1"
+                                      #start_date="ngModel" [(ngModel)]="licence_start_date" name="start_date"
+                                      [min]="today_date" autocomplete="off" readonly required>
+                                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker1 disabled="true"></mat-datepicker>
+                              </mat-form-field>
+                              <span class="prc_tltp"
+                                  *ngIf="(create_Partner_form3.submitted || start_date.touched) && start_date.invalid">Licence
+                                  Start Date is required</span>
+                          </div>
+                          <div class="w_47p rsp_100p">
+                              <div class="crt_prt_hd">Licence end date</div>
+                              <mat-form-field appearance="outline" class="w_100p">
+                                  <input matInput placeholder="Licence End Date" [matDatepicker]="picker2"
+                                      #end_date="ngModel" [(ngModel)]="licence_end_date" name="end_date"
+                                      autocomplete="off" readonly required>
+                                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                  <mat-datepicker #picker color="accent" disabled="true"></mat-datepicker>
+                                  <mat-datepicker #picker2 disabled="true"></mat-datepicker>
+                              </mat-form-field>
+                              <span class="prc_tltp"
+                                  *ngIf="(create_Partner_form3.submitted || end_date.touched) && end_date.invalid">Licence
+                                  End Date is required</span>
+                          </div>
+                      </div>
+                      <div class="clear_fix w_100p"></div>
+                      <div class="crt_pr_dv d-flex jc_sb">
+                          <div class="w_47p">
+                              <div class="crt_prt_hd"></div>
+                              <mat-checkbox name="is_reseller_account" [(ngModel)]="is_reseller_account">Reseller
+                                  Account</mat-checkbox>
+
+                          </div>
+                      </div>
+                      <div class="clear_fix"></div>
+                      <div class="text_right float_right w_100p">
+                          <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1"
+                              (click)="licence_info_expand=false;branding_info_expand=true">Back</button>
+                          <button mat-raised-button class="no_bxsdw" color="accent"
+                              (click)="validateLicenceInfo()">Next</button>
+                      </div>
+                  </div>
+              </form>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="billing_address_expand" hideToggle>
+              <mat-expansion-panel-header style="pointer-events: none;">
+                  <mat-panel-title>
+                      Billing address &amp; Correspondence address
+                  </mat-panel-title>
+                  <mat-panel-description></mat-panel-description>
+              </mat-expansion-panel-header>
+              <form autocomplete="off" #create_Partner_form4="ngForm" name="create_Partner_form4"
+                  (ngSubmit)="create_Partner_form4.valid" novalidate>
+                  <div class="crt_pr_mn">
+
+                      <div class="clear_fix w_100p"></div>
+                      <div class="crt_pr_dv">
+                          <div class="text_right w_100p">
+                              &nbsp;
+                          </div>
+                          <div class="crt_pr_sbhd">Billing address</div>
+                          <div class="hgt_10"></div>
+                          <div class="brnd_info_mn">
+                              <div class="crt_prt_hd">Address line 1*</div>
+                              <div class="brnd_info_upld">
+                                  <mat-form-field appearance="outline" class="w_100p">
+                                      <input matInput matInput placeholder="Address line 1"
+                                          [(ngModel)]="b_address_line_1" name="address_line_1_edit"
+                                          #address_line_1_edit="ngModel" required />
+                                  </mat-form-field>
+                                  <span class="prc_tltp"
+                                      *ngIf="(create_Partner_form4.submitted || address_line_1_edit.touched) && address_line_1_edit.invalid">Address
+                                      Line 1 is required</span>
+                              </div>
+                          </div>
+                          <div class="brnd_info_mn">
+                              <div class="crt_prt_hd">Address line 2</div>
+                              <div class="brnd_info_upld">
+                                  <mat-form-field appearance="outline" class="w_100p">
+                                      <input matInput matInput placeholder="Address line 2"
+                                          [(ngModel)]="b_address_line_2" name="address_line_2_edit"
+                                          #address_line_2_edit="ngModel" />
+                                  </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="brnd_info_mn d-flex jc_sb rsp_fw">
+                              <div class="w_47p rsp_100p">
+                                  <div class="crt_prt_hd">Country*</div>
+                                  <div class="err_tltp_par">
+                                      <mat-form-field appearance="outline" class="w_100p">
+                                          <mat-select placeholder="Select Country" name="country_edit"
+                                              #country_edit="ngModel" [(ngModel)]="b_country_id"
+                                              (ngModelChange)="getStates(b_country_id)" required>
+                                              <mat-option>
+                                                  <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
+                                                      [placeholderLabel]="'Search Country'" name="search_country"
+                                                      ngModel (ngModelChange)="filterCountries($event)">
+                                                  </ngx-mat-select-search>
+                                                  </mat-option>
+                                                  <mat-option *ngFor="let country of all_countrys | async"
+                                                      [value]="country['id']">{{ country["country_name"] }}
+                                                  </mat-option>
+                                          </mat-select>
+                                      </mat-form-field>
+                                      <span
+                                          *ngIf="(create_Partner_form4.submitted || country_edit.touched) && country_edit.invalid"
+                                          class="prc_tltp">Country is required</span>
+                                  </div>
+                              </div>
+                              <div class="w_47p rsp_100p">
+                                  <div class="crt_prt_hd">State*</div>
+                                  <div class="err_tltp_par">
+                                      <mat-form-field appearance="outline" class="w_100p">
+                                          <mat-select placeholder="Select State" name="state_edit"
+                                              #state_edit="ngModel" [(ngModel)]="b_state_id"
+                                              (ngModelChange)="getCities(b_state_id)" required>
+                                              <mat-option>
+                                                  <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
+                                                      [placeholderLabel]="'Search State'" name="search_state" ngModel
+                                                      (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
+                                              </mat-option>
+                                              <mat-option *ngFor="let state of all_states | async"
+                                                  [value]="state['id']">{{ state["state_name"] }}</mat-option>
+                                          </mat-select>
+                                      </mat-form-field>
+                                      <span
+                                          *ngIf="(create_Partner_form4.submitted || state_edit.touched) && state_edit.invalid"
+                                          class="prc_tltp">State is required</span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="brnd_info_mn d-flex jc_sb rsp_fw">
+                              <div class="w_47p rsp_100p">
+                                  <div class="crt_prt_hd">City*</div>
+                                  <mat-form-field appearance="outline" class="w_100p">
+                                      <mat-select placeholder="Select City" name="city_edit" #city_edit="ngModel"
+                                          [(ngModel)]="b_city" required>
+                                          <mat-option>
+                                              <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
+                                                  [placeholderLabel]="'Search City'" name="search_city" ngModel
+                                                  (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                                          </mat-option>
+                                          <mat-option *ngFor="let city of all_cities | async" [value]="city['id']">{{
+                                              city["city_name"] }}</mat-option>
+                                      </mat-select>
+                                  </mat-form-field>
+
+                                  <span class="prc_tltp"
+                                      *ngIf="(create_Partner_form4.submitted || city_edit.touched) && city_edit.invalid">City
+                                      is required</span>
+                              </div>
+                              <div class="w_47p rsp_100p">
+                                  <div class="crt_prt_hd">Postcode*</div>
+                                  <mat-form-field appearance="outline" class="w_100p">
+                                      <input matInput placeholder="ZIP/Pin code" [(ngModel)]="b_pincode"
+                                          name="pincode_edit" #pincode_edit="ngModel" appNumbersonly minlength="4"
+                                          maxlength="13" required />
+                                  </mat-form-field>
+                                  <span class="prc_tltp"
+                                      *ngIf="(create_Partner_form1.submitted || pincode_edit.touched) && pincode_edit.invalid">ZIP/Pincode
+                                      is required</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="crt_pr_dv">
+                          <div class="text_right w_100p">
+                              <mat-checkbox name="same_as_billing_address" [(ngModel)]="same_as_billing_address"
+                                  (ngModelChange)="sameAsBillingAddress()">Same as Billing Address</mat-checkbox>
+                          </div>
+                          <div class="crt_pr_sbhd">Correspondence address</div>
+                          <div class="hgt_10"></div>
+                          <div class="brnd_info_mn">
+                              <div class="crt_prt_hd">Address line 1*</div>
+                              <div class="brnd_info_upld">
+                                  <mat-form-field appearance="outline" class="w_100p">
+                                      <input matInput matInput placeholder="Address line 1"
+                                          [(ngModel)]="c_address_line_1" name="c_address_line_1_edit"
+                                          #c_address_line_1_edit="ngModel" required />
+                                  </mat-form-field>
+                                  <span class="prc_tltp"
+                                      *ngIf="(create_Partner_form4.submitted || c_address_line_1_edit.touched) && c_address_line_1_edit.invalid">Address
+                                      Line 1 is required</span>
+                              </div>
+                          </div>
+                          <div class="brnd_info_mn">
+                              <div class="crt_prt_hd">Address line 2</div>
+                              <div class="brnd_info_upld">
+                                  <mat-form-field appearance="outline" class="w_100p">
+                                      <input matInput matInput placeholder="Address line 2"
+                                          [(ngModel)]="c_address_line_2" name="c_address_line_2_edit"
+                                          #c_address_line_2_edit="ngModel" />
+                                  </mat-form-field>
+                              </div>
+                          </div>
+                          <div class="brnd_info_mn d-flex jc_sb rsp_fw">
+                              <div class="w_47p rsp_100p">
+                                  <div class="crt_prt_hd">Country*</div>
+                                  <div class="err_tltp_par">
+                                      <mat-form-field appearance="outline" class="w_100p">
+                                          <mat-select placeholder="Select Country" name="c_country_edit"
+                                              #c_country_edit="ngModel" [(ngModel)]="c_country_id"
+                                              (ngModelChange)="cgetStates(c_country_id)" required>
+                                              <mat-option>
+                                                  <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
+                                                      [placeholderLabel]="'Search Country'" name="search_country"
+                                                      ngModel (ngModelChange)="filterCountries($event)">
+                                                  </ngx-mat-select-search>
+                                                  </mat-option>
+                                                  <mat-option *ngFor="let country of all_countrys | async"
+                                                      [value]="country['id']">{{ country["country_name"] }}
+                                                  </mat-option>
+                                          </mat-select>
+                                      </mat-form-field>
+                                      <span
+                                          *ngIf="(create_Partner_form4.submitted || c_country_edit.touched) && c_country_edit.invalid"
+                                          class="prc_tltp">Country is required</span>
+                                  </div>
+                              </div>
+                              <div class="w_47p rsp_100p">
+                                  <div class="crt_prt_hd">State*</div>
+                                  <div class="err_tltp_par">
+                                      <mat-form-field appearance="outline" class="w_100p">
+                                          <mat-select placeholder="Select State" name="c_state_edit"
+                                              #c_state_edit="ngModel" [(ngModel)]="c_state_id"
+                                              (ngModelChange)="cgetCities(c_state_id)" required>
+                                              <mat-option>
+                                                  <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
+                                                      [placeholderLabel]="'Search State'" name="search_state" ngModel
+                                                      (ngModelChange)="cfilterStates($event)"></ngx-mat-select-search>
+                                              </mat-option>
+                                              <mat-option *ngFor="let state of c_all_states | async"
+                                                  [value]="state['id']">{{ state["state_name"] }}</mat-option>
+                                          </mat-select>
+                                      </mat-form-field>
+                                      <span
+                                          *ngIf="(create_Partner_form4.submitted || c_state_edit.touched) && c_state_edit.invalid"
+                                          class="prc_tltp">State is required</span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="brnd_info_mn d-flex jc_sb rsp_fw">
+                              <div class="w_47p rsp_100p">
+                                  <div class="crt_prt_hd">City*</div>
+                                  <mat-form-field appearance="outline" class="w_100p">
+                                      <mat-select placeholder="Select City" name="c_city_edit" #c_city_edit="ngModel"
+                                          [(ngModel)]="c_city" required>
+                                          <mat-option>
+                                              <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
+                                                  [placeholderLabel]="'Search City'" name="c_search_city" ngModel
+                                                  (ngModelChange)="cfilterCities($event)"></ngx-mat-select-search>
+                                          </mat-option>
+                                          <mat-option *ngFor="let city of c_all_cities | async" [value]="city['id']">{{
+                                              city["city_name"] }}</mat-option>
+                                      </mat-select>
+                                  </mat-form-field>
+                                  <span class="prc_tltp"
+                                      *ngIf="(create_Partner_form4.submitted || c_city_edit.touched) && c_city_edit.invalid">City
+                                      is required</span>
+                              </div>
+                              <div class="w_47p rsp_100p">
+                                  <div class="crt_prt_hd">Postcode*</div>
+                                  <mat-form-field appearance="outline" class="w_100p">
+                                      <input matInput placeholder="ZIP/Pin code" [(ngModel)]="c_pincode"
+                                          name="c_pincode_edit" #c_pincode_edit="ngModel" appNumbersonly minlength="4"
+                                          maxlength="13" required />
+                                  </mat-form-field>
+                                  <span class="prc_tltp"
+                                      *ngIf="(create_Partner_form1.submitted || c_pincode_edit.touched) && c_pincode_edit.invalid">ZIP/Pincode
+                                      is required</span>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="clear_fix"></div>
+                      <div class="text_right float_right w_100p">
+                          <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1"
+                              (click)="billing_address_expand=false;licence_info_expand = true;">Back</button>
+                          <button mat-raised-button class="no_bxsdw" color="accent"
+                              (click)="validateAddressDetails()">Approve As Partner</button>
+                      </div>
+                  </div>
+              </form>
+          </mat-expansion-panel>
+      </mat-accordion>
+  </div>
+
+</div>
