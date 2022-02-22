@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import {GlobalApp} from '../../../global';
+import { GlobalApp } from '../../../global';
+import Swal from 'sweetalert2';
 import {
   SocialAuthService,
   GoogleLoginProvider,
@@ -33,8 +34,8 @@ export class LoginComponent implements OnInit {
   public password_error: string = 'Password is Required';
   public email_check: boolean = true;
   public is_login: boolean = false;
-  public isLoadedTopBar:boolean = false;
-  public subDomain:boolean = false;
+  public isLoadedTopBar: boolean = false;
+  public subDomain: boolean = false;
 
   password_hide: boolean = true;
   constructor(
@@ -43,7 +44,7 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService,
     private socialAuthService: SocialAuthService,
     public app: GlobalApp
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.socialAuthService.authState.subscribe((user) => {
       if (user && this.is_login == false) {
@@ -107,7 +108,7 @@ export class LoginComponent implements OnInit {
                 : '/reviewer/dashboard';
               localStorage.removeItem('_redirect_url');
               this.route.navigate([redirect_url]);
-            }else if (role == 8 || role == 9 || role == 10){
+            } else if (role == 8 || role == 9 || role == 10) {
               let redirect_url = localStorage.getItem('_redirect_url')
                 ? localStorage.getItem('_redirect_url')
                 : '/admin/dashboard';
@@ -147,6 +148,14 @@ export class LoginComponent implements OnInit {
           };
           this.http.login(params).subscribe((res: Response) => {
             if (res.error) {
+              if (res['insti_reg_user']) {
+                Swal.fire({
+                  icon: 'info',
+                  title: 'Dear Partner,',
+                  html: 'Thanks for registering with us.<br/> Your account is not enabled yet as we are still reviewing your information.<br/> We will get back to you soon.<br/>'
+                })
+                return false;
+              }
               this.toastr.error(res.message, 'Error', {
                 closeButton: true,
                 timeOut: 5000,
@@ -156,30 +165,30 @@ export class LoginComponent implements OnInit {
               let json_user = btoa(JSON.stringify(res['data'].user));
               localStorage.setItem('user', json_user);
               //If login user has subdomain the send him to land on subdomain
-              if(res['data']['user']['sub_domain']){
+              if (res['data']['user']['sub_domain']) {
                 this.landOnSubdomain(res['data']['user']);
               }
               if (res['data']['user']['role'] == 1) {
                 //admin
-                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/admin/dashboard';
+                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/admin/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
               } else if (res['data']['user']['role'] == 3 || res['data']['user']['role'] == 4 || res['data']['user']['role'] == 5 || res['data']['user']['role'] == 6 || res['data']['user']['role'] == 7) {
                 //Reviewer L1, L2,L3 Approver
-                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/reviewer/dashboard';
+                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/reviewer/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
-              }else if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(res['data']['user']['role']))){
-                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/admin/dashboard';
+              } else if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(res['data']['user']['role']))) {
+                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/admin/dashboard';
                 this.route.navigate([redirect_url]);
-              }else if(res['data']['user']['role'] == 12){
-                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/teacher/dashboard';
+              } else if (res['data']['user']['role'] == 12) {
+                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/teacher/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
               }
               else {
                 //student or others
-                let redirect_url = localStorage.getItem('_redirect_url')? localStorage.getItem('_redirect_url'): '/student/dashboard';
+                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/student/dashboard';
                 localStorage.removeItem('_redirect_url');
                 this.route.navigate([redirect_url]);
               }
@@ -190,28 +199,28 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  landOnSubdomain(userData){
+  landOnSubdomain(userData) {
     let subdomain = userData['sub_domain'];
     let role = Number(userData['role']);
     let dashboard = "/student/dashboard";
-    if(Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).includes(role)){
+    if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).includes(role)) {
       dashboard = "/admin/dashboard";
     }
-    if(role == environment.ALL_ROLES.TEACHER){
+    if (role == environment.ALL_ROLES.TEACHER) {
       dashboard = "/teacher/dashboard";
     }
     let newdomain;
-    newdomain = window.location.origin.replace('uat',subdomain);
-    if(newdomain.indexOf(subdomain) > -1){
-     window.location.href = newdomain + dashboard; return;
+    newdomain = window.location.origin.replace('uat', subdomain);
+    if (newdomain.indexOf(subdomain) > -1) {
+      window.location.href = newdomain + dashboard; return;
     }
-    newdomain = window.location.origin.replace('dev',subdomain);
-    if(newdomain.indexOf(subdomain) > -1){
-     window.location.href = newdomain + dashboard; return;
+    newdomain = window.location.origin.replace('dev', subdomain);
+    if (newdomain.indexOf(subdomain) > -1) {
+      window.location.href = newdomain + dashboard; return;
     }
-    newdomain = window.location.origin.replace('master',subdomain);
-    if(newdomain.indexOf(subdomain) > -1){
-     window.location.href = newdomain + dashboard; return;
+    newdomain = window.location.origin.replace('master', subdomain);
+    if (newdomain.indexOf(subdomain) > -1) {
+      window.location.href = newdomain + dashboard; return;
     }
   }
 
