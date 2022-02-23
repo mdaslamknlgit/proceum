@@ -805,13 +805,17 @@
     <h3>Lets Stay In Touch</h3>
   </div>
   <div class="subscribe">
-    <input type="text" autocomplete="off" [(ngModel)]="email_address" [class]="errClass" maxlength="254"
-      (focus)="removeClass()" onkeypress="return (event.charCode != 32)" name="email_address"
-      placeholder="Enter your email [ex:sample123@gmail.com]" />
-    <button class="cursor-pointer" (click)="newsletterSubscribe()">
-      Subscribe
-    </button><br />
-    <span style="color:rgb(207, 183, 183)">{{ errEmailMsg }} </span>
+    <div class="err_tltp_par">
+      <input type="text" autocomplete="off" [(ngModel)]="email_address" [class]="errClass" maxlength="254"
+        (focus)="removeClass()" onkeypress="return (event.charCode != 32)" name="email_address"
+        placeholder="Enter your Email Id" />
+      <span class="prc_tltp" *ngIf="(errEmailMsg)">{{ errEmailMsg }}</span>
+    </div>
+    <div>
+      <button class="cursor-pointer" (click)="newsletterSubscribe()">
+        Subscribe
+      </button>
+    </div>
   </div>
 </div>
-<app-footer *ngIf="hasLoaded"></app-footer>  
+<app-footer *ngIf="hasLoaded"></app-footer>
