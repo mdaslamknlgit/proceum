@@ -100,6 +100,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
 import { TeacherSubjectsComponent } from './teacher/teacher-subjects/teacher-subjects.component';
 import { Levels_listComponent } from './teacher/teacher-subjects/levels_list/levels_list.component';
 import { ApproveLeadComponent } from './approve-lead/approve-lead.component';
+import { TeacherComponent } from './dashboard/teacher/teacher.component';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -341,7 +342,8 @@ const routes: Routes = [
     MyAccountComponent,
     TeacherSubjectsComponent,
     Levels_listComponent,
-    ApproveLeadComponent
+    ApproveLeadComponent,
+    TeacherComponent
   ],
   imports: [
     MaterialModule,

@@ -90,7 +90,7 @@ export class Levels_listComponent implements OnInit {
                     this.toster.error('No content Found', 'Error', {closeButton: true});
                     this.location.back();
                 } else {
-                    let url = '/student/curriculum/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
+                    let url = '/student/subjects/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
                     this.route.navigateByUrl(url);
                 }
             }

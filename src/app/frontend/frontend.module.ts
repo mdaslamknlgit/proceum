@@ -76,14 +76,8 @@ const routes: Routes = [
       },
       { path: 'curriculums', component: LevelComponent },
       { path: 'curriculum/details/:curriculum_id/:level_id/:level_parent_id', component: DetailsComponent },
-      {
-        path: 'curriculum/details/:curriculum_id/:level_id/:level_parent_id/:content_id',
-        component: DetailsComponent,
-      },
-      {
-        path: 'content-preview/:content_id',
-        component: DetailsComponent,
-      },
+      { path: 'curriculum/details/:curriculum_id/:level_id/:level_parent_id/:content_id', component: DetailsComponent},
+      { path: 'content-preview/:content_id', component: DetailsComponent },
       { path: 'curriculums/:curriculum_id', component: Level_listComponent },
       { path: 'curriculums/:curriculum_id/:level_id', component: Level_listComponent},
       { path: 'curriculums/:curriculum_id/:level_id/:level_parent_id', component: Level_listComponent},      
@@ -120,7 +114,10 @@ const routes: Routes = [
       { path: 'purchased-courses', component: IndividualCoursesComponent},
       { path: 'purchased-courses/:curriculum_id/:level_id', component: Individual_levels_listComponent},
       { path: 'purchased-courses/:curriculum_id/:level_id/:level_parent_id', component: Individual_levels_listComponent},
-      { path: 'purchased-courses/details/:curriculum_id/:level_id/:level_parent_id', component: Individual_levels_listComponent },
+      { path: 'purchased-courses/details/:curriculum_id/:level_id/:level_parent_id', component: DetailsComponent },
+      { path: 'purchased-courses/details/:curriculum_id/:level_id/:level_parent_id/:content_id', component: DetailsComponent },
+      { path: 'subjects/details/:curriculum_id/:level_id/:level_parent_id', component: DetailsComponent },
+      { path: 'subjects/details/:curriculum_id/:level_id/:level_parent_id/:content_id', component: DetailsComponent },
     ],
   },
 ];
