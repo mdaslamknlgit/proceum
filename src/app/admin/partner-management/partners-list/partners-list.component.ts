@@ -189,6 +189,7 @@ export class PartnersListComponent implements OnInit {
   }
 
   openInNewTab(subdomain){
+    console.log(subdomain);
     let newdomain;
     newdomain = window.location.origin.replace('uat',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
@@ -202,10 +203,10 @@ export class PartnersListComponent implements OnInit {
     if(newdomain.indexOf(subdomain) > -1){
       window.open(newdomain+'/login','_blank');return;
     }
-    /* newdomain = window.location.origin.replace('localhost',subdomain);
+    newdomain = window.location.origin.replace('localhost:4200',subdomain);
     if(newdomain.indexOf(subdomain) > -1){
       window.open(newdomain+'/login','_blank');return;
-    } */
+    }
   }
 
 

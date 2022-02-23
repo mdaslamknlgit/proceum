@@ -123,8 +123,8 @@ export class CreateMeetingComponent implements OnInit {
             this.getTeacherSubjects();
             this.is_college = false;
             this.is_university = false;
-            this.organization_list_id = this.user['partner_id'];
-            this.organization_type_id = '1';
+            //this.organization_list_id = this.user['partner_id'];
+            //this.organization_type_id = '1';
           }else{
             if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
               this.is_college = true;
@@ -185,7 +185,7 @@ export class CreateMeetingComponent implements OnInit {
             }
           }
         });
-      }
+    }
     getData(){
         let param = {url: 'class/create-meeting'};
         this.http.post(param).subscribe(res=>{

@@ -39,8 +39,6 @@ export class StudentTopbarComponent implements OnInit {
   ngOnInit(): void {
     //check subdomain
     let sub_domain = window.location.hostname.split('.')[0];
-    //static sub domain
-    //sub_domain = 'iimsc';
     //If subdomain not exist in in app domains then check for partner domain
     if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
       this.getSubDomainDetails(sub_domain);

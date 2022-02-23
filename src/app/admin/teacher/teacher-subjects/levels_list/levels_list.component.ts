@@ -57,7 +57,7 @@ export class Levels_listComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: true
+      is_individual: 2
     };
     this.http.post(param).subscribe((res) => {
         this.is_loaded = true;
@@ -81,16 +81,16 @@ export class Levels_listComponent implements OnInit {
         if (res['check_data'] == 0) {
             let data = res['data'];
             this.curriculum = data['curriculum'];
-            if(this.curriculum['usage_type'] == 2){
-                let url = '/student/qbank/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
-                this.route.navigateByUrl(url);
+            if(res['type'] != undefined && res['type'] == 'access'){
+                this.toster.error('You don`t have access', 'Access Denied', {closeButton: true});
+                this.location.back();
             }
             else{
                 if (res['check_content'] == 0) {
                     this.toster.error('No content Found', 'Error', {closeButton: true});
                     this.location.back();
                 } else {
-                    let url = '/student/curriculum/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
+                    let url = '/student/subjects/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
                     this.route.navigateByUrl(url);
                 }
             }

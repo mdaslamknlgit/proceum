@@ -365,7 +365,7 @@
             </ng-template>
             <ul class="crds_ul full_crd">
               <li *ngIf="free_content.length==0">
-                <div class="lfrt_grd">
+                <div class="lfrt_grd no_desc_fnd">
                   <span>No Free Content Found</span>
                 </div>
               </li>
@@ -374,7 +374,7 @@
                   <div class="d-flex w_100p">
                     <button (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)" mat-mini-fab
                       class="mr_1">
-                      <mat-icon>videocam</mat-icon>
+                      <mat-icon>text_snippet</mat-icon>
                     </button>
                     <div>
                       <a
@@ -414,7 +414,7 @@
             </ng-template>
             <ul class="crds_ul full_crd" *ngIf="bookmarks">
               <li *ngIf="bookmarks.length==0">
-                <div class="lfrt_grd">
+                <div class="lfrt_grd no_desc_fnd">
                   <span>No Bookmarks Found</span>
                 </div>
               </li>
@@ -422,7 +422,7 @@
                 <div class="lfrt_grd" *ngFor="let bookmark of bookmarks">
                   <span class="text_left">
                     <button mat-mini-fab class="mr_1">
-                      <mat-icon>videocam</mat-icon>
+                      <mat-icon>text_snippet</mat-icon>
                     </button>
                     <div>
                       <a
@@ -448,7 +448,7 @@
             </ng-template>
             <ul class="crds_ul full_crd" *ngIf="favorites">
               <li *ngIf="favorites.length==0">
-                <div class="lfrt_grd">
+                <div class="lfrt_grd no_desc_fnd">
                   <span>No Favorites Found</span>
                 </div>
               </li>
@@ -456,7 +456,7 @@
                 <div class="lfrt_grd" *ngFor="let favorite of favorites">
                   <span class="text_left">
                     <button mat-mini-fab class="mr_1">
-                      <mat-icon>videocam</mat-icon>
+                      <mat-icon>text_snippet</mat-icon>
                     </button>
                     <div>
                       <a
@@ -483,7 +483,7 @@
             </ng-template>
             <ul class="crds_ul full_crd">
               <li>
-                <div class="lfrt_grd" *ngIf="wish_list.length==0 && wish_list_data==0">
+                <div class="lfrt_grd no_desc_fnd" *ngIf="wish_list.length==0 && wish_list_data==0">
                   <span>No Wishlist Found</span>
                 </div>
                 <div *ngIf="wish_list">
@@ -509,11 +509,11 @@
                   <div class="lfrt_grd" *ngFor="let list_data of wish_list_data">
                     <span class="text_left">
                       <button mat-mini-fab class="mr_1">
-                        <mat-icon>videocam</mat-icon>
+                        <mat-icon>text_snippet</mat-icon>
                       </button>
                       <div>
-                        <span
-                          (click)="navigateTo(list_data.cur_id+'/'+list_data.level_id+'/'+list_data.cur_pk_id)">{{list_data.content_title}}</span>
+                        <a
+                          (click)="navigateTo(list_data.cur_id+'/'+list_data.level_id+'/'+list_data.cur_pk_id)">{{ list_data.content_title.length>10?list_data.content_title.substring(0,99)+'...': list_data.content_title}}</a>
                         <span class="prg_btm_cnt">{{list_data.level_name}}</span>
                       </div>
                     </span>
@@ -526,7 +526,7 @@
         </mat-tab-group>
       </li>
     </ul>
-    <!-- <ul class="crds_ul rcnt_vw">
+    <ul class="crds_ul rcnt_vw">
       <li>
         <span class="text_left">Subject Knowledge</span>
         <hr />
@@ -646,7 +646,7 @@
           </li>
         </ul>
       </li>
-    </ul> -->
+    </ul>
 
     <!-- <ul class="crds_ul full_crd">
     <li>
