@@ -7,6 +7,7 @@ import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from '../../../../../assets/3d-model-viewer/js-3d-model-viewer.min';
 declare var kPoint: any;
+declare var VdoPlayer:any;
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { environment } from 'src/environments/environment';
 
@@ -276,6 +277,14 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.getTimeline();
         }
     }
+    if(video['video_type'] == "VIDEO_CIPHER" && false){
+        this.timeline = undefined;
+        if(this.player != undefined){
+            this.player.pauseVideo();
+        }
+        this.video_type = "VIDEO_CIPHER";
+        this.getOtp(video['video_source']);
+    }
     if(video['video_type'] == "YOUTUBE"){
         this.timeline = undefined;
         if(this.player != undefined){
@@ -286,21 +295,43 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.youtube_iframe = this.sanitizer.bypassSecurityTrustResourceUrl(embed_link);
     }
   }
-  getTimeline(){
-    this.timeline = undefined;
-    let param1 = {"url": "get-kpoint-token"};
-    this.http.post(param1).subscribe(res=>{
-        this.xt = res['data']['xt'];
-        let param = {url: "kapsule/"+this.player.info.kvideoId+"/bookmarks?xt="+this.xt};
-        this.http.kpointGet(param).subscribe(res=>{
-        this.timeline = res;
-    });
-    })
-  }
+    getOtp(video_url){
+        let param1 = {"url": "vdocipher/get-otp", video_url: video_url};
+        this.http.post(param1).subscribe(res=>{
+            console.log(res)
+            var video = new VdoPlayer({
+                otp: res['data']['otp'],
+                playbackInfo: res['data']['playbackInfo'],
+                theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",
+                // the container can be any DOM element on website
+                container: document.querySelector("#embedBox"),
+              });
+              
+              // you can directly call any methods of VdoPlayer class from here. e.g:
+              // video.addEventListener(`load`, () => {
+              //   video.play(); // this will auto-start the video
+              //   console.log('loaded');
+              // });
+        });
+    }
+    getTimeline(){
+        this.timeline = undefined;
+        let param1 = {"url": "get-kpoint-token"};
+        this.http.post(param1).subscribe(res=>{
+            this.xt = res['data']['xt'];
+            let param = {url: "kapsule/"+this.player.info.kvideoId+"/bookmarks?xt="+this.xt};
+            this.http.kpointGet(param).subscribe(res=>{
+            this.timeline = res;
+        });
+        })
+    }
   seekTo(time){
       this.player.seekTo(time);
   }
-  getThumbinail(url){
+  getVdoThumbinail(url){
+    return "/assets/images/video-cipher.png";
+  }
+  getYtThumbinail(url){
       if(url == null || url == undefined){
           return false;
       }
