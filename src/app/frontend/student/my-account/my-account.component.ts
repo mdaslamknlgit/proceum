@@ -409,6 +409,7 @@ export class MyAccountComponent implements OnInit {
     myFormData.append('city', this.profile.city);
     myFormData.append('address_line_1', this.profile.address1);
     myFormData.append('address_line_2', this.profile.address2);
+    myFormData.append('domain', this.domain);
     let param = {
       url: 'update-student-profile',
     };
