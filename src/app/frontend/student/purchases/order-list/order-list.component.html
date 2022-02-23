@@ -30,6 +30,15 @@
                     </td>
                 </ng-container>
 
+                <ng-container matColumnDef="package_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                      Package Name
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                      <span>{{ element.package_name }}</span>
+                  </td>
+                </ng-container>
+
                 <ng-container matColumnDef="paid_amount">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
                         Amount
@@ -42,21 +51,22 @@
                 <ng-container matColumnDef="created_at">
                     <th mat-header-cell *matHeaderCellDef cdkDrag>Created On</th>
                     <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
-                </ng-container>             
-
-                <ng-container matColumnDef="status">
-                    <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
-                    <td mat-cell *matCellDef="let element">{{ element.status }}</td>
-                </ng-container>    
+                </ng-container>
 
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef>Actions</th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-icon-button matTooltip="Click for details" color="accent" [routerLink]="['/student/order-details', element.order_id]">
-                            <mat-icon>edit_note</mat-icon>
+                            <mat-icon>visibility</mat-icon>
                         </button>
                     </td>
                 </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
+                  <td mat-cell *matCellDef="let element">{{ element.status }}</td>
+              </ng-container>
+
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                 <tr class="mat-row no_rcrds_fd" *matNoDataRow>

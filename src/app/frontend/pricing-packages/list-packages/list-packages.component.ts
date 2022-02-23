@@ -18,7 +18,7 @@ export class ListPackagesComponent implements OnInit {
   public country_id:any = '';
   public admin_role_ids:any = [];
   public role_id:any = '';
-  public cart_count:any; 
+  public cart_count:any;
   public noPackagesFound = false;
   constructor(
     private http: CommonService,
@@ -28,7 +28,7 @@ export class ListPackagesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = this.http.getUser(); 
+    this.user = this.http.getUser();
     if(this.user){
       this.user_id = this.user['id'];
       this.role_id =  Number(this.user['role']);
@@ -37,8 +37,8 @@ export class ListPackagesComponent implements OnInit {
     /* this.http.getClientIp().subscribe((res) => {
       this.ip = res['ip'];
       this.getPackages();
-    });    */ 
-    this.getPackages(); 
+    });    */
+    this.getPackages();
   }
 
   public getPackages() {
@@ -100,6 +100,7 @@ export class ListPackagesComponent implements OnInit {
 
   public addToCart(product_id){
     if(this.user_id == ''){
+      localStorage.setItem('_redirect_url', window.location.pathname);
       this.router.navigateByUrl('/login');
       return;
     }
@@ -124,5 +125,9 @@ export class ListPackagesComponent implements OnInit {
 
   sendNumber() {
     this.cartCountService.sendNumber(this.cart_count);
+  }
+
+  navigateTo(url){
+    this.router.navigateByUrl(url);
   }
 }

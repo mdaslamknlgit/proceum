@@ -9,14 +9,13 @@
                 </button>
             </div>
 
-            <div class="usrmgmnt_ppdv tbbd_bdy dsh_brd_crds at_mn_dv">
-                <div> 
+            <div class="sdmu_ppdv">
+                <div class="sdmu_ppdv_aa"> 
                     <span class="profile_pic">
-                    <img src="{{profile_pic}}" alt="">
+                    <img src="{{profile_pic}}" alt="Student Profile Pic">
                     </span>
                 </div>
-                <div class="hgt_20"></div>
-                <div class="my_prfl_mn w_100p">
+                <div class="my_prfl_mn">
                     <div class="my_prf_dv">
                       <span>First Name</span><br>
                       <label>{{ first_name }}</label>
@@ -27,7 +26,7 @@
                     </div>
                     <div class="my_prf_dv">
                         <span>Registration Number / UUID</span><br>
-                        <label>{{ uuid }}</label>
+                        <label>{{ uuid? uuid:'N/A' }}</label>
                     </div>
                     <div class="my_prf_dv">
                         <span>Mobile</span><br>
@@ -37,37 +36,37 @@
                         <span>Email</span><br>
                         <label>{{ email }}</label>
                     </div>
-                    <div *ngIf="year != ''" class="my_prf_dv">
+                    <div class="my_prf_dv">
                         <span>Year</span><br>
-                        <label>{{ year }}</label>
+                        <label>{{ year? year:'N/A' }}</label>
                     </div>
-                    <div *ngIf="semester != ''" class="my_prf_dv">
+                    <div class="my_prf_dv">
                         <span>Semester</span><br>
-                        <label>{{ semester }}</label>
+                        <label>{{ semester? semester:'N/A' }}</label>
                     </div>
-                    <div *ngIf="group != ''" class="my_prf_dv">
+                    <div class="my_prf_dv">
                         <span>Group</span><br>
-                        <label>{{ group }}</label>
+                        <label>{{ group? group:'N/A' }}</label>
                     </div>
                     <div class="my_prf_dv">
                         <span>Country </span><br>
-                        <label>{{ country_name }}</label>
+                        <label>{{ country_name? country_name:'N/A' }}</label>
                     </div>
                     <div class="my_prf_dv">
                         <span>State </span><br>
-                        <label>{{ state_name }}</label>
+                        <label>{{ state_name? state_name:'N/A' }}</label>
                     </div>
                     <div class="my_prf_dv">
                         <span>City </span><br>
-                        <label>{{ city_name }}</label>
+                        <label>{{ city_name? city_name:'N/A' }}</label>
                     </div>
                     <div class="my_prf_dv rsp_mypdv_bg">
                         <span>Address line 1 </span><br>
-                        <label>{{ address1 }}</label>
+                        <label>{{ address1? address1:'N/A' }}</label>
                       </div>
                       <div class="my_prf_dv">
                         <span>Address line 2</span><br>
-                        <label>{{ address2 }}</label>
+                        <label>{{ address2? address2:'N/A' }}</label>
                       </div>
                       <div *ngIf="university != null" class="my_prf_dv">
                         <span>University</span><br>
@@ -80,6 +79,10 @@
                       <div *ngIf="institute != null" class="my_prf_dv">
                         <span>Institute</span><br>
                         <label>{{ institute }}</label>
+                      </div>
+                      <div class="my_prf_dv">
+                        <span>Last Login Info</span><br>
+                        <label>{{ last_login_time }}</label>
                       </div>
 
                   </div> 

@@ -6,6 +6,7 @@ import { CartCountService } from '../../services/cart-count.service';
 import { environment } from 'src/environments/environment';
 import { ReplaySubject } from 'rxjs';
 import { WindowRefService } from '../../services/window-ref.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -19,7 +20,7 @@ export class ShoppingCartComponent implements OnInit {
   public role_id:any = '';
 
   //Cart item variables
-  public cart_items:any = []; 
+  public cart_items:any = [];
   public cart_count:any = '';
   public total_amount:any = 0;
   public total_payable:any = 0;
@@ -69,7 +70,7 @@ export class ShoppingCartComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.user = this.http.getUser(); 
+    this.user = this.http.getUser();
     if(this.user){
       this.contact_name = this.user["name"];
       this.user_id = this.user['id'];
@@ -115,7 +116,7 @@ export class ShoppingCartComponent implements OnInit {
           if(this.user_address){
             this.country_id = this.user_address["country_id"];
             this.country_name = this.user_address["country_name"];
-            this.state_id = this.user_address["state_id"];            
+            this.state_id = this.user_address["state_id"];
             if(this.country_id > 0){
               this.getStates(this.country_id);
             }
@@ -128,8 +129,8 @@ export class ShoppingCartComponent implements OnInit {
             this.address = this.user_address["address_line_1"]+ ' ' + this.user_address["address_line_2"];
             this.zip_code = this.user_address["zip_code"];
             this.phone = this.user_address["phone"];
-          }    
-          this.updateAmounts(res);      
+          }
+          this.updateAmounts(res);
         }else{
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
@@ -149,7 +150,7 @@ export class ShoppingCartComponent implements OnInit {
       if (res['error'] == false) {
         if(res['data'].length){
           this.cart_items = res['data'];
-          this.updateAmounts(res);   
+          this.updateAmounts(res);
         }else{
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
@@ -170,7 +171,7 @@ export class ShoppingCartComponent implements OnInit {
           this.cart_items = res['data'];
           this.cartCountService.sendNumber(res['cart_count']);
           this.toster.success("Removed Item From Cart!", 'Success');
-          this.updateAmounts(res);   
+          this.updateAmounts(res);
         }else{
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to order!", 'Error');
@@ -201,7 +202,7 @@ export class ShoppingCartComponent implements OnInit {
       }
     });
   }
-  
+
   //Filter countries by search string
   public filterCountries(event) {
     let search = event;
@@ -218,7 +219,7 @@ export class ShoppingCartComponent implements OnInit {
     );
   }
 
-  //Get list of states based on country selection 
+  //Get list of states based on country selection
   public getStates(selected_country_id: number) {
     if (selected_country_id > 0) {
       //First set country_name
@@ -262,7 +263,7 @@ export class ShoppingCartComponent implements OnInit {
     );
   }
 
-  //Set state name by stateid 
+  //Set state name by stateid
   public setStateName(){
     if(this.state_id > 0) {
       //set state_name
@@ -274,7 +275,7 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
-   //Set state name by stateid 
+   //Set state name by stateid
    public setCityName(){
     if(this.state_id > 0) {
       //set state_name
@@ -332,7 +333,7 @@ export class ShoppingCartComponent implements OnInit {
       if (res['error'] == false) {
         if(res['data'].length){
           //this.cart_items = res['data'];
-          this.updateAmounts(res);   
+          this.updateAmounts(res);
         }else{
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
@@ -352,7 +353,7 @@ export class ShoppingCartComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         if(res['data'].length){
-          this.updateAmounts(res);      
+          this.updateAmounts(res);
         }else{
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
@@ -370,7 +371,7 @@ export class ShoppingCartComponent implements OnInit {
    ************************************************************************/
   public proceedPayment(){
     //Validate user billing address
-    if(this.contact_name == '' || this.address == '' || this.city == '' || this.state_name == '' || 
+    if(this.contact_name == '' || this.address == '' || this.city == '' || this.state_name == '' ||
     this.country_name == '' || this.zip_code == '' || this.phone == ''){
       this.toster.error("Please provide required fields of billing address!", 'Error');
       return;
@@ -425,8 +426,8 @@ export class ShoppingCartComponent implements OnInit {
       currency: data.currency,
       name: data.company_name,
       description: data.company_description,
-      image: data.company_logo, 
-      order_id: data.id, 
+      image: data.company_logo,
+      order_id: data.id,
       modal: {
         // We should prevent closing of the form when esc key is pressed.
         escape: false,
@@ -475,15 +476,28 @@ export class ShoppingCartComponent implements OnInit {
     }
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success("Congrats! Payment is success!", 'Success');  
-        this.router.navigateByUrl('/student/order-details/' +res['order_id']);
+        //this.toster.success("Congrats! Payment is success!", 'Success');
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          html: 'Thanks for your order. Your order has been placed successfully.<br/>'
+        })
+        setTimeout(() => {
+          this.router.navigateByUrl('/student/order-details/' +res['order_id']);
+          this.disable_payment_button = false;
+        },2000)
       } else {
         this.toster.error(res['message'], 'Error');
+        this.disable_payment_button = false;
       }
-      let order_id = res['data']['pk_id'];
-      this.router.navigateByUrl('student/order-details/'+order_id);
-      this.disable_payment_button = false;
+      //let order_id = res['data']['pk_id'];
+      //this.router.navigateByUrl('student/order-details/'+order_id);
+      //this.disable_payment_button = false;
     });
+  }
+
+  navigateTo(url){
+    this.router.navigateByUrl(url);
   }
 
 }
