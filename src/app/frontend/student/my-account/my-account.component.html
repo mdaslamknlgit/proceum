@@ -43,9 +43,9 @@
           </div>
 
         </div>
-        <hr *ngIf="recipient_emails_list.length > 0" class='line-sep'>
+        <hr class='line-sep'>
         <div class="hgt_10"></div>
-        <button *ngIf="recipient_emails_list.length > 0" (click)="sendReferral()" mat-raised-button color="accent" class="float_right">
+        <button [disabled]="recipient_emails_list.length<=0" (click)="sendReferral()" mat-raised-button color="accent" class="float_right">
           Send Referral
         </button>
         <div class="hgt_20"></div>
@@ -139,7 +139,7 @@
           <div class="my_prf_dv">
             <span class="w_100p text-center">Profile Picture</span>
             <span class="profile_pic">
-              <img src="{{src}}" alt="">
+              <img src="{{src}}" onerror="this.src='../../../../assets/images/Demo-placeholder.jpeg'" alt="">
             </span>
             <div class="hgt_5"></div>
             <button class="brws_dpbtn" mat-raised-button color="accent" type="button" (click)="fileInput.click()">
@@ -335,7 +335,7 @@
                 Password 
               </mat-checkbox>
               <mat-icon  class="tst_infoicn" matTooltipPosition="right" matTooltipClass="tst_infotxt"
-              matTooltip="Password lenght should be between 6-16 and must contain at least one lowercase letter, uppercase letter, digit, special character.">info</mat-icon>
+              matTooltip="Password length should be between 6-16 and must contain at least one lowercase letter, uppercase letter, digit, special character.">info</mat-icon>
             </span>
           </div>
           <div class="my_prf_dv">
