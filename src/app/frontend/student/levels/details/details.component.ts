@@ -7,6 +7,7 @@ import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from '../../../../../assets/3d-model-viewer/js-3d-model-viewer.min';
 declare var kPoint: any;
+declare var VdoPlayer:any;
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { environment } from 'src/environments/environment';
 
@@ -79,6 +80,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   public flash_index = 0;
   public is_loaded = false;
   public is_preview = false;
+  public is_individual = 0;
   public editorConfig = {link: {addTargetToExternalLinks: true ,decorators: {openInNewTab: {mode: 'manual',label: 'Open in a new tab',defaultValue: true, attributes: {target: '_blank', rel: 'noopener noreferrer'}}}}}
   public image_config = {
     btnClass: 'default', // The CSS class(es) that will apply to the buttons
@@ -117,6 +119,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
     AppSquadzVideos = [];
     isChecked = false;
     public model_status = false;
+    user: any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -152,19 +155,41 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.pdf_rotation = this.pdf_rotation-90;
     }
   ngOnInit(): void {
+    this.user = this.http.getUser();
     this.activatedRoute.params.subscribe((param) => {
       this.curriculum_id = param.curriculum_id == undefined?0:param.curriculum_id;
       this.level_id = param.level_id != undefined ? param.level_id : 0;
       this.level_parent_id = param.level_parent_id != undefined ? param.level_parent_id : 0;
       this.content_id = param.content_id != undefined ? param.content_id : 0;
       this.is_preview = window.location.href.includes("content-preview")?true:false;
+        if(window.location.href.includes("/purchased-courses/")){
+            this.is_individual = 1;
+        }
+        if(window.location.href.includes("/subjects/")){
+            this.is_individual = 2;
+        }
       this.getLevelDetails();
       //this.getMaterials();
       this.getAppSquadz();
     });
     
   }
-
+    navigateTo(bread){
+        
+        let user = this.user;
+        if(this.is_individual == 0 && parseInt(user['role']) == environment.ALL_ROLES.STUDENT){
+            let url = '/student/curriculums/'+this.curriculum_id + '/' + bread['level_id'] + '/' + bread['id'];
+            this.router.navigateByUrl(url);
+        }
+        if(this.is_individual == 1  && (parseInt(user['role']) == environment.ALL_ROLES.INDIVIDUAL || parseInt(user['role']) == environment.ALL_ROLES.STUDENT)){
+            let url = '/student/purchased-courses/'+this.curriculum_id + '/' + bread['level_id'] + '/' + bread['id'];
+            this.router.navigateByUrl(url);
+        }
+        if(this.is_individual == 2 && parseInt(user['role']) == environment.ALL_ROLES.TEACHER){
+            let url = '/teacher/subjects/'+this.curriculum_id + '/' + bread['level_id'] + '/' + bread['id'];
+            this.router.navigateByUrl(url);
+        }
+    }
   getAppSquadz(){
     let form_data = {user_id: 1};
     let param = {url: 'data_model/courses/exam/get_video_data',form_data: form_data};
@@ -195,7 +220,6 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.player.addEventListener(this.player.events.ready, () =>{
               this.player.pauseVideo();
             });
-            console.log(this.player);
       }
       },1000);
 }
@@ -253,6 +277,14 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.getTimeline();
         }
     }
+    if(video['video_type'] == "VIDEO_CIPHER" && false){
+        this.timeline = undefined;
+        if(this.player != undefined){
+            this.player.pauseVideo();
+        }
+        this.video_type = "VIDEO_CIPHER";
+        this.getOtp(video['video_source']);
+    }
     if(video['video_type'] == "YOUTUBE"){
         this.timeline = undefined;
         if(this.player != undefined){
@@ -263,21 +295,43 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.youtube_iframe = this.sanitizer.bypassSecurityTrustResourceUrl(embed_link);
     }
   }
-  getTimeline(){
-    this.timeline = undefined;
-    let param1 = {"url": "get-kpoint-token"};
-    this.http.post(param1).subscribe(res=>{
-        this.xt = res['data']['xt'];
-        let param = {url: "kapsule/"+this.player.info.kvideoId+"/bookmarks?xt="+this.xt};
-        this.http.kpointGet(param).subscribe(res=>{
-        this.timeline = res;
-    });
-    })
-  }
+    getOtp(video_url){
+        let param1 = {"url": "vdocipher/get-otp", video_url: video_url};
+        this.http.post(param1).subscribe(res=>{
+            console.log(res)
+            var video = new VdoPlayer({
+                otp: res['data']['otp'],
+                playbackInfo: res['data']['playbackInfo'],
+                theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",
+                // the container can be any DOM element on website
+                container: document.querySelector("#embedBox"),
+              });
+              
+              // you can directly call any methods of VdoPlayer class from here. e.g:
+              // video.addEventListener(`load`, () => {
+              //   video.play(); // this will auto-start the video
+              //   console.log('loaded');
+              // });
+        });
+    }
+    getTimeline(){
+        this.timeline = undefined;
+        let param1 = {"url": "get-kpoint-token"};
+        this.http.post(param1).subscribe(res=>{
+            this.xt = res['data']['xt'];
+            let param = {url: "kapsule/"+this.player.info.kvideoId+"/bookmarks?xt="+this.xt};
+            this.http.kpointGet(param).subscribe(res=>{
+            this.timeline = res;
+        });
+        })
+    }
   seekTo(time){
       this.player.seekTo(time);
   }
-  getThumbinail(url){
+  getVdoThumbinail(url){
+    return "/assets/images/video-cipher.png";
+  }
+  getYtThumbinail(url){
       if(url == null || url == undefined){
           return false;
       }
@@ -352,6 +406,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
           level_id: this.level_id,
           level_parent_id: this.level_parent_id,
           content_id: this.content_id,
+          is_individual: this.is_individual
         };
         this.http.post(param).subscribe((res) => {
           if (res['error'] == false) {

@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-level_list',
@@ -25,6 +26,7 @@ export class Level_listComponent implements OnInit {
   public previousUrl = '';
   public rating = [];
   public is_loaded = false;
+  public  user: any;
   constructor(
     private activatedRoute: ActivatedRoute,
     private http: CommonService,
@@ -34,11 +36,16 @@ export class Level_listComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.user = this.http.getUser();
     this.activatedRoute.params.subscribe((param) => {
       this.curriculum_id = param.curriculum_id;
       this.level_id = param.level_id ? param.level_id : 0;
       this.level_parent_id = param.level_parent_id ? param.level_parent_id : 0;
-      this.getLevels();
+      if(parseInt(this.user['role']) == environment.ALL_ROLES.INDIVIDUAL){
+        this.route.navigateByUrl("/student/purchased-courses");
+        }
+        else
+        this.getLevels();
     });
   }
   setTitle(val) {
