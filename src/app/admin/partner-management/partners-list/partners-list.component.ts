@@ -188,26 +188,31 @@ export class PartnersListComponent implements OnInit {
     this.doFilter();
   }
 
-  openInNewTab(subdomain){
-    console.log(subdomain);
-    let newdomain;
-    newdomain = window.location.origin.replace('uat',subdomain);
-    if(newdomain.indexOf(subdomain) > -1){
+  openInNewTab(replacer){
+    console.log(replacer);
+    let replaceValue = window.location.host.split('.')[0];
+    let url = window.location.origin.replace(replaceValue,replacer);
+    url = url.replace('https','http');
+    if(replaceValue != 'localhost:4200'){
+      window.open(url+'/login','_blank');
+      return false;
+    }
+    /*
+    newdomain = window.location.origin.replace('uat',replacer);
+    if(newdomain.indexOf(replacer) > -1){
       window.open(newdomain+'/login','_blank');return;
     }
-    newdomain = window.location.origin.replace('dev',subdomain);
-    if(newdomain.indexOf(subdomain) > -1){
+    newdomain = window.location.origin.replace('dev',replacer);
+    if(newdomain.indexOf(replacer) > -1){
       window.open(newdomain+'/login','_blank');return;
     }
-    newdomain = window.location.origin.replace('master',subdomain);
-    if(newdomain.indexOf(subdomain) > -1){
+    newdomain = window.location.origin.replace('master',replacer);
+    if(newdomain.indexOf(replacer) > -1){
       window.open(newdomain+'/login','_blank');return;
     }
-    newdomain = window.location.origin.replace('localhost:4200',subdomain);
-    if(newdomain.indexOf(subdomain) > -1){
+    newdomain = window.location.origin.replace('localhost:4200',replacer);
+    if(newdomain.indexOf(replacer) > -1){
       window.open(newdomain+'/login','_blank');return;
-    }
+    } */
   }
-
-
 }

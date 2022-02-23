@@ -1,5 +1,5 @@
 <app-topbar class="inner-header"></app-topbar>
-<app-sidemenu></app-sidemenu> 
+<app-sidemenu></app-sidemenu>
 <div class="mn_dshbrd">
     <div class="cust_mdl_par cust_mdl_cls" [ngClass]="{ cust_mdl_opn: model_status }">
         <div class="cust_mdl_chl w_50p rsp_90p">
@@ -149,7 +149,7 @@
                     </div>
 
                     <div class="shpcrt_mn_btns">
-                        <div [routerLink]="['/package-details', item.product_data.product_id]">
+                        <div (click)="navigateTo('/package-details/'+item.product_id)">
                             <mat-icon>subject</mat-icon>
                             View Details
                         </div>
@@ -238,7 +238,7 @@
                             <div class="amnt_pybl"></div>
                         </div>
                     </span>
-                    
+
                     <span *ngIf="my_earnings_applied">
                         <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">My Earnings Applied
                             <div class="amnt_pybl">
