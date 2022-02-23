@@ -252,17 +252,22 @@
     <div class="hgt_20"></div>
     <div class="sp_mn" *ngIf="curriculum && is_loaded">
       <div class="brdcrm_br fw_w">
-        <mat-icon color="accent" routerLink="/">home</mat-icon>
-        <mat-icon>navigate_next</mat-icon>
-        <span routerLink="/student/curriculums">Courses </span>
-        <mat-icon>navigate_next</mat-icon>
-        <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
-          curriculum["curriculumn_name"]
-          }}</span>
+
+        <mat-icon *ngIf="user['role'] == '2' || user['role'] == '11'" color="accent" routerLink="/">home</mat-icon>
+        <mat-icon *ngIf="user['role'] == '2'">navigate_next</mat-icon>
+               
+        <span *ngIf="user['role'] == '2' || user['role'] == '11'" routerLink="/student/curriculums">Courses </span>
+        <mat-icon *ngIf="user['role'] == '2' || user['role'] == '11'">navigate_next</mat-icon>
+
+        <mat-icon *ngIf="user['role'] == '12'" color="accent" routerLink="/">home</mat-icon>
+        <mat-icon *ngIf="user['role'] == '12'">navigate_next</mat-icon>
+        <span *ngIf="user['role'] == '12'" routerLink="/teacher/subjects">Subjects</span>
+        <mat-icon *ngIf="user['role'] == '12'">navigate_next</mat-icon>
+
+        <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{curriculum["curriculumn_name"]}}</span>
         <span *ngFor="let bread of breadcome; let i = index">
           <mat-icon>navigate_next</mat-icon>
-          <span matTooltip='{{bread["name"]}}' *ngIf="i < breadcome.length - 1">{{ bread["name"].length>10?bread["name"].substring(0,9)+'...': bread["name"]}}</span>
-          <!-- <span matTooltip='{{bread["name"]}}' *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{curriculum_id + '/' + bread['level_id'] + '/' + bread['id']}}">{{ bread["name"].length>10?bread["name"].substring(0,9)+'...': bread["name"]}}</span> -->
+          <span matTooltip='{{bread["name"]}}' *ngIf="i < breadcome.length - 1" (click)="navigateTo(bread)">{{ bread["name"].length>10?bread["name"].substring(0,9)+'...': bread["name"]}}</span>
           <strong *ngIf="i == breadcome.length - 1">
             {{ setTitle(bread["name"]) }}</strong>
         </span>
@@ -272,20 +277,6 @@
 
     <div class="d-flex align-items-center rsp767_fw mb_1">
       <div class="page-title-part rsp767_100">
-
-        <!-- <div class="brd_crm" *ngIf="curriculum">
-          <span routerLink="/student/curriculums">Courses / </span>
-          <span routerLink="/student/curriculums/{{ curriculum['pk_id'] }}">{{
-            curriculum["curriculumn_name"]
-            }}</span>
-          <span *ngFor="let bread of breadcome; let i = index">
-            /
-            <span matTooltip='{{bread["name"]}}' *ngIf="i < breadcome.length - 1" routerLink="/student/curriculums/{{
-                curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
-              }}">{{ bread["name"].length>10?bread["name"].substring(0,9)+'...': bread["name"]}}</span>
-            <strong *ngIf="i == breadcome.length - 1">
-              {{ setTitle(bread["name"]) }}</strong></span>
-        </div> -->
         <div class="hgt_20"></div>
         <div class="prv_cnt" *ngIf="is_preview">Preview Content</div>
         <div class="pg_ttl" *ngIf="content != undefined">

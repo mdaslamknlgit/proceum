@@ -80,28 +80,29 @@ export class Individual_levels_listComponent implements OnInit {
             } else {
             this.title = this.curriculum['curriculumn_name'];
             }
-        } else {
-        this.breadcome = res['breadcome'];
-        this.levels = [];
-        this.total_items = 0;
-        if (res['check_data'] == 0) {
-            let data = res['data'];
-            this.curriculum = data['curriculum'];
-            if(this.curriculum['usage_type'] == 2){
-                let url = '/student/qbank/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
-                this.route.navigateByUrl(url);
-            }
-            else{
-                if (res['check_content'] == 0) {
-                    this.toster.error('No content Found', 'Error', {closeButton: true});
-                    this.location.back();
-                } else {
-                    let url = '/student/curriculum/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
-                    this.route.navigateByUrl(url);
+        } 
+        else{
+            this.breadcome = res['breadcome'];
+            this.levels = [];
+            this.total_items = 0;
+            if (res['check_data'] == 0) {
+                let data = res['data'];
+                this.curriculum = data['curriculum'];
+                if(this.curriculum['usage_type'] == 2){
+                    //let url = '/student/qbank/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
+                    //this.route.navigateByUrl(url);
+                }
+                else{
+                    if (res['check_content'] == 0) {
+                        this.toster.error('No content Found', 'Error', {closeButton: true});
+                        this.location.back();
+                    } else {
+                        let url = '/student/purchased-courses/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
+                        this.route.navigateByUrl(url);
+                    }
                 }
             }
         }
-      }
     });
   }
   setHoverRating(value, level_id){
