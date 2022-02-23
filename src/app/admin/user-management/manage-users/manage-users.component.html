@@ -1,6 +1,6 @@
 <div class="mn_dshbrd">
     <div class="cust_mdl_par {{ mng_student_details_popup ? 'cust_mdl_opn' : '' }}">
-        <div class="cust_mdl_chl w_80p">
+        <div class="cust_mdl_chl w_60p">
             <div class="pg_ttl">
                 <div>Student Details</div> 
                 <span class="spacer"></span>
@@ -10,11 +10,7 @@
             </div>
 
             <div class="sdmu_ppdv">
-                <div class="sdmu_ppdv_aa"> 
-                    <span class="profile_pic">
-                    <img src="{{profile_pic}}" alt="Student Profile Pic">
-                    </span>
-                </div>
+                
                 <div class="my_prfl_mn">
                     <div class="my_prf_dv">
                       <span>First Name</span><br>
@@ -24,11 +20,11 @@
                         <span>Last Name</span><br>
                         <label>{{ last_name }}</label>
                     </div>
-                    <div class="my_prf_dv">
+                    <div class="my_prf_dv {{ uuid? '':'na_lbl' }}">
                         <span>Registration Number / UUID</span><br>
-                        <label>{{ uuid? uuid:'N/A' }}</label>
+                        <label>{{uuid}}</label>
                     </div>
-                    <div class="my_prf_dv">
+                    <div class="my_prf_dv {{ phone ? '':'na_lbl' }}">
                         <span>Mobile</span><br>
                         <label>{{ phone }}</label>
                     </div>            
@@ -36,37 +32,37 @@
                         <span>Email</span><br>
                         <label>{{ email }}</label>
                     </div>
-                    <div class="my_prf_dv">
+                    <div class="my_prf_dv {{ year? '':'na_lbl' }}">
                         <span>Year</span><br>
-                        <label>{{ year? year:'N/A' }}</label>
+                        <label>{{year}}</label>
                     </div>
-                    <div class="my_prf_dv">
+                    <div class="my_prf_dv {{ semester? '':'na_lbl' }}">
                         <span>Semester</span><br>
-                        <label>{{ semester? semester:'N/A' }}</label>
+                        <label>{{semester}}</label>
                     </div>
-                    <div class="my_prf_dv">
+                    <div class="my_prf_dv {{ group? '':'na_lbl' }}">
                         <span>Group</span><br>
-                        <label>{{ group? group:'N/A' }}</label>
+                        <label>{{group}}</label>
                     </div>
-                    <div class="my_prf_dv">
+                    <div class="my_prf_dv {{ country_name? '':'na_lbl' }}">
                         <span>Country </span><br>
-                        <label>{{ country_name? country_name:'N/A' }}</label>
+                        <label>{{country_name}}</label>
                     </div>
-                    <div class="my_prf_dv">
+                    <div class="my_prf_dv {{ state_name ? '':'na_lbl' }}">
                         <span>State </span><br>
-                        <label>{{ state_name? state_name:'N/A' }}</label>
+                        <label>{{state_name}}</label>
                     </div>
-                    <div class="my_prf_dv">
+                    <div class="my_prf_dv {{ city_name ? '':'na_lbl' }}">
                         <span>City </span><br>
-                        <label>{{ city_name? city_name:'N/A' }}</label>
+                        <label>{{city_name}}</label>
                     </div>
-                    <div class="my_prf_dv rsp_mypdv_bg">
+                    <div class="my_prf_dv {{ address1 ? '':'na_lbl' }}">
                         <span>Address line 1 </span><br>
-                        <label>{{ address1? address1:'N/A' }}</label>
+                        <label>{{address1}}</label>
                       </div>
-                      <div class="my_prf_dv">
+                      <div class="my_prf_dv {{ address2 ? '':'na_lbl' }}">
                         <span>Address line 2</span><br>
-                        <label>{{ address2? address2:'N/A' }}</label>
+                        <label>{{address2}}</label>
                       </div>
                       <div *ngIf="university != null" class="my_prf_dv">
                         <span>University</span><br>
@@ -80,12 +76,19 @@
                         <span>Institute</span><br>
                         <label>{{ institute }}</label>
                       </div>
-                      <div class="my_prf_dv">
+                      <div class="my_prf_dv {{ last_login_time ? '':'na_lbl' }}">
                         <span>Last Login Info</span><br>
                         <label>{{ last_login_time }}</label>
                       </div>
 
                   </div> 
+
+                  <div class="sdmu_ppdv_aa"> 
+                    <span class="profile_pic">
+                    <img src="{{profile_pic}}" alt="Student Profile Pic">
+                    </span>
+                </div>
+
             </div>
         </div>
     </div>
@@ -437,7 +440,10 @@
 
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>Name</th>
-                        <td mat-cell *matCellDef="let element"><span>{{ element.name }}</span></td>
+                        <td mat-cell *matCellDef="let element">
+                            <!-- <span>{{ element.name }}</span> -->
+                            <span color="accent" (click)="openDetailsModel(element)" class="primary_color">{{ element.name }}</span>
+                        </td>
                     </ng-container>
 
                     <ng-container matColumnDef="email">
