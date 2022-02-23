@@ -838,6 +838,7 @@ export class ManageUsersComponent implements OnInit {
   public college = '';
   public institute = '';
   public profile_pic = '';
+  public last_login_time = '';
   
   public openDetailsModel(param:any){
     this.mng_student_details_popup = true;
