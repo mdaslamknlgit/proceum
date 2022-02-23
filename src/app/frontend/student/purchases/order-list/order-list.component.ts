@@ -16,6 +16,7 @@ export class OrderListComponent implements OnInit {
   displayedColumns: string[] = [
     'id',
     'order_id',
+    'package_name',
     'paid_amount',
     'created_at',
     'actions',
@@ -72,7 +73,7 @@ export class OrderListComponent implements OnInit {
   public getServerData(event?: PageEvent) {
     this.page = event.pageSize * event.pageIndex;
     let param = {
-      url: 'get-user-orders', 
+      url: 'get-user-orders',
       status: 2,
       offset: this.page,
       limit: event.pageSize,
