@@ -465,12 +465,42 @@ export class CreateContentComponent implements OnInit {
                 this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
             }
         }
-        /*if(video_source == 'APP_SQUADZ'){
-            this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
+        if(video_source == 'APP_SQUADZ'){
+          if (video_value != undefined || video_value != '')
+          {
+            let param = { url: 'validate-app-squadz-id', video_id: video_value };
+            this.http.post(param).subscribe((res) => {
+              if (res['error'] == false) {
+                this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
+              } else {
+                  this.toster.error("Invalid App Squadz Video ID", 'Error', { closeButton: true });
+              }
+            });
+          }
         }
         if(video_source == 'VIDEO_CIPHER'){
-            this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
-        }*/
+
+          if (video_value != undefined || video_value != '')
+          {
+            let param = { url: 'validate-video-ciper-id', video_id: video_value };
+            this.http.post(param).subscribe((res) => {
+              let otp = '';
+              if(res['error'] == false){
+                otp = res['data'].message;
+                if(otp != '' && otp != undefined){
+                  this['video_value_invalid_error_'+tab_index] = 'Invalid Video Cipher url';
+                  this.toster.error("Invalid Video Cipher url", "Error", {closeButton: true,});
+                  return false;
+                }
+                this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
+                return true;
+              }else{
+                this.toster.error("CURL Function Error", "Error", {closeButton: true,});
+                return false;
+              }
+            });        
+          }
+        }
     }
   }
   addUpdateVideo(tab_index, param){
