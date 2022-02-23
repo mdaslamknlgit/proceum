@@ -19,6 +19,7 @@ export class ListCollegesComponent implements OnInit {
     'partner_name',
     'contact_number',
     'partner_email',
+    'created_at',
     'actions',
     'status',
   ];

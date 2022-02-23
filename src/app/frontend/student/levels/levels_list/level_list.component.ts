@@ -1,13 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RoutesRecognized,
-} from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { filter, pairwise } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
 
 @Component({
@@ -63,7 +57,7 @@ export class Level_listComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: false
+      is_individual: 0
     };
     this.http.post(param).subscribe((res) => {
         this.is_loaded = true;
@@ -88,9 +82,10 @@ export class Level_listComponent implements OnInit {
         if (res['check_data'] == 0) {
             let data = res['data'];
             this.curriculum = data['curriculum'];
-            if(this.curriculum['usage_type'] == 2){
-                let url = '/student/qbank/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
-                this.route.navigateByUrl(url);
+            if(res['type'] != undefined && res['type'] == 'access'){
+                this.toster.error('You don`t have access', 'Access Denied', {closeButton: true});
+                setTimeout(res=>{this.location.back();},1000);
+                
             }
             else{
                 if (res['check_content'] == 0) {
@@ -125,7 +120,7 @@ export class Level_listComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: false
+      is_individual: 0
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

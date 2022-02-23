@@ -99,6 +99,7 @@ import { ReviewerComponent } from './dashboard/reviewer/reviewer.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { TeacherSubjectsComponent } from './teacher/teacher-subjects/teacher-subjects.component';
 import { Levels_listComponent } from './teacher/teacher-subjects/levels_list/levels_list.component';
+import { ApproveLeadComponent } from './approve-lead/approve-lead.component';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -204,7 +205,7 @@ const routes: Routes = [
       { path: 'prices-package-management', component: ListPackageComponent },
       { path: 'create-package', component: CreatePackageComponent },
       { path: 'edit-package/:id', component: EditPackageComponent },
-      
+
 
       { path: 'questions-mgt/qbank', component: QuestionBankComponent },
       { path: 'questions-mgt/questions-list', component: QuestionsManagementComponent },
@@ -240,13 +241,13 @@ const routes: Routes = [
       { path: 'class/create', component: CreateMeetingComponent},
       { path: 'class/edit/:meeting_id', component: EditMeetingComponent},
       { path: 'class/list', component: ListMeetingComponent },
-      
+
 
       { path: 'create-exam', component: CreateExamComponent},
       //Added by Phanindra 28-20-2021
       { path: 'manage-flash-cards', component: ManageFlashCardsComponent},
       { path: 'create-flash-cards', component: CreateNewFlashCardsComponent},
-      
+
       { path: 'create-assessment', component: CreateAssessmentComponent },
       { path: 'assessment-list', component: AssessmentListComponent },
       { path: 'assessment/report/:assessment_id', component: AssessmentReportComponent },
@@ -260,7 +261,8 @@ const routes: Routes = [
       { path: 'global-search/:search_string', component: AdminGlobalSearchComponent },
 
       //Universities Collegs
-      { path: 'universities-colleges', component: ListUniversitiesCollegesComponent },
+      { path: 'leads', component: ListUniversitiesCollegesComponent },
+      { path: 'approve-lead/:id', component: ApproveLeadComponent },
       { path: 'create-university-or-college', component: CreateUniversitiesCollegesComponent },
       { path: 'edit-university-or-college/:id', component: CreateUniversitiesCollegesComponent },
       { path: 'my-account', component: MyAccountComponent },
@@ -338,7 +340,8 @@ const routes: Routes = [
     ReviewerComponent,
     MyAccountComponent,
     TeacherSubjectsComponent,
-    Levels_listComponent
+    Levels_listComponent,
+    ApproveLeadComponent
   ],
   imports: [
     MaterialModule,

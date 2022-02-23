@@ -7,11 +7,11 @@ import { Location } from '@angular/common';
 import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-create-partner',
-  templateUrl: './create-partner.component.html',
-  styleUrls: ['./create-partner.component.scss']
+  selector: 'app-approve-lead',
+  templateUrl: './approve-lead.component.html',
+  styleUrls: ['./approve-lead.component.scss']
 })
-export class CreatePartnerComponent implements OnInit {
+export class ApproveLeadComponent implements OnInit {
 
   constructor(
     private http: CommonService,
@@ -66,9 +66,10 @@ export class CreatePartnerComponent implements OnInit {
   public college_university: any = '';
   public is_reseller_account: boolean = false;
   public is_partner: boolean = false;
-  public sub_domain = null;
+  public sub_domain = '';
   public sub_domain_err = '';
   public timer: any;
+  public lead_id = 0;
 
   countrys = [];
   states = [];
@@ -91,36 +92,26 @@ export class CreatePartnerComponent implements OnInit {
     this.domain = location.origin;
     this.user = this.http.getUser();
     //Restrict if UnAuthorized
-    if (
-      (environment.ALL_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN != Number(this.user['role'])) &&
-      (environment.ALL_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN != Number(this.user['role'])) &&
-      (environment.ALL_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN != Number(this.user['role'])) &&
-      (environment.ALL_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN != Number(this.user['role']))
-    ) {
+    if (environment.ALL_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN != Number(this.user['role'])) {
       this.toster.error('UnAuthorized!', 'Error', {
         closeButton: true,
       });
       this._location.back();
     }
-
-    if (environment.ALL_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN != Number(this.user['role']) && !this.user['is_reseller']) {
-      this.toster.error('UnAuthorized!', 'Error', {
-        closeButton: true,
-      });
-    }
-
     this.activatedRoute.params.subscribe((param) => {
       this.partner_id = param.id;
+      this.lead_id = param.id;
       if (this.partner_id != undefined) {
         this.getPartner();
       }
       else {
-        this.partner_id = 0;
+        this.toster.error('No Lead found!', 'Error', {
+          closeButton: true,
+        });
+        this._location.back();
       }
     });
     this.getCountries();
-    this.getPackages();
-    //this.getPartnersListForUniversity();
   }
 
   getCountries() {
@@ -364,10 +355,10 @@ export class CreatePartnerComponent implements OnInit {
     if (!this.validateEmail(this.email)) {
       return false;
     }
-    if (this.password.length < 6 && this.partner_id < 0 ) {
+    if (this.password.length < 6 && this.partner_id < 0) {
       return;
     }
-    if ((this.password !== this.confirm_password) && this.confirm_password.length < 1  && this.partner_id < 0) {
+    if ((this.password !== this.confirm_password) && this.confirm_password.length < 1 && this.partner_id < 0) {
       return;
     }
     if (!Number(this.phone) || (this.phone.length < 9 || this.phone.length > 13)) {
@@ -388,7 +379,7 @@ export class CreatePartnerComponent implements OnInit {
         return;
       }
     } */
-    if (this.partner_type != "" && this.partner_name != "" && this.email != "" && this.contact_name != ""  && this.gstin != "") {
+    if (this.partner_type != "" && this.partner_name != "" && this.email != "" && this.contact_name != "" && this.gstin != "") {
       this.branding_info_expand = true;
       this.basic_details_expand = false;
     }
@@ -453,7 +444,8 @@ export class CreatePartnerComponent implements OnInit {
 
   createPartnerService() {
     let form_data = {
-      partner_id: this.partner_id,
+      partner_id: 0,
+      lead_id: this.lead_id,
       parent_partner_id: this.parent_partner_id,
       user_id: this.user_id,
       partner_type: this.partner_type,
@@ -493,7 +485,8 @@ export class CreatePartnerComponent implements OnInit {
       sub_domain: this.sub_domain,
       is_partner: this.is_partner,
     };
-    let params = { url: 'create-partner', form_data: form_data };
+
+    let params = { url: 'approve-lead-as-partner', form_data: form_data };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
@@ -505,67 +498,42 @@ export class CreatePartnerComponent implements OnInit {
   }
 
   getPartner() {
-    let data = { url: 'edit-partner/' + this.partner_id };
+    let data = { url: 'get-university-or-college', pk_id: this.partner_id };
     this.http.post(data).subscribe((res) => {
       if (res['error'] == false) {
         let partner = res['data'];
         this.partner_id = partner.partner_id;
-        this.parent_partner_id = partner.parent_partner_id;
-        this.user_id = partner.user_id;
-        this.partner_type = partner.partner_type;
-        this.getPackages();
-        this.partner_name = partner.partner_name;
-        this.email = partner.email;
-        this.password = partner.password;
-        this.contact_name = partner.contact_name;
-        this.phone = partner.phone;
-        this.second_phone = partner.second_phone;
-        this.code = partner.code;
-        this.college_university = partner.college_university;
+        this.partner_type = String(partner.flag);
+        this.partner_name = partner.organization_name;
+        this.email = partner.contact_email;
+        this.contact_name = partner.contact_person;
+        this.phone = partner.contact_number_1;
+        this.second_phone = partner.contact_number_2;
+        this.code = partner.organization_code;
         this.gstin = partner.gstin;
-        this.header_logo = partner.header_logo;
-        this.footer_logo = partner.footer_logo;
-        this.description = partner.description;
-        this.package_id = partner.package_id;
-        this.licence_start_date = partner.licence_start_date;
-        this.licence_end_date = partner.licence_end_date;
+        this.header_logo = partner.logo;
         //Billing address
-        this.b_address_line_1 = partner.b_address_line_1;
-        this.b_address_line_2 = partner.b_address_line_2;
-        this.b_country_id = partner.b_country_id;
+        this.b_address_line_1 = partner.address_line_1;
+        this.b_address_line_2 = partner.address_line_2;
+        this.b_country_id = partner.country_id;
         this.getStates(this.b_country_id);
-        this.b_state_id = partner.b_state_id;
+        this.b_state_id = partner.state_id;
         this.getCities(this.b_state_id);
-        this.b_city = partner.b_city;
-        this.b_pincode = partner.b_pincode;
+        this.b_city = partner.city;
+        this.b_pincode = partner.postal_code;
         //Correspondence address
-        this.c_address_line_1 = partner.c_address_line_1;
-        this.c_address_line_2 = partner.c_address_line_2;
-        this.c_country_id = partner.c_country_id;
+        this.c_address_line_1 = partner.address_line_1;
+        this.c_address_line_2 = partner.address_line_2;
+        this.c_country_id = partner.country_id;
         this.cgetStates(this.c_country_id);
-        this.c_state_id = partner.c_state_id;
+        this.c_state_id = partner.state_id;
         this.cgetCities(this.c_state_id);
-        this.c_city = partner.c_city;
-        this.c_pincode = partner.c_pincode;
-        this.is_reseller_account = partner.is_reseller_account;
-        this.sub_domain = partner.sub_domain;
-        this.is_partner = partner.is_partner;
-        // if(partner.licence_start_date !== null){
-        //   this.licence_start_date = new Date(
-        //     partner.licence_start_date
-        //   );
-        //   this.today_date = this.licence_start_date;
-        // }
-        // if(partner.licence_end_date !== null){
-        //   let valid_date = partner.licence_end_date.split('-');
-        //   this.licence_end_date = new Date(
-        //     valid_date
-        //   );
-        // }
-        ////////console.log(this.licence_end_date);
-      }else{
-        this.toster.error(res['message'], 'Error');
-        this.navigateTo('partners-list');
+        this.c_city = partner.city;
+        this.c_pincode = partner.postal_code;
+        this.getPackages();
+      } else {
+        this.toster.error('No lead found!', 'Error');
+        this.navigateTo('leads');
       }
     });
   }
@@ -575,15 +543,13 @@ export class CreatePartnerComponent implements OnInit {
     if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).includes(Number(user['role']))) {
       url = "/admin/" + url;
       this.router.navigateByUrl(url);
-    }else{
+    } else {
       this.toster.error('UnAuthorized!', 'Error');
     }
-
   }
 
   allAlphabetsWithSpaces(event) {
     var inp = String.fromCharCode(event.keyCode);
-
     if (/^[a-zA-Z ]*$/.test(inp)) {
       return true;
     } else {
@@ -627,9 +593,9 @@ export class CreatePartnerComponent implements OnInit {
       clearTimeout(this.timer);
       this.sub_domain_err = '';
       if (environment.INAPP_DOMAINS_ARRAY.indexOf(this.sub_domain) > -1) {
-          this.sub_domain_err = 'Subdomain already exist!';
-          this.toster.error(this.sub_domain_err, 'Error', { closeButton: true });
-          return false
+        this.sub_domain_err = 'Subdomain already exist!';
+        this.toster.error(this.sub_domain_err, 'Error', { closeButton: true });
+        return false
       }
       let param = {
         url: 'check-subdomain',
@@ -653,3 +619,4 @@ export class CreatePartnerComponent implements OnInit {
 
 
 }
+

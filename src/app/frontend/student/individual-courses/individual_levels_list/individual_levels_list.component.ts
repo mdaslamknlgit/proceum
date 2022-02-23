@@ -63,7 +63,7 @@ export class Individual_levels_listComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: true
+      is_individual: 1
     };
     this.http.post(param).subscribe((res) => {
         this.is_loaded = true;
@@ -124,7 +124,7 @@ export class Individual_levels_listComponent implements OnInit {
       offset: this.offset,
       limit: this.itemsPerPage,
       tab: this.tab,
-      is_individual: true
+      is_individual: 1
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {

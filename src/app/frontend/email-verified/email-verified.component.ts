@@ -26,7 +26,6 @@ export class EmailVerifiedComponent implements OnInit {
         this.is_show=true;
       }
     });
-    console.log("shasssha");
   }
 
 }

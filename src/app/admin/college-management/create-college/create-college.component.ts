@@ -286,7 +286,7 @@ export class CreateCollegeComponent implements OnInit {
         }else{
           this.navigateTo('college-list');
         }
-        
+
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -303,7 +303,7 @@ export class CreateCollegeComponent implements OnInit {
       this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
       window.location.href = environment.APP_BASE_URL;
     }
-    
+
     this.http.post(data).subscribe((res) => {
       if (res['error'] == false) {
         let partner = res['data'];
@@ -331,9 +331,9 @@ export class CreateCollegeComponent implements OnInit {
         this.c_address_line_1 = partner.c_address_line_1;
         this.c_address_line_2 = partner.c_address_line_2;
         this.c_country_id = partner.c_country_id;
-        this.getStates(this.c_country_id);
+        //this.getStates(this.c_country_id);
         this.c_state_id = partner.c_state_id;
-        this.getCities(this.c_state_id);
+        //this.getCities(this.c_state_id);
         this.c_city = partner.c_city;
         this.c_pincode = partner.c_pincode;
       }
@@ -349,9 +349,9 @@ export class CreateCollegeComponent implements OnInit {
       this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
       window.location.href = environment.APP_BASE_URL;
     }
-    
-    
-    
+
+
+
   }
 
   allAlphabetsWithSpaces(event) {
