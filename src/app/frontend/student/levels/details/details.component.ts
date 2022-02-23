@@ -236,7 +236,7 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
   public scene:any;
   playVideo(video){
-    window.scroll(0,0);
+    window.scroll(0,100);
       this.active_video_obj = video;
       if(!this.http.getUser()){
           this.router.navigateByUrl("/login");
@@ -295,23 +295,20 @@ export class DetailsComponent implements OnInit, AfterViewInit {
         this.youtube_iframe = this.sanitizer.bypassSecurityTrustResourceUrl(embed_link);
     }
   }
+  public vdo_cipher:any
     getOtp(video_url){
         let param1 = {"url": "vdocipher/get-otp", video_url: video_url};
         this.http.post(param1).subscribe(res=>{
-            console.log(res)
-            var video = new VdoPlayer({
-                otp: res['data']['otp'],
-                playbackInfo: res['data']['playbackInfo'],
-                theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",
-                // the container can be any DOM element on website
-                container: document.querySelector("#embedBox"),
-              });
-              
-              // you can directly call any methods of VdoPlayer class from here. e.g:
-              // video.addEventListener(`load`, () => {
-              //   video.play(); // this will auto-start the video
-              //   console.log('loaded');
-              // });
+            if(res['error'] == false){
+                this.vdo_cipher = new VdoPlayer({
+                    otp: res['data']['otp'],
+                    playbackInfo: res['data']['playbackInfo'],
+                    theme: "9ae8bbe8dd964ddc9bdb932cca1cb59a",
+                    container: document.querySelector("#embedBox"),
+                  
+            })
+            }
+            
         });
     }
     getTimeline(){
@@ -330,6 +327,9 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   }
   getVdoThumbinail(url){
     return "/assets/images/video-cipher.png";
+  }
+  getAqThumbinail(){
+    return "/assets/images/app-squadz.png";
   }
   getYtThumbinail(url){
       if(url == null || url == undefined){

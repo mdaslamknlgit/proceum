@@ -592,6 +592,10 @@ export class CreateUserComponent implements OnInit {
       }
     }
 
+    if(this.phone.length < 9){
+      return;
+    }
+
     //If everything clear, send data to backend
     let form_data = {
       user_id: this.user_id,

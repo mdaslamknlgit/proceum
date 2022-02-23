@@ -22,13 +22,13 @@
         find the below nearest matching records.</div>
       <div class="gs_rslts" *ngIf="search_result.length>0">
         <div class="gs_rslts_aa">
-          <div class="gs_rs_hd">Competencies</div>
+          <!-- <div class="gs_rs_hd">Competencies</div> -->
           <div class="spacer"></div>
           <div class="grn_clr">{{result_count}} Results Found</div>
         </div>
          <div *ngFor="let curriculum of search_result | keyvalue">
           <div class="gs_rslts" *ngFor="let data_n of curriculum.value | keyvalue">
-            <div class="gs_rs_hd">{{data_n.key.toString().split("-")[1]}}</div>
+            <!-- <div class="gs_rs_hd">{{data_n.key.toString().split("-")[1]}}</div> -->
             <div class="gs_rs_cnt" *ngFor="let data_content of data_n.value | keyvalue">
               <span (click)="navigateTo(data_content.value.curriculumn_id+'/'+data_content.value.level_id+'/'+data_content.value.pk_id)">{{data_content.value.level_code}} {{data_content.value.level_description}}</span>
                 <span class="lk_bdg">{{data_content.value.curriculumn_name}}</span>
