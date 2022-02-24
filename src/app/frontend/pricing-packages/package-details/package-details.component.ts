@@ -111,7 +111,7 @@ export class PackageDetailsComponent implements OnInit {
         this.faqs = res['data']['faqs'];
         this.testimonials = res['data']['testimonials'];
         this.addons_arr = res['data']['addons_arr'];
-        this.package_avg_rating = res['data']['package_avg_rating'];
+        this.package_avg_rating = (res['data']['package_avg_rating']) ? res['data']['package_avg_rating'] : 0;
         this.admin_role_ids = res['data']['avoid_roles'];
         //Get the topics if package courses not empty
         this.dataSource.data = res['data']['topics'];
