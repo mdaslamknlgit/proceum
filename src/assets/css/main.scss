@@ -238,7 +238,6 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 .theme-alternate {
   @include angular-material-theme($altTheme);
 }
-.primary_color{ color: #41AB3C; }
 .divider{
   background: rgb(218,218,218);
   background: linear-gradient(180deg, rgba(218,218,218,1) 0%, rgba(118,124,125,1) 50%, rgba(221,221,221,1) 100%);
@@ -251,7 +250,6 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 .d-none{ display:none;}
 .d-none-imp{ display:none !important;}
 // Form fields customization
-
 .mat-form-field-flex > .mat-form-field-infix {
   padding: 0.4em 0px !important;
 }
@@ -259,22 +257,24 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
   top: -1.5em;
 }
 $warn_clr: #e83535b5;
+$red_clr: red;
+$accent_clr:#41AB3C;
+$accent_clr_drk:#24851f;
 .warn{
   color: $warn_clr;
   .unilogup{
     border-color: $warn_clr !important;
   }
 }
-$red_clr: red;
+
 .red_clr{
   color: $red_clr;
 }
 .itlic{
   font-style: italic;
 }
-$accent_clr:#41AB3C;
-$accent_clr_drk:#24851f;
 
+.primary_color{ color: $accent_clr; }
 
 
 .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
@@ -1067,17 +1067,19 @@ app-topbar.inner-header mat-toolbar {
       width: 28%;    
     }
     .my_prfl_mn{
+        column-gap: 4%;
+        display: flex;
       .my_prf_dv{
-        width: calc(48.3333333% - 10px);
+        width: calc(46.3333333% - 30px);
         vertical-align: top;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 10px;
-        margin-bottom: 10px;
+        border-bottom: 1px solid #ddd; 
+        margin:0 10px 5px;
         > span{
-          font-size: 14px;
+          font-size: 12px;
         }
         >label{
-          font-size: 16px;
+          font-size: 12px;
+          display: inline-flex;
         }
       }
     }
@@ -1523,7 +1525,6 @@ input:-webkit-autofill:active {
   color: #0f98a6;
   cursor: pointer;
 }
-
 .ck-toolbar__items .ck.ck-dropdown .ck-dropdown__panel.ck-dropdown__panel_se {
   left: auto !important;
   right: 0;
@@ -1594,7 +1595,7 @@ input:-webkit-autofill:active {
   display: block;
   // max-width: 320px;
 }
-.sd_br.frnt_sdbr.sd_opn, .sd_br.frnt_sdbr:hover{
+.sd_br.frnt_sdbr.sd_opn{
   width: 190px;
 }
 .sdmn_cntul {
@@ -2288,17 +2289,62 @@ span.rpe_sym {
 .crs_innr_chld {
   display: flex;
   flex: auto;
+  position: relative;
+  z-index: 9; 
+  ._innr_ae, ._innr_af{
+    width: 30px;
+    height: 30px;
+    background-color: #05410c;
+    position: absolute;
+    z-index: -1;
+  }
+  ._innr_ae{
+    left: 50px;
+    top: -10px;
+  }
+  ._innr_af{
+    top: 39px;
+    left: -10px;
+  }
+  .crs_innr_aa{
+    left: -10px;
+    position: absolute;
+    top: -10px;
+    z-index: 10;
+    
+    .crs_innr_ab{
+      display: flex;
+      position: absolute;
+      left: 12px;
+      top: 6px;
+      flex-direction: column;
+      font-weight: bold;
+      ._innr_ac{
+        font-size: 13px;
+        color: #fff;
+        line-height: normal;
+      }
+      ._innr_ad{
+        font-size: 16px;
+        color: #FFF09D;
+        line-height: normal;
+      }      
+    }
+    .crs_innr_ac{
+      img{
+        width: 90px;
+      }
+    }
+  }
 }
 .crs_innr_lgo {
-  background: #fff;
+  flex-basis:30%;
+  background: #fdfdfd;
   display: flex;
   flex: auto;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  margin-right: 1%;
-}
-.crs_innr_dsc {
+  border-radius: 6px; 
   margin-right: 1%;
 }
 .crs_innr_hd {
@@ -2326,11 +2372,23 @@ span.rpe_sym {
         color: #b1b1b1;
       }
     }
+    &.pc_dsc_aa{
+      flex-direction: row;
+      justify-content: center;
+      column-gap: 10px;
+      > span{
+        width: auto;
+        font-size: 14px !important;
+        &.nnstrk_price{
+          font-size: 20px !important;
+        }
+      }
+    }
   }
 }
 .crs_innr_dets {
-  background-color: #fff;
-  border-radius: 6px;
+  background-color: #fdfdfd;
+  border-radius:6px;
 }
 .crs_innr_dets_tbl{padding: 0; margin:0;}
 .crs_innr_dets_tbl li {
@@ -2348,11 +2406,15 @@ span.rpe_sym {
 .dets_tbl_cnt {
   width: 50%;
 }
-.crs_innr_lgo{
-  flex-basis:30%
-}
 .crs_innr_dsc{
-  flex-basis: 70%;
+  flex-basis: 40%;
+  margin-left: 1%;
+  background: #eceff1;
+  padding: 15px;
+  border-radius: 6px;
+  .rtng_par .crs_rtng {
+    margin-left: -2px;
+  }
 }
 .crs_innr_dets {
   flex-basis: 30%;
