@@ -328,8 +328,8 @@ export class DetailsComponent implements OnInit, AfterViewInit {
   getVdoThumbinail(url){
     return "/assets/images/video-cipher.png";
   }
-  getAqThumbinail(){
-    return "/assets/images/app-squadz.png";
+  getAqThumbinail(video_token){
+    return "https://s3.ap-south-1.amazonaws.com/appsquadz.proceum.com/course_file_meta/"+ video_token + ".png";
   }
   getYtThumbinail(url){
       if(url == null || url == undefined){
