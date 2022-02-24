@@ -478,7 +478,7 @@ export class CreateContentComponent implements OnInit {
             });
           }
         }
-        if(video_source == 'VIDEO_CIPHER'){
+        if(video_source == 'VDO_CIPHER'){
 
           if (video_value != undefined || video_value != '')
           {
