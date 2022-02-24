@@ -302,13 +302,13 @@ export class CreateUserComponent implements OnInit {
         if (this.universities != undefined) {
           this.all_universities.next(this.universities.slice());
         }
-        if (callPartnerChilds) {
-          this.getPartnerChilds(this.university_id);
-        }
       } else {
         //this.toster.error(res['message'], 'Error');
       }
     });
+    if (callPartnerChilds) {
+      this.getPartnerChilds(this.university_id);
+    }
   }
 
   filterPartners(event) {
