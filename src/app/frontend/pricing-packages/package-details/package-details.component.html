@@ -14,12 +14,12 @@
   <div class="hgt_20"></div>
   <div class="crs_innr_par" *ngIf="package">
     <div class="crs_innr_chld">
-      <span class="_innr_ae"></span>
-        <span class="_innr_af"></span>
-      <div class="crs_innr_aa">
+      <span class="_innr_ae" *ngIf="package_prices[0].discount_percent"></span>
+      <span class="_innr_af" *ngIf="package_prices[0].discount_percent"></span>
+      <div class="crs_innr_aa" *ngIf="package_prices[0].discount_percent">
         <div class="crs_innr_ab">
-            <span class="_innr_ac">19%</span>
-            <span class="_innr_ad">Off</span>
+          <span class="_innr_ac">{{ package_prices[0].discount_percent }}%</span>
+          <span class="_innr_ad">Off</span>
         </div>
         <div class="crs_innr_ac">
           <img src="../../assets/images/off_prc.png" alt="">
@@ -58,7 +58,6 @@
         <div class="crs_innr_hd">
           {{ package.package_name }}
         </div>
-
         <div class="d-flex">
           <div class="rtng_par bb_0">
             <div class="crs_rtng str_slctd">
@@ -72,7 +71,7 @@
               <mat-icon class="hlf_str4 {{package_avg_rating > 3.5 ?'ct_slctd':''}}">star</mat-icon>
               <mat-icon class="{{package_avg_rating > 4 ?'ct_slctd':''}}">star</mat-icon>
               <mat-icon class="hlf_str5 {{package_avg_rating > 4.5?'ct_slctd':''}}">star</mat-icon>
-            </div>
+            </div> 
           </div>
           <div class="spacer"></div>
           <div class="crs_d_r_p">
@@ -94,7 +93,8 @@
               <span>{{package_prices[0].discount_percent ? 'Actual Price :':'Total Price :'}} </span>
               <span class="{{package_prices[0].discount_percent ? 'strk_price':'nnstrk_price'}}">
                 {{package_prices[0].currency_symbol}} {{ package_prices[0].original_price}}</span>
-              <span class="grn_clr" *ngIf="package_prices[0].discount_percent">{{ package_prices[0].discount_percent }}% off</span>
+              <span class="grn_clr" *ngIf="package_prices[0].discount_percent">{{ package_prices[0].discount_percent }}%
+                off</span>
             </div>
             <div class="pc_dsc_mn">
               <span *ngIf="package_prices[0].discount_percent">
@@ -312,7 +312,6 @@
                 <span>{{video.title}}</span>
               </div>
             </div>
-
           </div>
         </mat-tab>
         <mat-tab *ngIf="faqs.length > 0">
@@ -321,7 +320,6 @@
             FAQs
           </ng-template>
           <div class="crs_tbbs_cnt faq_mat_acc">
-
             <mat-accordion *ngFor="let faq of faqs;let i = index">
               <mat-expansion-panel [expanded]="true">
                 <mat-expansion-panel-header>

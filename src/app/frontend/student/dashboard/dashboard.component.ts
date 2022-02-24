@@ -49,6 +49,7 @@ export class DashboardComponent implements OnInit {
   public notes;
   public assessments;
   public classes;
+  public subjectknowledge;
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {alert()
       // Your logic on beforeunload
@@ -65,6 +66,7 @@ export class DashboardComponent implements OnInit {
       this.getFreeContent();
       this.getBookmarksFavorite();
       this.getWishList();
+      this.getSubjectKnowledge();
     }
   }
   //Get wishlist items
@@ -107,7 +109,14 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
+  getSubjectKnowledge(){
+    let param = { url: 'subject-knowledge'};
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.subjectknowledge = res['data'];
+      }
+    });
+  }
   getBookmarksFavorite(){
     let param = { url: 'student-bookmarks-favorite', id: this.user_id};
     this.http.post(param).subscribe((res) => {
