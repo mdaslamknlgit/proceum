@@ -277,12 +277,12 @@ export class DetailsComponent implements OnInit, AfterViewInit {
             this.getTimeline();
         }
     }
-    if(video['video_type'] == "VIDEO_CIPHER" && false){
+    if(video['video_type'] == "VDO_CIPHER"){
         this.timeline = undefined;
         if(this.player != undefined){
             this.player.pauseVideo();
         }
-        this.video_type = "VIDEO_CIPHER";
+        this.video_type = "VDO_CIPHER";
         this.getOtp(video['video_source']);
     }
     if(video['video_type'] == "YOUTUBE"){
