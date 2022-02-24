@@ -14,11 +14,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./manage-users.component.scss']
 })
 export class ManageUsersComponent implements OnInit {
-  displayedColumns: string[] = ['id','name','email','role_name','phone','Organization','created_at','actions','status',];
+  displayedColumns: string[] = ['id','name','email','role_name','phone','created_at','actions','status',];//,'Organization'
 
-  displayedColumnsTwo: string[] = ['CB','id','name','email','phone','Unique ID','Organization','Year','Semester','Group','Blog Access','created_at',
-    'actions','status',];//'Campus',//'role_name',
-  displayedColumnsThree: string[] = ['id','name','email','phone','Unique ID','Year','Semester','Group','created_at',];//'actions',\
+  displayedColumnsTwo: string[] = ['CB','id','name','email','phone','Unique ID','Blog Access','created_at',
+    'actions','status',];//'Campus',//'role_name', //,'Organization','Year','Semester','Group'
+  displayedColumnsThree: string[] = ['id','name','email','phone','Unique ID','created_at',];//'actions',//,'Year','Semester','Group'
 
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
