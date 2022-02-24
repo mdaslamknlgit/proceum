@@ -14,7 +14,7 @@ export const environment = {
   },
   ckeditor_toolbar: ['Heading', 'CustomFileExporer', 'PageBreak', 'FontBackgroundColor', 'Alignment', 'FontColor', 'FontFamily', 'FontSize', 'bold', 'italic', 'underline', 'link', 'bulletedList', 'numberedList', '|', '|', 'blockQuote', 'insertTable', 'undo', 'redo', 'MathType', 'ChemType', 'MediaEmbed', 'HorizontalLine', 'Highlight', 'ImageResize', 'SpecialCharacters'],
   //'uploadImage', 'ImageInsert', 'AutoImage', 'TextTransformation', 'imageUpload', 'CKFinder', 'CKFinderUploadAdapter', 'Essentials', 'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'List', 'Paragraph', 'Table', 'TableToolbar', 'htmlSource',
-  video_types: [{ name: "KPoint", value: 'KPOINT' }, { name: "Youtube", value: 'YOUTUBE' }/*, { name: "AppSquadz", value: "APP_SQUADZ"}, { name: "Video Cipher", value: "VIDEO_CIPHER"}*/],
+  video_types: [{ name: "KPoint", value: 'KPOINT',img:'../../../assets/images/kpoint_k.png' }, { name: "Youtube", value: 'YOUTUBE',img:'../../../assets/images/youtube.png' }, { name: "AppSquadz", value: "APP_SQUADZ",img:'../../../assets/images/app-squadz.png'}, { name: "VdoCipher", value: "VDO_CIPHER",img:'../../../assets/images/video-cipher.png'}],
   ORGANIZATION_TYPES: [
     { value: '1', viewValue: 'University' },
     { value: '2', viewValue: 'College' },
@@ -65,14 +65,14 @@ export const environment = {
   DISABLED_USER_ROLES_FOR_PROCEUM: [2,12],
   DISABLED_USER_ROLES_FOR_ORGANIZATION: [1, 3, 4, 5, 6, 7],
 
-    //apiUrl: 'http://192.10.250.150:8000/api/',
-  apiUrl: 'http://127.0.0.1:8000/api/',
+    apiUrl: 'http://192.10.250.150:8000/api/',
+  //apiUrl: 'http://127.0.0.1:8000/api/',
   //apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
   //apiUrl: 'https://uat.proceum.com/web-api/public/api/',
   // apiUrl: 'https://apiqa.proceum.com/api/',
 
-  APP_BASE_URL: 'http://localhost:4200/',
-    //APP_BASE_URL: 'http://192.10.250.150:4200/',
+  //APP_BASE_URL: 'http://localhost:4200/',
+    APP_BASE_URL: 'http://192.10.250.150:4200/',
 
 firebaseConfig: {
     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
