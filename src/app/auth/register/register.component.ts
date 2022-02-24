@@ -571,6 +571,15 @@ export class RegisterComponent implements OnInit {
       this.address_details = true;
       return false;
     }
+    if(this.institutionResgister.address_line_1 && this.institutionResgister.address_line_1.trim().length==0){
+      let result = <HTMLInputElement>document.getElementById("address_line_1");
+      result.closest('mat-form-field').classList.add('mat-form-field-invalid');
+      return false;
+    }
+    else{
+      let result = <HTMLInputElement>document.getElementById("address_line_1");
+      result.closest('mat-form-field').classList.remove('mat-form-field-invalid');
+    }
     if(!this.institutionResgister.accepeted_terms){
       this.toastr.error("Please accept terms & conditions", 'Error', {
         closeButton: true,
