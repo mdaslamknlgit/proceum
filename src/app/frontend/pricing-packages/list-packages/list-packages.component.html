@@ -21,7 +21,6 @@
     <div class="crs_par">
         <!-- item -->
         <div class="crs_chld" *ngFor="let package of packages">
-
             <div class="d-flex crs_innr_prc">
                 <div>
                     <div class="crs_icn pkg_img_bg" *ngIf="package.package_img">
@@ -33,7 +32,6 @@
                 </div>
                 <div class="ml_02 w_100p">
                     <div class="pc_dsc_mn">
-
                         <span class="{{package.discount_percent ? 'strk_price':''}}">{{package.discount_percent ? 'Actual
                             Price':'Price'}} {{ package.currency_symbol}} {{ package.original_price}}</span>
                         <span *ngIf="package.discount_percent">
@@ -58,6 +56,7 @@
                             <mat-icon class="{{package.package_avg_rating > 4 ?'ct_slctd':''}}">star</mat-icon>
                             <mat-icon class="hlf_str5 {{package.package_avg_rating > 4.5?'ct_slctd':''}}">star</mat-icon>
                         </div>
+                        <div class="rtng_nums">5/5</div>
                     </div>
                     <div class="crs_pr_bynw fw_w">
                         <div class="pr_btn_dv mb_05" (click)="navigateTo('/package-details/'+package.pk_id)">
@@ -82,7 +81,6 @@
                 <div class="spacer"></div>
 
             </div> -->
-
         </div>
         <div class="crs_chld" *ngIf="!packages.length && noPackagesFound">
             No Packages Found!

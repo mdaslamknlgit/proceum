@@ -1,1 +1,57 @@
-<p>teacher works!</p>
+<div class="mn_dshbrd">
+    <div class="hgt_20"></div>
+    <div class="sp_mn">
+      <div class="brdcrm_br">
+        <mat-icon color="accent" routerLink="/">home</mat-icon>
+        <mat-icon>navigate_next</mat-icon>
+        <strong>Teacher Dashboard</strong>
+      </div>
+    </div>
+    <div class="hgt_20"></div>
+    <div class="dsh_brd_crds">
+      <ul class="crds_ul anl_crd">
+        <li>
+        <a routerLink="/teacher/manage-users">
+          <div class="crd_dv">
+            Students Count
+            <span>{{students_count}}</span>
+          </div>
+        </a>
+        </li>
+        <li>
+        <a routerLink="/teacher/assessment-list">
+          <div class="crd_dv">
+            Assessments Conducted
+            <span>{{assessments_conducted}}</span>
+          </div>
+        </a>
+        </li>
+        <li>
+        <a routerLink="/teacher/class/list">    
+          <div class="crd_dv">
+            Classes / Webinars Conducted
+            <span>{{classes_conducted}}</span>
+          </div>
+        </a>
+        </li>       
+      </ul>    
+  
+      <ul class="crds_ul rcnt_vw">
+        <li>
+            <a routerLink="/teacher/subjects"><span class="text_left">My Subjects List</span></a>
+          <hr />
+          <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0">No Subjects Found</div>
+          <ul *ngIf="levels.length > 0" class="crds_ul prg_crd prg_crd">
+            <li *ngFor="let level of levels; let i = index">
+              <a routerLink="/teacher/subjects/{{ level['curriculum_id'] }}/{{
+                level['level_id']
+              }}/{{ level['pk_id'] }}" class="text_left"><button mat-mini-fab class="mr_1">
+                  <mat-icon>auto_stories</mat-icon>
+                </button>
+                {{level["level_name"]}}</a>            
+            </li>           
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
