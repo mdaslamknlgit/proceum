@@ -1205,7 +1205,7 @@
               <iframe [width]="iframe_width" [height]="iframe_height" [src]="youtube_iframe" allowfullscreen></iframe>
             </div>
           </div>
-          <div id="vdo-cipher-div" *ngIf="video_type=='VIDEO_CIPHER'">
+          <div id="vdo-cipher-div" *ngIf="video_type=='VDO_CIPHER'">
             <div id="embedBox" style="width:1280px;max-width:100%;height:auto;"></div>
           </div>
           <div [hidden]="video_type!='3D_OBJECT'">
@@ -1282,11 +1282,11 @@
                   <div class="wtcd_vds {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos">
                     <div class="wv_aa"
-                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VIDEO_CIPHER' || video['video_type'] == 'KPOINT'"
+                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VDO_CIPHER' || video['video_type'] == 'KPOINT'"
                       (click)="playVideo(video)">
                       <div class="wv_img">
                         <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getYtThumbinail(video['video_source'])" />
-                        <img *ngIf="video['video_type'] == 'VIDEO_CIPHER'"
+                        <img *ngIf="video['video_type'] == 'VDO_CIPHER'"
                           [src]="getVdoThumbinail(video['video_source'])" />
                         <img *ngIf="video['video_type'] == 'KPOINT'"
                           src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
@@ -1319,11 +1319,11 @@
                   <div class=" {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos">
                     <div class="wtcd_vds"
-                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VIDEO_CIPHER' || video['video_type'] == 'KPOINT'"
+                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VDO_CIPHER' || video['video_type'] == 'KPOINT'"
                       (click)="playVideo(video)">
                       <div class="wv_img">
                         <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getYtThumbinail(video['video_source'])" />
-                        <img *ngIf="video['video_type'] == 'VIDEO_CIPHER'"
+                        <img *ngIf="video['video_type'] == 'VDO_CIPHER'"
                           [src]="getVdoThumbinail(video['video_source'])" />
                         <img *ngIf="video['video_type'] == 'KPOINT'"
                           src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
@@ -1340,7 +1340,15 @@
                       <div class="wv_ttl_dsc">
                         <span class="wv_tt_hd">{{video['module_title']}}</span>
                       </div>
-                    </a>
+                      <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                        [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                        <div class="wv_img">
+                          <img [src]="getAqThumbinail(video['video_source'])" />
+                        </div>
+                        <div class="wv_ttl_dsc">
+                          <span class="wv_tt_hd">{{video['module_title']}}</span>
+                        </div>
+                      </a>
                   </div>
                 </div>
               </div>
@@ -1358,11 +1366,11 @@
                   <div class=" {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos">
                     <div class="wtcd_vds"
-                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VIDEO_CIPHER' || video['video_type'] == 'KPOINT'"
+                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VDO_CIPHER' || video['video_type'] == 'KPOINT'"
                       (click)="playVideo(video)">
                       <div class="wv_img">
                         <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getYtThumbinail(video['video_source'])" />
-                        <img *ngIf="video['video_type'] == 'VIDEO_CIPHER'"
+                        <img *ngIf="video['video_type'] == 'VDO_CIPHER'"
                           [src]="getVdoThumbinail(video['video_source'])" />
                         <img *ngIf="video['video_type'] == 'KPOINT'"
                           src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
@@ -1379,7 +1387,15 @@
                       <div class="wv_ttl_dsc">
                         <span class="wv_tt_hd">{{video['module_title']}}</span>
                       </div>
-                    </a>
+                      <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                        [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                        <div class="wv_img">
+                          <img [src]="getAqThumbinail(video['video_source'])" />
+                        </div>
+                        <div class="wv_ttl_dsc">
+                          <span class="wv_tt_hd">{{video['module_title']}}</span>
+                        </div>
+                      </a>
                   </div>
                 </div>
               </div>
@@ -1396,11 +1412,11 @@
                   <div class=" {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos">
                     <div class="wtcd_vds"
-                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VIDEO_CIPHER' || video['video_type'] == 'KPOINT'"
+                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VDO_CIPHER' || video['video_type'] == 'KPOINT'"
                       (click)="playVideo(video)">
                       <div class="wv_img">
                         <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getYtThumbinail(video['video_source'])" />
-                        <img *ngIf="video['video_type'] == 'VIDEO_CIPHER'"
+                        <img *ngIf="video['video_type'] == 'VDO_CIPHER'"
                           [src]="getVdoThumbinail(video['video_source'])" />
                         <img *ngIf="video['video_type'] == 'KPOINT'"
                           src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
@@ -1417,7 +1433,15 @@
                       <div class="wv_ttl_dsc">
                         <span class="wv_tt_hd">{{video['module_title']}}</span>
                       </div>
-                    </a>
+                      <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                        [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                        <div class="wv_img">
+                          <img [src]="getAqThumbinail(video['video_source'])" />
+                        </div>
+                        <div class="wv_ttl_dsc">
+                          <span class="wv_tt_hd">{{video['module_title']}}</span>
+                        </div>
+                      </a>
                   </div>
                 </div>
               </div>
@@ -1433,11 +1457,11 @@
                   <div class=" {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos">
                     <div class="wtcd_vds"
-                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VIDEO_CIPHER' || video['video_type'] == 'KPOINT'"
+                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VDO_CIPHER' || video['video_type'] == 'KPOINT'"
                       (click)="playVideo(video)">
                       <div class="wv_img">
                         <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getYtThumbinail(video['video_source'])" />
-                        <img *ngIf="video['video_type'] == 'VIDEO_CIPHER'"
+                        <img *ngIf="video['video_type'] == 'VDO_CIPHER'"
                           [src]="getVdoThumbinail(video['video_source'])" />
                         <img *ngIf="video['video_type'] == 'KPOINT'"
                           src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
@@ -1454,7 +1478,15 @@
                       <div class="wv_ttl_dsc">
                         <span class="wv_tt_hd">{{video['module_title']}}</span>
                       </div>
-                    </a>
+                      <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                        [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                        <div class="wv_img">
+                          <img [src]="getAqThumbinail(video['video_source'])" />
+                        </div>
+                        <div class="wv_ttl_dsc">
+                          <span class="wv_tt_hd">{{video['module_title']}}</span>
+                        </div>
+                      </a>
                   </div>
                 </div>
               </div>
@@ -1470,11 +1502,11 @@
                   <div class=" {{video['pk_id'] == active_video_obj['pk_id'] ? 'wv_actv' : ''}}"
                     *ngIf="video['video_section'] == display_videos">
                     <div class="wtcd_vds"
-                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VIDEO_CIPHER' || video['video_type'] == 'KPOINT'"
+                      *ngIf="video['video_type'] == 'YOUTUBE' || video['video_type'] == 'VDO_CIPHER' || video['video_type'] == 'KPOINT'"
                       (click)="playVideo(video)">
                       <div class="wv_img">
                         <img *ngIf="video['video_type'] == 'YOUTUBE'" [src]="getYtThumbinail(video['video_source'])" />
-                        <img *ngIf="video['video_type'] == 'VIDEO_CIPHER'"
+                        <img *ngIf="video['video_type'] == 'VDO_CIPHER'"
                           [src]="getVdoThumbinail(video['video_source'])" />
                         <img *ngIf="video['video_type'] == 'KPOINT'"
                           src="https://proceum.kpoint.com/media/data.ap-southeast-1.kpoint/proceum.kpoint.com/proceum.kpoint.com/kapsule/{{video['video_source']}}/v3/i/16x9-full.jpg" />
@@ -1491,7 +1523,15 @@
                       <div class="wv_ttl_dsc">
                         <span class="wv_tt_hd">{{video['module_title']}}</span>
                       </div>
-                    </a>
+                      <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                        [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                        <div class="wv_img">
+                          <img [src]="getAqThumbinail(video['video_source'])" />
+                        </div>
+                        <div class="wv_ttl_dsc">
+                          <span class="wv_tt_hd">{{video['module_title']}}</span>
+                        </div>
+                      </a>
                   </div>
                 </div>
               </div>

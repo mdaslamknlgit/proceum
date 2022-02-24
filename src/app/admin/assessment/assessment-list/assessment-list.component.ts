@@ -53,6 +53,7 @@ export class AssessmentListComponent implements OnInit {
   public is_display:boolean=false;
   public edit_model_status:boolean= false;
   public question_total = 0;
+  public create_assessment = '';
   
   constructor(private http: CommonService, public translate: TranslateService, private toster: ToastrService, private router: Router,) {
     this.translate.setDefaultLang(this.http.lang);
@@ -64,6 +65,11 @@ export class AssessmentListComponent implements OnInit {
     this.role_id = this.user['role'];
     if(this.role_id == 1){
       this.is_display = true;
+    }
+    if(this.role_id == 12){
+      this.create_assessment = '/teacher/create-assessment';
+    }else{
+      this.create_assessment = '/admin/create-assessment';
     }
     this.applyFilters();
     this.getUsersList();
