@@ -202,7 +202,7 @@ export class LoginComponent implements OnInit {
   }
 
   landOnSubdomain(userData) {
-    let subdomain = userData['sub_domain'];
+    let replacer = userData['sub_domain'];
     let role = Number(userData['role']);
     let dashboard = "/student/dashboard";
     if (Object.values(environment.ALL_ADMIN_SPECIFIC_ROLES).includes(role)) {
@@ -211,7 +211,14 @@ export class LoginComponent implements OnInit {
     if (role == environment.ALL_ROLES.TEACHER) {
       dashboard = "/teacher/dashboard";
     }
-    let newdomain;
+    let replaceValue = window.location.host.split('.')[0];
+    let url = window.location.origin.replace(replaceValue,replacer);
+    if(replaceValue != 'localhost:4200'){
+      url = url.replace('https','http');
+      window.location.href = url + dashboard;
+    }
+    return false;
+    /* let newdomain;
     newdomain = window.location.origin.replace('uat', subdomain);
     if (newdomain.indexOf(subdomain) > -1) {
       window.location.href = newdomain + dashboard; return;
@@ -223,7 +230,7 @@ export class LoginComponent implements OnInit {
     newdomain = window.location.origin.replace('master', subdomain);
     if (newdomain.indexOf(subdomain) > -1) {
       window.location.href = newdomain + dashboard; return;
-    }
+    } */
   }
 
   sociallogin(social_type: string): void {
