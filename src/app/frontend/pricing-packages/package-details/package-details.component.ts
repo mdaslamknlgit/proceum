@@ -20,7 +20,6 @@ interface CurriculumNode {
   has_children?: any;
   ok?: boolean;
 }
-
 @Component({
   selector: 'app-package-details',
   templateUrl: './package-details.component.html',
