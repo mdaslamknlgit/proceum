@@ -622,6 +622,10 @@ export class CreatePartnerComponent implements OnInit {
     );
   }
 
+  validatesubDomain(event){
+    return /[a-z-]/i.test(event.key)
+  }
+
   checkSubDomainAvailable() {
     if (this.sub_domain != "") {
       clearTimeout(this.timer);
