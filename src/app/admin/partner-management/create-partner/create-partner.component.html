@@ -40,11 +40,11 @@
                                     name is required</span> -->
                         </div>
                         <div class="cm_fltr_sc mr_1">
-                            <div class="crt_prt_hd">{{(partner_id) ? 'Email*' : 'Login Email Address*'}}</div>
-                            <mat-form-field appearance="outline" class="w_100p {{ (sub_domain) ? 'fld_readonly' : '' }}">
+                            <div class="crt_prt_hd">{{(!edit_email) ? 'Contact Email*' : 'Login Email Address*'}}</div>
+                            <mat-form-field appearance="outline" class="w_100p {{ (!edit_email) ? 'fld_readonly' : '' }}">
                                 <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
                                     #email_edit="ngModel" autocomplete="off" required
-                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [disabled]="sub_domain" />
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [disabled]="!edit_email" />
                             </mat-form-field>
                             <!-- <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || email_edit.touched) && email_edit.invalid">Email
