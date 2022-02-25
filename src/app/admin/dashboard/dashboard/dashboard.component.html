@@ -16,24 +16,38 @@
       </div>
     </div>
     <ul class="crds_ul" *ngIf="counts_loaded">
-      <li>
+      <li routerLink="/admin/manage-users">
         <div>
           Total No. of Students
           <span>{{ subscribed_student_count }}</span>
         </div>
       </li>
 
-      <li *ngIf="user['role'] == '8'">
+      <li *ngIf="user['role'] == '8'" routerLink="/admin/college-list">
         <div>
           Total No. of Colleges
           <span>{{ colleges_count }}</span>
         </div>
       </li>
 
-      <li>
+      <li routerLink="/admin/college-list">
         <div>
           Total Assessments
           <span>{{ assessment_count }}</span>
+        </div>
+      </li>
+
+      <li routerLink="/teacher/class/list">
+        <div>
+          Total Classes / Webinars Conducted
+          <span>{{ class_count }}</span>
+        </div>
+      </li>
+
+     <!--  <li>
+        <div>
+          Total QBanks
+          <span>{{ qbank_count }}</span>
         </div>
       </li>
 
@@ -42,21 +56,7 @@
           Total Notes
           <span>{{ notes_count }}</span>
         </div>
-      </li>
-
-      <li>
-        <div>
-          Total Classes / Webinars Conducted
-          <span>{{ class_count }}</span>
-        </div>
-      </li>
-
-      <li>
-        <div>
-          Total QBanks
-          <span>{{ qbank_count }}</span>
-        </div>
-      </li>
+      </li> -->
     </ul>
     <ul class="crds_ul Clients" *ngIf="partners.length > 0">
       <li>
@@ -70,8 +70,9 @@
     <ul class="crds_ul anly_crd" *ngIf="partners.length > 0">
       <li *ngFor="let partner of partners">
         <div class="uni_lg_img" routerLink="/admin/create-partner/{{partner.pk_id}}">
-          <span class="text_center">{{ partner.partner_name }}</span>
           <img src="{{ partner.header_logo }}" />
+          <span class="text_center">{{ partner.partner_name }}</span>
+         
         </div>
       </li>
     </ul>
