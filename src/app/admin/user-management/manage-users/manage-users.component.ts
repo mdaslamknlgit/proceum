@@ -58,7 +58,7 @@ export class ManageUsersComponent implements OnInit {
 
   public partner_id = '';
   public domain = '';
-  
+
   roles = [];
   years = [];
   semesters = [];
@@ -88,7 +88,7 @@ export class ManageUsersComponent implements OnInit {
   api_url : string;
   download_url : string;
   student_structure_template : string;
-  
+
   public user_id = 0;
   public role_id = 0;
   public college_institute_id = 0;
@@ -99,7 +99,7 @@ export class ManageUsersComponent implements OnInit {
     private http: CommonService,
     public toster: ToastrService,
     private router: Router
-    ) { 
+    ) {
       this.api_url = environment.apiUrl;
       this.download_url = this.api_url + 'download-students-data';
     }
@@ -155,11 +155,11 @@ export class ManageUsersComponent implements OnInit {
       }
       this.doFilter();
       this.getRoleList(this.user['role']);
-      
+
     }
     this.domain = location.origin;
   }
-  
+
   getTeacherCollegeInstitute(){
     let params = {
       url: 'assessment/get-teacher-details', user_id: this.user_id
@@ -170,15 +170,15 @@ export class ManageUsersComponent implements OnInit {
           this.college_institute_id = res['user_details']['university_id'];
           this.college_id = res['user_details']['college_id'];
           this.org_type = this.organization_type_id = '1';
-          this.getYearSemsterGroup('',0,'year','');          
+          this.getYearSemsterGroup('',0,'year','');
         }else if(res['user_details']['college_id'] != null){
           this.college_id = this.college_institute_id = res['user_details']['college_id'];
           this.org_type = this.organization_type_id = '2';
-          this.getYearSemsterGroup('',0,'year','');          
+          this.getYearSemsterGroup('',0,'year','');
         }else if(res['user_details']['institute_id'] != null){
           this.organization_list_id = this.college_institute_id = res['user_details']['institute_id'];
           this.org_type = this.organization_type_id = '3';
-          this.getYearSemsterGroup('',0,'year','');          
+          this.getYearSemsterGroup('',0,'year','');
         }
         this.doFilter();
       }
@@ -227,7 +227,7 @@ export class ManageUsersComponent implements OnInit {
       this.manage_students = '';
     }
     this.page = 0;
-    let param = { 
+    let param = {
       url: 'get-user-list',
       offset: this.page,
       limit: this.pageSize,
@@ -242,7 +242,7 @@ export class ManageUsersComponent implements OnInit {
       is_admin_specific_role : '1',
       role_id:this.role_id
     };
-    this.http.post(param).subscribe((res) => {    
+    this.http.post(param).subscribe((res) => {
       this.checkboxValue = false;
       if (res['error'] == false) {
         if(this.role_id == environment.ALL_ROLES.TEACHER){
@@ -281,7 +281,7 @@ export class ManageUsersComponent implements OnInit {
           this.dataSourceTwo = new MatTableDataSource([]);
         }else{
           this.dataSource = new MatTableDataSource([]);
-        }        
+        }
         //this.toster.error(res['message'], 'Error');
       }
     });
@@ -290,7 +290,7 @@ export class ManageUsersComponent implements OnInit {
   public getServerData(event?: PageEvent) {
     this.page = event.pageSize * event.pageIndex;
     let param = {
-      url: 'get-user-list', 
+      url: 'get-user-list',
       is_admin_specific_role : '1',
       offset: this.page,
       limit: event.pageSize,
@@ -305,7 +305,7 @@ export class ManageUsersComponent implements OnInit {
       group: this.group_id,
       role_id:this.role_id
     };
-    
+
     this.http.post(param).subscribe((res) => {
       this.checkboxValue = false;
       if (res['error'] == false) {
@@ -330,7 +330,7 @@ export class ManageUsersComponent implements OnInit {
         } else{
           this.dataSource = new MatTableDataSource(res['data']);
           this.totalSize = res['total_records'];
-        }        
+        }
       } else {
         //this.toster.info(res['message'], 'Error');
         if(this.role_id == environment.ALL_ROLES.TEACHER){
@@ -347,14 +347,14 @@ export class ManageUsersComponent implements OnInit {
 
   public uploadFiles(event) {
     let files = event.target.files;
-    if (files.length == 0) return false; 
-    
+    if (files.length == 0) return false;
+
     if(files && files.length > 0) {
       let file : File = files.item(0);
       let reader: FileReader = new FileReader();
         reader.readAsText(file);
         reader.onload = (e) => {
-                   
+
           //Create formdata object
           const uploadData = new FormData();
           uploadData.append("organization_type_id", this.organization_type_id);
@@ -365,7 +365,7 @@ export class ManageUsersComponent implements OnInit {
           uploadData.append("group", this.group_id);
           uploadData.append("domain", this.domain);
           uploadData.append("import_file", files[0], files[0].name);
-          
+
           let param = { url: 'import-students-data' };
           return this.http.import(param, uploadData).subscribe((res) => {
               if (res['error'] == false) {
@@ -377,7 +377,7 @@ export class ManageUsersComponent implements OnInit {
               }
             });
         }
-    }   
+    }
   }
 
   // public studentStructureTemplate(){
@@ -453,11 +453,11 @@ export class ManageUsersComponent implements OnInit {
         if (res['error'] == false) {
           this.organization_list = res['data']['partners'];
           if(this.organization_list != undefined){
-            this.all_organization_list.next(this.organization_list.slice()); 
+            this.all_organization_list.next(this.organization_list.slice());
           }
         } else {
           //this.toster.error(res['message'], 'Error');
-        }   
+        }
       });
     } else { // University => college
       this.college_list = [];
@@ -470,10 +470,10 @@ export class ManageUsersComponent implements OnInit {
           if(this.college_list != undefined && res['data']['partners'] != ''){
             this.all_college.next(this.college_list.slice());
             this.college_id = '';
-          }          
+          }
         } else {
           //this.toster.error(res['message'], 'Error');
-        }   
+        }
       });
     }
   }
@@ -490,14 +490,14 @@ export class ManageUsersComponent implements OnInit {
     if(org_type == '1'){ //University
       this.getOrganizationList(1,1);
       this.college_id = '';
-      this.all_college.next();      
+      this.all_college.next();
     }else{
       this.getYearSemsterGroup(org_type,parent_id,slug,type);
     }
     this.doFilter();
   }
 
-  getYearSemsterGroup(org_type,parent_id,slug,type){     
+  getYearSemsterGroup(org_type,parent_id,slug,type){
     let partner = '';let partner_child_id = 0;
     if(org_type == '1'){
       if(this.is_college == true){
@@ -535,7 +535,7 @@ export class ManageUsersComponent implements OnInit {
       //partner = String(this.college_institute_id);
       partner = this.user['partner_id'];
       org_type = this.org_type;
-      if(this.org_type == '1'){        
+      if(this.org_type == '1'){
         partner_child_id = Number(this.college_id);
       }
     }
@@ -553,9 +553,9 @@ export class ManageUsersComponent implements OnInit {
         this.years = res['data'];
         if(this.years != undefined){
           if(type == 'promote'){
-            if(slug == 'year'){    
+            if(slug == 'year'){
               this.promote_semester_id = '';
-              this.promote_group_id = '';        
+              this.promote_group_id = '';
               this.promote_all_years.next(this.years.slice());
             }else if(slug == 'semester'){
               this.promote_group_id = '';
@@ -570,16 +570,16 @@ export class ManageUsersComponent implements OnInit {
               this.promote_group_dropdown = true;
               if(this.years.length == 0){
                 this.promote_group_dropdown = false;
-              } 
-            } 
+              }
+            }
           }else{
-            if(slug == 'year'){   
-              this.year_id = '';         
+            if(slug == 'year'){
+              this.year_id = '';
               this.semester_id = '';
               this.group_id = '';
               this.all_semesters.next();
               this.all_groups.next();
-              this.all_years.next(this.years.slice());            
+              this.all_years.next(this.years.slice());
             }else if(slug == 'semester'){
               this.group_id = '';
               this.semester_id = '';
@@ -595,10 +595,10 @@ export class ManageUsersComponent implements OnInit {
               this.show_group_dropdown = true;
               if(this.years.length == 0){
                 this.show_group_dropdown = false;
-              }            
+              }
             }
-            this.doFilter(); 
-          }          
+            this.doFilter();
+          }
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -619,8 +619,8 @@ export class ManageUsersComponent implements OnInit {
       });
     }
   }
-  
-  isAllSelected(event,student_id){ 
+
+  isAllSelected(event,student_id){
     if(event.checked == true){
       this.studentArray.push(student_id);
     }else{
@@ -637,7 +637,7 @@ export class ManageUsersComponent implements OnInit {
     +'&group='+this.group_id+'&is_admin_specific_role=1&user_id='+this.user_id+'&role_id='+this.role_id+'&type=download',"_blank");
     this.mng_student_popup = false;
   }
-  
+
   downloadSelectStudents(){
     if(this.studentArray.length > 0){
       window.open(this.download_url+'?getUrl=1&role='+this.role+'&studentArray='+this.studentArray+'&user_id='+this.user_id
@@ -683,6 +683,7 @@ export class ManageUsersComponent implements OnInit {
       url: 'user-status',
       id: package_id,
       status: status,
+      domain: this.domain,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
@@ -692,7 +693,7 @@ export class ManageUsersComponent implements OnInit {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
-    
+
   }
   public allowBlogAccess(student_id){
     if(student_id != ''){
@@ -757,13 +758,13 @@ export class ManageUsersComponent implements OnInit {
     }else if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){  /// College Admin Role ID
 
     }else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
-      
+
     }else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
-      
+
     }else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
-    
+
     }else if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
-    
+
     }else{
       this.organization_type_id = '';
       this.organization_list_id = '';
@@ -839,7 +840,7 @@ export class ManageUsersComponent implements OnInit {
   public institute = '';
   public profile_pic = '';
   public last_login_time = '';
-  
+
   public openDetailsModel(param:any){
     this.mng_student_details_popup = true;
     let user_id = param.id;
@@ -880,7 +881,7 @@ export class ManageUsersComponent implements OnInit {
         this.countrys = res['data']['countries'];
         if (this.countrys != undefined) {
           let found = this.countrys.find(element => element.id === this.country_id);
-          this.country_name = found.country_name;          
+          this.country_name = found.country_name;
         }
       } else {
         //this.toster.error(res['message'], 'Error');
@@ -899,7 +900,7 @@ export class ManageUsersComponent implements OnInit {
           this.states = res['data']['states'];
           if (this.states != undefined) {
             let found = this.states.find(element => element.id === this.state_id);
-            this.state_name = found.state_name;          
+            this.state_name = found.state_name;
           }
         } else {
           let message = res['errors']['title']
@@ -921,7 +922,7 @@ export class ManageUsersComponent implements OnInit {
         this.cities = res['data']['cities'];
         if (this.cities != undefined) {
           let found = this.cities.find(element => element.id === this.city_id);
-          this.city_name = found.city_name;          
+          this.city_name = found.city_name;
         }
       }
     });

@@ -149,12 +149,13 @@ export class LoginComponent implements OnInit {
           this.http.login(params).subscribe((res: Response) => {
             if (res.error) {
               if (res['insti_reg_user']) {
+                let sweetAlertHtml = 'Dear '+ res['user_role_type'] +', Thanks for registering with us.<br/> \
+                Your account is not enabled yet as we are still reviewing your information.<br/> \
+                We will get back to you soon.<br/>Once your account is approved, you will be notified via email.';
                 Swal.fire({
                   icon: 'warning',
                   //title: 'Dear Partner,',
-                  html: 'Thanks for registering with us.<br/> \
-                  Your account is not enabled yet as we are still reviewing your information.<br/> \
-                  We will get back to you soon.<br/>Once your account is approved, you will be notified via email.'
+                  html: sweetAlertHtml
                 })
                 return false;
               }

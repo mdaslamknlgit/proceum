@@ -17,6 +17,13 @@ export class DashboardComponent implements OnInit {
   public synchronous = false;
   public user: any;
   public loadAdmin = false;
+  public assessment_count = 0;
+  public class_count = 0;
+  public colleges_count = 0;
+  public notes_count = 0;
+  public qbank_count = 0;
+  public subscribed_student_count = 0;
+  public counts_loaded = false;
 
   constructor(
     private http: CommonService,
@@ -33,7 +40,7 @@ export class DashboardComponent implements OnInit {
         this.getPartners();
         this.getDashboardData();
     }
-    
+
   }
 
   public getPartners() {
@@ -63,6 +70,15 @@ export class DashboardComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.notifications = res['data']['notifications'];
+        this.assessment_count = res['data']['assessment_count'];
+        this.class_count = res['data']['class_count'];
+        this.colleges_count = res['data']['colleges_count'];
+        this.notes_count = res['data']['notes_count'];
+        this.qbank_count = res['data']['qbank_count'];
+        this.subscribed_student_count = res['data']['subscribed_student_count'];
+        if(Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(this.user['role']))){
+          this.counts_loaded = true;
+        }
       }
     });
   }

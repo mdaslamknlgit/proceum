@@ -15,11 +15,11 @@
   <div class="crs_innr_par" *ngIf="package">
     <div class="crs_innr_chld">
       <span class="_innr_ae" *ngIf="package_prices[0].discount_percent"></span>
-      <span class="_innr_af" *ngIf="package_prices[0].discount_percent"></span>
+        <span class="_innr_af" *ngIf="package_prices[0].discount_percent"></span>
       <div class="crs_innr_aa" *ngIf="package_prices[0].discount_percent">
         <div class="crs_innr_ab">
-          <span class="_innr_ac">{{ package_prices[0].discount_percent }}%</span>
-          <span class="_innr_ad">Off</span>
+            <span class="_innr_ac">{{ package_prices[0].discount_percent }}%</span>
+            <span class="_innr_ad">Off</span>
         </div>
         <div class="crs_innr_ac">
           <img src="../../assets/images/off_prc.png" alt="">
@@ -60,7 +60,7 @@
         </div>
         <div class="d-flex">
           <div class="rtng_par bb_0">
-            <div class="crs_rtng str_slctd">
+            <div class="crs_rtng">
               <mat-icon class="{{package_avg_rating > 0 ?'ct_slctd':''}}">star</mat-icon>
               <mat-icon class="hlf_str1 {{package_avg_rating > 0.5 ?'ct_slctd':''}}">star</mat-icon>
               <mat-icon class="{{package_avg_rating > 1 ?'ct_slctd':''}}">star</mat-icon>
@@ -71,7 +71,8 @@
               <mat-icon class="hlf_str4 {{package_avg_rating > 3.5 ?'ct_slctd':''}}">star</mat-icon>
               <mat-icon class="{{package_avg_rating > 4 ?'ct_slctd':''}}">star</mat-icon>
               <mat-icon class="hlf_str5 {{package_avg_rating > 4.5?'ct_slctd':''}}">star</mat-icon>
-            </div> 
+            </div>
+            <div class="rtng_nums" *ngIf="package_avg_rating">{{ package_avg_rating }}</div>
           </div>
           <div class="spacer"></div>
           <div class="crs_d_r_p">
@@ -90,7 +91,7 @@
         <div class="text_center">
           <div class="crs_innr_prc">
             <div class="pc_dsc_mn pc_dsc_aa">
-              <span>{{package_prices[0].discount_percent ? 'Actual Price :':'Total Price :'}} </span>
+              <span>{{package_prices[0].discount_percent ? 'Actual Price :':'Price :'}} </span>
               <span class="{{package_prices[0].discount_percent ? 'strk_price':'nnstrk_price'}}">
                 {{package_prices[0].currency_symbol}} {{ package_prices[0].original_price}}</span>
               <span class="grn_clr" *ngIf="package_prices[0].discount_percent">{{ package_prices[0].discount_percent }}%
@@ -183,9 +184,7 @@
             Testimonials
           </ng-template>
           <div class="testi_mo_mn">
-            <div class="testi_hd">
-              Testimonials
-            </div>
+
             <div class="testi_cnt mt_05" *ngIf="testimonials.length > 0">
               <div class="testi_dv" *ngFor="let testimonial of testimonials">
                 <div class="testi_aa">

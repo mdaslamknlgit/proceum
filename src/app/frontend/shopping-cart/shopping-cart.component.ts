@@ -482,10 +482,8 @@ export class ShoppingCartComponent implements OnInit {
           title: 'Success!',
           html: 'Thanks for your order. Your order has been placed successfully.<br/>'
         })
-        setTimeout(() => {
-          this.router.navigateByUrl('/student/order-details/' +res['order_id']);
-          this.disable_payment_button = false;
-        },2000)
+        this.router.navigateByUrl('/student/order-details/' +res['order_id']);
+        this.disable_payment_button = false;
       } else {
         this.toster.error(res['message'], 'Error');
         this.disable_payment_button = false;
