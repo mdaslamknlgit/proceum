@@ -22,7 +22,7 @@
         find the below nearest matching records.</div>
       <div class="gs_rslts" *ngIf="search_result.length>0">
         <div class="gs_rslts_aa">
-          <!-- <div class="gs_rs_hd">Competencies</div> -->
+          <div class="gs_rs_hd">Competencies</div>
           <div class="spacer"></div>
           <div class="grn_clr">{{result_count}} Results Found</div>
         </div>
@@ -67,6 +67,7 @@
               </div>              
             </div>
           </div>
+          <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="page_size_options" [length]="totalSize" [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
           <div class="hgt_5"></div>
         </div>
       </div>
