@@ -59,8 +59,8 @@
               </div> 
               <!-- Level wise code -->
               <div class="frm_dvs" *ngFor="let value of curriculum_labels; let i = index">
-                <span *ngIf="i < curriculum_labels.length - 1">{{ ucFirst(value["display_label"]) }}<span *ngIf="level_options[value['level_number']] != undefined && level_options[value['level_number']].length > 0" class="required">*</span> </span>
-                <span *ngIf="i < curriculum_labels.length - 1">
+                <span *ngIf="i < curriculum_labels.length">{{ ucFirst(value["display_label"]) }}<span *ngIf="level_options[value['level_number']] != undefined && level_options[value['level_number']].length > 0" class="required">*</span> </span>
+                <span *ngIf="i < curriculum_labels.length">
                   <span class="err_tltp_par">
                     <mat-form-field appearance="outline">
                       <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" [(ngModel)]="selected_level[value['level_number']]" name="course_list_{{i+1}}" #course_list_{{i+1}}="ngModel" (ngModelChange)="applyCourseFilters(value['level_number']);getLevels(value['level_number'])" [required]="level_options[value['level_number']] != undefined && level_options[value['level_number']].length > 0">
