@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -30,14 +30,24 @@ export class ContentManagementComponent implements OnInit {
   public modal_popup = false;
   public page: number = 0;
   public tab_index = 0;
+  public selectedIndex = 0;
   public users = [];
   public dataentry_uid = 0;
   from_date = '';
   to_date = '';
   public today_date = new Date();
-  constructor(private http: CommonService, private toster: ToastrService, private router: Router, private fs: FirebaseService) {}
+  constructor(private http: CommonService, private toster: ToastrService, private router: Router, private fs: FirebaseService, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((param) => {
+        this.selectedIndex = param.id;
+        this.tab_index = this.selectedIndex;
+        if (this.selectedIndex == undefined) {
+          this.selectedIndex = 0;
+          this.tab_index = this.selectedIndex;
+        }
+        
+      });
       this.user = this.http.getUser();
     let param = {
       url: 'content-list',
