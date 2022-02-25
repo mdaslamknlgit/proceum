@@ -237,8 +237,8 @@ export class MyAccountComponent implements OnInit {
       this.src = this.url;
     }
     let size = this.filedata[0].size;
-    if (size >= 256000) {
-      this.imgMessage = 'Profile Picture must be less than 250kb';
+    if (size >= 2097152) {
+      this.imgMessage = 'Profile Picture must be less than 2MB';
       return;
     }
     const reader = new FileReader();
@@ -250,12 +250,12 @@ export class MyAccountComponent implements OnInit {
       img.onload = () => {
         const height = img.naturalHeight;
         const width = img.naturalWidth;
-        if (height > 250 || width > 250) {
+        /* if (height > 250 || width > 250) {
           this.imgMessage =
             'Profile Picture height and width must be less than 250 pixels';
           this.src = this.url;
           return;
-        }
+        } */
       };
       this.src = reader.result;
     };
@@ -370,8 +370,8 @@ export class MyAccountComponent implements OnInit {
         this.imgMessage = 'Only images are supported like jpg,png,jpeg.';
         return;
       }
-      if (size >= 256000) {
-        this.imgMessage = 'Profile Picture must be less than 250kb';
+      if (size >= 2097152) {
+        this.imgMessage = 'Profile Picture must be less than 2MB';
         return;
       }
 
@@ -384,12 +384,12 @@ export class MyAccountComponent implements OnInit {
         img.onload = () => {
           const height = img.naturalHeight;
           const width = img.naturalWidth;
-          if (height > 250 || width > 250) {
+          /* if (height > 250 || width > 250) {
             this.imgMessage =
               'Profile Picture height and width must be less than 250 pixels';
             this.src = this.url;
             return;
-          }
+          } */
         };
       };
 
