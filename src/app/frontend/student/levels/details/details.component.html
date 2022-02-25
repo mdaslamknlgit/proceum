@@ -310,6 +310,7 @@
             class="mr_vrt_btn algn_s_fs no_bxsdw">
             <mat-icon>switch_video</mat-icon>
           </button>
+          <a *ngIf="videos.length>0" class="mr_vrt_btn algn_s_fs no_bxsdw" [href]="student_structure_template | safe: 'resourceUrl'" mat-icon-button mat-mini-fab color="accent" target="_blank"><mat-icon>download</mat-icon></a>
         </div>
       </div>
     </div>
@@ -1152,8 +1153,7 @@
       </div>
       <!-- Teacher material code ends here -->
       <div class="crses_rgt" *ngIf="videos.length>0 && active_div != 11 && active_div != 12">
-        <div class="intr_vd_tml bg_sprtr_accrd">
-          <!--*ngIf="AppSquadzVideos.length>0"-->
+        <!--<div  class="intr_vd_tml bg_sprtr_accrd">
           <mat-accordion>
             <mat-expansion-panel (click)="display_videos='APPSQUADZ'" [expanded]="true">
               <mat-expansion-panel-header>
@@ -1165,13 +1165,9 @@
               </mat-expansion-panel-header>
               <div>
                 <div style="float: right;margin: 5px;">
-                  <a [href]="student_structure_template | safe: 'resourceUrl'" mat-raised-button color="accent"
-                    target="_blank">
-                    <mat-icon>download</mat-icon>
-                  </a>
+                  
                 </div>
                 <div *ngFor="let appSquadz of AppSquadzVideos">
-                  <!---->
                   <div class="wtcd_vds {{appSquadz['id'] == active_video_obj['id'] ? 'wv_actv' : ''}}"
                     *ngIf="'APPSQUADZ' == display_videos">
                     <div class="wv_img">
@@ -1186,13 +1182,13 @@
               </div>
             </mat-expansion-panel>
           </mat-accordion>
-        </div>
+        </div>-->
         <div class="intr_vd_hd">
-          <!--main-->
           <div>
             <mat-icon>videocam</mat-icon>
             {{video_title}}
           </div>
+          
           <div class="spacer"></div>
         </div>
         <div class="intr_vd_sc">
@@ -1249,6 +1245,7 @@
             </mat-icon>
           </span>
         </div>
+        <div class="hgt_10"></div>
         <div class="intr_vd_tml">
           <mat-accordion>
             <mat-expansion-panel *ngIf="timeline!=undefined && timeline.length>0">
@@ -1296,7 +1293,7 @@
                       </div>
                     </div>
                     <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
-                      [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                      [href]="'proceuma:'+video['video_source']+':'+user['id'] | safe: 'resourceUrl'">
                       <div class="wv_img">
                         <img [src]="getAqThumbinail(video['video_source'])" />
                       </div>
@@ -1333,7 +1330,7 @@
                       </div>
                     </div>
                     <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
-                      [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                      [href]="'proceuma:'+video['video_source']+':'+user['id'] | safe: 'resourceUrl'">
                       <div class="wv_img">
                         <img [src]="getAqThumbinail(video['video_source'])" />
                       </div>

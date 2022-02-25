@@ -225,6 +225,21 @@ export class ManageUsersComponent implements OnInit {
   public doFilter() {
     if(this.role != '2'){
       this.manage_students = '';
+      this.organization_type_id = '';
+      this.organization_type_name = '';
+      this.organization_list = [];
+      this.college_list = [];
+      this.organization_list_id = '';
+      this.is_college = false;
+      if(this.role_id == environment.ALL_ROLES.SUPER_ADMIN){
+        this.is_university = true;
+      }else{
+        this.is_university = false;
+      }
+      this.college_id = '';
+      this.year_id = '';
+      this.semester_id = '';
+      this.group_id = '';
     }
     this.page = 0;
     let param = {

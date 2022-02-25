@@ -188,6 +188,7 @@ const routes: Routes = [
       { path: 'create-custom-page', component: CreateCustomPagesComponent },
       { path: 'edit-custom-page/:id', component: EditCustomPagesComponent },
       { path: 'manage-content', component: ContentManagementComponent },
+      { path: 'manage-content/:id', component: ContentManagementComponent },
 
       { path: 'link-content', component: MapingComponent },
       { path: 'create-content', component: CreateContentComponent },
