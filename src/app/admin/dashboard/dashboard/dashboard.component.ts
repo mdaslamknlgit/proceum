@@ -76,7 +76,9 @@ export class DashboardComponent implements OnInit {
         this.notes_count = res['data']['notes_count'];
         this.qbank_count = res['data']['qbank_count'];
         this.subscribed_student_count = res['data']['subscribed_student_count'];
-        this.counts_loaded = true;
+        if(Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(this.user['role']))){
+          this.counts_loaded = true;
+        }
       }
     });
   }
