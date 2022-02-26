@@ -215,6 +215,7 @@ const routes: Routes = [
       { path: 'questions-mgt/edit-question/:id', component: EditNewQuestionComponent },
 
       { path: 'manage-users', component: ManageUsersComponent },
+      { path: 'manage-users/:role_id', component: ManageUsersComponent },
       { path: 'create-user', component: CreateUserComponent },
       { path: 'edit-user/:id', component: CreateUserComponent },
 

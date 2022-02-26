@@ -631,7 +631,7 @@ export class CreateUserComponent implements OnInit {
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.navigateTo('manage-users');
+        this.navigateTo('manage-users/'+this.role);
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -882,6 +882,7 @@ export class CreateUserComponent implements OnInit {
           this.submitCourses();
         }
       } else {
+        this.dataSource.data = [];
         //this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
