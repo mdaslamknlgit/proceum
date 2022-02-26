@@ -371,11 +371,11 @@ export class CreatePartnerComponent implements OnInit {
     if ((this.password !== this.confirm_password) && this.confirm_password.length < 1  && this.partner_id < 0) {
       return;
     }
-    if (!Number(this.phone) || (this.phone.length < 9 || this.phone.length > 13)) {
+    if (!Number(this.phone) || (this.phone.length < 10 || this.phone.length > 15)) {
       return;
     }
     if (this.partner_type == '1') { // partner_type == '2' is University
-      if (!Number(this.second_phone) || (this.second_phone.length < 9 || this.second_phone.length > 13)) {
+      if (!Number(this.second_phone) || (this.second_phone.length < 10 || this.second_phone.length > 15)) {
         return;
       }
     }

@@ -594,7 +594,7 @@ export class CreateUserComponent implements OnInit {
       }
     }
 
-    if(this.phone.length < 9){
+    if(this.phone.length < 10){
       return;
     }
 
@@ -895,6 +895,10 @@ export class CreateUserComponent implements OnInit {
       this.setParent(x, null);
     }); */
     this.edit_model_status = true;
+  }
+
+  validatePhone(event){
+    return /[0-9+]/i.test(event.target.va)
   }
 
 }

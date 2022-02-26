@@ -159,28 +159,12 @@
                 ngModel [(ngModel)]="profile.last_name"
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
             </mat-form-field>
-          </div>
-          <div class="my_prf_dv fld_readonly">
-            <span>Registration Number/UUID</span>
-            <mat-form-field appearance="outline">
-              <input matInput placeholder="Registration Number/UUID" disabled="disabled" name="uuid"
-                [(ngModel)]="profile.uuid">
-            </mat-form-field>
-          </div>
-
+          </div>          
           <div class="my_prf_dv fld_readonly">
             <span>Mobile <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Mobile" name="phone" [(ngModel)]="profile.phone" required
                 disabled="disabled">
-            </mat-form-field>
-          </div>
-
-          <div class="my_prf_dv mypdv_bg fld_readonly">
-            <span>Email <span class="required">*</span></span>
-            <mat-form-field appearance="outline">
-              <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
-                [(ngModel)]="profile.email">
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
@@ -226,7 +210,7 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv rsp_mypdv_bg fld_readonly">
+          <div class="my_prf_dv mypdv_bg rsp_mypdv_bg fld_readonly">
             <span>Address line 1 <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <textarea matInput placeholder="Address Line 1" required name="address1" [disabled]="'disabled'" [(ngModel)]="profile.address1"></textarea>
@@ -236,6 +220,13 @@
             <span>Address line 2</span>
             <mat-form-field appearance="outline">
               <textarea matInput placeholder="Address Line 2" name="address2" [disabled]="'disabled'" [(ngModel)]="profile.address2"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="my_prf_dv fld_readonly">
+            <span>Email <span class="required">*</span></span>
+            <mat-form-field appearance="outline">
+              <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
+                [(ngModel)]="profile.email">
             </mat-form-field>
           </div>
           <div *ngIf="profile.university != null" class="my_prf_dv fld_readonly">
