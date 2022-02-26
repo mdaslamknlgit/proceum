@@ -137,10 +137,12 @@ export class DashboardComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.subjectknowledge = res['data'];
-        for(let key in this.subjectknowledge) {
-          subject.push(key);
-          subject_val.push(this.subjectknowledge[key].access_percentage);
-        }
+        this.subjectknowledge.forEach((opt, index) => {
+          for(let key in opt) {
+            subject.push(key);
+            subject_val.push(opt[key].percentage);
+          }        
+        })
         this.lineChartData = [
           {
             label: 'Subject Knowledge',
@@ -161,15 +163,13 @@ export class DashboardComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: [96, 20, 25 , 80, 81, 56, 55, 90, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 50, 56, 55, 40],
-            // subject_val
+            data: subject_val,//[96, 20, 25 , 80, 81, 56, 55, 90, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 50, 56, 55, 40],
               barThickness: 16,
             // maxBarThickness: 8,
             // minBarLength: 2,
           },
         ];
-        this.lineChartLabels = ['Human Anatomy', 'Pysiology', 'Pharmacology', 'General Medicine', 'Biochemistry', 'Clinical Essentials', 'Gynecology', 'Paediatrics', 'Community Medicine'];
-        // subject
+        this.lineChartLabels = subject;//['Human Anatomy', 'Pysiology', 'Pharmacology', 'General Medicine', 'Biochemistry', 'Clinical Essentials', 'Gynecology', 'Paediatrics', 'Community Medicine'];
         this.lineChartOptions = {
           responsive: true,
           annotation: {

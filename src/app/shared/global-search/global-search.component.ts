@@ -43,7 +43,7 @@ export class GlobalSearchComponent implements OnInit {
             this.search_result =  res['data'];
             this.result_cond = false;
           }else{
-            this.search_result = res['data']; //[];
+            this.search_result = res['data'];
             this.result_cond = true;
           }
           // let keys = Object.keys(res['data']);
@@ -58,7 +58,7 @@ export class GlobalSearchComponent implements OnInit {
             this.result_cond = false;
             // this.search_result.sort();
           }else{
-            this.search_result = res['data']; //[];
+            this.search_result = res['data'];
             this.result_cond = true;
           }
           // let keys = Object.keys(res['data']);
@@ -72,14 +72,14 @@ export class GlobalSearchComponent implements OnInit {
   navigateTo(url){
     this.router.navigateByUrl("index/curriculum/"+url);
   }
-  // @HostListener('window:scroll', [])
-  // onScroll(): void {
-  //   if (this.bottomReached() && (this.limit < this.result_count) && this.synchronous) {
-  //     this.synchronous = false;
-  //     this.globalsearch();
-  //   }
-  // }
-  // bottomReached(): boolean {
-  //   return window.innerHeight + window.scrollY >= document.body.offsetHeight;
-  // }
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if (this.bottomReached() && (this.limit < this.result_count) && this.synchronous) {
+      this.synchronous = false;
+      this.globalsearch();
+    }
+  }
+  bottomReached(): boolean {
+    return window.innerHeight + window.scrollY >= document.body.offsetHeight;
+  }
 }
