@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -17,7 +17,7 @@ export class ManageUsersComponent implements OnInit {
   displayedColumns: string[] = ['id','name','email','role_name','phone','Organization','created_at','actions','status',];//,'Organization'
 
   displayedColumnsTwo: string[] = ['CB','id','name','email','phone','Unique ID','Organization','college','Year','Semester','Group','Blog Access','created_at',
-    'actions','status',];//'Campus',//'role_name', //,'Organization','Year','Semester','Group' 
+    'actions','status',];//'Campus',//'role_name', //,'Organization','Year','Semester','Group'
   displayedColumnsThree: string[] = ['id','name','email','phone','Unique ID','Year','Semester','Group','created_at',];//'actions',//,'Year','Semester','Group'
 
   public pageSize = environment.page_size;
@@ -91,6 +91,7 @@ export class ManageUsersComponent implements OnInit {
 
   public user_id = 0;
   public role_id = 0;
+  public param_role = 0;
   public college_institute_id = 0;
   public user = [];
   public org_type = '';
@@ -98,13 +99,17 @@ export class ManageUsersComponent implements OnInit {
   constructor(
     private http: CommonService,
     public toster: ToastrService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     ) {
       this.api_url = environment.apiUrl;
       this.download_url = this.api_url + 'download-students-data';
     }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((param) => {
+      this.param_role = (param.role_id) ? param.role_id : 0;
+    });
     this.user = this.http.getUser();
     this.user_id = this.user['id'];
     this.role_id = this.user['role'];
@@ -132,7 +137,7 @@ export class ManageUsersComponent implements OnInit {
         let i = this.displayedColumnsTwo.indexOf('Organization');
         let opr = i > -1 ? this.displayedColumnsTwo.splice(i, 1) : undefined;
         let j = this.displayedColumnsTwo.indexOf('college');
-        let oprj = j > -1 ? this.displayedColumnsTwo.splice(j, 1) : undefined; 
+        let oprj = j > -1 ? this.displayedColumnsTwo.splice(j, 1) : undefined;
         this.is_college = false;
         this.is_university = false;
         this.organization_type_name = 'College';
@@ -228,6 +233,11 @@ export class ManageUsersComponent implements OnInit {
     this.http.post(param1).subscribe((res) => {
       if (res['error'] == false) {
         this.roles = res['data']['roles'];
+        this.roles.filter((x) => {
+          if(x.id == this.param_role){
+            this.role = String(this.param_role);
+          }
+        });
         if(this.roles != undefined){
           this.all_roles.next(this.roles.slice());
         }
@@ -241,22 +251,22 @@ export class ManageUsersComponent implements OnInit {
   public doFilter() {
     if(this.role != '2'){
       this.manage_students = '';
-      
+
       this.is_college = false;
       this.is_university = false;
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
         this.college_id = '';
         this.organization_list_id = '';
       }else if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){  /// College Admin Role ID
-  
+
       }else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
-  
+
       }else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
-  
+
       }else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
-  
+
       }else if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
-  
+
       }else{
         this.organization_type_name = '';
         this.organization_list = [];
