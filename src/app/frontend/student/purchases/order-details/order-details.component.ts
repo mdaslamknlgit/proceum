@@ -11,9 +11,9 @@ import { environment } from 'src/environments/environment';
 })
 export class OrderDetailsComponent implements OnInit {
   //Cart item variables
-  public order_details:any; 
-  public user_id:any; 
-  public order_items:any = []; 
+  public order_details:any;
+  public user_id:any;
+  public order_items:any = [];
   public api_url = environment.apiUrl;
 
   constructor(
@@ -21,7 +21,8 @@ export class OrderDetailsComponent implements OnInit {
     public toster: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-  ) { }
+  ) {
+   }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
@@ -45,7 +46,7 @@ export class OrderDetailsComponent implements OnInit {
       if (res['error'] == false) {
         if(res['data']){
           this.order_details = res['data']['order_details'];
-          this.order_items = res['data']['order_items'];   
+          this.order_items = res['data']['order_items'];
         }else{
           this.toster.error("Invalid Order!", 'Error');
           this.router.navigateByUrl('/pricing-and-packages');
@@ -56,5 +57,5 @@ export class OrderDetailsComponent implements OnInit {
       }
     });
   }
- 
+
 }

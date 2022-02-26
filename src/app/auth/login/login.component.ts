@@ -215,7 +215,7 @@ export class LoginComponent implements OnInit {
     let replaceValue = window.location.host.split('.')[0];
     let url = window.location.origin.replace(replaceValue,replacer);
     if(replaceValue != 'localhost:4200'){
-      url = url.replace('https','http');
+      url = url.replace('https',environment.SSL_ORIGIN);
       window.location.href = url + dashboard;
     }
     return false;
