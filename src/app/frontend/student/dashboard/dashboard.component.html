@@ -180,32 +180,40 @@
       </div>
     </div>
   </div>
-<div class="cust_mdl_par {{case_model == false ? 'cust_mdl_opn':'cust_mdl_cls'}} ">
-  <div class="cust_mdl_chl">
-    <div class="pg_ttl">
-       <mat-icon color="accent" class="mr_5px">today</mat-icon> Case of the Day
-       <span class="spacer"></span>
-       <button type="button" mat-icon-button class="float_right" (click)="CloseCaseModal()">
-        &#x2715;
-      </button>
-    </div>
-    <div class="dsh_brd_crds db_dod" *ngIf="case.length>0">
-      <div class="qstn_hds" *ngFor="let case_q of case"> Q. {{case_q.question_string}} </div>
-      <mat-radio-group *ngIf='[1,3,4,6,7,9,10,12,13].includes(case[active_case_index]["q_type"])' aria-label="Select an option" [(ngModel)]="case[active_case_index]['selected_option']">
-        <mat-radio-button *ngFor="let option of case[active_case_index]['options'];let i_option = index" (change)="selectOption(option['pk_id'])" [value]="option['pk_id']" class="{{ case[active_case_index]['selected_option'] != undefined ? (case[active_case_index]['s_no'] == option['pk_id'] ? 'crrct_rdo': 'wrng_rdo') : '' }}"> {{ option["option_text"] }}
-          <img *ngIf="case[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null" [src]="bucket_url+option['option_image']" />
-          <div *ngIf="case[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''" class="rdo_exp_txt">
-            <div class="qstn_hds">Explanation</div>
-            <div [innerHtml]="option['option_explanation']"></div>
-          </div>
-        </mat-radio-button>
-      </mat-radio-group>
-      <div class="clear_fix"></div>
-      <button mat-raised-button class="gry_btn float_right" (click)="CloseCaseModal()">Close</button>
-      <div class="hgt_20"></div>
+  <div class="cust_mdl_par {{case_model == false ? 'cust_mdl_opn':'cust_mdl_cls'}} ">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl">
+        <mat-icon color="accent" class="mr_5px">today</mat-icon> Case of the Day
+        <span class="spacer"></span>
+        <button type="button" mat-icon-button class="float_right" (click)="CloseCaseModal()">
+          &#x2715;
+        </button>
+      </div>
+      <div class="dsh_brd_crds db_dod" *ngIf="case.length>0">
+        <div class="qstn_hds" *ngFor="let case_q of case"> Q. {{case_q.question_string}} </div>
+        <mat-radio-group *ngIf='[1,3,4,6,7,9,10,12,13].includes(case[active_case_index]["q_type"])'
+          aria-label="Select an option" [(ngModel)]="case[active_case_index]['selected_option']">
+          <mat-radio-button *ngFor="let option of case[active_case_index]['options'];let i_option = index"
+            (change)="selectOption(option['pk_id'])" [value]="option['pk_id']"
+            class="{{ case[active_case_index]['selected_option'] != undefined ? (case[active_case_index]['s_no'] == option['pk_id'] ? 'crrct_rdo': 'wrng_rdo') : '' }}">
+            {{ option["option_text"] }}
+            <img
+              *ngIf="case[active_case_index]['q_source'] == 'IMAGE' && option['option_image'] || option['option_image'] != null"
+              [src]="bucket_url+option['option_image']" />
+            <div
+              *ngIf="case[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''"
+              class="rdo_exp_txt">
+              <div class="qstn_hds">Explanation</div>
+              <div [innerHtml]="option['option_explanation']"></div>
+            </div>
+          </mat-radio-button>
+        </mat-radio-group>
+        <div class="clear_fix"></div>
+        <button mat-raised-button class="gry_btn float_right" (click)="CloseCaseModal()">Close</button>
+        <div class="hgt_20"></div>
+      </div>
     </div>
   </div>
-</div>
   <div class="hgt_20"></div>
   <div class="sp_mn">
     <div class="brdcrm_br">
@@ -227,20 +235,37 @@
     <ul class="crds_ul anl_crd">
       <li>
         <div class="crd_dv">
-          Notes Accessed
-          <span>{{notes}}</span>
+          <div class="anl_crd_aa">
+            <mat-icon>auto_stories</mat-icon>
+          </div>
+          <div>
+            Notes Accessed
+            <span>{{notes}}</span>
+          </div>
+
         </div>
       </li>
       <li>
         <div class="crd_dv">
-          Assessments Attended
-          <span>{{assessments}}</span>
+          <div class="anl_crd_aa">
+            <mat-icon>edit_note</mat-icon>
+          </div>
+          <div>
+            Assessments Attended
+            <span>{{assessments}}</span>
+          </div>
+
         </div>
       </li>
       <li>
         <div class="crd_dv">
-          Classes / Webinars Attended
-          <span>{{classes}}</span>
+          <div class="anl_crd_aa">
+            <mat-icon>cast_for_education</mat-icon>
+          </div>
+          <div>
+            Classes / Webinars Attended
+            <span>{{classes}}</span>
+          </div>
         </div>
       </li>
       <!-- <li>
@@ -377,8 +402,8 @@
                       <mat-icon>text_snippet</mat-icon>
                     </button>
                     <div>
-                      <a
-                        (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)">{{ item.content_title.length>10?item.content_title.substring(0,99)+'...': item.content_title}}</a>
+                      <a (click)="navigateTo(item.cur_id+'/'+item.level_id+'/'+item.cur_pk_id)">{{
+                        item.content_title.length>10?item.content_title.substring(0,99)+'...': item.content_title}}</a>
                       <span class="prg_btm_cnt">{{item.level_name}}</span>
                     </div>
                     <span class="spacer"></span>
@@ -401,7 +426,6 @@
                       </button>
                     </span>
                   </div>
-
                   <hr>
                 </div>
               </li>
@@ -422,11 +446,12 @@
                 <div class="lfrt_grd" *ngFor="let bookmark of bookmarks">
                   <span class="text_left">
                     <button mat-mini-fab class="mr_1">
-                      <mat-icon>text_snippet</mat-icon>
+                      <mat-icon>format_list_bulleted</mat-icon>
                     </button>
                     <div>
-                      <a
-                        (click)="navigateTo(bookmark.cur_id+'/'+bookmark.level_id+'/'+bookmark.cur_pk_id)">{{ bookmark.content_title.length>10?bookmark.content_title.substring(0,99)+'...': bookmark.content_title}}
+                      <a (click)="navigateTo(bookmark.cur_id+'/'+bookmark.level_id+'/'+bookmark.cur_pk_id)">{{
+                        bookmark.content_title.length>10?bookmark.content_title.substring(0,99)+'...':
+                        bookmark.content_title}}
                       </a>
                       <span class="prg_btm_cnt">{{bookmark.level_name}}</span>
                     </div>
@@ -436,8 +461,8 @@
                       <mat-icon>bookmark_add</mat-icon>
                     </button>
                   </span>
+                  <hr>
                 </div>
-                <hr>
               </li>
             </ul>
           </mat-tab>
@@ -456,11 +481,12 @@
                 <div class="lfrt_grd" *ngFor="let favorite of favorites">
                   <span class="text_left">
                     <button mat-mini-fab class="mr_1">
-                      <mat-icon>text_snippet</mat-icon>
+                      <mat-icon>format_list_bulleted</mat-icon>
                     </button>
                     <div>
-                      <a
-                        (click)="navigateTo(favorite.cur_id+'/'+favorite.level_id+'/'+favorite.cur_pk_id)">{{ favorite.content_title.length>10?favorite.content_title.substring(0,99)+'...': favorite.content_title}}</a>
+                      <a (click)="navigateTo(favorite.cur_id+'/'+favorite.level_id+'/'+favorite.cur_pk_id)">{{
+                        favorite.content_title.length>10?favorite.content_title.substring(0,99)+'...':
+                        favorite.content_title}}</a>
                       <span class="prg_btm_cnt">{{favorite.level_name}}</span>
                     </div>
                   </span>
@@ -482,11 +508,14 @@
               My Wishlist
             </ng-template>
             <ul class="crds_ul full_crd">
-              <li>
-                <div class="lfrt_grd no_desc_fnd" *ngIf="wish_list.length==0 && wish_list_data==0">
+              <li class="lfrt_grd no_desc_fnd" *ngIf="wish_list.length==0 && wish_list_data==0">
+                <div>
                   <span>No Wishlist Found</span>
                 </div>
-                <div *ngIf="wish_list">
+              </li>
+              <li>
+               
+                <div *ngIf="wish_list.length > 0">
                   <div class="lfrt_grd" *ngFor="let item of wish_list">
                     <span class="text_left">
                       <button mat-mini-fab class="mr_1" [routerLink]="['/package-details', item.product_id]">
@@ -505,20 +534,23 @@
                 </span> -->
                   </div>
                 </div>
-                <div *ngIf="wish_list_data">
+                
+                <div *ngIf="wish_list_data.length > 0">
                   <div class="lfrt_grd" *ngFor="let list_data of wish_list_data">
                     <span class="text_left">
                       <button mat-mini-fab class="mr_1">
-                        <mat-icon>text_snippet</mat-icon>
+                        <mat-icon>format_list_bulleted</mat-icon>
                       </button>
                       <div>
-                        <a
-                          (click)="navigateTo(list_data.cur_id+'/'+list_data.level_id+'/'+list_data.cur_pk_id)">{{ list_data.content_title.length>10?list_data.content_title.substring(0,99)+'...': list_data.content_title}}</a>
+                        <a (click)="navigateTo(list_data.cur_id+'/'+list_data.level_id+'/'+list_data.cur_pk_id)">{{
+                          list_data.content_title.length>10?list_data.content_title.substring(0,99)+'...':
+                          list_data.content_title}}</a>
                         <span class="prg_btm_cnt">{{list_data.level_name}}</span>
                       </div>
                     </span>
                   </div>
                 </div>
+
                 <hr>
               </li>
             </ul>
@@ -532,19 +564,25 @@
         <hr />
         <ul class="crds_ul prg_crd prg_crd">
           <li *ngFor="let data of subjectknowledge | keyvalue">
-            <span class="text_left"><button mat-mini-fab class="mr_1"><mat-icon>auto_stories</mat-icon></button>{{data.key}}</span>
+            <span class="text_left"><button mat-mini-fab class="mr_1">
+                <mat-icon>auto_stories</mat-icon>
+              </button>{{data.key}}</span>
             <hr />
             <div class="prg_div">
               <span class="prg_sp">
-                <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="{{data.value.access_percentage}}"></mat-progress-bar>
+                <mat-progress-bar class="prg_clr" color="primary" mode="determinate"
+                  value="{{data.value.access_percentage}}"></mat-progress-bar>
               </span>
               <span class="cnt_sp">{{data.value.access_percentage}}/100</span>
             </div>
-          </li>          
+          </li>
         </ul>
       </li>
     </ul>
-
+    <div *ngIf="lineChartOptions != undefined">
+      <canvas ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [legend]="lineChartLegend"
+	 [chartType]="lineChartType" [inlinePlugins]="inlinePlugin" ></canvas>
+    </div>
     <!-- <ul class="crds_ul full_crd">
     <li>
       <div class="lfrt_grd">

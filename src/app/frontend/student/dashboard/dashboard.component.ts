@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+import { Chart } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  constructor(
+ constructor(
     private socialAuthService: SocialAuthService,
     private http: CommonService,
     public toster: ToastrService,
@@ -50,6 +51,13 @@ export class DashboardComponent implements OnInit {
   public assessments;
   public classes;
   public subjectknowledge;
+  public lineChartLegend = true;
+  public lineChartType = 'bar';
+  public inlinePlugin: any;
+  public textPlugin: any;
+  public lineChartData:any = [];
+  public lineChartLabels:any = [];
+  public lineChartOptions:any;
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {alert()
       // Your logic on beforeunload
@@ -110,10 +118,62 @@ export class DashboardComponent implements OnInit {
     });
   }
   getSubjectKnowledge(){
+    let subject = [];
+    let subject_val = [];
     let param = { url: 'subject-knowledge'};
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.subjectknowledge = res['data'];
+        for(let key in this.subjectknowledge) {
+          subject.push(key);
+          subject_val.push(this.subjectknowledge[key].access_percentage);
+        }
+        this.lineChartData = [
+          {
+            label: '',
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: 'rgba(75,192,192,1)',
+            pointBackgroundColor: '#fff',
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+            pointHoverBorderColor: 'rgba(220,220,220,1)',
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: subject_val,//[65, 59, 80, 81, 56, 55, 40],
+          },
+        ];
+        this.lineChartLabels = subject;//['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+        this.lineChartOptions = {
+          responsive: true,
+          annotation: {
+            annotations: [
+              {
+                drawTime: 'afterDraw',
+                type: 'line',
+                mode: 'horizontal',
+                scaleID: 'y-axis-0',
+                value: 70,
+                borderColor: '#000000',
+                borderWidth: 2,
+                label: {
+                  backgroundColor: 'red',
+                  content: 'global plugin',
+                  enabled: true,
+                  position: 'center',
+                }
+              }
+            ]
+          }
+        };       
       }
     });
   }

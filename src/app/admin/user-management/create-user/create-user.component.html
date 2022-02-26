@@ -158,7 +158,7 @@
             <div class="cm_fltr_sc mr_1">
                 <div class="crt_prt_hd">Email Address<span class="required">*</span></div>
                 <div class="err_tltp_par">
-                    <mat-form-field appearance="outline" class="w_100p">
+                    <mat-form-field appearance="outline" class="w_100p {{ (user_id) ? 'fld_readonly' : '' }}">
                         <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
                             #email_edit="ngModel" autocomplete="off" required
                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [disabled]="user_id" />
@@ -352,6 +352,12 @@
                 <!-- <span class="prc_tltp"
                         *ngIf="(create_user_form.submitted || qualification_edit.touched) && qualification_edit.invalid">Qualification
                         is required</span> -->
+
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="user_status == 3">
+              <mat-checkbox class="mr_1" name="approve_account"
+                [(ngModel)]="approve_account"></mat-checkbox>
+                Approve Account (Login)
 
             </div>
             <div class="w_100p" *ngIf="role == '12'">

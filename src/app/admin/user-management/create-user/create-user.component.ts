@@ -75,6 +75,8 @@ export class CreateUserComponent implements OnInit {
   public partner_type_id: number;
   public partner_id: any;
   public child_type = 1;
+  public user_status = 1;
+  public approve_account = false;
   p
   countrys = [];
   states = [];
@@ -300,13 +302,13 @@ export class CreateUserComponent implements OnInit {
         if (this.universities != undefined) {
           this.all_universities.next(this.universities.slice());
         }
-        if (callPartnerChilds) {
-          this.getPartnerChilds(this.university_id);
-        }
       } else {
         //this.toster.error(res['message'], 'Error');
       }
     });
+    if (callPartnerChilds) {
+      this.getPartnerChilds(this.university_id);
+    }
   }
 
   filterPartners(event) {
@@ -623,6 +625,7 @@ export class CreateUserComponent implements OnInit {
       subject_csv: this.subject_csv,
       organization: this.organization,
       domain: this.domain,
+      approve_account: this.approve_account
     };
 
     let params = { url: 'create-user', form_data: form_data };
@@ -667,6 +670,7 @@ export class CreateUserComponent implements OnInit {
         this.uuid = user_data.uuid;
         this.qualification = user_data.qualification;
         this.subject_csv = user_data.subject_csv;
+        this.user_status = user_data.status;
 
         if ((user_data.university_id && user_data.college_id) || user_data.university_id) {
           this.organization = '1';

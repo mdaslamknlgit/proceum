@@ -67,6 +67,7 @@ export class CreatePartnerComponent implements OnInit {
   public is_reseller_account: boolean = false;
   public is_partner: boolean = false;
   public sub_domain = null;
+  public edit_email = true;
   public sub_domain_err = '';
   public timer: any;
 
@@ -549,6 +550,7 @@ export class CreatePartnerComponent implements OnInit {
         this.c_pincode = partner.c_pincode;
         this.is_reseller_account = partner.is_reseller_account;
         this.sub_domain = partner.sub_domain;
+        this.edit_email = (this.sub_domain) ? false : true;
         this.is_partner = partner.is_partner;
         // if(partner.licence_start_date !== null){
         //   this.licence_start_date = new Date(
@@ -620,6 +622,10 @@ export class CreatePartnerComponent implements OnInit {
         (university) => university.name.toLowerCase().indexOf(search) > -1
       )
     );
+  }
+
+  validatesubDomain(event){
+    return /[a-z-]/i.test(event.key)
   }
 
   checkSubDomainAvailable() {

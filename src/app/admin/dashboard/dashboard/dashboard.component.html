@@ -15,29 +15,46 @@
         {{ notifications.teacherNotify }} <a  style="color: #0014ff;font-weight: bold;border-bottom: 1px solid" routerLink="/admin/manage-users">Click to Manage</a>
       </div>
     </div>
-    <ul class="crds_ul">
+    <ul class="crds_ul" *ngIf="counts_loaded">
       <li>
         <div>
-          No. of Students Subscribed
-          <span>60</span>
+          Total No. of Students
+          <span>{{ subscribed_student_count }}</span>
         </div>
       </li>
-      <li>
+
+      <li *ngIf="user['role'] == '8'">
         <div>
-          Total No. of Courses
-          <span>90</span>
+          Total No. of Colleges
+          <span>{{ colleges_count }}</span>
         </div>
       </li>
+
       <li>
         <div>
-          No. of Videos
-          <span>60</span>
+          Total Assessments
+          <span>{{ assessment_count }}</span>
         </div>
       </li>
+
       <li>
         <div>
-          Qbank
-          <span>60</span>
+          Total Notes
+          <span>{{ notes_count }}</span>
+        </div>
+      </li>
+
+      <li>
+        <div>
+          Total Classes / Webinars Conducted
+          <span>{{ class_count }}</span>
+        </div>
+      </li>
+
+      <li>
+        <div>
+          Total QBanks
+          <span>{{ qbank_count }}</span>
         </div>
       </li>
     </ul>
@@ -53,8 +70,9 @@
     <ul class="crds_ul anly_crd" *ngIf="partners.length > 0">
       <li *ngFor="let partner of partners">
         <div class="uni_lg_img" routerLink="/admin/create-partner/{{partner.pk_id}}">
-          <span class="text_center">{{ partner.partner_name }}</span>
           <img src="{{ partner.header_logo }}" />
+          <span class="text_center">{{ partner.partner_name }}</span>
+         
         </div>
       </li>
     </ul>

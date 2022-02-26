@@ -372,6 +372,13 @@ export class CreateTeacherMaterialComponent implements OnInit {
     );
   }
 
+  searchLevelByName1(search,level){
+    let options = this.all_level_options1[level];
+    this.level_options1[level] = options.filter(
+      item => item.level_name.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
   @HostListener('window:open_library', ['$event'])
   openCustomPopup(event) {
     this.openAssetsLibrary('images', 'editor');

@@ -61,6 +61,9 @@ import { IndividualCoursesComponent } from './student/individual-courses/individ
 import { Individual_levels_listComponent } from './student/individual-courses/individual_levels_list/individual_levels_list.component';
 // import { StlModelViewerModule } from 'angular-stl-model-viewer';
 
+//Charts
+import { NgChartjsModule } from 'ng-chartjs';
+
 const routes: Routes = [
   {
     path: '',
@@ -182,6 +185,7 @@ const routes: Routes = [
     PdfViewerModule,
     SharedModule,
     ShareModule,
+    NgChartjsModule
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },

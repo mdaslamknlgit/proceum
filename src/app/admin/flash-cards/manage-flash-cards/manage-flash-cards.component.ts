@@ -350,5 +350,12 @@ export class ManageFlashCardsComponent implements OnInit {
     });
   }
 
+  searchLevelByName(search,level){
+    let options = this.all_level_options[level];
+    this.level_options[level] = options.filter(
+        item => item.level_name.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
 }
 
