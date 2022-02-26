@@ -247,6 +247,7 @@ export class CreateAssessmentComponent implements OnInit {
   }
 
   getLevels(level_id) {
+    this.is_topic_exist = false;
     this.selected_subject = this.selected_level[level_id];
     let param = {
       url: 'get-levels-by-level',
