@@ -103,7 +103,7 @@ export class PartnerRegisterComponent implements OnInit {
 
   validateindividualsBasicDetails() {
     //Contact number validation
-    if (!Number(this.pStudentRegister.contact_number) || (this.pStudentRegister.contact_number.length < 10 || this.pStudentRegister.contact_number.length > 13)) {
+    if (!Number(this.pStudentRegister.contact_number) || (this.pStudentRegister.contact_number.length < 10 || this.pStudentRegister.contact_number.length > 15)) {
       return false;
     }
 
@@ -373,9 +373,9 @@ export class PartnerRegisterComponent implements OnInit {
   }
 
   allAlphabetsWithSpaces(event) {
-    // var k;  
+    // var k;
     // k = event.charCode;  //         k = event.keyCode;  (Both can be used)
-    // return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57)); 
+    // return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
     var inp = String.fromCharCode(event.keyCode);
 
     if (/^[a-zA-Z ]*$/.test(inp)) {
@@ -442,7 +442,7 @@ export class PartnerRegisterComponent implements OnInit {
   }
 
   getGroups(parent_id, partner_id = 0, partner_child_id) {
-    let year_obj = this.years.find((year) => year.pk_id == this.year_id);    
+    let year_obj = this.years.find((year) => year.pk_id == this.year_id);
     if (!year_obj.year_has_group) {
       return false;
     }

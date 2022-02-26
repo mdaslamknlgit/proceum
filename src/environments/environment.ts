@@ -71,8 +71,8 @@ export const environment = {
   //apiUrl: 'https://uat.proceum.com/web-api/public/api/',
   // apiUrl: 'https://apiqa.proceum.com/api/',
 
-  APP_BASE_URL: 'http://localhost:4200/',
-  //  APP_BASE_URL: 'http://192.10.250.150:4200/',
+  //APP_BASE_URL: 'http://localhost:4200/',
+    APP_BASE_URL: 'http://192.10.250.150:4200/',
 
 firebaseConfig: {
     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
@@ -86,8 +86,11 @@ firebaseConfig: {
   /*
   * Below array used to check domian or subdomian from in app users or partners
   */
-  INAPP_DOMAINS_ARRAY: ["localhost", "dev", "master", "192", "uat"],
+  INAPP_DOMAINS_ARRAY: ["localhost", "dev", "master", "192", "uat", "rmu"],
   PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',
+
+  /* Change based on dev or uat (hhtp or https) */
+  SSL_ORIGIN: 'https',
 };
 
 /*

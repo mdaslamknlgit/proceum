@@ -206,7 +206,7 @@ export class CreateCollegeComponent implements OnInit {
     if (this.email == "" || !this.validateEmail(this.email)) {
       return false;
     }
-    if (!Number(this.phone) || (this.phone.length < 9 || this.phone.length > 13)) {
+    if (!Number(this.phone) || (this.phone.length < 10 || this.phone.length > 15)) {
       return false;
     }
 
