@@ -2,12 +2,26 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { GlobalApp } from 'src/global';
 import { environment } from 'src/environments/environment';
+
+export interface PeriodicElement {
+  
+}
+const ELEMENT_DATA: PeriodicElement[] = [
+  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
+];
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
+
+
+
 export class DashboardComponent implements OnInit {
+
+  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  dataSource = ELEMENT_DATA;
 
   public offset = 0;
   public limit = 12;
@@ -96,3 +110,4 @@ export class DashboardComponent implements OnInit {
   }
 
 }
+ 

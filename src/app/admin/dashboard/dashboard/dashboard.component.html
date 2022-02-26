@@ -4,61 +4,93 @@
   <div class="brd_crm">Proceum &raquo; <strong>Dashboard</strong></div>
   <div class="pg_ttl">Dashboard</div>
   <div class="dsh_brd_crds">
-    <div class="admin-notify" *ngIf="notifications.collegeNotify || notifications.yearSemGroupNotify || notifications.teacherNotify">
+    <div class="admin-notify"
+      *ngIf="notifications.collegeNotify || notifications.yearSemGroupNotify || notifications.teacherNotify">
       <div class="fl_frmt_info wrn_bg mb_1" *ngIf="notifications.collegeNotify">
-        {{ notifications.collegeNotify }} <a  style="color: #0014ff;font-weight: bold;border-bottom: 1px solid" routerLink="/admin/college-list">Click to Manage</a>
+        {{ notifications.collegeNotify }} <a style="color: #0014ff;font-weight: bold;border-bottom: 1px solid"
+          routerLink="/admin/college-list">Click to Manage</a>
       </div>
       <div class="fl_frmt_info wrn_bg mb_1" *ngIf="notifications.yearSemGroupNotify">
-        {{ notifications.yearSemGroupNotify }} <a  style="color: #0014ff;font-weight: bold;border-bottom: 1px solid" routerLink="/admin/manage-year-semester-group">Click to Manage</a>
+        {{ notifications.yearSemGroupNotify }} <a style="color: #0014ff;font-weight: bold;border-bottom: 1px solid"
+          routerLink="/admin/manage-year-semester-group">Click to Manage</a>
       </div>
       <div class="fl_frmt_info wrn_bg mb_1" *ngIf="notifications.teacherNotify">
-        {{ notifications.teacherNotify }} <a  style="color: #0014ff;font-weight: bold;border-bottom: 1px solid" routerLink="/admin/manage-users">Click to Manage</a>
+        {{ notifications.teacherNotify }} <a style="color: #0014ff;font-weight: bold;border-bottom: 1px solid"
+          routerLink="/admin/manage-users">Click to Manage</a>
       </div>
     </div>
-    <ul class="crds_ul" *ngIf="counts_loaded">
+    <ul class="crds_ul anl_crd" *ngIf="counts_loaded">
       <li>
-        <div>
-          Total No. of Students
-          <span>{{ subscribed_student_count }}</span>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>auto_stories</mat-icon>
+          </div>
+          <div>
+            Total No. of Students
+            <span>{{ subscribed_student_count }}</span>
+          </div>
         </div>
       </li>
 
       <li *ngIf="user['role'] == '8'">
-        <div>
-          Total No. of Colleges
-          <span>{{ colleges_count }}</span>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>auto_stories</mat-icon>
+          </div>
+          <div>
+            Total No. of Colleges
+            <span>{{ colleges_count }}</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>auto_stories</mat-icon>
+          </div>
+          <div>
+            Total Assessments
+            <span>{{ assessment_count }}</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>auto_stories</mat-icon>
+          </div>
+          <div>
+            Total Notes
+            <span>{{ notes_count }}</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>auto_stories</mat-icon>
+          </div>
+          <div>
+            Total Classes / Webinars Conducted
+            <span>{{ class_count }}</span>
+          </div>
         </div>
       </li>
 
       <li>
-        <div>
-          Total Assessments
-          <span>{{ assessment_count }}</span>
-        </div>
-      </li>
-
-      <li>
-        <div>
-          Total Notes
-          <span>{{ notes_count }}</span>
-        </div>
-      </li>
-
-      <li>
-        <div>
-          Total Classes / Webinars Conducted
-          <span>{{ class_count }}</span>
-        </div>
-      </li>
-
-      <li>
-        <div>
-          Total QBanks
-          <span>{{ qbank_count }}</span>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>auto_stories</mat-icon>
+          </div>
+          <div>
+            Total QBanks
+            <span>{{ qbank_count }}</span>
+          </div>
         </div>
       </li>
     </ul>
-    <ul class="crds_ul Clients" *ngIf="partners.length > 0">
+    <ul class="crds_ul Clients" *ngIf="">
+      <!-- partners.length > 0 -->
       <li>
         <div class="clpr_vabtn">
           <span>Clients/Partners</span>
@@ -67,31 +99,172 @@
         </div>
       </li>
     </ul>
-    <ul class="crds_ul anly_crd" *ngIf="partners.length > 0">
+    <ul class="crds_ul anly_crd" *ngIf="">
+      <!-- partners.length > 0 -->
       <li *ngFor="let partner of partners">
         <div class="uni_lg_img" routerLink="/admin/create-partner/{{partner.pk_id}}">
           <img src="{{ partner.header_logo }}" />
           <span class="text_center">{{ partner.partner_name }}</span>
-         
-        </div>
-      </li>
-    </ul>
 
-    <!-- <ul class="crds_ul Clients">
-      <li>
-        <div>
-          <span>Finance &amp; Revenue</span>
-          <img src="./assets/images/ipsum_1.jpg" />
         </div>
       </li>
     </ul>
-    <ul class="crds_ul anly_crd">
-      <li>
-        <div>
-          <span>Finance &amp; Revenue</span>
-          <img src="./assets/images/ipsum_3.jpg" />
-        </div>
-      </li>
-    </ul> -->
+    <div class="hgt_10"></div>
+    <div class="intr_vd_tml _admn_ds_accrd_mn ">
+      <mat-accordion multi="true">
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Partners  (999)
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+           <div class="_admn_dv_mn">
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn"><mat-icon>handshake</mat-icon></div>
+                <span class="_cnt_one">999</span>
+                <span class="_cnt_two">Total Partners Count</span>
+                <span class="_cnt_tre">
+                  Active : 996, Inactive : 3
+                </span>
+              </div>
+              <div class="_dv_cnt _clr_tw">
+                <div class="_db_icn"><mat-icon>account_balance</mat-icon></div>
+                <span class="_cnt_one">27</span>
+                <span class="_cnt_two">Universities</span>
+              </div>
+              <div class="_dv_cnt _clr_tre">
+                <div class="_db_icn"><mat-icon>location_city</mat-icon></div>
+                <span class="_cnt_one">576</span>
+                <span class="_cnt_two">Colleges</span>
+              </div>
+              <div class="_dv_cnt _clr_fr">
+                <div class="_db_icn"><mat-icon>maps_home_work</mat-icon></div>
+                <span class="_cnt_one">396</span>
+                <span class="_cnt_two">Institutes</span>
+              </div>
+           </div>
+           <div>
+
+           </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Curriculums (9)
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn">
+               <div class="_dv_cnt _crrc_cnt _clr_fv">
+                 <div class="_db_icn"><mat-icon>auto_stories</mat-icon></div>
+                 <span class="_cnt_one">999</span>
+                 <span class="_cnt_two">Courses</span>
+               </div>
+               <div class="_dv_cnt _crrc_cnt _clr_sx">
+                 <div class="_db_icn"><mat-icon>folder_special</mat-icon></div>
+                 <span class="_cnt_one">9</span>
+                 <span class="_cnt_two">Packages</span>
+               </div>
+               <div class="_dv_cnt _crrc_cnt _clr_svn">
+                 <div class="_db_icn"><mat-icon>quiz</mat-icon></div>
+                 <span class="_cnt_one">36</span>
+                 <span class="_cnt_two">QBanks</span>
+               </div>
+            </div>
+            <div>
+ 
+            </div>
+           </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Users (9699)
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn">
+               <div class="_dv_cnt _usrs_cnt _clr_egt">
+                 <div class="_db_icn"><mat-icon>school</mat-icon></div>
+                 <span class="_cnt_one">9699</span>
+                 <span class="_cnt_two">Students Count</span>
+                 <span class="_cnt_tre">
+                  Active : 9018, Inactive : 681
+                 </span>
+               </div>
+               <div class="_dv_cnt _usrs_cnt _clr_nne">
+                 <div class="_db_icn"><mat-icon>badge</mat-icon></div>
+                 <span class="_cnt_one">999</span>
+                 <span class="_cnt_two">Teachers Count</span>
+                 <span class="_cnt_tre">
+                  Active : 996, Inactive : 3
+                 </span>
+               </div>
+            </div>
+            <div>
+ 
+            </div>
+           </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Videos (18096)
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <table mat-table [dataSource]="dataSource">
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> S No. </th>
+                <td mat-cell *matCellDef="let element"> 1</td>
+              </ng-container>
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Icon </th>
+                <td mat-cell *matCellDef="let element"> Icon </td>
+              </ng-container>
+              <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> Name </td>
+              </ng-container>
+              <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> Count </th>
+                <td mat-cell *matCellDef="let element"> Count </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Notes
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            Notes Statistics
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Revenue (USD)
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            Revenue Statistics (USD)
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
   </div>
 </div>
