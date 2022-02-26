@@ -51,13 +51,26 @@ export class DashboardComponent implements OnInit {
   public assessments;
   public classes;
   public subjectknowledge;
-  public lineChartLegend = true;
+  public lineChartLegend = false;
   public lineChartType = 'bar';
   public inlinePlugin: any;
   public textPlugin: any;
   public lineChartData:any = [];
   public lineChartLabels:any = [];
   public lineChartOptions:any;
+
+  public chartColors: any[] = [
+    { 
+      backgroundColor:[
+        "#303641", "#f56954", "#0073b7", "#00b29e", "#ba79cb", "#ec3b83", "#701c1c",
+        "#6c541e","#303641", "#ffa812", "#311B92", "#B71C1C", "#4A148C", "#1A237E",
+        "#0D47A1", "#004D40", "#FF6F00", "#BF360C", "#3E2723", "#990000", "#6633FF", 
+        "#FBC02D", "#FF7043", "#8E24AA", "#00897B", "#FDD835", "#0277BD", "#6D4C41"
+    ] 
+    }];
+
+
+  
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {alert()
       // Your logic on beforeunload
@@ -130,7 +143,7 @@ export class DashboardComponent implements OnInit {
         }
         this.lineChartData = [
           {
-            label: '',
+            label: 'Subject Knowledge',
             fill: false,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -148,22 +161,58 @@ export class DashboardComponent implements OnInit {
             pointHoverBorderWidth: 2,
             pointRadius: 1,
             pointHitRadius: 10,
-            data: subject_val,//[65, 59, 80, 81, 56, 55, 40],
+            data: [96, 20, 25 , 80, 81, 56, 55, 90, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 50, 56, 55, 40],
+            // subject_val
+              barThickness: 16,
+            // maxBarThickness: 8,
+            // minBarLength: 2,
           },
         ];
-        this.lineChartLabels = subject;//['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+        this.lineChartLabels = ['Human Anatomy', 'Pysiology', 'Pharmacology', 'General Medicine', 'Biochemistry', 'Clinical Essentials', 'Gynecology', 'Paediatrics', 'Community Medicine'];
+        // subject
         this.lineChartOptions = {
           responsive: true,
           annotation: {
             annotations: [
               {
                 drawTime: 'afterDraw',
-                type: 'line',
+                // type: 'line',
                 mode: 'horizontal',
                 scaleID: 'y-axis-0',
-                value: 70,
+                value: 0,
                 borderColor: '#000000',
                 borderWidth: 2,
+                scales: {
+                  xAxes: [{
+                      // gridLines: {
+                      //      display:false
+                      // }
+                      // ticks: {
+                      //   maxTicksLimit: 20,
+                      // },
+                      ticks: { fontColor: 'black' },
+                      gridLines: { color: 'rgba(255,255,255,0.1)' }
+                  }],
+                  // yAxes: [{
+                  //     gridLines: {
+                  //         // display:false
+                  //         ticks: { fontColor: 'black',  style: 'percent', min: 0, stepValue : 10, max : 100, },
+                  //         gridLines: { color: 'rgba(255,255,255,0.1)' },
+                  //     }   
+                  // }],
+                  yAxes: [{
+                    barPercentage: 6.0,
+                    categoryPercentage: 6.0,
+                    ticks: {
+                     beginAtZero: true,
+                      callback: function (value, index, values) {
+                        return '$' + value + 'k';
+                      },
+                    }
+                  }]
+                },
+                gradient : true,
+                showDataLabel : true,
                 label: {
                   backgroundColor: 'red',
                   content: 'global plugin',
