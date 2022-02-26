@@ -25,8 +25,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class DashboardComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumnsRevenue: string[] = ['position', 'weight', 'symbol'];
   //dataSource = ELEMENT_DATA;
   dataSource = new MatTableDataSource();
+  dataSourceRevenue = new MatTableDataSource();
 
   public offset = 0;
   public limit = 12;
@@ -90,6 +92,7 @@ export class DashboardComponent implements OnInit {
   public kpoint = 0;
   public vdo_cipher = 0;
   public app_squadz = 0;
+  public notes = 0;
   public published = 0;
   public approval_pending = 0;
   public approved = 0;
@@ -98,7 +101,6 @@ export class DashboardComponent implements OnInit {
   public getSuperAdminData(){
     let param = { url: 'get-admin-dashboard' };
     this.http.post(param).subscribe((res) => {
-      console.log(res['data']);
       if(res['error'] == false){
         let data = res['data'];
         this.partner_active = data['partner']['university_active']+data['partner']['college_active']+data['partner']['institute_active'];
@@ -140,9 +142,18 @@ export class DashboardComponent implements OnInit {
           i++;
         });
         console.log(this.video_types);
-        this.dataSource = new MatTableDataSource(this.video_types);
-        
+        this.dataSource = new MatTableDataSource(this.video_types);        
+        console.log(this.dataSource);
         this.videos = data['video']['app_squadz']+data['video']['kpoint']+data['video']['vdo_cipher']+data['video']['youtube'];
+
+        this.published = data['notes']['published'];
+        this.approval_pending = data['notes']['approval_pending'];
+        this.approved = data['notes']['approved'];
+        this.draft = data['notes']['draft'];
+        this.notes = this.published+this.approval_pending+this.approved+this.draft;
+        console.log(data['revenue']);
+        this.dataSourceRevenue = new MatTableDataSource(res['data']['revenue']);
+        console.log(this.dataSourceRevenue);
       }
       
     });
