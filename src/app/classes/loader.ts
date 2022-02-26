@@ -32,7 +32,7 @@ export class Loader {
     }
     this.loaderService.isLoading.next(this.requests.length > 0);
   }
-
+ 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -54,7 +54,7 @@ export class Loader {
         (err) => {
           this.removeRequest(req);
           observer.error(err);
-          if (err.status == 401) {
+          if (err.status == 401 && !req.url.includes("proceum.kpoint.com/api/v1/xapi/")) {
             this.toster.error(err.statusText, 'Session Error', {
               closeButton: true,
             });
