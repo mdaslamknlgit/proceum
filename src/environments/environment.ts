@@ -88,6 +88,9 @@ firebaseConfig: {
   */
   INAPP_DOMAINS_ARRAY: ["localhost", "dev", "master", "192", "uat", "rmu"],
   PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',
+
+  /* Change based on dev or uat (hhtp or https) */
+  SSL_ORIGIN: 'https',
 };
 
 /*

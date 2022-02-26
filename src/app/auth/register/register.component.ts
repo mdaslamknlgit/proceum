@@ -212,7 +212,7 @@ export class RegisterComponent implements OnInit {
 
   validateindividualsBasicDetails(stepper:MatStepper){
     //Contact number validation
-    if(!Number(this.individualRegister.contact_number) || (this.individualRegister.contact_number.length < 10 || this.individualRegister.contact_number.length > 13)){
+    if(!Number(this.individualRegister.contact_number) || (this.individualRegister.contact_number.length < 10 || this.individualRegister.contact_number.length > 15)){
       return;
     }
     if(this.individualRegister.first_name && this.individualRegister.first_name.trim().length==0){
@@ -279,10 +279,10 @@ export class RegisterComponent implements OnInit {
         return;
       }
       //Contact number validation
-      if(!Number(this.institutionResgister.university_primary_contact) || (this.institutionResgister.university_primary_contact.length < 10 || this.institutionResgister.university_primary_contact.length > 13)){
+      if(!Number(this.institutionResgister.university_primary_contact) || (this.institutionResgister.university_primary_contact.length < 10 || this.institutionResgister.university_primary_contact.length > 15)){
         return;
       }
-      // if(!Number(this.institutionResgister.university_secondary_contact) || (this.institutionResgister.university_secondary_contact.length < 10 || this.institutionResgister.university_secondary_contact.length > 13)){
+      // if(!Number(this.institutionResgister.university_secondary_contact) || (this.institutionResgister.university_secondary_contact.length < 10 || this.institutionResgister.university_secondary_contact.length > 15)){
       //   return;
       // }
 
@@ -316,7 +316,7 @@ export class RegisterComponent implements OnInit {
       }
 
       //Contact number validation
-      if(!Number(this.institutionResgister.college_primary_contact) || (this.institutionResgister.college_primary_contact.length < 10 || this.institutionResgister.college_primary_contact.length > 13)){
+      if(!Number(this.institutionResgister.college_primary_contact) || (this.institutionResgister.college_primary_contact.length < 10 || this.institutionResgister.college_primary_contact.length > 15)){
         return;
       }
 
@@ -373,7 +373,7 @@ export class RegisterComponent implements OnInit {
       }
 
       //Contact number validation
-      if(!Number(this.institutionResgister.institute_primary_contact) || (this.institutionResgister.institute_primary_contact.length < 10 || this.institutionResgister.institute_primary_contact.length > 13)){
+      if(!Number(this.institutionResgister.institute_primary_contact) || (this.institutionResgister.institute_primary_contact.length < 10 || this.institutionResgister.institute_primary_contact.length > 15)){
         return;
       }
       //email
@@ -924,6 +924,13 @@ export class RegisterComponent implements OnInit {
       return true;
     } else {
       event.preventDefault();
+      return false;
+    }
+  }
+
+  checkSubDomainexist(){
+    if (localStorage.getItem('p_id')) {
+      this.route.navigateByUrl('/signup');
       return false;
     }
   }
