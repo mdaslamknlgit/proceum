@@ -70,6 +70,12 @@ export class CreatePartnerComponent implements OnInit {
   public edit_email = true;
   public sub_domain_err = '';
   public timer: any;
+  public show_package_details = false;
+  public packageAddonArr = [];
+  public packageInfoObj = {};
+  public packageAvgRating = null;
+  public packagePricesArr = [];
+  public coursesArr = [];
 
   countrys = [];
   states = [];
@@ -655,6 +661,23 @@ export class CreatePartnerComponent implements OnInit {
       }, 700);
 
     }
+  }
+
+  public showPackageDetails(package_id:any){
+    let data = { url: 'show-package-details/' + package_id };
+    this.http.post(data).subscribe((res) => {
+      if (res['error'] == false) {
+        this.packageAddonArr = res['data']['addons_arr'];
+        this.packageInfoObj = res['data']['package_data'];
+        this.packageAvgRating = res['data']['package_avg_rating'];
+        this.packagePricesArr = res['data']['package_prices_data'];
+        this.coursesArr = res['data']['selected_topics'];
+        this.show_package_details = true;
+      }else{
+        this.toster.error(res['message'], 'Error', { closeButton: true });
+      }
+    });
+
   }
 
 
