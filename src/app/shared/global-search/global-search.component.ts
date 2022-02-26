@@ -16,6 +16,7 @@ export class GlobalSearchComponent implements OnInit {
   public timer;
   public offset = 0;
   public limit = 50;
+  public limit_cnt = 50;
   public synchronous = false;
   constructor(private http: CommonService,private router: Router,private authHttp: AuthService,) { }
 
@@ -71,14 +72,14 @@ export class GlobalSearchComponent implements OnInit {
   navigateTo(url){
     this.router.navigateByUrl("index/curriculum/"+url);
   }
-  @HostListener('window:scroll', [])
-  onScroll(): void {
-    if (this.bottomReached() && (this.limit < this.result_count) && this.synchronous) {
-      this.synchronous = false;
-      this.globalsearch();
-    }
-  }
-  bottomReached(): boolean {
-    return window.innerHeight + window.scrollY >= document.body.offsetHeight;
-  }
+  // @HostListener('window:scroll', [])
+  // onScroll(): void {
+  //   if (this.bottomReached() && (this.limit < this.result_count) && this.synchronous) {
+  //     this.synchronous = false;
+  //     this.globalsearch();
+  //   }
+  // }
+  // bottomReached(): boolean {
+  //   return window.innerHeight + window.scrollY >= document.body.offsetHeight;
+  // }
 }

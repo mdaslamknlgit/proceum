@@ -22,7 +22,7 @@ export class Loader {
     private toster: ToastrService,
     private route: Router
   ) {
-      this.hide_loader = [environment.apiUrl+'get-sub-headings', environment.apiUrl+'get-partners', environment.apiUrl+'vdocipher/get-otp', environment.apiUrl+'get-kpoint-token']
+      this.hide_loader = [environment.apiUrl+'get-sub-headings', environment.apiUrl+'get-partners', environment.apiUrl+'vdocipher/get-otp', environment.apiUrl+'get-kpoint-token', environment.apiUrl+'cotent-details/save-settings']
   }
 
   removeRequest(req: HttpRequest<any>) {

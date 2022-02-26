@@ -31,6 +31,7 @@ import { ReplacePipe } from './shared/pipes/replace-pipe';
 import { SharedModule } from './shared/shared.module';
 import { GlobalApp } from '../global';
 
+
 //import { SafePipe } from './shared/pipes/safe.pipe';
 @NgModule({
   declarations: [
