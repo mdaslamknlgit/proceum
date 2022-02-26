@@ -199,6 +199,87 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
+              Videos ({{ videos }})
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn _vds_mn">
+              <div class="_dv_cnt _vds_cnt">
+                <table mat-table [dataSource]="dataSource">
+                  <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef class="w_50px"> Videos List </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <td mat-cell *matCellDef="let element"> <img src="{{ element.img }}" class="source-img"> </td>
+                  </ng-container>
+                  <ng-container matColumnDef="weight">
+                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="symbol">
+                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <td mat-cell *matCellDef="let element" class="text_right"> {{ element.count }} </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </div>
+              <div class="_dv_cnt _vds_cnt">
+                <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;">
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion multi="true">
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Notes
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn">
+              <div class="_dv_cnt _nts_cnt _clr_tnn">
+                <div class="_db_icn">
+                  <mat-icon>newspaper</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ courses }}</span>
+                <span class="_cnt_two">Published</span>
+              </div>
+              <div class="_dv_cnt _nts_cnt _clr_elv">
+                <div class="_db_icn">
+                  <mat-icon>hourglass_top</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ packages }}</span>
+                <span class="_cnt_two">Pending(Awaiting Approval)</span>
+              </div>
+              <div class="_dv_cnt _nts_cnt _clr_twlv">
+                <div class="_db_icn">
+                  <mat-icon>verified</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ qbank }}</span>
+                <span class="_cnt_two">Approved (But not yet published)</span>
+              </div>
+              <div class="_dv_cnt _nts_cnt _clr_thrtn">
+                <div class="_db_icn">
+                  <mat-icon>edit_note</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ qbank }}</span>
+                <span class="_cnt_two">Drafts</span>
+              </div>
+            </div>
+            <div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
               Users ({{ users }})
             </mat-panel-title>
             <mat-panel-description></mat-panel-description>
@@ -233,85 +314,6 @@
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Videos ({{ videos }})
-            </mat-panel-title>
-            <mat-panel-description></mat-panel-description>
-          </mat-expansion-panel-header>
-          <div class="dsbrd_admnaccrdn">
-            <div class="_admn_dv_mn _vds_mn">
-              <div class="_dv_cnt _vds_cnt">
-                <table mat-table [dataSource]="dataSource">
-                  <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> S No. </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> Icon </th>
-                    <td mat-cell *matCellDef="let element"> <img src="{{ element.img }}" class="source-img"> </td>
-                  </ng-container>
-                  <ng-container matColumnDef="weight">
-                    <th mat-header-cell *matHeaderCellDef> Name </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="symbol">
-                    <th mat-header-cell *matHeaderCellDef> Count </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.count }} </td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-              </div>
-              <div class="_dv_cnt _vds_cnt">
-               <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;">
-              </div>
-            </div>  
-          </div>
-        </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Notes
-            </mat-panel-title>
-            <mat-panel-description></mat-panel-description>
-          </mat-expansion-panel-header>
-          <div class="dsbrd_admnaccrdn">
-            <div class="_admn_dv_mn">
-              <div class="_dv_cnt _crrc_cnt _clr_tnn">
-                <div class="_db_icn">
-                  <mat-icon>auto_stories</mat-icon>
-                </div>
-                <span class="_cnt_one">{{ courses }}</span>
-                <span class="_cnt_two">Courses</span>
-              </div>
-              <div class="_dv_cnt _crrc_cnt _clr_elv">
-                <div class="_db_icn">
-                  <mat-icon>folder_special</mat-icon>
-                </div>
-                <span class="_cnt_one">{{ packages }}</span>
-                <span class="_cnt_two">Packages</span>
-              </div>
-              <div class="_dv_cnt _crrc_cnt _clr_twlv">
-                <div class="_db_icn">
-                  <mat-icon>quiz</mat-icon>
-                </div>
-                <span class="_cnt_one">{{ qbank }}</span>
-                <span class="_cnt_two">QBanks</span>
-              </div>
-              <div class="_dv_cnt _crrc_cnt _clr_thrtn">
-                <div class="_db_icn">
-                  <mat-icon>quiz</mat-icon>
-                </div>
-                <span class="_cnt_one">{{ qbank }}</span>
-                <span class="_cnt_two">QBanks</span>
-              </div>
-            </div>
-            <div>
-            </div>
-          </div>
-        </mat-expansion-panel>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
               Revenue (USD)
             </mat-panel-title>
             <mat-panel-description></mat-panel-description>
@@ -341,9 +343,9 @@
                 </table>
               </div>
               <div class="_dv_cnt _vds_cnt">
-               <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;">
+                <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;">
               </div>
-            </div>  
+            </div>
           </div>
         </mat-expansion-panel>
       </mat-accordion>

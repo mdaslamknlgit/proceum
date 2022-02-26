@@ -342,6 +342,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
         }
       } else {
         this.course_count = 0;
+        this.dataSourceForNestedTree.data = [];
         //this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
