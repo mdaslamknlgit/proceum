@@ -18,7 +18,13 @@
       <div class="cm_fltr_sc mr_1">
         <mat-form-field appearance="outline">
           <mat-select placeholder="Users" [(ngModel)]="dataentry_uid" name="user_name">
-            <mat-option value="0">Select User</mat-option>
+            <mat-option>
+                <ngx-mat-select-search [noEntriesFoundLabel]="'No Records found'"
+                  name="search_topic" ngModel (ngModelChange)="searchUsers($event)"
+                  [placeholderLabel]="'Search User'">Select User
+                </ngx-mat-select-search>
+              </mat-option>
+            
             <mat-option *ngFor="let user of users" [value]="user['id']">{{user['first_name']}}
             </mat-option>
           </mat-select>

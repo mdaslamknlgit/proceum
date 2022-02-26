@@ -306,9 +306,13 @@
           <span (click)="setFontSize('+')" class="a_pls icon_circle fnt_sze">A<sup>+</sup></span>
           <span (click)="setFontSize('-')" class="a_mns icon_circle fnt_sze">A<sup>-</sup></span>
 
-          <button (click)="switchView()" *ngIf="videos.length>0" mat-icon-button mat-mini-fab color="accent"
+          <button (click)="switchView()" *ngIf="videos.length>0 && view_type==1" mat-icon-button mat-mini-fab color="accent"
             class="mr_vrt_btn algn_s_fs no_bxsdw">
             <mat-icon>switch_video</mat-icon>
+          </button>
+          <button  (click)="switchView()" *ngIf="videos.length>0 && view_type==2" mat-icon-button mat-mini-fab color="accent"
+            class="mr_vrt_btn algn_s_fs no_bxsdw">
+            <mat-icon>videocam</mat-icon>
           </button>
           <a *ngIf="videos.length>0" class="mr_vrt_btn algn_s_fs no_bxsdw" [href]="student_structure_template | safe: 'resourceUrl'" mat-icon-button mat-mini-fab color="accent" target="_blank"><mat-icon>download</mat-icon></a>
         </div>
@@ -1153,36 +1157,6 @@
       </div>
       <!-- Teacher material code ends here -->
       <div class="crses_rgt" *ngIf="videos.length>0 && active_div != 11 && active_div != 12">
-        <!--<div  class="intr_vd_tml bg_sprtr_accrd">
-          <mat-accordion>
-            <mat-expansion-panel (click)="display_videos='APPSQUADZ'" [expanded]="true">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon>videocam</mat-icon> Demo AppSqaudz ({{AppSquadzVideos.length}})
-                </mat-panel-title>
-                <mat-panel-description>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div>
-                <div style="float: right;margin: 5px;">
-                  
-                </div>
-                <div *ngFor="let appSquadz of AppSquadzVideos">
-                  <div class="wtcd_vds {{appSquadz['id'] == active_video_obj['id'] ? 'wv_actv' : ''}}"
-                    *ngIf="'APPSQUADZ' == display_videos">
-                    <div class="wv_img">
-
-                    </div>
-                    <div class="wv_ttl_dsc">
-                      <span class="wv_tt_hd"><a
-                          [href]="'proceuma:'+appSquadz['id'] | safe: 'resourceUrl'">{{appSquadz['title']}}</a></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>-->
         <div class="intr_vd_hd">
           <div>
             <mat-icon>videocam</mat-icon>

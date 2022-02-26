@@ -32,6 +32,7 @@ export class ContentManagementComponent implements OnInit {
   public tab_index = 0;
   public selectedIndex = 0;
   public users = [];
+  public all_users = [];
   public dataentry_uid = 0;
   from_date = '';
   to_date = '';
@@ -57,6 +58,7 @@ export class ContentManagementComponent implements OnInit {
     };
     this.http.post(param).subscribe((res) => {
         this.users = res['data']['users'];
+        this.all_users = res['data']['users'];
       if (res['error'] == false) {
         if (this.paginator != undefined) {
             this.paginator.pageIndex = 0;
@@ -69,6 +71,12 @@ export class ContentManagementComponent implements OnInit {
       }
     });
   }
+  searchUsers(search){
+    let users = this.all_users;
+    this.users = users.filter(
+      item => item.first_name.toLowerCase().includes(search.toLowerCase())
+    );
+}
   getContentList() {
     let param = {
       url: 'content-list',

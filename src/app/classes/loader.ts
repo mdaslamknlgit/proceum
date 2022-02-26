@@ -22,7 +22,7 @@ export class Loader {
     private toster: ToastrService,
     private route: Router
   ) {
-      this.hide_loader = [environment.apiUrl+'get-sub-headings', environment.apiUrl+'get-partners', environment.apiUrl+'vdocipher/get-otp', environment.apiUrl+'get-kpoint-token']
+      this.hide_loader = [environment.apiUrl+'get-sub-headings', environment.apiUrl+'get-partners', environment.apiUrl+'vdocipher/get-otp', environment.apiUrl+'get-kpoint-token', environment.apiUrl+'cotent-details/save-settings']
   }
 
   removeRequest(req: HttpRequest<any>) {
@@ -32,7 +32,7 @@ export class Loader {
     }
     this.loaderService.isLoading.next(this.requests.length > 0);
   }
-
+ 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -54,7 +54,7 @@ export class Loader {
         (err) => {
           this.removeRequest(req);
           observer.error(err);
-          if (err.status == 401) {
+          if (err.status == 401 && !req.url.includes("proceum.kpoint.com/api/v1/xapi/")) {
             this.toster.error(err.statusText, 'Session Error', {
               closeButton: true,
             });

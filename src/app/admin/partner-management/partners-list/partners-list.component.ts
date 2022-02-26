@@ -192,7 +192,7 @@ export class PartnersListComponent implements OnInit {
     console.log(replacer);
     let replaceValue = window.location.host.split('.')[0];
     let url = window.location.origin.replace(replaceValue,replacer);
-    url = url.replace('https','http');
+    url = url.replace('https',environment.SSL_ORIGIN);
     if(replaceValue != 'localhost:4200'){
       window.open(url+'/login','_blank');
       return false;
