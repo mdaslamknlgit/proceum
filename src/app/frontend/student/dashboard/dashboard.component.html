@@ -331,61 +331,28 @@
             </div>
           </li> -->
 
-          <div class="intr_vd_tml _admn_ds_accrd_mn w_100p">
-            <div class="dsbrd_admnaccrdn">
-              <div class="_admn_dv_mn">
-                <div class="_dv_cnt _clr_one">
-                  <div class="_db_icn">
-                    <mat-icon>auto_stories</mat-icon>
+          <div class="intr_vd_tml _admn_ds_accrd_mn w_100p" *ngIf="this.subjectknowledge">
+            <div class="dsbrd_admnaccrdn" >
+              <div class="_admn_dv_mn sknow_aa">
+
+                <div class="_dv_cnt _clr_one" *ngFor="let d_sk of this.subjectknowledge |keyvalue">
+                  <div *ngFor="let data of d_sk.value |keyvalue">
+                    <div *ngFor="let percent of data.value |keyvalue">
+                      <div class="_db_icn">
+                        <mat-icon>auto_stories</mat-icon>
+                      </div>
+                      <span class="_cnt_two">{{data.key}}</span>
+                      <div class="prg_div">
+                        <span class="prg_sp">
+                          <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="{{percent.value}}">
+                          </mat-progress-bar>
+                        </span>
+                        <span class="cnt_sp">{{percent.value}}/100</span>
+                      </div>
+                    </div>
                   </div>
-                  <span class="_cnt_two">Human Anatomy</span>
-                  <div class="prg_div">
-                    <span class="prg_sp">
-                      <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="10">
-                      </mat-progress-bar>
-                    </span>
-                    <span class="cnt_sp">9999/10000</span>
-                  </div>
-                </div>
-                <div class="_dv_cnt _clr_tw">
-                  <div class="_db_icn">
-                    <mat-icon>auto_stories</mat-icon>
-                  </div>
-                  <span class="_cnt_two">Pysiology</span>
-                  <div class="prg_div">
-                    <span class="prg_sp">
-                      <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="10">
-                      </mat-progress-bar>
-                    </span>
-                    <span class="cnt_sp">9999/10000</span>
-                  </div>
-                </div>
-                <div class="_dv_cnt _clr_tre">
-                  <div class="_db_icn">
-                    <mat-icon>auto_stories</mat-icon>
-                  </div>
-                  <span class="_cnt_two">Pharmacology</span>
-                  <div class="prg_div">
-                    <span class="prg_sp">
-                      <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="10">
-                      </mat-progress-bar>
-                    </span>
-                    <span class="cnt_sp">9999/10000</span>
-                  </div>
-                </div>
-                <div class="_dv_cnt _clr_fr">
-                  <div class="_db_icn">
-                    <mat-icon>auto_stories</mat-icon>
-                  </div>
-                  <span class="_cnt_two">General Medicine</span>
-                  <div class="prg_div">
-                    <span class="prg_sp">
-                      <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="10">
-                      </mat-progress-bar>
-                    </span>
-                    <span class="cnt_sp">9999/10000</span>
-                  </div>
-                </div>
+                </div>             
+                
               </div>
             </div>
           </div>
