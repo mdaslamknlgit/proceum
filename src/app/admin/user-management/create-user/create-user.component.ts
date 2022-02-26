@@ -594,7 +594,7 @@ export class CreateUserComponent implements OnInit {
       }
     }
 
-    if(this.phone.length < 9){
+    if(this.phone.length < 10 || this.phone.length > 15){
       return;
     }
 
@@ -627,7 +627,6 @@ export class CreateUserComponent implements OnInit {
       domain: this.domain,
       approve_account: this.approve_account
     };
-
     let params = { url: 'create-user', form_data: form_data };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {

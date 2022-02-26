@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -15,34 +15,34 @@ import Swal from 'sweetalert2';
 })
 export class ShoppingCartComponent implements OnInit {
   //User variables
-  public user:any = [];
-  public user_id:any = '';
-  public role_id:any = '';
+  public user: any = [];
+  public user_id: any = '';
+  public role_id: any = '';
 
   //Cart item variables
-  public cart_items:any = [];
-  public cart_count:any = '';
-  public total_amount:any = 0;
-  public total_payable:any = 0;
-  public coupon_applied:any = false;
-  public my_earnings_applied:any = false;
-  public coupon_discount_amount:any = 0;
-  public my_earnings_discount_amount:any = 0;
-  public my_earnings:any = 0;
-  public coupon_description:any = '';
-  public have_coupon_code:any = false;
-  public coupon_code:any = '';
-  public disable_payment_button:any = false;
+  public cart_items: any = [];
+  public cart_count: any = '';
+  public total_amount: any = 0;
+  public total_payable: any = 0;
+  public coupon_applied: any = false;
+  public my_earnings_applied: any = false;
+  public coupon_discount_amount: any = 0;
+  public my_earnings_discount_amount: any = 0;
+  public my_earnings: any = 0;
+  public coupon_description: any = '';
+  public have_coupon_code: any = false;
+  public coupon_code: any = '';
+  public disable_payment_button: any = false;
   public product_default_img = environment.PACKAGE_DEFAULT_IMG;
 
   //Billing address model popup
   public model_status = false;
-  public user_address:any;
+  public user_address: any;
   public contact_name = '';
   public phone = '';
-  public country_id:any = '';
-  public country_name= '';
-  public state_id:any = '';
+  public country_id: any = '';
+  public country_name = '';
+  public state_id: any = '';
   public state_name = '';
   public city = '';
   public city_name = '';
@@ -60,21 +60,22 @@ export class ShoppingCartComponent implements OnInit {
   all_cities: ReplaySubject<any> = new ReplaySubject<any>(1);
 
   //Order related variable
-  public order_id:any = '';
+  public order_id: any = '';
   constructor(
     private http: CommonService,
     public toster: ToastrService,
     private router: Router,
-    private cartCountService:CartCountService,
-    private winRef: WindowRefService
+    private cartCountService: CartCountService,
+    private winRef: WindowRefService,
+    private zone: NgZone
   ) { }
 
   ngOnInit(): void {
     this.user = this.http.getUser();
-    if(this.user){
+    if (this.user) {
       this.contact_name = this.user["name"];
       this.user_id = this.user['id'];
-      this.role_id =  Number(this.user['role']);
+      this.role_id = Number(this.user['role']);
       this.getCartItems();
       this.getCountries();
       this.getMyEarnings();
@@ -91,47 +92,47 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
-  public getMyEarnings(){
-    let param = { url: 'referral-earnings-list'};
+  public getMyEarnings() {
+    let param = { url: 'referral-earnings-list' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.referral_count = res['data']['referral_earnings_list'].filter(i => (i.course_purchased == 1 && i.credits_consumed == 0)).length;
       }
     });
 
-    let params={url: 'social-share'};
+    let params = { url: 'social-share' };
     this.http.get(params).subscribe((res: Response) => {
       this.approved_count = res['data']['social_share_list'].filter(i => (i.approval_status == 1 && i.credits_consumed == 0)).length;
     });
   }
 
   //Get cart items
-  public getCartItems(){
-    let param = { url: 'get-cart-items', id: this.user_id};
+  public getCartItems() {
+    let param = { url: 'get-cart-items', id: this.user_id };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        if(res['data'].length){
+        if (res['data'].length) {
           this.cart_items = res['data'];
           this.user_address = res['user_address'];
-          if(this.user_address){
+          if (this.user_address) {
             this.country_id = this.user_address["country_id"];
             this.country_name = this.user_address["country_name"];
             this.state_id = this.user_address["state_id"];
-            if(this.country_id > 0){
+            if (this.country_id > 0) {
               this.getStates(this.country_id);
             }
-            if(this.state_id > 0){
+            if (this.state_id > 0) {
               this.getCities(this.state_id);
             }
             this.state_name = this.user_address["state_name"];
             this.city_name = this.user_address["city_name"];
             this.city = this.user_address["city"];
-            this.address = this.user_address["address_line_1"]+ ' ' + this.user_address["address_line_2"];
+            this.address = this.user_address["address_line_1"] + ' ' + this.user_address["address_line_2"];
             this.zip_code = this.user_address["zip_code"];
             this.phone = this.user_address["phone"];
           }
           this.updateAmounts(res);
-        }else{
+        } else {
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
           this.router.navigateByUrl('/pricing-and-packages');
@@ -144,14 +145,14 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   //Move to wishlist
-  public movetoWishList(product_id,product_type_id){
-    let param = { url: 'move-to-wishlist', id: this.user_id, product_id: product_id, product_type_id: product_type_id};
+  public movetoWishList(product_id, product_type_id) {
+    let param = { url: 'move-to-wishlist', id: this.user_id, product_id: product_id, product_type_id: product_type_id };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        if(res['data'].length){
+        if (res['data'].length) {
           this.cart_items = res['data'];
           this.updateAmounts(res);
-        }else{
+        } else {
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
           this.router.navigateByUrl('/pricing-and-packages');
@@ -163,16 +164,16 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   //Remove item from cart
-  public removeCartItem(cart_id){
-    let param = { url: 'remove-cart-item', cart_id:cart_id, id: this.user_id};
+  public removeCartItem(cart_id) {
+    let param = { url: 'remove-cart-item', cart_id: cart_id, id: this.user_id };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        if(res['data'].length){
+        if (res['data'].length) {
           this.cart_items = res['data'];
           this.cartCountService.sendNumber(res['cart_count']);
           this.toster.success("Removed Item From Cart!", 'Success');
           this.updateAmounts(res);
-        }else{
+        } else {
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to order!", 'Error');
           this.router.navigateByUrl('/pricing-and-packages');
@@ -189,12 +190,12 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   //Get list of countries
-  public getCountries(){
+  public getCountries() {
     let param = { url: 'get-countries' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.countrys = res['data']['countries'];
-        if(this.countrys != undefined){
+        if (this.countrys != undefined) {
           this.all_countrys.next(this.countrys.slice());
         }
       } else {
@@ -224,7 +225,7 @@ export class ShoppingCartComponent implements OnInit {
     if (selected_country_id > 0) {
       //First set country_name
       this.countrys.filter((item) => {
-        if(item.id == selected_country_id){
+        if (item.id == selected_country_id) {
           this.country_name = item.country_name;
         }
       });
@@ -264,23 +265,23 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   //Set state name by stateid
-  public setStateName(){
-    if(this.state_id > 0) {
+  public setStateName() {
+    if (this.state_id > 0) {
       //set state_name
       this.states.filter((item) => {
-        if(item.id == this.state_id){
+        if (item.id == this.state_id) {
           this.state_name = item.state_name;
         }
       });
     }
   }
 
-   //Set state name by stateid
-   public setCityName(){
-    if(this.state_id > 0) {
+  //Set state name by stateid
+  public setCityName() {
+    if (this.state_id > 0) {
       //set state_name
       this.cities.filter((item) => {
-        if(item.id == this.city){
+        if (item.id == this.city) {
           this.city_name = item.city_name;
         }
       });
@@ -316,7 +317,7 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   //Update cart amounts when there is any event occured related to cart
-  public updateAmounts(res){
+  public updateAmounts(res) {
     this.total_amount = res['total_amount'];
     this.total_payable = res['total_payable'];
     this.coupon_applied = res['coupon_applied'];
@@ -327,14 +328,14 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   //Apply Coupon
-  public applyCoupon(){
-    let param = { url: 'apply-coupon', id: this.user_id, coupon_code: this.coupon_code,my_earnings:this.my_earnings};
+  public applyCoupon() {
+    let param = { url: 'apply-coupon', id: this.user_id, coupon_code: this.coupon_code, my_earnings: this.my_earnings };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
-        if(res['data'].length){
+        if (res['data'].length) {
           //this.cart_items = res['data'];
           this.updateAmounts(res);
-        }else{
+        } else {
           this.cartCountService.sendNumber(0);
           this.toster.error("Your cart is empty!. Please add items to cart!", 'Error');
           this.router.navigateByUrl('/pricing-and-packages');
@@ -346,7 +347,7 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   //remove Coupon
-  public removeCoupon(){
+  public removeCoupon() {
     this.coupon_code = '';
     this.applyCoupon();
     /*let param = { url: 'get-cart-items', id: this.user_id};
@@ -369,42 +370,42 @@ export class ShoppingCartComponent implements OnInit {
   /************************************************************************
    ************** Payments related functionality starts here **************
    ************************************************************************/
-  public proceedPayment(){
+  public proceedPayment() {
     //Validate user billing address
-    if(this.contact_name == '' || this.address == '' || this.city == '' || this.state_name == '' ||
-    this.country_name == '' || this.zip_code == '' || this.phone == ''){
+    if (this.contact_name == '' || this.address == '' || this.city == '' || this.state_name == '' ||
+      this.country_name == '' || this.zip_code == '' || this.phone.length < 10) {
       this.toster.error("Please provide required fields of billing address!", 'Error');
       return;
     }
     //=========Create order in proceum database
     //Disable Payment Button
-    if(this.disable_payment_button){
+    if (this.disable_payment_button) {
       return;
     }
     this.disable_payment_button = true;
     //Prepare address details
     let adressDetails = {
-      a_contact_name  : this.contact_name,
-      b_address       : this.address,
-      c_city          : this.city_name,
-      d_state_name    : this.state_name,
-      e_country_name  : this.country_name,
-      f_zip_code      : this.zip_code,
-      g_phone         : this.phone,
+      a_contact_name: this.contact_name,
+      b_address: this.address,
+      c_city: this.city_name,
+      d_state_name: this.state_name,
+      e_country_name: this.country_name,
+      f_zip_code: this.zip_code,
+      g_phone: this.phone,
     }
     //Prepare main object to send
     let params = {
-      url             : 'proceed-payment',
-      cart_items      : this.cart_items,
-      adress_details  : adressDetails,
-      coupon_applied  : this.coupon_applied,
-      my_earnings_applied  : this.my_earnings_applied,
-      coupon_code     : this.coupon_code,
-      my_earnings     : this.my_earnings,
-      total_amount    : this.total_amount,
-      total_payable   : this.total_payable,
-      coupon_discount_amount : this.coupon_discount_amount,
-      my_earnings_discount_amount : this.my_earnings_discount_amount,
+      url: 'proceed-payment',
+      cart_items: this.cart_items,
+      adress_details: adressDetails,
+      coupon_applied: this.coupon_applied,
+      my_earnings_applied: this.my_earnings_applied,
+      coupon_code: this.coupon_code,
+      my_earnings: this.my_earnings,
+      total_amount: this.total_amount,
+      total_payable: this.total_payable,
+      coupon_discount_amount: this.coupon_discount_amount,
+      my_earnings_discount_amount: this.my_earnings_discount_amount,
     }
     //Make a post request
     this.http.post(params).subscribe((res) => {
@@ -438,51 +439,62 @@ export class ShoppingCartComponent implements OnInit {
       theme: {
         color: '#41ab3c'
       },
-      prefill : {
-          name: this.contact_name,
-          email: data.email,
-          contact: data.phone,
+      prefill: {
+        name: this.contact_name,
+        email: data.email,
+        contact: data.phone,
       },
     };
     options.handler = ((response, error) => {
       // call your backend api to verify payment signature & capture transaction
-      if(response){
+      if (response) {
         this.razorpayPaymentSuccess(response);
       }
-      if(error){
+      if (error) {
         console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed!',
+          html: error
+        })
       }
     });
     options.modal.ondismiss = (() => {
       // handle the case when user closes the form while transaction is in progress
       this.disable_payment_button = false;
-      //console.log('Transaction cancelled.');
     });
     const rzp = new this.winRef.nativeWindow.Razorpay(options);
-    rzp.on('payment.failed', function (response){
-      this.toster.error("Payment Failed! "+response.error.reason, 'Error');
+    rzp.on('payment.failed', function (response) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed!',
+        html: "Payment Failed! " + response.error.reason
+      })
       this.disable_payment_button = false;
     });
     rzp.open();
   }
 
-  public razorpayPaymentSuccess(response){
+  public razorpayPaymentSuccess(response) {
     let params = {
-      url                             : 'razorpay-payment-success',
-      payment_gateway_order_id        : response.razorpay_order_id,
-      payment_gateway_payment_id      : response.razorpay_payment_id,
-      signature                       : response.razorpay_signature,
-      order_id                        : this.order_id,
+      url: 'razorpay-payment-success',
+      payment_gateway_order_id: response.razorpay_order_id,
+      payment_gateway_payment_id: response.razorpay_payment_id,
+      signature: response.razorpay_signature,
+      order_id: this.order_id,
     }
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
-        //this.toster.success("Congrats! Payment is success!", 'Success');
+        let router = this.router;
         Swal.fire({
           icon: 'success',
           title: 'Success!',
           html: 'Thanks for your order. Your order has been placed successfully.<br/>'
-        })
-        this.router.navigateByUrl('/student/order-details/' +res['order_id']);
+        }).then(() => {
+          this.zone.run(() => {
+            this.router.navigateByUrl('/student/order-details/' + res['order_id']);
+          });
+        });
         this.disable_payment_button = false;
       } else {
         this.toster.error(res['message'], 'Error');
@@ -494,7 +506,7 @@ export class ShoppingCartComponent implements OnInit {
     });
   }
 
-  navigateTo(url){
+  navigateTo(url) {
     this.router.navigateByUrl(url);
   }
 

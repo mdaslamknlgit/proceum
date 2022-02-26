@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NumbersonlyDirective } from '../shared/directives/numbersonly.directive';
 import { AlphabetOnlyDirective } from '../shared/directives/alphabet-only.directive';
+import { PhonenumberDirective } from '../shared/directives/phonenumber.directive';
 import { AlphaNumericOnlyDirective } from '../shared/directives/alpha-numeric-only.directive';
 import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -41,7 +42,7 @@ import { NoDoubleWhiteSpacesDirective } from '../shared/directives/no-white-spac
 
 
 @NgModule({
-  declarations: [NumbersonlyDirective, AlphabetOnlyDirective, AlphaNumericOnlyDirective, NoDoubleWhiteSpacesDirective],
+  declarations: [NumbersonlyDirective,PhonenumberDirective, AlphabetOnlyDirective, AlphaNumericOnlyDirective, NoDoubleWhiteSpacesDirective],
   imports: [
     CommonModule,
     MatInputModule,
@@ -82,6 +83,7 @@ import { NoDoubleWhiteSpacesDirective } from '../shared/directives/no-white-spac
     MatTooltipModule,
     MatIconModule,
     NumbersonlyDirective,
+    PhonenumberDirective,
     AlphabetOnlyDirective,
     AlphaNumericOnlyDirective,
     FormsModule,

@@ -1618,43 +1618,47 @@ searchLevelByName(search,level){
     let params = { url: 'create-content', form_data: form_data };
 
     this.http.post(params).subscribe((res) => {
-      if (res['error'] == false) {
-
-          if(this.is_preview == true){
-              this.is_preview = false;
-              if(this.content_id == 0){
-                this.navigateTo("create-content/"+res['data']['id']);
-              }
-              else{
-                  setTimeout(timeout=>{window.location.reload();},1000)
-              }
-              window.open('student/content-preview/'+res['data']['id'], "_blank");
-          }
-          else{
-              this.is_preview = false;
-            this.toster.success(res['message'], 'Success', { closeButton: true });
-            if(res['data']['content_status'] == "REVIEW"){
-                let doc = {
-                    "role_id" : res['data']['reviewer_role'],
-                    "first_name" : res['data']['first_name'],
-                    "order_by" : res['data']['order_by'],
-                    "content_id" : res['data']['id']
+        if (res['error'] == false) {
+            
+            if(this.is_preview == true){
+                this.is_preview = false;
+                if(this.content_id == 0){
+                    this.navigateTo("create-content/"+res['data']['id']);
                 }
-                let param = {path: "content_notifications", content_id: ''+res['data']['id'], data:doc};
-                this.fs.addNotification(param);
+                else{
+                    setTimeout(timeout=>{window.location.reload();},1000)
+                }
+                window.open('student/content-preview/'+res['data']['id'], "_blank");
             }
-            if(res['data']['content_status'] == "PUBLISHED"){
-                let content_id = this.content_id>0?this.content_id:res['data']['id'];
-                this.fs.deleteNotification({path: "content_notifications/"+content_id});
+            else{
+                this.is_preview = false;
+                let manage_tab = "";
+                this.toster.success(res['message'], 'Success', { closeButton: true });
+                if(res['data']['content_status'] == "REVIEW"){
+                    manage_tab = '/2';
+                    let doc = {
+                        "role_id" : res['data']['reviewer_role'],
+                        "first_name" : res['data']['first_name'],
+                        "order_by" : res['data']['order_by'],
+                        "content_id" : res['data']['id']
+                    }
+                    let param = {path: "content_notifications", content_id: ''+res['data']['id'], data:doc};
+                    this.fs.addNotification(param);
+                }
+                if(res['data']['content_status'] == "PUBLISHED"){
+                    manage_tab = '';
+                    let content_id = this.content_id>0?this.content_id:res['data']['id'];
+                    this.fs.deleteNotification({path: "content_notifications/"+content_id});
+                }
+                if(res['data']['content_status'] == "DRAFT"){
+                    manage_tab = '/1';
+                }
+                this.navigateTo('manage-content'+manage_tab);
             }
-            setTimeout(res=>{
-                this.navigateTo('manage-content');
-            }, 1000);
-          }
       } else {
-          this.publsh_content = false;
-          this.is_preview = false
-        this.toster.error(res['message'], 'Error', { closeButton: true });
+            this.publsh_content = false;
+            this.is_preview = false
+            this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });
   }
