@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { GlobalApp } from '../../../global';
 import Swal from 'sweetalert2';
@@ -11,6 +11,7 @@ import {
   FacebookLoginProvider,
 } from 'angularx-social-login';
 import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,6 +19,8 @@ import { environment } from 'src/environments/environment';
 })
 export class LoginComponent implements OnInit {
   socialUser: SocialUser;
+  force_login = false;
+    partner_id = 0;
   register: Register = {
     first_name: '',
     last_name: '',
@@ -36,16 +39,20 @@ export class LoginComponent implements OnInit {
   public is_login: boolean = false;
   public isLoadedTopBar: boolean = false;
   public subDomain: boolean = false;
-
+  public params = [];
   password_hide: boolean = true;
-  constructor(
-    private http: AuthService,
+  constructor( private activatedRoute: ActivatedRoute, private http: AuthService,
     private route: Router,
     private toastr: ToastrService,
     private socialAuthService: SocialAuthService,
     public app: GlobalApp
   ) { }
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((param) => {
+        let data = atob(param.data);
+        this.params = data.split("/");console.log(this.params, data);
+        this.forceLogin();
+    })
     this.socialAuthService.authState.subscribe((user) => {
       if (user && this.is_login == false) {
         this.is_login = true;
@@ -128,79 +135,89 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  passwordFun() {
-    this.password_hide = !this.password_hide;
-  }
-
-  doLogin() {
-    if (this.login.email != '') {
-      this.email_check = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
-        this.login.email
-      );
-      if (this.email_check == false) {
-        this.email_error = 'Invalid email';
-      } else {
-        if (this.login.password != '') {
-          let params = {
-            url: 'login',
-            email: this.login.email,
-            password: this.login.password,
-          };
-          this.http.login(params).subscribe((res: Response) => {
-            if (res.error) {
-              if (res['insti_reg_user']) {
-                let sweetAlertHtml = 'Dear '+ res['user_role_type'] +', Thanks for registering with us.<br/> \
-                Your account is not enabled yet as we are still reviewing your information.<br/> \
-                We will get back to you soon.<br/>Once your account is approved, you will be notified via email.';
-                Swal.fire({
-                  icon: 'warning',
-                  //title: 'Dear Partner,',
-                  html: sweetAlertHtml
-                })
-                return false;
-              }
-              this.toastr.error(res.message, 'Error', {
-                closeButton: true,
-                timeOut: 5000,
-              });
-            } else {
-              localStorage.setItem('_token', res['data'].token);
-              let json_user = btoa(JSON.stringify(res['data'].user));
-              localStorage.setItem('user', json_user);
-              //If login user has subdomain the send him to land on subdomain
-              if (res['data']['user']['sub_domain']) {
-                this.landOnSubdomain(res['data']['user']);
-              }
-              if (res['data']['user']['role'] == 1) {
-                //admin
-                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/admin/dashboard';
-                localStorage.removeItem('_redirect_url');
-                this.route.navigate([redirect_url]);
-              } else if (res['data']['user']['role'] == 3 || res['data']['user']['role'] == 4 || res['data']['user']['role'] == 5 || res['data']['user']['role'] == 6 || res['data']['user']['role'] == 7) {
-                //Reviewer L1, L2,L3 Approver
-                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/reviewer/dashboard';
-                localStorage.removeItem('_redirect_url');
-                this.route.navigate([redirect_url]);
-              } else if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(res['data']['user']['role']))) {
-                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/admin/dashboard';
-                this.route.navigate([redirect_url]);
-              } else if (res['data']['user']['role'] == 12) {
-                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/teacher/dashboard';
-                localStorage.removeItem('_redirect_url');
-                this.route.navigate([redirect_url]);
-              }
-              else {
-                //student or others
-                let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/student/dashboard';
-                localStorage.removeItem('_redirect_url');
-                this.route.navigate([redirect_url]);
-              }
-            }
-          });
-        }
-      }
+    passwordFun() {
+        this.password_hide = !this.password_hide;
     }
-  }
+    forceLogin(){
+        let params = {url: 'force-login', partner_id: this.params[0], role: this.params[1]};
+        this.http.login(params).subscribe((res: Response) => {
+            if (res.error == false) {
+                this.login.email = res['data']['email'],
+                this.login.password = res['data']['password'];
+                this.force_login = true;
+                console.log(this.params)
+                this.doLogin();
+            }}
+        );
+    }
+    doLogin() {
+        if (this.login.email != '') {
+            this.email_check = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.login.email);
+        if (this.email_check == false) {
+            this.email_error = 'Invalid email';
+        } else {
+            if (this.login.password != '') {
+            let params = {
+                url: 'login',
+                email: this.login.email,
+                password: this.login.password,
+                force_login: this.force_login
+            };
+            this.http.login(params).subscribe((res: Response) => {
+                if (res.error) {
+                if (res['insti_reg_user']) {
+                    let sweetAlertHtml = 'Dear '+ res['user_role_type'] +', Thanks for registering with us.<br/> \
+                    Your account is not enabled yet as we are still reviewing your information.<br/> \
+                    We will get back to you soon.<br/>Once your account is approved, you will be notified via email.';
+                    Swal.fire({
+                    icon: 'warning',
+                    //title: 'Dear Partner,',
+                    html: sweetAlertHtml
+                    })
+                    return false;
+                }
+                this.toastr.error(res.message, 'Error', {
+                    closeButton: true,
+                    timeOut: 5000,
+                });
+                } else {
+                localStorage.setItem('_token', res['data'].token);
+                let json_user = btoa(JSON.stringify(res['data'].user));
+                localStorage.setItem('user', json_user);
+                //If login user has subdomain the send him to land on subdomain
+                if (res['data']['user']['sub_domain']) {
+                    this.landOnSubdomain(res['data']['user']);
+                }
+                if (res['data']['user']['role'] == 1) {
+                    //admin
+                    let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/admin/dashboard';
+                    localStorage.removeItem('_redirect_url');
+                    this.route.navigate([redirect_url]);
+                } else if (res['data']['user']['role'] == 3 || res['data']['user']['role'] == 4 || res['data']['user']['role'] == 5 || res['data']['user']['role'] == 6 || res['data']['user']['role'] == 7) {
+                    //Reviewer L1, L2,L3 Approver
+                    let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/reviewer/dashboard';
+                    localStorage.removeItem('_redirect_url');
+                    this.route.navigate([redirect_url]);
+                } else if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(res['data']['user']['role']))) {
+                    let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/admin/dashboard';
+                    this.route.navigate([redirect_url]);
+                } else if (res['data']['user']['role'] == 12) {
+                    let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/teacher/dashboard';
+                    localStorage.removeItem('_redirect_url');
+                    this.route.navigate([redirect_url]);
+                }
+                else {
+                    //student or others
+                    let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/student/dashboard';
+                    localStorage.removeItem('_redirect_url');
+                    this.route.navigate([redirect_url]);
+                }
+                }
+            });
+            }
+        }
+        }
+    }
 
   landOnSubdomain(userData) {
     let replacer = userData['sub_domain'];
