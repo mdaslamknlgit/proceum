@@ -164,7 +164,7 @@ import { environment } from 'src/environments/environment';
             }
         this.getLevelDetails();
         //this.getMaterials();
-        this.getAppSquadz();
+        //this.getAppSquadz();
         });
         
     }
@@ -184,16 +184,16 @@ import { environment } from 'src/environments/environment';
             this.router.navigateByUrl(url);
         }
     }
-    getAppSquadz(){
-        let form_data = {user_id: 1};
-        let param = {url: 'data_model/courses/exam/get_video_data',form_data: form_data};
-        this.http.AppSquadzPost(param).subscribe((res) => {
-        console.log(res);
-        if (res['status'] == true) {
-            this.AppSquadzVideos = res['data']; 
-        }
-        });
-    }
+    // getAppSquadz(){
+    //     let form_data = {user_id: 1};
+    //     let param = {url: 'data_model/courses/exam/get_video_data',form_data: form_data};
+    //     this.http.AppSquadzPost(param).subscribe((res) => {
+    //     console.log(res);
+    //     if (res['status'] == true) {
+    //         this.AppSquadzVideos = res['data']; 
+    //     }
+    //     });
+    // }
 
     ngAfterViewInit() {
         this.buzz_words = false;
