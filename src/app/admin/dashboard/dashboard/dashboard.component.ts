@@ -3,6 +3,7 @@ import { CommonService } from 'src/app/services/common.service';
 import { GlobalApp } from 'src/global';
 import { environment } from 'src/environments/environment';
 import { MatTableDataSource } from '@angular/material/table';
+import { Chart } from 'chart.js';
 
 export interface PeriodicElement {
   
@@ -25,8 +26,10 @@ const ELEMENT_DATA: PeriodicElement[] = [
 export class DashboardComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumnsRevenue: string[] = ['position', 'weight', 'symbol'];
   //dataSource = ELEMENT_DATA;
   dataSource = new MatTableDataSource();
+  dataSourceRevenue = new MatTableDataSource();
 
   public offset = 0;
   public limit = 12;
@@ -90,15 +93,37 @@ export class DashboardComponent implements OnInit {
   public kpoint = 0;
   public vdo_cipher = 0;
   public app_squadz = 0;
+  public notes = 0;
   public published = 0;
   public approval_pending = 0;
   public approved = 0;
   public draft = 0;
+  public revenue = [];
+
+  public lineChartLegend = false;
+  public lineChartType = 'bar';
+  public inlinePlugin: any;
+  public textPlugin: any;
+  public lineChartData:any = [];
+  public lineChartLabels:any = [];
+  public lineChartOptions:any;
+  public lineChartData1:any = [];
+  public lineChartLabels1:any = [];
+  public lineChartOptions1:any;
+  public chartColors: any[] = [
+    { 
+      backgroundColor:[
+        "#303641", "#f56954", "#0073b7", "#00b29e", "#ba79cb", "#ec3b83", "#701c1c",
+        "#6c541e","#303641", "#ffa812", "#311B92", "#B71C1C", "#4A148C", "#1A237E",
+        "#0D47A1", "#004D40", "#FF6F00", "#BF360C", "#3E2723", "#990000", "#6633FF", 
+        "#FBC02D", "#FF7043", "#8E24AA", "#00897B", "#FDD835", "#0277BD", "#6D4C41"
+      ] 
+    }
+  ];
 
   public getSuperAdminData(){
     let param = { url: 'get-admin-dashboard' };
     this.http.post(param).subscribe((res) => {
-      console.log(res['data']);
       if(res['error'] == false){
         let data = res['data'];
         this.partner_active = data['partner']['university_active']+data['partner']['college_active']+data['partner']['institute_active'];
@@ -140,13 +165,207 @@ export class DashboardComponent implements OnInit {
           i++;
         });
         console.log(this.video_types);
-        this.dataSource = new MatTableDataSource(this.video_types);
-        
+        this.dataSource = new MatTableDataSource(this.video_types);        
+        console.log(this.dataSource);
         this.videos = data['video']['app_squadz']+data['video']['kpoint']+data['video']['vdo_cipher']+data['video']['youtube'];
+
+        this.published = data['notes']['published'];
+        this.approval_pending = data['notes']['approval_pending'];
+        this.approved = data['notes']['approved'];
+        this.draft = data['notes']['draft'];
+        this.notes = this.published+this.approval_pending+this.approved+this.draft;
+        console.log(data['revenue']);
+        this.revenue = res['data']['revenue'];
+        this.dataSourceRevenue = new MatTableDataSource(this.revenue);
+        console.log(this.dataSourceRevenue);
+
+        this.getVideoStatistics();
+        this.getRevenueStatistics();
       }
       
     });
 
+  }
+
+  getVideoStatistics() {
+    let name = [];
+    let count = [];
+    this.video_types.forEach((opt, index) => {
+      count.push(opt.count);
+      name.push(opt.name);      
+    })
+
+    this.lineChartData = [
+      {
+        label: 'Video Statistics',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: count,
+          barThickness: 16,
+        // maxBarThickness: 8,
+        // minBarLength: 2,
+      },
+    ]; 
+    this.lineChartLabels = name;
+    this.lineChartOptions = {
+      responsive: true,
+      annotation: {
+        annotations: [
+          {
+            drawTime: 'afterDraw',
+            // type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: 0,
+            borderColor: '#000000',
+            borderWidth: 2,
+            scales: {
+              xAxes: [{
+                  // gridLines: {
+                  //      display:false
+                  // }
+                  // ticks: {
+                  //   maxTicksLimit: 20,
+                  // },
+                  ticks: { fontColor: 'black' },
+                  gridLines: { color: 'rgba(255,255,255,0.1)' }
+              }],
+              // yAxes: [{
+              //     gridLines: {
+              //         // display:false
+              //         ticks: { fontColor: 'black',  style: 'percent', min: 0, stepValue : 10, max : 100, },
+              //         gridLines: { color: 'rgba(255,255,255,0.1)' },
+              //     }   
+              // }],
+              yAxes: [{
+                barPercentage: 6.0,
+                categoryPercentage: 6.0,
+                ticks: {
+                 beginAtZero: true,
+                  callback: function (value, index, values) {
+                    return '$' + value + 'k';
+                  },
+                }
+              }]
+            },
+            gradient : true,
+            showDataLabel : true,
+            label: {
+              backgroundColor: 'red',
+              content: 'global plugin',
+              enabled: true,
+              position: 'center',
+            }
+          }
+        ]
+      }
+    };  
+
+  }
+  
+  getRevenueStatistics() {
+    let name = [];
+    let amount = [];
+    this.revenue.forEach((opt, index) => {
+      amount.push(opt.amount);
+      name.push(opt.name);      
+    })
+
+    this.lineChartData1 = [
+      {
+        label: 'Revenue',
+        fill: false,
+        lineTension: 0.1,
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+        borderCapStyle: 'butt',
+        borderDash: [],
+        borderDashOffset: 0.0,
+        borderJoinStyle: 'miter',
+        pointBorderColor: 'rgba(75,192,192,1)',
+        pointBackgroundColor: '#fff',
+        pointBorderWidth: 1,
+        pointHoverRadius: 5,
+        pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+        pointHoverBorderColor: 'rgba(220,220,220,1)',
+        pointHoverBorderWidth: 2,
+        pointRadius: 1,
+        pointHitRadius: 10,
+        data: amount,
+          barThickness: 16,
+        // maxBarThickness: 8,
+        // minBarLength: 2,
+      },
+    ]; 
+    this.lineChartLabels1 = name;
+    this.lineChartOptions1 = {
+      responsive: true,
+      annotation: {
+        annotations: [
+          {
+            drawTime: 'afterDraw',
+            // type: 'line',
+            mode: 'horizontal',
+            scaleID: 'y-axis-0',
+            value: 0,
+            borderColor: '#000000',
+            borderWidth: 2,
+            scales: {
+              xAxes: [{
+                  // gridLines: {
+                  //      display:false
+                  // }
+                  // ticks: {
+                  //   maxTicksLimit: 20,
+                  // },
+                  ticks: { fontColor: 'black' },
+                  gridLines: { color: 'rgba(255,255,255,0.1)' }
+              }],
+              // yAxes: [{
+              //     gridLines: {
+              //         // display:false
+              //         ticks: { fontColor: 'black',  style: 'percent', min: 0, stepValue : 10, max : 100, },
+              //         gridLines: { color: 'rgba(255,255,255,0.1)' },
+              //     }   
+              // }],
+              yAxes: [{
+                barPercentage: 6.0,
+                categoryPercentage: 6.0,
+                ticks: {
+                 beginAtZero: true,
+                  callback: function (value, index, values) {
+                    return '$' + value + 'k';
+                  },
+                }
+              }]
+            },
+            gradient : true,
+            showDataLabel : true,
+            label: {
+              backgroundColor: 'red',
+              content: 'global plugin',
+              enabled: true,
+              position: 'center',
+            }
+          }
+        ]
+      }
+    };
   }
 
   public getPartners() {
