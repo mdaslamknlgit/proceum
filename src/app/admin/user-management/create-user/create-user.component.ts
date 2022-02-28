@@ -594,7 +594,7 @@ export class CreateUserComponent implements OnInit {
       }
     }
 
-    if(this.phone.length < 9){
+    if(this.phone.length < 10 || this.phone.length > 15){
       return;
     }
 
@@ -627,12 +627,11 @@ export class CreateUserComponent implements OnInit {
       domain: this.domain,
       approve_account: this.approve_account
     };
-
     let params = { url: 'create-user', form_data: form_data };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
         this.toster.success(res['message'], 'Success', { closeButton: true });
-        this.navigateTo('manage-users');
+        this.navigateTo('manage-users/'+this.role);
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -883,6 +882,7 @@ export class CreateUserComponent implements OnInit {
           this.submitCourses();
         }
       } else {
+        this.dataSource.data = [];
         //this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });

@@ -57,28 +57,18 @@
       </mat-menu>
     </span>
     <div class="top-right-icon rsp_100p_767 mr_05 ord_mo_767">
-      <!-- <div class="glbl_srch dsh_brd_crds glbsrc_act">
-        <mat-form-field appearance="outline">
-          <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''"
-            placeholder="Search" class="{{glbSrch == false ? '' : ''}}" autocomplete="off">
-          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch">search</mat-icon>
-        </mat-form-field>
-      </div> -->
       <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
         <mat-icon color="accent" matSuffix (click)="glbSrch = false">search</mat-icon>
         <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
           <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''"
             placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
-          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch"> {{glbSrch == false ? 'close' : ''}}
+          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch" class="gs_clsbtn"> {{glbSrch == false ? 'close' : ''}}
           </mat-icon>
         </mat-form-field>
       </div>
       <div class="{{glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
     </div>
   </div>
-  <!-- <div class="lg_inbtn" *ngIf="user['name']">
-    <span><mat-icon>face</mat-icon> <span class="m_hide">{{ user["name"] }}<span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span></span></span>
-  </div> -->
   <div class="lg_inbtn mr_1">
     <span *ngIf="!user['name']" routerLink="/login">
       <mat-icon color="accent" matTooltip="Login">login</mat-icon>
@@ -92,34 +82,5 @@
     <span *ngIf="user['name']" (click)="logout()">
       <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
     </span>
-  </div>
-  <!-- <div class="top-right-icon">
-    <mat-icon (click)="glbSrch = !glbSrch">search</mat-icon>
-    <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
-      <mat-form-field appearance="outline">
-        <input matInput placeholder="Search">
-        <mat-icon matSuffix>travel_explore</mat-icon>
-      </mat-form-field>
-    </div>
-  </div> -->
-  <!-- <button mat-icon-button class="tp_rt_mn lgot_btn" (click)="logout()"><mat-icon>logout</mat-icon></button> -->
+  </div> 
 </mat-toolbar>
-
-<!-- <mat-toolbar [ngClass]="{'sticky-header' : isSticky}">
-  <div class="top_nav" routerLink="/">
-    <img src="../../../assets/images/ProceumLogo_w.png" />
-  </div>
-
-  <span class="spacer"></span>
-  <div class="nav">
-    <span class="tp_rt_mn active">Home</span>
-    <span class="tp_rt_mn" routerLink="/about-us">About Us</span>
-    <span class="tp_rt_mn">Pricing</span>
-    <span class="tp_rt_mn">Subscribe</span>
-    <span class="tp_rt_mn">Register Trail</span>
-    <span class="tp_rt_mn">Contact Us</span>
-    <div routerLink="/login" class="lg_inbtn">
-      <mat-icon>login</mat-icon>Login
-    </div>
-  </div>
-</mat-toolbar> -->

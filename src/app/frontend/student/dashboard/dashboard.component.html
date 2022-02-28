@@ -242,7 +242,6 @@
             Notes Accessed
             <span>{{notes}}</span>
           </div>
-
         </div>
       </li>
       <li>
@@ -254,7 +253,6 @@
             Assessments Attended
             <span>{{assessments}}</span>
           </div>
-
         </div>
       </li>
       <li>
@@ -309,6 +307,59 @@
           <span class="vw_mre_fw">
             <a (click)="case_model = !case_model">View Details</a>
           </span>
+        </div>
+      </li>
+    </ul>
+
+     <ul class="crds_ul rcnt_vw" *ngIf="this.subjectknowledge">
+      <li>
+        <span class="text_left">Subject Knowledge</span>
+        <hr />
+        <div class="crds_ul prg_crd prg_crd">
+
+          <!-- <li *ngFor="let data of subjectknowledge | keyvalue">
+            <span class="text_left"><button mat-mini-fab class="mr_1">
+                <mat-icon>auto_stories</mat-icon>
+              </button>{{data.key}}</span>
+            <hr />
+            <div class="prg_div">
+              <span class="prg_sp">
+                <mat-progress-bar class="prg_clr" color="primary" mode="determinate"
+                  value="{{data.value.access_percentage}}"></mat-progress-bar>
+              </span>
+              <span class="cnt_sp">{{data.value.access_percentage}}/100</span>
+            </div>
+          </li> -->
+
+          <div class="intr_vd_tml _admn_ds_accrd_mn w_100p">
+            <div class="dsbrd_admnaccrdn w_100p" >
+              <div class="_admn_dv_mn sknow_aa">
+                <div class="_dv_cnt _clr_one" *ngFor="let d_sk of this.subjectknowledge |keyvalue">
+                  <div *ngFor="let data of d_sk.value |keyvalue">
+                    <div *ngFor="let percent of data.value |keyvalue">
+                      <div class="_db_icn">
+                        <mat-icon>auto_stories</mat-icon>
+                      </div>
+                      <span class="_cnt_two">{{data.key}}</span>
+                      <div class="prg_div">
+                        <span class="prg_sp">
+                          <mat-progress-bar class="prg_clr" color="primary" mode="determinate" value="{{percent.value}}">
+                          </mat-progress-bar>
+                        </span>
+                        <span class="cnt_sp">{{percent.value}}/100</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>                
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 100%;">
+          <canvas ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="chartColors"
+            [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
+            [inlinePlugins]="inlinePlugin">
+          </canvas>
         </div>
       </li>
     </ul>
@@ -409,19 +460,19 @@
                     <span class="spacer"></span>
                     <span>
                       <button *ngIf="item.is_fav != 1 ? true : false" matTooltip="Make Favorite"
-                        (click)="updateBookmarkFavorite(item.id,'fav')" mat-icon-button class="mr_02">
+                        (click)="updateBookmarkFavorite(item.id,'fav')" mat-icon-button class="mr_1">
                         <mat-icon>favorite_border</mat-icon>
                       </button>
                       <button *ngIf="item.is_fav == 1 ? true : false" matTooltip="Unfavourite"
-                        (click)="updateBookmarkFavorite(item.id,'fav')" mat-mini-fab class="mr_02">
+                        (click)="updateBookmarkFavorite(item.id,'fav')" mat-mini-fab class="mr_1">
                         <mat-icon>favorite_border</mat-icon>
                       </button>
                       <button *ngIf="item.is_bookmark != 1 ? true : false" matTooltip="Add Bookmark"
-                        (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-icon-button class="mr_02">
+                        (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-icon-button class="mr_1">
                         <mat-icon>bookmark_add</mat-icon>
                       </button>
                       <button *ngIf="item.is_bookmark == 1 ? true : false" matTooltip="Remove Bookmark"
-                        (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-mini-fab class="mr_02">
+                        (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-mini-fab class="mr_1">
                         <mat-icon>bookmark_add</mat-icon>
                       </button>
                     </span>
@@ -514,7 +565,6 @@
                 </div>
               </li>
               <li>
-               
                 <div *ngIf="wish_list.length > 0">
                   <div class="lfrt_grd" *ngFor="let item of wish_list">
                     <span class="text_left">
@@ -534,7 +584,6 @@
                 </span> -->
                   </div>
                 </div>
-                
                 <div *ngIf="wish_list_data.length > 0">
                   <div class="lfrt_grd" *ngFor="let list_data of wish_list_data">
                     <span class="text_left">
@@ -550,7 +599,6 @@
                     </span>
                   </div>
                 </div>
-
                 <hr>
               </li>
             </ul>
@@ -558,27 +606,7 @@
         </mat-tab-group>
       </li>
     </ul>
-    <ul class="crds_ul rcnt_vw">
-      <li>
-        <span class="text_left">Subject Knowledge</span>
-        <hr />
-        <ul class="crds_ul prg_crd prg_crd">
-          <li *ngFor="let data of subjectknowledge | keyvalue">
-            <span class="text_left"><button mat-mini-fab class="mr_1">
-                <mat-icon>auto_stories</mat-icon>
-              </button>{{data.key}}</span>
-            <hr />
-            <div class="prg_div">
-              <span class="prg_sp">
-                <mat-progress-bar class="prg_clr" color="primary" mode="determinate"
-                  value="{{data.value.access_percentage}}"></mat-progress-bar>
-              </span>
-              <span class="cnt_sp">{{data.value.access_percentage}}/100</span>
-            </div>
-          </li>
-        </ul>
-      </li>
-    </ul>
+   
 
     <!-- <ul class="crds_ul full_crd">
     <li>

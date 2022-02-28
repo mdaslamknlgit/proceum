@@ -101,6 +101,7 @@ import { TeacherSubjectsComponent } from './teacher/teacher-subjects/teacher-sub
 import { Levels_listComponent } from './teacher/teacher-subjects/levels_list/levels_list.component';
 import { ApproveLeadComponent } from './approve-lead/approve-lead.component';
 import { TeacherComponent } from './dashboard/teacher/teacher.component';
+import { NgChartjsModule } from 'ng-chartjs';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -215,6 +216,7 @@ const routes: Routes = [
       { path: 'questions-mgt/edit-question/:id', component: EditNewQuestionComponent },
 
       { path: 'manage-users', component: ManageUsersComponent },
+      { path: 'manage-users/:role_id', component: ManageUsersComponent },
       { path: 'create-user', component: CreateUserComponent },
       { path: 'edit-user/:id', component: CreateUserComponent },
 
@@ -360,7 +362,8 @@ const routes: Routes = [
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    SharedModule
+    SharedModule,
+    NgChartjsModule
   ],
   providers: [
     { provide: MAT_COLOR_FORMATS, useValue: NGX_MAT_COLOR_FORMATS },

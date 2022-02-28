@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -14,11 +14,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./manage-users.component.scss']
 })
 export class ManageUsersComponent implements OnInit {
-  displayedColumns: string[] = ['id','name','email','role_name','phone','created_at','actions','status',];//,'Organization'
+  displayedColumns: string[] = ['id','name','email','role_name','phone','Organization','created_at','actions','status',];//,'Organization'
 
-  displayedColumnsTwo: string[] = ['CB','id','name','email','phone','Unique ID','Blog Access','created_at',
+  displayedColumnsTwo: string[] = ['CB','id','name','email','phone','Unique ID','Organization','college','Year','Semester','Group','Blog Access','created_at',
     'actions','status',];//'Campus',//'role_name', //,'Organization','Year','Semester','Group'
-  displayedColumnsThree: string[] = ['id','name','email','phone','Unique ID','created_at',];//'actions',//,'Year','Semester','Group'
+  displayedColumnsThree: string[] = ['id','name','email','phone','Unique ID','Year','Semester','Group','created_at',];//'actions',//,'Year','Semester','Group'
 
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
@@ -91,6 +91,7 @@ export class ManageUsersComponent implements OnInit {
 
   public user_id = 0;
   public role_id = 0;
+  public param_role = 0;
   public college_institute_id = 0;
   public user = [];
   public org_type = '';
@@ -98,13 +99,17 @@ export class ManageUsersComponent implements OnInit {
   constructor(
     private http: CommonService,
     public toster: ToastrService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
     ) {
       this.api_url = environment.apiUrl;
       this.download_url = this.api_url + 'download-students-data';
     }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((param) => {
+      this.param_role = (param.role_id) ? param.role_id : 0;
+    });
     this.user = this.http.getUser();
     this.user_id = this.user['id'];
     this.role_id = this.user['role'];
@@ -115,6 +120,10 @@ export class ManageUsersComponent implements OnInit {
     }else{
       this.role = '2';
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
+        let k = this.displayedColumns.indexOf('Organization');
+        let oprk = k > -1 ? this.displayedColumns.splice(k, 1) : undefined;
+        let i = this.displayedColumnsTwo.indexOf('Organization');
+        let opr = i > -1 ? this.displayedColumnsTwo.splice(i, 1) : undefined;
         this.is_college = true;
         this.is_university = false;
         this.organization_type_name = 'College';
@@ -123,8 +132,12 @@ export class ManageUsersComponent implements OnInit {
         this.getOrganizationList(1,1);
       }
       if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){  /// College Admin Role ID
-        let i = this.displayedColumns.indexOf('Organization');
-        let opr = i > -1 ? this.displayedColumns.splice(i, 1) : undefined;
+        let k = this.displayedColumns.indexOf('Organization');
+        let oprk = k > -1 ? this.displayedColumns.splice(k, 1) : undefined;
+        let i = this.displayedColumnsTwo.indexOf('Organization');
+        let opr = i > -1 ? this.displayedColumnsTwo.splice(i, 1) : undefined;
+        let j = this.displayedColumnsTwo.indexOf('college');
+        let oprj = j > -1 ? this.displayedColumnsTwo.splice(j, 1) : undefined;
         this.is_college = false;
         this.is_university = false;
         this.organization_type_name = 'College';
@@ -133,8 +146,12 @@ export class ManageUsersComponent implements OnInit {
         this.getYearSemsterGroup('',0,'year','');
       }
       if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
-        let i = this.displayedColumns.indexOf('Organization');
-        let opr = i > -1 ? this.displayedColumns.splice(i, 1) : undefined;
+        let k = this.displayedColumns.indexOf('Organization');
+        let oprk = k > -1 ? this.displayedColumns.splice(k, 1) : undefined;
+        let i = this.displayedColumnsTwo.indexOf('Organization');
+        let opr = i > -1 ? this.displayedColumnsTwo.splice(i, 1) : undefined;
+        let j = this.displayedColumnsTwo.indexOf('college');
+        let oprj = j > -1 ? this.displayedColumnsTwo.splice(j, 1) : undefined;
         this.is_college = false;
         this.is_university = false;
         this.organization_type_name = 'Institute';
@@ -143,8 +160,12 @@ export class ManageUsersComponent implements OnInit {
         this.getYearSemsterGroup('',0,'year','');
       }
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
-        let i = this.displayedColumns.indexOf('Organization');
-        let opr = i > -1 ? this.displayedColumns.splice(i, 1) : undefined;
+        let k = this.displayedColumns.indexOf('Organization');
+        let oprk = k > -1 ? this.displayedColumns.splice(k, 1) : undefined;
+        let i = this.displayedColumnsTwo.indexOf('Organization');
+        let opr = i > -1 ? this.displayedColumnsTwo.splice(i, 1) : undefined;
+        let j = this.displayedColumnsTwo.indexOf('college');
+        let oprj = j > -1 ? this.displayedColumnsTwo.splice(j, 1) : undefined;
         this.is_college = false;
         this.is_university = false;
         this.organization_type_name = 'College';
@@ -212,6 +233,11 @@ export class ManageUsersComponent implements OnInit {
     this.http.post(param1).subscribe((res) => {
       if (res['error'] == false) {
         this.roles = res['data']['roles'];
+        this.roles.filter((x) => {
+          if(x.id == this.param_role){
+            this.role = String(this.param_role);
+          }
+        });
         if(this.roles != undefined){
           this.all_roles.next(this.roles.slice());
         }
@@ -225,21 +251,33 @@ export class ManageUsersComponent implements OnInit {
   public doFilter() {
     if(this.role != '2'){
       this.manage_students = '';
-      this.organization_type_id = '';
-      this.organization_type_name = '';
-      this.organization_list = [];
-      this.college_list = [];
-      this.organization_list_id = '';
+
       this.is_college = false;
-      if(this.role_id == environment.ALL_ROLES.SUPER_ADMIN){
-        this.is_university = true;
+      this.is_university = false;
+      if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
+        this.college_id = '';
+        this.organization_list_id = '';
+      }else if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){  /// College Admin Role ID
+
+      }else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
+
+      }else if(this.role_id == environment.ALL_ROLES.INSTITUTE_ADMIN){  /// Institute Admin Role ID
+
+      }else if(this.role_id == environment.ALL_ROLES.UNIVERSITY_COLLEGE_ADMIN){  /// University College Admin Role ID
+
+      }else if(this.role_id == environment.ALL_ROLES.TEACHER){  /// Teacher Role ID
+
       }else{
-        this.is_university = false;
+        this.organization_type_name = '';
+        this.organization_list = [];
+        this.college_list = [];
+        this.organization_type_id = '';
+        this.organization_list_id = '';
+        this.year_id = '';
+        this.semester_id = '';
+        this.group_id = '';
+        this.is_university = true;
       }
-      this.college_id = '';
-      this.year_id = '';
-      this.semester_id = '';
-      this.group_id = '';
     }
     this.page = 0;
     let param = {
@@ -856,10 +894,10 @@ export class ManageUsersComponent implements OnInit {
   public profile_pic = '';
   public last_login_time = '';
 
-  public openDetailsModel(param:any){
+  public openDetailsModel(data:any){
     this.mng_student_details_popup = true;
-    let user_id = param.id;
-    let role = param.role;
+    let user_id = data.id;
+    let role = data.role;
     let params = {
       url: 'get-student-profile',
       id: user_id,
@@ -886,6 +924,18 @@ export class ManageUsersComponent implements OnInit {
       this.getStates(res['data'].country_id);
       this.getCities(res['data'].state_id);
       this.profile_pic = res['data'].profile_pic ? res['data'].profile_pic : this.src;
+    });
+
+    let param = {
+      url: 'get-last-login-details',
+      id: user_id,
+      login_user_id: this.user_id
+    };
+    this.last_login_time = '';
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.last_login_time = res['data'].login_time;
+      }
     });
   }
 

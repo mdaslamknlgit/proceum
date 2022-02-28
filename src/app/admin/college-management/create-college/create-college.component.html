@@ -43,7 +43,7 @@
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone"
-                                    name="phone_edit" #phone_edit="ngModel" appNumbersonly minlength="9" maxlength="13"
+                                    name="phone_edit" #phone_edit="ngModel" appPhonenumber minlength="10" maxlength="15"
                                     required tabindex="5"/>
                             </mat-form-field>
                             <span class="prc_tltp"
@@ -140,7 +140,7 @@
                             <mat-form-field appearance="outline" class="w_100p">
                                 <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
                                     #email_edit="ngModel" autocomplete="off" required tabindex="2"
-                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" />
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [disabled]="pk_id"/>
                             </mat-form-field>
                             <span class="prc_tltp"
                                 *ngIf="(create_college.submitted || email_edit.touched) && email_edit.invalid">Email
@@ -169,9 +169,9 @@
                         <div class="crt_prt_hd">Secondary Contact Number</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone"
-                                    name="second_phone_edit" #second_phone_edit="ngModel" appNumbersonly minlength="9"
-                                    maxlength="13" tabindex="6"/>
+                                <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone" appPhonenumber
+                                    name="second_phone_edit" #second_phone_edit="ngModel" appPhonenumber minlength="10"
+                                    maxlength="15" tabindex="6"/>
                             </mat-form-field>
                             <span class="prc_tltp"
                                 *ngIf="(create_college.submitted || second_phone_edit.touched) && second_phone_edit.invalid">Contact

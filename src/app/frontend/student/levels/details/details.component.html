@@ -3,6 +3,7 @@
 <!-- act_qstnm || wrng_qstnm -->
 <!-- crses_rgt_colps || crs_dshbrd_colps -->
 <div class="">
+  <!-- dets_pginvrs -->
   <div class="vd_wthshr">
     <button mat-icon-button class="no_bxsdw swtc_lft">
       <img src="../../../assets/images/swipe_arrow.svg" />
@@ -276,10 +277,8 @@
         </span>
       </div>
     </div>
-
-
-    <div class="d-flex align-items-center rsp767_fw mb_1">
-      <div class="page-title-part rsp767_100">
+    <div class="d-flex align-items-center rsp767_fw mb_1 fw_w">
+      <div class="page-title-part rsp767_100 w_100p">
         <div class="hgt_20"></div>
         <div class="prv_cnt" *ngIf="is_preview">Preview Content</div>
         <div class="pg_ttl" *ngIf="content != undefined">
@@ -287,7 +286,7 @@
           <div class="spacer"></div>
         </div>
       </div>
-      <div *ngIf="content != undefined  && active_div != 11 && active_div != 12">
+      <div *ngIf="content != undefined  && active_div != 11 && active_div != 12" class="ml_at">
         <div class="d-flex content_buttons" *ngIf="is_loaded">
           <button *ngIf="content_list.length > 1" matTooltip="More Content"
             (click)="show_content_list = !show_content_list" mat-mini-fab color="accent"
@@ -297,7 +296,8 @@
           <span class="icon_circle" *ngIf="!buzz_words" (click)="showBuzzwords()" matTooltip="Show Buzzwords">
             <button mat-icon-button color="accent" class="buzz_btn">
               <mat-icon>highlight_alt</mat-icon>
-            </button></span>
+            </button>
+          </span>
           <span *ngIf="buzz_words" (click)="hideBuzzWords()" matTooltip="Hide Buzzwords">
             <button mat-icon-button color="accent" class="actv_txt_hglt">
               <mat-icon>highlight_alt</mat-icon>
@@ -305,12 +305,19 @@
           </span>
           <span (click)="setFontSize('+')" class="a_pls icon_circle fnt_sze">A<sup>+</sup></span>
           <span (click)="setFontSize('-')" class="a_mns icon_circle fnt_sze">A<sup>-</sup></span>
-
-          <button (click)="switchView()" *ngIf="videos.length>0" mat-icon-button mat-mini-fab color="accent"
-            class="mr_vrt_btn algn_s_fs no_bxsdw">
+          <button (click)="switchView()" *ngIf="videos.length>0 && view_type==1" mat-icon-button mat-mini-fab
+            color="accent" class="mr_vrt_btn algn_s_fs no_bxsdw">
             <mat-icon>switch_video</mat-icon>
           </button>
-          <a *ngIf="videos.length>0" class="mr_vrt_btn algn_s_fs no_bxsdw" [href]="student_structure_template | safe: 'resourceUrl'" mat-icon-button mat-mini-fab color="accent" target="_blank"><mat-icon>download</mat-icon></a>
+          <button (click)="switchView()" *ngIf="videos.length>0 && view_type==2" mat-icon-button mat-mini-fab
+            color="accent" class="mr_vrt_btn algn_s_fs no_bxsdw">
+            <mat-icon>videocam</mat-icon>
+          </button>
+          <a *ngIf="videos.length>0" class="mr_vrt_btn algn_s_fs no_bxsdw"
+            [href]="student_structure_template | safe: 'resourceUrl'" mat-icon-button mat-mini-fab color="accent"
+            target="_blank">
+            <mat-icon>download</mat-icon>
+          </a>
         </div>
       </div>
     </div>
@@ -1153,42 +1160,12 @@
       </div>
       <!-- Teacher material code ends here -->
       <div class="crses_rgt" *ngIf="videos.length>0 && active_div != 11 && active_div != 12">
-        <!--<div  class="intr_vd_tml bg_sprtr_accrd">
-          <mat-accordion>
-            <mat-expansion-panel (click)="display_videos='APPSQUADZ'" [expanded]="true">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  <mat-icon>videocam</mat-icon> Demo AppSqaudz ({{AppSquadzVideos.length}})
-                </mat-panel-title>
-                <mat-panel-description>
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <div>
-                <div style="float: right;margin: 5px;">
-                  
-                </div>
-                <div *ngFor="let appSquadz of AppSquadzVideos">
-                  <div class="wtcd_vds {{appSquadz['id'] == active_video_obj['id'] ? 'wv_actv' : ''}}"
-                    *ngIf="'APPSQUADZ' == display_videos">
-                    <div class="wv_img">
-
-                    </div>
-                    <div class="wv_ttl_dsc">
-                      <span class="wv_tt_hd"><a
-                          [href]="'proceuma:'+appSquadz['id'] | safe: 'resourceUrl'">{{appSquadz['title']}}</a></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </mat-expansion-panel>
-          </mat-accordion>
-        </div>-->
         <div class="intr_vd_hd">
           <div>
             <mat-icon>videocam</mat-icon>
             {{video_title}}
           </div>
-          
+
           <div class="spacer"></div>
         </div>
         <div class="intr_vd_sc">
@@ -1292,7 +1269,7 @@
                         <span class="wv_tt_hd" (click)="playVideo(video)">{{video['module_title']}}</span>
                       </div>
                     </div>
-                    <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                    <a class="d-flex ai_cntr" *ngIf="video['video_type'] == 'APP_SQUADZ'"
                       [href]="'proceuma:'+video['video_source']+':'+user['id'] | safe: 'resourceUrl'">
                       <div class="wv_img">
                         <img [src]="getAqThumbinail(video['video_source'])" />
@@ -1368,16 +1345,16 @@
                         <span class="wv_tt_hd" (click)="playVideo(video)">{{video['module_title']}}</span>
                       </div>
                     </div>
-                  
-                      <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
-                        [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
-                        <div class="wv_img">
-                          <img [src]="getAqThumbinail(video['video_source'])" />
-                        </div>
-                        <div class="wv_ttl_dsc">
-                          <span class="wv_tt_hd">{{video['module_title']}}</span>
-                        </div>
-                      </a>
+
+                    <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                      [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                      <div class="wv_img">
+                        <img [src]="getAqThumbinail(video['video_source'])" />
+                      </div>
+                      <div class="wv_ttl_dsc">
+                        <span class="wv_tt_hd">{{video['module_title']}}</span>
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -1407,16 +1384,16 @@
                         <span class="wv_tt_hd" (click)="playVideo(video)">{{video['module_title']}}</span>
                       </div>
                     </div>
-                   
-                      <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
-                        [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
-                        <div class="wv_img">
-                          <img [src]="getAqThumbinail(video['video_source'])" />
-                        </div>
-                        <div class="wv_ttl_dsc">
-                          <span class="wv_tt_hd">{{video['module_title']}}</span>
-                        </div>
-                      </a>
+
+                    <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                      [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                      <div class="wv_img">
+                        <img [src]="getAqThumbinail(video['video_source'])" />
+                      </div>
+                      <div class="wv_ttl_dsc">
+                        <span class="wv_tt_hd">{{video['module_title']}}</span>
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -1445,16 +1422,16 @@
                         <span class="wv_tt_hd" (click)="playVideo(video)">{{video['module_title']}}</span>
                       </div>
                     </div>
-                   
-                      <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
-                        [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
-                        <div class="wv_img">
-                          <img [src]="getAqThumbinail(video['video_source'])" />
-                        </div>
-                        <div class="wv_ttl_dsc">
-                          <span class="wv_tt_hd">{{video['module_title']}}</span>
-                        </div>
-                      </a>
+
+                    <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                      [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                      <div class="wv_img">
+                        <img [src]="getAqThumbinail(video['video_source'])" />
+                      </div>
+                      <div class="wv_ttl_dsc">
+                        <span class="wv_tt_hd">{{video['module_title']}}</span>
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -1483,16 +1460,16 @@
                         <span class="wv_tt_hd" (click)="playVideo(video)">{{video['module_title']}}</span>
                       </div>
                     </div>
-                   
-                      <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
-                        [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
-                        <div class="wv_img">
-                          <img [src]="getAqThumbinail(video['video_source'])" />
-                        </div>
-                        <div class="wv_ttl_dsc">
-                          <span class="wv_tt_hd">{{video['module_title']}}</span>
-                        </div>
-                      </a>
+
+                    <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                      [href]="'proceuma:'+video['video_source'] | safe: 'resourceUrl'">
+                      <div class="wv_img">
+                        <img [src]="getAqThumbinail(video['video_source'])" />
+                      </div>
+                      <div class="wv_ttl_dsc">
+                        <span class="wv_tt_hd">{{video['module_title']}}</span>
+                      </div>
+                    </a>
                   </div>
                 </div>
               </div>

@@ -10,7 +10,7 @@ export const environment = {
   },
   ckeditor_toolbar: ['Heading', 'CustomFileExporer', 'PageBreak', 'FontBackgroundColor', 'Alignment', 'FontColor', 'FontFamily', 'FontSize', 'bold', 'italic', 'underline', 'link', 'bulletedList', 'numberedList', '|', '|', 'blockQuote', 'insertTable', 'undo', 'redo', 'MathType', 'ChemType', 'MediaEmbed', 'HorizontalLine', 'Highlight', 'ImageResize', 'SpecialCharacters'],
   //'uploadImage', 'ImageInsert', 'AutoImage', 'TextTransformation', 'imageUpload', 'CKFinder', 'CKFinderUploadAdapter', 'Essentials', 'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'List', 'Paragraph', 'Table', 'TableToolbar', 'htmlSource'
-  video_types: [{ name: "KPoint", value: 'KPOINT',img:'../../../assets/images/kpoint_k.png' }, { name: "Youtube", value: 'YOUTUBE',img:'../../../assets/images/youtube.png' }, { name: "AppSquadz", value: "APP_SQUADZ",img:'../../../assets/images/app-squadz.png'}, { name: "VdoCipher", value: "VDO_CIPHER",img:'../../../assets/images/video-cipher.png'}],
+  video_types: [{ name: "kPoint", value: 'KPOINT',img:'../../../assets/images/kpoint_k.png' }, { name: "YouTube", value: 'YOUTUBE',img:'../../../assets/images/youtube.png' }, { name: "AppSquadz", value: "APP_SQUADZ",img:'../../../assets/images/app-squadz.png'}, { name: "VdoCipher", value: "VDO_CIPHER",img:'../../../assets/images/video-cipher.png'}],
   ORGANIZATION_TYPES: [
     { value: '1', viewValue: 'University' },
     {value: '2', viewValue: 'College'},
@@ -59,7 +59,7 @@ export const environment = {
   CONTENT_USER_ROLES:[3,4,5,6,7],
   DISABLED_USER_ROLES_FOR_PROCEUM: [2],
   DISABLED_USER_ROLES_FOR_ORGANIZATION: [1,3,4,5,6,7],
-  
+
   //apiUrl: 'https://apidev.proceum.com/api/',
   //apiUrl: 'https://apiqa.proceum.com/api/',
   apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
@@ -74,9 +74,12 @@ export const environment = {
     messagingSenderId: "1050534849110",
     appId: "1:1050534849110:web:942b6b83ec40e05c9669f7"
   },
-  /* 
-* Below array used to check domian or subdomian from in app users or partners 
+  /*
+* Below array used to check domian or subdomian from in app users or partners
 */
   INAPP_DOMAINS_ARRAY: ["localhost", "dev", "uat", "master"],
   PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',
+
+  /* Change based on dev or uat (hhtp or https) */
+  SSL_ORIGIN: 'https',
 }

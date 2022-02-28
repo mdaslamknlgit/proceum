@@ -22,21 +22,28 @@
         find the below nearest matching records.</div>
       <div class="gs_rslts" *ngIf="search_result.length>0">
         <div class="gs_rslts_aa">
-          <!-- <div class="gs_rs_hd">Competencies</div> -->
+          <div class="gs_rs_hd">Competencies</div>
           <div class="spacer"></div>
           <div class="grn_clr">{{result_count}} Results Found</div>
         </div>
-         <div *ngFor="let curriculum of search_result | keyvalue">
+        <div *ngFor="let curriculum of search_result | keyvalue">
           <div class="gs_rslts" *ngFor="let data_n of curriculum.value | keyvalue">
             <!-- <div class="gs_rs_hd">{{data_n.key.toString().split("-")[1]}}</div> -->
-            <div class="gs_rs_cnt" *ngFor="let data_content of data_n.value | keyvalue">
-              <span (click)="navigateTo(data_content.value.curriculumn_id+'/'+data_content.value.level_id+'/'+data_content.value.pk_id)">{{data_content.value.level_code}} {{data_content.value.level_description}}</span>
-                <span class="lk_bdg">{{data_content.value.curriculumn_name}}</span>
+            <div class="gs_rs_cnt" *ngFor="let data_content of data_n.value | keyvalue | paginate: {
+                                                      itemsPerPage: limit_cnt,
+                                                      currentPage: p,
+                                                      totalItems: result_count }">
+              <span
+                (click)="navigateTo(data_content.value.curriculumn_id+'/'+data_content.value.level_id+'/'+data_content.value.pk_id)">{{data_content.value.level_code}}
+                {{data_content.value.level_description}}</span>
+              <span class="lk_bdg">{{data_content.value.curriculumn_name}}</span>
             </div>
           </div>
-          <div class="hgt_5"></div>
         </div>
-
+        <div class="hgt_5"></div>
+        <div class="ml_at">
+          <pagination-controls (pageChange)="pageChanged(cp = $event)"></pagination-controls>
+        </div>
       </div>
       <div class="hgt_5"></div>
     </div>
@@ -55,19 +62,28 @@
         </div>
         <div *ngIf="curriculum.key=='competencies'">
           <div class="gs_rslts" *ngIf="curriculum.value.length>0">
-            <div class="gs_rs_hd">Competencies</div>            
+            <div class="gs_rs_hd">Competencies</div>
           </div>
           <div *ngFor="let competencies of curriculum.value | keyvalue">
             <div *ngFor="let data_comp of competencies.value | keyvalue">
-              <div class="gs_rslts" *ngFor="let competencies_n of data_comp.value | keyvalue">
+              <div class="gs_rslts" *ngFor="let competencies_n of data_comp.value | keyvalue | paginate: {
+                                                      itemsPerPage: limit_cnt,
+                                                      currentPage: p,
+                                                      totalItems: result_count }">
                 <div class="gs_rs_cnt">
-                  <span (click)="navigateTo(competencies_n.value.curriculumn_id+'/'+competencies_n.value.level_id+'/'+competencies_n.value.pk_id)">{{competencies_n.value.level_code}} {{competencies_n.value.level_description}}</span>
+                  <span
+                    (click)="navigateTo(competencies_n.value.curriculumn_id+'/'+competencies_n.value.level_id+'/'+competencies_n.value.pk_id)">{{competencies_n.value.level_code}}
+                    {{competencies_n.value.level_description}}</span>
                   <span class="lk_bdg">{{competencies_n.value.curriculumn_name}}</span>
                 </div>
-              </div>              
+              </div>
             </div>
           </div>
           <div class="hgt_5"></div>
+          <div class="ml_at">
+            <pagination-controls (pageChange)="pageChanged(cp = $event)"></pagination-controls>
+          </div>
+
         </div>
       </div>
     </div>

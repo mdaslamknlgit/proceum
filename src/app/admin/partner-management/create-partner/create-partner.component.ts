@@ -70,6 +70,12 @@ export class CreatePartnerComponent implements OnInit {
   public edit_email = true;
   public sub_domain_err = '';
   public timer: any;
+  public show_package_details = false;
+  public packageAddonArr = [];
+  public packageInfoObj = {};
+  public packageAvgRating = null;
+  public packagePricesArr = [];
+  public coursesArr = [];
 
   countrys = [];
   states = [];
@@ -371,11 +377,11 @@ export class CreatePartnerComponent implements OnInit {
     if ((this.password !== this.confirm_password) && this.confirm_password.length < 1  && this.partner_id < 0) {
       return;
     }
-    if (!Number(this.phone) || (this.phone.length < 9 || this.phone.length > 13)) {
+    if (!Number(this.phone) || (this.phone.length < 10 || this.phone.length > 15)) {
       return;
     }
     if (this.partner_type == '1') { // partner_type == '2' is University
-      if (!Number(this.second_phone) || (this.second_phone.length < 9 || this.second_phone.length > 13)) {
+      if (!Number(this.second_phone) || (this.second_phone.length < 10 || this.second_phone.length > 15)) {
         return;
       }
     }
@@ -655,6 +661,23 @@ export class CreatePartnerComponent implements OnInit {
       }, 700);
 
     }
+  }
+
+  public showPackageDetails(package_id:any){
+    let data = { url: 'show-package-details/' + package_id };
+    this.http.post(data).subscribe((res) => {
+      if (res['error'] == false) {
+        this.packageAddonArr = res['data']['addons_arr'];
+        this.packageInfoObj = res['data']['package_data'];
+        this.packageAvgRating = res['data']['package_avg_rating'];
+        this.packagePricesArr = res['data']['package_prices_data'];
+        this.coursesArr = res['data']['selected_topics'];
+        this.show_package_details = true;
+      }else{
+        this.toster.error(res['message'], 'Error', { closeButton: true });
+      }
+    });
+
   }
 
 
