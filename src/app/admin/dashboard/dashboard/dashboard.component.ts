@@ -164,9 +164,7 @@ export class DashboardComponent implements OnInit {
           }
           i++;
         });
-        console.log(this.video_types);
-        this.dataSource = new MatTableDataSource(this.video_types);        
-        console.log(this.dataSource);
+        this.dataSource = new MatTableDataSource(this.video_types);
         this.videos = data['video']['app_squadz']+data['video']['kpoint']+data['video']['vdo_cipher']+data['video']['youtube'];
 
         this.published = data['notes']['published'];
@@ -174,10 +172,8 @@ export class DashboardComponent implements OnInit {
         this.approved = data['notes']['approved'];
         this.draft = data['notes']['draft'];
         this.notes = this.published+this.approval_pending+this.approved+this.draft;
-        console.log(data['revenue']);
         this.revenue = res['data']['revenue'];
         this.dataSourceRevenue = new MatTableDataSource(this.revenue);
-        console.log(this.dataSourceRevenue);
 
         this.getVideoStatistics();
         this.getRevenueStatistics();
