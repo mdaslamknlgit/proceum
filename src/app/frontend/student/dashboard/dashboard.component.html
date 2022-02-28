@@ -311,7 +311,7 @@
       </li>
     </ul>
 
-     <ul class="crds_ul rcnt_vw">
+     <ul class="crds_ul rcnt_vw" *ngIf="this.subjectknowledge">
       <li>
         <span class="text_left">Subject Knowledge</span>
         <hr />
@@ -331,10 +331,9 @@
             </div>
           </li> -->
 
-          <div class="intr_vd_tml _admn_ds_accrd_mn w_100p" *ngIf="this.subjectknowledge">
-            <div class="dsbrd_admnaccrdn" >
+          <div class="intr_vd_tml _admn_ds_accrd_mn w_100p">
+            <div class="dsbrd_admnaccrdn w_100p" >
               <div class="_admn_dv_mn sknow_aa">
-
                 <div class="_dv_cnt _clr_one" *ngFor="let d_sk of this.subjectknowledge |keyvalue">
                   <div *ngFor="let data of d_sk.value |keyvalue">
                     <div *ngFor="let percent of data.value |keyvalue">
@@ -351,20 +350,17 @@
                       </div>
                     </div>
                   </div>
-                </div>             
-                
+                </div>                
               </div>
             </div>
           </div>
         </div>
-
         <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 100%;">
           <canvas ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="chartColors"
             [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
             [inlinePlugins]="inlinePlugin">
           </canvas>
         </div>
-
       </li>
     </ul>
 
