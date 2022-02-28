@@ -15,8 +15,8 @@ export class GlobalSearchComponent implements OnInit {
   public result_count = 0;
   public timer;
   public offset = 0;
-  public limit = 50;
-  public limit_cnt = 50;
+  public limit = 15;
+  public limit_cnt = 15;
   public synchronous = false;
   public p: number;
   constructor(private http: CommonService,private router: Router,private authHttp: AuthService,) { }
@@ -34,7 +34,7 @@ export class GlobalSearchComponent implements OnInit {
     if (this.key)
     {
       this.offset = 0;
-      this.limit = 50;
+      this.limit = 15;
       this.globalsearch(this.offset,this.limit);
     }
   }
