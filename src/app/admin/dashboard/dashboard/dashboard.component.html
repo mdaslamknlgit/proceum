@@ -282,7 +282,11 @@
             </div>
           </div>
         </mat-expansion-panel>
+      </mat-accordion>
 
+      <div class="clear_fix"></div>
+
+      <mat-accordion multi="true" class="_admn_tbl_accrd">
         <mat-expansion-panel [expanded]="true" hideToggle>
           <mat-expansion-panel-header style="pointer-events: none;">
             <mat-panel-title>
@@ -292,41 +296,39 @@
           </mat-expansion-panel-header>
           <div class="dsbrd_admnaccrdn">
             <div class="_admn_dv_mn _vds_mn">
-              <div class="_dv_cnt _vds_cnt">
+              <div class="_dv_cnt _tbs_cnt">
                 <table mat-table [dataSource]="dataSource">
                   <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef class="w_50px"> Videos List </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
+                    <th mat-header-cell *matHeaderCellDef [colSpan]="4"> Videos List </th>
+                    <td mat-cell *matCellDef="let element" class="w_50px" > {{ element.sno }} </td>
                   </ng-container>
                   <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef>  </th>
-                    <td mat-cell *matCellDef="let element"> <img src="{{ element.img }}" class="source-img"> </td>
+                    <th mat-header-cell *matHeaderCellDef class="d_none">  </th>
+                    <td mat-cell *matCellDef="let element" class="w_50px"> <img src="{{ element.img }}" class="source-img"> </td>
                   </ng-container>
                   <ng-container matColumnDef="weight">
-                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <th mat-header-cell *matHeaderCellDef class="d_none">  </th>
                     <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
                   </ng-container>
                   <ng-container matColumnDef="symbol">
-                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <th mat-header-cell *matHeaderCellDef class="d_none">  </th>
                     <td mat-cell *matCellDef="let element" class="text_right"> {{ element.count }} </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
               </div>
-              <div class="_dv_cnt _vds_cnt">
+              <!-- <div class="_dv_cnt _tbs_cnt">
                 <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 100%;">
                   <canvas ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="chartColors"
                     [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
                     [inlinePlugins]="inlinePlugin">
                   </canvas>
                 </div>
-                <!-- <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;"> -->
-              </div>
+              </div> -->
             </div>
           </div>
-        </mat-expansion-panel>
-
+        </mat-expansion-panel> 
         <mat-expansion-panel [expanded]="true" hideToggle>
           <mat-expansion-panel-header style="pointer-events: none;">
             <mat-panel-title>
@@ -336,33 +338,32 @@
           </mat-expansion-panel-header>
           <div class="dsbrd_admnaccrdn">
             <div class="_admn_dv_mn _vds_mn">
-              <!-- <div class="_dv_cnt _vds_cnt">
-                <table mat-table [dataSourceRevenue]="dataSourceRevenue">
+              <div class="_dv_cnt _tbs_cnt">
+                <table mat-table [dataSource]="dataSourceRevenue">
                   <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> Revenue List </th>
-                    <td mat-cell *matCellDef="let element1"> {{ element1.s_no }} </td>
+                    <th mat-header-cell *matHeaderCellDef [colSpan]="3"> Revenue List </th>
+                    <td mat-cell *matCellDef="let element1" class="w_50px"> {{ element1.s_no }} </td>
                   </ng-container>
                   <ng-container matColumnDef="weight">
-                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <th mat-header-cell *matHeaderCellDef class="d_none">  </th>
                     <td mat-cell *matCellDef="let element1"> {{ element1.name }} </td>
                   </ng-container>
                   <ng-container matColumnDef="symbol">
-                    <th mat-header-cell *matHeaderCellDef>  </th>
-                    <td mat-cell *matCellDef="let element1"> {{ element1.amount }} </td>
+                    <th mat-header-cell *matHeaderCellDef class="d_none">  </th>
+                    <td mat-cell *matCellDef="let element1" class="text_right"> {{ element1.amount }} </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="displayedColumnsRevenue"></tr>
                   <tr mat-row *matRowDef="let row; columns: displayedColumnsRevenue;"></tr>
                 </table>
-              </div> -->
-              <div class="_dv_cnt _vds_cnt">
+              </div>
+              <!-- <div class="_dv_cnt _tbs_cnt">
                 <div *ngIf="lineChartOptions1 != undefined" style="position: relative; width: 100%;">
                   <canvas ngChartjs [datasets]="lineChartData1" [labels]="lineChartLabels1" [colors]="chartColors"
                     [options]="lineChartOptions1" [legend]="lineChartLegend" [chartType]="lineChartType"
                     [inlinePlugins]="inlinePlugin">
                   </canvas>
                 </div>
-                <!-- <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;"> -->
-              </div>
+              </div> -->
             </div>
           </div>
         </mat-expansion-panel>
