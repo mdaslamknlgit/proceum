@@ -49,9 +49,19 @@ export class LoginComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
-        let data = atob(param.data);
-        this.params = data.split("/");console.log(this.params, data);
-        this.forceLogin();
+        if(param.data){
+            try {
+                let data = atob(param.data);
+                this.params = data.split("/");console.log(this.params, data);
+                this.forceLogin();
+            } catch(e) {
+                // something failed
+            
+                // if you want to be specific and only catch the error which means
+                // the base 64 was invalid, then check for 'e.code === 5'.
+                // (because 'DOMException.INVALID_CHARACTER_ERR === 5')
+            }
+        }
     })
     this.socialAuthService.authState.subscribe((user) => {
       if (user && this.is_login == false) {
@@ -139,6 +149,9 @@ export class LoginComponent implements OnInit {
         this.password_hide = !this.password_hide;
     }
     forceLogin(){
+        if(this.params.length == 0){
+            return false;
+        }
         let params = {url: 'force-login', partner_id: this.params[0], role: this.params[1]};
         this.http.login(params).subscribe((res: Response) => {
             if (res.error == false) {
