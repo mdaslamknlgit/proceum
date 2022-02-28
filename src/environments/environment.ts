@@ -71,8 +71,8 @@ export const environment = {
   // apiUrl: 'https://uat.proceum.com/web-api/public/api/',
   //  apiUrl: 'https://apiqa.proceum.com/api/',
 
-  APP_BASE_URL: 'http://localhost:4200/',
-    // APP_BASE_URL: 'http://192.10.250.150:4200/',
+  //APP_BASE_URL: 'http://localhost:4200/',
+     APP_BASE_URL: 'http://192.10.250.150:4200/',
 
 firebaseConfig: {
     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
