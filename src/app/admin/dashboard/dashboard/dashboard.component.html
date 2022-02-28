@@ -20,6 +20,7 @@
       </div>
     </div>
     <ul class="crds_ul anl_crd" *ngIf="counts_loaded">
+      <!--  -->
       <li>
         <div class="crd_dv">
           <div class="anl_crd_aa">
@@ -71,11 +72,12 @@
             <mat-icon>cast_for_education</mat-icon>
           </div>
           <div>
-            Total Classes /<br> Webinars Conducted
+            Total Classes / Webinars Conducted
             <span>{{ class_count }}</span>
           </div>
         </div>
       </li>
+
       <li>
         <div class="crd_dv">
           <div class="anl_crd_aa">
@@ -85,6 +87,17 @@
             Total QBanks
             <span>{{ qbank_count }}</span>
           </div>
+        </div>
+      </li>
+      <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>edit_note</mat-icon>
+          </div>
+          <div>
+          Total Notes
+          <span>{{ notes_count }}</span>
+        </div>
         </div>
       </li>
     </ul>
@@ -110,15 +123,11 @@
     </ul>
     <div class="hgt_10"></div>
     <div class="intr_vd_tml _admn_ds_accrd_mn " *ngIf="role == 1">
-
-
-
       <mat-accordion multi="true">
-
         <mat-expansion-panel [expanded]="true" hideToggle>
-          <mat-expansion-panel-header style="pointer-events: none;">
+          <mat-expansion-panel-header>
             <mat-panel-title>
-              Partners
+              Partners ({{ partner }})
             </mat-panel-title>
             <mat-panel-description></mat-panel-description>
           </mat-expansion-panel-header>
@@ -134,21 +143,21 @@
                   Active : {{ partner_active }}, Inactive : {{ partner_inactive }}
                 </span>
               </div>
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _clr_tw">
                 <div class="_db_icn">
                   <mat-icon>account_balance</mat-icon>
                 </div>
                 <span class="_cnt_one">{{ university }}</span>
                 <span class="_cnt_two">Universities</span>
               </div>
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _clr_tre">
                 <div class="_db_icn">
                   <mat-icon>location_city</mat-icon>
                 </div>
                 <span class="_cnt_one">{{ college }}</span>
                 <span class="_cnt_two">Colleges</span>
               </div>
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _clr_fr">
                 <div class="_db_icn">
                   <mat-icon>maps_home_work</mat-icon>
                 </div>
@@ -158,47 +167,41 @@
             </div>
           </div>
         </mat-expansion-panel>
-
         <mat-expansion-panel [expanded]="true" hideToggle>
-          <mat-expansion-panel-header style="pointer-events: none;">
+          <mat-expansion-panel-header>
             <mat-panel-title>
-              Notes
+              Notes ({{ notes }})
             </mat-panel-title>
             <mat-panel-description></mat-panel-description>
           </mat-expansion-panel-header>
           <div class="dsbrd_admnaccrdn">
             <div class="_admn_dv_mn">
-              <div class="_dv_cnt _clr_one">
-                <!-- _nts_cnt -->
+              <div class="_dv_cnt _nts_cnt _clr_tnn">
                 <div class="_db_icn">
                   <mat-icon>newspaper</mat-icon>
                 </div>
-                <span class="_cnt_one">{{ courses }}</span>
+                <span class="_cnt_one">{{ published }}</span>
                 <span class="_cnt_two">Published</span>
               </div>
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _nts_cnt _clr_elv">
                 <div class="_db_icn">
                   <mat-icon>hourglass_top</mat-icon>
                 </div>
-                <span class="_cnt_one">{{ packages }}</span>
-                <span class="_cnt_two">Pending</span>
-                <span class="_cnt_tre">
-                  (Awaiting approval)
-                </span>
+                <span class="_cnt_one">{{ approval_pending }}</span>
+                <span class="_cnt_two">Pending(Awaiting Approval)</span>
               </div>
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _nts_cnt _clr_twlv">
                 <div class="_db_icn">
                   <mat-icon>verified</mat-icon>
                 </div>
-                <span class="_cnt_one">{{ qbank }}</span>
-                <span class="_cnt_two">Approved</span>
-                <span class="_cnt_tre">(Not yet published)</span>
+                <span class="_cnt_one">{{ approved }}</span>
+                <span class="_cnt_two">Approved (But not yet published)</span>
               </div>
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _nts_cnt _clr_thrtn">
                 <div class="_db_icn">
                   <mat-icon>edit_note</mat-icon>
                 </div>
-                <span class="_cnt_one">{{ qbank }}</span>
+                <span class="_cnt_one">{{ draft }}</span>
                 <span class="_cnt_two">Drafts</span>
               </div>
             </div>
@@ -206,9 +209,8 @@
             </div>
           </div>
         </mat-expansion-panel>
-
         <mat-expansion-panel [expanded]="true" hideToggle>
-          <mat-expansion-panel-header style="pointer-events: none;">
+          <mat-expansion-panel-header>
             <mat-panel-title>
               Curriculums ({{ curriculums }})
             </mat-panel-title>
@@ -216,21 +218,21 @@
           </mat-expansion-panel-header>
           <div class="dsbrd_admnaccrdn">
             <div class="_admn_dv_mn">
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _crrc_cnt _clr_fv">
                 <div class="_db_icn">
                   <mat-icon>auto_stories</mat-icon>
                 </div>
                 <span class="_cnt_one">{{ courses }}</span>
                 <span class="_cnt_two">Courses</span>
               </div>
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _crrc_cnt _clr_sx">
                 <div class="_db_icn">
                   <mat-icon>folder_special</mat-icon>
                 </div>
                 <span class="_cnt_one">{{ packages }}</span>
                 <span class="_cnt_two">Packages</span>
               </div>
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _crrc_cnt _clr_svn">
                 <div class="_db_icn">
                   <mat-icon>quiz</mat-icon>
                 </div>
@@ -242,9 +244,8 @@
             </div>
           </div>
         </mat-expansion-panel>
-
-        <mat-expansion-panel [expanded]="true" hideToggle>
-          <mat-expansion-panel-header style="pointer-events: none;">
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
             <mat-panel-title>
               Users ({{ users }})
             </mat-panel-title>
@@ -252,7 +253,7 @@
           </mat-expansion-panel-header>
           <div class="dsbrd_admnaccrdn">
             <div class="_admn_dv_mn">
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _usrs_cnt _clr_egt">
                 <div class="_db_icn">
                   <mat-icon>school</mat-icon>
                 </div>
@@ -262,7 +263,7 @@
                   Active : {{ students_active }}, Inactive : {{ students_inactive }}
                 </span>
               </div>
-              <div class="_dv_cnt _clr_one">
+              <div class="_dv_cnt _usrs_cnt _clr_nne">
                 <div class="_db_icn">
                   <mat-icon>badge</mat-icon>
                 </div>
@@ -278,8 +279,8 @@
           </div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="true" hideToggle>
-          <mat-expansion-panel-header style="pointer-events: none;">
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
             <mat-panel-title>
               Videos ({{ videos }})
             </mat-panel-title>
@@ -310,14 +311,20 @@
                 </table>
               </div>
               <div class="_dv_cnt _vds_cnt">
-                <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;">
+                <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 100%;">
+                  <canvas ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="chartColors"
+                    [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
+                    [inlinePlugins]="inlinePlugin">
+                  </canvas>
+                </div>
+                <!-- <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;"> -->
               </div>
             </div>
           </div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="true" hideToggle>
-          <mat-expansion-panel-header style="pointer-events: none;">
+        <mat-expansion-panel [expanded]="true">
+          <mat-expansion-panel-header>
             <mat-panel-title>
               Revenue (USD)
             </mat-panel-title>
@@ -325,35 +332,38 @@
           </mat-expansion-panel-header>
           <div class="dsbrd_admnaccrdn">
             <div class="_admn_dv_mn _vds_mn">
-              <div class="_dv_cnt _vds_cnt">
-                <table mat-table [dataSource]="dataSource">
+              <!-- <div class="_dv_cnt _vds_cnt">
+                <table mat-table [dataSourceRevenue]="dataSourceRevenue">
                   <ng-container matColumnDef="position">
-                    <th mat-header-cell *matHeaderCellDef> S No. </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.sno }} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="name">
-                    <th mat-header-cell *matHeaderCellDef> Icon </th>
-                    <td mat-cell *matCellDef="let element"> <img src="{{ element.img }}" class="source-img"> </td>
+                    <th mat-header-cell *matHeaderCellDef> Revenue List </th>
+                    <td mat-cell *matCellDef="let element1"> {{ element1.s_no }} </td>
                   </ng-container>
                   <ng-container matColumnDef="weight">
-                    <th mat-header-cell *matHeaderCellDef> Name </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <td mat-cell *matCellDef="let element1"> {{ element1.name }} </td>
                   </ng-container>
                   <ng-container matColumnDef="symbol">
-                    <th mat-header-cell *matHeaderCellDef> Count </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.count }} </td>
+                    <th mat-header-cell *matHeaderCellDef>  </th>
+                    <td mat-cell *matCellDef="let element1"> {{ element1.amount }} </td>
                   </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsRevenue"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsRevenue;"></tr>
                 </table>
-              </div>
+              </div> -->
               <div class="_dv_cnt _vds_cnt">
-                <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;">
+                <div *ngIf="lineChartOptions1 != undefined" style="position: relative; width: 100%;">
+                  <canvas ngChartjs [datasets]="lineChartData1" [labels]="lineChartLabels1" [colors]="chartColors"
+                    [options]="lineChartOptions1" [legend]="lineChartLegend" [chartType]="lineChartType"
+                    [inlinePlugins]="inlinePlugin">
+                  </canvas>
+                </div>
+                <!-- <img src="../../../../assets/images/pieChart.png" style="height: 150px; object-fit: contain;"> -->
               </div>
             </div>
           </div>
         </mat-expansion-panel>
       </mat-accordion>
+       
     </div>
   </div>
 </div>

@@ -84,10 +84,10 @@ export class DashboardComponent implements OnInit {
       this.getPackagesAboutToExpire();
       this.getDashboardCount();
       this.getRandomQuestions();
+      this.getSubjectKnowledge();
       this.getFreeContent();
       this.getBookmarksFavorite();
       this.getWishList();
-      this.getSubjectKnowledge();
     }
   }
   //Get wishlist items

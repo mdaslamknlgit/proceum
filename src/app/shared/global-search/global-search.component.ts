@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, HostListener } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, HostListener} from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
@@ -18,24 +18,30 @@ export class GlobalSearchComponent implements OnInit {
   public limit = 50;
   public limit_cnt = 50;
   public synchronous = false;
+  public p: number;
   constructor(private http: CommonService,private router: Router,private authHttp: AuthService,) { }
-
+  @HostListener('window:beforeunload', ['$event'])
+  unloadHandler(event: Event) {alert()
+      // Your logic on beforeunload
+  }
   ngOnInit(): void {
     if (this.key)
     {
-      this.globalsearch();
+      this.globalsearch(this.offset,this.limit);
     }
   }
   ngOnChanges():void{
     if (this.key)
     {
-      this.globalsearch();
+      this.offset = 0;
+      this.limit = 50;
+      this.globalsearch(this.offset,this.limit);
     }
   }
-  globalsearch(){
+  globalsearch(off,lim){
     clearTimeout(this.timer);
     this.timer = setTimeout(() => {
-      let param = { url: 'search?key='+this.key,offset: this.offset,limit: this.limit};
+      let param = { url: 'search?key='+this.key,offset: off,limit: lim};
       let user = this.http.getUser();
         if(user){
           this.http.post(param).subscribe((res) => {
@@ -43,12 +49,12 @@ export class GlobalSearchComponent implements OnInit {
             this.search_result =  res['data'];
             this.result_cond = false;
           }else{
-            this.search_result = res['data']; //[];
+            this.search_result = res['data'];
             this.result_cond = true;
           }
           // let keys = Object.keys(res['data']);
           this.result_count = res['total_count'];
-          this.limit = this.limit + 50;
+          // this.limit = this.limit + 50;
           this.synchronous = true;
         });
       }else{
@@ -58,19 +64,25 @@ export class GlobalSearchComponent implements OnInit {
             this.result_cond = false;
             // this.search_result.sort();
           }else{
-            this.search_result = res['data']; //[];
+            this.search_result = res['data'];
             this.result_cond = true;
           }
           // let keys = Object.keys(res['data']);
           this.result_count = res['total_count'];
-          this.limit = this.limit + 50;
+          // this.limit = this.limit + 50;
           this.synchronous = true;
         });
-      }      
+      }
     },1000);
   }
   navigateTo(url){
     this.router.navigateByUrl("index/curriculum/"+url);
+  }
+  pageChanged(event){
+    this.offset = (event -1) * this.limit_cnt;
+    this.limit = event * this.limit_cnt;
+    this.p = event;
+    this.globalsearch(this.offset,this.limit);
   }
   // @HostListener('window:scroll', [])
   // onScroll(): void {
