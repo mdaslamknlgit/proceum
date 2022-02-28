@@ -288,11 +288,6 @@
       </div>
       <div *ngIf="content != undefined  && active_div != 11 && active_div != 12" class="ml_at">
         <div class="d-flex content_buttons" *ngIf="is_loaded">
-          <span *ngIf="true"  matTooltip="Hide Buzzwords">
-            <button mat-icon-button color="accent" class="actv_txt_hglt">
-              <mat-icon>brightness_4</mat-icon>
-            </button>
-          </span>
           <button *ngIf="content_list.length > 1" matTooltip="More Content"
             (click)="show_content_list = !show_content_list" mat-mini-fab color="accent"
             class="mr_vrt_btn algn_s_fs no_bxsdw">
@@ -1274,7 +1269,7 @@
                         <span class="wv_tt_hd" (click)="playVideo(video)">{{video['module_title']}}</span>
                       </div>
                     </div>
-                    <a *ngIf="video['video_type'] == 'APP_SQUADZ'"
+                    <a class="d-flex ai_cntr" *ngIf="video['video_type'] == 'APP_SQUADZ'"
                       [href]="'proceuma:'+video['video_source']+':'+user['id'] | safe: 'resourceUrl'">
                       <div class="wv_img">
                         <img [src]="getAqThumbinail(video['video_source'])" />
