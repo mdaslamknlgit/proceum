@@ -62,10 +62,7 @@
           </div>
           <div *ngFor="let competencies of curriculum.value | keyvalue">
             <div *ngFor="let data_comp of competencies.value | keyvalue">
-              <div class="gs_rslts" *ngFor="let competencies_n of data_comp.value | keyvalue | paginate: {
-                                                      itemsPerPage: limit_cnt,
-                                                      currentPage: p,
-                                                      totalItems: result_count }">
+              <div class="gs_rslts" *ngFor="let competencies_n of data_comp.value | keyvalue | paginate: { itemsPerPage: limit_cnt, currentPage: p, totalItems: result_count }">
                 <div class="gs_rs_cnt">
                   <span (click)="navigateTo(competencies_n.value.curriculumn_id+'/'+competencies_n.value.level_id+'/'+competencies_n.value.pk_id)">{{competencies_n.value.level_code}} {{competencies_n.value.level_description}}</span>
                   <span class="lk_bdg">{{competencies_n.value.curriculumn_name}}</span>
