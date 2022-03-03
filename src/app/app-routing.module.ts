@@ -54,6 +54,10 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'login/:data',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
   { path: 'white-board', component: DrawingBoardComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   {

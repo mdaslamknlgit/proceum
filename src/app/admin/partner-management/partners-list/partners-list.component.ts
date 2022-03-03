@@ -188,13 +188,24 @@ export class PartnersListComponent implements OnInit {
     this.doFilter();
   }
 
-  openInNewTab(replacer){
+  openInNewTab(replacer, id, type){
     console.log(replacer);
     let replaceValue = window.location.host.split('.')[0];
     let url = window.location.origin.replace(replaceValue,replacer);
     url = url.replace('https',environment.SSL_ORIGIN);
-    if(replaceValue != 'localhost:4200'){
-      window.open(url+'/login','_blank');
+    if(replaceValue != 'localhost:4200' || true){
+        let user_role =0;
+        if(type == 1){
+            user_role = environment.ALL_ROLES.UNIVERSITY_ADMIN;
+        }
+        if(type == 2){
+            user_role = environment.ALL_ROLES.COLLEGE_ADMIN;
+        }
+        if(type == 3){
+            user_role = environment.ALL_ROLES.INSTITUTE_ADMIN;
+        }
+        let url_params = btoa(id+'/'+user_role);
+      window.open(url+'/login/'+url_params,'_blank');
       return false;
     }
     /*

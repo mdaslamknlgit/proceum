@@ -1,5 +1,5 @@
-<app-topbar (finishedLoading)="isLoadedTopBar = $event"></app-topbar>
-<div class="mn_dshbrd mlr_auto">
+<app-topbar (finishedLoading)="isLoadedTopBar = $event" *ngIf="this.params.length == 0"></app-topbar>
+<div class="mn_dshbrd mlr_auto" *ngIf="this.params.length == 0">
   <div *ngIf="isLoadedTopBar && !app.localStorageItem('header_logo')" class="login_main inner-container">
     <p class="sgn_hd">Welcome</p>
     <div class="log_mdl_cont">
@@ -175,4 +175,4 @@
     </div>
   </div>
 </div>
-<app-footer *ngIf="isLoadedTopBar"></app-footer>
+<app-footer *ngIf="isLoadedTopBar && this.params.length == 0"></app-footer>

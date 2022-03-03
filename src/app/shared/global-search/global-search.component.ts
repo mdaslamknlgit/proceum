@@ -15,9 +15,8 @@ export class GlobalSearchComponent implements OnInit {
   public result_count = 0;
   public timer;
   public offset = 0;
-  public limit = 50;
-  public limit_cnt = 50;
-  public synchronous = false;
+  public limit = 15;
+  public limit_cnt = 15;
   public p: number;
   constructor(private http: CommonService,private router: Router,private authHttp: AuthService,) { }
   @HostListener('window:beforeunload', ['$event'])
@@ -34,7 +33,7 @@ export class GlobalSearchComponent implements OnInit {
     if (this.key)
     {
       this.offset = 0;
-      this.limit = 50;
+      this.limit = 15;
       this.globalsearch(this.offset,this.limit);
     }
   }
@@ -52,25 +51,18 @@ export class GlobalSearchComponent implements OnInit {
             this.search_result = res['data'];
             this.result_cond = true;
           }
-          // let keys = Object.keys(res['data']);
           this.result_count = res['total_count'];
-          // this.limit = this.limit + 50;
-          this.synchronous = true;
         });
       }else{
         this.authHttp.post(param).subscribe((res) => {
           if(res['error'] == false) {
             this.search_result =  res['data'];
             this.result_cond = false;
-            // this.search_result.sort();
           }else{
             this.search_result = res['data'];
             this.result_cond = true;
           }
-          // let keys = Object.keys(res['data']);
           this.result_count = res['total_count'];
-          // this.limit = this.limit + 50;
-          this.synchronous = true;
         });
       }
     },1000);
@@ -84,14 +76,4 @@ export class GlobalSearchComponent implements OnInit {
     this.p = event;
     this.globalsearch(this.offset,this.limit);
   }
-  // @HostListener('window:scroll', [])
-  // onScroll(): void {
-  //   if (this.bottomReached() && (this.limit < this.result_count) && this.synchronous) {
-  //     this.synchronous = false;
-  //     this.globalsearch();
-  //   }
-  // }
-  // bottomReached(): boolean {
-  //   return window.innerHeight + window.scrollY >= document.body.offsetHeight;
-  // }
 }

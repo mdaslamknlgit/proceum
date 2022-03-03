@@ -8,6 +8,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
 import { GlobalSearchComponent } from './global-search/global-search.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import {HighlightSearch} from './pipes/highlight-pipe';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(http);
@@ -20,7 +21,7 @@ const shared_modules = [MaterialModule, TranslateModule.forRoot({
     }
 })];
 @NgModule({
-  declarations: [SafePipe, CalculatorComponent, GlobalSearchComponent],
+  declarations: [SafePipe, CalculatorComponent, GlobalSearchComponent,HighlightSearch],
   imports: [CommonModule,shared_modules,NgxPaginationModule],
   exports:[SafePipe,MaterialModule, CalculatorComponent, TranslateModule, GlobalSearchComponent]
 })
