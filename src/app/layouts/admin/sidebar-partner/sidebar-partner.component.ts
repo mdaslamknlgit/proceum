@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-sidebar-partner',
   templateUrl: './sidebar-partner.component.html',
@@ -11,7 +13,9 @@ export class SidebarPartnerComponent implements OnInit {
   public is_open: boolean = false;
   public active_route = '';
   public user = [];
-  constructor(private http: CommonService, private router: Router) { }
+  constructor(private http: CommonService, private router: Router, public translate: TranslateService) {
+    this.translate.setDefaultLang(this.http.lang);
+  }
   ngOnInit(): void {
     this.user = this.http.getUser();    
     this.active_route = this.router.url;

@@ -1,21 +1,19 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+  selector: 'app-finance-user-sidebar',
+  templateUrl: './finance-user-sidebar.component.html',
+  styleUrls: ['./finance-user-sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class FinanceUserSidebarComponent implements OnInit {
   public menu_active = 0;
   public is_open: boolean = false;
   public active_route = '';
   public user = [];
-  constructor(private http: CommonService, private router: Router, public translate: TranslateService) {
-    this.translate.setDefaultLang(this.http.lang);
-  }
+  constructor(private http: CommonService, private router: Router) {}
   ngOnInit(): void {
     this.active_route = this.router.url;
     this.router.events.subscribe((ev) => {
@@ -66,4 +64,5 @@ export class SidebarComponent implements OnInit {
     else this.menu_active = 0;
   }
 }
+
 
