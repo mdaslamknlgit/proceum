@@ -85,6 +85,12 @@ const routes: Routes = [
     },
   },
   {
+    path: 'finance-user',
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule), canActivate: [AuthGuard], data: {
+      role: '13',
+    },
+  },
+  {
     path: 'student',
     loadChildren: () =>
       import('./frontend/frontend.module').then((m) => m.FrontendModule),
