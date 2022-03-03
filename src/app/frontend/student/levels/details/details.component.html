@@ -149,7 +149,7 @@
     <div class="cust_mdl_chl">
       <div class="pg_ttl dsh_brd_crds">
         <div>
-          {{pdf_file_path.substring(
+          {{teacher_material_title !='' ? teacher_material_title : pdf_file_path.substring(
           pdf_file_path.lastIndexOf("/") + 1
           )}}
         </div>
@@ -184,6 +184,30 @@
           <button mat-raised-button class="float_right mr_1 gry_btn" (click)="pdf_popup=false">
             Close
           </button> -->
+        <div class="hgt_20"></div>
+      </div>
+    </div>
+  </div>
+  <div class="cust_mdl_par pdf_vwr {{ doc_popup ? 'cust_mdl_opn' : '' }}">
+    <div class="cust_mdl_chl">
+      <div class="pg_ttl dsh_brd_crds">
+        <span>
+          {{teacher_material_title}}
+        </span>
+        <span class="spacer"></span>
+        <div>      
+          <button (click)="doc_popup=false" mat-icon-button class="float_right">
+            &#x2715;
+          </button>
+        </div>
+      </div>
+      <div *ngIf="doc_popup" class="tbbd_bdy">      
+        <ngx-doc-viewer 
+          url="{{doc_file_path}}" 
+          viewer="{{doc_viewer}}" 
+          disableContent="popout"
+          style="width:100%;height:93vh;">
+        </ngx-doc-viewer>
         <div class="hgt_20"></div>
       </div>
     </div>
@@ -1166,6 +1190,8 @@
                         <div class="c_block_content">
                           <ul>
                             <li *ngFor="let file of material['attachments']; let i = index">
+                              <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'pdf' && material['reading_visibility'] == 1"
+                                (click)="openPdf(bucket_url + file['file_path'],material['title'])">
                               <img src="{{file['path']}}" alt="" />
                               <span class="upldd_hd">
                                 {{
@@ -1174,9 +1200,56 @@
                                 )
                                 }}
                               </span>
+                              </a>
+                              <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'ppt' && material['reading_visibility'] == 1"
+                                (click)="openDoc(bucket_url + file['file_path'],'office',material['title'])">
+                              <img src="{{file['path']}}" alt="" />
+                              <span class="upldd_hd">
+                                {{
+                                file["file_path"].substring(
+                                file["file_path"].lastIndexOf("/") + 1
+                                )
+                                }}
+                              </span>
+                              </a>
+                              <span *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'odt' || material['reading_visibility'] != 1">
+                              <img src="{{file['path']}}" alt="" />
+                              <span class="upldd_hd">
+                                {{
+                                file["file_path"].substring(
+                                file["file_path"].lastIndexOf("/") + 1
+                                )
+                                }}
+                              </span>
+                              </span>
+                              <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() != 'ppt' 
+                              && file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() != 'pdf'
+                              && file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() != 'odt' 
+                              && material['reading_visibility'] == 1"
+                                (click)="openDoc(bucket_url + file['file_path'],'google',material['title'])">
+                              <img src="{{file['path']}}" alt="" />
+                              <span class="upldd_hd">
+                                {{
+                                file["file_path"].substring(
+                                file["file_path"].lastIndexOf("/") + 1
+                                )
+                                }}
+                              </span>
+                              </a>
                               <span class="spacer"></span>
                               <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'pdf' && material['reading_visibility'] == 1"
-                                (click)="openPdf(bucket_url + file['file_path'])">
+                                (click)="openPdf(bucket_url + file['file_path'],material['title'])">
+                                <mat-icon matTooltip="View" matTooltipPosition="above">visibility</mat-icon>
+                              </a>
+                              <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() == 'ppt' && material['reading_visibility'] == 1"
+                                (click)="openDoc(bucket_url + file['file_path'],'office',material['title'])">
+                                <mat-icon matTooltip="View" matTooltipPosition="above">visibility</mat-icon>
+                              </a>
+                              <a *ngIf="file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() != 'ppt' 
+                              && file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() != 'pdf'
+                              && file['file_path'].substring(file['file_path'].lastIndexOf('/') + 1).split('.').pop() != 'odt' 
+                              && material['reading_visibility'] == 1"
+                                (click)="openDoc(bucket_url + file['file_path'],'google',material['title'])">
                                 <mat-icon matTooltip="View" matTooltipPosition="above">visibility</mat-icon>
                               </a>&nbsp;&nbsp;
                               <a *ngIf="material['download_flag'] == 1" [href]="bucket_url + file['file_path']"

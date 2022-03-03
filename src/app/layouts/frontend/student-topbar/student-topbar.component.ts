@@ -21,6 +21,8 @@ export class StudentTopbarComponent implements OnInit {
   subscription: Subscription;
   user_id = '';
   load_top_bar = false;
+  public class_notifications = [];
+  public assessment_notifications = [];
   @Output() finishedLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private http: CommonService,
@@ -36,6 +38,15 @@ export class StudentTopbarComponent implements OnInit {
   ngAfterViewInit() {
     this.search_key = this.http.search_string;
   }
+  getNotifications(){
+    let data = { url: 'student/get-notifications' };
+    this.http.post(data).subscribe((res) => {
+        if (res['error'] == false) {
+            this.class_notifications = res['data']['class_notifications'];
+            this.assessment_notifications = res['data']['assessment_notifications'];
+        }
+    })
+  }
   ngOnInit(): void {
     //check subdomain
     let sub_domain = window.location.hostname.split('.')[0];
@@ -49,6 +60,12 @@ export class StudentTopbarComponent implements OnInit {
     }
     this.user = this.http.getUser();
     if (this.user) {
+        if(parseInt(this.user['role']) == environment.ALL_ROLES.STUDENT){
+            this.getNotifications();
+            setInterval(res=>{
+                this.getNotifications();
+            },30000);
+        }
       this.user_id = this.user['id'];
       this.getCartCount();
     }
