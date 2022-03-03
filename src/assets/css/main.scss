@@ -514,6 +514,10 @@ li {
   -moz-box-shadow: 0px 1px 3px 0px #0000001a;
   -webkit-box-shadow: 0px 1px 3px 0px #0000001a;
   -khtml-box-shadow: 0px 1px 3px 0px #0000001a;
+  .hb_mn_pr mat-icon {
+    font-size: 22px !important;
+    top: 2px !important;
+  }
 }
 .popup_mid_div{
   max-height: 50vh;
@@ -1217,6 +1221,9 @@ span.download_icons mat-icon {
   top: -5px;
 }
 .mat-table {
+  th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+    padding-left: 24px;
+  }
   tr.mat-header-row{
     height: 40px;
   }
@@ -1329,7 +1336,6 @@ span.download_icons mat-icon {
 .mr_0 {
   margin-right: 0 !important;
 }
-
 .bg_trans{
   background-color: transparent;
 }
@@ -2558,7 +2564,8 @@ mat-dialog-container .pg_ttl {
   min-height: calc(100vh - 111px);
 }
 .dynamic_menu_cls {
-  max-width: 100% !important;
+  max-width: 300px !important;
+  word-wrap: break-word;
 }
 .mlti_fls {
   display: flex;
@@ -2978,7 +2985,7 @@ div.cust_mdl_par div.mn_dshbrd {
             }
             .flpcrd_frnt{
               font-size: 0;
-              display: none;
+              display: none !important;
               img{
                 display: none;
               }
@@ -3016,6 +3023,9 @@ div.cust_mdl_par div.mn_dshbrd {
             }
             .flpcrd_frnt{
               font-size: inherit;
+              min-height: 500px;
+              display: flex;
+              align-items: center;
               img{
                 display: block;
               }
@@ -8131,6 +8141,58 @@ hr.line-sep{
     .mat-expansion-panel-header-title{
       color: #448c40;
       font-size: 18px;
+    }
+  }
+}
+.hb_mn_pr{
+  position: relative;
+  mat-icon{
+    font-size: 22px;
+    top: 2px;
+  }
+  .hb_mnumn{
+    position: absolute;
+    top: 50px;
+    right: -20px;
+    background-color: #fff;
+    min-width: 350px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 2px 12px #00000010;
+    border-radius: 15px 0 0 15px;
+    overflow: hidden;
+    z-index: 9;
+    padding: 50px 30px;
+    ul{
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex: auto;
+        flex-direction: column;
+        li{
+          list-style: none;
+          padding: 15px 15px;
+          transition: all 0.3s ease-in-out;
+          border-bottom: 1px solid #e3e3e3;
+          &:hover{
+              background-color:#f5f7f9;
+          }
+        }
+    }
+    &.actv_hb{
+        animation-name: hb_ani;
+        animation-duration: 0.3s;
+        animation-timing-function: ease-in-out;
+        transform-origin: top right;
+        @keyframes hb_ani {
+            0%{
+                opacity: 0;
+                // transform: scale(0);
+            }
+            100%{
+                opacity: 1;
+                // transform: scale(1);
+            }                
+        }
     }
   }
 }

@@ -14,7 +14,9 @@ import { TranslateService } from '@ngx-translate/core';
 export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: string = "sd_cls";
   // public sidemenu_status: string = localStorage.getItem('sidemenu');
+
   public glbSrch = true;
+  public hbMnu = false;
   public user;
   public search_key;
   private subscription: Subscription;
