@@ -102,6 +102,9 @@ import { Levels_listComponent } from './teacher/teacher-subjects/levels_list/lev
 import { ApproveLeadComponent } from './approve-lead/approve-lead.component';
 import { TeacherComponent } from './dashboard/teacher/teacher.component';
 import { NgChartjsModule } from 'ng-chartjs';
+import { OrdersComponent } from './orders/orders.component';
+import { RevenueComponent } from './revenue/revenue.component';
+import { OrderDetailsComponent } from './orders/order-details/order-details.component';
 
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
@@ -270,6 +273,11 @@ const routes: Routes = [
       { path: 'create-university-or-college', component: CreateUniversitiesCollegesComponent },
       { path: 'edit-university-or-college/:id', component: CreateUniversitiesCollegesComponent },
       { path: 'my-account', component: MyAccountComponent },
+      //Orders
+      { path: 'orders', component: OrdersComponent },
+      { path: 'revenue', component: RevenueComponent },
+      { path: 'order-details/:id', component: OrderDetailsComponent },
+
     ],
   },
 ];
@@ -346,7 +354,10 @@ const routes: Routes = [
     TeacherSubjectsComponent,
     Levels_listComponent,
     ApproveLeadComponent,
-    TeacherComponent
+    TeacherComponent,
+    OrdersComponent,
+    RevenueComponent,
+    OrderDetailsComponent
   ],
   imports: [
     MaterialModule,

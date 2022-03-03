@@ -52,7 +52,10 @@ export class OrderListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res['data']);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.totalSize = res['total_records'];
       } else {
+        this.totalSize = 0;
+        this.dataSource = new MatTableDataSource([]);
         //this.toster.error(res['message'], 'Error');
       }
     });
@@ -63,7 +66,9 @@ export class OrderListComponent implements OnInit {
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.dataSource = new MatTableDataSource(res['data']);
+        this.totalSize = res['total_records'];
       } else {
+        this.totalSize = 0;
         this.dataSource = new MatTableDataSource([]);
         //this.toster.error(res['message'], 'Error');
       }
@@ -87,6 +92,7 @@ export class OrderListComponent implements OnInit {
         this.totalSize = res['total_records'];
       } else {
         //this.toster.info(res['message'], 'Error');
+        this.totalSize = 0;
         this.dataSource = new MatTableDataSource([]);
       }
     });

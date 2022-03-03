@@ -17,6 +17,7 @@ import { StudentTopbarComponent } from './frontend/student-topbar/student-topbar
 import { SidebarPartnerComponent } from './admin/sidebar-partner/sidebar-partner.component';
 import { PartnerTopbarComponent } from './frontend/partner-topbar/partner-topbar.component';
 import { SidebarTeacherComponent } from './admin/sidebar-teacher/sidebar-teacher.component';
+import { FinanceUserSidebarComponent } from './admin/finance-user-sidebar/finance-user-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { SidebarTeacherComponent } from './admin/sidebar-teacher/sidebar-teacher
     SidebarPartnerComponent,
     PartnerTopbarComponent,
     SidebarTeacherComponent,
+    FinanceUserSidebarComponent,
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { SidebarTeacherComponent } from './admin/sidebar-teacher/sidebar-teacher
     StudentTopbarComponent,
     SidebarPartnerComponent,
     SidebarTeacherComponent,
-    PartnerTopbarComponent
+    PartnerTopbarComponent,
+    FinanceUserSidebarComponent,
   ],
 })
 export class LayoutsModule {}
