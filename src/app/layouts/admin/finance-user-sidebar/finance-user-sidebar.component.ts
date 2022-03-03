@@ -1,23 +1,26 @@
+
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router, NavigationEnd } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-sidebar-reviewer',
-  templateUrl: './sidebar-reviewer.component.html',
-  styleUrls: ['./sidebar-reviewer.component.scss'],
+  selector: 'app-finance-user-sidebar',
+  templateUrl: './finance-user-sidebar.component.html',
+  styleUrls: ['./finance-user-sidebar.component.scss']
 })
-export class SidebarReviewerComponent implements OnInit {
+export class FinanceUserSidebarComponent implements OnInit {
   public menu_active = 0;
   public is_open: boolean = false;
   public active_route = '';
-  constructor(private http: CommonService, private router: Router, public translate: TranslateService) {
-    this.translate.setDefaultLang(this.http.lang);
-  }
+  public user = [];
+  constructor(private http: CommonService, private router: Router) {}
   ngOnInit(): void {
     this.active_route = this.router.url;
     this.router.events.subscribe((ev) => {
+        this.user = this.http.getUser();
+        if(this.user.length == 0 && this.router.url != '/login'){
+            this.logout();
+        }
       if (ev instanceof NavigationEnd) {
         this.active_route = this.router.url;
       }
@@ -26,7 +29,25 @@ export class SidebarReviewerComponent implements OnInit {
   closeSidebar(){
     this.http.menu_status = 'sd_cls';
   }
-  
+  logout() {
+          let local_storage = localStorage.getItem('user');
+      if(local_storage){
+        let login_id = JSON.parse(atob(local_storage)).login_id;
+        let params = { url: 'logout', login_id: login_id };
+        this.http.post(params).subscribe((res) => {
+        this.http.removeSession();
+        setTimeout(res=>{
+            //window.location.href='/login';
+        }, 1000)
+        });
+      }
+      else{
+        this.http.removeSession();
+        setTimeout(res=>{
+            //window.location.href='/login';
+        }, 1000)
+      }
+  }
   scrollHandler(event) {
     const container = document.querySelector('.sd_br');
     sessionStorage.setItem('sidemenu_scroll', '' + container.scrollTop);
@@ -41,11 +62,7 @@ export class SidebarReviewerComponent implements OnInit {
   activeMenu(num, menu_active) {
     if (num != menu_active) this.menu_active = num;
     else this.menu_active = 0;
-    // if (!this.is_open && this.menu_active != num) this.menu_active = num;
-    // else {
-    //   this.menu_active = 0;
-    //   this.active_route = '';
-    // }
   }
 }
+
 
