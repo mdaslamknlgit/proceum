@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CommonService } from '../../../services/common.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-sidebar-reviewer',
   templateUrl: './sidebar-reviewer.component.html',
@@ -10,7 +12,9 @@ export class SidebarReviewerComponent implements OnInit {
   public menu_active = 0;
   public is_open: boolean = false;
   public active_route = '';
-  constructor(private http: CommonService, private router: Router) {}
+  constructor(private http: CommonService, private router: Router, public translate: TranslateService) {
+    this.translate.setDefaultLang(this.http.lang);
+  }
   ngOnInit(): void {
     this.active_route = this.router.url;
     this.router.events.subscribe((ev) => {

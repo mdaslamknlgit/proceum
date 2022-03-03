@@ -24,8 +24,9 @@ import Heading from '@ckeditor/ckeditor5-heading/src/heading';
 import HorizontalLine from '@ckeditor/ckeditor5-horizontal-line/src/horizontalline';
 import Image from '@ckeditor/ckeditor5-image/src/image';
 import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption';
-import ImageInsert from '@ckeditor/ckeditor5-image/src/imageinsert.js';
-import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize.js';
+import ImageInsert from '@ckeditor/ckeditor5-image/src/imageinsert';
+import AutoImage from '@ckeditor/ckeditor5-image/src/autoimage';
+import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize';
 import ImageStyle from '@ckeditor/ckeditor5-image/src/imagestyle';
 import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar';
 import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload';
@@ -37,21 +38,52 @@ import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
 import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefromoffice';
 import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
+import TableProperties from '@ckeditor/ckeditor5-table/src/tableproperties';
+import TableCellProperties from '@ckeditor/ckeditor5-table/src/tablecellproperties';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
 import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices';
 import Highlight from '@ckeditor/ckeditor5-highlight/src/highlight';
 import PageBreak from '@ckeditor/ckeditor5-page-break/src/pagebreak';
 import Font from '@ckeditor/ckeditor5-font/src/font';
 import MathType from '@wiris/mathtype-ckeditor5';
+//import WProofreader from '@webspellchecker/wproofreader-ckeditor5/src/wproofreader';
 // Core plugin that provides the API for the management of special characters and their categories.
 import SpecialCharacters from '@ckeditor/ckeditor5-special-characters/src/specialcharacters';
 // A plugin that combines a basic set of special characters.
 import SpecialCharactersEssentials from '@ckeditor/ckeditor5-special-characters/src/specialcharactersessentials';
+import Plugin from '@ckeditor/ckeditor5-core/src/plugin';
+import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview';
 
+import imageIcon from '@ckeditor/ckeditor5-core/theme/icons/image.svg';
+
+class CustomFileExporer extends Plugin {
+    init() {
+        const editor = this.editor;
+
+        editor.ui.componentFactory.add('CustomFileExporer', locale => {
+            const view = new ButtonView(locale);
+
+            view.set({
+                label: 'Choose a file',
+                icon: imageIcon,
+                tooltip: true
+            });
+
+            // Callback executed once the icon is clicked
+            view.on('execute', () => {
+                // fire a JS event
+                window.dispatchEvent(new Event('open_library'));
+            });
+
+            return view;
+        });
+    }
+}
 export default class ClassicEditor extends ClassicEditorBase { }
 
 // Plugins to include in the build.
 ClassicEditor.builtinPlugins = [
+    CustomFileExporer,
     Alignment,
     Essentials,
     UploadAdapter,
@@ -72,6 +104,8 @@ ClassicEditor.builtinPlugins = [
     Highlight,
     HorizontalLine,
     Image,
+    ImageInsert,
+    AutoImage,
     ImageCaption,
     ImageResize,
     ImageStyle,
@@ -89,7 +123,10 @@ ClassicEditor.builtinPlugins = [
     SpecialCharactersEssentials,
     Table,
     TableToolbar,
-    TextTransformation
+    TableProperties,
+    TableCellProperties,
+    TextTransformation,
+    //WProofreader
 ];
 
 // Editor configuration.
@@ -117,6 +154,7 @@ ClassicEditor.defaultConfig = {
     },
     image: {
         toolbar: [
+            'imageStyle:inline',
             'imageStyle:full',
             'imageStyle:side',
             '|',
@@ -127,7 +165,9 @@ ClassicEditor.defaultConfig = {
         contentToolbar: [
             'tableColumn',
             'tableRow',
-            'mergeTableCells'
+            'mergeTableCells',
+            'TableProperties',
+            'TableCellProperties'
         ]
     },
     // This value must be kept in sync with the language defined in webpack.config.js.

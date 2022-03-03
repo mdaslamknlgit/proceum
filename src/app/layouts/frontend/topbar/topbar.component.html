@@ -7,7 +7,6 @@
   </span>
   <span class="spacer"></span>
   <div class="nav" [ngClass]="{ menu_open: isOpen }">
-
     <app-white-board *ngIf="user['role'] == '1' || user['role'] == '12'"></app-white-board>
     <span mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }">
@@ -16,7 +15,35 @@
     <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">
       <mat-icon matTooltip="Dashboard" color="accent">grid_view</mat-icon>
     </span>
-    <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span>
+    <!-- notification -->
+    <span class="tp_rt_mn ps_rel notification_span_icon fr_bdg mr_0">
+      <div (click)="show_notifications = !show_notifications">
+        <mat-icon class="tp_rt_mn lft_0" matBadge="1" matBadgeColor="warn">
+          notification_important</mat-icon>
+      </div>
+      <div class="noti_dv" *ngIf="show_notifications">
+        <!-- {{show_notifications == false?'d-none':''}} -->
+        <div class="noti_hd d-flex">
+          <span class=" ">Notifications</span>
+          <span class="spacer"></span>
+          <span (click)="show_notifications = !show_notifications">
+            <mat-icon>close</mat-icon>
+          </span>
+        </div>
+        <div class="noti_cnt">
+          <ul>
+            <li>
+              <span>This is notification</span>
+            </li>            
+          </ul>
+        </div>
+      </div>
+    </span>
+    <!-- notification -->
+
+
+
+    <!-- <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span> -->
     <span mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active">Pricing &amp;
       Packages</span>
     <!-- <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
@@ -24,9 +51,9 @@
     <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
       >Register Trail</span
     > -->
-    <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span>
+    <!-- <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span> -->
 
-    <span mat-list-item class="tp_rt_mn"><a [href]="domain_name+'/blog'" target="_blank"> Blog</a></span>
+    <!-- <span mat-list-item class="tp_rt_mn"><a [href]="domain_name+'/blog'" target="_blank"> Blog</a></span> -->
 
     <!-- <span *ngFor="let menu of menus" class="tp_rt_mn">
       <span *ngIf="menu.subMenus != undefined && menu.subMenus.length>0" mat-list-item [matMenuTriggerFor]="appMenu"
@@ -45,7 +72,7 @@
         </button>
       </mat-menu>
     </span> -->
-    <span class="tp_rt_mn ">
+    <span class="tp_rt_mn">
       <span mat-list-item [matMenuTriggerFor]="appMenu" [class]="activeClass" class="d-flex" routerLinkActive="active">
         Curriculums
         <mat-icon matSuffix>arrow_drop_down</mat-icon>
@@ -62,14 +89,15 @@
         <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
           <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''"
             placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
-          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch" class="gs_clsbtn"> {{glbSrch == false ? 'close' : ''}}
+          <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch" class="gs_clsbtn"> {{glbSrch == false ?
+            'close' : ''}}
           </mat-icon>
         </mat-form-field>
       </div>
       <div class="{{glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
     </div>
   </div>
-  <div class="lg_inbtn mr_1">
+  <div class="lg_inbtn mr_05">
     <span *ngIf="!user['name']" routerLink="/login">
       <mat-icon color="accent" matTooltip="Login">login</mat-icon>
     </span>
@@ -78,9 +106,22 @@
     <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn" matTooltip="My Cart">shopping_cart
     </mat-icon>
   </div>
-  <div class="lg_inbtn mr_0">
+  <div class="lg_inbtn mr_1">
     <span *ngIf="user['name']" (click)="logout()">
       <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
     </span>
-  </div> 
+  </div>
+  <div class="lg_inbtn mr_0 hb_mn_pr">
+    <span>
+      <mat-icon color="accent" (click)="hbMnu = !hbMnu">menu</mat-icon>
+    </span>
+    <div *ngIf="hbMnu" class="hb_mnumn {{hbMnu ? 'actv_hb':''}}">
+      <ul>
+        <li routerLink="/about-us">About Us</li>
+        <li routerLink="/contact-us">Contact Us</li>
+        <li routerLink="/blog">Blog</li>
+      </ul>
+    </div>
+  </div>
+
 </mat-toolbar>

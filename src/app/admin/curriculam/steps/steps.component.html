@@ -19,7 +19,7 @@
               <span>
                 <span class="err_tltp_par">
                   <mat-form-field appearance="outline">
-                    <input matInput [(ngModel)]="step_name" #step_name_name="ngModel" maxlength="255"
+                    <input matInput [(ngModel)]="step_name" (blur)="step_name=step_name.trim()" #step_name_name="ngModel" maxlength="255"
                       name="step_name_name" placeholder="Provide {{ step }} Name" required />
                   </mat-form-field>
                   <span class="prc_tltp" *ngIf="
@@ -196,7 +196,7 @@
             <span>
               <span class="err_tltp_par">
                 <mat-form-field appearance="outline">
-                  <input matInput maxlength="255" [(ngModel)]="step_name" #step_name_name="ngModel"
+                  <input matInput maxlength="255" (blur)="step_name=step_name.trim()" [(ngModel)]="step_name" #step_name_name="ngModel"
                     name="step_name_name" placeholder="Provide Curiculum Name" required />
                 </mat-form-field>
                 <span class="prc_tltp" *ngIf="
