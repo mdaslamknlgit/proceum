@@ -378,7 +378,7 @@
   <div class="brd_crm">Proceum &raquo; <strong>Dashboard</strong></div>
   <div class="pg_ttl">Dashboard</div>
   <div class="dsh_brd_crds">
-    <div>
+    <div class="fu_dsbrd">
       <!-- 'Today','This Week','This Month','Past 3 Months','Past 6 Months','Past 9 Months','Past 1 Year' -->
       <table class="mat-table" border="0" cellpadding="0" cellspacing="0">
         <thead>
@@ -395,7 +395,7 @@
         </thead>
         <tbody>
           <tr class="mat-header-row">
-            <td class="mat-cell">Orders</td>
+            <td class="mat-cell fu_aa">Orders</td>
             <td class="mat-cell">{{ financeUser.today.count }}</td>
             <td class="mat-cell">{{ financeUser.this_week.count }}</td>
             <td class="mat-cell">{{ financeUser.past_one_month.count }}</td>
@@ -405,7 +405,7 @@
             <td class="mat-cell">{{ financeUser.past_twelve_month.count }}</td>
           </tr>
           <tr class="mat-header-row">
-            <td class="mat-cell">Revenue (USD)</td>
+            <td class="mat-cell fu_aa">Revenue (USD)</td>
             <td class="mat-cell">{{ financeUser.today.sum }}</td>
             <td class="mat-cell">{{ financeUser.this_week.sum }}</td>
             <td class="mat-cell">{{ financeUser.past_one_month.sum }}</td>
@@ -423,15 +423,15 @@
     <div *ngIf="financeUser">
       <mat-tab-group>
         <mat-tab label="Orders">
-          <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 100%;">
+          <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 60%;margin: 20px auto;">
             <canvas ngChartjs [datasets]="orderChartData" [labels]="lineChartLabels" [colors]="chartColors"
-              [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
+              [options]="orderChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
               [inlinePlugins]="inlinePlugin">
             </canvas>
           </div>
         </mat-tab>
         <mat-tab label="Revenue">
-          <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 100%;">
+          <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 60%;margin: 20px auto;">
             <canvas ngChartjs [datasets]="revenueChartData" [labels]="lineChartLabels" [colors]="chartColors"
               [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
               [inlinePlugins]="inlinePlugin">
