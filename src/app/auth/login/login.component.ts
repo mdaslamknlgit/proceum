@@ -211,6 +211,11 @@ export class LoginComponent implements OnInit {
                     let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/reviewer/dashboard';
                     localStorage.removeItem('_redirect_url');
                     this.route.navigate([redirect_url]);
+                } else if (res['data']['user']['role'] == 13) {
+                    //Finance User
+                    let redirect_url = '/finance-user/dashboard';
+                    localStorage.removeItem('_redirect_url');
+                    this.route.navigate([redirect_url]);
                 } else if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(res['data']['user']['role']))) {
                     let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/admin/dashboard';
                     this.route.navigate([redirect_url]);
