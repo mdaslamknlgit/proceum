@@ -177,9 +177,10 @@ export class CreateUserComponent implements OnInit {
     }
 
     let adminSpecificRole = this.roles.filter((e) => selectedRole == e.id && e.is_admin_specific_role);
-    if(adminSpecificRole){
+    if(adminSpecificRole.length){
       this.show_organization_type = false;
       this.organization = '';
+      alert();
     } 
   }
 
