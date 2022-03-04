@@ -180,7 +180,6 @@ export class CreateUserComponent implements OnInit {
     if(adminSpecificRole.length){
       this.show_organization_type = false;
       this.organization = '';
-      alert();
     } 
   }
 
