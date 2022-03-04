@@ -109,6 +109,10 @@ import { environment } from 'src/environments/environment';
     };
         public pdf_file_path = '';
         public pdf_popup: boolean = false;
+        public doc_file_path = '';
+        public doc_viewer = 'google';
+        public doc_popup: boolean = false;
+        public teacher_material_title = '';
         public pdf_zoom = 1;
         public pdf_rotation = 0;
         public pdf_page = 0;
@@ -637,10 +641,17 @@ import { environment } from 'src/environments/environment';
         this.flash_index = index;
         this.flash_card_popup = true;
     }
-    openPdf(path){
+    openPdf(path,title=''){
     console.log(path)
     this.pdf_popup = true;
-    this.pdf_file_path = path
+    this.pdf_file_path = path;
+    this.teacher_material_title = title;
+    }
+    openDoc(path,viewer,title){
+        this.doc_popup = true;
+        this.doc_file_path = path;
+        this.doc_viewer = viewer;
+        this.teacher_material_title = title;
     }
     manageStatistics(type) {
         let param = {

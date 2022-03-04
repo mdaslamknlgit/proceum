@@ -58,13 +58,17 @@
     </div>
     <div class="{{ glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
   </div>
-  <div class="dsh_brd_crds lang_drpdwn" *ngIf="" >
+  <div class="dsh_brd_crds lang_drpdwn" >
     <mat-form-field appearance="outline">
-      <mat-select value="0">
+      <mat-select value="" [(ngModel)]="language" name="language_name" (ngModelChange)="getLanguage();">
+        <mat-option value="en">English</mat-option>
+        <!-- <mat-option value="fr">French</mat-option> -->
+      </mat-select>
+      <!-- <mat-select value="0">
         <mat-option value="0"> English</mat-option>
         <mat-option value="1"> English 1</mat-option>
         <mat-option value="2"> English 2</mat-option>
-      </mat-select>
+      </mat-select> -->
     </mat-form-field>
   </div>
   <span class="tp_rt_mn lgot_btn" (click)="logout()">

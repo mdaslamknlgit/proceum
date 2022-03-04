@@ -55,15 +55,17 @@ export class AdminTopbarComponent implements OnInit {
       user_id:this.user['id']
     };
     this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {        
-        this.http.lang = res['data']['language'];
-        this.language = this.http.lang;    
-        this.translate.setDefaultLang(this.http.lang);
+      if (res['error'] == false) {   
+        if(res['data'] != ''){
+          this.http.lang = res['data']['language'];
+        }else{
+          this.http.lang = this.user.configs['language'];
+        }     
       }else{
         this.http.lang = this.user.configs['language'];
-        this.language = this.http.lang;    
-        this.translate.setDefaultLang(this.http.lang);
       }
+      this.language = this.http.lang;    
+      this.translate.setDefaultLang(this.http.lang);
     });
     this.route.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
