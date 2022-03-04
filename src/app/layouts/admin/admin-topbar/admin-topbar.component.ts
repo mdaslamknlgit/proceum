@@ -59,7 +59,7 @@ export class AdminTopbarComponent implements OnInit {
         if(res['data'] != ''){
           this.http.lang = res['data']['language'];
         }else{
-          this.http.lang = 'en';
+          this.http.lang = this.user.configs['language'];
         }     
       }else{
         this.http.lang = this.user.configs['language'];
