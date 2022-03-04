@@ -82,20 +82,34 @@
     <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn" matTooltip="My Cart">shopping_cart
     </mat-icon>
   </div>
-  <div class="lg_inbtn mr_1">
+  <!-- <div class="lg_inbtn mr_1">
     <span *ngIf="user['name']" (click)="logout()">
       <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
     </span>
-  </div>
+  </div> -->
   <div class="lg_inbtn mr_0 hb_mn_pr">
     <span>
       <mat-icon color="accent" (click)="hbMnu = !hbMnu">menu</mat-icon>
     </span>
     <div *ngIf="hbMnu" class="hb_mnumn {{hbMnu ? 'actv_hb':''}}">
+      <mat-icon (click)="hbMnu = !hbMnu" color="accent">close</mat-icon>
       <ul>
-        <li routerLink="/about-us">About Us</li>
-        <li routerLink="/contact-us">Contact Us</li>
-        <li routerLink="/blog">Blog</li>
+        <li routerLink="/about-us">
+          <mat-icon color="accent">info</mat-icon>
+          About Us</li>
+        <li routerLink="/contact-us">
+          <mat-icon color="accent">contact_phone</mat-icon>
+          Contact Us</li>
+        <li routerLink="/blog">
+          <mat-icon color="accent">rss_feed</mat-icon>
+          Blog</li>
+        <li *ngIf="user['name']" (click)="logout()">
+          <span>
+            <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
+            
+          </span>
+          Logout
+          </li>
       </ul>
     </div>
   </div>

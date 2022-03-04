@@ -59,6 +59,7 @@ export const environment = {
   CONTENT_USER_ROLES:[3,4,5,6,7],
   DISABLED_USER_ROLES_FOR_PROCEUM: [2],
   DISABLED_USER_ROLES_FOR_ORGANIZATION: [1,3,4,5,6,7],
+
   apiUrl: 'https://uat.proceum.com/web-api/public/api/',
   APP_BASE_URL: 'http://uat.proceum.com/',
   firebaseConfig: {
