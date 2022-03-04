@@ -268,7 +268,7 @@
               matTooltip="Password length should be between 6-16 and must contain at least one lowercase letter, uppercase letter, digit, special character.">info</mat-icon>
             </span>
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
             <span *ngIf='isdisplay'>Current Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
               <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
@@ -279,7 +279,7 @@
                 'visibility'}}</mat-icon>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
             <span *ngIf='isdisplay'>New Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
               <input matInput (keyup)="passwordVerification()" placeholder="New password"
@@ -292,7 +292,7 @@
             </mat-form-field>
 
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
             <span *ngIf='isdisplay'>Confirm Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" [class]="errClass" *ngIf='isdisplay'>
               <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off"

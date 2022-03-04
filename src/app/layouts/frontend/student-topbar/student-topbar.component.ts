@@ -24,6 +24,7 @@ export class StudentTopbarComponent implements OnInit {
   load_top_bar = false;
   public class_notifications = [];
   public assessment_notifications = [];
+  public show_notifications = false;
   @Output() finishedLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private http: CommonService,

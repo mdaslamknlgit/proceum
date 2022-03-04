@@ -13,6 +13,33 @@
     <mat-icon color="accent" matTooltip="Home">home</mat-icon>
     <!-- <span>Home</span> -->
   </span>
+  <!-- notification -->
+  <span class="tp_rt_mn ps_rel notification_span_icon fr_bdg mr_0">
+    <div (click)="show_notifications = !show_notifications">
+      <mat-icon  [matBadge]="class_notifications.length>0||assessment_notifications.length>0?(class_notifications.length+assessment_notifications.length):''" matBadgeColor="warn">notification_important</mat-icon>
+    </div>
+    <div class="noti_dv" *ngIf="show_notifications">
+      <!-- {{show_notifications == false?'d-none':''}} -->
+      <div class="noti_hd d-flex">
+        <span class=" ">Notifications</span>
+        <span class="spacer"></span>
+        <span (click)="show_notifications = !show_notifications">
+          <mat-icon>close</mat-icon>
+        </span>
+      </div>
+      <div class="noti_cnt">
+        <ul>
+          <li *ngFor="let n of class_notifications">
+            <span routerLink="/student/class/list">You have a class {{n['topic']}}</span>
+          </li>
+          <li *ngFor="let n of assessment_notifications">
+            <span routerLink="/student/assessments/list">You have a assessment {{n['assessment_name']}}</span>
+          </li>            
+        </ul>
+      </div>
+    </div>
+  </span>
+  <!-- notification -->
   <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active">Pricing &amp;
     Packages</span>
   <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About
