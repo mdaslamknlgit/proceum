@@ -15,31 +15,7 @@
     <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">
       <mat-icon matTooltip="Dashboard" color="accent">grid_view</mat-icon>
     </span>
-    <!-- notification -->
-    <span class="tp_rt_mn ps_rel notification_span_icon fr_bdg mr_0">
-      <div (click)="show_notifications = !show_notifications">
-        <mat-icon class="tp_rt_mn lft_0" matBadge="1" matBadgeColor="warn">
-          notification_important</mat-icon>
-      </div>
-      <div class="noti_dv" *ngIf="show_notifications">
-        <!-- {{show_notifications == false?'d-none':''}} -->
-        <div class="noti_hd d-flex">
-          <span class=" ">Notifications</span>
-          <span class="spacer"></span>
-          <span (click)="show_notifications = !show_notifications">
-            <mat-icon>close</mat-icon>
-          </span>
-        </div>
-        <div class="noti_cnt">
-          <ul>
-            <li>
-              <span>This is notification</span>
-            </li>            
-          </ul>
-        </div>
-      </div>
-    </span>
-    <!-- notification -->
+    
 
 
 
@@ -106,20 +82,34 @@
     <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn" matTooltip="My Cart">shopping_cart
     </mat-icon>
   </div>
-  <div class="lg_inbtn mr_1">
+  <!-- <div class="lg_inbtn mr_1">
     <span *ngIf="user['name']" (click)="logout()">
       <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
     </span>
-  </div>
+  </div> -->
   <div class="lg_inbtn mr_0 hb_mn_pr">
     <span>
       <mat-icon color="accent" (click)="hbMnu = !hbMnu">menu</mat-icon>
     </span>
     <div *ngIf="hbMnu" class="hb_mnumn {{hbMnu ? 'actv_hb':''}}">
+      <mat-icon (click)="hbMnu = !hbMnu" color="accent">close</mat-icon>
       <ul>
-        <li routerLink="/about-us">About Us</li>
-        <li routerLink="/contact-us">Contact Us</li>
-        <li routerLink="/blog">Blog</li>
+        <li routerLink="/about-us">
+          <mat-icon color="accent">info</mat-icon>
+          About Us</li>
+        <li routerLink="/contact-us">
+          <mat-icon color="accent">contact_phone</mat-icon>
+          Contact Us</li>
+        <li routerLink="/blog">
+          <mat-icon color="accent">rss_feed</mat-icon>
+          Blog</li>
+        <li *ngIf="user['name']" (click)="logout()">
+          <span>
+            <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
+            
+          </span>
+          Logout
+          </li>
       </ul>
     </div>
   </div>
