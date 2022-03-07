@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../../environments/environment';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -49,7 +50,7 @@ export class LoginHistoryComponent implements OnInit {
   public is_todate:boolean=true;
   public is_submit:boolean=true;
   public user_id:any;
-  constructor(private http: CommonService, public dialog: MatDialog,public datepipe: DatePipe) {}
+  constructor(private http: CommonService, public dialog: MatDialog,public datepipe: DatePipe, public translate: TranslateService) {}
   ngOnInit(): void {
     this.api_url = environment.apiUrl;
     let user = this.http.getUser();

@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { ReplaySubject } from 'rxjs';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
+import { TranslateService } from '@ngx-translate/core';
 
 interface CurriculumNode {
   id?: number;
@@ -63,7 +64,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   public search_box = '';
   public page = 0;
   public add_or_edit = "Add New";
-  public page_title = "Year";
+  public page_title = "";
   public slug = "year";
   popoverTitle = '';
   popoverMessage = '';
@@ -120,8 +121,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   constructor(
     private http: CommonService,
     public toster: ToastrService,
-    private router: Router
+    private router: Router,
+    public translate: TranslateService
   ) { }
+  
 
   hasChild = (_: number, node: CurriculumNode) =>
     !!node.children && node.children.length > 0;
@@ -237,6 +240,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.translate.get('admin.year_sem_grp.year').subscribe((data)=> {
+      this.page_title = data;
+    });
     const user = JSON.parse(atob(localStorage.getItem('user')));
     this.user = user;
     this.user_role = user.role;
@@ -283,17 +289,26 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     //Years tab
     if (tab.index == 0) {
       this.slug = 'year';
-      this.page_title = 'Year';
+      this.translate.get('admin.year_sem_grp.year').subscribe((data)=> {
+        this.page_title = data;
+      });
+      //this.page_title = 'Year';
     }
     //Semesters tab
     if (tab.index == 1) {
       this.slug = 'semester';
-      this.page_title = 'Semester';
+      this.translate.get('admin.year_sem_grp.semester').subscribe((data)=> {
+        this.page_title = data;
+      });
+      //this.page_title = 'Semester';
     }
     //Groups tab
     if (tab.index == 2) {
       this.slug = 'group';
-      this.page_title = 'Group';
+      this.translate.get('admin.year_sem_grp.group').subscribe((data)=> {
+        this.page_title = data;
+      });
+      //this.page_title = 'Group';
     }
     //finally
     this.getData();
