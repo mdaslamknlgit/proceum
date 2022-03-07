@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute,Router } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-manage-users',
@@ -101,6 +102,7 @@ export class ManageUsersComponent implements OnInit {
     public toster: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    public translate: TranslateService
     ) {
       this.api_url = environment.apiUrl;
       this.download_url = this.api_url + 'download-students-data';
@@ -118,7 +120,11 @@ export class ManageUsersComponent implements OnInit {
       this.is_college = false;
       this.is_university = false;
     }else{
-      this.role = '2';
+      if(this.param_role > 0){
+        this.role = String(this.param_role);
+      }else{
+        this.role = '2';
+      }      
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
         let k = this.displayedColumns.indexOf('Organization');
         let oprk = k > -1 ? this.displayedColumns.splice(k, 1) : undefined;
@@ -251,10 +257,10 @@ export class ManageUsersComponent implements OnInit {
   public doFilter() {
     if(this.role != '2'){
       this.manage_students = '';
-
       this.is_college = false;
       this.is_university = false;
       if(this.role_id == environment.ALL_ROLES.UNIVERSITY_ADMIN){  /// University Admin Role ID
+        this.is_college = true;
         this.college_id = '';
         this.organization_list_id = '';
       }else if(this.role_id == environment.ALL_ROLES.COLLEGE_ADMIN){  /// College Admin Role ID
@@ -440,14 +446,20 @@ export class ManageUsersComponent implements OnInit {
   public onManageStudentChange() {
     //console.log(this.organization_list_id+' => '+this.manage_students);
     if(this.organization_list_id == '' && this.manage_students == '1'){
-      this.toster.error('Please Select University / College / Institute', 'Error', { closeButton: true });
+      this.translate.get('admin.mng_usr.uni_coll_inst_error').subscribe((data)=> {
+        this.toster.error(data, "Error", { closeButton: true });
+      });
       return;
     }else if(this.manage_students == '3'){
       if(this.organization_list_id == ''){
-        this.toster.error('Please Select University / College / Institute', 'Error', { closeButton: true });
+        this.translate.get('admin.mng_usr.uni_coll_inst_error').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
         return;
       }else if(this.year_id == ''){
-        this.toster.error('Please Select Year', 'Error', { closeButton: true });
+        this.translate.get('admin.mng_usr.atleast_student').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
         return;
       }
     }else if(this.manage_students == '1'){
@@ -700,7 +712,10 @@ export class ManageUsersComponent implements OnInit {
       this.checkUncheckAll('false');
       this.mng_student_popup = false;
     }else{
-      this.toster.error('Please Select atleast one Student.!', 'Error', { closeButton: true });
+      this.translate.get('admin.mng_usr.atleast_student').subscribe((data)=> {
+        this.toster.error(data, "Error", { closeButton: true });
+      });
+      //this.toster.error('Please Select atleast one Student.!', 'Error', { closeButton: true });
     }
   }
 
@@ -727,7 +742,10 @@ export class ManageUsersComponent implements OnInit {
         }
       });
     }else{
-      this.toster.error('Please Select atleast one Student.!', 'Error', { closeButton: true });
+      this.translate.get('admin.mng_usr.atleast_student').subscribe((data)=> {
+        this.toster.error(data, "Error", { closeButton: true });
+      });
+      //this.toster.error('Please Select atleast one Student.!', 'Error', { closeButton: true });
     }
   }
 
@@ -789,7 +807,10 @@ export class ManageUsersComponent implements OnInit {
         // this.checkUncheckAll('false');
       });
     }else{
-      this.toster.error('Please Select Students', 'Error', { closeButton: true });
+      this.translate.get('admin.mng_usr.pls_select_stundets_error').subscribe((data)=> {
+        this.toster.error(data, "Error", { closeButton: true });
+      });
+      //this.toster.error('Please Select Students', 'Error', { closeButton: true });
     }
   }
   navigateTo(url){

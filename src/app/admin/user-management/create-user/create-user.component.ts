@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
+import { TranslateService } from '@ngx-translate/core';
 
 interface CurriculumNode {
   id?: number;
@@ -33,7 +34,8 @@ export class CreateUserComponent implements OnInit {
     private http: CommonService,
     private toster: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    public translate: TranslateService
   ) { }
 
   //Define vars;
