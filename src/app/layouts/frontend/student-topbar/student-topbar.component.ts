@@ -17,12 +17,14 @@ export class StudentTopbarComponent implements OnInit {
   public user;
   public search_key;
   //For cart badge
+  public hbMnu =  false;
   number: any;
   subscription: Subscription;
   user_id = '';
   load_top_bar = false;
   public class_notifications = [];
   public assessment_notifications = [];
+  public show_notifications = false;
   @Output() finishedLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private http: CommonService,
