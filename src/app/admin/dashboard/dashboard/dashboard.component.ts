@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
   public counts_loaded = false;
   public role = 0;
   public financeUser: any;
-  public chartLabeles = ['Today','This Week','This Month','Past 3 Months','Past 6 Months','Past 9 Months','Past 1 Year'];
+  public chartLabeles = ['Today', 'This Week', 'This Month', 'Past 3 Months', 'Past 6 Months', 'Past 9 Months', 'Past 1 Year'];
 
   constructor(
     private http: CommonService,
@@ -115,6 +115,7 @@ export class DashboardComponent implements OnInit {
   public revenueChartData: any = [];
   public lineChartLabels: any = [];
   public lineChartOptions: any;
+  public orderChartOptions: any;
   public lineChartData1: any = [];
   public lineChartLabels1: any = [];
   public lineChartOptions1: any;
@@ -420,7 +421,7 @@ export class DashboardComponent implements OnInit {
       if (res['error'] == false) {
         this.financeUser = res['data'];
         this.loadOrdersChart();
-        this.loadRevenueChart();        
+        this.loadRevenueChart();
       }
     });
   }
@@ -437,7 +438,7 @@ export class DashboardComponent implements OnInit {
     return window.innerHeight + window.scrollY >= document.body.offsetHeight;
   }
 
-  loadOrdersChart(){
+  loadOrdersChart() {
     let data = [
       this.financeUser.today.count,
       this.financeUser.this_week.count,
@@ -468,13 +469,13 @@ export class DashboardComponent implements OnInit {
         pointRadius: 1,
         pointHitRadius: 10,
         data: data,
-          barThickness: 16,
+        barThickness: 'flex', //16
         // maxBarThickness: 8,
         // minBarLength: 2,
       },
     ];
     this.lineChartLabels = this.chartLabeles;
-    this.lineChartOptions = {
+    this.orderChartOptions = {
       responsive: true,
       annotation: {
         annotations: [
@@ -488,14 +489,14 @@ export class DashboardComponent implements OnInit {
             borderWidth: 2,
             scales: {
               xAxes: [{
-                  // gridLines: {
-                  //      display:false
-                  // }
-                  // ticks: {
-                  //   maxTicksLimit: 20,
-                  // },
-                  ticks: { fontColor: 'black' },
-                  gridLines: { color: 'rgba(255,255,255,0.1)' }
+                // gridLines: {
+                //      display:false
+                // }
+                // ticks: {
+                //   maxTicksLimit: 20,
+                // },
+                ticks: { fontColor: 'black' },
+                gridLines: { color: 'rgba(255,255,255,0.1)' }
               }],
               // yAxes: [{
               //     gridLines: {
@@ -504,19 +505,24 @@ export class DashboardComponent implements OnInit {
               //         gridLines: { color: 'rgba(255,255,255,0.1)' },
               //     }   
               // }],
-              yAxes: [{
-                barPercentage: 6.0,
-                categoryPercentage: 6.0,
-                ticks: {
-                 beginAtZero: true,
-                  callback: function (value, index, values) {
-                    return '$' + value + 'k';
+              yAxes: [
+                {
+                  barPercentage: 6.0,
+                  categoryPercentage: 6.0,
+                  scaleLabel: {
+                    display: true,
+                    labelString: 'Shashank Sparsh'
                   },
-                }
-              }]
+                  ticks: {
+                    beginAtZero: true,
+                    callback: function (value, index, values) {
+                      return '$' + value + 'k';
+                    },
+                  }
+                }]
             },
-            gradient : true,
-            showDataLabel : true,
+            gradient: true,
+            showDataLabel: true,
             label: {
               backgroundColor: 'red',
               content: 'global plugin',
@@ -526,10 +532,10 @@ export class DashboardComponent implements OnInit {
           }
         ]
       }
-    }; 
+    };
   }
 
-  loadRevenueChart(){
+  loadRevenueChart() {
     let data = [
       this.financeUser.today.sum,
       this.financeUser.this_week.sum,
@@ -560,7 +566,7 @@ export class DashboardComponent implements OnInit {
         pointRadius: 1,
         pointHitRadius: 10,
         data: data,
-          barThickness: 16,
+        barThickness: 'flex',//16,
         // maxBarThickness: 8,
         // minBarLength: 2,
       },
@@ -580,14 +586,14 @@ export class DashboardComponent implements OnInit {
             borderWidth: 2,
             scales: {
               xAxes: [{
-                  // gridLines: {
-                  //      display:false
-                  // }
-                  // ticks: {
-                  //   maxTicksLimit: 20,
-                  // },
-                  ticks: { fontColor: 'black' },
-                  gridLines: { color: 'rgba(255,255,255,0.1)' }
+                // gridLines: {
+                //      display:false
+                // }
+                // ticks: {
+                //   maxTicksLimit: 20,
+                // },
+                ticks: { fontColor: 'black' },
+                gridLines: { color: 'rgba(255,255,255,0.1)' }
               }],
               // yAxes: [{
               //     gridLines: {
@@ -600,15 +606,15 @@ export class DashboardComponent implements OnInit {
                 barPercentage: 6.0,
                 categoryPercentage: 6.0,
                 ticks: {
-                 beginAtZero: true,
+                  beginAtZero: true,
                   callback: function (value, index, values) {
                     return '$' + value + 'k';
                   },
                 }
               }]
             },
-            gradient : true,
-            showDataLabel : true,
+            gradient: true,
+            showDataLabel: true,
             label: {
               backgroundColor: 'red',
               content: 'global plugin',
@@ -618,7 +624,7 @@ export class DashboardComponent implements OnInit {
           }
         ]
       }
-    }; 
+    };
   }
 
 }

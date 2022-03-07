@@ -38,6 +38,7 @@ const routes: Routes = [
   { path: 'our-team', component: OurTeamComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'register/:referral_code', component: RegisterComponent },
   { path: 'signup', component: PartnerRegisterComponent },
   { path: 'library', component: ProceumLibraryComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },

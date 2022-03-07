@@ -58,13 +58,17 @@
     </div>
     <div class="{{ glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
   </div>
-  <div class="dsh_brd_crds lang_drpdwn" *ngIf="" >
+  <div class="dsh_brd_crds lang_drpdwn" >
     <mat-form-field appearance="outline">
-      <mat-select value="0">
+      <mat-select value="" [(ngModel)]="language" name="language_name" (ngModelChange)="getLanguage();">
+        <mat-option value="en">English</mat-option>
+        <!-- <mat-option value="fr">French</mat-option> -->
+      </mat-select>
+      <!-- <mat-select value="0">
         <mat-option value="0"> English</mat-option>
         <mat-option value="1"> English 1</mat-option>
         <mat-option value="2"> English 2</mat-option>
-      </mat-select>
+      </mat-select> -->
     </mat-form-field>
   </div>
   <span class="tp_rt_mn lgot_btn" (click)="logout()">
@@ -76,10 +80,24 @@
       <mat-icon color="accent" (click)="hbMnu = !hbMnu">menu</mat-icon>
     </span>
     <div *ngIf="hbMnu" class="hb_mnumn {{hbMnu ? 'actv_hb':''}}">
+      <mat-icon (click)="hbMnu = !hbMnu" color="accent">close</mat-icon>
       <ul>
-        <li routerLink="/about-us">About Us</li>
-        <li routerLink="/contact-us">Contact Us</li>
-        <li routerLink="/blog">Blog</li>
+        <li routerLink="/about-us">
+          <mat-icon color="accent">info</mat-icon>
+          About Us</li>
+        <li routerLink="/contact-us">
+          <mat-icon color="accent">contact_phone</mat-icon>
+          Contact Us</li>
+        <li routerLink="/blog">
+          <mat-icon color="accent">rss_feed</mat-icon>
+          Blog</li>
+        <li *ngIf="user['name']" (click)="logout()">
+          <span>
+            <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
+            
+          </span>
+          Logout
+          </li>
       </ul>
     </div>
   </div>

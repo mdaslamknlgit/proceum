@@ -13,6 +13,33 @@
     <mat-icon color="accent" matTooltip="Home">home</mat-icon>
     <!-- <span>Home</span> -->
   </span>
+  <!-- notification -->
+  <span class="tp_rt_mn ps_rel notification_span_icon fr_bdg mr_0">
+    <div (click)="show_notifications = !show_notifications">
+      <mat-icon  [matBadge]="class_notifications.length>0||assessment_notifications.length>0?(class_notifications.length+assessment_notifications.length):''" matBadgeColor="warn">notification_important</mat-icon>
+    </div>
+    <div class="noti_dv" *ngIf="show_notifications">
+      <!-- {{show_notifications == false?'d-none':''}} -->
+      <div class="noti_hd d-flex">
+        <span class=" ">Notifications</span>
+        <span class="spacer"></span>
+        <span (click)="show_notifications = !show_notifications">
+          <mat-icon>close</mat-icon>
+        </span>
+      </div>
+      <div class="noti_cnt">
+        <ul>
+          <li *ngFor="let n of class_notifications">
+            <span routerLink="/student/class/list">You have a class {{n['topic']}}</span>
+          </li>
+          <li *ngFor="let n of assessment_notifications">
+            <span routerLink="/student/assessments/list">You have a assessment {{n['assessment_name']}}</span>
+          </li>            
+        </ul>
+      </div>
+    </div>
+  </span>
+  <!-- notification -->
   <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active">Pricing &amp;
     Packages</span>
   <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About
@@ -66,9 +93,36 @@
   <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
     <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
   </div>
-  <span *ngIf="user['name']" (click)="logout()" class="tp_rt_mn">
+  <!-- <span *ngIf="user['name']" (click)="logout()" class="tp_rt_mn">
     <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon>
-    <!-- <span>Logout</span> -->
-  </span>
+    
+  </span> -->
+
+  <div class="lg_inbtn mr_0 hb_mn_pr">
+    <span>
+      <mat-icon color="accent" (click)="hbMnu = !hbMnu">menu</mat-icon>
+    </span>
+    <div *ngIf="hbMnu" class="hb_mnumn {{hbMnu ? 'actv_hb':''}}">
+      <mat-icon (click)="hbMnu = !hbMnu" color="accent">close</mat-icon>
+      <ul>
+        <li routerLink="/about-us">
+          <mat-icon color="accent">info</mat-icon>
+          About Us</li>
+        <li routerLink="/contact-us">
+          <mat-icon color="accent">contact_phone</mat-icon>
+          Contact Us</li>
+        <li routerLink="/blog">
+          <mat-icon color="accent">rss_feed</mat-icon>
+          Blog</li>
+        <li *ngIf="user['name']" (click)="logout()">
+          <span>
+            <mat-icon color="accent" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
+            
+          </span>
+          Logout
+          </li>
+      </ul>
+    </div>
+  </div>
 
 </mat-toolbar>
