@@ -2,8 +2,8 @@
     <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <span routerLink="/admin/manage-users"><strong>{{"admin.mng_usr.page_title"|translate}}</strong></span>
         &raquo; <strong>{{ (user_id > 0) ? "Edit" : "Create" }} User</strong></div>
     <div class="pg_ttl">{{ (user_id > 0) ? "Edit" : "Create" }} User
-        <div class="rqrd_txtinfo">{{"admin.new_usr.fields_marked"|translate}} <span class="required">( * ) </span>
-            {{"admin.new_usr.mandatory"|translate}}
+        <div class="rqrd_txtinfo">{{"fields_marked"|translate}} <span class="required">( * ) </span>
+            {{"mandatory"|translate}}
         </div>
     </div>
 
@@ -25,12 +25,12 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_organization_type">
-                <div class="crt_prt_hd">{{"admin.new_usr.organization_type"|translate}}<span class="required">*</span></div>
+                <div class="crt_prt_hd">{{"organization_type"|translate}}<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
                     <mat-select placeholder="{{'select_text'|translate}} {{'admin.new_usr.organization_type'|translate}}" name="organization_edit"
                         #organization_edit="ngModel" [(ngModel)]="organization"
                         (ngModelChange)="onOrganizationTypeChange()" required>
-                        <mat-option value="">{{'select_text'|translate}} {{"admin.new_usr.organization_type"|translate}}</mat-option>
+                        <mat-option value="">{{'select_text'|translate}} {{"organization_type"|translate}}</mat-option>
                         <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue
                             }}</mat-option>
                         <mat-option value="4">Proceum</mat-option>
@@ -40,9 +40,9 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="organization == '1' && show_organization_type">
-                <div class="crt_prt_hd">{{"admin.new_usr.university"|translate}}<span class="required">*</span></div>
+                <div class="crt_prt_hd">{{"university"|translate}}<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.new_usr.university'|translate}}" name="university_edit" #university_edit="ngModel"
+                    <mat-select placeholder="{{'select_text'|translate}} {{'university'|translate}}" name="university_edit" #university_edit="ngModel"
                         [(ngModel)]="university_id" (ngModelChange)="getPartnerChilds(university_id)" required>
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
@@ -59,9 +59,9 @@
             </div>
             <div class="cm_fltr_sc mr_1"
                 *ngIf="(organization == '1' && show_partners_dropdown  && user['role'] != '9' && user['role'] != '10') || user['role'] == '8'">
-                <div class="crt_prt_hd">{{"admin.new_usr.college"|translate}}<span class="required">*</span></div>
+                <div class="crt_prt_hd">{{"college"|translate}}<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.new_usr.college'|translate}}" name="college_edit" #college_edit="ngModel"
+                    <mat-select placeholder="{{'select_text'|translate}} {{'college'|translate}}" name="college_edit" #college_edit="ngModel"
                         [(ngModel)]="college_id" (ngModelChange)="getYears(university_id,college_id,0)" required>
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
@@ -78,9 +78,9 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="organization == '2' && show_partners_dropdown">
-                <div class="crt_prt_hd">{{"admin.new_usr.college"|translate}}<span class="required">*</span></div>
+                <div class="crt_prt_hd">{{"college"|translate}}<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.new_usr.college'|translate}}" name="college_edit" #college_edit="ngModel"
+                    <mat-select placeholder="{{'select_text'|translate}} {{'college'|translate}}" name="college_edit" #college_edit="ngModel"
                         [(ngModel)]="college_id" (ngModelChange)="getYears(college_id,0)" required>
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
@@ -97,9 +97,9 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="organization == '3' && show_partners_dropdown">
-                <div class="crt_prt_hd">{{"admin.new_usr.institute"|translate}}<span class="required">*</span></div>
+                <div class="crt_prt_hd">{{"institute"|translate}}<span class="required">*</span></div>
                 <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.new_usr.institute'|translate}}" name="institute_edit" #institute_edit="ngModel"
+                    <mat-select placeholder="{{'select_text'|translate}} {{'institute'|translate}}" name="institute_edit" #institute_edit="ngModel"
                         [(ngModel)]="institute_id" (ngModelChange)="getYears(institute_id,0)" required>
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Institute Found'"
@@ -116,10 +116,10 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="role == '2'">
-                <div class="crt_prt_hd">{{"admin.new_usr.year"|translate}}<span class="required">*</span></div>
+                <div class="crt_prt_hd">{{"year"|translate}}<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.new_usr.year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id"
+                    <mat-select placeholder="{{'select_text'|translate}} {{'year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id"
                         (ngModelChange)="getChildDropDownData(year_id)" required>
                         <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{
                             item["name"] }}</mat-option>
@@ -130,10 +130,10 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_semester">
-                <div class="crt_prt_hd">{{"admin.new_usr.semester"|translate}}<span class="required">*</span></div>
+                <div class="crt_prt_hd">{{"semester"|translate}}<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.new_usr.semester'|translate}}" name="semester_edit" #semester_edit="ngModel"
+                    <mat-select placeholder="{{'select_text'|translate}} {{'semester'|translate}}" name="semester_edit" #semester_edit="ngModel"
                         [(ngModel)]="semester_id" (ngModelChange)="getGroups(semester_id)">
                         <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{
                             item["name"] }}</mat-option>
@@ -143,10 +143,10 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_group">
-                <div class="crt_prt_hd">{{"admin.new_usr.group"|translate}}<span class="required">*</span></div>
+                <div class="crt_prt_hd">{{"group"|translate}}<span class="required">*</span></div>
 
                 <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.new_usr.group'|translate}}" name="group_edit" #group_edit="ngModel"
+                    <mat-select placeholder="{{'select_text'|translate}} {{'group'|translate}}" name="group_edit" #group_edit="ngModel"
                         [(ngModel)]="group_id">
                         <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{
                             item["name"] }}</mat-option>
