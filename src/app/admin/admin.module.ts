@@ -103,6 +103,11 @@ import { ApproveLeadComponent } from './approve-lead/approve-lead.component';
 import { TeacherComponent } from './dashboard/teacher/teacher.component';
 import { NgChartjsModule } from 'ng-chartjs';
 
+//reports
+import { AnalysisReportComponent } from './reports/analysis-report/analysis-report.component';
+import { ClassesReportComponent } from './reports/classes-report/classes-report.component';
+import { OrdersReportComponent } from './reports/orders-list/orders-list.component';
+import { RevenueReportComponent } from './reports/revenue-report/revenue-report.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -270,6 +275,12 @@ const routes: Routes = [
       { path: 'create-university-or-college', component: CreateUniversitiesCollegesComponent },
       { path: 'edit-university-or-college/:id', component: CreateUniversitiesCollegesComponent },
       { path: 'my-account', component: MyAccountComponent },
+
+      //reports
+      { path: 'analysis-report', component: AnalysisReportComponent },
+      { path: 'classes-report', component: ClassesReportComponent },
+      { path: 'orders-report', component: OrdersReportComponent },
+      { path: 'revenue-report', component: RevenueReportComponent },
     ],
   },
 ];
@@ -346,7 +357,11 @@ const routes: Routes = [
     TeacherSubjectsComponent,
     Levels_listComponent,
     ApproveLeadComponent,
-    TeacherComponent
+    TeacherComponent,
+    AnalysisReportComponent,
+    ClassesReportComponent,
+    OrdersReportComponent,
+    RevenueReportComponent
   ],
   imports: [
     MaterialModule,

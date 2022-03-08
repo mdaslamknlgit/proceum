@@ -47,9 +47,9 @@ export class DashboardComponent implements OnInit {
   public allow_end_test: boolean = false;
   public bucket_url = '';
   public wish_list_data:any = [];
-  public notes;
-  public assessments;
-  public classes;
+  public notes = 0;
+  public assessments = 0;
+  public classes = 0;
   public subjectknowledge;
   public lineChartLegend = false;
   public lineChartType = 'bar';
@@ -58,7 +58,6 @@ export class DashboardComponent implements OnInit {
   public lineChartData:any = [];
   public lineChartLabels:any = [];
   public lineChartOptions:any;
-
   public chartColors: any[] = [
     { 
       backgroundColor:[
@@ -68,9 +67,11 @@ export class DashboardComponent implements OnInit {
         "#FBC02D", "#FF7043", "#8E24AA", "#00897B", "#FDD835", "#0277BD", "#6D4C41"
     ] 
     }];
-
-
-  
+  public individual = environment.ALL_ROLES.INDIVIDUAL;
+  public student = environment.ALL_ROLES.STUDENT;
+  public referral_count = 0;
+  public social_count = 0;
+  public usr_order_cnt = 0;
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {alert()
       // Your logic on beforeunload
@@ -83,11 +84,15 @@ export class DashboardComponent implements OnInit {
       this.role_id =  Number(this.user['role']);
       this.getPackagesAboutToExpire();
       this.getDashboardCount();
+      if(this.role_id && this.role_id == this.individual){
+        this.getMyEarnings();
+        this.getOrders();
+      }
       this.getRandomQuestions();
       this.getSubjectKnowledge();
       this.getFreeContent();
       this.getBookmarksFavorite();
-      this.getWishList();
+      this.getWishList();      
     }
   }
   //Get wishlist items
@@ -115,6 +120,29 @@ export class DashboardComponent implements OnInit {
         this.free_content = res['data'];
       } else {
         this.toster.error(res['message'], 'Error');
+      }
+    });
+  }
+
+  getMyEarnings() {
+    let param = { url: 'referral-earnings-list' };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.referral_count = res['data']['referral_earnings_list'].filter(i => (i.course_purchased == 1 && i.credits_consumed == 0)).length;
+      }
+    });
+
+    let params = { url: 'social-share' };
+    this.http.get(params).subscribe((res: Response) => {
+      this.social_count = res['data']['social_share_list'].filter(i => (i.approval_status == 1 && i.credits_consumed == 0)).length;
+    });
+  }
+
+  getOrders() {
+    let param = { url: 'get-user-orders', status: 2 };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.usr_order_cnt = res['total_records'];
       }
     });
   }
