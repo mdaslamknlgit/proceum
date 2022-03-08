@@ -935,7 +935,16 @@ export class RegisterComponent implements OnInit {
       return false;
     }
   }
-
+  CheckAlphabatesandSpecialchars(event) {
+    var key;
+    key = event.charCode;  //         key = event.keyCode;  (Both can be used)
+    if((key > 47 && key < 58) || key == 45 || key == 46){
+      return true;
+    }else{
+      event.preventDefault();
+      return false;
+    }
+  }
   checkSubDomainexist(){
     if (localStorage.getItem('p_id')) {
       this.route.navigateByUrl('/signup');
