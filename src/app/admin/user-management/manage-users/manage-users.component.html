@@ -33,15 +33,15 @@
                         <label>{{ email }}</label>
                     </div>
                     <div class="my_prf_dv {{ year? '':'na_lbl' }}">
-                        <span>{{"admin.mng_usr.year"|translate}}</span><br>
+                        <span>{{"year"|translate}}</span><br>
                         <label>{{year}}</label>
                     </div>
                     <div class="my_prf_dv {{ semester? '':'na_lbl' }}">
-                        <span>{{"admin.mng_usr.semester"|translate}}</span><br>
+                        <span>{{"semester"|translate}}</span><br>
                         <label>{{semester}}</label>
                     </div>
                     <div class="my_prf_dv {{ group? '':'na_lbl' }}">
-                        <span>{{"admin.mng_usr.group"|translate}}</span><br>
+                        <span>{{"group"|translate}}</span><br>
                         <label>{{group}}</label>
                     </div>
                     <div class="my_prf_dv {{ country_name? '':'na_lbl' }}">
@@ -65,15 +65,15 @@
                         <label>{{address2}}</label>
                       </div>
                       <div *ngIf="university != null" class="my_prf_dv">
-                        <span>{{"admin.mng_usr.university"|translate}}</span><br>
+                        <span>{{"university"|translate}}</span><br>
                         <label>{{ university }}</label>
                       </div>
                       <div *ngIf="college != null" class="my_prf_dv">
-                        <span>{{"admin.mng_usr.college"|translate}}</span><br>
+                        <span>{{"college"|translate}}</span><br>
                         <label>{{ college }}</label>
                       </div>
                       <div *ngIf="institute != null" class="my_prf_dv">
-                        <span>{{"admin.mng_usr.institute"|translate}}</span><br>
+                        <span>{{"institute"|translate}}</span><br>
                         <label>{{ institute }}</label>
                       </div>
                       <div class="my_prf_dv {{ last_login_time ? '':'na_lbl' }}">
@@ -140,25 +140,25 @@
                 <div class="dsh_brd_crds" *ngIf="manage_students == '1'">
                     <div class="pss_pp_dv">
                         <div class="cm_fltr_sc mr_1">
-                            <span>{{"admin.mng_usr.year"|translate}}</span>
+                            <span>{{"year"|translate}}</span>
                             <mat-form-field appearance="outline">
-                                <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.year'|translate}}" name="promote_year_edit" #promote_year_edit="ngModel" [(ngModel)]="promote_year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,promote_year_id,'semester','promote')">
+                                <mat-select placeholder="{{'select_text'|translate}} {{'year'|translate}}" name="promote_year_edit" #promote_year_edit="ngModel" [(ngModel)]="promote_year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,promote_year_id,'semester','promote')">
                                     <mat-option *ngFor="let item of promote_all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div> 
                         <div class="cm_fltr_sc mr_1" *ngIf="promote_semester_dropdown">
-                            <span>{{"admin.mng_usr.semester"|translate}}</span>
+                            <span>{{"semester"|translate}}</span>
                             <mat-form-field appearance="outline">
-                                <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.semester'|translate}}" name="promote_semester_edit" #promote_semester_edit="ngModel" [(ngModel)]="promote_semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,promote_semester_id,'group','promote')" >
+                                <mat-select placeholder="{{'select_text'|translate}} {{'semester'|translate}}" name="promote_semester_edit" #promote_semester_edit="ngModel" [(ngModel)]="promote_semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,promote_semester_id,'group','promote')" >
                                     <mat-option *ngFor="let item of promote_all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div> 
                         <div class="cm_fltr_sc mr_1" *ngIf="promote_group_dropdown">
-                            <span>{{"admin.mng_usr.group"|translate}}</span>
+                            <span>{{"group"|translate}}</span>
                             <mat-form-field appearance="outline">
-                                <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.group'|translate}}" name="promote_group_edit" #promote_group_edit="ngModel" [(ngModel)]="promote_group_id">
+                                <mat-select placeholder="{{'select_text'|translate}} {{'group'|translate}}" name="promote_group_edit" #promote_group_edit="ngModel" [(ngModel)]="promote_group_id">
                                     <mat-option *ngFor="let item of promote_all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -216,25 +216,25 @@
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.mng_usr.year"|translate}}</span>
+                <span>{{"year"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester')">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester')">
                         <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
-                <span>{{"admin.mng_usr.semester"|translate}}</span>
+                <span>{{"semester"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group')" >
+                    <mat-select placeholder="{{'select_text'|translate}} {{'semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group')" >
                         <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_group_dropdown">
-                <span>{{"admin.mng_usr.group"|translate}}</span>
+                <span>{{"group"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.group'|translate}}" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="doFilter()">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'group'|translate}}" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="doFilter()">
                         <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -284,9 +284,9 @@
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="is_college">
-                <span>{{"admin.mng_usr.college"|translate}}</span>
+                <span>{{"college"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.college'|translate}}" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year')">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'college'|translate}}" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year')">
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
                                 [placeholderLabel]="'Search'" name="search_university" ngModel (ngModelChange)="filterCollege($event)"
@@ -298,25 +298,25 @@
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1">
-                <span>{{"admin.mng_usr.year"|translate}}</span>
+                <span>{{"year"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester')">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester')">
                         <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
-                <span>{{"admin.mng_usr.semester"|translate}}</span>
+                <span>{{"semester"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group')" >
+                    <mat-select placeholder="{{'select_text'|translate}} {{'semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group')" >
                         <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="show_group_dropdown">
-                <span>{{"admin.mng_usr.group"|translate}}</span>
+                <span>{{"group"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.group'|translate}}" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="doFilter()">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'group'|translate}}" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="doFilter()">
                         <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -366,7 +366,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="Organization">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.partner_name"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"partner_name"|translate}}</th>
                         <td mat-cell *matCellDef="let element">{{ element.university_name }}</td>
                     </ng-container>
 
@@ -376,7 +376,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="status">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.status"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"status_text"|translate}}</th>
                         <td mat-cell *matCellDef="let element">
                             <mat-slide-toggle (click)="changeStatus(element.id, element.status)"
                                 [checked]="element.status == 1 ? true : false"
@@ -391,7 +391,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="actions">
-                        <th mat-header-cell *matHeaderCellDef>{{"admin.mng_usr.actions"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef>{{"actions_text"|translate}}</th>
                         <td mat-cell *matCellDef="let element">
                             <button mat-icon-button matTooltip="{{'click_to_edit_text'|translate}}" color="accent"
                                 (click)="navigateTo('edit-user/'+element.id)">
@@ -462,27 +462,27 @@
                     </ng-container>
 
                     <ng-container matColumnDef="Organization">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.partner_name"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"partner_name"|translate}}</th>
                         <td mat-cell *matCellDef="let element">{{ element.university_name }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="college">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.college"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"college"|translate}}</th>
                         <td mat-cell *matCellDef="let element">{{ element.college_name }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="Year">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.year"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"year"|translate}}</th>
                         <td mat-cell *matCellDef="let element">{{ element.year_name }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="Semester">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.semester"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"semester"|translate}}</th>
                         <td mat-cell *matCellDef="let element">{{ element.sem_name }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="Group">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.group"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"group"|translate}}</th>
                         <td mat-cell *matCellDef="let element">{{ element.grp_name }}</td>
                     </ng-container>
 
@@ -498,7 +498,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="status">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.status"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"status_text"|translate}}</th>
                         <td mat-cell *matCellDef="let element">
                             <mat-slide-toggle (click)="changeStatus(element.id, element.status)"
                                 [checked]="element.status == 1 ? true : false"
@@ -513,7 +513,7 @@
                     </ng-container>
 
                     <ng-container matColumnDef="actions">
-                        <th mat-header-cell *matHeaderCellDef>{{"admin.mng_usr.actions"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef>{{"actions_text"|translate}}</th>
                         <td mat-cell *matCellDef="let element">
                             <button mat-icon-button matTooltip="{{'click_to_edit_text'|translate}}" color="accent"
                                 (click)="navigateTo('edit-user/'+element.id)">
@@ -562,17 +562,17 @@
                     </ng-container>
 
                     <ng-container matColumnDef="Year">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.year"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"year"|translate}}</th>
                         <td mat-cell *matCellDef="let element">{{ element.year_name }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="Semester">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.semester"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"semester"|translate}}</th>
                         <td mat-cell *matCellDef="let element">{{ element.sem_name }}</td>
                     </ng-container>
 
                     <ng-container matColumnDef="Group">
-                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.group"|translate}}</th>
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"group"|translate}}</th>
                         <td mat-cell *matCellDef="let element">{{ element.grp_name }}</td>
                     </ng-container>
 

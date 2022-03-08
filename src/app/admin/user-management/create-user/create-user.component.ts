@@ -398,7 +398,10 @@ export class CreateUserComponent implements OnInit {
     this.semester_id = '';
     this.group_id = '';
     if (this.role == '') {
-      this.toster.error(`Please select role`, 'Error');
+      this.translate.get('admin.new_usr.pls_sel_role').subscribe((data)=> {
+        this.toster.error(data, "Error", { closeButton: true });
+      });
+      //this.toster.error(`Please select role`, 'Error');
       this.organization = '';
       return;
     }
@@ -430,7 +433,10 @@ export class CreateUserComponent implements OnInit {
       }
       if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN == Number(this.role)) {
         this.role = ''; this.organization = '';
-        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        this.translate.get('admin.new_usr.sel_org_type').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
         return;
       }
       this.partner_type_id = 1; //partner as Universities
@@ -444,7 +450,10 @@ export class CreateUserComponent implements OnInit {
       }
       if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN == Number(this.role)) {
         this.role = ''; this.organization = '';
-        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        this.translate.get('admin.new_usr.sel_org_type').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
         return;
       }
       this.partner_type_id = 2; //partner as Collges
@@ -458,7 +467,10 @@ export class CreateUserComponent implements OnInit {
       }
       if (environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.COLLEGE_ADMIN == Number(this.role) || environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN == Number(this.role)) {
         this.role = ''; this.organization = '';
-        this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
+        this.translate.get('admin.new_usr.sel_org_type').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error(`Proceum can not create a User with role for the selected organization type`, 'Error');
         return;
       }
       this.partner_type_id = 3; //partner as Institutes
@@ -584,7 +596,10 @@ export class CreateUserComponent implements OnInit {
     }
     if (Number(this.user['role']) == environment.ALL_ROLES.SUPER_ADMIN && this.organization == '1' && Number(this.role) != environment.ALL_ROLES.UNIVERSITY_ADMIN) {
       if (!this.college_id) {
-        this.toster.error("Please select College!", 'Error', { closeButton: true });
+        this.translate.get('admin.new_usr.pls_sel_college').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error("Please select College!", 'Error', { closeButton: true });
         return;
       }
     }
@@ -593,7 +608,10 @@ export class CreateUserComponent implements OnInit {
         return;
       }
       if (this.subject_csv == '') {
-        this.toster.error("Please select subjects!", 'Error', { closeButton: true });
+        this.translate.get('admin.new_usr.pls_sel_subject').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error("Please select subjects!", 'Error', { closeButton: true });
         return;
       }
     }

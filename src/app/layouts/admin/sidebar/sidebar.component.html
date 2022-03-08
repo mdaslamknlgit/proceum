@@ -26,13 +26,7 @@
         </li>
       </ul>
     </li>-->
-    <li class="hs_sbmnu {{
-        menu_active == 2 ||
-        active_route == '/admin/students' || active_route == '/admin/roles-list' ||
-        active_route == '/admin/login-history'
-          ? 'active'
-          : ''
-      }}" routerLinkActive="active" (click)="activeMenu(2, menu_active)">
+    <li class="hs_sbmnu {{ menu_active == 2 || active_route == '/admin/students' || active_route == '/admin/roles-list' ? 'active' : ''}}" routerLinkActive="active" (click)="activeMenu(2, menu_active)">
       <div class="sd_mnuhd">
         <mat-icon>groups</mat-icon>{{"admin.side_menu.user_management"|translate}}
       </div>
@@ -43,9 +37,9 @@
         <li routerLinkActive="active" routerLink="/admin/manage-users">
           <mat-icon>manage_accounts</mat-icon>{{"admin.side_menu.manage_users"|translate}}
         </li>
-        <li routerLinkActive="active" routerLink="/admin/login-history">
+        <!-- <li routerLinkActive="active" routerLink="/admin/login-history">
           <mat-icon>history</mat-icon>{{"admin.side_menu.login_history"|translate}}
-        </li>
+        </li> -->
       </ul>
     </li>
     <!-- <li routerLinkActive="active" routerLink="/admin/study-planner">
@@ -342,6 +336,28 @@
       <div class="sd_mnuhd" (click)="menu_active = 0" routerLinkActive="active" routerLink="/admin/social-approval">
         <mat-icon>share</mat-icon>{{"admin.side_menu.social_sharing"|translate}}
       </div>
+    </li>
+    <li class="hs_sbmnu {{ menu_active == 11 || active_route == '/admin/orders-report' || active_route == '/admin/revenue-report' ||  active_route == '/admin/login-history' || active_route == '/admin/analysis-report' || active_route == '/admin/classes-report' ? 'active' : '' }}" (click)="activeMenu(11, menu_active)">
+      <div class="sd_mnuhd">
+        <mat-icon>summarize</mat-icon>{{"admin.side_menu.reports"|translate}}
+      </div>
+      <ul class="sdmn_sub">
+        <li routerLink="/admin/orders-report" [ngClass]="{ active: active_route == '/admin/orders-report' }">
+          <mat-icon>summarize</mat-icon>{{"admin.side_menu.orders_list"|translate}}
+        </li>
+        <li routerLink="/admin/revenue-report" [ngClass]="{ active: active_route == '/admin/revenue-report' }">
+          <mat-icon>summarize</mat-icon>{{"admin.side_menu.revenue_report"|translate}}
+        </li>
+        <li routerLink="/admin/login-history" [ngClass]="{ active: active_route == '/admin/login-history' }">
+          <mat-icon>summarize</mat-icon>{{"admin.side_menu.login_report"|translate}}
+        </li>
+        <li routerLink="/admin/analysis-report" [ngClass]="{ active: active_route == '/admin/analysis-report' }">
+          <mat-icon>summarize</mat-icon>{{"admin.side_menu.analysis_report"|translate}}
+        </li>
+        <li routerLink="/admin/classes-report" [ngClass]="{ active: active_route == '/admin/classes-report' }">
+          <mat-icon>summarize</mat-icon>{{"admin.side_menu.classes_report"|translate}}
+        </li>
+      </ul>
     </li>
   </ul>
 </div>

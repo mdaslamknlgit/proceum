@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { ReplaySubject } from 'rxjs';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { NestedTreeControl } from '@angular/cdk/tree';
+import { TranslateService } from '@ngx-translate/core';
 
 interface CurriculumNode {
   id?: number;
@@ -63,7 +64,7 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   public search_box = '';
   public page = 0;
   public add_or_edit = "Add New";
-  public page_title = "Year";
+  public page_title = "";
   public slug = "year";
   popoverTitle = '';
   popoverMessage = '';
@@ -120,8 +121,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   constructor(
     private http: CommonService,
     public toster: ToastrService,
-    private router: Router
+    private router: Router,
+    public translate: TranslateService
   ) { }
+  
 
   hasChild = (_: number, node: CurriculumNode) =>
     !!node.children && node.children.length > 0;
@@ -237,6 +240,12 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.translate.get('year').subscribe((data)=> {
+      this.page_title = data;
+    });
+    this.translate.get('admin.year_sem_grp.add_new').subscribe((data)=> {
+      this.add_or_edit = data;
+    });
     const user = JSON.parse(atob(localStorage.getItem('user')));
     this.user = user;
     this.user_role = user.role;
@@ -283,17 +292,26 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     //Years tab
     if (tab.index == 0) {
       this.slug = 'year';
-      this.page_title = 'Year';
+      this.translate.get('year').subscribe((data)=> {
+        this.page_title = data;
+      });
+      //this.page_title = 'Year';
     }
     //Semesters tab
     if (tab.index == 1) {
       this.slug = 'semester';
-      this.page_title = 'Semester';
+      this.translate.get('semester').subscribe((data)=> {
+        this.page_title = data;
+      });
+      //this.page_title = 'Semester';
     }
     //Groups tab
     if (tab.index == 2) {
       this.slug = 'group';
-      this.page_title = 'Group';
+      this.translate.get('group').subscribe((data)=> {
+        this.page_title = data;
+      });
+      //this.page_title = 'Group';
     }
     //finally
     this.getData();
@@ -351,6 +369,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
 
   public getRow(id) {
     this.add_or_edit = 'Edit';
+    this.translate.get('admin.year_sem_grp.edit').subscribe((data)=> {
+      this.add_or_edit = data;
+    });
     this.self_or_other = 'other';
     this.courses_ids_csv = '';
     let param = { url: 'get-year-semester-group-by-id', 'id': id, 'slug': this.slug };
@@ -520,6 +541,9 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
     this.self_or_other = 'other';
     this.show_radio = false;//true Changed to false on 05/1/2022
     this.add_or_edit = 'Add New';
+    this.translate.get('admin.year_sem_grp.add_new').subscribe((data)=> {
+      this.add_or_edit = data;
+    });
     this.year_has_semester = false;
     this.year_has_group = false;
     this.show_semester_dropdown = false;
@@ -620,7 +644,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       } else {
         this.colleges = [];
         this.all_colleges.next(this.colleges.slice());
-        this.toster.error("No colleges found", 'Error');
+        this.translate.get('admin.year_sem_grp.no_college_found').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error("No colleges found", 'Error');
       }
     });
   }
@@ -668,11 +695,17 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       this.name_field_disabled = false;
     } else {
       if (this.slug == 'semester' && year_obj.year_has_semester == 0) {
-        this.toster.error("Disabled creating semester to selected year!", 'Error');
+        this.translate.get('admin.year_sem_grp.disabled_semester').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error("Disabled creating semester to selected year!", 'Error');
         this.name_field_disabled = true;
         this.name_of = '';
       } else if (year_obj.year_has_group == 0) {
-        this.toster.error("Disabled creating groups to selected year!", 'Error');
+        this.translate.get('admin.year_sem_grp.disabled_group').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error("Disabled creating groups to selected year!", 'Error');
         this.name_field_disabled = true;
         this.name_of = '';
       } else {
@@ -684,7 +717,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
   checkGroupCanCreate() {
     let year_obj = this.years.find((year) => year.pk_id == this.year_id);
     if (year_obj.year_has_group == 0) {
-      this.toster.error("Creating groups disabled to selected year!", 'Error');
+      this.translate.get('admin.year_sem_grp.create_disabled_year').subscribe((data)=> {
+        this.toster.error(data, "Error", { closeButton: true });
+      });
+      //this.toster.error("Creating groups disabled to selected year!", 'Error');
       this.name_field_disabled = true;
       this.name_of = '';
     } else {
@@ -748,7 +784,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       this.submitCourses();
       if (this.courses_ids_csv == '') {
         error = true;
-        this.toster.error("Select Subjects!", 'Error');
+        this.translate.get('admin.year_sem_grp.sel_subject').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error("Select Subjects!", 'Error');
       }
     }
     let parent_id = null;
@@ -757,14 +796,20 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       parent_id = null;
       if (this.name_of == '') {
         error = true;
-        this.toster.error("Year name required!", 'Error');
+        this.translate.get('admin.year_sem_grp.year_req').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error("Year name required!", 'Error');
       }
     }
     if (this.slug == 'semester') {
       parent_id = this.year_id;
       if (this.name_of == '') {
         error = true;
-        this.toster.error("Semester name required!", 'Error');
+        this.translate.get('admin.year_sem_grp.sem_req').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error("Semester name required!", 'Error');
       }
     }
     if (this.slug == 'group') {
@@ -772,7 +817,10 @@ export class ManageYearsSemestersGroupsComponent implements OnInit {
       parent_id = (year_obj.year_has_semester) ? this.semester_id : this.year_id;
       if (this.name_of == '') {
         error = true;
-        this.toster.error("Group name required!", 'Error');
+        this.translate.get('admin.year_sem_grp.grp_req').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error("Group name required!", 'Error');
       }
     }
 

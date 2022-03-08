@@ -1,0 +1,100 @@
+<div class="mn_dshbrd">
+    <div class="brd_crm">Proceum &nbsp;&raquo; <strong>Orders List Report</strong></div>
+    <div class="pg_ttl">Orders List Report</div>
+    <div class="dsh_brd_crds inputs_wdth_200">
+        <div class="cm_fltr_sc mr_1">
+            <span>Duration</span>
+            <mat-form-field appearance="outline">
+                <mat-select placeholder="Select Duration" name="duration" [(ngModel)]="duration" (ngModelChange)="applyFilters()">
+                    <mat-option [value]="">All</mat-option>
+                    <mat-option [value]="'today'">Today</mat-option>
+                    <mat-option [value]="'this_week'">This Week</mat-option>
+                    <mat-option [value]="'this_month'">This Month</mat-option>
+                    <mat-option [value]="'3'">Past 3 Months</mat-option>
+                    <mat-option [value]="'6'">Past 6 Months</mat-option>
+                    <mat-option [value]="'9'">Past 9 Months</mat-option>
+                    <mat-option [value]="'this_year'">This Year</mat-option>
+                    <mat-option [value]="'date_range'">Date Range</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="cm_fltr_sc mr_1 {{date_range_fltr == false ? 'd_none':''}}">
+            <div class="crt_prt_hd">Date Range</div>
+            <mat-form-field appearance="outline">
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date" [(ngModel)]="from_date" (dateChange)="fromdateChange()" readonly>
+                <input matEndDate placeholder="End date" [(ngModel)]="to_date" (dateChange)="todateChange()" [disabled]="is_todate" readonly>
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </div>
+        <div class="cm_fltr_sc mr_1">
+            <div class="crt_prt_hd">Country</div>
+            <mat-form-field appearance="outline" class="w_100p">
+                <mat-select placeholder="Select Country" name="country_id" [(ngModel)]="country_id" (ngModelChange)="applyFilters()">
+                    <mat-option>
+                        <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
+                            [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                            (ngModelChange)="filterCountries($event)"></ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{
+                        country["country_name"] }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="cm_fltr_sc mr_1"> <span>Search</span>
+            <mat-form-field appearance="outline" class="w_100p">
+                <input matInput [(ngModel)]="search_txt" (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
+                    placeholder="Search Order ID/Amount/Transaction ID" />
+                <mat-icon (click)="applyFilters()" matSuffix color="accent">search</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="cm_fltr_sc mr_1">
+           <span>&nbsp;</span>
+            <button mat-raised-button color="warn" class="float_right mr_1 btn_st_frm" (click)="resetFilters()" matTooltip="Reset"><mat-icon>restart_alt</mat-icon></button>
+        </div>
+        <div class="rsp_tbl">
+            <table mat-table (matSortChange)="sortData($event)" class="mat-elevation-z8" [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="s_no">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="s_no">S.No</th>
+                  <td mat-cell *matCellDef="let element" class="s_no">{{ element.s_no }}</td>
+                </ng-container>
+                <ng-container matColumnDef="order_id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Order ID</th>
+                  <td mat-cell *matCellDef="let element">{{ element.order_id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="created_at">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Order Date</th>
+                  <td mat-cell *matCellDef="let element"> {{ element.created_at }} </td>
+                </ng-container>
+                <ng-container matColumnDef="user_email">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>User Email</th>
+                  <td mat-cell *matCellDef="let element">{{ element.user_email }}</td>
+                </ng-container>
+                <ng-container matColumnDef="package_name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Package</th>
+                  <td mat-cell *matCellDef="let element">{{ element.package_name }}</td>
+                </ng-container>
+                <ng-container matColumnDef="paid_amount">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Amount</th>
+                  <td mat-cell *matCellDef="let element">{{ element.paid_amount }}</td>
+                </ng-container>
+                <ng-container matColumnDef="transaction_id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Transaction ID</th>
+                  <td mat-cell *matCellDef="let element">{{ element.transaction_id }}</td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let element">View Details</td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                  <td class="mat-cell" [attr.colspan]="displayedColumns.length">No Records Found</td>
+                </tr>
+            </table>
+        </div>
+        <mat-paginator #paginator [pageSize]="pageSize" [length]="num_rows" [pageSizeOptions]="page_size_options" [showFirstLastButtons]="true" (page)="getServerData($event)"></mat-paginator>
+    </div>
+</div>
