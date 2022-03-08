@@ -169,17 +169,6 @@
                 </button>-->
               </span>
               <div class="hgt_10"></div>
-              <span *ngIf="user['role'] == 11">Apply Referral Code</span>
-              <mat-form-field *ngIf="user['role'] == 11" appearance="outline">
-                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Apply Referral Code"
-                  [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
-                  [(ngModel)]="profile.frnd_referral_code">
-              </mat-form-field>
-              <button *ngIf="user['role'] == 11 && dis_frnd_referral_code == false" (click)='applyReferralCode()'
-                class="brws_dpbtn" mat-raised-button color="accent" type="button">
-                Apply Referral
-              </button>
-
             </div>
           </div>
         </div>
@@ -244,10 +233,10 @@
                 autocomplete="off" />
             </mat-form-field>
           </div>
-          <div class="my_prf_dv fld_readonly">
+          <div class="my_prf_dv">
             <span>Country <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select Country" [disabled]="'disabled'" name="country" #country="ngModel"
+              <mat-select placeholder="Select Country" name="country" #country="ngModel"
               [(ngModel)]="profile.country_id" (ngModelChange)="getStates(profile.country_id)" required>
                 <mat-option>
                   <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
@@ -259,10 +248,10 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv fld_readonly">
+          <div class="my_prf_dv">
             <span>State <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select State" [disabled]="'disabled'" name="state" #state="ngModel"
+              <mat-select placeholder="Select State" name="state" #state="ngModel"
               [(ngModel)]="profile.state_id" (ngModelChange)="getCities(profile.state_id)" required>
                 <mat-option>
                   <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'" [placeholderLabel]="'Search State'"
@@ -273,10 +262,10 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv fld_readonly">
+          <div class="my_prf_dv">
             <span>City <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select City" name="city_name" [disabled]="'disabled'" #city_name="ngModel" [(ngModel)]="profile.city"
+              <mat-select placeholder="Select City" name="city_name" #city_name="ngModel" [(ngModel)]="profile.city"
               required>
                 <mat-option>
                   <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'" [placeholderLabel]="'Search City'"
@@ -287,16 +276,16 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv rsp_mypdv_bg fld_readonly">
+          <div class="my_prf_dv rsp_mypdv_bg">
             <span>Address line 1 <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 1" required name="address1" [disabled]="'disabled'" [(ngModel)]="profile.address1"></textarea>
+              <textarea matInput placeholder="Address Line 1" required name="address1" [(ngModel)]="profile.address1"></textarea>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv fld_readonly">
+          <div class="my_prf_dv">
             <span>Address line 2</span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 2" name="address2" [disabled]="'disabled'" [(ngModel)]="profile.address2"></textarea>
+              <textarea matInput placeholder="Address Line 2" name="address2" [(ngModel)]="profile.address2"></textarea>
             </mat-form-field>
           </div>
           <div *ngIf="profile.university != null" class="my_prf_dv fld_readonly">
@@ -338,7 +327,7 @@
               matTooltip="Password length should be between 6-16 and must contain at least one lowercase letter, uppercase letter, digit, special character.">info</mat-icon>
             </span>
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
             <span *ngIf='isdisplay'>Current Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
               <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
@@ -349,7 +338,7 @@
                 'visibility'}}</mat-icon>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
             <span *ngIf='isdisplay'>New Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
               <input matInput (keyup)="passwordVerification()" placeholder="New password"
@@ -362,7 +351,7 @@
             </mat-form-field>
 
           </div>
-          <div class="my_prf_dv">
+          <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
             <span *ngIf='isdisplay'>Confirm Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" [class]="errClass" *ngIf='isdisplay'>
               <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off"

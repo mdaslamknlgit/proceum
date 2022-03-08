@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface PeriodicElement {
   name: string;
@@ -44,7 +45,8 @@ export class RolesListComponent implements OnInit {
   constructor(
     private http: CommonService,
     public toster: ToastrService,
-    private route: Router
+    private route: Router,
+    public translate: TranslateService
   ) {}
 
   ngOnInit(): void {

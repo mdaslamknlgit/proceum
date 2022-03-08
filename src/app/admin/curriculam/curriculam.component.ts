@@ -50,6 +50,9 @@ export class CurriculamComponent implements OnInit {
         this.translate.setDefaultLang(this.http.lang);
     }
     ngOnInit(): void {
+        this.translate.get('admin.c_q_bank.courses').subscribe((data)=> {
+            this.tab_title = data;
+        });
         //this.step_flags['step_0'] = '0';
         this.getCurriculums();
     }
@@ -83,10 +86,16 @@ export class CurriculamComponent implements OnInit {
         this.active_tab_index = event.index;
         if (this.active_tab_index == 0) {
             this.tab_title = "Course";
+            this.translate.get('admin.c_q_bank.courses').subscribe((data)=> {
+                this.tab_title = data;
+            });
             this.course_usage = 1;
             this.getCurriculums();
         } else {
             this.tab_title = "QBank";
+            this.translate.get('admin.c_q_bank.q_banks').subscribe((data)=> {
+                this.tab_title = data;
+            });
             this.course_usage = 2;
             this.getCurriculums();
         }
@@ -151,7 +160,10 @@ export class CurriculamComponent implements OnInit {
     }
     createCurriculum() {
         if (this.duplicate_error) {
-            this.toster.error('Duplicate Level names not allowed');
+            this.translate.get('admin.c_q_bank.duplicate_level_error').subscribe((data)=> {
+                this.toster.error(data, "Error", { closeButton: true });
+            });
+            //this.toster.error('Duplicate Level names not allowed');
             return false;
         }
         let steps = [];
@@ -221,7 +233,10 @@ export class CurriculamComponent implements OnInit {
     }
     updateCurriculum() {
         if (this.duplicate_error) {
-            this.toster.error('Duplicate Level names not allowed');
+            this.translate.get('admin.c_q_bank.duplicate_level_error').subscribe((data)=> {
+                this.toster.error(data, "Error", { closeButton: true });
+            });
+            //this.toster.error('Duplicate Level names not allowed');
             return false;
         }
         let steps = [];
