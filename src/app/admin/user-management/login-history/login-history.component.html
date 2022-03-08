@@ -1,8 +1,8 @@
 <div class="mn_dshbrd">
   <div class="brd_crm">
-    Proceum &raquo; User Management &raquo; <strong>Login History</strong>
+    {{"proceum_text"|translate}} &raquo; {{"admin.side_menu.user_management"|translate}} &raquo; <strong>{{"admin.side_menu.login_history"|translate}}</strong>
   </div>
-  <div class="pg_ttl">Login History</div>
+  <div class="pg_ttl">{{"admin.side_menu.login_history"|translate}}</div>
 
   <div class="dsh_brd_crds inputs_wdth_200">
     <div class="d_flx_ac">
@@ -11,7 +11,7 @@
           matInput
           (keyup)="$event.keyCode == 13 ? applyFilters() : ''"
           [(ngModel)]="search_txt"
-          placeholder="Search"
+          placeholder="{{'search_text'|translate}}"
         />
         <mat-icon matSuffix (click)="applyFilters()">search</mat-icon>
       </mat-form-field>
@@ -23,7 +23,7 @@
           [(ngModel)]="from_date"
           (dateChange)="fromdateChabge()"
           readonly
-          placeholder="From Date"
+          placeholder="{{'admin.lgn_his.from_date'|translate}}"
         />
         <mat-datepicker-toggle
           matSuffix
@@ -41,7 +41,7 @@
           (dateChange)="todateChabge()"
           [disabled]="is_todate"
           readonly
-          placeholder="To Date"
+          placeholder="{{'admin.lgn_his.to_date'|translate}}"
         />
         <mat-datepicker-toggle
           matSuffix
@@ -56,14 +56,14 @@
         (click)="applyFilters()"
         [disabled]="is_submit"
       >
-        Submit
+      {{"submit"|translate}}
       </button>
       <button
         mat-raised-button
         color="warn"
         class="float_right mr_1 btn_st_frm"
         (click)="resetFilters()"
-        matTooltip="Reset"
+        matTooltip="{{'admin.lgn_his.reset'|translate}}"
       >
         <mat-icon>restart_alt</mat-icon>
       </button>
@@ -76,7 +76,7 @@
         color="accent"
         class="float_right mr_1"
         type="button"
-        matTooltip="Download PDF"
+        matTooltip="{{'admin.lgn_his.download_pdf'|translate}}"
         matTooltipPosition="above"
         ><mat-icon>picture_as_pdf</mat-icon></a>
       <a
@@ -87,7 +87,7 @@
         color="accent"
         class="float_right"
         type="button"
-        ><mat-icon matTooltip="Download Excel" matTooltipPosition="above"
+        ><mat-icon matTooltip="{{'admin.lgn_his.download_excel'|translate}}" matTooltipPosition="above"
           >description</mat-icon
         ></a>
       </span>
@@ -101,69 +101,65 @@
         matSort
       >
         <ng-container matColumnDef="pk_id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="s_no">S.No</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="s_no">{{"s_no_text"|translate}}</th>
           <td mat-cell *matCellDef="let element" class="s_no">{{ element.s_no }}</td>
         </ng-container>
         <ng-container matColumnDef="first_name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.name"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.name }}</td>
         </ng-container>
         <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.email"|translate}}</th>
           <td mat-cell *matCellDef="let element">
             {{ element.email ? element.email : "-" }}
           </td>
         </ng-container>
         <ng-container matColumnDef="latitude">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Latitude</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.latitude"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.latitude }}</td>
         </ng-container>
         <ng-container matColumnDef="longitude">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Longitude</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.longitude"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.longitude }}</td>
         </ng-container>
         <ng-container matColumnDef="country_name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.country"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.country_name }}</td>
         </ng-container>
         <ng-container matColumnDef="city_name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>City</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.city"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.city_name }}</td>
         </ng-container>
         <ng-container matColumnDef="platform_name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>
-            Platform Name
-          </th>
-          <td mat-cell *matCellDef="let element">
-            {{ element.platform_name }}
-          </td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.platform_name"|translate}}</th>
+          <td mat-cell *matCellDef="let element">{{ element.platform_name }}</td>
         </ng-container>
         <ng-container matColumnDef="device_type">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Device Type</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.device_type"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.device_type }}</td>
         </ng-container>
         <ng-container matColumnDef="browser">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Browser</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.browser"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.browser }}</td>
         </ng-container>
         <ng-container matColumnDef="ip_v4_address">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Ip Address</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.ip_address"|translate}}</th>
           <td mat-cell *matCellDef="let element">
             {{ element.ip_v4_address }}
           </td>
         </ng-container>
         <ng-container matColumnDef="login_time">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Login Time</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.login_time"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.login_time }}</td>
         </ng-container>
         <ng-container matColumnDef="logout_time">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Logout Time</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"admin.lgn_his.logout_time"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.logout_time }}</td>
         </ng-container>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         <tr class="mat-row no_rcrds_fd" *matNoDataRow>
-          <td class="mat-cell" [attr.colspan]="displayedColumns.length">No Records Found</td>
+          <td class="mat-cell" [attr.colspan]="displayedColumns.length">{{"no_records_found_text"|translate}}</td>
         </tr>
       </table>
     </div>

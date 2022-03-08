@@ -63,6 +63,7 @@ import { Individual_levels_listComponent } from './student/individual-courses/in
 
 //Charts
 import { NgChartjsModule } from 'ng-chartjs';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
 
 const routes: Routes = [
   {
@@ -185,7 +186,8 @@ const routes: Routes = [
     PdfViewerModule,
     SharedModule,
     ShareModule,
-    NgChartjsModule
+    NgChartjsModule,
+    NgxDocViewerModule
   ],
   providers: [
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },

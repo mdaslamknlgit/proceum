@@ -38,6 +38,7 @@ const routes: Routes = [
   { path: 'our-team', component: OurTeamComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'register/:referral_code', component: RegisterComponent },
   { path: 'signup', component: PartnerRegisterComponent },
   { path: 'library', component: ProceumLibraryComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -82,6 +83,12 @@ const routes: Routes = [
     path: 'teacher',
     loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule), canActivate: [AuthGuard], data: {
       role: '8,9,10,12,13,14',
+    },
+  },
+  {
+    path: 'finance-user',
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule), canActivate: [AuthGuard], data: {
+      role: '13',
     },
   },
   {

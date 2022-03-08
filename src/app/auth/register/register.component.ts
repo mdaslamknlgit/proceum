@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MatStepper } from '@angular/material/stepper';
 import { ReplaySubject } from 'rxjs';
@@ -77,6 +77,7 @@ export class RegisterComponent implements OnInit {
     other_university: '',
     qualification : '',
     profession : '',
+    referral_code: '',
     address_line_1:'',
     address_line_2:'',
     country_id:0,
@@ -133,10 +134,15 @@ export class RegisterComponent implements OnInit {
     private http: AuthService,
     private route: Router,
     private toastr: ToastrService,
-    private socialAuthService: SocialAuthService
+    private socialAuthService: SocialAuthService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((param) => {
+      this.individualRegister.referral_code = param.referral_code == undefined?'':param.referral_code;
+      this.individualRegister.profession = param.referral_code == undefined?'':'Student';
+    });
     this.domain = location.origin;
     this.getSocialAuth();
     this.getCountries();
@@ -529,6 +535,7 @@ export class RegisterComponent implements OnInit {
       university : this.individualRegister.university,
       college : this.individualRegister.college,
       profession : this.individualRegister.profession,
+      referral_code : this.individualRegister.referral_code,
       qualification : this.individualRegister.qualification,
       password : this.individualRegister.password,
       confirm_pwd : this.individualRegister.confirm_pwd,
@@ -677,6 +684,7 @@ export class RegisterComponent implements OnInit {
             college: '',
             qualification: '',
             profession: '',
+            referral_code: '',
             address_line_1:'',
             address_line_2:'',
             country_id:'',
@@ -959,6 +967,7 @@ export interface IndividualRegister {
   college: any;
   qualification: any;
   profession: any;
+  referral_code: any;
   address_line_1:any,
   address_line_2:any,
   country_id:any,

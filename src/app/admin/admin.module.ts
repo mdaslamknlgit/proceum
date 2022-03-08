@@ -102,6 +102,9 @@ import { Levels_listComponent } from './teacher/teacher-subjects/levels_list/lev
 import { ApproveLeadComponent } from './approve-lead/approve-lead.component';
 import { TeacherComponent } from './dashboard/teacher/teacher.component';
 import { NgChartjsModule } from 'ng-chartjs';
+import { OrdersComponent } from './orders/orders.component';
+import { RevenueComponent } from './revenue/revenue.component';
+import { OrderDetailsComponent } from './orders/order-details/order-details.component';
 
 //reports
 import { AnalysisReportComponent } from './reports/analysis-report/analysis-report.component';
@@ -281,6 +284,11 @@ const routes: Routes = [
       { path: 'classes-report', component: ClassesReportComponent },
       { path: 'orders-report', component: OrdersReportComponent },
       { path: 'revenue-report', component: RevenueReportComponent },
+      //Orders
+      { path: 'orders', component: OrdersComponent },
+      { path: 'revenue', component: RevenueComponent },
+      { path: 'order-details/:id', component: OrderDetailsComponent },
+
     ],
   },
 ];
@@ -361,7 +369,10 @@ const routes: Routes = [
     AnalysisReportComponent,
     ClassesReportComponent,
     OrdersReportComponent,
-    RevenueReportComponent
+    RevenueReportComponent,
+    OrdersComponent,
+    RevenueComponent,
+    OrderDetailsComponent,
   ],
   imports: [
     MaterialModule,

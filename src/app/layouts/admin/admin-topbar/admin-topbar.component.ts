@@ -5,6 +5,7 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-topbar',
@@ -14,7 +15,9 @@ import { TranslateService } from '@ngx-translate/core';
 export class AdminTopbarComponent implements OnInit {
   public sidemenu_status: string = "sd_cls";
   // public sidemenu_status: string = localStorage.getItem('sidemenu');
+
   public glbSrch = true;
+  public hbMnu = false;
   public user;
   public search_key;
   private subscription: Subscription;
@@ -28,7 +31,7 @@ export class AdminTopbarComponent implements OnInit {
     this.width = window.innerWidth;
   }
   @Output() finishedLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
-  constructor(private http: CommonService, public translate: TranslateService, private route: Router, private fs: FirebaseService,) {
+  constructor(private http: CommonService, public translate: TranslateService, private route: Router, private fs: FirebaseService,private toster: ToastrService,) {
     this.http.menu_status = "sd_cls";
     this.translate.setDefaultLang(this.http.lang);
     // this.http.menu_status = localStorage.getItem('sidemenu');
@@ -47,6 +50,23 @@ export class AdminTopbarComponent implements OnInit {
       this.finishedLoading.emit(true);
     }
     this.user = this.http.getUser();
+    let param = {
+      url: 'get-user-config', //+ this.user['id'],
+      user_id:this.user['id']
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {   
+        if(res['data'] != ''){
+          this.http.lang = res['data']['language'];
+        }else{
+          this.http.lang = this.user.configs['language'];
+        }     
+      }else{
+        this.http.lang = this.user.configs['language'];
+      }
+      this.language = this.http.lang;    
+      this.translate.setDefaultLang(this.http.lang);
+    });
     this.route.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) {
         // if (this.width < 1024) {
@@ -126,5 +146,35 @@ export class AdminTopbarComponent implements OnInit {
   adminglobalsearch() {
     // this.route.navigateByUrl('/admin/global-search/' + this.search_key)
     this.route.navigateByUrl('/index/global-search/' + this.search_key)
+  }
+
+  public language = '';
+  
+  getLanguage()
+  {
+    this.http.lang = this.language;
+    this.translate.setDefaultLang(this.http.lang);
+    let param = {
+      url: 'update-user-config',
+      user_id:this.user['id'],
+      mode:'language',
+      value: this.language
+    };
+    this.http.post(param).subscribe((res) => {
+      // if (res['error'] == false) {
+      //   this.translate.get('success_text').subscribe((success_text)=> {
+      //     this.translate.get('create_success').subscribe((message)=> {
+      //         this.toster.success(message, success_text, {closeButton:true});
+      //     });
+      //   });
+      // }
+      // else {
+      //   this.translate.get('something_went_wrong_text').subscribe((data)=> {
+      //     this.translate.get('error_text').subscribe((error_text)=> {
+      //         this.toster.error(data, error_text, {closeButton:true});
+      //     });
+      //   })
+      // }
+    });
   }
 }
