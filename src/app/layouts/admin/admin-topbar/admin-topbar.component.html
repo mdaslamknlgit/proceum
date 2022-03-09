@@ -1,23 +1,101 @@
 <mat-toolbar>
   <!-- <mat-icon (click)="toggleSidemenu('hello')">menu</mat-icon> -->
-  <button mat-icon-button (click)="toggleSidemenu('hello')" class="hmbrg_btn">
+  <!-- <button mat-icon-button (click)="toggleSidemenu('hello')" class="hmbrg_btn">
     <img src="./assets/images/hamburg-icon.svg" />
-  </button>
+  </button> -->
   <span class="logo_spn"><img src="{{ getHeaderLogo() }}" /></span>
   <span class="usr_lgns">{{"welcome_to_text"|translate}} {{ user["role_name"] }} {{"dashboard_text"|translate}}</span>
   <span class="spacer"></span>
-  <app-white-board></app-white-board>
-  <span class="tp_rt_mn ps_rel notification_span_icon fr_bdg mr_0">
+
+
+  <div class="nav">
+    <div>
+      <app-white-board></app-white-board>
+    </div>
+    <div class="ps_rel">
+      <mat-icon (click)="show_notifications = !show_notifications" *ngIf="content_notifications.length > 0"
+        class="tp_rt_mn lft_0" matBadge="{{content_notifications.length>0?content_notifications.length:''}}"
+        matBadgeColor="warn">
+        notification_important</mat-icon>
+      <mat-icon (click)="show_notifications = !show_notifications" *ngIf="content_notifications.length == 0"
+        class="tp_rt_mn lft_0" matTooltip="Notifications">
+        notification_important</mat-icon>
+      <div class="noti_dv" *ngIf="show_notifications">
+        <div class="noti_hd d-flex">
+          <span class=" ">Notifications</span>
+          <span class="spacer"></span>
+          <span (click)="show_notifications = !show_notifications">
+            <mat-icon>close</mat-icon>
+          </span>
+        </div>
+        <div class="noti_cnt">
+          <ul>
+            <li *ngFor="let notification of content_notifications">
+              <!-- <span class="noti_bld">This is bold notification</span> -->
+              <span (click)="navigateTo('create-content/'+notification['content_id'])">Content Review request from
+                {{notification['first_name']}}</span>
+            </li>
+            <!-- <li>
+                <span class="noti_bld">This is bold notification</span>
+                <span>This is notification content</span>
+              </li>-->
+            <li>
+              <span *ngIf="content_notifications.length == 0">No Notifications</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <mat-icon class="mr_02">account_circle</mat-icon> {{ user["name"] }}
+    </div>
+    <div>
+      <mat-icon (click)="glbSrch = false">search</mat-icon>
+      <div class="tp_rt_mn top-right-icon admntpbr_two">
+        <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
+          <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
+            <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? adminglobalsearch() : ''"
+              placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
+            <mat-icon matSuffix (click)="glbSrch = !glbSrch" class="gs_clsbtn"> {{glbSrch == false ? 'close' : ''}}
+            </mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="{{ glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
+      </div>
+    </div>
+    
+    <div>
+      <mat-icon [matMenuTriggerFor]="menu">translate</mat-icon>
+      <mat-menu #menu="">
+        <span mat-menu-item>English</span>
+        <span mat-menu-item>French</span>
+      </mat-menu>
+    </div>
+    <div class="lg_ot" (click)="logout()">
+      <mat-icon matTooltip="Logout" color="warn" class="mr_02">power_settings_new</mat-icon>Logout
+    </div>
+    <!-- <div routerLink="/about-us">About Us</div> -->
+    <!-- <div routerLink="/contact-us">Contact Us</div> -->
+    <!-- <div routerLink="/blog">Blog</div> -->
+    <!-- <div class="dsh_brd_crds lang_drpdwn">
+      <mat-form-field appearance="outline">
+        <mat-select value="" [(ngModel)]="language" name="language_name" (ngModelChange)="getLanguage();">
+          <mat-option value="en">English</mat-option>
+          <mat-option value="fr">French</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div> -->
+  </div>
+
+  <!-- <span class="tp_rt_mn ps_rel notification_span_icon fr_bdg mr_0">
     <div (click)="show_notifications = !show_notifications">
       <mat-icon *ngIf="content_notifications.length > 0" class="tp_rt_mn lft_0"
         matBadge="{{content_notifications.length>0?content_notifications.length:''}}" matBadgeColor="warn">
         notification_important</mat-icon>
       <mat-icon *ngIf="content_notifications.length == 0" class="tp_rt_mn lft_0" matTooltip="Notifications">
         notification_important</mat-icon>
-      <!-- <span>Notifications</span> -->
-      </div>
+    </div>
     <div class="noti_dv" *ngIf="show_notifications">
-      <!-- {{show_notifications == false?'d-none':''}} -->
       <div class="noti_hd d-flex">
         <span class=" ">Notifications</span>
         <span class="spacer"></span>
@@ -28,77 +106,35 @@
       <div class="noti_cnt">
         <ul>
           <li *ngFor="let notification of content_notifications">
-            <!-- <span class="noti_bld">This is bold notification</span> -->
-            <span (click)="navigateTo('create-content/'+notification['content_id'])" >Content Review request from
+            <span (click)="navigateTo('create-content/'+notification['content_id'])">Content Review request from
               {{notification['first_name']}}</span>
           </li>
-          <!-- <li>
-            <span class="noti_bld">This is bold notification</span>
-            <span>This is notification content</span>
-          </li>-->
           <li>
             <span *ngIf="content_notifications.length == 0">No Notifications</span>
           </li>
         </ul>
       </div>
     </div>
-  </span>
-  <span class="tp_rt_mn">
+  </span> -->
+  <!-- <span class="tp_rt_mn">
     <mat-icon class="tp_rt_mn">account_circle</mat-icon>
     <span>{{ user["name"] }}</span>
-  </span>
-  <div class="tp_rt_mn top-right-icon admntpbr_two">
+  </span> -->
+  <!-- <div class="tp_rt_mn top-right-icon admntpbr_two">
     <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
       <mat-icon matSuffix color="accent" (click)="glbSrch = false">search</mat-icon>
       <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
         <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? adminglobalsearch() : ''"
           placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
-        <mat-icon matSuffix (click)="glbSrch = !glbSrch" class="gs_clsbtn"> {{glbSrch == false ? 'close' : ''}}</mat-icon>
+        <mat-icon matSuffix (click)="glbSrch = !glbSrch" class="gs_clsbtn"> {{glbSrch == false ? 'close' : ''}}
+        </mat-icon>
       </mat-form-field>
     </div>
     <div class="{{ glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
-  </div>
-  <div class="dsh_brd_crds lang_drpdwn" >
-    <mat-form-field appearance="outline">
-      <mat-select value="" [(ngModel)]="language" name="language_name" (ngModelChange)="getLanguage();">
-        <mat-option value="en">English</mat-option>
-        <mat-option value="fr">French</mat-option>
-      </mat-select>
-      <!-- <mat-select value="0">
-        <mat-option value="0"> English</mat-option>
-        <mat-option value="1"> English 1</mat-option>
-        <mat-option value="2"> English 2</mat-option>
-      </mat-select> -->
-    </mat-form-field>
-  </div>
-  <span class="tp_rt_mn lgot_btn" (click)="logout()">
-    <mat-icon matTooltip="Logout" color="warn">power_settings_new</mat-icon>
-  </span>
+  </div> -->
 
-  <div class="lg_inbtn mr_0 hb_mn_pr">
-    <span>
-      <mat-icon color="accent" (click)="hbMnu = !hbMnu">menu</mat-icon>
-    </span>
-    <div *ngIf="hbMnu" class="hb_mnumn {{hbMnu ? 'actv_hb':''}}">
-      <mat-icon (click)="hbMnu = !hbMnu" color="accent">close</mat-icon>
-      <ul>
-        <li routerLink="/about-us">
-          <mat-icon color="accent">info</mat-icon>
-          About Us</li>
-        <li routerLink="/contact-us">
-          <mat-icon color="accent">contact_phone</mat-icon>
-          Contact Us</li>
-        <li routerLink="/blog">
-          <mat-icon color="accent">rss_feed</mat-icon>
-          Blog</li>
-        <li *ngIf="user['name']" (click)="logout()">
-          <span>
-            <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
-            
-          </span>
-          Logout
-          </li>
-      </ul>
-    </div>
-  </div>
+
+  <!-- <span class="tp_rt_mn lgot_btn" (click)="logout()">
+    <mat-icon matTooltip="Logout" color="warn">power_settings_new</mat-icon>
+  </span> -->
 </mat-toolbar>

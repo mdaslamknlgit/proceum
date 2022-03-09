@@ -17,7 +17,6 @@ export class AdminTopbarComponent implements OnInit {
   // public sidemenu_status: string = localStorage.getItem('sidemenu');
 
   public glbSrch = true;
-  public hbMnu = false;
   public user;
   public search_key;
   private subscription: Subscription;

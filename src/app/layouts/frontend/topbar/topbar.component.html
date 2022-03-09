@@ -1,7 +1,7 @@
 <mat-toolbar [ngClass]="{ 'sticky-header': isSticky }" *ngIf="load_top_bar">
-  <button mat-icon-button (click)="menuToggle()" class="hmbrg_btn">
+  <!-- <button mat-icon-button (click)="menuToggle()" class="hmbrg_btn">
     <img src="./assets/images/hamburg-icon.svg" />
-  </button>
+  </button> -->
   <span class="logo_spn" routerLink="/">
     <img src="{{ getHeaderLogo() }}" />
   </span>
@@ -11,24 +11,28 @@
       <app-white-board *ngIf="user['role'] == '1' || user['role'] == '12'"></app-white-board>
     </div>
     <div routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      <mat-icon matTooltip="Home" matBadge color="accent">home</mat-icon>
+      Home
     </div>
-    <div (click)="navigateTo()" *ngIf="user['id']">
-      <mat-icon matTooltip="Dashboard" color="accent">grid_view</mat-icon>
-    </div>
-    <div routerLink="/pricing-and-packages" routerLinkActive="active">
+    <div routerLink="/about-us" routerLinkActive="active">About Us</div>
+    <div routerLink="/courses" routerLinkActive="active">
       Courses
     </div>
-    <div mat-list-item [matMenuTriggerFor]="myMenu">
-      Curriculums <mat-icon matSuffix>arrow_drop_down</mat-icon>
-      <mat-menu #myMenu>
-        <span mat-menu-item *ngFor="let curriculum of curriculums"
-          (click)="navigateURL(curriculum.pk_id)">{{curriculum.curriculumn_name}}</span>
-      </mat-menu>
+    <div routerLink="/contact-us" routerLinkActive="active">
+      Contact Us
+    </div>
+    <div routerLink="/blog" routerLinkActive="active">
+      Blog
+    </div>
+    <div (click)="navigateTo()" *ngIf="user['id']" routerLinkActive="active">
+      Dashboard
+    </div>
+    <div *ngIf="number" routerLink="/shopping-cart" class="fr_bdg">
+      <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn" matTooltip="My Cart">shopping_cart
+      </mat-icon>
     </div>
     <div>
-      <mat-icon color="accent" matSuffix (click)="glbSrch = false">search</mat-icon>
-      <div class="top-right-icon rsp_100p_767 mr_05 ord_mo_767">
+      <mat-icon color="accent" (click)="glbSrch = false">search</mat-icon>
+      <div class="top-right-icon rsp_100p_767 ord_mo_767">
         <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
           <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
             <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''"
@@ -41,105 +45,14 @@
         <div class="{{glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
       </div>
     </div>
-    <div *ngIf="!user['name']" routerLink="/login">
-      <mat-icon color="accent" matTooltip="Login">login</mat-icon>
+    <div *ngIf="!user['name']" routerLink="/login" routerLinkActive="active" class="lgin_dv">
+      <mat-icon color="accent" matTooltip="Login" class="mr_02">login</mat-icon> Login
     </div>
-    <div *ngIf="number" routerLink="/shopping-cart">
-      <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn" matTooltip="My Cart">shopping_cart</mat-icon>
+    <div *ngIf="user['name']" (click)="logout()" class="lg_ot">
+      <mat-icon matTooltip="Logout" class="mr_02">power_settings_new</mat-icon><span class="m_hide"></span>
+      Logout
     </div>
-    <div>
-      <mat-icon color="accent" (click)="hbMnu = !hbMnu">menu</mat-icon>
-      <div class="lg_inbtn mr_0 hb_mn_pr">
-        <div *ngIf="hbMnu" class="hb_mnumn {{hbMnu ? 'actv_hb':''}}">
-          <mat-icon (click)="hbMnu = !hbMnu" color="accent">close</mat-icon>
-          <ul>
-            <li routerLink="/about-us">
-              <mat-icon color="accent">info</mat-icon>
-              About Us
-            </li>
-            <li routerLink="/contact-us">
-              <mat-icon color="accent">contact_phone</mat-icon>
-              Contact Us
-            </li>
-            <li routerLink="/blog">
-              <mat-icon color="accent">rss_feed</mat-icon>
-              Blog
-            </li>
-            <li *ngIf="user['name']" (click)="logout()">
-              <span>
-                <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
-              </span>
-              Logout
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-
-
-    <!-- <span mat-list-item class="tp_rt_mn"  >
-      <mat-icon matTooltip="Dashboard" color="accent">grid_view</mat-icon>
-    </span> -->
-    <!-- <span mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">About Us</span> -->
-    <!-- <span mat-list-item class="tp_rt_mn" 
-    
-    >Pricing &amp;
-      Packages</span> -->
-    <!-- <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Pricing</span>
-    <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">Subscribe</span>
-    <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn"
-      >Register Trail</span
-    > -->
-    <!-- <span mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">Contact Us</span> -->
-
-    <!-- <span mat-list-item class="tp_rt_mn"><a [href]="domain_name+'/blog'" target="_blank"> Blog</a></span> -->
-
-    <!-- <span *ngFor="let menu of menus" class="tp_rt_mn">
-      <span *ngIf="menu.subMenus != undefined && menu.subMenus.length>0" mat-list-item [matMenuTriggerFor]="appMenu"
-        [class]="activeClass" routerLinkActive="active">{{ menu.name }}</span> -->
-    <!-- <span
-        *ngIf="isCustomMenuShow"
-        mat-list-item
-        [matMenuTriggerFor]="appMenu"
-        [class]="activeClass"
-        routerLinkActive="active"
-        >Custom Menu</span
-      > -->
-    <!-- <mat-menu #appMenu="matMenu" class="dynamic_menu_cls">
-        <button mat-menu-item *ngFor="let subMenu of menu.subMenus" routerLink="/mcicirriculam/{{ subMenu.pk_id }}">
-          {{ subMenu.name }}
-        </button>
-      </mat-menu>
-    </span> -->
-    <!-- <span class="tp_rt_mn">
-      <span mat-list-item [matMenuTriggerFor]="appMenu" [class]="activeClass" class="d-flex" routerLinkActive="active">
-        Curriculums
-        <mat-icon matSuffix>arrow_drop_down</mat-icon>
-      </span>
-      <mat-menu #appMenu="matMenu" class="dynamic_menu_cls">
-        <button *ngFor="let curriculum of curriculums" (click)="navigateURL(curriculum.pk_id)">
-          {{curriculum.curriculumn_name}}
-        </button>
-      </mat-menu>
-    </span> -->
-
-   
   </div>
-  <!-- <div class="lg_inbtn mr_05">
-    <span >
-      <mat-icon color="accent" matTooltip="Login">login</mat-icon>
-    </span>
-  </div> -->
-  <!-- <div class="shpncrt_tpbr mr_1" *ngIf="number" routerLink="/shopping-cart">
-    <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn" matTooltip="My Cart">shopping_cart
-    </mat-icon>
-  </div> -->
-  <!-- <div class="lg_inbtn mr_1">
-    <span *ngIf="user['name']" (click)="logout()">
-      <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span>
-    </span>
-  </div> -->
 
 
 </mat-toolbar>

@@ -17,7 +17,6 @@ export class StudentTopbarComponent implements OnInit {
   public user;
   public search_key;
   //For cart badge
-  public hbMnu =  false;
   number: any;
   subscription: Subscription;
   user_id = '';
