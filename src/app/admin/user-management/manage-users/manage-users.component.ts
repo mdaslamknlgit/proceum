@@ -749,18 +749,20 @@ export class ManageUsersComponent implements OnInit {
     }
   }
 
-  public changeStatus(package_id, status){
+  public changeStatus(userID, status, sliderEvent){
     let param = {
       url: 'user-status',
-      id: package_id,
+      id: userID,
       status: status,
       domain: this.domain,
     };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
+        sliderEvent.checked = !sliderEvent.checked;
         this.toster.success(res['message'], 'Success', { closeButton: true });
         //this.getAdminUsers();
       } else {
+        //sliderEvent.checked = false;
         this.toster.error(res['message'], 'Error', { closeButton: true });
       }
     });

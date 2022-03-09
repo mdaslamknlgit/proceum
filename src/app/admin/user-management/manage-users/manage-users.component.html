@@ -378,7 +378,7 @@
                     <ng-container matColumnDef="status">
                         <th mat-header-cell *matHeaderCellDef cdkDrag>{{"status_text"|translate}}</th>
                         <td mat-cell *matCellDef="let element">
-                            <mat-slide-toggle (click)="changeStatus(element.id, element.status)"
+                            <mat-slide-toggle #slide1 (click)="$event.preventDefault();changeStatus(element.id, element.status, slide1)"
                                 [checked]="element.status == 1 ? true : false"
                                 matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
                             </mat-slide-toggle>
@@ -500,7 +500,7 @@
                     <ng-container matColumnDef="status">
                         <th mat-header-cell *matHeaderCellDef cdkDrag>{{"status_text"|translate}}</th>
                         <td mat-cell *matCellDef="let element">
-                            <mat-slide-toggle (click)="changeStatus(element.id, element.status)"
+                            <mat-slide-toggle #slide (click)="$event.preventDefault();changeStatus(element.id, element.status, slide)"
                                 [checked]="element.status == 1 ? true : false"
                                 matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
                             </mat-slide-toggle>
