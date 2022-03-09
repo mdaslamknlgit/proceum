@@ -2,7 +2,7 @@
   <div class="cust_mdl_par {{quiz_case_model == false ? 'cust_mdl_opn':'cust_mdl_cls'}} ">
     <div class="cust_mdl_chl w_50p rsp_80p_767">
       <div class="pg_ttl">
-        <mat-icon color="accent" class="mr_5px">quiz</mat-icon> Quiz of the Day
+        <mat-icon color="accent" class="mr_5px">quiz</mat-icon> {{"student.dashboard.quiz_of_the_day"|translate}}
         <span class="spacer"></span>
         <button type="button" mat-icon-button class="float_right" (click)="closeModal()">
           &#x2715;
@@ -14,7 +14,7 @@
           <div class="hgt_20"></div>
           <div class="qofddy_inncnt">
             <div class="d-flex">
-              <div class="qstnof_cnt">Question ({{active_q_index+1}}/{{quiz_questions.length}})</div>
+              <div class="qstnof_cnt">{{"student.dashboard.question"|translate}} ({{active_q_index+1}}/{{quiz_questions.length}})</div>
             </div>
             <div class="qstn_hds">
               <div *ngIf='active_question["question"]!=""' innerHtml='{{active_question["question"]}}'></div>
@@ -87,16 +87,16 @@
             <div class="spacer"></div>
             <button class="mr_1" mat-raised-button color="accent" [disabled]="active_q_index == 0"
               (click)="getQuestionOptions(active_q_index-1)">
-              <mat-icon>arrow_left</mat-icon> Prev
+              <mat-icon>arrow_left</mat-icon> {{"student.dashboard.prev"|translate}}
             </button>
             <button mat-raised-button color="accent" *ngIf="active_q_index != (quiz_questions.length-1)"
               [disabled]="active_q_index == (quiz_questions.length-1)"
-              (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
+              (click)="getQuestionOptions(active_q_index+1)">{{"student.dashboard.next"|translate}} <mat-icon>arrow_right</mat-icon>
             </button>
             <button (click)="checkAnswer();showResult();"
               *ngIf="is_test_end == false && active_q_index == (quiz_questions.length-1)" mat-raised-button
               color="accent"
-              class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">Submit</button>
+              class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">{{"submit"|translate}}</button>
           </div>
           <div class="hgt_20"></div>
           <!-- </form> -->
@@ -107,22 +107,22 @@
           <div class="hgt_20"></div>
           <div class="sbmtd_ans_dv">
             <div>
-              <span>Total Questions</span>
+              <span>{{"student.dashboard.ttl-qstns"|translate}}</span>
               <span class="spacer"></span>
               <span class="dys_cnt nt_ans">{{quiz_questions.length}}</span>
             </div>
             <div>
-              <span>Correct Answers:</span>
+              <span>{{"student.dashboard.correct_answers"|translate}}:</span>
               <span class="spacer"></span>
               <span class="dys_cnt">{{correct_answers}}</span>
             </div>
             <div>
-              <span>Wrong Answers:</span>
+              <span>{{"student.dashboard.wrong_answers"|translate}}:</span>
               <span class="spacer"></span>
               <span class="dys_cnt">{{wrong_answers}}</span>
             </div>
             <div>
-              <span>Not Answered:</span>
+              <span>{{"student.dashboard.not_answered"|translate}}:</span>
               <span class="spacer"></span>
               <span class="dys_cnt">{{not_answered}}</span>
             </div>
@@ -133,7 +133,7 @@
           <div *ngIf="quiz_questions.length > 0">
             <div class="qstn_hds rslt_swaa">
               <div *ngFor="let questions of quiz_questions;let i_option = index">
-                <span>Q. {{questions.question_string}}</span>
+                <span>{{"student.dashboard.q_text"|translate}}. {{questions.question_string}}</span>
                 <div class="tstsqst_ans rslt_swdod">
                   <mat-radio-group class="" *ngIf='[1,3,4,6,7,9,10,12,13].includes(questions["q_type"])'
                     [(ngModel)]="questions['answer'][0]">
@@ -165,7 +165,7 @@
                       </div>
                       <div class="rdo_desc"
                         *ngIf="questions['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() ''">
-                        <div class="qstn_hds">Explanation</div>
+                        <div class="qstn_hds">{{"student.dashboard.explanation"|translate}}</div>
                         <div [innerHtml]="option['option_explanation']"></div>
                       </div>
                     </div>
@@ -175,7 +175,7 @@
             </div>
           </div>
         </div>
-        <button mat-raised-button class="gry_btn float_right" (click)="closeModal()">Close</button>
+        <button mat-raised-button class="gry_btn float_right" (click)="closeModal()">{{"close"|translate}}</button>
         <div class="hgt_20"></div>
       </div>
     </div>
@@ -183,14 +183,14 @@
   <div class="cust_mdl_par {{case_model == false ? 'cust_mdl_opn':'cust_mdl_cls'}} ">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
-        <mat-icon color="accent" class="mr_5px">today</mat-icon> Case of the Day
+        <mat-icon color="accent" class="mr_5px">today</mat-icon> {{"student.dashboard.case_of_the_day"|translate}}
         <span class="spacer"></span>
         <button type="button" mat-icon-button class="float_right" (click)="CloseCaseModal()">
           &#x2715;
         </button>
       </div>
       <div class="dsh_brd_crds db_dod" *ngIf="case.length>0">
-        <div class="qstn_hds" *ngFor="let case_q of case"> Q. {{case_q.question_string}} </div>
+        <div class="qstn_hds" *ngFor="let case_q of case"> {{"student.dashboard.q_text"|translate}}. {{case_q.question_string}} </div>
         <mat-radio-group *ngIf='[1,3,4,6,7,9,10,12,13].includes(case[active_case_index]["q_type"])'
           aria-label="Select an option" [(ngModel)]="case[active_case_index]['selected_option']">
           <mat-radio-button *ngFor="let option of case[active_case_index]['options'];let i_option = index"
@@ -203,13 +203,13 @@
             <div
               *ngIf="case[active_case_index]['selected_option'] != undefined && option['option_explanation'] != null && option['option_explanation'].trim() != ''"
               class="rdo_exp_txt">
-              <div class="qstn_hds">Explanation</div>
+              <div class="qstn_hds">{{"student.dashboard.explanation"|translate}}</div>
               <div [innerHtml]="option['option_explanation']"></div>
             </div>
           </mat-radio-button>
         </mat-radio-group>
         <div class="clear_fix"></div>
-        <button mat-raised-button class="gry_btn float_right" (click)="CloseCaseModal()">Close</button>
+        <button mat-raised-button class="gry_btn float_right" (click)="CloseCaseModal()">{{"close"|translate}}</button>
         <div class="hgt_20"></div>
       </div>
     </div>
@@ -219,16 +219,15 @@
     <div class="brdcrm_br">
       <mat-icon color="accent" routerLink="/">home</mat-icon>
       <mat-icon>navigate_next</mat-icon>
-      <strong>Student Dashboard</strong>
+      <strong>{{"student.dashboard.student_dashboard"|translate}}</strong>
     </div>
   </div>
   <div class="hgt_20"></div>
   <div class="sp_mn" *ngFor="let course of expiration_courses">
     <div class="rqrd_txtinfo">
       <!-- <mat-icon>warning</mat-icon> -->
-      Your Subscription for <strong>{{ course.package_name }}</strong> ends on <strong>{{ course.valid_up_to
-        }}</strong>. {{ course.days }} Day(s) left.
-      Please renewal your account ASAP to avoid service interruption.
+      {{"student.dashboard.your_subscription_for"|translate}} <strong>{{ course.package_name }}</strong> {{"student.dashboard.ends_on"|translate}} <strong>{{ course.valid_up_to
+        }}</strong>. {{ course.days }} {{"student.dashboard.days_left"|translate}}
     </div>
   </div>
   <div class="dsh_brd_crds">
@@ -239,7 +238,7 @@
             <mat-icon>auto_stories</mat-icon>
           </div>
           <div>
-            Notes Accessed
+            {{"student.dashboard.notes_accessed"|translate}}
             <span>{{notes}}</span>
           </div>
         </div>
@@ -250,7 +249,7 @@
             <mat-icon>edit_note</mat-icon>
           </div>
           <div>
-            Assessments Attended
+            {{"student.dashboard.assessments_attended"|translate}}
             <span>{{assessments}}</span>
           </div>
         </div>
@@ -261,7 +260,7 @@
             <mat-icon>cast_for_education</mat-icon>
           </div>
           <div>
-            Classes /<br> Webinars Attended
+            {{"student.dashboard.classes"|translate}} /<br> {{"student.dashboard.webinars_attended"|translate}}
             <span>{{classes}}</span>
           </div>
         </div>
@@ -296,14 +295,14 @@
             <button mat-mini-fab class="mr_1">
               <mat-icon>live_help</mat-icon>
             </button>
-            Quiz of the Day
+            {{"student.dashboard.quiz_of_the_day"|translate}}
           </span>
         </div>
         <hr />
         <div class="crd_cnt" *ngIf="quiz_questions">
           <span *ngFor="let questions of quiz_questions;;let i_option = index"> Q. {{questions.question_string}}</span>
           <span class="vw_mre_fw">
-            <a (click)="quiz_case_model = !quiz_case_model">View Details</a>
+            <a (click)="quiz_case_model = !quiz_case_model">{{"view_details"|translate}}</a>
           </span>
         </div>
       </li>
@@ -313,21 +312,21 @@
             <button mat-mini-fab class="mr_1">
               <mat-icon>today</mat-icon>
             </button>
-            Case of the Day
+            {{"student.dashboard.case_of_the_day"|translate}}
           </span>
         </div>
         <hr />
         <div class="crd_cnt" *ngIf="case">
           <span *ngFor="let case_q of case">{{case_q.question_string}}</span>
           <span class="vw_mre_fw">
-            <a (click)="case_model = !case_model">View Details</a>
+            <a (click)="case_model = !case_model">{{"view_details"|translate}}</a>
           </span>
         </div>
       </li>
     </ul>
      <ul class="crds_ul rcnt_vw" *ngIf="this.subjectknowledge && this.subjectknowledge.length>0">
       <li>
-        <span class="text_left">Subject Knowledge</span>
+        <span class="text_left">{{"student.dashboard.subject_knowledge"|translate}}</span>
         <hr />
         <div class="crds_ul prg_crd prg_crd">
           <!-- <li *ngFor="let data of subjectknowledge | keyvalue">
@@ -450,12 +449,12 @@
           <mat-tab>
             <ng-template mat-tab-label>
               <mat-icon class="mr_02">source</mat-icon>
-              Free Content
+              {{"student.dashboard.free_content"|translate}}
             </ng-template>
             <ul class="crds_ul full_crd">
               <li *ngIf="free_content.length==0">
                 <div class="lfrt_grd no_desc_fnd">
-                  <span>No Free Content Found</span>
+                  <span>{{"student.dashboard.no_free_content_found"|translate}}</span>
                 </div>
               </li>
               <li *ngIf="free_content.length>0">
@@ -472,19 +471,19 @@
                     </div>
                     <span class="spacer"></span>
                     <span>
-                      <button *ngIf="item.is_fav != 1 ? true : false" matTooltip="Make Favorite"
+                      <button *ngIf="item.is_fav != 1 ? true : false" matTooltip='{{"student.dashboard.make_favorite"|translate}}'
                         (click)="updateBookmarkFavorite(item.id,'fav')" mat-icon-button class="mr_1">
                         <mat-icon>favorite_border</mat-icon>
                       </button>
-                      <button *ngIf="item.is_fav == 1 ? true : false" matTooltip="Unfavourite"
+                      <button *ngIf="item.is_fav == 1 ? true : false" matTooltip='{{"student.dashboard.unfavourite"|translate}}'
                         (click)="updateBookmarkFavorite(item.id,'fav')" mat-mini-fab class="mr_1">
                         <mat-icon>favorite_border</mat-icon>
                       </button>
-                      <button *ngIf="item.is_bookmark != 1 ? true : false" matTooltip="Add Bookmark"
+                      <button *ngIf="item.is_bookmark != 1 ? true : false" matTooltip='{{"student.dashboard.add_bookmark"|translate}}'
                         (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-icon-button class="mr_1">
                         <mat-icon>bookmark_add</mat-icon>
                       </button>
-                      <button *ngIf="item.is_bookmark == 1 ? true : false" matTooltip="Remove Bookmark"
+                      <button *ngIf="item.is_bookmark == 1 ? true : false" matTooltip='{{"student.dashboard.remove_bookmark"|translate}}'
                         (click)="updateBookmarkFavorite(item.id,'bookmark')" mat-mini-fab class="mr_1">
                         <mat-icon>bookmark_add</mat-icon>
                       </button>
@@ -498,12 +497,12 @@
           <mat-tab>
             <ng-template mat-tab-label>
               <mat-icon class="mr_02">class</mat-icon>
-              My Bookmarks
+              {{"student.dashboard.my_bookmarks"|translate}}
             </ng-template>
             <ul class="crds_ul full_crd" *ngIf="bookmarks">
               <li *ngIf="bookmarks.length==0">
                 <div class="lfrt_grd no_desc_fnd">
-                  <span>No Bookmarks Found</span>
+                  <span>{{"student.dashboard.no_bookmarks_found"|translate}}</span>
                 </div>
               </li>
               <li *ngIf="bookmarks.length>0">
@@ -533,12 +532,12 @@
           <mat-tab>
             <ng-template mat-tab-label>
               <mat-icon class="mr_02">favorite_border</mat-icon>
-              My Favorites
+              {{"student.dashboard.my_favorites"|translate}}
             </ng-template>
             <ul class="crds_ul full_crd" *ngIf="favorites">
               <li *ngIf="favorites.length==0">
                 <div class="lfrt_grd no_desc_fnd">
-                  <span>No Favorites Found</span>
+                  <span>{{"student.dashboard.no_favorites_found"|translate}}</span>
                 </div>
               </li>
               <li *ngIf="favorites.length>0">
@@ -569,12 +568,12 @@
             <!-- wishlist -->
             <ng-template mat-tab-label>
               <mat-icon class="mr_02">playlist_add_check</mat-icon>
-              My Wishlist
+              {{"student.dashboard.my_wishlist"|translate}}
             </ng-template>
             <ul class="crds_ul full_crd">
               <li class="lfrt_grd no_desc_fnd" *ngIf="wish_list.length==0 && wish_list_data==0">
                 <div>
-                  <span>No Wishlist Found</span>
+                  <span>{{"student.dashboard.no_wishlist_found"|translate}}</span>
                 </div>
               </li>
               <li>

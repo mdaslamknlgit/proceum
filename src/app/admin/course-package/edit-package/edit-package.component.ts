@@ -27,10 +27,10 @@ export class EditPackageComponent implements OnInit {
   public package_desc = '';
   public pricing_model = '';
   public duration = '';
-  public applicable_to_university = '';
-  public applicable_to_college = '';
-  public applicable_to_institute = '';
-  public applicable_to_individual = '';
+  public applicable_to_university = 0;
+  public applicable_to_college = 0;
+  public applicable_to_institute = 0;
+  public applicable_to_individual = 0;
   public valid_up_to: any = '';
   public billing_frequency = '';
   public today_date = new Date();
@@ -66,6 +66,7 @@ export class EditPackageComponent implements OnInit {
   public selected_topics = [];
   public delete_topics = [];
   public parent_ids = [];
+  public licenses_limit:number;
   public topics: ReplaySubject<any> = new ReplaySubject<any>(1);
   public dataSource = new MatTableDataSource();
   all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -104,6 +105,7 @@ export class EditPackageComponent implements OnInit {
         this.package_img = package_data.package_img;
         this.package_desc = package_data.package_desc;
         this.pricing_model = package_data.pricing_model;
+        this.licenses_limit = package_data.licenses_limit;
         this.duration = package_data.duration;
         if (res['data']['selected_topics'].length > 0) {
           this.selected_topics = res['data']['selected_topics'];
@@ -193,7 +195,7 @@ export class EditPackageComponent implements OnInit {
 
   updatePackageService() {
 
-    if (this.applicable_to_university == '' && this.applicable_to_college == '' && this.applicable_to_institute == '' && this.applicable_to_individual == '') {
+    if (this.applicable_to_university == 0 && this.applicable_to_college == 0 && this.applicable_to_institute == 0 && this.applicable_to_individual == 0) {
       this.toster.error("Applicable to is required", 'Error', { closeButton: true });
       return;
     }
@@ -207,6 +209,7 @@ export class EditPackageComponent implements OnInit {
       package_img: this.package_img,
       package_desc: this.package_desc,
       pricing_model: this.pricing_model,
+      licenses_limit: this.licenses_limit,
       duration: this.duration,
       package_prices: this.package_prices,
       sample_videos: this.sample_videos,
@@ -419,7 +422,7 @@ export class EditPackageComponent implements OnInit {
   }
 
   submitData() {
-    if (this.package_name == "" || this.package_desc == "" || this.pricing_model == "" || this.duration == "" || this.package_prices.length < 1 || this.selected_topics.length < 1 || (this.applicable_to_university == "" && this.applicable_to_college == "" && this.applicable_to_institute == "" && this.applicable_to_individual == "") || this.valid_up_to == "" || this.billing_frequency == "") {
+    if (this.package_name == "" || this.package_desc == "" || this.pricing_model == "" || this.duration == "" || this.package_prices.length < 1 || this.selected_topics.length < 1 || (this.applicable_to_university == 0 && this.applicable_to_college == 0 && this.applicable_to_institute == 0 && this.applicable_to_individual == 0) || this.valid_up_to == "" || this.billing_frequency == "") {
       this.toster.error("Please fill required Basic details first!", 'Error', { closeButton: true });
       return;
     }
@@ -613,5 +616,21 @@ export class EditPackageComponent implements OnInit {
     }
     this.selected_topics.splice(index, 1);
     this.dataSource = new MatTableDataSource(this.selected_topics);
+  }
+
+  onApplicableChange(){
+    if(this.applicable_to_university == 1 || this.applicable_to_college == 1 || this.applicable_to_institute == 1){
+      this.applicable_to_individual = 0;
+      this.pricing_model = 'per_student';
+    }
+  }
+
+  onIndividualChange(){
+    if(this.applicable_to_individual == 1){
+      this.applicable_to_university = 0;
+      this.applicable_to_college = 0;
+      this.applicable_to_institute = 0;
+      this.pricing_model = 'per_student';
+    }
   }
 }
