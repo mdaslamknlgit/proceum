@@ -160,7 +160,10 @@ export class CurriculamComponent implements OnInit {
     }
     createCurriculum() {
         if (this.duplicate_error) {
-            this.toster.error('Duplicate Level names not allowed');
+            this.translate.get('admin.c_q_bank.duplicate_level_error').subscribe((data)=> {
+                this.toster.error(data, "Error", { closeButton: true });
+            });
+            //this.toster.error('Duplicate Level names not allowed');
             return false;
         }
         let steps = [];
@@ -230,7 +233,10 @@ export class CurriculamComponent implements OnInit {
     }
     updateCurriculum() {
         if (this.duplicate_error) {
-            this.toster.error('Duplicate Level names not allowed');
+            this.translate.get('admin.c_q_bank.duplicate_level_error').subscribe((data)=> {
+                this.toster.error(data, "Error", { closeButton: true });
+            });
+            //this.toster.error('Duplicate Level names not allowed');
             return false;
         }
         let steps = [];
