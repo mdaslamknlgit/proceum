@@ -25,6 +25,7 @@ export class StudentTopbarComponent implements OnInit {
   public class_notifications = [];
   public assessment_notifications = [];
   public show_notifications = false;
+  public language = '';
   @Output() finishedLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private http: CommonService,
@@ -78,6 +79,40 @@ export class StudentTopbarComponent implements OnInit {
           // }
         }
       });
+    this.setLang();
+  }
+
+  setLang() {
+    let param = {
+      url: 'get-user-config', //+ this.user['id'],
+      user_id:this.user['id']
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {   
+        if(res['data'] != ''){
+          this.http.lang = res['data']['language'];
+        }else{
+          this.http.lang = this.user.configs['language'];
+        }     
+      }else{
+        this.http.lang = this.user.configs['language'];
+      }
+      this.language = this.http.lang;    
+      this.translate.setDefaultLang(this.http.lang);
+    });
+  }
+
+  getLanguage(){
+    this.http.lang = this.language;
+    this.translate.setDefaultLang(this.http.lang);
+    let param = {
+      url: 'update-user-config',
+      user_id:this.user['id'],
+      mode:'language',
+      value: this.language
+    };
+    this.http.post(param).subscribe((res) => {
+    });
   }
 
   // toggleSidemenu(param) {
