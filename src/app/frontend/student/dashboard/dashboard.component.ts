@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { Chart } from 'chart.js';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,10 @@ export class DashboardComponent implements OnInit {
     private http: CommonService,
     public toster: ToastrService,
     private router: Router,
-    ) {}
+    public translate: TranslateService
+    ) {
+      this.translate.setDefaultLang(this.http.lang);
+    }
   //User variables
   public user:any = [];
   public user_id:any = '';
@@ -171,9 +175,13 @@ export class DashboardComponent implements OnInit {
             subject_val.push(opt[key].percentage);
           }        
         })
+        let subject_knowledge = '';
+        this.translate.get('student.dashboard.subject_knowledge').subscribe((data)=> {
+          subject_knowledge = data;
+        });
         this.lineChartData = [
           {
-            label: 'Subject Knowledge',
+            label: subject_knowledge,
             fill: false,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -371,13 +379,29 @@ export class DashboardComponent implements OnInit {
   public not_answered = 0;
   public free_text_qs = 0;
   showResult(){
+    let are_you_sure_text = '';
+    this.translate.get('are_you_sure_text').subscribe((data)=> {
+      are_you_sure_text = data;
+    });
+    let are_you_sure_end_text = '';
+    this.translate.get('student.dashboard.are_you_sure_end_text').subscribe((data)=> {
+      are_you_sure_end_text = data;
+    });
+    let yes_text = '';
+    this.translate.get('yes_text').subscribe((data)=> {
+      yes_text = data;
+    });
+    let no_text = '';
+    this.translate.get('no_text').subscribe((data)=> {
+      no_text = data;
+    });
        Swal.fire({
-          title: 'Are you sure?',
-          text: 'Are you sure to end this test?',
+          title: are_you_sure_text,
+          text: are_you_sure_end_text,
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No'
+          confirmButtonText: yes_text,
+          cancelButtonText: no_text
       }).then((result) => {
           if (result.value) {
               this.is_test_end = true;
