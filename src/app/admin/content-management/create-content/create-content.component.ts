@@ -11,6 +11,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { TranslateService } from '@ngx-translate/core';
 export interface PeriodicElement {
   s_no: number;
   question: number;
@@ -282,7 +283,8 @@ export class CreateContentComponent implements OnInit {
     private toster: ToastrService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private fs: FirebaseService
+    private fs: FirebaseService,
+    public translate: TranslateService
   ) {}
 
   ngOnInit(): void {
