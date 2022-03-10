@@ -1,13 +1,13 @@
 <div class="mn_dshbrd">
-  <div class="brd_crm">Proceum &raquo; <strong>Manage Content</strong></div>
+  <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <strong>{{"admin.side_menu.manage_content"|translate}}</strong></div>
   <div class="d-flex">
     <div class="pg_ttl ai_cntr">
-      Manage Content
+      {{"admin.side_menu.manage_content"|translate}}
     </div>
     <div class="spacer"></div>
     <div>
       <button mat-raised-button color="accent" class="" (click)="navigateTo('create-content')" type="button">
-        <mat-icon>add</mat-icon> Create Content
+        <mat-icon>add</mat-icon> {{"admin.side_menu.create_content"|translate}}
       </button>
     </div>
   </div>
@@ -17,9 +17,9 @@
     <div>
       <div class="cm_fltr_sc mr_1">
         <mat-form-field appearance="outline">
-          <mat-select placeholder="Users" [(ngModel)]="dataentry_uid" name="user_name">
+          <mat-select placeholder="{{'admin.mng_cnt.mng_cnt.users'|translate}}" [(ngModel)]="dataentry_uid" name="user_name">
             <mat-option>
-                <ngx-mat-select-search [noEntriesFoundLabel]="'No Records found'"
+                <ngx-mat-select-search [noEntriesFoundLabel]="'No Records Found'"
                   name="search_topic" ngModel (ngModelChange)="searchUsers($event)"
                   [placeholderLabel]="'Search User'">Select User
                 </ngx-mat-select-search>
@@ -32,7 +32,7 @@
       </div>
       <div class="cm_fltr_sc mr_1">
         <mat-form-field appearance="outline" class="cal_wdth date_picker" color="accent">
-          <input readonly placeholder="From Date" name="valid_from_name" #valid_from_name="ngModel"
+          <input readonly placeholder="{{'admin.mng_cnt.mng_cnt.from_date'|translate}}" name="valid_from_name" #valid_from_name="ngModel"
             [(ngModel)]="from_date" matInput [matDatepicker]="picker" autocomplete="off" [max]="today_date" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
@@ -40,7 +40,7 @@
       </div>
       <div class="cm_fltr_sc mr_1">
         <mat-form-field appearance="outline" class="cal_wdth date_picker" color="accent">
-          <input readonly placeholder="To Date" name="valid_to_name" #valid_to_name="ngModel" [(ngModel)]="to_date"
+          <input readonly placeholder="{{'admin.mng_cnt.mng_cnt.to_date'|translate}}" name="valid_to_name" #valid_to_name="ngModel" [(ngModel)]="to_date"
             matInput [matDatepicker]="picker2" autocomplete="off" [min]="from_date" />
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
@@ -49,50 +49,50 @@
       <div class="cm_fltr_sc mr_1">
         <mat-form-field appearance="outline">
           <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-            placeholder="Search" />
+            placeholder="{{'search_text'|translate}}" />
           <mat-icon class="curserToPointer" (click)="doFilter()" matSuffix>search</mat-icon>
         </mat-form-field>
       </div>
       <div class="cm_fltr_sc float_right">
         <button mat-raised-button (click)="doFilter()" color="accent" class="no_bxsdw mr_1 mt_3px">
-          Submit
+          {{'submit'|translate}}
         </button>
-        <button (click)="resetFilter()" mat-raised-button color="warn" class="no_bxsdw mt_3px" matTooltip="Reset">
+        <button (click)="resetFilter()" mat-raised-button color="warn" class="no_bxsdw mt_3px" matTooltip="{{'reset'|translate}}">
           <mat-icon>restart_alt</mat-icon>
         </button>
       </div>
     </div>
     <div class="clear_fix"></div>
     <mat-tab-group (selectedTabChange)="switchTab($event)" [selectedIndex]="selectedIndex">
-        <mat-tab label="Published">
+        <mat-tab label="{{'admin.mng_cnt.mng_cnt.published'|translate}}">
             <div class="rsp_tbl">
               <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="rsp_tbl">
                 <ng-container matColumnDef="sno">
-                  <th mat-header-cell *matHeaderCellDef>S.No</th>
+                  <th mat-header-cell *matHeaderCellDef>{{"s_no_text"|translate}}</th>
                   <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
                 </ng-container>
                 <ng-container matColumnDef="content_title">
                   <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                    Content title
+                    {{'admin.mng_cnt.mng_cnt.content_title'|translate}}
                   </th>
                   <td mat-cell *matCellDef="let element" class="ws_normal">
                     {{ element.title }}
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="created_by">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Created by</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'admin.mng_cnt.mng_cnt.created_by'|translate}}</th>
                   <td mat-cell *matCellDef="let element">
                     {{element['created_by']}}
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="published_at">
-                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Publish at</th>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'admin.mng_cnt.mng_cnt.publish_at'|translate}}</th>
                   <td mat-cell *matCellDef="let element">
                     {{element['published_at']}}
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="status">
-                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <th mat-header-cell *matHeaderCellDef>{{"status_text"|translate}}</th>
                   <td mat-cell *matCellDef="let element">
                     <!-- <span matTooltip="Current Status is {{
                           element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
@@ -106,18 +106,18 @@
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="created_at">
-                  <th mat-header-cell *matHeaderCellDef class="date_tdh">Create Date</th>
+                  <th mat-header-cell *matHeaderCellDef class="date_tdh">{{'admin.mng_cnt.mng_cnt.create_date'|translate}}</th>
                   <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
                 </ng-container>
     
                 <ng-container matColumnDef="updated_at">
-                  <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
+                  <th mat-header-cell *matHeaderCellDef class="date_tdh">{{'admin.mng_cnt.mng_cnt.updated_date'|translate}}</th>
                   <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
                 </ng-container>
                 <ng-container matColumnDef="actions">
-                  <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
+                  <th mat-header-cell *matHeaderCellDef class="actions_tdh">{{"actions_text"|translate}}</th>
                   <td mat-cell *matCellDef="let element" class="actions_tdh">
-                    <button mat-icon-button color="accent" matTooltip="Click to edit"
+                    <button mat-icon-button color="accent" matTooltip="{{'click_to_edit_text'|translate}}"
                       (click)="navigateTo('create-content/'+element.id)">
                       <mat-icon>edit_note</mat-icon>
                     </button>
@@ -138,7 +138,7 @@
                 <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                   <td style="text-align: center; margin: 20px" class="mat-cell"
                     [attr.colspan]="published_displayedColumns.length">
-                    No Records Found
+                    {{"no_records_found_text"|translate}}
                   </td>
                 </tr>
               </table>
@@ -147,42 +147,42 @@
               [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
           </mat-tab>
       
-      <mat-tab label="Drafts">
+      <mat-tab label="{{'admin.mng_cnt.mng_cnt.drafts'|translate}}">
         <div class="rsp_tbl">
           <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
             <ng-container matColumnDef="sno">
-              <th mat-header-cell *matHeaderCellDef>S.No</th>
+              <th mat-header-cell *matHeaderCellDef>{{"s_no_text"|translate}}</th>
               <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
             </ng-container>
 
             <ng-container matColumnDef="content_title">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Content title
+                {{'admin.mng_cnt.mng_cnt.content_title'|translate}}
               </th>
               <td mat-cell *matCellDef="let element" class="ws_normal">
                 {{ element.title }}
               </td>
             </ng-container>
             <ng-container matColumnDef="created_by">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Created by</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'admin.mng_cnt.mng_cnt.created_by'|translate}}</th>
               <td mat-cell *matCellDef="let element">
                 {{element['created_by']}}
               </td>
             </ng-container>
 
             <ng-container matColumnDef="created_at">
-              <th mat-header-cell *matHeaderCellDef class="date_tdh">Create Date</th>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">{{'admin.mng_cnt.mng_cnt.create_date'|translate}}</th>
               <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
             </ng-container>
 
             <ng-container matColumnDef="updated_at">
-              <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">{{'admin.mng_cnt.mng_cnt.updated_date'|translate}}</th>
               <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
+              <th mat-header-cell *matHeaderCellDef class="actions_tdh">{{"actions_text"|translate}}</th>
               <td mat-cell *matCellDef="let element" class="actions_tdh">
-                <button mat-icon-button color="accent" matTooltip="Click to edit"
+                <button mat-icon-button color="accent" matTooltip="{{'click_to_edit_text'|translate}}"
                   (click)="navigateTo('create-content/'+element.id)">
                   <mat-icon>edit_note</mat-icon>
                 </button>
@@ -199,7 +199,7 @@
                   [popoverMessage]="
               'Are you sure to delete <b>' + element.title + '</b> '
             " placement="left" (confirm)="deleteContentData(element.id, element.status)" confirmButtonType="danger"
-                  cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                  cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="{{'delete_text'|translate}}">
                   <mat-icon>remove_circle_outline</mat-icon>
                 </button>
               </td>
@@ -210,7 +210,7 @@
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
               <td style="text-align: center; margin: 20px" class="mat-cell"
                 [attr.colspan]="draft_displayedColumns.length">
-                No Records Found
+                {{"no_records_found_text"|translate}}
               </td>
             </tr>
           </table>
@@ -218,65 +218,64 @@
         <mat-paginator *ngIf="dataSource.data.length > 0" [pageSizeOptions]="page_size_options" [length]="totalSize"
           [pageSize]="pageSize" showFirstLastButtons (page)="getServerData($event)"></mat-paginator>
       </mat-tab>
-      <mat-tab label="Pending Reviews">
+      <mat-tab label="{{'admin.mng_cnt.mng_cnt.pending_reviews'|translate}}">
         <div class="rsp_tbl">
           <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" class="rsp_tbl">
             <ng-container matColumnDef="sno">
-              <th mat-header-cell *matHeaderCellDef>S.No</th>
+              <th mat-header-cell *matHeaderCellDef>{{"s_no_text"|translate}}</th>
               <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
             </ng-container>
 
             <ng-container matColumnDef="content_title">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                Content title
+                {{'admin.mng_cnt.mng_cnt.content_title'|translate}} 
               </th>
               <td mat-cell *matCellDef="let element" class="ws_normal">
                 {{ element.title }}
               </td>
             </ng-container>
             <ng-container matColumnDef="created_by">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Created by</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'admin.mng_cnt.mng_cnt.created_by'|translate}}</th>
               <td mat-cell *matCellDef="let element">
                 {{element['created_by']}}
               </td>
             </ng-container>
 
             <ng-container matColumnDef="content_status">
-              <th mat-header-cell *matHeaderCellDef>Content Status</th>
+              <th mat-header-cell *matHeaderCellDef>{{'admin.mng_cnt.mng_cnt.content_status'|translate}}</th>
               <td mat-cell *matCellDef="let element">
                 <span class="cm_sts_info">
-                  <span *ngIf="element.content_status == null" class="cpy">Copy</span>
-                  <span *ngIf="element.content_status == 'PUBLISHED'" class="pblshd">Published</span>
-                  <span *ngIf="element.content_status == 'DRAFT'" class="drft">Draft</span>
+                  <span *ngIf="element.content_status == null" class="cpy">{{'admin.mng_cnt.crt_cnt.copy'|translate}}</span>
+                  <span *ngIf="element.content_status == 'PUBLISHED'" class="pblshd">{{'admin.mng_cnt.crt_cnt.published'|translate}}</span>
+                  <span *ngIf="element.content_status == 'DRAFT'" class="drft">{{'admin.mng_cnt.crt_cnt.draft'|translate}}</span>
                   <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==3"
-                    class="crct_pnd">Corrections Pending</span>
-                  <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7" class="aw_aprvl">Awaiting
-                    Approval</span>
+                    class="crct_pnd">{{'admin.mng_cnt.crt_cnt.crt_png'|translate}}</span>
+                  <span *ngIf="element.content_status == 'REVIEW' && element.reviewer_role==7" class="aw_aprvl">{{'admin.mng_cnt.crt_cnt.await_approval'|translate}}</span>
                   <span
                     *ngIf="element.content_status == 'REVIEW' && (element.reviewer_role==4 || element.reviewer_role==5 || element.reviewer_role==6)"
-                    class="rw_pndg">Review Pending</span>
+                    class="rw_pndg">{{'admin.mng_cnt.crt_cnt.review_pending'|translate}}</span>
                 </span>
               </td>
             </ng-container>
             <ng-container matColumnDef="assigned_to">
-              <th mat-header-cell *matHeaderCellDef>Pending at</th>
+              <th mat-header-cell *matHeaderCellDef>{{'admin.mng_cnt.mng_cnt.pending_at'|translate}}</th>
               <td mat-cell *matCellDef="let element">
                 <span>{{element.role?element.role:'N/A'}}</span>
               </td>
             </ng-container>
             <ng-container matColumnDef="created_at">
-              <th mat-header-cell *matHeaderCellDef class="date_tdh">Create Date</th>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">{{'admin.mng_cnt.mng_cnt.create_date'|translate}}</th>
               <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.created_at }}</td>
             </ng-container>
 
             <ng-container matColumnDef="updated_at">
-              <th mat-header-cell *matHeaderCellDef class="date_tdh">Updated Date</th>
+              <th mat-header-cell *matHeaderCellDef class="date_tdh">{{'admin.mng_cnt.mng_cnt.updated_date'|translate}}</th>
               <td mat-cell *matCellDef="let element" class="date_tdh">{{ element.updated_at }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef class="actions_tdh">Actions</th>
+              <th mat-header-cell *matHeaderCellDef class="actions_tdh">{{"actions_text"|translate}}</th>
               <td mat-cell *matCellDef="let element" class="actions_tdh">
-                <button mat-icon-button color="accent" matTooltip="Click to edit"
+                <button mat-icon-button color="accent" matTooltip="{{'click_to_edit_text'|translate}}"
                   (click)="navigateTo('create-content/'+element.id)">
                   <mat-icon>edit_note</mat-icon>
                 </button>
@@ -293,7 +292,7 @@
                   [popoverMessage]="
               'Are you sure to delete <b>' + element.title + '</b> '
             " placement="left" (confirm)="deleteContentData(element.id, element.status)" confirmButtonType="danger"
-                  cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                  cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="{{'delete_text'|translate}}">
                   <mat-icon>remove_circle_outline</mat-icon>
                 </button>
               </td>
@@ -303,7 +302,8 @@
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
               <td style="text-align: center; margin: 20px" class="mat-cell"
                 [attr.colspan]="review_displayedColumns.length">
-                No Records Found
+                {{"no_records_found_text"|translate}}
+
               </td>
             </tr>
           </table>
