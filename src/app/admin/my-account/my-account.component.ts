@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-account',
@@ -64,7 +65,8 @@ export class MyAccountComponent implements OnInit {
   constructor(
     private http: CommonService,
     private toaster: ToastrService,
-  ) {}
+    public translate: TranslateService
+  ) { this.translate.setDefaultLang(this.http.lang); }
   filedata: any;
   ngOnInit(): void {
     this.domain = location.origin;

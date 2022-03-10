@@ -48,7 +48,7 @@
     <div class="brdcrm_br">
       <mat-icon color="accent" routerLink="/">home</mat-icon>
       <mat-icon>navigate_next</mat-icon>
-      <strong>My Account</strong>
+      <strong>{{"teacher.my_account.my_account"|translate}}</strong>
     </div>
   </div>
   <!-- <div class="dsh_brd_crds">
@@ -121,14 +121,14 @@
         <div class="d-flex w_100p ai_cntr">
           <!--<h2 class="section-title m_0">My Profile</h2>-->
           <div class="spacer"></div>
-          <div class="rqrd_txtinfo">Fields marked with <span class="required">( * ) </span> are mandatory!
+          <div class="rqrd_txtinfo">{{"fields_marked"|translate}}<span class="required">( * ) </span> {{"mandatory"|translate}}
           </div>
         </div>
 
         <div class="hgt_20"></div>
         <div class="my_prfl_dp">
           <div class="my_prf_dv">
-            <span class="w_100p text-center">Profile Picture</span>
+            <span class="w_100p text-center">{{"teacher.my_account.profile_picture"|translate}}</span>
             <span class="profile_pic">
               <img src="{{src}}" onerror="this.src='../../../../assets/images/Demo-placeholder.jpeg'" alt="">
             </span>
@@ -145,7 +145,7 @@
         </div>
         <div class="my_prfl_mn">
           <div class="my_prf_dv fld_readonly">
-            <span>First Name <span class="required">*</span></span>
+            <span>{{"teacher.my_account.first_name"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="First Name" [disabled]="'disabled'" autocomplete="off" name="first_name" #first_name='ngModel'
                 ngModel [(ngModel)]="profile.first_name" required
@@ -153,7 +153,7 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
-            <span>Last Name</span>
+            <span>{{"teacher.my_account.last_name"|translate}}</span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Last Name" autocomplete="off" [disabled]="'disabled'" name="last_name" #last_name='ngModel'
                 ngModel [(ngModel)]="profile.last_name"
@@ -161,14 +161,14 @@
             </mat-form-field>
           </div>          
           <div class="my_prf_dv fld_readonly">
-            <span>Mobile <span class="required">*</span></span>
+            <span>{{"teacher.my_account.mobile"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Mobile" name="phone" [(ngModel)]="profile.phone" required
                 disabled="disabled">
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
-            <span>Country <span class="required">*</span></span>
+            <span>{{"teacher.my_account.country"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
               <mat-select placeholder="Select Country" [disabled]="'disabled'" name="country" #country="ngModel"
               [(ngModel)]="profile.country_id" (ngModelChange)="getStates(profile.country_id)" required>
@@ -183,7 +183,7 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
-            <span>State <span class="required">*</span></span>
+            <span>{{"teacher.my_account.state"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
               <mat-select placeholder="Select State" [disabled]="'disabled'" name="state" #state="ngModel"
               [(ngModel)]="profile.state_id" (ngModelChange)="getCities(profile.state_id)" required>
@@ -197,7 +197,7 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
-            <span>City <span class="required">*</span></span>
+            <span>{{"teacher.my_account.city"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
               <mat-select placeholder="Select City" name="city_name" [disabled]="'disabled'" #city_name="ngModel" [(ngModel)]="profile.city"
               required>
@@ -211,47 +211,47 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv mypdv_bg rsp_mypdv_bg fld_readonly">
-            <span>Address line 1 <span class="required">*</span></span>
+            <span>{{"teacher.my_account.address_line_1"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <textarea matInput placeholder="Address Line 1" required name="address1" [disabled]="'disabled'" [(ngModel)]="profile.address1"></textarea>
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
-            <span>Address line 2</span>
+            <span>{{"teacher.my_account.address_line_2"|translate}}</span>
             <mat-form-field appearance="outline">
               <textarea matInput placeholder="Address Line 2" name="address2" [disabled]="'disabled'" [(ngModel)]="profile.address2"></textarea>
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
-            <span>Email <span class="required">*</span></span>
+            <span>{{"teacher.my_account.email"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
               <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
                 [(ngModel)]="profile.email">
             </mat-form-field>
           </div>
           <div *ngIf="profile.university != null" class="my_prf_dv fld_readonly">
-            <span>University</span>
+            <span>{{"university"|translate}}</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                <input matInput placeholder="University" name="university" [disabled]="'disabled'"
+                <input matInput placeholder='{{"university"|translate}}' name="university" [disabled]="'disabled'"
                   [(ngModel)]="profile.university" autocomplete="off" />
               </mat-form-field>
             </span>
           </div>
           <div *ngIf="profile.college != null" class="my_prf_dv fld_readonly">
-            <span>College</span>
+            <span>{{"college"|translate}}</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                <input matInput placeholder="College" name="college" [disabled]="'disabled'"
+                <input matInput placeholder='{{"college"|translate}}' name="college" [disabled]="'disabled'"
                   [(ngModel)]="profile.college" autocomplete="off" />
               </mat-form-field>
             </span>
           </div>
           <div *ngIf="profile.institute != null" class="my_prf_dv fld_readonly">
-            <span>Institute</span>
+            <span>{{"institute"|translate}}</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                <input matInput placeholder="Institute" name="institute" [disabled]="'disabled'"
+                <input matInput placeholder='{{"institute"|translate}}' name="institute" [disabled]="'disabled'"
                   [(ngModel)]="profile.institute" autocomplete="off" />
               </mat-form-field>
             </span>
@@ -261,15 +261,14 @@
         <div class="updpss_mndv">
           <div class="my_prf_dv">
             <span class="d-flex">
-              <mat-checkbox class="mr_5px" (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update Login
-                Password 
+              <mat-checkbox class="mr_5px" (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>{{"teacher.my_account.update_login_password"|translate}}
               </mat-checkbox>
               <mat-icon  class="tst_infoicn" matTooltipPosition="right" matTooltipClass="tst_infotxt"
               matTooltip="Password length should be between 6-16 and must contain at least one lowercase letter, uppercase letter, digit, special character.">info</mat-icon>
             </span>
           </div>
           <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
-            <span *ngIf='isdisplay'>Current Password <span class="required">*</span></span>
+            <span *ngIf='isdisplay'>{{"teacher.my_account.first_name"|translate}}Current Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
               <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
                 autocomplete="off" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="6"
@@ -280,7 +279,7 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
-            <span *ngIf='isdisplay'>New Password <span class="required">*</span></span>
+            <span *ngIf='isdisplay'>{{"teacher.my_account.first_name"|translate}}New Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
               <input matInput (keyup)="passwordVerification()" placeholder="New password"
                 [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
@@ -293,7 +292,7 @@
 
           </div>
           <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
-            <span *ngIf='isdisplay'>Confirm Password <span class="required">*</span></span>
+            <span *ngIf='isdisplay'>{{"teacher.my_account.first_name"|translate}}Confirm Password <span class="required">*</span></span>
             <mat-form-field appearance="outline" [class]="errClass" *ngIf='isdisplay'>
               <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off"
                 [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
