@@ -111,6 +111,7 @@ import { AnalysisReportComponent } from './reports/analysis-report/analysis-repo
 import { ClassesReportComponent } from './reports/classes-report/classes-report.component';
 import { OrdersReportComponent } from './reports/orders-list/orders-list.component';
 import { RevenueReportComponent } from './reports/revenue-report/revenue-report.component';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -288,6 +289,7 @@ const routes: Routes = [
       { path: 'orders', component: OrdersComponent },
       { path: 'revenue', component: RevenueComponent },
       { path: 'order-details/:id', component: OrderDetailsComponent },
+      { path: 'subscriptions', component: SubscriptionsComponent },
 
     ],
   },
@@ -373,6 +375,7 @@ const routes: Routes = [
     OrdersComponent,
     RevenueComponent,
     OrderDetailsComponent,
+    SubscriptionsComponent,
   ],
   imports: [
     MaterialModule,
