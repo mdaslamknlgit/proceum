@@ -22,6 +22,8 @@ export class EditPackageComponent implements OnInit {
   public faqs = [];
   public video_types = [{ name: "KPoint", value: 'KPOINT' }, { name: "Youtube", value: 'YOUTUBE' }]
   public countries = [];
+  public headings = [];
+  public package_heading = '';
   public package_name = '';
   public package_img = '';
   public package_desc = '';
@@ -70,6 +72,7 @@ export class EditPackageComponent implements OnInit {
   public topics: ReplaySubject<any> = new ReplaySubject<any>(1);
   public dataSource = new MatTableDataSource();
   all_countries: ReplaySubject<any> = new ReplaySubject<any>(1);
+  all_headings: ReplaySubject<any> = new ReplaySubject<any>(1);
 
 
   constructor(
@@ -102,6 +105,7 @@ export class EditPackageComponent implements OnInit {
       if (res['error'] == false) {
         let package_data = res['data']['package_data'];
         this.package_name = package_data.package_name;
+        this.package_heading = package_data.package_heading;
         this.package_img = package_data.package_img;
         this.package_desc = package_data.package_desc;
         this.pricing_model = package_data.pricing_model;
@@ -206,10 +210,11 @@ export class EditPackageComponent implements OnInit {
     let form_data = {
       package_id: this.package_id,
       package_name: this.package_name,
+      package_heading: this.package_heading,
       package_img: this.package_img,
       package_desc: this.package_desc,
       pricing_model: this.pricing_model,
-      licenses_limit: this.licenses_limit,
+      licenses_limit: (this.licenses_limit) ? this.licenses_limit : 0,
       duration: this.duration,
       package_prices: this.package_prices,
       sample_videos: this.sample_videos,
@@ -447,9 +452,13 @@ export class EditPackageComponent implements OnInit {
     let params = { url: 'get-addons' };
     this.http.post(params).subscribe((res) => {
       if (res['error'] == false) {
-        this.addons_list = res['data'];
+        this.addons_list = res['data'];        
         this.all_addons_list = res['data'];
+        this.headings = res['headings'];
+        this.all_headings.next(this.headings.slice());
       } else {
+        this.headings = res['headings'];
+        this.all_headings.next(this.headings.slice());
         //this.course_count = 0;
         //this.toster.error(res['message'], 'Error', { closeButton: true });
       }
@@ -632,5 +641,20 @@ export class EditPackageComponent implements OnInit {
       this.applicable_to_institute = 0;
       this.pricing_model = 'per_student';
     }
+  }
+
+  filterHeadings(event){
+    let search = event;
+    if (!search) {
+      this.all_headings.next(this.headings.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    this.all_headings.next(
+      this.headings.filter(
+        (heading) => heading.package_heading.toLowerCase().indexOf(search) > -1
+      )
+    );
   }
 }

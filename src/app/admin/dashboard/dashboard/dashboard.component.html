@@ -18,6 +18,9 @@
         {{ notifications.teacherNotify }} <a style="color: #0014ff;font-weight: bold;border-bottom: 1px solid"
           routerLink="/admin/manage-users">Click to Manage</a>
       </div>
+      <div class="fl_frmt_info wrn_bg mb_1" *ngIf="licenses.licenses_limit && licenses.licenses_limit <= subscribed_student_count ">
+        - Info: {{ licenses.imported_count }} / {{ licenses.licenses_limit }} students are imported. Contact administrator for more licenses.
+      </div>
     </div>
     <ul class="crds_ul anl_crd" *ngIf="counts_loaded">
       <!--  -->
@@ -28,7 +31,7 @@
           </div>
           <div>
             Total No. of Students
-            <span>{{ subscribed_student_count }}</span>
+            <span>{{ subscribed_student_count }} {{ (licenses.licenses_limit && licenses.licenses_limit > 0) ? '/ '+licenses.licenses_limit : '' }}</span>
           </div>
         </div>
       </li>
