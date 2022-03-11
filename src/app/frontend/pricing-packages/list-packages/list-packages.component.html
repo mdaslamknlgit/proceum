@@ -1,13 +1,13 @@
 <app-topbar class="inner-header" *ngIf="user['role'] != '2'"></app-topbar>
 <app-student-topbar *ngIf="user!= undefined && (user['role'] == '2')"></app-student-topbar>
 <app-sidemenu *ngIf="user!= undefined && (user['role'] == '2' || user['role'] == '11')"></app-sidemenu>
-<div class="mn_dshbrd {{user!= undefined ? '':'fl_mndsbrd'}} test">
+<div class="mn_dshbrd {{user ? '':'fl_mndsbrd'}}">
     <div class="hgt_20"></div>
     <div class="sp_mn">
         <div class="brdcrm_br">
             <mat-icon color="accent" routerLink="/">home</mat-icon>
             <mat-icon>navigate_next</mat-icon>
-            <strong>Pricing &amp; Packages</strong>
+            <strong>Courses</strong>
         </div>
     </div>
     <div class="hgt_10"></div>
@@ -19,12 +19,9 @@
         </mat-form-field>
     </div> -->
     <div class="crs_par" *ngFor="let item of packages">
-        <!-- item -->
-        <!-- <h2>{{ item.package_heading }}</h2> -->
-        <div class="crs_hdng">
+        <div class="crs_hdng_mn">
             {{ item.package_heading }}
         </div>
-        <div class="clear_fix"></div>
         <div class="crs_chld" *ngFor="let package of item.packages">
             <div class="d-flex crs_innr_prc">
                 <div>
@@ -88,12 +85,10 @@
             </div> -->
         </div>
         <div class="hgt_20"></div>
-        
-
         <!-- item End-->
     </div>
     <div class="crs_par" *ngIf="!packages.length && noPackagesFound">
         No Packages Found!
     </div>
 </div>
-<app-footer class="{{user!= undefined ? '':'fl_mnftr'}}"></app-footer>
+<app-footer class="{{user ? '':'fl_mnftr'}}"></app-footer>
