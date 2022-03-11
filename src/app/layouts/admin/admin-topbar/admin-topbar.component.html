@@ -66,10 +66,11 @@
     
     <div>
       <!-- <mat-icon [matMenuTriggerFor]="menu">translate</mat-icon> -->
-      <img src="../../../../assets/images/us.svg" [matMenuTriggerFor]="menu" style="width: 30px;" >
+      <img [src]="preview_path" alt="" [matMenuTriggerFor]="menu" class="flg_mnimg" >
       <mat-menu #menu="">
-        <span mat-menu-item>English</span>
-        <span mat-menu-item>French</span>
+        <span class="flg_spn" mat-menu-item *ngFor="let item of lang_list | async" 
+        (click)="getLanguage(item['lang_file_name'],item['country_flag_icon'])">
+          <img [src]="lang_path+item['country_flag_icon']" alt="" [matMenuTriggerFor]="menu"> {{ item['country_language'] }}</span>
       </mat-menu>
     </div>
     <div class="lg_ot" (click)="logout()">
