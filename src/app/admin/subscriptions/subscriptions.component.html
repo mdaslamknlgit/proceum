@@ -115,18 +115,16 @@
                                 <mat-form-field appearance="outline" class="mt_05">
                                   <mat-select placeholder="Select Partner"  [(ngModel)]="partner_id" name="partner_id_edit" #partner_id_edit="ngModel" required>
                                       <mat-option value=''>Select Partner</mat-option>
-                                      <ng-container *ngFor="let package of all_packages | async">
-                                          <mat-option [value]="package['pk_id']">
-                                              {{ package['package_name'] }}
+                                      <ng-container *ngFor="let partner of all_partners | async">
+                                          <mat-option [value]="partner['pk_id']">
+                                              {{ partner['partner_name'] }}
                                           </mat-option>
                                       </ng-container>
                                   </mat-select>
                                 </mat-form-field>
-                                <span class="prc_tltp" *ngIf="
-                                    (subscription_form.submitted || course_name.touched) &&
-                                    course_name.invalid
-                                  ">Course is required</span>
-                              </span></span>
+                                <!-- <span class="prc_tltp" *ngIf=" (subscription_form.submitted || partner_id_edit.touched) && partner_id_edit.invalid ">Partner is required</span> -->
+                              </span>
+                          </span>
                           </div>
                         <!-- Select package -->
                         <div class="frm_dvs">
@@ -135,7 +133,7 @@
                                 <span class="err_tltp_par">
                                     <mat-form-field appearance="outline" class="mt_05">
                                         <mat-select placeholder="Select package" [(ngModel)]="package_id"
-                                            name="course_name" #course_name="ngModel" required>
+                                            name="package" #package="ngModel" required>
                                             <mat-option value=''>Select Package</mat-option>
                                             <ng-container *ngFor="let package of all_packages | async">
                                                 <mat-option [value]="package['pk_id']">
@@ -144,11 +142,171 @@
                                             </ng-container>
                                         </mat-select>
                                     </mat-form-field>
-                                    <span class="prc_tltp" *ngIf="
-                        (subscription_form.submitted || course_name.touched) &&
-                        course_name.invalid
-                      ">Course is required</span>
-                                </span></span>
+                                    <!-- <span class="prc_tltp" *ngIf="(subscription_form.submitted || package.touched) && package.invalid">Package is required</span> -->
+                                </span>
+                            </span>
+                        </div>
+                        <!-----Amount-->
+                        <div class="frm_dvs">
+                            <span>Amount <span class="required">*</span></span>
+                            <span>
+                                <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput placeholder="Amount" name="amount" [(ngModel)]="amount" required />
+                                    </mat-form-field>
+                                    <!-- <span class="prc_tltp" *ngIf="(subscription_form.submitted || amount.touched) &&amount.invalid">Course is required</span> -->
+                                </span>
+                            </span>
+                        </div>
+                        <!-----Billing-->
+                        <div class="frm_dvs">
+                            <span>Billing <span class="required">*</span></span>
+                            <span>
+                                <div class="err_tltp_par">
+                                    <mat-radio-group name="billing_frequency"
+                                        [(ngModel)]='billing_frequency' required>
+                                        <mat-radio-button name="billing_frequency" value="monthly">
+                                            Monthly</mat-radio-button>
+                                        <mat-radio-button name="billing_frequency" value="quarterly">
+                                            Quarterly</mat-radio-button>
+                                        <mat-radio-button name="billing_frequency" value="half-yearly">
+                                            Half yearly
+                                        </mat-radio-button>
+                                        <mat-radio-button name="billing_frequency" value="yearly">
+                                            Yearly
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </span>
+                        </div>
+                        <!-----Payment Type-->
+                        <div class="frm_dvs">
+                            <span>Payment Type <span class="required">*</span></span>
+                            <span>
+                                <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select Payment Type" name="payment_type" [(ngModel)]="payment_type" (ngModelChange)="showForm()">
+                                            <mat-option [value]="'debit_card'">Debit Card</mat-option>
+                                            <mat-option [value]="'credit_card'">Credit Card</mat-option>
+                                            <mat-option [value]="'NEFT'">Online Bank Transfer - NEFT</mat-option>
+                                            <mat-option [value]="'RTGS'">Online Bank Transfer - RTGS</mat-option>
+                                            <mat-option [value]="'SWIFT'">SWIFT Wire Transfer</mat-option>
+                                            <mat-option [value]="'Cash'">Cash</mat-option>
+                                            <mat-option [value]="'Cheque'">Cheque</mat-option>
+                                            <mat-option [value]="'DD'">Demand Draft(DD)</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </span>
+                            </span>
+                        </div>
+                        <div class="frm_dvs">
+                            <!-----Card Number-->
+                            <div class="frm_dvs">
+                                <span>Last 4 Digits of Debit/Credit Card </span>
+                                <span>
+                                    <span class="err_tltp_par">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput placeholder="4 Digits of Card" maxlength="4" name="card_last_four_digits" [(ngModel)]="card_last_four_digits"/>
+                                        </mat-form-field>
+                                    </span>
+                                </span>
+                            </div>
+                            <!-----Transaction ID-->
+                            <div class="frm_dvs">
+                                <span>Transaction ID <span class="required">*</span></span>
+                                <span>
+                                    <span class="err_tltp_par">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput placeholder="Transaction ID" name="transaction_id" [(ngModel)]="transaction_id" required />
+                                        </mat-form-field>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="frm_dvs">
+                            <!-----Cheque Drawn-->
+                            <div class="frm_dvs">
+                                <span>Cheque Drawn in Favour of</span>
+                                <span>
+                                    <span class="err_tltp_par">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput placeholder="Name" name="cheque_drawn" [(ngModel)]="cheque_drawn" />
+                                        </mat-form-field>
+                                    </span>
+                                </span>
+                            </div>
+                            <!-----Cheque Number-->
+                            <div class="frm_dvs">
+                                <span>Cheque Number</span>
+                                <span>
+                                    <span class="err_tltp_par">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput placeholder="Cheque Number" name="cheque_number" [(ngModel)]="cheque_number"/>
+                                        </mat-form-field>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="frm_dvs">
+                            <!-----DD Drawn-->
+                            <div class="frm_dvs">
+                                <span>DD Drawn in Favour of</span>
+                                <span>
+                                    <span class="err_tltp_par">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput placeholder="Name" name="dd_draft" [(ngModel)]="dd_draft" />
+                                        </mat-form-field>
+                                    </span>
+                                </span>
+                            </div>
+                            <!-----DD Number-->
+                            <div class="frm_dvs">
+                                <span>DD Number</span>
+                                <span>
+                                    <span class="err_tltp_par">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput placeholder="DD Number" name="dd_number" [(ngModel)]="dd_number"/>
+                                        </mat-form-field>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="frm_dvs">
+                            <!-----Bank Name-->
+                            <div class="frm_dvs">
+                                <span>Bank Name</span>
+                                <span>
+                                    <span class="err_tltp_par">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput placeholder="Bank Name" name="bank_name" [(ngModel)]="bank_name" />
+                                        </mat-form-field>
+                                    </span>
+                                </span>
+                            </div>
+                            <!-----Branch-->
+                            <div class="frm_dvs">
+                                <span>Branch</span>
+                                <span>
+                                    <span class="err_tltp_par">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput placeholder="Branch" name="branch" [(ngModel)]="branch"/>
+                                        </mat-form-field>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Address -->
+                        <div class="frm_dvs">
+                            <span>Address</span>
+                            <span>
+                                <span class="err_tltp_par">
+                                    <mat-form-field appearance="outline">
+                                        <textarea matInput class="crt_prt_txt" placeholder="Enter Address"
+                                            [(ngModel)]="address" name="address_n"
+                                            #address_n="ngModel"></textarea>
+                                    </mat-form-field>
+                                </span>
+                            </span>
                         </div>
                         <!-- Description -->
                         <div class="frm_dvs">
@@ -166,13 +324,8 @@
                     </div>
                 </div>
                 <hr />
-                <button mat-raised-button color="accent" class="float_right mr_1">
-                    Submit
-                </button>
-                <button mat-raised-button class="float_right mr_1 gry_btn"
-                    (click)="model_status = !model_status">
-                    Close
-                </button>
+                <button mat-raised-button color="accent" class="float_right mr_1"> Submit </button>
+                <button mat-raised-button class="float_right mr_1 gry_btn" (click)="model_status = !model_status">Close</button>
             </form>
             <div class="hgt_20"></div>
         </div>
