@@ -6,8 +6,6 @@ import { MatSort } from '@angular/material/sort';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../environments/environment';
-import * as ClassicEditor from '../../../assets/ckeditor5/build/ckeditor';
-import { UploadAdapter } from '../../classes/UploadAdapter';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
@@ -51,7 +49,7 @@ export class TeacherMaterialsComponent implements OnInit {
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
   }
 
-  public Editor = ClassicEditor;
+  public Editor;
 
   ngOnInit(): void {
     this.user = this.http.getUser();
@@ -333,30 +331,24 @@ export class TeacherMaterialsComponent implements OnInit {
     );
   }
 
-  htmlEditorConfig = {
-    toolbar: {
-      items: environment.ckeditor_toolbar,
-      table: {
-        contentToolbar: [
-          'tableColumn', 'tableRow', 'mergeTableCells',
-          'tableProperties', 'tableCellProperties'
-        ],
-      }
-    },
-    mediaEmbed: {
-      previewsInData: true,
-    },
-  };
+  htmlEditorConfig = environment.editor_config;
 
-  onReady(eventData) {
-    let apiUrl = environment.apiUrl;
-    eventData.plugins.get('FileRepository').createUploadAdapter = function (
-      loader
-    ) {
-      var data = new UploadAdapter(loader, apiUrl + 'upload-image');
-      return data;
-    };
-  }
+  onReady(event){
+    event.editor.on( 'fileUploadRequest', function( evt ) {
+        var xhr = evt.data.fileLoader.xhr;
+        var fileLoader = evt.data.fileLoader;
+        xhr.open( 'POST', fileLoader.uploadUrl, true );
+        
+        xhr = fileLoader.xhr;
+        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('_token'));
+        var formData = new FormData();
+        formData.append( 'file0', fileLoader.file);
+        formData.append("number_files", '1');
+        formData.append("path", 'images/content_images');
+        fileLoader.xhr.send( formData );
+        evt.stop();
+    } );
+}
 
   public doFilter = () => {
     let value = this.search_txt;

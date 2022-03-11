@@ -6,10 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router,ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
-import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
-import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 
 @Component({
   selector: 'app-create-teacher-material',
@@ -22,7 +19,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('editor', { static: false }) editor: CKEditorComponent;
+  @ViewChild('editor', { static: false }) editor;
   public page = 0;
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
@@ -78,7 +75,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
   }
 
-  public Editor = ClassicEditor;
+  public Editor;
 
   ngOnInit(): void {
     this.user = this.http.getUser();
@@ -384,67 +381,24 @@ export class CreateTeacherMaterialComponent implements OnInit {
     this.openAssetsLibrary('images', 'editor');
   }
 
-  editorConfig = {
-    Plugins: [],
-    placeholder: 'Enter content',
-    toolbar: {
-      items: environment.ckeditor_toolbar,
-    },
-    link: {
-        decorators: {
-            openInNewTab: {
-                mode: 'manual',
-                label: 'Open in a new tab',
-                defaultValue: true,			// This option will be selected by default.
-                attributes: {
-                    target: '_blank',
-                    rel: 'noopener noreferrer'
-                }
-            }
-        }
-    },
-    image: {
-      upload: ['png'],
-      toolbar: [
-        'imageStyle:alignLeft',
-        'imageStyle:full',
-        'imageStyle:alignRight',
-        'imageStyle:side'
-      ],
-      styles: ['full', 'alignLeft', 'alignRight', 'side'],
-    },
-    // wproofreader: {
-    //     serviceId: 'your-service-ID',
-    //     srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js'
-    // },
-    table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],
-    },
-    highlight: {
-        options: [
-            {
-                model: 'yellowMarker',
-                class: 'marker-yellow',
-                title: 'Yellow marker',
-                color: 'var(--ck-highlight-marker-yellow)',
-                type: 'marker'
-            }]
-        },
-    mediaEmbed: {
-      previewsInData: true,
-    },
-    language: 'en',
-  };
+  editorConfig = environment.editor_config;
 
-  onReady(eventData) {
-    let apiUrl = environment.apiUrl;
-    eventData.plugins.get('FileRepository').createUploadAdapter = function (
-      loader
-    ) {
-      var data = new UploadAdapter(loader, apiUrl + 'upload-image');
-      return data;
-    };
-  }
+  onReady(event){
+    event.editor.on( 'fileUploadRequest', function( evt ) {
+        var xhr = evt.data.fileLoader.xhr;
+        var fileLoader = evt.data.fileLoader;
+        xhr.open( 'POST', fileLoader.uploadUrl, true );
+        
+        xhr = fileLoader.xhr;
+        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('_token'));
+        var formData = new FormData();
+        formData.append( 'file0', fileLoader.file);
+        formData.append("number_files", '1');
+        formData.append("path", 'images/content_images');
+        fileLoader.xhr.send( formData );
+        evt.stop();
+    } );
+}
 
   public doFilter = () => {
     let value = this.search_txt;

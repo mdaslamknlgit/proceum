@@ -19,7 +19,7 @@
         </div>
         <div class="oldr_cmnt_dsc">
           <div class="ck_editor_view" *ngIf="comment['comment'] && comment['comment'].trim()!=''">
-            <ckeditor [disabled]="true" [editor]="Editor" [config]="{}" [data]="comment['comment']"></ckeditor>
+            <div [innerHtml]="comment['comment'] | safe: 'html'" runScripts></div>
           </div>
         </div>
       </div>
@@ -27,7 +27,7 @@
     <div class="wr_btm_sec">
       <div style="height: 200px">
         <div class="ck_editor" *ngIf="show_coments">
-          <ckeditor [(ngModel)]="comments_content" name="comments_content" (ready)="onReady($event)" [editor]="Editor"
+          <ckeditor editorUrl="{{editor_url}}" [(ngModel)]="comments_content" name="comments_content" (ready)="onReady($event)" 
             #editor [config]="editorReviewConfig" style="height: 500px"></ckeditor>
         </div>
       </div>
@@ -747,7 +747,7 @@
               <div class="c_block_content">
                 <div *ngIf="load_editor" class="ck_editor" (click)="editorFocused('description_editor')">
                   <ckeditor [(ngModel)]="main_content" name="main_content_name" (ready)="onReady($event)"
-                    [editor]="Editor" #description_editor [config]="editorConfig">
+                     #description_editor [config]="editorConfig">
                   </ckeditor>
                 </div>
               </div>
@@ -840,8 +840,8 @@
                     <!-- <button type="button" (click)="addImage()">Add</button> -->
                     <ng-template matTabContent>
                     <div class="ck_editor" (click)="editorFocused('lerning_obj_editor')">
-                      <ckeditor [(ngModel)]="learning_obj_content" name="learning_obj_content_name"
-                        (ready)="onReady($event)" [editor]="Editor" #lerning_obj_editor [config]="editorConfig"
+                      <ckeditor editorUrl="{{editor_url}}" [(ngModel)]="learning_obj_content" name="learning_obj_content_name"
+                        (ready)="onReady($event)" #lerning_obj_editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div>
                 </ng-template>
@@ -856,8 +856,8 @@
                         </mat-form-field>
                       </div>
                       <div class="ck_editor" (click)="editorFocused('lecture_editor')">
-                        <ckeditor [(ngModel)]="lecture_note_content" name="lecture_note_content_name"
-                          (ready)="onReady($event)" [editor]="Editor" #lecture_editor [config]="editorConfig"
+                        <ckeditor editorUrl="{{editor_url}}" [(ngModel)]="lecture_note_content" name="lecture_note_content_name"
+                          (ready)="onReady($event)" #lecture_editor [config]="editorConfig"
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
@@ -897,11 +897,6 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <div class="ck_editor">
-                      <ckeditor (ready)="onReady($event)" [(ngModel)]="learning_notes_content"
-                        name="learning_notes_content_name" [editor]="Editor" #editor [config]="editorConfig"
-                        style="height: 500px"></ckeditor>
-                    </div> -->
                 </ng-template>
                   </mat-tab>
                   <mat-tab label="High Yield Notes">
@@ -914,8 +909,8 @@
                         </mat-form-field>
                       </div>
                       <div class="ck_editor" (click)="editorFocused('highyield_editor')">
-                        <ckeditor [(ngModel)]="highyield_content" name="highyield_content_name"
-                          (ready)="onReady($event)" [editor]="Editor" #highyield_editor [config]="editorConfig"
+                        <ckeditor editorUrl="{{editor_url}}" [(ngModel)]="highyield_content" name="highyield_content_name"
+                          (ready)="onReady($event)" #highyield_editor [config]="editorConfig"
                           style="height: 500px"></ckeditor>
                       </div>
                       <div class="mt_1 text_right">
@@ -1581,8 +1576,8 @@
                   <mat-tab label="External References">
                     <ng-template matTabContent>
                     <div class="ck_editor" (click)="editorFocused('external_editor')">
-                      <ckeditor [(ngModel)]="external_ref_content" name="external_ref_content_name"
-                        (ready)="onReady($event)" [editor]="Editor" #external_editor [config]="editorConfig"
+                      <ckeditor editorUrl="{{editor_url}}" [(ngModel)]="external_ref_content" name="external_ref_content_name"
+                        (ready)="onReady($event)" #external_editor [config]="editorConfig"
                         style="height: 500px"></ckeditor>
                     </div>
                     </ng-template>

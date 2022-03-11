@@ -11,15 +11,8 @@ import {
     ToastrService
 } from 'ngx-toastr';
 import {
-    CKEditorComponent
-} from '@ckeditor/ckeditor5-angular';
-import {
     environment
 } from 'src/environments/environment';
-import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
-import {
-    UploadAdapter
-} from '../../../classes/UploadAdapter';
 import {
     MatTableDataSource
 } from '@angular/material/table';
@@ -61,7 +54,7 @@ export class EditNewQuestionComponent implements OnInit {
     @ViewChild('documents') documents_input: ElementRef;
     page_size_options = environment.page_size_options;
 
-    public Editor = Editor;
+    public Editor;
     liteEditorConfig = environment.liteEditorConfig;
     is_loaded = true
     question_id = null;

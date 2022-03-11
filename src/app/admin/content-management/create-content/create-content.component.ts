@@ -1,8 +1,5 @@
 import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
-import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { environment } from 'src/environments/environment';
-import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
-import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -103,112 +100,38 @@ export class CreateContentComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild('editor', { static: false }) editor: CKEditorComponent;
-  @ViewChild('description_editor', { static: false }) description_editor: CKEditorComponent;
-  @ViewChild('lerning_obj_editor', { static: false }) lerning_obj_editor: CKEditorComponent;
-  @ViewChild('lecture_editor', { static: false }) lecture_editor: CKEditorComponent;
-  @ViewChild('highyield_editor', { static: false }) highyield_editor: CKEditorComponent;
-  @ViewChild('external_editor', { static: false }) external_editor: CKEditorComponent;
+  @ViewChild('editor', { static: false }) editor;
+  @ViewChild('description_editor', { static: false }) description_editor;
+  @ViewChild('lerning_obj_editor', { static: false }) lerning_obj_editor;
+  @ViewChild('lecture_editor', { static: false }) lecture_editor;
+  @ViewChild('highyield_editor', { static: false }) highyield_editor;
+  @ViewChild('external_editor', { static: false }) external_editor ;
   public focus_editor =  '';
-  public Editor = Editor;
+  public Editor ;
     show_schedule = false;
   @HostListener('window:open_library', ['$event'])
   openCustomPopup(event) {
     this.openAssetsLibrary('images/content_images', 'editor');
   }
-  editorReviewConfig = {
-    Plugins: [],
-    placeholder: 'Enter content',
-    toolbar: {
-      items: ['Heading', 'bold', 'FontColor', 'FontBackgroundColor', 'italic', 'underline', 'link', 'bulletedList', 'numberedList',],
-    },
-    image: {
-      upload: ['png'],
-      toolbar: [
-        'imageStyle:alignLeft',
-        'imageStyle:full',
-        'imageStyle:alignRight',
-      ],
-      styles: ['full', 'alignLeft', 'alignRight'],
-    },
-    table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],
-
-            // Configuration of the TableProperties plugin.
-            tableProperties: {
-                // ...
-            },
-
-            // Configuration of the TableCellProperties plugin.
-            tableCellProperties: {
-                // ...
-            }
-    },
-    mediaEmbed: {
-      previewsInData: true,
-    },
-    language: 'en',
-  };
-  editorConfig = {
-    Plugins: [],
-    placeholder: 'Enter content',
-    toolbar: {
-      items: environment.ckeditor_toolbar,
-    },
-    link: {
-        decorators: {
-            openInNewTab: {
-                mode: 'manual',
-                label: 'Open in a new tab',
-                defaultValue: true,			// This option will be selected by default.
-                attributes: {
-                    target: '_blank',
-                    rel: 'noopener noreferrer'
-                }
-            }
-        }
-    },
-    image: {
-      upload: ['png'],
-      toolbar: [
-        'imageStyle:alignLeft',
-        'imageStyle:full',
-        'imageStyle:alignRight',
-        'imageStyle:side'
-      ],
-      styles: ['full', 'alignLeft', 'alignRight', 'side'],
-    },
-    // wproofreader: {
-    //     serviceId: 'your-service-ID',
-    //     srcUrl: 'https://svc.webspellchecker.net/spellcheck31/wscbundle/wscbundle.js'
-    // },
-    table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'TableProperties', 'TableCellProperties'],
-    },
-    highlight: {
-        options: [
-            {
-                model: 'yellowMarker',
-                class: 'marker-yellow',
-                title: 'Yellow marker',
-                color: 'var(--ck-highlight-marker-yellow)',
-                type: 'marker'
-            }]
-        },
-    mediaEmbed: {
-      previewsInData: true,
-    },
-    language: 'en',
-  };
-  onReady(eventData) {
-    let apiUrl = environment.apiUrl;
-    eventData.plugins.get('FileRepository').createUploadAdapter = function (
-      loader
-    ) {
-      var data = new UploadAdapter(loader, apiUrl + 'upload-content-image');
-      return data;
-    };
-  }
+  public editor_url = environment.editor_url;
+  editorReviewConfig = environment.editor_config;
+  editorConfig = environment.editor_config;
+    onReady(event){
+        event.editor.on( 'fileUploadRequest', function( evt ) {
+            var xhr = evt.data.fileLoader.xhr;
+            var fileLoader = evt.data.fileLoader;
+            xhr.open( 'POST', fileLoader.uploadUrl, true );
+            
+            xhr = fileLoader.xhr;
+            xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('_token'));
+            var formData = new FormData();
+            formData.append( 'file0', fileLoader.file);
+            formData.append("number_files", '1');
+            formData.append("path", 'images/content_images');
+            fileLoader.xhr.send( formData );
+            evt.stop();
+        } );
+    }
   public pgae_title = 'Create Content';
   public content_status = '';
   public show_tabs = false;

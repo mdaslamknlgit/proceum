@@ -414,8 +414,7 @@
                 No Description Found
               </div>
               <div class="crs_desc_cnt ck_editor_view" *ngIf="content['main_content']">
-                <ckeditor #editor name="main_content" [disabled]="true" [editor]="Editor" [config]="editorConfig"
-                  (ready)="onReady($event)" [data]="content['main_content']"></ckeditor>
+                  <div [innerHtml]="content['main_content'] | safe: 'html'" runScripts></div>
               </div>
             </div>
           </div>
@@ -577,8 +576,7 @@
                     </mat-expansion-panel-header>
                     <ng-template matExpansionPanelContent>
                       <div class="tm_ln_dv ck_editor_view">
-                        <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
-                          (ready)="onReady($event)" [data]="note['learning_notes']"></ckeditor>
+                          <div [innerHtml]="note['learning_notes'] | safe: 'html'" runScripts></div>
                       </div>
                     </ng-template>
                   </mat-expansion-panel>
@@ -591,10 +589,6 @@
             </mat-expansion-panel> -->
                 </mat-accordion>
               </div>
-              <!-- <div class="crs_desc_cnt ck_editor_view" *ngIf="content['learning_notes_content']">
-              <ckeditor #editor2 name="learning_notes_content" [disabled]="true" [editor]="Editor2" [config]="{}"
-                (ready)="onReady($event)" [data]="content['learning_notes_content']"></ckeditor>
-            </div> -->
             </div>
           </div>
         </div>
@@ -618,8 +612,7 @@
                 No Notes Found
               </div>
               <div class="crs_desc_cnt ck_editor_view" id="ck_editor_view" *ngIf="content['learning_obj_content']">
-                <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
-                  [data]="content['learning_obj_content']"></ckeditor>
+                  <div [innerHtml]="content['learning_obj_content'] | safe: 'html'" runScripts></div>
               </div>
             </div>
           </div>
@@ -715,8 +708,7 @@
                     </mat-expansion-panel-header>
                     <ng-template matExpansionPanelContent>
                       <div class="tm_ln_dv ck_editor_view">
-                        <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig"
-                          (ready)="onReady($event)" [data]="highyield['highyield_notes']"></ckeditor>
+                          <div [innerHtml]="highyield['highyield_notes'] | safe: 'html'" runScripts></div>
                       </div>
                     </ng-template>
                   </mat-expansion-panel>
@@ -1032,8 +1024,7 @@
             </button> -->
               </div>
               <div class="crs_desc_cnt ck_editor_view" *ngIf="content['external_ref_content']">
-                <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
-                  [data]="content['external_ref_content']"></ckeditor>
+                  <div [innerHtml]="content['external_ref_content'] | safe: 'html'" runScripts></div>
               </div>
             </div>
           </div>
@@ -1058,8 +1049,7 @@
                   -->
               </div>
               <div class="crs_desc_cnt ck_editor_view" *ngIf="content['related_topics']">
-                <ckeditor #editor [disabled]="true" [editor]="Editor" [config]="editorConfig" (ready)="onReady($event)"
-                  [data]="content['related_topics']"></ckeditor>
+                <div id="two"   [innerHtml]="content['related_topics'] | safe: 'html'" runScripts></div>
               </div>
             </div>
           </div>
