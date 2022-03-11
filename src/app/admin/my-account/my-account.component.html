@@ -134,7 +134,7 @@
             </span>
             <div class="hgt_5"></div>
             <button class="brws_dpbtn" mat-raised-button color="accent" type="button" (click)="fileInput.click()">
-              Browse
+              {{"teacher.my_account.browse"|translate}}
               <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
                 (change)="fileEvent($event)" style="display:none;" />
             </button>
@@ -147,7 +147,7 @@
           <div class="my_prf_dv fld_readonly">
             <span>{{"teacher.my_account.first_name"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="First Name" [disabled]="'disabled'" autocomplete="off" name="first_name" #first_name='ngModel'
+              <input matInput placeholder='{{"teacher.my_account.first_name"|translate}}' [disabled]="'disabled'" autocomplete="off" name="first_name" #first_name='ngModel'
                 ngModel [(ngModel)]="profile.first_name" required
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
             </mat-form-field>
@@ -155,7 +155,7 @@
           <div class="my_prf_dv fld_readonly">
             <span>{{"teacher.my_account.last_name"|translate}}</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Last Name" autocomplete="off" [disabled]="'disabled'" name="last_name" #last_name='ngModel'
+              <input matInput placeholder='{{"teacher.my_account.last_name"|translate}}' autocomplete="off" [disabled]="'disabled'" name="last_name" #last_name='ngModel'
                 ngModel [(ngModel)]="profile.last_name"
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
             </mat-form-field>
@@ -163,18 +163,18 @@
           <div class="my_prf_dv fld_readonly">
             <span>{{"teacher.my_account.mobile"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Mobile" name="phone" [(ngModel)]="profile.phone" required
+              <input matInput placeholder='{{"teacher.my_account.mobile"|translate}}' name="phone" [(ngModel)]="profile.phone" required
                 disabled="disabled">
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
             <span>{{"teacher.my_account.country"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select Country" [disabled]="'disabled'" name="country" #country="ngModel"
+              <mat-select placeholder='{{"teacher.my_account.select_country"|translate}}' [disabled]="'disabled'" name="country" #country="ngModel"
               [(ngModel)]="profile.country_id" (ngModelChange)="getStates(profile.country_id)" required>
                 <mat-option>
-                  <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
-                    [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                  <ngx-mat-select-search [noEntriesFoundLabel]="'teacher.my_account.no_countries_found'|translate"
+                    [placeholderLabel]="'teacher.my_account.select_country'|translate" name="search_country" ngModel
                     (ngModelChange)="filterCountries($event)"></ngx-mat-select-search>
                 </mat-option>
                 <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{
@@ -185,10 +185,10 @@
           <div class="my_prf_dv fld_readonly">
             <span>{{"teacher.my_account.state"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select State" [disabled]="'disabled'" name="state" #state="ngModel"
+              <mat-select placeholder='{{"teacher.my_account.select_state"|translate}}' [disabled]="'disabled'" name="state" #state="ngModel"
               [(ngModel)]="profile.state_id" (ngModelChange)="getCities(profile.state_id)" required>
                 <mat-option>
-                  <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'" [placeholderLabel]="'Search State'"
+                  <ngx-mat-select-search [noEntriesFoundLabel]="'teacher.my_account.no_states_found'|translate" [placeholderLabel]="'teacher.my_account.select_state'|translate"
                     name="search_state" ngModel (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
                 </mat-option>
                 <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{
@@ -199,11 +199,10 @@
           <div class="my_prf_dv fld_readonly">
             <span>{{"teacher.my_account.city"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select City" name="city_name" [disabled]="'disabled'" #city_name="ngModel" [(ngModel)]="profile.city"
+              <mat-select placeholder='{{"teacher.my_account.select_city"|translate}}' name="city_name" [disabled]="'disabled'" #city_name="ngModel" [(ngModel)]="profile.city"
               required>
                 <mat-option>
-                  <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'" [placeholderLabel]="'Search City'"
-                    name="search_city" ngModel (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
+                  <ngx-mat-select-search [noEntriesFoundLabel]="'teacher.my_account.no_cities_found'|translate" [placeholderLabel]="'teacher.my_account.select_city'|translate" name="search_city" ngModel (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
                 </mat-option>
                 <mat-option *ngFor="let one of all_cities | async" [value]="one['id']">{{
                   one["city_name"] }}</mat-option>
@@ -213,19 +212,19 @@
           <div class="my_prf_dv mypdv_bg rsp_mypdv_bg fld_readonly">
             <span>{{"teacher.my_account.address_line_1"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 1" required name="address1" [disabled]="'disabled'" [(ngModel)]="profile.address1"></textarea>
+              <textarea matInput placeholder='{{"teacher.my_account.address_line_1"|translate}}' required name="address1" [disabled]="'disabled'" [(ngModel)]="profile.address1"></textarea>
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
             <span>{{"teacher.my_account.address_line_2"|translate}}</span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 2" name="address2" [disabled]="'disabled'" [(ngModel)]="profile.address2"></textarea>
+              <textarea matInput placeholder='{{"teacher.my_account.address_line_2"|translate}}' name="address2" [disabled]="'disabled'" [(ngModel)]="profile.address2"></textarea>
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
             <span>{{"teacher.my_account.email"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
+              <input matInput placeholder='{{"teacher.my_account.email_address"|translate}}' name="email" [disabled]="'disabled'"
                 [(ngModel)]="profile.email">
             </mat-form-field>
           </div>
@@ -264,13 +263,13 @@
               <mat-checkbox class="mr_5px" (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>{{"teacher.my_account.update_login_password"|translate}}
               </mat-checkbox>
               <mat-icon  class="tst_infoicn" matTooltipPosition="right" matTooltipClass="tst_infotxt"
-              matTooltip="Password length should be between 6-16 and must contain at least one lowercase letter, uppercase letter, digit, special character.">info</mat-icon>
+              matTooltip='{{"teacher.my_account.password_length"|translate}}'>{{"teacher.my_account.info"|translate}}</mat-icon>
             </span>
           </div>
           <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
-            <span *ngIf='isdisplay'>{{"teacher.my_account.first_name"|translate}}Current Password <span class="required">*</span></span>
+            <span *ngIf='isdisplay'>{{"teacher.my_account.current_password"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
-              <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
+              <input matInput placeholder='{{"teacher.my_account.current_password"|translate}}' [type]="current_password_hide ? 'password' : 'text'"
                 autocomplete="off" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="6"
                 maxlength="16" name="current_password" onkeypress='return (event.charCode != 32)'
                 #current_password="ngModel" ngModel [readonly]="!isrequired">
@@ -279,9 +278,9 @@
             </mat-form-field>
           </div>
           <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
-            <span *ngIf='isdisplay'>{{"teacher.my_account.first_name"|translate}}New Password <span class="required">*</span></span>
+            <span *ngIf='isdisplay'>{{"teacher.my_account.new_password"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
-              <input matInput (keyup)="passwordVerification()" placeholder="New password"
+              <input matInput (keyup)="passwordVerification()" placeholder='{{"teacher.my_account.new_password"|translate}}'
                 [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
                 [(ngModel)]="profile.new_password" minlength="6" maxlength="16" name="new_password"
                 pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,16}$"
@@ -292,9 +291,9 @@
 
           </div>
           <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
-            <span *ngIf='isdisplay'>{{"teacher.my_account.first_name"|translate}}Confirm Password <span class="required">*</span></span>
+            <span *ngIf='isdisplay'>{{"teacher.my_account.confirm_password"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" [class]="errClass" *ngIf='isdisplay'>
-              <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off"
+              <input matInput (keyup)="passwordVerification()" placeholder='{{"teacher.my_account.confirm_password"|translate}}' autocomplete="off"
                 [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
                 [(ngModel)]="profile.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd"
                 pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,16}$" validateEqual="password"
