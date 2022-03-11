@@ -2146,8 +2146,8 @@ mat-icon.w_50px {
   display: flex;
     flex-wrap: wrap;
     // justify-content: space-between;
-    column-gap:20px;
-    row-gap:20px;
+    column-gap:16px;
+    row-gap:16px;
 }
 .d-flex.crs_innr_prc {
   border-bottom: 1px dashed #d2d5dd;
@@ -8361,15 +8361,26 @@ footer{
       flex-direction: column;
       display: flex;
       align-items: center;
+      min-width: 55px;
       mat-icon{
         color: $accent_clr;
       }
       &.dsbld_ism{
         color: #707070;
-        // pointer-events: none;
+        pointer-events: none;
         mat-icon{
           color: #707070;
           opacity: 0.5;
+        }
+        &::after{
+          content: "No Data Found";
+          bottom: -22px;
+          border: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          margin: auto;
+          position: absolute;
         }
         &:hover{
           background-color: #ddd;
@@ -8377,15 +8388,6 @@ footer{
           cursor: no-drop;
           mat-icon{
             color: #a1a0a0;
-          }
-          &::after{
-            content: "No Data Found";
-            bottom: -14px;
-            border: 0;
-            left: 0;
-            right: 0;
-            width: 100%;
-            margin: auto;
           }
         }
       }
