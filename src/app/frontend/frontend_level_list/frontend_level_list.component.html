@@ -8,7 +8,6 @@
       <span routerLink="/index/curriculum/{{ curriculum['pk_id'] }}">{{
         curriculum["curriculumn_name"]
         }}</span>
-
       <span *ngFor="let bread of breadcome; let i = index">
         <span *ngIf="i < breadcome.length - 1" routerLink="/index/curriculum/{{
           curriculum_id + '/' + bread['level_id'] + '/' + bread['id']
@@ -22,7 +21,6 @@
       </span>
     </div>
   </div>
-
   <!-- <div class="pg_ttl">{{ title }}</div> -->
   <!-- <div class="brd_crm mt_0">
     <span routerLink="/student/curriculums">Courses & Qbanks / </span>
@@ -46,19 +44,19 @@
     </mat-form-field>
   </div>
   <!-- <mat-tab-group (selectedTabChange)="switchTab($event)" animationDuration="0.15s"> -->
-    <!-- <mat-tab label="All"> -->
-      <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
-      <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
-        <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
-          <span class="ct_hd" routerLink="/index/curriculum/{{ level['curriculum_id'] }}/{{
+  <!-- <mat-tab label="All"> -->
+  <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
+  <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
+    <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
+      <span class="ct_hd" routerLink="/index/curriculum/{{ level['curriculum_id'] }}/{{
               level['level_id']
             }}/{{ level['id'] }}">{{ level["name"] }} - (Code :
-            {{ level["code"] ? level["code"] : "N/A" }})</span>
-          
-        </div>
-      </div>
-    <!-- </mat-tab> -->
-    
+        {{ level["code"] ? level["code"] : "N/A" }})</span>
+
+    </div>
+  </div>
+  <!-- </mat-tab> -->
+
   <!-- </mat-tab-group> -->
   <div class="hgt_20"></div>
   <div class="hgt_20 text_right" *ngIf="levels.length > 0 &&levels.length < total_items">

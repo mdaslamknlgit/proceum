@@ -107,7 +107,7 @@ const routes: Routes = [
   },
   { path: 'shopping-cart', component: ShoppingCartComponent },
   
-  { path: 'pricing-and-packages', component: ListPackagesComponent },
+  { path: 'courses', component: ListPackagesComponent },
   { path: 'package-details/:id', component: PackageDetailsComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: IndexComponent },
