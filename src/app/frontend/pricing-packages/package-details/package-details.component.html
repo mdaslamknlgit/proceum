@@ -1,12 +1,12 @@
 <app-topbar class="inner-header"></app-topbar>
 <app-sidemenu *ngIf="user!= undefined && (user['role'] == '2' || user['role'] == '11')"></app-sidemenu>
-<div class="mn_dshbrd fl_mndsbrd">
+<div class="mn_dshbrd {{user ? '':'fl_mndsbrd'}}">
   <div class="hgt_20"></div>
   <div class="sp_mn">
     <div class="brdcrm_br">
       <mat-icon color="accent" routerLink="/">home</mat-icon>
       <mat-icon>navigate_next</mat-icon>
-      <strong routerLink="/pricing-and-packages">Pricing &amp; Packages</strong>
+      <strong routerLink="/pricing-and-packages">Courses</strong>
       <mat-icon>navigate_next</mat-icon> {{ package.package_name }}
     </div>
   </div>
@@ -335,4 +335,4 @@
     </div>
   </div>
 </div>
-<app-footer></app-footer>
+<app-footer class="{{user ? '':'fl_mnftr'}}"></app-footer>
