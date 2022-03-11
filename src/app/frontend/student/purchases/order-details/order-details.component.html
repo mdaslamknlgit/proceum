@@ -5,18 +5,18 @@
   <div class="sp_mn shpcrt dsh_brd_crds" *ngIf="order_items.length">
     <div class="brdcrm_br">
       <mat-icon color="accent">home</mat-icon>
-      <mat-icon>navigate_next</mat-icon>Order Details
+      <mat-icon>navigate_next</mat-icon>{{'student.my_orders.details.order_details'|translate}}
     </div>
     <div class="hgt_20"></div>
     <div class="d-flex ai_cntr">
-      <div class="shpcrt_hd">Course/Package</div>
+      <div class="shpcrt_hd">{{'student.my_orders.details.course_package'|translate}}</div>
       <span class="download_icons">
         <a href="{{ api_url }}download-order-invoice/{{ order_details.order_id }}/{{order_details.user_id}}"
-          mat-icon-button color="accent" class="float_right mr_1" type="button" matTooltip="Download PDF"
+          mat-icon-button color="accent" class="float_right mr_1" type="button" matTooltip="{{'student.my_orders.details.download_pdf'|translate}}"
           matTooltipPosition="above"><img src="../../../../assets/images/pdf.png" width="25"></a>
       </span>
       <div class="spacer"></div>
-      <div class="shpcrt_amnt">Amount</div>
+      <div class="shpcrt_amnt">{{'student.my_orders.details.amount'|translate}}</div>
     </div>
     <div class="hgt_10"></div>
     <div class="shpcrt_lst">
@@ -55,7 +55,7 @@
           {{ item.cart_item.product_data.currency_symbol }} {{ item.cart_item.final_prices.selling_price }}
           <span *ngIf="item.cart_item.final_prices.discount_percent">
             {{ item.cart_item.product_data.currency_symbol }} {{ item.cart_item.final_prices.original_price }} | {{
-            item.cart_item.final_prices.discount_percent }} % off
+            item.cart_item.final_prices.discount_percent }} % {{'student.my_orders.details.off'|translate}}
           </span>
         </div>
       </div>
@@ -63,13 +63,13 @@
       <div class="shpcrt_mn_dv ba_ap">
         <div class="spacer algn_s_fs">
           <div>
-            <span class="order_label">Payment Gateway Transaction ID :</span> {{ order_details.transaction_id}}
+            <span class="order_label">{{'student.my_orders.details.transaction_id'|translate}} :</span> {{ order_details.transaction_id}}
           </div>
           <div>
-            <span class="order_label">Payment Gateway Order ID : </span> {{ order_details.payment_gateway_order_id}}
+            <span class="order_label">{{'student.my_orders.details.payment_gateway_order_id'|translate}} : </span> {{ order_details.payment_gateway_order_id}}
           </div>
           <div class="ba_hd">
-            Billing Address
+            {{'student.my_orders.details.billing_address'|translate}}
           </div>
           <div class="hgt_10"></div>
           <div class="ba_add w_50p d-flex">
@@ -79,7 +79,7 @@
           </div>
         </div>
         <div class="jc_fe d-flex fd_clmn">
-          <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Total Amount
+          <div class="d-flex ai_cntr jc_fe bold amnt_pybl">{{'student.my_orders.details.total_amount'|translate}}
             <div class="amnt_pybl">
               <div class="cln_cntr">:</div>
               <div class="spacer"></div>
@@ -88,7 +88,7 @@
           </div>
           <div class="hgt_20"></div>
           <span *ngIf="order_details.coupon_discount_amount">
-            <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">Coupon Applied
+            <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">{{'student.my_orders.details.coupon_applied'|translate}}
               <div class="amnt_pybl">
                 <div class="cln_cntr">:</div>
                 <div class="spacer"></div>
@@ -103,7 +103,7 @@
           </span>
 
           <span *ngIf="order_details.my_earnings_discount_amount">
-            <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">My Earnings Applied ({{ order_details.my_earnings }})
+            <div class="d-flex ai_cntr jc_fe amnt_pybl grn_fnt">{{'student.my_orders.details.my_earnings_applied'|translate}} ({{ order_details.my_earnings }})
               <div class="amnt_pybl">
                 <div class="cln_cntr">:</div>
                 <div class="spacer"></div>
@@ -113,7 +113,7 @@
           </span>
 
           <div class="hgt_5"></div>
-          <div class="d-flex ai_cntr jc_fe bold amnt_pybl">Amount Paid
+          <div class="d-flex ai_cntr jc_fe bold amnt_pybl">{{'student.my_orders.details.amount_paid'|translate}}
             <div class="amnt_pybl">
               <div class="cln_cntr">:</div>
               <div class="spacer"></div>
