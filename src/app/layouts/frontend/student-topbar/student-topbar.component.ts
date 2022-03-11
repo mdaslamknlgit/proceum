@@ -21,6 +21,10 @@ export class StudentTopbarComponent implements OnInit {
   subscription: Subscription;
   user_id = '';
   load_top_bar = false;
+  public class_notifications = [];
+  public assessment_notifications = [];
+  public show_notifications = false;
+  public language = '';
   @Output() finishedLoading: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(
     private http: CommonService,
@@ -36,6 +40,15 @@ export class StudentTopbarComponent implements OnInit {
   ngAfterViewInit() {
     this.search_key = this.http.search_string;
   }
+  getNotifications(){
+    let data = { url: 'student/get-notifications' };
+    this.http.post(data).subscribe((res) => {
+        if (res['error'] == false) {
+            this.class_notifications = res['data']['class_notifications'];
+            this.assessment_notifications = res['data']['assessment_notifications'];
+        }
+    })
+  }
   ngOnInit(): void {
     //check subdomain
     let sub_domain = window.location.hostname.split('.')[0];
@@ -49,6 +62,12 @@ export class StudentTopbarComponent implements OnInit {
     }
     this.user = this.http.getUser();
     if (this.user) {
+        if(parseInt(this.user['role']) == environment.ALL_ROLES.STUDENT){
+            this.getNotifications();
+            setInterval(res=>{
+                this.getNotifications();
+            },30000);
+        }
       this.user_id = this.user['id'];
       this.getCartCount();
     }
@@ -59,6 +78,40 @@ export class StudentTopbarComponent implements OnInit {
           // }
         }
       });
+    this.setLang();
+  }
+
+  setLang() {
+    let param = {
+      url: 'get-user-config', //+ this.user['id'],
+      user_id:this.user['id']
+    };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {   
+        if(res['data'] != ''){
+          this.http.lang = res['data']['language'];
+        }else{
+          this.http.lang = this.user.configs['language'];
+        }     
+      }else{
+        this.http.lang = this.user.configs['language'];
+      }
+      this.language = this.http.lang;    
+      this.translate.setDefaultLang(this.http.lang);
+    });
+  }
+
+  getLanguage(){
+    this.http.lang = this.language;
+    this.translate.setDefaultLang(this.http.lang);
+    let param = {
+      url: 'update-user-config',
+      user_id:this.user['id'],
+      mode:'language',
+      value: this.language
+    };
+    this.http.post(param).subscribe((res) => {
+    });
   }
 
   // toggleSidemenu(param) {

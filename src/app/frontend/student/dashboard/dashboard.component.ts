@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { Chart } from 'chart.js';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +19,10 @@ export class DashboardComponent implements OnInit {
     private http: CommonService,
     public toster: ToastrService,
     private router: Router,
-    ) {}
+    public translate: TranslateService
+    ) {
+      this.translate.setDefaultLang(this.http.lang);
+    }
   //User variables
   public user:any = [];
   public user_id:any = '';
@@ -47,9 +51,9 @@ export class DashboardComponent implements OnInit {
   public allow_end_test: boolean = false;
   public bucket_url = '';
   public wish_list_data:any = [];
-  public notes;
-  public assessments;
-  public classes;
+  public notes = 0;
+  public assessments = 0;
+  public classes = 0;
   public subjectknowledge;
   public lineChartLegend = false;
   public lineChartType = 'bar';
@@ -58,7 +62,6 @@ export class DashboardComponent implements OnInit {
   public lineChartData:any = [];
   public lineChartLabels:any = [];
   public lineChartOptions:any;
-
   public chartColors: any[] = [
     { 
       backgroundColor:[
@@ -68,9 +71,11 @@ export class DashboardComponent implements OnInit {
         "#FBC02D", "#FF7043", "#8E24AA", "#00897B", "#FDD835", "#0277BD", "#6D4C41"
     ] 
     }];
-
-
-  
+  public individual = environment.ALL_ROLES.INDIVIDUAL;
+  public student = environment.ALL_ROLES.STUDENT;
+  public referral_count = 0;
+  public social_count = 0;
+  public usr_order_cnt = 0;
   @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event: Event) {alert()
       // Your logic on beforeunload
@@ -83,11 +88,15 @@ export class DashboardComponent implements OnInit {
       this.role_id =  Number(this.user['role']);
       this.getPackagesAboutToExpire();
       this.getDashboardCount();
+      if(this.role_id && this.role_id == this.individual){
+        this.getMyEarnings();
+        this.getOrders();
+      }
       this.getRandomQuestions();
       this.getSubjectKnowledge();
       this.getFreeContent();
       this.getBookmarksFavorite();
-      this.getWishList();
+      this.getWishList();      
     }
   }
   //Get wishlist items
@@ -119,6 +128,29 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getMyEarnings() {
+    let param = { url: 'referral-earnings-list' };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.referral_count = res['data']['referral_earnings_list'].filter(i => (i.course_purchased == 1 && i.credits_consumed == 0)).length;
+      }
+    });
+
+    let params = { url: 'social-share' };
+    this.http.get(params).subscribe((res: Response) => {
+      this.social_count = res['data']['social_share_list'].filter(i => (i.approval_status == 1 && i.credits_consumed == 0)).length;
+    });
+  }
+
+  getOrders() {
+    let param = { url: 'get-user-orders', status: 2 };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.usr_order_cnt = res['total_records'];
+      }
+    });
+  }
+
   //Get dashboard Count
   getDashboardCount(){
     let param = { url: 'student-dashboard'};
@@ -143,9 +175,13 @@ export class DashboardComponent implements OnInit {
             subject_val.push(opt[key].percentage);
           }        
         })
+        let subject_knowledge = '';
+        this.translate.get('student.dashboard.subject_knowledge').subscribe((data)=> {
+          subject_knowledge = data;
+        });
         this.lineChartData = [
           {
-            label: 'Subject Knowledge',
+            label: subject_knowledge,
             fill: false,
             lineTension: 0.1,
             backgroundColor: 'rgba(75,192,192,0.4)',
@@ -343,13 +379,29 @@ export class DashboardComponent implements OnInit {
   public not_answered = 0;
   public free_text_qs = 0;
   showResult(){
+    let are_you_sure_text = '';
+    this.translate.get('are_you_sure_text').subscribe((data)=> {
+      are_you_sure_text = data;
+    });
+    let are_you_sure_end_text = '';
+    this.translate.get('student.dashboard.are_you_sure_end_text').subscribe((data)=> {
+      are_you_sure_end_text = data;
+    });
+    let yes_text = '';
+    this.translate.get('yes_text').subscribe((data)=> {
+      yes_text = data;
+    });
+    let no_text = '';
+    this.translate.get('no_text').subscribe((data)=> {
+      no_text = data;
+    });
        Swal.fire({
-          title: 'Are you sure?',
-          text: 'Are you sure to end this test?',
+          title: are_you_sure_text,
+          text: are_you_sure_end_text,
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonText: 'Yes',
-          cancelButtonText: 'No'
+          confirmButtonText: yes_text,
+          cancelButtonText: no_text
       }).then((result) => {
           if (result.value) {
               this.is_test_end = true;

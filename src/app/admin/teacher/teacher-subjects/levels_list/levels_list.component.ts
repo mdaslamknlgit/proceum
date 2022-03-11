@@ -3,6 +3,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-levels_list',
@@ -30,9 +31,9 @@ export class Levels_listComponent implements OnInit {
     private http: CommonService,
     private route: Router,
     private toster: ToastrService,
-    private location: Location
-  ) {}
-
+    private location: Location,
+    public translate: TranslateService
+  ) { this.translate.setDefaultLang(this.http.lang); }
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
       this.curriculum_id = param.curriculum_id;

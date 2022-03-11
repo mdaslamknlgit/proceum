@@ -102,7 +102,16 @@ import { Levels_listComponent } from './teacher/teacher-subjects/levels_list/lev
 import { ApproveLeadComponent } from './approve-lead/approve-lead.component';
 import { TeacherComponent } from './dashboard/teacher/teacher.component';
 import { NgChartjsModule } from 'ng-chartjs';
+import { OrdersComponent } from './orders/orders.component';
+import { RevenueComponent } from './revenue/revenue.component';
+import { OrderDetailsComponent } from './orders/order-details/order-details.component';
 
+//reports
+import { AnalysisReportComponent } from './reports/analysis-report/analysis-report.component';
+import { ClassesReportComponent } from './reports/classes-report/classes-report.component';
+import { OrdersReportComponent } from './reports/orders-list/orders-list.component';
+import { RevenueReportComponent } from './reports/revenue-report/revenue-report.component';
+import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -270,6 +279,18 @@ const routes: Routes = [
       { path: 'create-university-or-college', component: CreateUniversitiesCollegesComponent },
       { path: 'edit-university-or-college/:id', component: CreateUniversitiesCollegesComponent },
       { path: 'my-account', component: MyAccountComponent },
+
+      //reports
+      { path: 'analysis-report', component: AnalysisReportComponent },
+      { path: 'classes-report', component: ClassesReportComponent },
+      { path: 'orders-report', component: OrdersReportComponent },
+      { path: 'revenue-report', component: RevenueReportComponent },
+      //Orders
+      { path: 'orders', component: OrdersComponent },
+      { path: 'revenue', component: RevenueComponent },
+      { path: 'order-details/:id', component: OrderDetailsComponent },
+      { path: 'subscriptions', component: SubscriptionsComponent },
+
     ],
   },
 ];
@@ -346,7 +367,15 @@ const routes: Routes = [
     TeacherSubjectsComponent,
     Levels_listComponent,
     ApproveLeadComponent,
-    TeacherComponent
+    TeacherComponent,
+    AnalysisReportComponent,
+    ClassesReportComponent,
+    OrdersReportComponent,
+    RevenueReportComponent,
+    OrdersComponent,
+    RevenueComponent,
+    OrderDetailsComponent,
+    SubscriptionsComponent,
   ],
   imports: [
     MaterialModule,

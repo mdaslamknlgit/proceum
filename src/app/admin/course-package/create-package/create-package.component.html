@@ -127,6 +127,26 @@
                                                 Package details
                                             </div>
                                             <div class="cpm_pg_cnt">
+                                                <div>Package Heading</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="Enter package heading"
+                                                            [(ngModel)]="package_heading" name="package_heading"
+                                                            (ngModelChange)="filterHeadings($event)" maxlength="60"
+                                                            required [matAutocomplete]="auto" />
+                                                        <span class="prc_tltp"
+                                                            *ngIf="create_package_form.submitted && package_heading == ''">Package
+                                                            name is required</span>
+                                                        <mat-autocomplete #auto="matAutocomplete">
+                                                            <mat-option *ngFor="let option of all_headings | async"
+                                                                [value]="option.package_heading">
+                                                                {{option.package_heading}}
+                                                            </mat-option>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="cpm_pg_cnt">
                                                 <div>Package Name</div>
                                                 <div class="err_tltp_par">
                                                     <mat-form-field appearance="outline">
@@ -190,19 +210,7 @@
                                             <div class="cpm_pg_hd">
                                                 Price configuration
                                             </div>
-                                            <div class="cpm_pg_cnt">
-                                                <div>Pricing model</div>
-                                                <div class="err_tltp_par">
-                                                    <mat-radio-group name="pricing_model" [(ngModel)]="pricing_model"
-                                                        required>
-                                                        <mat-radio-button name="pricing_model" value="per_student">
-                                                            Per
-                                                            student</mat-radio-button>
-                                                        <mat-radio-button name="pricing_model" value="fixed">Fixed
-                                                        </mat-radio-button>
-                                                    </mat-radio-group>
-                                                </div>
-                                            </div>
+                                            <!-- Pricing Model -->
                                             <div class="cpm_pg_cnt">
                                                 <div>Set Package Price Country Wise</div>
                                                 <div *ngFor="let price of package_prices;let i = index">
@@ -332,27 +340,51 @@
                                                 <div>Applicable to</div>
                                                 <div class="d-flex mt_05">
                                                     <div class="mr_1">
-                                                        <mat-checkbox class="mr_1" name="applicable_to_university"
+                                                        <mat-checkbox class="mr_1" name="applicable_to_university" (change)="onApplicableChange()"
                                                             [(ngModel)]="applicable_to_university"></mat-checkbox>
                                                         University
                                                     </div>
                                                     <div class="mr_1">
-                                                        <mat-checkbox class="mr_1" name="applicable_to_college"
+                                                        <mat-checkbox class="mr_1" name="applicable_to_college" (change)="onApplicableChange()"
                                                             [(ngModel)]="applicable_to_college">
                                                         </mat-checkbox>College
                                                     </div>
                                                     <div class="mr_1">
-                                                        <mat-checkbox class="mr_1" name="applicable_to_institute"
+                                                        <mat-checkbox class="mr_1" name="applicable_to_institute" (change)="onApplicableChange()"
                                                             [(ngModel)]="applicable_to_institute"></mat-checkbox>
                                                         Institution
                                                     </div>
                                                     <div class="mr_1">
-                                                        <mat-checkbox class="mr_1" name="applicable_to_individual"
+                                                        <mat-checkbox class="mr_1" name="applicable_to_individual" (change)="onIndividualChange()"
                                                             [(ngModel)]="applicable_to_individual"></mat-checkbox>
                                                         Individual
                                                     </div>
                                                 </div>
                                                 <div class="hgt_20"></div>
+                                            </div>
+                                            <div class="cpm_pg_cnt" *ngIf="!applicable_to_individual">
+                                                <div>Pricing model</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-radio-group name="pricing_model" [(ngModel)]="pricing_model"
+                                                        required>
+                                                        <mat-radio-button name="pricing_model" value="per_student">
+                                                            Per
+                                                            student</mat-radio-button>
+                                                        <mat-radio-button name="pricing_model" value="fixed">Fixed
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+                                            <div class="cpm_pg_cnt" *ngIf="pricing_model == 'fixed'">
+                                                <div>Max.Student(Licences) login Accounts Allowed Limit</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="Licences Limit"
+                                                            [(ngModel)]="licenses_limit" name="licenses_limit"
+                                                            appNumbersonly
+                                                            required />
+                                                    </mat-form-field>
+                                                </div>
                                             </div>
                                             <div class="cpm_pg_cnt">
                                                 <div class="pkg_chkbx">

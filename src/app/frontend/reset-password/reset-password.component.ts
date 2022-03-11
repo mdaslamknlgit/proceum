@@ -54,9 +54,11 @@ export class ResetPasswordComponent implements OnInit {
           }else{
             this.confirm_check = false;
             this.confirm_msg = "Password and Confirm password are not matched";
+            this.toastr.error(this.confirm_msg, 'Error', { closeButton: true, timeOut: 5000 });
           }
         }else{
           this.password_msg = "A minimum 8 characters password contains a combination of uppercase and lowercase letter,special character and number are required.";
+          this.toastr.error(this.password_msg, 'Error', { closeButton: true, timeOut: 5000 });
         }
 
   

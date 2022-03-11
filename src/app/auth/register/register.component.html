@@ -129,10 +129,7 @@
                     <div class="fir_name err_tltp_par">
                       <mat-form-field appearance="legacy">
                         <input  tabindex="4" matInput placeholder="Contact Number"
-                          [(ngModel)]="individualRegister.contact_number" name="contact_number" ngModel
-                          #contact_number="ngModel"
-                          appPhonenumber
-                          required minlength="10" maxlength="15">
+                          [(ngModel)]="individualRegister.contact_number" name="contact_number" ngModel #contact_number="ngModel" appPhonenumber required minlength="10" maxlength="15" (keypress)="CheckAlphabatesandSpecialchars($event)">
                         <span class="prc_tltp"
                           *ngIf="(individual_signup_form.submitted  || contact_number.touched) && contact_number.invalid">Contact
                           number is required</span>
@@ -193,6 +190,12 @@
                         <span class="prc_tltp"
                           *ngIf="(individual_signup_form.submitted  || profession.touched) && individualRegister.profession == ''">Profession
                           is required</span>
+                      </mat-form-field>
+                    </div>
+                    <div class="fir_name err_tltp_par" *ngIf="individualRegister.referral_code != ''">
+                      <mat-form-field appearance="legacy">
+                        <input tabindex="10.5" matInput placeholder="Referral Code"
+                          [(ngModel)]="individualRegister.referral_code" name="referral_code" [disabled]="true" maxlength="50">
                       </mat-form-field>
                     </div>
 
@@ -422,7 +425,7 @@
                           [(ngModel)]="institutionResgister.university_primary_contact"
                           name="university_primary_contact" ngModel #university_primary_contact="ngModel"
                           appPhonenumber
-                          required minlength="10" maxlength="15">
+                          required minlength="10" maxlength="15" (keypress)="CheckAlphabatesandSpecialchars($event)">
                         <!-- <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || university_primary_contact.touched) && institutionResgister.university_primary_contact == ''">Primary
                         Contact Number is required</span>
@@ -438,7 +441,7 @@
                           [(ngModel)]="institutionResgister.university_secondary_contact"
                           name="university_secondary_contact" ngModel #university_secondary_contact="ngModel"
                           appPhonenumber
-                          minlength="10" maxlength="15">
+                          minlength="10" maxlength="15" (keypress)="CheckAlphabatesandSpecialchars($event)">
                         <!-- <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || university_secondary_contact.touched) && institutionResgister.university_secondary_contact == ''">Secondary
                         Contact Number is required</span>
@@ -666,7 +669,7 @@
                           [(ngModel)]="institutionResgister.college_primary_contact" name="college_primary_contact"
                           ngModel #college_primary_contact="ngModel"
                           appPhonenumber
-                          required minlength="10" maxlength="15">
+                          required minlength="10" maxlength="15" (keypress)="CheckAlphabatesandSpecialchars($event)">
                         <!-- <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted  || college_primary_contact.touched) && institutionResgister.college_primary_contact == ''">Primary
                         Contact
@@ -744,7 +747,7 @@
                           [(ngModel)]="institutionResgister.institute_primary_contact" name="institute_primary_contact"
                           ngModel #institute_primary_contact="ngModel"
                           appPhonenumber
-                          required minlength="10" maxlength="15">
+                          required minlength="10" maxlength="15" (keypress)="CheckAlphabatesandSpecialchars($event)">
                         <!-- <span class="prc_tltp"
                         *ngIf="(institution_signup_form.submitted || institute_primary_contact.touched) && institutionResgister.institute_primary_contact == ''">Primary
                         Contact Number is required</span>

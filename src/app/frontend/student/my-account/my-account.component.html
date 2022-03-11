@@ -4,7 +4,7 @@
   <div class="cust_mdl_par cust_mdl_cls" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl w_50p">
       <div class="pg_ttl">
-        Send Referral Code
+        {{"student.my_account.send_referral_code"|translate}}
         <span class="spacer"></span>
         <button (click)='closeViewModel()' mat-icon-button color="accent">
           &#x2715;
@@ -15,12 +15,12 @@
         <div class="d-flex zm_swtchusrs fw_w">
           <div class="p_0 d-flex ai_cntr w_100p my_prfl_mn">
             <div class="w_100p my_prf_dv d_flex_imp fw_w jc_sb">
-              <span>Provide E-Mail ID</span>
+              <span>{{"student.my_account.provide_mail_id"|translate}}</span>
               <div class="clear_fix"></div>
               <div class="w_90p">
                 <mat-form-field appearance="outline">
                    <input type='text' (keyup)="$event.keyCode == 13 ? addEmail() : ''" [(ngModel)]="recipient_emails"
-                    matInput placeholder="Provide E-Mail ID">
+                    matInput placeholder='{{"student.my_account.provide_mail_id"|translate}}'>
                 </mat-form-field>
               </div>
               <div>
@@ -46,7 +46,7 @@
         <hr class='line-sep'>
         <div class="hgt_10"></div>
         <button [disabled]="recipient_emails_list.length<=0" (click)="sendReferral()" mat-raised-button color="accent" class="float_right">
-          Send Referral
+          {{"student.my_account.send_referral"|translate}}
         </button>
         <div class="hgt_20"></div>
       </div>
@@ -57,7 +57,7 @@
     <div class="brdcrm_br">
       <mat-icon color="accent" routerLink="/">home</mat-icon>
       <mat-icon>navigate_next</mat-icon>
-      <strong>My Account</strong>
+      <strong>{{"student.my_account.my_account"|translate}}</strong>
     </div>
   </div>
   <!-- <div class="dsh_brd_crds">
@@ -130,20 +130,20 @@
         <div class="d-flex w_100p ai_cntr">
           <!--<h2 class="section-title m_0">My Profile</h2>-->
           <div class="spacer"></div>
-          <div class="rqrd_txtinfo">Fields marked with <span class="required">( * ) </span> are mandatory!
+          <div class="rqrd_txtinfo">{{"fields_marked"|translate}} <span class="required">( * ) </span> {{"mandatory"|translate}}
           </div>
         </div>
 
         <div class="hgt_20"></div>
         <div class="my_prfl_dp">
           <div class="my_prf_dv">
-            <span class="w_100p text-center">Profile Picture</span>
+            <span class="w_100p text-center">{{"student.my_account.profile_picture"|translate}}</span>
             <span class="profile_pic">
               <img src="{{src}}" onerror="this.src='../../../../assets/images/Demo-placeholder.jpeg'" alt="">
             </span>
             <div class="hgt_5"></div>
             <button class="brws_dpbtn" mat-raised-button color="accent" type="button" (click)="fileInput.click()">
-              Browse
+              {{"browse_text"|translate}}
               <input type="file" #fileInput mat-raised-button color="accent" accept="image/*"
                 (change)="fileEvent($event)" style="display:none;" />
             </button>
@@ -151,11 +151,11 @@
             <div *ngIf="imgMessage"><span style="margin-top: 15px;" class="required">{{imgMessage}}</span></div>
             <div class="hgt_5"></div>
             <div class="my_prf_dv">
-              <span>My Referral Code</span>
+              <span>{{"student.my_account.my_referral_code"|translate}}</span>
               <span>
                 <span *ngIf="!auto_generate" class="showCoupon">
                   <span>{{profile.referral_code}}</span>
-                  <mat-icon (click)='openViewModel()' color="accent" matTooltip="Share Referral Code">share</mat-icon>
+                  <mat-icon (click)='openViewModel()' color="accent" matTooltip='{{"student.my_account.share_referral_code"|translate}}'>share</mat-icon>
                 </span>
                 <!--<span *ngIf="auto_generate">
                   <mat-form-field appearance="outline">
@@ -169,89 +169,78 @@
                 </button>-->
               </span>
               <div class="hgt_10"></div>
-              <span *ngIf="user['role'] == 11">Apply Referral Code</span>
-              <mat-form-field *ngIf="user['role'] == 11" appearance="outline">
-                <input matInput maxlength="15" pattern="[A-Za-z0-9]*" placeholder="Apply Referral Code"
-                  [disabled]="dis_frnd_referral_code" name="frnd_referral_code"
-                  [(ngModel)]="profile.frnd_referral_code">
-              </mat-form-field>
-              <button *ngIf="user['role'] == 11 && dis_frnd_referral_code == false" (click)='applyReferralCode()'
-                class="brws_dpbtn" mat-raised-button color="accent" type="button">
-                Apply Referral
-              </button>
-
             </div>
           </div>
         </div>
         <div class="my_prfl_mn">
           <div class="my_prf_dv fld_readonly">
-            <span>First Name <span class="required">*</span></span>
+            <span>{{"student.my_account.first_name"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="First Name" [disabled]="'disabled'" autocomplete="off" name="first_name" #first_name='ngModel'
+              <input matInput placeholder='{{"student.my_account.first_name"|translate}}' [disabled]="'disabled'" autocomplete="off" name="first_name" #first_name='ngModel'
                 ngModel [(ngModel)]="profile.first_name" required
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
-            <span>Last Name</span>
+            <span>{{"student.my_account.last_name"|translate}}</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Last Name" autocomplete="off" [disabled]="'disabled'" name="last_name" #last_name='ngModel'
+              <input matInput placeholder='{{"student.my_account.last_name"|translate}}' autocomplete="off" [disabled]="'disabled'" name="last_name" #last_name='ngModel'
                 ngModel [(ngModel)]="profile.last_name"
                 onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
             </mat-form-field>
           </div>
           <div class="my_prf_dv fld_readonly">
-            <span>Registration Number/UUID</span>
+            <span>{{"student.my_account.registration_number"|translate}}</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Registration Number/UUID" disabled="disabled" name="uuid"
+              <input matInput placeholder='{{"student.my_account.registration_number"|translate}}' disabled="disabled" name="uuid"
                 [(ngModel)]="profile.uuid">
             </mat-form-field>
           </div>
 
           <div class="my_prf_dv fld_readonly">
-            <span>Mobile <span class="required">*</span></span>
+            <span>{{"student.my_account.mobile"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Mobile" name="phone" [(ngModel)]="profile.phone" required
+              <input matInput placeholder='{{"student.my_account.mobile"|translate}}' name="phone" [(ngModel)]="profile.phone" required
                 disabled="disabled">
             </mat-form-field>
           </div>
 
           <div class="my_prf_dv mypdv_bg fld_readonly">
-            <span>Email <span class="required">*</span></span>
+            <span>{{"student.my_account.email"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Email Address" name="email" [disabled]="'disabled'"
+              <input matInput placeholder='{{"student.my_account.email"|translate}}' name="email" [disabled]="'disabled'"
                 [(ngModel)]="profile.email">
             </mat-form-field>
           </div>
           <div *ngIf="user['role'] == 2" class="my_prf_dv fld_readonly">
-            <span>Year</span>
+            <span>{{"student.my_account.year"|translate}}</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Year" name="year" [disabled]="'disabled'" [(ngModel)]="profile.year"
+              <input matInput placeholder='{{"student.my_account.year"|translate}}' name="year" [disabled]="'disabled'" [(ngModel)]="profile.year"
                 autocomplete="off" />
             </mat-form-field>
           </div>
           <div *ngIf="user['role'] == 2" class="my_prf_dv fld_readonly">
-            <span>Semester</span>
+            <span>{{"student.my_account.semester"|translate}}</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Semester" name="semester" [disabled]="'disabled'"
+              <input matInput placeholder='{{"student.my_account.semester"|translate}}' name="semester" [disabled]="'disabled'"
                 [(ngModel)]="profile.semester" autocomplete="off" />
             </mat-form-field>
           </div>
           <div *ngIf="user['role'] == 2" class="my_prf_dv fld_readonly">
-            <span>Group</span>
+            <span>{{"student.my_account.group"|translate}}</span>
             <mat-form-field appearance="outline">
-              <input matInput placeholder="Group" name="group" [disabled]="'disabled'" [(ngModel)]="profile.group"
+              <input matInput placeholder='{{"student.my_account.group"|translate}}' name="group" [disabled]="'disabled'" [(ngModel)]="profile.group"
                 autocomplete="off" />
             </mat-form-field>
           </div>
-          <div class="my_prf_dv fld_readonly">
-            <span>Country <span class="required">*</span></span>
+          <div class="my_prf_dv">
+            <span>{{"student.my_account.country"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select Country" [disabled]="'disabled'" name="country" #country="ngModel"
+              <mat-select placeholder='{{"student.my_account.select_country"|translate}}' name="country" #country="ngModel"
               [(ngModel)]="profile.country_id" (ngModelChange)="getStates(profile.country_id)" required>
                 <mat-option>
-                  <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
-                    [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                  <ngx-mat-select-search [noEntriesFoundLabel]="'student.my_account.no_countries_found'|translate"
+                    [placeholderLabel]="'student.my_account.search_country'|translate" name="search_country" ngModel
                     (ngModelChange)="filterCountries($event)"></ngx-mat-select-search>
                 </mat-option>
                 <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{
@@ -259,13 +248,13 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv fld_readonly">
-            <span>State <span class="required">*</span></span>
+          <div class="my_prf_dv">
+            <span>{{"student.my_account.state"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select State" [disabled]="'disabled'" name="state" #state="ngModel"
+              <mat-select placeholder='{{"student.my_account.select_state"|translate}}' name="state" #state="ngModel"
               [(ngModel)]="profile.state_id" (ngModelChange)="getCities(profile.state_id)" required>
                 <mat-option>
-                  <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'" [placeholderLabel]="'Search State'"
+                  <ngx-mat-select-search [noEntriesFoundLabel]="'student.my_account.no_states_found'|translate" [placeholderLabel]="'student.my_account.search_state'|translate"
                     name="search_state" ngModel (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
                 </mat-option>
                 <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{
@@ -273,13 +262,13 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv fld_readonly">
-            <span>City <span class="required">*</span></span>
+          <div class="my_prf_dv">
+            <span>{{"student.my_account.city"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" color="accent">
-              <mat-select placeholder="Select City" name="city_name" [disabled]="'disabled'" #city_name="ngModel" [(ngModel)]="profile.city"
+              <mat-select placeholder='{{"student.my_account.select_city"|translate}}' name="city_name" #city_name="ngModel" [(ngModel)]="profile.city"
               required>
                 <mat-option>
-                  <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'" [placeholderLabel]="'Search City'"
+                  <ngx-mat-select-search [noEntriesFoundLabel]="'student.my_account.no_cities_found'|translate" [placeholderLabel]="'student.my_account.search_city'|translate"
                     name="search_city" ngModel (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
                 </mat-option>
                 <mat-option *ngFor="let one of all_cities | async" [value]="one['id']">{{
@@ -287,61 +276,60 @@
               </mat-select>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv rsp_mypdv_bg fld_readonly">
-            <span>Address line 1 <span class="required">*</span></span>
+          <div class="my_prf_dv rsp_mypdv_bg">
+            <span>{{"student.my_account.address_line_1"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 1" required name="address1" [disabled]="'disabled'" [(ngModel)]="profile.address1"></textarea>
+              <textarea matInput placeholder='{{"student.my_account.address_line_1"|translate}}' required name="address1" [(ngModel)]="profile.address1"></textarea>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv fld_readonly">
-            <span>Address line 2</span>
+          <div class="my_prf_dv">
+            <span>{{"student.my_account.address_line_2"|translate}}</span>
             <mat-form-field appearance="outline">
-              <textarea matInput placeholder="Address Line 2" name="address2" [disabled]="'disabled'" [(ngModel)]="profile.address2"></textarea>
+              <textarea matInput placeholder='{{"student.my_account.address_line_2"|translate}}' name="address2" [(ngModel)]="profile.address2"></textarea>
             </mat-form-field>
           </div>
           <div *ngIf="profile.university != null" class="my_prf_dv fld_readonly">
-            <span>University</span>
+            <span>{{"student.my_account.university"|translate}}</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                <input matInput placeholder="University" name="university" [disabled]="'disabled'"
+                <input matInput placeholder='{{"student.my_account.university"|translate}}' name="university" [disabled]="'disabled'"
                   [(ngModel)]="profile.university" autocomplete="off" />
               </mat-form-field>
             </span>
           </div>
           <div *ngIf="profile.college != null" class="my_prf_dv fld_readonly">
-            <span>College</span>
+            <span>{{"student.my_account.college"|translate}}</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                <input matInput placeholder="College" name="college" [disabled]="'disabled'"
+                <input matInput placeholder='{{"student.my_account.college"|translate}}' name="college" [disabled]="'disabled'"
                   [(ngModel)]="profile.college" autocomplete="off" />
               </mat-form-field>
             </span>
           </div>
           <div *ngIf="profile.institute != null" class="my_prf_dv fld_readonly">
-            <span>Institute</span>
+            <span>{{"student.my_account.institute"|translate}}</span>
             <span>
               <mat-form-field appearance="outline" color="accent" disableOptionCentering>
-                <input matInput placeholder="Institute" name="institute" [disabled]="'disabled'"
+                <input matInput placeholder='{{"student.my_account.institute"|translate}}' name="institute" [disabled]="'disabled'"
                   [(ngModel)]="profile.institute" autocomplete="off" />
               </mat-form-field>
             </span>
           </div>
         </div>
         <div class="clear_fix"></div>
-        <div class="updpss_mndv">
+        <div class="updpss_mndv fw_w">
           <div class="my_prf_dv">
             <span class="d-flex">
-              <mat-checkbox class="mr_5px" (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>Update Login
-                Password 
+              <mat-checkbox class="mr_5px" (change)="checked($event)" name="ischecked" #ischecked="ngModel" ngModel>{{"student.my_account.update_login_password"|translate}} 
               </mat-checkbox>
               <mat-icon  class="tst_infoicn" matTooltipPosition="right" matTooltipClass="tst_infotxt"
-              matTooltip="Password length should be between 6-16 and must contain at least one lowercase letter, uppercase letter, digit, special character.">info</mat-icon>
+              matTooltip='{{"student.my_account.password_length"|translate}}'>info</mat-icon>
             </span>
           </div>
-          <div class="my_prf_dv">
-            <span *ngIf='isdisplay'>Current Password <span class="required">*</span></span>
+          <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
+            <span *ngIf='isdisplay'>{{"student.my_account.current_password"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
-              <input matInput placeholder="Current password" [type]="current_password_hide ? 'password' : 'text'"
+              <input matInput placeholder='{{"student.my_account.current_password"|translate}}' [type]="current_password_hide ? 'password' : 'text'"
                 autocomplete="off" [required]="isrequired" [(ngModel)]="profile.current_password" minlength="6"
                 maxlength="16" name="current_password" onkeypress='return (event.charCode != 32)'
                 #current_password="ngModel" ngModel [readonly]="!isrequired">
@@ -349,10 +337,10 @@
                 'visibility'}}</mat-icon>
             </mat-form-field>
           </div>
-          <div class="my_prf_dv">
-            <span *ngIf='isdisplay'>New Password <span class="required">*</span></span>
+          <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
+            <span *ngIf='isdisplay'>{{"student.my_account.new_password"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" *ngIf='isdisplay'>
-              <input matInput (keyup)="passwordVerification()" placeholder="New password"
+              <input matInput (keyup)="passwordVerification()" placeholder='{{"student.my_account.new_password"|translate}}'
                 [type]="new_password_hide ? 'password' : 'text'" autocomplete="off" [required]="isrequired"
                 [(ngModel)]="profile.new_password" minlength="6" maxlength="16" name="new_password"
                 pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,16}$"
@@ -362,10 +350,10 @@
             </mat-form-field>
 
           </div>
-          <div class="my_prf_dv">
-            <span *ngIf='isdisplay'>Confirm Password <span class="required">*</span></span>
+          <div class="my_prf_dv {{!isrequired ? 'fld_readonly' : ''}}">
+            <span *ngIf='isdisplay'>{{"student.my_account.confirm_password"|translate}} <span class="required">*</span></span>
             <mat-form-field appearance="outline" [class]="errClass" *ngIf='isdisplay'>
-              <input matInput (keyup)="passwordVerification()" placeholder="Confirm password" autocomplete="off"
+              <input matInput (keyup)="passwordVerification()" placeholder='{{"student.my_account.confirm_password"|translate}}' autocomplete="off"
                 [type]="confirm_password_hide ? 'password' : ''" [required]="isrequired"
                 [(ngModel)]="profile.confirm_pwd" minlength="6" maxlength="16" name="confirm_pwd"
                 pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,16}$" validateEqual="password"
@@ -633,7 +621,7 @@
         <div class="hgt_20"></div>
         <hr>
         <div class="text-center oc_w100p">
-          <button mat-raised-button color="accent">Save</button>
+          <button mat-raised-button color="accent">{{"save_text"|translate}}</button>
         </div>
       </div>
     </form>

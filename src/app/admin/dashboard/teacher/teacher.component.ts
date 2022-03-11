@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-teacher',
@@ -7,9 +8,9 @@ import { CommonService } from 'src/app/services/common.service';
   styleUrls: ['./teacher.component.scss']
 })
 export class TeacherComponent implements OnInit {
-  constructor(
-    private http: CommonService,
-    ) {}
+  constructor(private http: CommonService,public translate: TranslateService) {
+    this.translate.setDefaultLang(this.http.lang);
+  }
   public students_count = 0;
   public assessments_conducted = 0;
   public classes_conducted = 0;

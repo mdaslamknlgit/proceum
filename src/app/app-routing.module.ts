@@ -38,6 +38,7 @@ const routes: Routes = [
   { path: 'our-team', component: OurTeamComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'register/:referral_code', component: RegisterComponent },
   { path: 'signup', component: PartnerRegisterComponent },
   { path: 'library', component: ProceumLibraryComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
@@ -85,6 +86,12 @@ const routes: Routes = [
     },
   },
   {
+    path: 'finance-user',
+    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule), canActivate: [AuthGuard], data: {
+      role: '13',
+    },
+  },
+  {
     path: 'student',
     loadChildren: () =>
       import('./frontend/frontend.module').then((m) => m.FrontendModule),
@@ -100,7 +107,7 @@ const routes: Routes = [
   },
   { path: 'shopping-cart', component: ShoppingCartComponent },
   
-  { path: 'pricing-and-packages', component: ListPackagesComponent },
+  { path: 'courses', component: ListPackagesComponent },
   { path: 'package-details/:id', component: PackageDetailsComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: IndexComponent },

@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-management',
@@ -37,7 +38,10 @@ export class ContentManagementComponent implements OnInit {
   from_date = '';
   to_date = '';
   public today_date = new Date();
-  constructor(private http: CommonService, private toster: ToastrService, private router: Router, private fs: FirebaseService, private activatedRoute: ActivatedRoute) {}
+  constructor(private http: CommonService, private toster: ToastrService, private router: Router, private fs: FirebaseService, private activatedRoute: ActivatedRoute,
+    public translate: TranslateService) {
+      this.translate.setDefaultLang(this.http.lang);
+    }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
