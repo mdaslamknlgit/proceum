@@ -1,15 +1,27 @@
+let api_url = 'https://uat.proceum.com/web-api/public/api/';
 export const environment = {
   production: true,
-  file_upload_size: 512000,//in kb
+  file_upload_size: 512000,//in kb 
   page_size: 10,
   page_size_options: [10, 20, 50, 100],
+  editor_url:'/assets/ckeditor/ckeditor.js',
+  editor_config: {
+    extraAllowedContent: "h3{clear};h2{line-height};h2 h3{margin-left,margin-top};mathElements.join( ' ' ) + '(*)[*]{*};img[data-mathml,data-custom-editor,role](Wirisformula)'",
+    // Adding drag and drop image upload.
+    extraPlugins: 'print,format,font,colorbutton,justify,uploadimage,slideshow,ckeditor_wiris',
+    uploadUrl: api_url+'upload-files',
+    // Configure your file manager integration. This example uses CKFinder 3 for PHP.
+    filebrowserImageBrowseUrl: '/assets/ckeditor/plugins/ckfinder/samples/full-page-open.html?command=GetFiles&lang=en&type=Images&currentFolder=/images/content_images/',
+    filebrowserImageUploadUrl: api_url+'upload-files',
+    height: 560,
+    //removeDialogTabs: 'image:advanced;link:advanced',
+    //removeButtons: 'PasteFromWord'
+  },
   liteEditorConfig: {
     editable: true,
     spellcheck: true,
     toolbarHiddenButtons: [['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'fontName', 'customClasses', 'insertImage', 'insertVideo', 'insertHorizontalRule']]
   },
-  ckeditor_toolbar: ['Heading', 'CustomFileExporer', 'PageBreak', 'FontBackgroundColor', 'Alignment', 'FontColor', 'FontFamily', 'FontSize', 'bold', 'italic', 'underline', 'link', 'bulletedList', 'numberedList', '|', '|', 'blockQuote', 'insertTable', 'undo', 'redo', 'MathType', 'ChemType', 'MediaEmbed', 'HorizontalLine', 'Highlight', 'ImageResize', 'SpecialCharacters'],
-  //'uploadImage', 'ImageInsert', 'AutoImage', 'TextTransformation', 'imageUpload', 'CKFinder', 'CKFinderUploadAdapter', 'Essentials', 'Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'List', 'Paragraph', 'Table', 'TableToolbar', 'htmlSource'
   video_types: [{ name: "kPoint", value: 'KPOINT',img:'../../../assets/images/kpoint_k.png' }, { name: "YouTube", value: 'YOUTUBE',img:'../../../assets/images/youtube.png' }, { name: "AppSquadz", value: "APP_SQUADZ",img:'../../../assets/images/app-squadz.png'}, { name: "VdoCipher", value: "VDO_CIPHER",img:'../../../assets/images/video-cipher.png'}],
   ORGANIZATION_TYPES: [
     { value: '1', viewValue: 'University' },
@@ -60,7 +72,7 @@ export const environment = {
   DISABLED_USER_ROLES_FOR_PROCEUM: [2],
   DISABLED_USER_ROLES_FOR_ORGANIZATION: [1,3,4,5,6,7],
 
-  apiUrl: 'https://uat.proceum.com/web-api/public/api/',
+  apiUrl: api_url,
   APP_BASE_URL: 'http://uat.proceum.com/',
   firebaseConfig: {
     apiKey: "AIzaSyBSuwf5lz04-nZEPjXUCW6W41FgD3v8hvE",

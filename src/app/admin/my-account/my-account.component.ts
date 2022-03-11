@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-account',
@@ -64,7 +65,8 @@ export class MyAccountComponent implements OnInit {
   constructor(
     private http: CommonService,
     private toaster: ToastrService,
-  ) {}
+    public translate: TranslateService
+  ) { this.translate.setDefaultLang(this.http.lang); }
   filedata: any;
   ngOnInit(): void {
     this.domain = location.origin;
@@ -224,7 +226,9 @@ export class MyAccountComponent implements OnInit {
 
     const mimeType = this.filedata[0].type;
     if (mimeType.match(/image\/*/) == null) {
-      this.imgMessage = 'Only images are supported like jpg,png,jpeg.';
+      this.translate.get('teacher.my_account.image_formats').subscribe((data)=> {
+        this.imgMessage = data;
+      });
       return;
     } else {
       this.imgMessage = '';
@@ -232,7 +236,9 @@ export class MyAccountComponent implements OnInit {
     }
     let size = this.filedata[0].size;
     if (size >= 2097152) {
-      this.imgMessage = 'Profile Picture must be less than 2MB';
+      this.translate.get('teacher.my_account.image_size').subscribe((data)=> {
+        this.imgMessage = data;
+      });
       return;
     }
     const reader = new FileReader();
@@ -356,11 +362,15 @@ export class MyAccountComponent implements OnInit {
       let mimeType = this.filedata[0].type;
       let size = this.filedata[0].size;
       if (mimeType.match(/image\/*/) == null) {
-        this.imgMessage = 'Only images are supported like jpg,png,jpeg.';
+        this.translate.get('teacher.my_account.image_formats').subscribe((data)=> {
+          this.imgMessage = data;
+        });
         return;
       }
       if (size >= 2097152) {
-        this.imgMessage = 'Profile Picture must be less than 2MB';
+        this.translate.get('teacher.my_account.image_size').subscribe((data)=> {
+          this.imgMessage = data;
+        });
         return;
       }
 
@@ -385,7 +395,9 @@ export class MyAccountComponent implements OnInit {
       this.imgMessage = '';
       myFormData.append('profile_pic', this.filedata[0]);
     } else if (this.user_id == '') {
-      this.imgMessage = 'Please upload the Profile Picture';
+      this.translate.get('teacher.my_account.profile_picture_upload').subscribe((data)=> {
+        this.imgMessage = data;
+      });
       return;
     }
     myFormData.append('id', this.user_id);

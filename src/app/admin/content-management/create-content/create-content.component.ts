@@ -132,7 +132,7 @@ export class CreateContentComponent implements OnInit {
             evt.stop();
         } );
     }
-  public pgae_title = 'Create Content';
+  public page_title = 'Create Content';
   public content_status = '';
   public show_tabs = false;
   public review_docs = [];
@@ -208,18 +208,26 @@ export class CreateContentComponent implements OnInit {
     private router: Router,
     private fs: FirebaseService,
     public translate: TranslateService
-  ) {}
+  ) {
+    this.translate.setDefaultLang(this.http.lang);
+  }
 
   ngOnInit(): void {
       this.user = this.http.getUser();
       this.activatedRoute.params.subscribe((param) => {
       this.content_id = param.id;
       if (this.content_id != undefined) {
-        this.pgae_title = 'Edit Content';
+        this.page_title = 'Edit Content';
+        this.translate.get('admin.mng_cnt.crt_cnt.edit_content').subscribe((data)=> {
+          this.page_title = data;
+        });
         this.getContent();
       }
       else{
           this.content_id = 0;
+          this.translate.get('admin.mng_cnt.crt_cnt.create_content').subscribe((data)=> {
+            this.page_title = data;
+          });
       }
     });
     this.getChildData();
@@ -369,7 +377,10 @@ export class CreateContentComponent implements OnInit {
                     error => {
                         if(error['error']['error']['code'] == 9003){
                             this['video_value_invalid_error_'+tab_index] = 'Invalid kpoint id';
-                            this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
+                            this.translate.get('admin.mng_cnt.crt_cnt.invalid_kpoint_id_error').subscribe((data)=> {
+                              this.toster.error(data, "Error", { closeButton: true });
+                            });
+                            //this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
                         }
                     }
                     );
@@ -377,7 +388,10 @@ export class CreateContentComponent implements OnInit {
             }
             else{
                 this['video_value_invalid_error_'+tab_index] = 'Invalid kpoint id';
-                this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
+                this.translate.get('admin.mng_cnt.crt_cnt.invalid_kpoint_id_error').subscribe((data)=> {
+                  this.toster.error(data, "Error", { closeButton: true });
+                });
+                //this.toster.error("Invalid kpoint id", "Error", {closeButton: true,});
             }
         }
         if(video_source == 'YOUTUBE'){
@@ -387,7 +401,10 @@ export class CreateContentComponent implements OnInit {
             }
             else{
                 this['video_value_invalid_error_'+tab_index] = 'Invalid youtube url';
-                this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
+                this.translate.get('admin.mng_cnt.crt_cnt.invalid_youtube_error').subscribe((data)=> {
+                  this.toster.error(data, "Error", { closeButton: true });
+                });
+                //this.toster.error("Invalid youtube url", "Error", {closeButton: true,});
             }
         }
         if(video_source == 'APP_SQUADZ'){
@@ -398,7 +415,10 @@ export class CreateContentComponent implements OnInit {
               if (res['error'] == false) {
                 this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
               } else {
-                  this.toster.error("Invalid App Squadz Video ID", 'Error', { closeButton: true });
+                  this.translate.get('admin.mng_cnt.crt_cnt.invalid_app_sqaudz_id_error').subscribe((data)=> {
+                    this.toster.error(data, "Error", { closeButton: true });
+                  });
+                  //this.toster.error("Invalid App Squadz Video ID", 'Error', { closeButton: true });
               }
             });
           }
@@ -414,13 +434,19 @@ export class CreateContentComponent implements OnInit {
                 otp = res['data'].message;
                 if(otp != '' && otp != undefined){
                   this['video_value_invalid_error_'+tab_index] = 'Invalid Video Cipher url';
-                  this.toster.error("Invalid Video Cipher url", "Error", {closeButton: true,});
+                  this.translate.get('admin.mng_cnt.crt_cnt.Invalid_VdoCipher_url_error').subscribe((data)=> {
+                    this.toster.error(data, "Error", { closeButton: true });
+                  });
+                  //this.toster.error("Invalid Video Cipher url", "Error", {closeButton: true,});
                   return false;
                 }
                 this.addUpdateVideo(tab_index, {source: video_source, title: video_title, value: video_value});
                 return true;
               }else{
-                this.toster.error("CURL Function Error", "Error", {closeButton: true,});
+                this.translate.get('admin.mng_cnt.crt_cnt.curl_fun_error').subscribe((data)=> {
+                  this.toster.error(data, "Error", { closeButton: true });
+                });
+                //this.toster.error("CURL Function Error", "Error", {closeButton: true,});
                 return false;
               }
             });        
@@ -437,7 +463,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video added", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_added').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video added", "Success", {closeButton: true,});
         }
         else{
             this.intro_video[this['video_index_'+tab_index]]['source'] = param['source'];
@@ -447,7 +476,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video updated", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_updated').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video updated", "Success", {closeButton: true,});
         }
     }
     if(tab_index == 1)
@@ -458,7 +490,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video added", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_added').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video added", "Success", {closeButton: true,});
         }
         else{
             this.two_d_videos[this['video_index_'+tab_index]]['source'] = param['source'];
@@ -468,7 +503,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video updated", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_updated').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video updated", "Success", {closeButton: true,});
         }
     }
     if(tab_index == 2)
@@ -479,7 +517,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video added", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_added').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video added", "Success", {closeButton: true,});
         }
         else{
             this.board_lecture_videos[this['video_index_'+tab_index]]['source'] = param['source'];
@@ -489,7 +530,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video updated", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_updated').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video updated", "Success", {closeButton: true,});
         }
     }
     if(tab_index == 3)
@@ -500,7 +544,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video added", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_added').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video added", "Success", {closeButton: true,});
         }
         else{
             this.clinical_videos[this['video_index_'+tab_index]]['source'] = param['source'];
@@ -510,7 +557,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video updated", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_updated').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video updated", "Success", {closeButton: true,});
         }
     }
     if(tab_index == 4)
@@ -521,7 +571,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video added", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_added').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video added", "Success", {closeButton: true,});
         }
         else{
             this.procedural_videos[this['video_index_'+tab_index]]['source'] = param['source'];
@@ -531,7 +584,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video updated", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_updated').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video updated", "Success", {closeButton: true,});
         }
     }
     if(tab_index == 5)
@@ -542,7 +598,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video added", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_added').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video added", "Success", {closeButton: true,});
         }
         else{
             this.three_d_videos[this['video_index_'+tab_index]]['source'] = param['source'];
@@ -552,7 +611,10 @@ export class CreateContentComponent implements OnInit {
             this['video_value_invalid_error_'+tab_index] = '';
             this['video_value_error_'+tab_index] = '';
             this['video_title_error_'+tab_index] = '';
-            this.toster.success("Video updated", "Success", {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.video_updated').subscribe((data)=> {
+              this.toster.success(data, "Success", { closeButton: true });
+            });
+            //this.toster.success("Video updated", "Success", {closeButton: true,});
         }
     }
   }
@@ -585,7 +647,12 @@ export class CreateContentComponent implements OnInit {
                 if((res['title'].trim() == title.trim()) && res['status'] != 'delete' && video_index != index2 && index == 1){
                     this['video_title_'+tab_index] = '';
                     this['video_title_error_'+tab_index] = "Duplicate Title "+title;
-                    this.toster.error("Title ("+title+") should not be duplicate", "Error", {closeButton: true,});
+                    this.translate.get('admin.mng_cnt.crt_cnt.title').subscribe((data)=> {
+                      this.translate.get('admin.mng_cnt.crt_cnt.should_duplicate_error').subscribe((data1)=> {
+                        this.toster.error(data+" ("+title+") "+data1, "Error", { closeButton: true });
+                      });
+                    });
+                    //this.toster.error("Title ("+title+") should not be duplicate", "Error", {closeButton: true,});
                 }
                 else{
                     this['video_title_error_'+tab_index] = '';
@@ -593,7 +660,12 @@ export class CreateContentComponent implements OnInit {
                 if((res['value'] == value) && res['status'] != 'delete' && video_index != index2 && index == 2){
                     this['video_value_'+tab_index] = '';
                     this['video_value_error_'+tab_index] = "Duplicate Value "+value;
-                    this.toster.error("Value ("+value+") should not be duplicate", "Error", {closeButton: true,});
+                    this.translate.get('admin.mng_cnt.crt_cnt.value').subscribe((data)=> {
+                      this.translate.get('admin.mng_cnt.crt_cnt.should_duplicate_error').subscribe((data1)=> {
+                        this.toster.error(data+" ("+value+") "+data1, "Error", { closeButton: true });
+                      });
+                    });
+                    //this.toster.error("Value ("+value+") should not be duplicate", "Error", {closeButton: true,});
                 }
                 else{
                     this['video_value_error_'+tab_index] = '';
@@ -635,23 +707,33 @@ export class CreateContentComponent implements OnInit {
         let size = files[i].size;
         size = Math.round(size / 1024);
         if(size > environment.file_upload_size){
-            this.toster.error(
-                ext +
-                  ' Size of file (' +
-                  files[i].name +
-                  ') is too large max allowed size 2mb', "Error", {closeButton: true,}
-              );
+            this.translate.get('admin.mng_cnt.crt_cnt.size_of_file').subscribe((data)=> {
+              this.translate.get('admin.mng_cnt.crt_cnt.large_max_allowed').subscribe((data1)=> {
+                this.toster.error(ext+" "+data+" ("+files[i].name+") "+data1, "Error", { closeButton: true });
+              });
+            });
+            // this.toster.error(
+            //     ext +
+            //       ' Size of file (' +
+            //       files[i].name +
+            //       ') is too large max allowed size 2mb', "Error", {closeButton: true,}
+            //   );
               return false;
         }
         valid_files.push(files[i]);
         uploadData.append('file' + i, files[i]);
       } else {
-        this.toster.error(
-          ext +
-            ' Extension not allowed file (' +
-            files[i].name +
-            ') not uploaded'
-        );
+        this.translate.get('admin.mng_cnt.crt_cnt.extension_allowed').subscribe((data)=> {
+          this.translate.get('admin.mng_cnt.crt_cnt.not_uploaded').subscribe((data1)=> {
+            this.toster.error(ext+" "+data+" ("+files[i].name+") "+data1, "Error", { closeButton: true });
+          });
+        });
+        // this.toster.error(
+        //   ext +
+        //     ' Extension not allowed file (' +
+        //     files[i].name +
+        //     ') not uploaded'
+        // );
       }
     }
     if (valid_files.length == 0) {
@@ -662,10 +744,18 @@ export class CreateContentComponent implements OnInit {
     let param = { url: 'upload-files' };
     this.http.imageUpload(param, uploadData).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success('Files successfully uploaded.', 'File Uploaded');
+        this.translate.get('admin.mng_cnt.crt_cnt.files_success_uploaded').subscribe((data)=> {
+          this.translate.get('admin.mng_cnt.crt_cnt.file_uploaded').subscribe((data1)=> {
+            this.toster.success(data, data1, { closeButton: true });
+          });
+        });
+        //this.toster.success('Files successfully uploaded.', 'File Uploaded');
         this.video_value_5 = res['url'];
       }else{
-        this.toster.error('File upload failed.', 'Error');
+        this.translate.get('admin.mng_cnt.crt_cnt.file_upload_failed_error').subscribe((data)=> {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        //this.toster.error('File upload failed.', 'Error');
         this.video_value_5 = '';
       }
     });
@@ -753,11 +843,19 @@ export class CreateContentComponent implements OnInit {
       if (this.library_purpose == 'attachments') {
         let obj = { file_path: res['file_path'], path: res['path'] };
         if (this.attachment_files.includes(obj['file_path'])) {
-          this.toster.error('File is already used', 'File Exists', {
-            closeButton: true,
+          this.translate.get('admin.mng_cnt.crt_cnt.file_already_used').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.crt_cnt.file_exists').subscribe((data1)=> {
+              this.toster.error(data, data1, { closeButton: true });
+            });
           });
+          //this.toster.error('File is already used', 'File Exists', { closeButton: true, });
         } else {
-          this.toster.success('Files Added.', 'File', { closeButton: true });
+          this.translate.get('admin.mng_cnt.crt_cnt.files_added').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.crt_cnt.file').subscribe((data1)=> {
+              this.toster.success(data, data1, { closeButton: true });
+            });
+          });
+          //this.toster.success('Files Added.', 'File', { closeButton: true });
           this.attachments.push(obj);
           this.attachment_files.push(obj['file_path']);
         }
@@ -765,11 +863,19 @@ export class CreateContentComponent implements OnInit {
       if (this.library_purpose == 'images') {
         let obj = { file_path: res['file_path'], path: res['path'] };
         if (this.images_files.includes(obj['file_path'])) {
-          this.toster.error('File is already used', 'File Exists', {
-            closeButton: true,
+          this.translate.get('admin.mng_cnt.crt_cnt.file_already_used').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.crt_cnt.file_exists').subscribe((data1)=> {
+              this.toster.error(data, data1, { closeButton: true });
+            });
           });
+          //this.toster.error('File is already used', 'File Exists', { closeButton: true, });
         } else {
-          this.toster.success('Files Added.', 'File', { closeButton: true });
+          this.translate.get('admin.mng_cnt.crt_cnt.files_added').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.crt_cnt.file').subscribe((data1)=> {
+              this.toster.success(data, data1, { closeButton: true });
+            });
+          });
+          //this.toster.success('Files Added.', 'File', { closeButton: true });
           this.images.push(obj);
           this.images_files.push(obj['file_path']);
         }
@@ -777,11 +883,19 @@ export class CreateContentComponent implements OnInit {
       if (this.library_purpose == 'videos') {
         let obj = { file_path: res['file_path'], path: res['path'] };
         if (this.videos_files.includes(obj['file_path'])) {
-          this.toster.error('File is already used', 'File Exists', {
-            closeButton: true,
+          this.translate.get('admin.mng_cnt.crt_cnt.file_already_used').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.crt_cnt.file_exists').subscribe((data1)=> {
+              this.toster.error(data, data1, { closeButton: true });
+            });
           });
+          this.toster.error('File is already used', 'File Exists', { closeButton: true, });
         } else {
-          this.toster.success('Files Added.', 'File', { closeButton: true });
+          this.translate.get('admin.mng_cnt.crt_cnt.files_added').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.crt_cnt.file').subscribe((data1)=> {
+              this.toster.success(data, data1, { closeButton: true });
+            });
+          });
+          //this.toster.success('Files Added.', 'File', { closeButton: true });
           this.videos.push(obj);
           this.videos_files.push(obj['file_path']);
         }
@@ -847,7 +961,10 @@ export class CreateContentComponent implements OnInit {
             this.lecture_note_obj.forEach((res, index)=>{
             if(res['title'] == this.lecture_note_title && res['status'] != 'delete'){
                 
-                this.toster.error("Title has been taken", "Error", {closeButton: true,});
+                this.translate.get('admin.mng_cnt.crt_cnt.title_taken_error').subscribe((data)=> {
+                  this.toster.error(data, "Error", { closeButton: true });
+                });
+                //this.toster.error("Title has been taken", "Error", {closeButton: true,});
                 return false;
             }
             if(this.lecture_note_obj.length == (index+1)){
@@ -866,7 +983,10 @@ export class CreateContentComponent implements OnInit {
         if(res['title'].trim() == this.lecture_note_title.trim() && res['status'] != 'delete' && ''+index != this.lecture_note_index){
             this.lecture_note_title_duplicate = true;
             this.lecture_note_title = '';
-            this.toster.error("Title has been taken", "Error" , {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.title_taken_error').subscribe((data)=> {
+              this.toster.error(data, "Error", { closeButton: true });
+            });
+            //this.toster.error("Title has been taken", "Error" , {closeButton: true,});
             return false;
         }
         if(this.lecture_note_obj.length == (index+1)){
@@ -905,7 +1025,10 @@ export class CreateContentComponent implements OnInit {
         }else{
         this.highyield_obj.forEach((res, index)=>{
             if(res['title'] == this.highyield_title && res['status'] != 'delete'){
-                this.toster.error("Title has been taken");
+                this.translate.get('admin.mng_cnt.crt_cnt.title_taken_error').subscribe((data)=> {
+                  this.toster.error(data, "Error", { closeButton: true });
+                });
+                //this.toster.error("Title has been taken");
                 return false;
             }
             if(this.highyield_obj.length == (index+1)){
@@ -924,7 +1047,10 @@ export class CreateContentComponent implements OnInit {
         if(res['title'].trim() == this.highyield_title.trim() && res['status'] != 'delete' && ''+index != this.highyield_index){
             this.highyield_title_duplicate = true;
             this.highyield_title = '';
-            this.toster.error("Title has been taken", "Error" , {closeButton: true,});
+            this.translate.get('admin.mng_cnt.crt_cnt.title_taken_error').subscribe((data)=> {
+              this.toster.error(data, "Error", { closeButton: true });
+            });
+            //this.toster.error("Title has been taken", "Error" , {closeButton: true,});
             return false;
         }
         if(this.highyield_obj.length == (index+1)){
@@ -1498,7 +1624,10 @@ searchLevelByName(search,level){
   }
   schedulePublish(){
       if(this.title.trim() == ''){
-          this.toster.error("Please enter content Title", "Error", {closeButton:true});
+          this.translate.get('admin.mng_cnt.crt_cnt.pls_ent_content_title_error').subscribe((data)=> {
+            this.toster.error(data, "Error", { closeButton: true });
+          });
+          //this.toster.error("Please enter content Title", "Error", {closeButton:true});
 
       }else{
         this.schdule_publish=true;
@@ -1625,24 +1754,34 @@ searchLevelByName(search,level){
         let size = files[i].size;
         size = Math.round(size / 1024);
         if(size > environment.file_upload_size){
-            this.toster.error(
-                ext +
-                  ' Size of file (' +
-                  files[i].name +
-                  ') is too large max allowed size 2mb', "Error", {closeButton: true,}
-              );
+            this.translate.get('admin.mng_cnt.crt_cnt.size_of_file').subscribe((data)=> {
+              this.translate.get('admin.mng_cnt.crt_cnt.large_max_allowed').subscribe((data1)=> {
+                this.toster.error(ext+" "+data+" ("+files[i].name+") "+data1, "Error", { closeButton: true });
+              });
+            });
+            // this.toster.error(
+            //     ext +
+            //       ' Size of file (' +
+            //       files[i].name +
+            //       ') is too large max allowed size 2mb', "Error", {closeButton: true,}
+            //   );
         }
         else{
             valid_files.push(files[i]);
             uploadData.append('file' + i, files[i]);
         }
       } else {
-        this.toster.error(
-          ext +
-            ' Extension not allowed file (' +
-            files[i].name +
-            ') not uploaded', "Error", {closeButton: true,}
-        );
+        this.translate.get('admin.mng_cnt.crt_cnt.extension_allowed').subscribe((data)=> {
+          this.translate.get('admin.mng_cnt.crt_cnt.not_uploaded').subscribe((data1)=> {
+            this.toster.error(ext+" "+data+" ("+files[i].name+") "+data1, "Error", { closeButton: true });
+          });
+        });
+        // this.toster.error(
+        //   ext +
+        //     ' Extension not allowed file (' +
+        //     files[i].name +
+        //     ') not uploaded', "Error", {closeButton: true,}
+        // );
       }
     }
     if (valid_files.length == 0) {
@@ -1653,7 +1792,12 @@ searchLevelByName(search,level){
     let param = { url: 'upload-files' };
     this.http.imageUpload(param, uploadData).subscribe((res) => {
       if (res['error'] == false) {
-        this.toster.success('Files successfully uploaded.', 'File Uploaded');
+        this.translate.get('admin.mng_cnt.crt_cnt.files_success_uploaded').subscribe((data)=> {
+          this.translate.get('admin.mng_cnt.crt_cnt.file_uploaded').subscribe((data1)=> {
+            this.toster.success(data, data1, { closeButton: true });
+          });
+        });
+        //this.toster.success('Files successfully uploaded.', 'File Uploaded');
       }
       this.allow_coment = true;
       res['urls'].forEach(url => {

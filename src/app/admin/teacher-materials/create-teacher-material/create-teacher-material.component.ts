@@ -7,7 +7,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
 import { Subscription } from 'rxjs/internal/Subscription';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-create-teacher-material',
   templateUrl: './create-teacher-material.component.html',
@@ -48,7 +48,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
   public user = [];
   public usersList = [];
   public teacher_id = '';
-  public page_title = 'Add Teacher Material';
+  public page_title = '';
   public material_name_error = false;
 
   //Added by Phanindra
@@ -72,17 +72,23 @@ export class CreateTeacherMaterialComponent implements OnInit {
   public selected_display = false;
 
 
-  constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
-  }
+  constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService, public translate: TranslateService) { this.translate.setDefaultLang(this.http.lang); }
 
   public Editor;
 
   ngOnInit(): void {
     this.user = this.http.getUser();
+     this.translate.get('teacher.teacher_materials.page_title_add').subscribe((data)=> {
+      this.page_title = data;
+    });
     this.activatedRoute.params.subscribe((param) => {
       this.material_id = param.id;
       if (this.material_id != undefined) {
-        this.page_title = 'Edit Teacher Material';
+
+        this.translate.get('teacher.teacher_materials.page_title_edit').subscribe((data)=> {
+          this.page_title = data;
+        });
+        
         let params={url: 'get-all-materials', material_id: this.material_id};
         this.http.post(params).subscribe((res: Response) => {
           this.openEditModel(res['data']['materials']);
@@ -94,6 +100,7 @@ export class CreateTeacherMaterialComponent implements OnInit {
     });
     this.getChildData();
     this.getChildDataEditor();
+
   }
 
   deleteRecord(id){
@@ -410,11 +417,17 @@ export class CreateTeacherMaterialComponent implements OnInit {
       if (this.library_purpose == 'attachments') {
         let obj = { file_path: res['file_path'], path: res['path'] };
         if (this.attachment_files.includes(obj['file_path'])) {
-          this.toastr.error('File is already used', 'File Exists', {
-            closeButton: true,
-          });
+          this.translate.get('teacher.teacher_materials.file_used').subscribe((data)=> {
+            this.toastr.error(data, 'File Exists', {
+              closeButton: true,
+            });
+          });          
         } else {
-          this.toastr.success('Files Added.', 'File', { closeButton: true });
+          this.translate.get('teacher.teacher_materials.file_added').subscribe((data)=> {
+            this.toastr.success(data, 'File', {
+              closeButton: true,
+            });
+          });
           this.attachments.push(obj);
           this.attachment_files.push(obj['file_path']);
         }

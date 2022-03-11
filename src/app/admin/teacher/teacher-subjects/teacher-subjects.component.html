@@ -4,8 +4,7 @@
       <div class="brdcrm_br">
         <mat-icon color="accent" routerLink="/">home</mat-icon>
         <mat-icon>navigate_next</mat-icon>
-        <span routerLink="/teacher/subjects">Subjects</span>
-        
+        <span routerLink="/teacher/subjects">{{"teacher.subjects.page_title"|translate}}</span>        
       </div>
     </div>
     <div class="hgt_10"></div>
@@ -14,13 +13,13 @@
       <div class="clear_fix"></div>
       <mat-form-field appearance="outline" class="xl_srch">
         <input [(ngModel)]="search" matInput (keyup)="$event.keyCode == 13 ? doFilter() : ''"
-          placeholder="Search in {{ title }}" />
-        <mat-icon matSuffix color="accent" (click)="doFilter()">search</mat-icon>
+          placeholder='{{"teacher.subjects.search_in"|translate}} {{ title }}' />
+        <mat-icon matSuffix color="accent" (click)="doFilter()">{{"teacher.subjects.search"|translate}}</mat-icon>
       </mat-form-field>
     </div>
     <mat-tab-group (selectedTabChange)="switchTab($event)" animationDuration="0.15s">
       <mat-tab label="Subjects">
-        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">No Records Found</div>
+        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0 && is_loaded">{{"no_records_found_text"|translate}}</div>
         <div class="crs_tbbd_mn" *ngIf="levels.length > 0">
           <div class="crs_tbbd_dv" *ngFor="let level of levels; let i = index">
             <span class="ct_hd" routerLink="/teacher/subjects/{{ level['curriculum_id'] }}/{{
@@ -36,8 +35,6 @@
     </mat-tab-group>
     <div class="hgt_20"></div>
     <div class="hgt_20 text_right" *ngIf="levels.length > 0 &&levels.length < total_items">
-      <button mat-raised-button (click)="loadMore()" color="accent">
-        Load More
-      </button>
+      <button mat-raised-button (click)="loadMore()" color="accent">{{"load_more"|translate}}</button>
     </div>
-  </div>
+</div>
