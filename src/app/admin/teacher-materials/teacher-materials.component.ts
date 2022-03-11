@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment';
 import * as ClassicEditor from '../../../assets/ckeditor5/build/ckeditor';
 import { UploadAdapter } from '../../classes/UploadAdapter';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-teacher-materials',
@@ -48,8 +49,7 @@ export class TeacherMaterialsComponent implements OnInit {
   public user = [];
   public usersList = [];
   public teacher_id = '';
-  constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) {
-  }
+  constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService, public translate: TranslateService) { this.translate.setDefaultLang(this.http.lang); }
 
   public Editor = ClassicEditor;
 

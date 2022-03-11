@@ -67,16 +67,16 @@
     <div class="d_flx_ac dsh_brd_crds">
       <div class="cm_fltr_sc mr_1">
         <mat-form-field appearance="outline"  class="mr_1">
-          <input  matInput (keyup)="$event.keyCode == 13 ? applyFilters() : ''" [(ngModel)]="search_txt" placeholder="Search" />
+          <input  matInput (keyup)="$event.keyCode == 13 ? applyFilters() : ''" [(ngModel)]="search_txt" placeholder='{{"search_text"|translate}}' />
           <mat-icon matSuffix class="cursor-pointer" color="accent">search</mat-icon>
         </mat-form-field>
       </div>
       <div class="cm_fltr_sc mr_1" *ngIf="is_display">
         <mat-form-field appearance="outline">
-          <mat-select placeholder="Select" name="created_by" #created_by="ngModel" [(ngModel)]="created_by_id" >
+          <mat-select placeholder='{{"select_text"|translate}}' name="created_by" #created_by="ngModel" [(ngModel)]="created_by_id" >
             <mat-option>
-                <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
-                    [placeholderLabel]="'Search'" name="search_user" ngModel (ngModelChange)="searchUsersList($event)">
+                <ngx-mat-select-search [noEntriesFoundLabel]="'admin.assessment.list.no_record'|translate"
+                    [placeholderLabel]="'search_text'|translate" name="search_user" ngModel (ngModelChange)="searchUsersList($event)">
                 </ngx-mat-select-search>
             </mat-option>
             <mat-option *ngFor="let item of users_list" [value]="item['id']">{{
@@ -87,7 +87,7 @@
       <div class="cm_fltr_sc mr_1">
         <mat-form-field appearance="outline">
           <input matInput [(ngModel)]="assessment_date" name="assessment_date_name" readonly [matDatepicker]="picker"
-              required placeholder='Assessment Date' autocomplete="off">
+              required placeholder='{{"admin.assessment.list.assessment_date"|translate}}' autocomplete="off">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -98,7 +98,7 @@
       <button mat-raised-button color="accent" class="float_right mr_1 btn_st_frm" (click)="applyFilters()" [disabled]="is_submit">
         Submit
       </button>
-      <button mat-raised-button color="warn" class="float_right mr_1 btn_st_frm" (click)="resetFilters()" matTooltip="Reset">
+      <button mat-raised-button color="warn" class="float_right mr_1 btn_st_frm" (click)="resetFilters()" matTooltip='{{"admin.assessment.list.reset"|translate}}'>
         <mat-icon>restart_alt</mat-icon>
       </button>
 

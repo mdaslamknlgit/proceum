@@ -55,6 +55,10 @@ export class SubscriptionsComponent implements OnInit {
   public model_status = false;
   public packages = [];
   public partners = [];
+  public card_fltr = false;
+  public dd_fltr = false;
+  public cheque_fltr = false;
+  public bank_fltr = false;
   all_packages: ReplaySubject<any> = new ReplaySubject<any>(1);
   all_partners: ReplaySubject<any> = new ReplaySubject<any>(1);
   constructor(
@@ -64,6 +68,7 @@ export class SubscriptionsComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     //this.getDiscounts();
+    this.getPartners();
     this.getPackages();
   }
   
@@ -86,6 +91,19 @@ export class SubscriptionsComponent implements OnInit {
     (<HTMLFormElement>document.getElementById('discount_form')).reset();
   }
 
+  showForm(){
+    // console.log(this.payment_type);
+    // if(this.payment_type == "debit_card" || this.payment_type == "credit_card"){
+    //   this.card_fltr=true; this.dd_fltr=false;this.cheque_fltr=false;this.bank_fltr=false;
+    // }
+    // if(this.payment_type == 'NEFT' || this.payment_type == 'RTGS' || this.payment_type == 'SWIFT'){
+    //   this.card_fltr=false; this.dd_fltr=false;this.cheque_fltr=false;this.bank_fltr=true;
+    // }
+    // if(this.payment_type == 'debit_card' || this.payment_type == 'credit_card'){
+    //   this.card_fltr=true; this.dd_fltr=false;this.cheque_fltr=false;
+    // }
+  }
+
   createDiscount() {
     let param = {
       url: 'discount',
@@ -105,7 +123,6 @@ export class SubscriptionsComponent implements OnInit {
       }
     });
   }
-
   public getServerData(event?: PageEvent) {
     this.page = event.pageSize * event.pageIndex;
     let param = {
@@ -136,13 +153,24 @@ export class SubscriptionsComponent implements OnInit {
       }
     });
   }
-
   public getPackages() {
     let param = { url: 'get-packages','status':'1' };
     this.http.post(param).subscribe((res) => {
       if (res['error'] == false) {
         this.packages = res['data']['packages'];
         this.all_packages.next(this.packages.slice());
+      } else {
+        //this.packages = [{'pk_id':0, 'package_name':'No packages found!'}];
+        //this.all_packages.next(this.packages.slice());
+      }
+    });
+  }
+  public getPartners() {
+    let param = { url: 'get-partners','status':'1' };
+    this.http.post(param).subscribe((res) => {
+      if (res['error'] == false) {
+        this.partners = res['data']['partners'];
+        this.all_partners.next(this.partners.slice());
       } else {
         //this.packages = [{'pk_id':0, 'package_name':'No packages found!'}];
         //this.all_packages.next(this.packages.slice());

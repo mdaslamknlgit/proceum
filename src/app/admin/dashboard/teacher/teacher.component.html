@@ -4,7 +4,7 @@
     <div class="brdcrm_br">
       <mat-icon color="accent" routerLink="/">home</mat-icon>
       <mat-icon>navigate_next</mat-icon>
-      <strong>Teacher Dashboard</strong>
+      <strong>{{"teacher.dashboard.page_title"|translate}}</strong>
     </div>
   </div>
   <div class="hgt_20"></div>
@@ -17,7 +17,7 @@
               <mat-icon>people</mat-icon>
             </div>
             <div>
-              Students Count
+              {{"teacher.dashboard.std_cnt"|translate}}
               <span>{{students_count}}</span>
             </div>
           </div>
@@ -30,7 +30,7 @@
               <mat-icon>edit_note</mat-icon>
             </div>
             <div>
-              Assessments Conducted
+              {{"teacher.dashboard.assessments_cnt"|translate}}
             <span>{{assessments_conducted}}</span>
             </div>
             
@@ -44,7 +44,7 @@
               <mat-icon>cast_for_education</mat-icon>
             </div>
             <div>
-              Classes /<br> Webinars Conducted
+              {{"teacher.dashboard.cls"|translate}} /<br> {{"teacher.dashboard.webinars_conducted"|translate}}
               <span>{{classes_conducted}}</span>
             </div>
           </div>
@@ -54,9 +54,9 @@
 
     <ul class="crds_ul rcnt_vw">
       <li>
-        <a routerLink="/teacher/subjects"><span class="text_left">My Subjects List</span></a>
+        <a routerLink="/teacher/subjects"><span class="text_left">{{"teacher.dashboard.my_subjects_list"|translate}}</span></a>
         <hr />
-        <div class="crs_tbbd_mn no_desc_fnd mt_0" *ngIf="levels.length == 0">No Subjects Found</div>
+        <div class="crs_tbbd_mn no_desc_fnd mt_0" *ngIf="levels.length == 0">{{"teacher.dashboard.no_subjects_found"|translate}}</div>
         <ul *ngIf="levels.length > 0" class="crds_ul prg_crd prg_crd">
           <li *ngFor="let level of levels; let i = index">
             <a routerLink="/teacher/subjects/{{ level['curriculum_id'] }}/{{

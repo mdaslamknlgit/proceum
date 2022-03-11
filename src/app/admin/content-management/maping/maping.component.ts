@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-maping',
@@ -53,7 +54,9 @@ export class MapingComponent implements OnInit {
   public slected_content_ids = [];
   public topic_id = 0;
   public user = [];
-  constructor(private http: CommonService, private toster: ToastrService, private router: Router) {}
+  constructor(private http: CommonService, private toster: ToastrService, private router: Router,public translate: TranslateService) {
+    this.translate.setDefaultLang(this.http.lang);
+  }
 
   ngOnInit(): void {
       this.user = this.http.getUser();
@@ -69,7 +72,10 @@ export class MapingComponent implements OnInit {
         this.curriculum_id = data['curricculum_id'];
         this.curriculum_list = data['curriculums'];
         if(!this.curriculum_list){
-            this.toster.error("No Curriculums Found", "Error" , { closeButton: true })
+            this.translate.get('no_curriculums_found_text').subscribe((data)=> {
+              this.toster.error(data, "Error", { closeButton: true });
+            });
+            //this.toster.error("No Curriculums Found", "Error" , { closeButton: true })
         }
         this.curriculum_labels = data['curriculum_labels'];
         this.stepsDisplayedColumns = ['s_no'];
