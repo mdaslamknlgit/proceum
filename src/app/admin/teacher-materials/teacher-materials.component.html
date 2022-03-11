@@ -183,17 +183,17 @@
     </div>
   </div>
   <div class="brd_crm">
-    Proceum &nbsp;&raquo;&nbsp;Teacher Materials
+    Proceum &nbsp;&raquo;&nbsp;{{"teacher.side_menu.teacher_materials"|translate}}
   </div>
   <div class="d-flex">
-    <div class="pg_ttl">Teacher Materials</div>
+    <div class="pg_ttl">{{"teacher.side_menu.teacher_materials"|translate}}</div>
     <div class="spacer"></div>
     <div>
       <button mat-raised-button color="accent" *ngIf="user['role'] == '1'" routerLink="/admin/teacher-material/create" class="float_right mt_0" type="button">
-        <mat-icon>add</mat-icon> Add Material
+        <mat-icon>add</mat-icon>{{"teacher.teacher_materials.add_material"|translate}}
       </button>
       <button mat-raised-button color="accent" *ngIf="user['role'] == '12'" routerLink="/teacher/materials/create" class="float_right mt_0" type="button">
-        <mat-icon>add</mat-icon> Add Material
+        <mat-icon>add</mat-icon>{{"teacher.teacher_materials.add_material"|translate}}
       </button>
     </div>
   </div>
@@ -206,27 +206,27 @@
     <div class="rsp_tbl">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
         <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>S.No</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"s_no_text"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.id }}</td>
         </ng-container>
         <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"teacher.teacher_materials.title"|translate}}</th>
           <td mat-cell *matCellDef="let element" class="ws_normal">{{ element.title }}</td>
         </ng-container>
         <ng-container matColumnDef="uploaded_by">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Uploaded By</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"teacher.teacher_materials.uploaded_by"|translate}}</th>
           <td mat-cell *matCellDef="let element">{{ element.uploaded_by }}</td>
         </ng-container>
         <ng-container matColumnDef="created_at">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="jc_cnt text-center">Created Date</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="jc_cnt text-center">{{"teacher.teacher_materials.created_date"|translate}}</th>
           <td mat-cell *matCellDef="let element" class="text-center">{{ element.created_at }}</td>
         </ng-container>
         <ng-container matColumnDef="updated_at">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header class="jc_cnt text-center">Updated Date</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="jc_cnt text-center">{{"teacher.teacher_materials.updated_date"|translate}}</th>
           <td mat-cell *matCellDef="let element" class="text-center">{{ element.updated_at }}</td>
         </ng-container>
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
+          <th mat-header-cell *matHeaderCellDef cdkDrag>{{"status_text"|translate}}</th>
           <td mat-cell *matCellDef="let element">
             <mat-slide-toggle (click)="changeStatus(element.pk_id, element.status)"
               [checked]="element.status == 1 ? true : false"
@@ -234,7 +234,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="download_flag">
-          <th mat-header-cell *matHeaderCellDef cdkDrag>Download Attachments</th>
+          <th mat-header-cell *matHeaderCellDef cdkDrag>{{"teacher.teacher_materials.download_attachments"|translate}}</th>
           <td mat-cell *matCellDef="let element" class="text-center">
             <mat-slide-toggle (click)="downloadStatus(element.pk_id, element.download_flag)"
               [checked]="element.download_flag == 1 ? true : false"
@@ -242,7 +242,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef class="jc_cnt text-center">Action</th>
+          <th mat-header-cell *matHeaderCellDef class="jc_cnt text-center">{{"teacher.teacher_materials.action"|translate}}</th>
           <td mat-cell *matCellDef="let element">
             <button mat-icon-button color="accent">
               <mat-icon matTooltip="click here to edit material" *ngIf="user['role'] == '1'" routerLink="/admin/teacher-material/edit/{{element.pk_id}}">edit_note</mat-icon>

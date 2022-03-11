@@ -3,13 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-teacher-subjects',
   templateUrl: './teacher-subjects.component.html',
   styleUrls: ['./teacher-subjects.component.scss']
 })
 export class TeacherSubjectsComponent implements OnInit {
-    public title = '';
+  public title = '';
   public curriculum = [];
   public curriculum_id = 0;
   public level_id = 0;
@@ -32,9 +34,9 @@ export class TeacherSubjectsComponent implements OnInit {
     private http: CommonService,
     private route: Router,
     private toster: ToastrService,
-    private location: Location
-  ) {}
-
+    private location: Location,
+    public translate: TranslateService
+  ) { this.translate.setDefaultLang(this.http.lang); }
   ngOnInit(): void {
       this.user = this.http.getUser();
     this.activatedRoute.params.subscribe((param) => {
