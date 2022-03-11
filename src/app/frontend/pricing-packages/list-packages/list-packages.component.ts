@@ -12,6 +12,7 @@ import { CartCountService } from '../../../services/cart-count.service';
 export class ListPackagesComponent implements OnInit {
   public packages = [];
   public user = [];
+  public headings = [];
   public search_box = '';
   public user_id:any = '';
   public ip:any = '';
@@ -47,6 +48,7 @@ export class ListPackagesComponent implements OnInit {
       //console.log(res);
       if (res['error'] == false) {
         this.packages = res['data']['packages'];
+        this.headings = res['data']['headings'];
         this.country_id = res['data']['country_id'];
         this.admin_role_ids = res['data']['avoid_roles'];
       } else {

@@ -129,6 +129,26 @@
                                                 Package details
                                             </div>
                                             <div class="cpm_pg_cnt">
+                                                <div>Package Heading</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="Enter package heading"
+                                                            [(ngModel)]="package_heading" name="package_heading"
+                                                            (ngModelChange)="filterHeadings($event)" maxlength="60"
+                                                            required [matAutocomplete]="auto" />
+                                                        <span class="prc_tltp"
+                                                            *ngIf="edit_package_form.submitted && package_heading == ''">Package
+                                                            name is required</span>
+                                                        <mat-autocomplete #auto="matAutocomplete">
+                                                            <mat-option *ngFor="let option of all_headings | async"
+                                                                [value]="option.package_heading">
+                                                                {{option.package_heading}}
+                                                            </mat-option>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="cpm_pg_cnt">
                                                 <div>Package Name</div>
                                                 <div class="err_tltp_par">
                                                     <mat-form-field appearance="outline">
@@ -323,22 +343,26 @@
                                                 <div>Applicable to</div>
                                                 <div class="d-flex mt_05">
                                                     <div class="mr_1">
-                                                        <mat-checkbox class="mr_1" name="applicable_to_university"  (change)="onApplicableChange()"
+                                                        <mat-checkbox class="mr_1" name="applicable_to_university"
+                                                            (change)="onApplicableChange()"
                                                             [(ngModel)]="applicable_to_university"></mat-checkbox>
                                                         University
                                                     </div>
                                                     <div class="mr_1">
-                                                        <mat-checkbox class="mr_1" name="applicable_to_college"  (change)="onApplicableChange()"
+                                                        <mat-checkbox class="mr_1" name="applicable_to_college"
+                                                            (change)="onApplicableChange()"
                                                             [(ngModel)]="applicable_to_college"></mat-checkbox>
                                                         College
                                                     </div>
                                                     <div class="mr_1">
-                                                        <mat-checkbox class="mr_1" name="applicable_to_institute"  (change)="onApplicableChange()"
+                                                        <mat-checkbox class="mr_1" name="applicable_to_institute"
+                                                            (change)="onApplicableChange()"
                                                             [(ngModel)]="applicable_to_institute"></mat-checkbox>
                                                         Institution
                                                     </div>
                                                     <div class="mr_1">
-                                                        <mat-checkbox class="mr_1" name="applicable_to_individual"  (change)="onIndividualChange()"
+                                                        <mat-checkbox class="mr_1" name="applicable_to_individual"
+                                                            (change)="onIndividualChange()"
                                                             [(ngModel)]="applicable_to_individual"></mat-checkbox>
                                                         Individual
                                                     </div>
@@ -364,8 +388,7 @@
                                                     <mat-form-field appearance="outline">
                                                         <input matInput placeholder="Licences Limit"
                                                             [(ngModel)]="licenses_limit" name="licenses_limit"
-                                                            appNumbersonly
-                                                            required />
+                                                            appNumbersonly required />
                                                     </mat-form-field>
                                                 </div>
                                             </div>

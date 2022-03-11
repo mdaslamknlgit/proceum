@@ -127,6 +127,26 @@
                                                 Package details
                                             </div>
                                             <div class="cpm_pg_cnt">
+                                                <div>Package Heading</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="Enter package heading"
+                                                            [(ngModel)]="package_heading" name="package_heading"
+                                                            (ngModelChange)="filterHeadings($event)" maxlength="60"
+                                                            required [matAutocomplete]="auto" />
+                                                        <span class="prc_tltp"
+                                                            *ngIf="create_package_form.submitted && package_heading == ''">Package
+                                                            name is required</span>
+                                                        <mat-autocomplete #auto="matAutocomplete">
+                                                            <mat-option *ngFor="let option of all_headings | async"
+                                                                [value]="option.package_heading">
+                                                                {{option.package_heading}}
+                                                            </mat-option>
+                                                        </mat-autocomplete>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="cpm_pg_cnt">
                                                 <div>Package Name</div>
                                                 <div class="err_tltp_par">
                                                     <mat-form-field appearance="outline">
