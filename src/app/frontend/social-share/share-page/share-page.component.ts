@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-share-page',
@@ -19,7 +20,7 @@ export class SharePageComponent implements OnInit {
   public bucket_url = '';
   public approved_count = 0;
 
-  constructor(private http: CommonService, private toster: ToastrService) { }
+  constructor(private http: CommonService, private toster: ToastrService, public translate: TranslateService) {this.translate.setDefaultLang(this.http.lang);}
 
   ngOnInit(): void {
     this.applyFilters();

@@ -1,96 +1,135 @@
 <mat-toolbar>
-  <!-- <button *ngIf="user['role'] == '2'" mat-icon-button (click)="toggleSidemenu('hello')" class="hmbrg_btn">
+  <button *ngIf="user['role'] == '2'" mat-icon-button (click)="toggleSidemenu('hello')" class="hmbrg_btn">
     <img src="./assets/images/hamburg-icon.svg" />
-  </button> -->
+  </button>
   <span class="logo_spn" routerLink="/"><img src="{{ getHeaderLogo() }}" /></span>
-  <!-- <span class="usr_lgns">Welcome to {{user['role'] == '2' ? 'Student': 'Teacher'}} Dashboard</span> -->
+  <!-- <span class="usr_lgns">Welcome to {{user['role'] == '2' ? 'Student': 'Teacher'}} Dashboard</span>  -->
   <span class="usr_lgns">{{"welcome_to_text"|translate}} {{ user["role_name"] }} {{"dashboard_text"|translate}}</span>
   <span class="spacer"></span>
   <!-- <div class="nav" [ngClass]="{ menu_open: isOpen }"> -->
-  <div class="nav">
-    <div>
-      <app-white-board *ngIf="user['role'] == '1' || user['role'] == '12'"></app-white-board>
+
+    <app-white-board *ngIf="user['role'] == '1' || user['role'] == '12'"></app-white-board>
+  <span *ngIf="user['role'] != '2'" mat-list-item class="tp_rt_mn" routerLink="/" routerLinkActive="active">
+    <mat-icon color="accent" matTooltip="Home">home</mat-icon>
+    <!-- <span>Home</span> -->
+  </span>
+  <!-- notification -->
+  <span class="tp_rt_mn ps_rel notification_span_icon fr_bdg mr_0">
+    <div (click)="show_notifications = !show_notifications">
+      <mat-icon  [matBadge]="class_notifications.length>0||assessment_notifications.length>0?(class_notifications.length+assessment_notifications.length):''" matBadgeColor="warn">notification_important</mat-icon>
     </div>
-    <div *ngIf="user['role'] != '2'" routerLink="/" routerLinkActive="active">Home</div>
-    <div *ngIf="user['id']" routerLink="/courses" routerLinkActive="active">Courses</div>
-    <div class="ps_rel">
-      <mat-icon (click)="show_notifications = !show_notifications"
-        [matBadge]="class_notifications.length>0||assessment_notifications.length>0?(class_notifications.length+assessment_notifications.length):''"
-        matBadgeColor="warn" color="accent">notification_important</mat-icon>
-      <div class="noti_dv" *ngIf="show_notifications">
-        <!-- {{show_notifications == false?'d-none':''}} -->
-        <div class="noti_hd d-flex">
-          <span>{{"student.top_bar.notifications"|translate}}</span>
-          <span class="spacer"></span>
-          <span (click)="show_notifications = !show_notifications">
-            <mat-icon>close</mat-icon>
-          </span>
-        </div>
-        <div class="noti_cnt">
-          <ul>
-            <li *ngFor="let n of class_notifications">
-              <span routerLink="/student/class/list">{{"student.top_bar.you_have_class"|translate}} {{n['topic']}}</span>
-            </li>
-            <li *ngFor="let n of assessment_notifications">
-              <span routerLink="/student/assessments/list">{{"student.top_bar.you_have_assessment"|translate}} {{n['assessment_name']}}</span>
-            </li>
-          </ul>
-        </div>
+    <div class="noti_dv" *ngIf="show_notifications">
+      <!-- {{show_notifications == false?'d-none':''}} -->
+      <div class="noti_hd d-flex">
+        <span class=" ">{{"student.top_bar.notifications"|translate}}</span>
+        <span class="spacer"></span>
+        <span (click)="show_notifications = !show_notifications">
+          <mat-icon>close</mat-icon>
+        </span>
+      </div>
+      <div class="noti_cnt">
+        <ul>
+          <li *ngFor="let n of class_notifications">
+            <span routerLink="/student/class/list">{{"student.top_bar.you_have_class"|translate}} {{n['topic']}}</span>
+          </li>
+          <li *ngFor="let n of assessment_notifications">
+            <span routerLink="/student/assessments/list">{{"student.top_bar.you_have_assessment"|translate}} {{n['assessment_name']}}</span>
+          </li>            
+        </ul>
       </div>
     </div>
-    <div *ngIf="user['name']" routerLink="/student/my-account">
-      <mat-icon color="accent">account_circle</mat-icon>
-      <span> {{ user["name"] }}</span>
-    </div>
-    <div *ngIf="!user['id']" (click)="navigateTo()">
-      {{"dashboard_text"|translate}}
-    </div>
-    <div *ngIf="!user['id']" routerLink="/about-us" routerLinkActive="active">
-      {{"student.top_bar.about_us"|translate}}
-    </div>
-    <div *ngIf="!user['id']">
-      Pricing
-    </div>
-    <div *ngIf="!user['id']">
-      Subscribe
-    </div>
-    <div *ngIf="!user['id']">
-      Register Trail
-    </div>
-    <div *ngIf="!user['name']" routerLink="/contact-us" routerLinkActive="active">
-      {{"student.top_bar.contact_us"|translate}}
-    </div>
-    <div routerLink="/blog">
-      {{"student.top_bar.blog_text"|translate}}
-    </div>
-    <div class="fr_bdg" *ngIf="number" routerLink="/shopping-cart">
-      <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
-    </div>
-    <div>
-      <mat-icon color="accent" (click)="glbSrch = false">search</mat-icon>
-      <div class="top-right-icon rsp_100p_767 ord_mo_767">
-        <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
-          <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
-            <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''"
-              placeholder='{{"search_text"|translate}}' class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
-            <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch" class="gs_clsbtn"> {{glbSrch == false ?
-              'close' : ''}}
-            </mat-icon>
-          </mat-form-field>
-        </div>
-        <div class="{{glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
-      </div>
-    </div>
-    <div class="dsh_brd_crds lang_drpdwn" >
-      <mat-form-field appearance="outline">
-        <mat-select value="" [(ngModel)]="language" name="language_name" (ngModelChange)="getLanguage();">
-          <mat-option value="en">English</mat-option>
-          <mat-option value="fr">French</mat-option>
-        </mat-select>
+  </span>
+  <!-- notification -->
+  <span *ngIf="user['id']" mat-list-item class="tp_rt_mn" routerLink="/pricing-and-packages" routerLinkActive="active">{{"student.top_bar.pricing_packages"|translate}}</span>
+  <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" routerLink="/about-us" routerLinkActive="active">{{"student.top_bar.about_us"|translate}}</span>
+  <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">{{"student.top_bar.pricing"|translate}}</span>
+  <span mat-list-item class="tp_rt_mn" *ngIf="!user['id']">{{"student.top_bar.subscribe"|translate}}</span>
+  <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn">{{"student.top_bar.register_trail"|translate}}</span>
+  <span *ngIf="!user['name']" mat-list-item class="tp_rt_mn" routerLink="/contact-us" routerLinkActive="active">{{"student.top_bar.contact_us"|translate}}</span>
+  <!-- <span
+        mat-list-item
+        [matMenuTriggerFor]="appMenu"
+        class="tp_rt_mn"
+        *ngFor="let menu of menus"
+        (click)="changeSubmenu(menu.pk_id)"
+        >{{ menu.name }}</span
+      > -->
+  <!-- <span
+        mat-list-item
+        [matMenuTriggerFor]="appMenu"
+        class="tp_rt_mn"
+        routerLinkActive="active"
+        >CMS</span
+      >
+      <mat-menu #appMenu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let subMenu of subMenus"
+          routerLink="/mcicirriculam/{{ subMenu.pk_id }}"
+        >
+          {{ subMenu.name }}
+        </button>
+      </mat-menu> -->
+
+  <span *ngIf="!user['id']" mat-list-item class="tp_rt_mn" (click)="navigateTo()">{{"dashboard_text"|translate}}</span>
+
+  <div *ngIf="user['name']" mat-list-item class="tp_rt_mn">
+    <mat-icon color="accent">account_circle</mat-icon>
+    <span> {{ user["name"] }}</span>
+    <!-- <span *ngIf="user['role_name']"> {{ "("+ user["role_name"] +")" }}</span>  -->
+  </div>
+  <div class="top-right-icon">
+    <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
+      <mat-icon color="accent" matSuffix (click)="glbSrch = false">search</mat-icon>
+      <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
+        <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''" placeholder='{{"search_text"|translate}}' class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
+        <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch" class="gs_clsbtn"> {{glbSrch == false ? 'close' : 'search'}}</mat-icon>
       </mat-form-field>
     </div>
-    <div *ngIf="user['name']" (click)="logout()" class="lg_ot">
-      <mat-icon matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span> {{"logout_text"|translate}}
+    <div class="{{glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
+  </div>
+  <div class="shpncrt_tpbr" *ngIf="number" routerLink="/shopping-cart">
+    <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
+  </div>
+  <!-- <span *ngIf="user['name']" (click)="logout()" class="tp_rt_mn">
+    <mat-icon color="warn" matTooltip="Logout">power_settings_new</mat-icon>
+    
+  </span> -->
+
+  <div class="dsh_brd_crds lang_drpdwn" >
+    <mat-form-field appearance="outline">
+      <mat-select value="" [(ngModel)]="language" name="language_name" (ngModelChange)="getLanguage();">
+        <mat-option value="en">English</mat-option>
+        <mat-option value="fr">French</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="lg_inbtn mr_0 hb_mn_pr">
+    <span>
+      <mat-icon color="accent" (click)="hbMnu = !hbMnu">menu</mat-icon>
+    </span>
+    <div *ngIf="hbMnu" class="hb_mnumn {{hbMnu ? 'actv_hb':''}}">
+      <mat-icon (click)="hbMnu = !hbMnu" color="accent">close</mat-icon>
+      <ul>
+        <li routerLink="/about-us">
+          <mat-icon color="accent">info</mat-icon>
+          {{"student.top_bar.about_us"|translate}}</li>
+        <li routerLink="/contact-us">
+          <mat-icon color="accent">contact_phone</mat-icon>
+          {{"student.top_bar.contact_us"|translate}}</li>
+        <li routerLink="/blog">
+          <mat-icon color="accent">rss_feed</mat-icon>
+          {{"student.top_bar.blog_text"|translate}}</li>
+        <li *ngIf="user['name']" (click)="logout()">
+          <span>
+            <mat-icon color="accent" matTooltip='{{"logout_text"|translate}}'>power_settings_new</mat-icon><span class="m_hide"></span>
+            
+          </span>
+          {{"logout_text"|translate}}
+          </li>
+      </ul>
     </div>
   </div>
+
 </mat-toolbar>

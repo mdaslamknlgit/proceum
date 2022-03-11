@@ -1,7 +1,7 @@
 <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: model_status }">
     <div class="cust_mdl_chl">
         <div class="pg_ttl">
-            Social Approval
+            {{"student.my_earnings.social_approval"|translate}}
             <span class="spacer"></span>
             <button mat-icon-button (click)="closeViewModel()">
                 &#x2715;
@@ -12,15 +12,15 @@
             <div class="img_prp_dets" style="width: 100%;">
                 <ul>
                     <li>
-                        <span class="img_info_hd">Uploaded From</span>
+                        <span class="img_info_hd">{{"student.my_earnings.uploaded_from"|translate}}</span>
                         <span class="img_info_dets">{{view_platform}}</span>
                     </li>
                     <li>
-                        <span class="img_info_hd">Uploaded Date</span>
+                        <span class="img_info_hd">{{"student.my_earnings.uploaded_date"|translate}}</span>
                         <span class="img_info_dets">{{view_uploaded_date}}</span>
                     </li>
                     <li *ngIf="view_uploaded_url != null">
-                        <span class="img_info_hd">Uploaded URL</span>
+                        <span class="img_info_hd">{{"student.my_earnings.uploaded_url"|translate}}</span>
                         <span class="img_info_dets shr_url">
                             <a href="{{view_uploaded_url}}" target="_blank">{{view_uploaded_url}}</a>
                         </span>
@@ -35,7 +35,7 @@
             <div class="img_prp_btns">
                 <div>
                     <button mat-raised-button class="float_right mr_1 gry_btn" (click)="closeViewModel()">
-                        Close
+                        {{"close"|translate}}
                     </button>
                 </div>
             </div>
@@ -47,17 +47,17 @@
     <div class="w_100p d-flex">
         <div class="spacer"></div>
         <div>
-            <button mat-raised-button color="accent" routerLink="/student/upload-details">Create New</button>
+            <button mat-raised-button color="accent" routerLink="/student/upload-details">{{"student.my_earnings.create_new"|translate}}</button>
         </div>
     </div>
     <div class="rsp_tbl">
         <table mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="sno">
-                <th mat-header-cell *matHeaderCellDef> S.No </th>
+                <th mat-header-cell *matHeaderCellDef> {{"s_no_text"|translate}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.s_no}} </td>
             </ng-container>
             <ng-container matColumnDef="platform">
-                <th mat-header-cell *matHeaderCellDef class="text_center"> Platform </th>
+                <th mat-header-cell *matHeaderCellDef class="text_center"> {{"student.my_earnings.platform"|translate}} </th>
                 <td mat-cell *matCellDef="let element" class="text_center">
                     <img *ngIf="element.platform == 'Facebook'" src="../../../../assets/images/facebook.svg"
                         matTooltip="{{element.platform}}" class="scl_img" />
@@ -72,11 +72,11 @@
                 </td>
             </ng-container>
             <ng-container matColumnDef="datetime">
-                <th mat-header-cell *matHeaderCellDef> Date &amp; Time </th>
+                <th mat-header-cell *matHeaderCellDef> {{"student.my_earnings.date_time"|translate}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.published_date}} </td>
             </ng-container>
             <ng-container matColumnDef="earned">
-                <th mat-header-cell *matHeaderCellDef> Credits Earned </th>
+                <th mat-header-cell *matHeaderCellDef> {{"student.my_earnings.credits_earned"|translate}} </th>
                 <td mat-cell *matCellDef="let element">
                     <button *ngIf="element.approval_status == 1" mat-icon-button color="accent">
                         <mat-icon>done</mat-icon>
@@ -87,7 +87,7 @@
                 </td>
             </ng-container>
             <ng-container matColumnDef="consumed">
-                <th mat-header-cell *matHeaderCellDef> Credits Consumed </th>
+                <th mat-header-cell *matHeaderCellDef> {{"student.my_earnings.credits_consumed"|translate}} </th>
                 <td mat-cell *matCellDef="let element">
                     <button *ngIf="element.credits_consumed == 1" mat-icon-button color="accent">
                         <mat-icon>done</mat-icon>
@@ -98,38 +98,40 @@
                 </td>
             </ng-container>
             <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <th mat-header-cell *matHeaderCellDef> {{"actions_text"|translate}} </th>
                 <td mat-cell *matCellDef="let element">
-                    <button *ngIf='element.approval_status == 0' mat-icon-button color="accent" matTooltip="Edit"
+                    <button *ngIf='element.approval_status == 0' mat-icon-button color="accent" matTooltip='{{"edit_text"|translate}}'
                         routerLink="/student/upload-details/{{element.id}}">
                         <mat-icon>edit_notes</mat-icon>
                     </button>
-                    <button mat-icon-button color="accent" (click)="openViewModel(element)" matTooltip="View">
+                    <button mat-icon-button color="accent" (click)="openViewModel(element)" matTooltip='{{"view_text"|translate}}'>
                         <mat-icon>visibility</mat-icon>
                     </button>
-                    <button *ngIf='element.approval_status == 0' mwlConfirmationPopover [popoverTitle]="'Are you sure?'"
-                        [popoverMessage]="'Are you sure to delete this record'" placement="auto"
+                    <button *ngIf='element.approval_status == 0' mwlConfirmationPopover [popoverTitle]="'are_you_sure_text'|translate"
+                        [popoverMessage]="'are_you_sure_to_delete_text'|translate" placement="auto"
                         (confirm)="deleteRecord(element.id)" confirmButtonType="danger"
-                        cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                        cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip='{{"delete_text"|translate}}'>
                         <mat-icon>delete</mat-icon>
                     </button>
 
                 </td>
             </ng-container>
             <ng-container matColumnDef="aproval_status">
-                <th mat-header-cell *matHeaderCellDef class="text_center"> Approval Status </th>
+                <th mat-header-cell *matHeaderCellDef class="text_center"> {{"student.my_earnings.approval_status"|translate}} </th>
                 <td mat-cell *matCellDef="let element" class="cm_sts_info text_center">
-                    <span
-                        matTooltip="Current Status is {{element.approval_status == 0?'Pending':(element.approval_status == 1 ? 'Approved':'Declined')}}"
-                        class="{{element.approval_status == 0?'rw_pndg':(element.approval_status == 1 ? 'apprvd':'dclnd')}}">{{element.approval_status
-                        == 0?'Pending':(element.approval_status == 1 ? 'Approved':'Declined')}}</span>
+                    <span *ngIf='element.approval_status == 0' matTooltip="{{'student.my_earnings.current_status_is'|translate}} {{'student.my_earnings.pending'|translate}}"
+                        class="rw_pndg">{{'student.my_earnings.pending'|translate}}</span>
+                    <span *ngIf='element.approval_status == 1' matTooltip="{{'student.my_earnings.current_status_is'|translate}} {{'student.my_earnings.approved'|translate}}"
+                        class="apprvd">{{'student.my_earnings.approved'|translate}}</span>
+                    <span *ngIf='element.approval_status == 2' matTooltip="{{'student.my_earnings.current_status_is'|translate}} {{'student.my_earnings.declined'|translate}}"
+                        class="dclnd">{{'student.my_earnings.declined'|translate}}</span>
                 </td>
             </ng-container>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             <tr class="mat-row no_rcrds_fd" *matNoDataRow>
                 <td class="mat-cell" [attr.colspan]="displayedColumns.length">
-                    No Records Found
+                    {{"no_records_found_text"|translate}}
                 </td>
             </tr>
         </table>
