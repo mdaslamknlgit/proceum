@@ -197,7 +197,7 @@ export class CreatePackageComponent implements OnInit {
       applicable_to_university: this.applicable_to_university,
       applicable_to_college: this.applicable_to_college,
       applicable_to_institute: this.applicable_to_institute,
-      applicable_to_individual: this.applicable_to_college,
+      applicable_to_individual: this.applicable_to_individual,
       valid_up_to: this.valid_up_to,
       billing_frequency: this.billing_frequency,
       addons_arr: this.addons_arr,
