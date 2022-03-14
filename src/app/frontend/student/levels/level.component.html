@@ -5,7 +5,7 @@
     <div class="brdcrm_br">
       <mat-icon color="accent" routerLink="/">home</mat-icon>
       <mat-icon>navigate_next</mat-icon>
-      <strong>Courses &amp; Qbanks</strong>
+      <strong>{{"student.my_courses.courses_qbanks"|translate}}</strong>
     </div>
   </div>
   <div class="hgt_10"></div>
@@ -17,9 +17,9 @@
     </mat-form-field>
   </div> -->
   <mat-tab-group *ngIf="is_loaded">
-    <mat-tab label="My Courses">
+    <mat-tab label="{{'student.my_courses.my_courses'|translate}}">
       <div class="crs_sld_mn rtng_par ai_nrml">
-        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0">No Records Found</div>
+        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="levels.length == 0">{{'no_records_found_text'|translate}}</div>
         <div class="crs_sld_dv" *ngFor="let level of levels;let i=index" routerLink="/student/curriculums/{{ level['id'] }}/{{level['labels'][0]['level_number']}}">
           <span class="cs_hd">{{ level["name"]}}</span>
           <!-- <span class="ct_rtn">
@@ -64,16 +64,16 @@
             </span> -->
             <span class="cs_af"></span>
             <!-- <span class="cs_bb"></span> -->
-            <span class="cs_vw">View<mat-icon>east</mat-icon></span>
+            <span class="cs_vw">{{"view_text"|translate}}<mat-icon>east</mat-icon></span>
           </span>
         </div>
       </div>
     </mat-tab> 
   </mat-tab-group>
   <mat-tab-group animationDuration="0.15s" *ngIf="q_is_loaded">
-    <mat-tab label="Question Banks">
+    <mat-tab label="{{'student.my_courses.question_banks'|translate}}">
       <div class="crs_sld_mn rtng_par ai_nrml">
-        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="q_levels.length == 0">No Records Found</div>
+        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="q_levels.length == 0">{{'no_records_found_text'|translate}}</div>
         <div class="crs_sld_dv" *ngFor="let level of q_levels;let i=index" routerLink="/student/qbank/create-exam/{{ level['id'] }}">
           <span class="cs_hd">{{ level["name"]}}</span>
           <span class="cs_rew" *ngIf="false">(3,150 reviews)</span>
@@ -96,7 +96,7 @@
             </span> -->
             <span class="cs_af"></span>
             <!-- <span class="cs_bb"></span> -->
-            <span class="cs_vw">View<mat-icon>
+            <span class="cs_vw">{{"view_text"|translate}}<mat-icon>
                 east</mat-icon></span>
           </span>
         </div>

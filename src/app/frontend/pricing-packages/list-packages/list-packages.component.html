@@ -1,6 +1,43 @@
 <app-topbar class="inner-header" *ngIf="user['role'] != '2'"></app-topbar>
 <app-student-topbar *ngIf="user!= undefined && (user['role'] == '2')"></app-student-topbar>
 <app-sidemenu *ngIf="user!= undefined && (user['role'] == '2' || user['role'] == '11')"></app-sidemenu>
+<div class="cust_mdl_par" [ngClass]="{ cust_mdl_opn: model_status }">
+    <div class="cust_mdl_chl w_25p rsp767_80p">
+      <div class="pg_ttl">
+        Social Share
+        <span class="spacer"></span>
+        <button mat-icon-button (click)="toggleModel(share_url)" class="float_right">
+          &#x2715;
+        </button>
+      </div>
+      <div class="tbbd_bdy" id="social_share">
+        <div class="hgt_20"></div>
+        <div class="sclshr_btns_hd">
+          Select to share
+        </div>
+        <hr>
+        <div class="hgt_20"></div>
+        <div class="sclshr_btns">
+          <button mat-raised-button shareButton="facebook" matTooltip="Facebook" #fbBtn="shareButton" class="ssh_fb" [url]="share_url">
+            <img src="../../../../assets/images/facebook.svg" class="scl_img" /> Facebook
+          </button>
+          <button mat-raised-button shareButton="twitter" matTooltip="Twitter" #twtBtn="shareButton" class="ssh_tw" [url]="share_url">
+            <img src="../../../../assets/images/twitter.svg" class="scl_img" /> Twitter
+          </button>
+          <button mat-raised-button shareButton="linkedin" matTooltip="Linkedin" #inBtn="shareButton" class="ssh_li" [url]="share_url">
+            <img src="../../../../assets/images/linkedin.svg" class="scl_img" /> Linkedin
+          </button>
+          <button mat-raised-button shareButton="whatsapp" matTooltip="Whatsapp" #wBtn="shareButton" class="ssh_wa" [url]="share_url">
+            <img src="../../../../assets/images/whatsapp.svg" class="scl_img"> Whatsapp
+          </button>
+          <!-- <button mat-raised-button matTooltip="Instagram">
+            <img src="../../../../assets/images/instagram.svg" class="scl_img" /> Instagram
+          </button> -->
+        </div>
+        <div class="hgt_50"></div>
+      </div>
+    </div>
+</div>
 <div class="mn_dshbrd {{user ? '':'fl_mndsbrd'}}">
     <div class="hgt_20"></div>
     <div class="sp_mn">
@@ -31,8 +68,11 @@
                     <div class="crs_icn grn_bg" *ngIf="!package.package_img || package.package_img == null">
                         <mat-icon>work_outline</mat-icon>
                     </div>
+                    <button mat-icon-button class="no_bxsdw my_05">
+                      <mat-icon matTooltip="Share" (click)="toggleModel(package.pk_id)">share</mat-icon>
+                    </button>
                 </div>
-                <div class="ml_02 w_100p">
+                <div class="ml_1 w_100p">
                     <div class="pc_dsc_mn">
                         <span class="{{package.discount_percent ? 'strk_price':''}}">{{package.discount_percent ? 'Actual
                             Price':'Price'}} {{ package.currency_symbol}} {{ package.original_price}}</span>

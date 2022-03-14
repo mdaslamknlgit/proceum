@@ -7,6 +7,7 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { CartCountService } from '../../../services/cart-count.service';
 import { ReplaySubject } from 'rxjs';
+import { Meta, Title } from '@angular/platform-browser';
 
 interface CurriculumNode {
   id?: number;
@@ -60,7 +61,8 @@ export class PackageDetailsComponent implements OnInit {
     private router: Router,
     private sanitizer: DomSanitizer,
     private cartCountService: CartCountService,
-
+    private title: Title,
+    private meta: Meta
   ) { }
 
   hasChild = (_: number, node: CurriculumNode) => !!node.has_children && node.has_children.length > 0;
@@ -115,6 +117,8 @@ export class PackageDetailsComponent implements OnInit {
         this.admin_role_ids = res['data']['avoid_roles'];
         //Get the topics if package courses not empty
         this.dataSource.data = res['data']['topics'];
+        this.title.setTitle(this.package.package_name);
+        this.meta.updateTag({ name: 'og:image', content: this.package.package_img })
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
         this.router.navigateByUrl('/pricing-and-packages');
