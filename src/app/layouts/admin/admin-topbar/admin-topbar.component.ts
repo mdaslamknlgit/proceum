@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'app-admin-topbar',
@@ -23,6 +24,10 @@ export class AdminTopbarComponent implements OnInit {
   public content_notifications = [];
   public load_top_bar: boolean;
   public show_notifications = false;
+  public lang_path = environment.lang;
+  public preview_path = environment.lang+'us.svg';
+  lang = [];
+  lang_list: ReplaySubject<any> = new ReplaySubject<any>(1);
   width: any;
   @HostListener('window:load', ['$event'])
   @HostListener('window:resize', ['$event'])
@@ -49,6 +54,19 @@ export class AdminTopbarComponent implements OnInit {
       this.finishedLoading.emit(true);
     }
     this.user = this.http.getUser();
+
+    let param1 = {
+      url: 'get-language-list'
+    };
+    this.http.post(param1).subscribe((res) => {
+      if (res['error'] == false) {
+        this.lang = res['data']['countries'];
+        if (this.lang != undefined) {
+          this.lang_list.next(this.lang.slice());
+        }
+      }
+    });
+
     let param = {
       url: 'get-user-config', //+ this.user['id'],
       user_id:this.user['id']
@@ -149,8 +167,9 @@ export class AdminTopbarComponent implements OnInit {
 
   public language = '';
   
-  getLanguage()
+  getLanguage(lang,flag)
   {
+    this.language = lang;
     this.http.lang = this.language;
     this.translate.setDefaultLang(this.http.lang);
     let param = {
@@ -160,6 +179,7 @@ export class AdminTopbarComponent implements OnInit {
       value: this.language
     };
     this.http.post(param).subscribe((res) => {
+      this.preview_path = environment.lang+flag;
       // if (res['error'] == false) {
       //   this.translate.get('success_text').subscribe((success_text)=> {
       //     this.translate.get('create_success').subscribe((message)=> {

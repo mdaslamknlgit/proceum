@@ -7,6 +7,7 @@ export const environment = {
   file_upload_size: 512000,//in kb
   page_size: 10,
   page_size_options: [10, 20, 50, 100],
+  lang: "https://s3.ap-south-1.amazonaws.com/assets.proceum.com/lang_flags/4x3/",
   liteEditorConfig: {
     editable: true,
     spellcheck: true,

@@ -596,9 +596,9 @@ import { environment } from 'src/environments/environment';
         this.fetchImages(0);
         this.active_div = div;    
     }
-    scrollto(el) {
+    scrollto() {
         var element = document.getElementById('content_div');
-        var headerOffset = 130;
+        var headerOffset = 180;
         var elementPosition = element.getBoundingClientRect().top;
         var offsetPosition = elementPosition + window.pageYOffset - headerOffset;
         

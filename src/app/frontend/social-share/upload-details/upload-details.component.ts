@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-upload-details',
@@ -23,7 +24,7 @@ export class UploadDetailsComponent implements OnInit {
     this.today_date.getDate()
   );
   public bucket_url = '';
-  constructor(private activatedRoute: ActivatedRoute,private http: CommonService, private toster: ToastrService) { }
+  constructor(private activatedRoute: ActivatedRoute,private http: CommonService, private toster: ToastrService, public translate: TranslateService) {this.translate.setDefaultLang(this.http.lang);}
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
@@ -84,11 +85,19 @@ export class UploadDetailsComponent implements OnInit {
         let size = files[i].size;
         size = Math.round(size / 1024);
         if(size > 2048){
+          let size_of_file = '';
+          this.translate.get('student.socialshare.upload_details.size_of_file').subscribe((data)=> {
+            size_of_file = data;
+          });
+          let max_allowed_size_2mb = '';
+          this.translate.get('student.socialshare.upload_details.max_allowed_size_2mb').subscribe((data)=> {
+            max_allowed_size_2mb = data;
+          });
           this.toster.error(
             ext +
-              ' Size of file (' +
+            size_of_file +
               files[i].name +
-              ') is too large max allowed size 2mb'
+              max_allowed_size_2mb
           );
         } else {
           this.valid_files.push(files[i]);
@@ -99,11 +108,19 @@ export class UploadDetailsComponent implements OnInit {
           }
         }
       } else {
+        let extension_not_allowed = '';
+          this.translate.get('student.socialshare.upload_details.extension_not_allowed').subscribe((data)=> {
+            extension_not_allowed = data;
+          });
+          let not_uploaded = '';
+          this.translate.get('student.socialshare.upload_details.not_uploaded').subscribe((data)=> {
+            not_uploaded = data;
+          });
         this.toster.error(
           ext +
-            ' Extension not allowed file (' +
+          extension_not_allowed +
             files[i].name +
-            ') not uploaded'
+            not_uploaded
         );
       }
     }
@@ -119,7 +136,11 @@ export class UploadDetailsComponent implements OnInit {
       var regExp = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
       var match = this.publish_url.match(regExp);
       if (!match) {
-        this.toster.error("Invalid publish url", "Error", {
+        let invalid_publish_url = '';
+        this.translate.get('student.socialshare.upload_details.invalid_publish_url').subscribe((data)=> {
+          invalid_publish_url = data;
+        });
+        this.toster.error(invalid_publish_url, "Error", {
           closeButton: true
       });
         return false;
@@ -127,7 +148,11 @@ export class UploadDetailsComponent implements OnInit {
     }
 
     if (this.imageSrc.length == 0) {
-      this.toster.error("Please upload screenshots", "Error", {
+      let please_upload_screenshots = '';
+        this.translate.get('student.socialshare.upload_details.please_upload_screenshots').subscribe((data)=> {
+          please_upload_screenshots = data;
+        });
+      this.toster.error(please_upload_screenshots, "Error", {
           closeButton: true
       });
       return false;
