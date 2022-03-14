@@ -465,6 +465,12 @@ export class RegisterComponent implements OnInit {
           //this.toster.error(message, 'Error', { closeButton: true });
         }
       });
+      this.individualRegister.state_id="";
+      this.institutionResgister.state_id="";
+      this.individualRegister.city="";
+      this.institutionResgister.city="";
+      this.all_states.next();
+      this.all_cities.next();
     }
   }
 
@@ -494,6 +500,9 @@ export class RegisterComponent implements OnInit {
         this.all_cities.next(this.cities.slice());
       }
     });
+    this.individualRegister.city="";
+    this.institutionResgister.city="";
+    this.all_cities.next();
   }
 
   filterCities(event) {

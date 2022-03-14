@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -64,7 +65,9 @@ export class ManageFlashCardsComponent implements OnInit {
   public question_text = '';
   public answer_text = '';
 
-  constructor(private http: CommonService, public toastr: ToastrService, private route: Router) { }
+  constructor(private http: CommonService, public toastr: ToastrService, private route: Router,public translate: TranslateService) {
+    this.translate.setDefaultLang(this.http.lang);
+   }
 
   ngOnInit(): void {
     this.pageFilter();

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -29,6 +29,8 @@ export class WhiteboardgalleryComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   public num_rows: number = 0;
   public page = 0;
+  public limit_grid = 8;
+  public grid_size = 12;
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
   public sort_by: any;
@@ -40,6 +42,7 @@ export class WhiteboardgalleryComponent implements OnInit {
   public tname = '';
   public created_at = '';
   public search_text_grid = '';
+  public synchronous = false;
   whiteboard: any = {
     search_text: ''
   }
@@ -79,14 +82,14 @@ export class WhiteboardgalleryComponent implements OnInit {
         this.search_text_grid = this.whiteboard.search_text_gird.trim();
       }
       this.show_list_view = false;
-      let param = { url: 'get-whiteboard-gallery',"parmType":"gird", "search":this.search_text_grid};
+      let param = { url: 'get-whiteboard-gallery',"parmType":"gird","offset": this.page, "limit": this.grid_size, "search":this.search_text_grid};
       this.http.post(param).subscribe((res) => {
         if (res['error'] == false) {
           this.dataSource = res['whiteboard'];
         } else {
           this.toster.info(res['message'], 'Info');
         }
-        
+        this.synchronous = true;
       });
 
     }
@@ -152,5 +155,16 @@ export class WhiteboardgalleryComponent implements OnInit {
   ClosePropertisModal() {
     this.properties_popup = false;
   }
-
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    if (this.bottomReached() && (this.grid_size < this.num_rows) && this.synchronous) {
+      this.synchronous = false;
+      let param = 'grid';
+      this.grid_size = this.grid_size + this.limit_grid;
+      this.changeView(param);
+    }
+  }
+  bottomReached(): boolean {
+   return window.innerHeight + window.scrollY >= document.body.offsetHeight;
+  }
 }

@@ -200,26 +200,28 @@ export class LoginComponent implements OnInit {
                 //If login user has subdomain the send him to land on subdomain
                 if (res['data']['user']['sub_domain']) {
                     this.landOnSubdomain(res['data']['user']);
+                    return;
                 }
-                if (res['data']['user']['role'] == 1) {
+                const roleID = Number(res['data']['user']['role']);
+                if (roleID == 1) {
                     //admin
                     let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/admin/dashboard';
                     localStorage.removeItem('_redirect_url');
                     this.route.navigate([redirect_url]);
-                } else if (res['data']['user']['role'] == 3 || res['data']['user']['role'] == 4 || res['data']['user']['role'] == 5 || res['data']['user']['role'] == 6 || res['data']['user']['role'] == 7) {
+                } else if (roleID == 3 || roleID == 4 || roleID == 5 || roleID == 6 || roleID == 7) {
                     //Reviewer L1, L2,L3 Approver
                     let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/reviewer/dashboard';
                     localStorage.removeItem('_redirect_url');
                     this.route.navigate([redirect_url]);
-                } else if (res['data']['user']['role'] == 13) {
+                } else if (roleID == 13) {
                     //Finance User
                     let redirect_url = '/finance-user/dashboard';
                     localStorage.removeItem('_redirect_url');
                     this.route.navigate([redirect_url]);
-                } else if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(res['data']['user']['role']))) {
+                } else if (Object.values(environment.PARTNER_ADMIN_SPECIFIC_ROLES).includes(Number(roleID))) {
                     let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/admin/dashboard';
                     this.route.navigate([redirect_url]);
-                } else if (res['data']['user']['role'] == 12) {
+                } else if (roleID == 12) {
                     let redirect_url = localStorage.getItem('_redirect_url') ? localStorage.getItem('_redirect_url') : '/teacher/dashboard';
                     localStorage.removeItem('_redirect_url');
                     this.route.navigate([redirect_url]);
@@ -251,7 +253,11 @@ export class LoginComponent implements OnInit {
     let url = window.location.origin.replace(replaceValue,replacer);
     if(replaceValue != 'localhost:4200'){
       url = url.replace('https',environment.SSL_ORIGIN);
+      console.log(url + dashboard);
       window.location.href = url + dashboard;
+    }else{
+      console.log(url + dashboard);
+      this.route.navigateByUrl(dashboard);
     }
     return false;
     /* let newdomain;
