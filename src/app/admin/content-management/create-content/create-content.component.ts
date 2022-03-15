@@ -132,6 +132,10 @@ export class CreateContentComponent implements OnInit {
             evt.stop();
         } );
     }
+    public onChange({ editor }) {
+        //const data = editor.getData();
+        //this.main_content = data;
+       }
   public page_title = 'Create Content';
   public content_status = '';
   public show_tabs = false;

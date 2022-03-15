@@ -1,6 +1,7 @@
 import { Directive, HostListener, ElementRef, OnInit } from '@angular/core';
-//import * as $ from '../../../assets/ckeditor/plugins/slideshow/3rdParty/jquery.min.js';
+//import * as jQuery from '../../../assets/ckeditor/plugins/slideshow/3rdParty/jquery.min.js';
 declare var $;
+var slide_j = $;
 window['$'] = window['jQuery'] = $;
 //var jQuery = $;
 
@@ -15,17 +16,12 @@ export class RunScriptsDirective implements OnInit {
     reinsertScripts(): void {
         const scripts = <HTMLScriptElement[]>this.elementRef.nativeElement.getElementsByTagName('script');
         const scriptsInitialLength = scripts.length;
-        //if($.fn.jquery == undefined)
-          //  return ;
-            //else
-            console.log(window['$'].fn.jquery, window['jQuery'].fn.jquery)
-            console.log($.fn.jquery)
+        window['$'] = window['jQuery'] = slide_j;
         for (let i = 0; i < scriptsInitialLength; i++) {
             const script = scripts[i];
             const scriptCopy = <HTMLScriptElement>document.createElement('script');
             scriptCopy.type = script.type ? script.type : 'text/javascript';
             if (script.innerHTML) {
-                //console.log(script.innerHTML);
                 scriptCopy.innerHTML = script.innerHTML;
             }
             else if (script.src) {

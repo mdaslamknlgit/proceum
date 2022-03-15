@@ -747,7 +747,7 @@
               <div class="c_block_content">
                 <div *ngIf="load_editor" class="ck_editor" (click)="editorFocused('description_editor')">
                   <ckeditor [(ngModel)]="main_content" name="main_content_name" (ready)="onReady($event)"
-                     #description_editor [config]="editorConfig">
+                     #description_editor (change)="onChange($event)" [config]="editorConfig">
                   </ckeditor>
                 </div>
               </div>

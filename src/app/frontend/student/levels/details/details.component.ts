@@ -588,7 +588,7 @@ import { environment } from 'src/environments/environment';
                 });
             }
         }
-        this.fetchImages(0);
+        //this.fetchImages(0);
         this.active_div = div;    
     }
     scrollto(el) {
@@ -603,6 +603,7 @@ import { environment } from 'src/environments/environment';
         });   
     }
     fetchImages(class_index){
+        return false;
         setTimeout(res=>{
         let class_name = document.getElementsByClassName("ck_editor_view");
         if(class_name != undefined){
