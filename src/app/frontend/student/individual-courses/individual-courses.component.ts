@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-individual-courses',
   templateUrl: './individual-courses.component.html',
@@ -31,8 +32,11 @@ export class IndividualCoursesComponent implements OnInit {
     private http: CommonService,
     private route: Router,
     private toster: ToastrService,
-    private location: Location
-  ) {}
+    private location: Location, 
+    public translate: TranslateService
+  ) {
+    this.translate.setDefaultLang(this.http.lang);
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
@@ -190,9 +194,13 @@ export class IndividualCoursesComponent implements OnInit {
           }
         //this.toster.success(res['message'], 'Info', { closeButton: true });
       } else {
-        this.toster.info('Something went wrong. Please try again.', 'Error', {
-          closeButton: true,
-        });
+        this.translate.get('student.my_courses.something_went_wrong').subscribe((data)=> {
+          this.translate.get('error_text').subscribe((error_text)=> {
+            this.toster.info(data, error_text, {
+              closeButton: true,
+            });
+          });
+        });       
       }
     });
   }

@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
-import * as Editor from '../../../../../assets/ckeditor5';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
-import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from '../../../../../assets/3d-model-viewer/js-3d-model-viewer.min';
 declare var kPoint: any;
 declare var VdoPlayer:any;
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-details',
@@ -17,7 +16,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./details.component.scss'],
 })
     export class DetailsComponent implements OnInit, AfterViewInit {
-    @ViewChild('editor', { static: false }) editor: CKEditorComponent;
+    @ViewChild('editor', { static: false }) editor;
     @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
     hrefZIP: string;
     public materials = [];
@@ -36,8 +35,8 @@ import { environment } from 'src/environments/environment';
     public images = [];
     public active_div = 99;
     public main_content: any = [];
-    public Editor = Editor;
-    public Editor2 = Editor;
+    public Editor ;
+    public Editor2;
     public show_content_list = false;
     public buzz_words = false;
     public font_size = 14;
@@ -124,11 +123,12 @@ import { environment } from 'src/environments/environment';
         isChecked = false;
         public model_status = false;
         user: any;
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, public sanitizer: DomSanitizer, private toster: ToastrService) {
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, public sanitizer: DomSanitizer, private toster: ToastrService, public translate: TranslateService) {
         this.router.routeReuseStrategy.shouldReuseRoute = function () {
         return false;
         };
         this.hrefZIP = environment.apiUrl + 'download-attachments/';
+        this.translate.setDefaultLang(this.http.lang);
     }
 
     // getMaterials() {
@@ -387,9 +387,6 @@ import { environment } from 'src/environments/environment';
         document.documentElement.style.setProperty('--ck-highlight-marker-pink', 'white');
         this.saveSettings();
     }
-    onReady(eventData) {
-        this.main_desc = this.content['main_content'];
-    }
     setTitle(val) {
         return val;
     }
@@ -445,7 +442,11 @@ import { environment } from 'src/environments/environment';
             this.content_list = data['content_list'];
             this.content = data['content'] ? data['content'] : [];
             if(!this.content['title']){
-                this.toster.error("No Contents Found", "Error", {closeButton:true});
+                this.translate.get('student.my_courses.no_contents_found').subscribe((data)=> {
+                    this.translate.get('error_text').subscribe((error_text)=> {  
+                        this.toster.error(data, error_text, {closeButton:true});
+                    });
+                });
             }
             if(this.content['images'].length > 0){
                 this.content['images'].forEach(element => {
@@ -593,7 +594,7 @@ import { environment } from 'src/environments/environment';
                 });
             }
         }
-        this.fetchImages(0);
+        //this.fetchImages(0);
         this.active_div = div;    
     }
     scrollto() {
@@ -608,6 +609,7 @@ import { environment } from 'src/environments/environment';
         });   
     }
     fetchImages(class_index){
+        return false;
         setTimeout(res=>{
         let class_name = document.getElementsByClassName("ck_editor_view");
         if(class_name != undefined){
@@ -663,9 +665,13 @@ import { environment } from 'src/environments/environment';
         if (res['error'] == false) {
             this.statistics = res['data']['statistics'];
             // this.toster.success(res['message'], 'Info', { closeButton: true });
-        } else {
-            this.toster.info('Something went wrong. Please try again.', 'Error', {
-            closeButton: true,
+        } else {           
+            this.translate.get('student.my_courses.something_went_wrong').subscribe((data)=> {
+                this.translate.get('error_text').subscribe((error_text)=> {
+                    this.toster.info(data, error_text, {
+                        closeButton: true,
+                    });
+                });
             });
         }
         });

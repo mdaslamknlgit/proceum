@@ -1,9 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
 import { CommonService } from '../../../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
-import { UploadAdapter } from '../../../classes/UploadAdapter';
 import {  Router } from '@angular/router';
 
 @Component({
@@ -24,7 +22,7 @@ export class CreateCustomPagesComponent implements OnInit {
     isShowChecked: '',
     page_content: '',
   };
-  public Editor = ClassicEditor;
+  public Editor;
   menuList: any;
   pagesList: any;
   constructor(
@@ -35,20 +33,7 @@ export class CreateCustomPagesComponent implements OnInit {
   ngOnInit(): void {
     this.getMenusAndPages();
   }
-  htmlEditorConfig = {
-    toolbar: {
-      items: environment.ckeditor_toolbar,
-      table: {
-        contentToolbar: [
-            'tableColumn', 'tableRow', 'mergeTableCells',
-            'tableProperties', 'tableCellProperties'
-        ],
-    }
-    },
-    mediaEmbed: {
-      previewsInData: true,
-    },
-  };
+  htmlEditorConfig = environment.editor_config;
 
   getMenusAndPages() {
     let params = {
@@ -107,15 +92,22 @@ export class CreateCustomPagesComponent implements OnInit {
     this.getPages();
   }
 
-  onReady(eventData) {
-    let apiUrl = environment.apiUrl;
-    eventData.plugins.get('FileRepository').createUploadAdapter = function (
-      loader
-    ) {
-      var data = new UploadAdapter(loader, apiUrl + 'upload-image');
-      return data;
-    };
-  }
+  onReady(event){
+    event.editor.on( 'fileUploadRequest', function( evt ) {
+        var xhr = evt.data.fileLoader.xhr;
+        var fileLoader = evt.data.fileLoader;
+        xhr.open( 'POST', fileLoader.uploadUrl, true );
+        
+        xhr = fileLoader.xhr;
+        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('_token'));
+        var formData = new FormData();
+        formData.append( 'file0', fileLoader.file);
+        formData.append("number_files", '1');
+        formData.append("path", 'images/content_images');
+        fileLoader.xhr.send( formData );
+        evt.stop();
+    } );
+}
 
   createCustomPage() {
     let i = 0;

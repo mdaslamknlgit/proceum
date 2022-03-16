@@ -1,12 +1,8 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-//import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import * as ClassicEditor from '../../../../assets/ckeditor5/build/ckeditor';
 import { CommonService } from 'src/app/services/common.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
-import { UploadAdapter } from '../../../classes/UploadAdapter';
-import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 
 @Component({
   selector: 'app-create',
@@ -22,8 +18,8 @@ export class ManageTemplateComponent implements OnInit {
     template_placeholders: '',
   };
   public isupdated = false;
-  public Editor = ClassicEditor;
-  @ViewChild('editor', { static: false }) editor: CKEditorComponent;
+  public Editor;
+  @ViewChild('editor', { static: false }) editor;
   public title = '';
   //   htmlEditorConfig = {
   //     toolbar: {
@@ -35,29 +31,7 @@ export class ManageTemplateComponent implements OnInit {
 
   //     placeholder: 'Type the email content here!',
   //   };
-  htmlEditorConfig = {
-    Plugins: [],
-    placeholder: 'Enter content',
-    toolbar: {
-      items: environment.ckeditor_toolbar,
-    },
-    image: {
-      upload: ['png'],
-      toolbar: [
-        'imageStyle:alignLeft',
-        'imageStyle:full',
-        'imageStyle:alignRight',
-      ],
-      styles: ['full', 'alignLeft', 'alignRight'],
-    },
-    table: {
-      contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells'],
-    },
-    mediaEmbed: {
-      previewsInData: true,
-    },
-    language: 'en',
-  };
+  htmlEditorConfig = environment.editor_config;
   public placeholders_array: Array<any> = [];
   selected_placeholder = '';
   constructor(
@@ -75,15 +49,22 @@ export class ManageTemplateComponent implements OnInit {
     this.getTemplate(param);
   }
 
-  onReady(eventData) {
-    let apiUrl = environment.apiUrl;
-    eventData.plugins.get('FileRepository').createUploadAdapter = function (
-      loader
-    ) {
-      var data = new UploadAdapter(loader, apiUrl + 'upload-image');
-      return data;
-    };
-  }
+  onReady(event){
+    event.editor.on( 'fileUploadRequest', function( evt ) {
+        var xhr = evt.data.fileLoader.xhr;
+        var fileLoader = evt.data.fileLoader;
+        xhr.open( 'POST', fileLoader.uploadUrl, true );
+        
+        xhr = fileLoader.xhr;
+        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('_token'));
+        var formData = new FormData();
+        formData.append( 'file0', fileLoader.file);
+        formData.append("number_files", '1');
+        formData.append("path", 'images/content_images');
+        fileLoader.xhr.send( formData );
+        evt.stop();
+    } );
+}
   addPlaceholder() {
     let arg = this.selected_placeholder;
     const appendData = arg;

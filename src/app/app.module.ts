@@ -26,6 +26,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { CartCountService } from './services/cart-count.service'; 
+// import { MetatagsService } from './services/metatags.service';
 import { ReplaceUnderscorePipe } from './shared/pipes/replace-underscore-pipe';
 import { ReplacePipe } from './shared/pipes/replace-pipe';
 import { SharedModule } from './shared/shared.module';
@@ -70,6 +71,7 @@ import { GlobalApp } from '../global';
   providers: [
     GlobalApp,
     CartCountService,
+    // MetatagsService,
     { provide: HTTP_INTERCEPTORS, useClass: Loader, multi: true },
     {
       provide: 'SocialAuthServiceConfig',

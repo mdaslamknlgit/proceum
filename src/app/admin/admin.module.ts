@@ -4,7 +4,7 @@ import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 
 
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from 'ckeditor4-angular';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularEditorModule } from '@kolkov/angular-editor';

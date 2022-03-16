@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-colleges',
@@ -47,9 +48,11 @@ export class ListCollegesComponent implements OnInit {
     public toster: ToastrService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _location: Location
-  ) { }
-
+    private _location: Location,
+    public translate: TranslateService
+  ) { 
+      this.translate.setDefaultLang(this.http.lang);
+    }
   ngOnInit(): void {
     let newParam = {
       url: 'get-partner-childs', type: this.type
@@ -59,7 +62,11 @@ export class ListCollegesComponent implements OnInit {
       this.activatedRoute.params.subscribe((param) => {
         this.partner_id = param.id;
         if(!this.partner_id){
-            this.toster.error('Invalid partner!', 'Error', { closeButton: true });
+            this.translate.get('partner.college_management.invalid_partner').subscribe((data)=> {
+              this.toster.error(data, 'Error', {
+                closeButton: true,
+              });
+            });
             window.location.href = environment.APP_BASE_URL;
         }
         this.partner_id_with_fw_slash = param.id+'/';
@@ -92,8 +99,10 @@ export class ListCollegesComponent implements OnInit {
         }
       });
     } else {
-      this.toster.error('UnAuthorized!', 'Error', {
-        closeButton: true,
+      this.translate.get('partner.partners.unauthorized').subscribe((data)=> {
+        this.toster.error(data, 'Error', {
+          closeButton: true,
+        });
       });
       this._location.back();
     }
@@ -182,8 +191,10 @@ export class ListCollegesComponent implements OnInit {
       url = "/admin/" + url;
       this.router.navigateByUrl(url);
     }else{
-      this.toster.error('UnAuthorized!', 'Error', {
-        closeButton: true,
+      this.translate.get('partner.partners.unauthorized').subscribe((data)=> {
+        this.toster.error(data, 'Error', {
+          closeButton: true,
+        });
       });
     }
   }

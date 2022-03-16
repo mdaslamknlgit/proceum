@@ -23,7 +23,7 @@ import { DetailsComponent } from './student/levels/details/details.component';
 import { LevelComponent } from './student/levels/level.component';
 import { Level_listComponent } from './student/levels/levels_list/level_list.component';
 import { Frontend_level_listComponent } from './frontend_level_list/frontend_level_list.component';
-import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { CKEditorModule } from 'ckeditor4-angular';
 import { ImageViewerModule } from 'ngx-image-viewer';
 import { ListPackagesComponent } from './pricing-packages/list-packages/list-packages.component';
 import { PackageDetailsComponent } from './pricing-packages/package-details/package-details.component';
