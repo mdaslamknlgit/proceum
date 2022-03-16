@@ -373,35 +373,35 @@
       </div>
       <div class="ism_fw">
         <ul>
-          <li (click)="showDiv(3);scrollto();"
-            class="{{content['learning_obj_content']!=undefined && content['learning_obj_content'].trim() != '' ? '':'dsbld_ism' }}">
+          <li (click)="showDiv(3);scrollto();" 
+            class="{{content['learning_obj_content']!=undefined && content['learning_obj_content'].trim() != '' ? '':'dsbld_ism' }} {{ active_div == 3 ? 'ism_actv_btn' : '' }}">
             <mat-icon>lightbulb</mat-icon> Learning Objectives
           </li>
           <li (click)="showDiv(0);scrollto();"
-            class="{{content['main_content'] != undefined && content['main_content'].trim() != '' ? '':'dsbld_ism'}}">
+            class="{{content['main_content'] != undefined && content['main_content'].trim() != '' ? '':'dsbld_ism'}} {{ active_div == 0 ? 'ism_actv_btn' : '' }}">
             <mat-icon>feed</mat-icon> Description
           </li>
-          <li (click)="showDiv(2);scrollto();" class="{{learning_notes.length > 0 ? '':'dsbld_ism'}}">
+          <li (click)="showDiv(2);scrollto();" class="{{learning_notes.length > 0 ? '':'dsbld_ism'}} {{ active_div == 2 ? 'ism_actv_btn' : '' }}" >
             <mat-icon>history_edu</mat-icon> Lecture Notes
           </li>
-          <li (click)="showDiv(6);scrollto();" class="{{highyields.length > 0 ? '':'dsbld_ism'}}">
+          <li (click)="showDiv(6);scrollto();" class="{{highyields.length > 0 ? '':'dsbld_ism'}} {{ active_div == 6 ? 'ism_actv_btn' : '' }}">
             <mat-icon>highlight</mat-icon> Highyield
           </li>
-          <li class="{{mcqs != undefined && mcqs.length > 0 ? '':'dsbld_ism'}}" (click)="showDiv(1);scrollto();">
+          <li (click)="showDiv(1);scrollto();" class="{{mcqs != undefined && mcqs.length > 0 ? '':'dsbld_ism'}} {{ active_div == 1 ? 'ism_actv_btn' : '' }}" >
             <mat-icon>quiz</mat-icon> MCQs
           </li>
-          <li class="{{short_answers != undefined && short_answers.length > 0 ? '':'dsbld_ism'}}"
+          <li class="{{short_answers != undefined && short_answers.length > 0 ? '':'dsbld_ism'}} {{ active_div == 10 ? 'ism_actv_btn' : '' }}"
             (click)="showDiv(10);scrollto();">
             <mat-icon>help_outline</mat-icon> Short Questions
           </li>
-          <li class="{{cases != undefined && cases.length > 0 ? '':'dsbld_ism'}}" (click)="showDiv(7);scrollto();">
+          <li class="{{cases != undefined && cases.length > 0 ? '':'dsbld_ism'}} {{ active_div == 7 ? 'ism_actv_btn' : '' }}" (click)="showDiv(7);scrollto();">
             <mat-icon>description</mat-icon> Cases
           </li>
-          <li (click)="showDiv(9);scrollto();" class="{{false ?'':'dsbld_ism'}}">
+          <li (click)="showDiv(9);scrollto();" class="{{false ?'':'dsbld_ism'}} {{ active_div == 9 ? 'ism_actv_btn' : '' }}">
             <mat-icon>bolt</mat-icon> Related Topics
           </li>
           <li (click)="showDiv(8);scrollto();"
-            class="{{content['external_ref_content'] != undefined && content['external_ref_content'].trim() != '' ? '':'dsbld_ism'}}">
+            class="{{content['external_ref_content'] != undefined && content['external_ref_content'].trim() != '' ? '':'dsbld_ism'}} {{ active_div == 8 ? 'ism_actv_btn' : '' }}">
             <mat-icon>insert_link</mat-icon> External References
           </li>
           <li (click)="showDiv(4);scrollto();"
@@ -409,14 +409,14 @@
             <mat-icon>wallpaper</mat-icon> Images
           </li>
           <li (click)="showDiv(5);scrollto();"
-            class="{{content['attachments'] != undefined && content['attachments'].length>0 ? '':'dsbld_ism'}}">
+            class="{{content['attachments'] != undefined && content['attachments'].length>0 ? '':'dsbld_ism'}} {{ active_div == 5 ? 'ism_actv_btn' : '' }}">
             <mat-icon>attachment</mat-icon> Attachments
           </li>
-          <li class="{{flash_cards != undefined && flash_cards.length > 0 ? '':'dsbld_ism'}}"
+          <li class="{{flash_cards != undefined && flash_cards.length > 0 ? '':'dsbld_ism'}} {{ active_div == 11 ? 'ism_actv_btn' : '' }}"
             (click)="showDiv(11);scrollto();">
             <mat-icon>style</mat-icon> Flash Cards
           </li>
-          <li class="{{materials != undefined && materials.length > 0 ? '':'dsbld_ism'}}"
+          <li class="{{materials != undefined && materials.length > 0 ? '':'dsbld_ism'}} {{ active_div == 12 ? 'ism_actv_btn' : '' }}"
             (click)="showDiv(12);scrollto();">
             <mat-icon>auto_stories</mat-icon> Teacher Materials
           </li>
@@ -1380,7 +1380,7 @@
                 </mat-panel-title>
                 <mat-panel-description> </mat-panel-description>
               </mat-expansion-panel-header>
-              <div class="tm_ln_dv" *ngFor="let time of timeline">
+              <div class="tm_ln_dv hvr_grn" *ngFor="let time of timeline">
                 <div (click)="seekTo(time['rel_offset'])">
                   <span class="tm_stmp">{{millisToMinutesAndSeconds(time['rel_offset'])}} -
                     {{millisToMinutesAndSeconds(time['rel_offset']+time['duration'])}}</span>
