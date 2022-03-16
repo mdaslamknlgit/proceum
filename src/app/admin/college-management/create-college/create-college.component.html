@@ -1,7 +1,6 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/college-list{{url_param}}"><strong>Manage
-                Colleges</strong></span></div>
-    <div class="pg_ttl">{{ (pk_id > 0) ? "Edit" : "Create" }} College</div>
+    <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <span routerLink="/admin/college-list{{url_param}}"><strong>{{"partner.college_management.manage_colleges"|translate}}</strong></span></div>
+    <div class="pg_ttl">{{ (pk_id > 0) ? "Edit" : "Create" }} {{"college"|translate}}</div>
     <hr />
 
     <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
@@ -12,59 +11,55 @@
                 <div class="crt_pr_dv">
                     <div class="hgt_10"></div>
                     <div class="brnd_info_mn">
-                        <div class="crt_prt_hd">College Name*</div>
+                        <div class="crt_prt_hd">{{"partner.college_management.clg_name"|translate}} *</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="College Name" maxlength="100" [(ngModel)]="college_name"
+                                <input matInput placeholder='{{"partner.college_management.clg_name"|translate}}' maxlength="100" [(ngModel)]="college_name"
                                     name="college_name_edit" #college_name_edit="ngModel"
                                     (keypress)="allAlphabetsWithSpaces($event)" required tabindex="1"/>
                             </mat-form-field>
                             <span class="prc_tltp"
-                                *ngIf="(create_college.submitted || college_name_edit.touched) && college_name_edit.invalid">college
-                                name is required</span>
+                                *ngIf="(create_college.submitted || college_name_edit.touched) && college_name_edit.invalid">{{"partner.college_management.clg_name_req"|translate}}</span>
                         </div>
                     </div>
                     <div class="brnd_info_mn" *ngIf="!pk_id">
-                        <div class="crt_prt_hd">Password*</div>
+                        <div class="crt_prt_hd">{{"partner.partners.password"|translate}} *</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput type="password" placeholder="Password" [(ngModel)]="password"
+                                <input matInput type="password" placeholder='{{"partner.partners.password"|translate}}' [(ngModel)]="password"
                                     name="password_edit" #password_edit="ngModel" minlength="6" maxlength="16"
                                     autocomplete="off" required tabindex="3"/>
                             </mat-form-field>
                             <span class="prc_tltp"
                                 *ngIf="(create_college.submitted || password_edit.touched) && (password.length < 6) ">
-                                Minimum of 6 characters password required!
+                                {{"partner.college_management.password_length"|translate}}
                             </span>
                         </div>
                     </div>
                     <div class="brnd_info_mn">
-                        <div class="crt_prt_hd">Primary Contact Number*</div>
+                        <div class="crt_prt_hd">{{"partner.partners.primary_contact_number"|translate}} *</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone"
+                                <input matInput placeholder='{{"partner.partners.primary_contact_number"|translate}}' [(ngModel)]="phone"
                                     name="phone_edit" #phone_edit="ngModel" appPhonenumber minlength="10" maxlength="15"
                                     required tabindex="5"/>
                             </mat-form-field>
                             <span class="prc_tltp"
-                                *ngIf="(create_college.submitted || phone_edit.touched) && phone_edit.invalid">Contact
-                                number is required</span>
+                                *ngIf="(create_college.submitted || phone_edit.touched) && phone_edit.invalid">{{"partner.college_management.contact_req"|translate}} </span>
                             <span class="prc_tltp"
-                                *ngIf="(create_college.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 || phone.length > 13)">Invalid
-                                Contact number.Minimun of 9, Maximum of 13 digits required!</span>
+                                *ngIf="(create_college.submitted || phone_edit.touched) && (phone != '') && (phone.length < 10 || phone.length > 13)">{{"partner.college_management.contact_length"|translate}}</span>
                         </div>
                     </div>
                     <div class="brnd_info_mn">
-                        <div class="crt_prt_hd">Contact Person*</div>
+                        <div class="crt_prt_hd">{{"partner.partners.contact_person"|translate}} *</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Person Name" maxlength="50"
+                                <input matInput placeholder='{{"partner.partners.person_name"|translate}}' maxlength="50"
                                     (keypress)="allAlphabetsWithSpaces($event)" [(ngModel)]="contact_name"
                                     name="contact_name_edit" #contact_name_edit="ngModel" required tabindex="7"/>
                             </mat-form-field>
                             <span class="prc_tltp"
-                                *ngIf="(create_college.submitted || contact_name_edit.touched) && contact_name_edit.invalid">Contact
-                                Person name is required</span>
+                                *ngIf="(create_college.submitted || contact_name_edit.touched) && contact_name_edit.invalid">{{"partner.college_management.contact_person_req"|translate}}</span>
                         </div>
                     </div>
                     <!-- <div class="brnd_info_mn">
@@ -78,27 +73,26 @@
                         </div>
                     </div> -->
                     <div class="brnd_info_mn">
-                        <div class="crt_prt_hd">Address line 1*</div>
+                        <div class="crt_prt_hd">{{"partner.partners.address_line_1"|translate}} *</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="Address line 1" [(ngModel)]="b_address_line_1"
+                                <input matInput matInput placeholder='{{"partner.partners.address_line_1"|translate}}' [(ngModel)]="b_address_line_1"
                                     name="address_line_1_edit" #address_line_1_edit="ngModel" required tabindex="9"/>
                             </mat-form-field>
                             <span class="prc_tltp"
-                                *ngIf="(address_line_1_edit.touched) && address_line_1_edit.invalid">Address
-                                Line 1 is required</span>
+                                *ngIf="(address_line_1_edit.touched) && address_line_1_edit.invalid">{{"partner.partners.address_line_1_req"|translate}}</span>
                         </div>
                     </div>
                     <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                         <div class="w_47p rsp_100p">
-                            <div class="crt_prt_hd">Country*</div>
+                            <div class="crt_prt_hd">{{"partner.partners.country"|translate}} *</div>
                             <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p">
-                                    <mat-select placeholder="Select Country" name="country_edit" #country_edit="ngModel"
+                                    <mat-select placeholder='{{"partner.partners.select_country"|translate}}' name="country_edit" #country_edit="ngModel"
                                         [(ngModel)]="b_country_id" (ngModelChange)="getStates(b_country_id)" required tabindex="11">
                                         <mat-option>
-                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
-                                                [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                                            <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_countries_found"|translate'
+                                                [placeholderLabel]='"partner.partners.search_country"|translate' name="search_country" ngModel
                                                 (ngModelChange)="filterCountries($event)">
                                             </ngx-mat-select-search>
                                         </mat-option>
@@ -107,27 +101,25 @@
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <span *ngIf="(country_edit.touched) && country_edit.invalid" class="prc_tltp">Country is
-                                    required</span>
+                                <span *ngIf="(country_edit.touched) && country_edit.invalid" class="prc_tltp">{{"partner.partners.Country_req"|translate}}</span>
                             </div>
                         </div>
                         <div class="w_47p rsp_100p">
-                            <div class="crt_prt_hd">State*</div>
+                            <div class="crt_prt_hd">{{"partner.partners.state"|translate}} *</div>
                             <div class="err_tltp_par">
                                 <mat-form-field appearance="outline" class="w_100p">
-                                    <mat-select placeholder="Select State" name="state_edit" #state_edit="ngModel"
+                                    <mat-select placeholder='{{"partner.partners.select_state"|translate}}' name="state_edit" #state_edit="ngModel"
                                         [(ngModel)]="b_state_id" (ngModelChange)="getCities(b_state_id)" required tabindex="12">
                                         <mat-option>
-                                            <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
-                                                [placeholderLabel]="'Search State'" name="search_state" ngModel
+                                            <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_states_found"|translate'
+                                                [placeholderLabel]='"partner.partners.search_state"|translate' name="search_state" ngModel
                                                 (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
                                         </mat-option>
                                         <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{
                                             state["state_name"] }}</mat-option>
                                     </mat-select>
                                 </mat-form-field>
-                                <span *ngIf="(state_edit.touched) && state_edit.invalid" class="prc_tltp">State is
-                                    required</span>
+                                <span *ngIf="(state_edit.touched) && state_edit.invalid" class="prc_tltp">{{"partner.partners.state_req"|translate}}</span>
                             </div>
                         </div>
                     </div>
@@ -135,70 +127,65 @@
                 <div class="crt_pr_dv">
                     <div class="hgt_10"></div>
                     <div class="brnd_info_mn">
-                        <div class="crt_prt_hd">{{ (pk_id > 0) ? "Contact" : "" }}Email*</div>
+                        <div class="crt_prt_hd">{{ (pk_id > 0) ? "Contact" : "" }} {{"partner.partners.email"|translate}} *</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
+                                <input matInput type="email" placeholder='{{"partner.partners.email"|translate}}' [(ngModel)]="email" name="email_edit"
                                     #email_edit="ngModel" autocomplete="off" required tabindex="2"
                                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" [disabled]="pk_id"/>
                             </mat-form-field>
                             <span class="prc_tltp"
-                                *ngIf="(create_college.submitted || email_edit.touched) && email_edit.invalid">Email
-                                is required</span>
-                            <span class="prc_tltp" *ngIf="create_college.submitted && email_edit.errors?.pattern">This
-                                is not a
-                                valid Email!</span>
+                                *ngIf="(create_college.submitted || email_edit.touched) && email_edit.invalid">{{"partner.college_management.email_required"|translate}}</span>
+                            <span class="prc_tltp" *ngIf="create_college.submitted && email_edit.errors?.pattern">{{"partner.college_management.not_valid_email"|translate}}</span>
                         </div>
                     </div>
                     <div class="brnd_info_mn" *ngIf="!pk_id">
-                        <div class="crt_prt_hd">Confirm Password*</div>
+                        <div class="crt_prt_hd"> {{"partner.partners.confirm_password"|translate}} *</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline"
                                 class="w_100p {{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
-                                <input matInput type="password" placeholder="Confirm Password"
+                                <input matInput type="password" placeholder='{{"partner.partners.confirm_password"|translate}}'
                                     [(ngModel)]="confirm_password" name="confirm_password_edit"
                                     #confirm_password_edit="ngModel" minlength="6" maxlength="16" required tabindex="4"/>
                             </mat-form-field>
                             <span class="prc_tltp"
                                 *ngIf="(create_college.submitted || confirm_password_edit.touched) && confirm_password != '' || (confirm_password != password)">
-                                Minimum of 6 characters password required!, Password and Confirm Password must be match!
+                                {{"partner.college_management.confirm_password_match"|translate}}
                             </span>
                         </div>
                     </div>
                     <div class="brnd_info_mn">
-                        <div class="crt_prt_hd">Secondary Contact Number</div>
+                        <div class="crt_prt_hd">{{"partner.partners.secondary_contact_number"|translate}}</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone" appPhonenumber
+                                <input matInput placeholder='{{"partner.partners.secondary_contact_number"|translate}}' [(ngModel)]="second_phone" appPhonenumber
                                     name="second_phone_edit" #second_phone_edit="ngModel" appPhonenumber minlength="10"
                                     maxlength="15" tabindex="6"/>
                             </mat-form-field>
                             <span class="prc_tltp"
-                                *ngIf="(create_college.submitted || second_phone_edit.touched) && second_phone_edit.invalid">Contact
-                                number is required</span>
+                                *ngIf="(create_college.submitted || second_phone_edit.touched) && second_phone_edit.invalid">{{"partner.college_management.contact_req"|translate}}</span>
                             <span class="prc_tltp"
-                                *ngIf="(create_college.submitted || second_phone_edit.touched) && (second_phone != '') && (second_phone.length < 10 || second_phone.length > 13)">Invalid
-                                Contact number.Minimun of 9, Maximum of 13 digits required!</span>
+                                *ngIf="(create_college.submitted || second_phone_edit.touched) && (second_phone != '') && (second_phone.length < 10 || second_phone.length > 13)">{{"partner.college_management.contact_length"|translate}}</span>
                         </div>
                     </div>
                     <div class="brnd_info_mn">
-                        <div class="crt_prt_hd">College Code*</div>
+                        <div class="crt_prt_hd">{{"partner.college_management.college_code"|translate}} *</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="College Code" maxlength="10" [(ngModel)]="code"
+                                <input matInput placeholder='{{"partner.college_management.college_code"|translate}}' maxlength="10" [(ngModel)]="code"
                                     name="code_edit" #code_edit="ngModel" required tabindex="8"/>
                             </mat-form-field>
                             <span class="prc_tltp"
                                 *ngIf="(create_college.submitted || code_edit.touched) && code_edit.invalid">
-                                College Code is required</span>
+                                {{"partner.college_management.college_code_req"|translate}}</span>
                         </div>
                     </div>
 
                     <div class="brnd_info_mn">
-                        <div class="crt_prt_hd">Address line 2</div>
+                        <div class="crt_prt_hd">{{"partner.partners.address_line_2"|translate}}</div>
                         <div class="brnd_info_upld">
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput matInput placeholder="Address line 2" [(ngModel)]="b_address_line_2"
+                                <input matInput matInput placeholder='{{"partner.partners.address_line_2"|translate}}' [(ngModel)]="b_address_line_2"
                                     name="address_line_2_edit" #address_line_2_edit="ngModel" tabindex="10"/>
                             </mat-form-field>
                         </div>
@@ -206,35 +193,33 @@
 
                     <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                         <div class="w_47p rsp_100p">
-                            <div class="crt_prt_hd">City*</div>
+                            <div class="crt_prt_hd">{{"partner.partners.city"|translate}} *</div>
                             <mat-form-field appearance="outline" class="w_100p">
-                                <mat-select placeholder="Select City" name="city_edit" #city_edit="ngModel"
+                                <mat-select placeholder='{{"partner.partners.select_city"|translate}}' name="city_edit" #city_edit="ngModel"
                                     [(ngModel)]="b_city" required tabindex="13">
                                     <mat-option>
-                                        <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
-                                            [placeholderLabel]="'Search City'" name="search_city" ngModel
+                                        <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_cities_found"|translate'
+                                            [placeholderLabel]='"partner.partners.search_city"|translate' name="search_city" ngModel
                                             (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
                                     </mat-option>
                                     <mat-option *ngFor="let city of all_cities | async" [value]="city['id']">{{
                                         city["city_name"] }}</mat-option>
                                 </mat-select>
                             </mat-form-field>
-                            <span class="prc_tltp" *ngIf="(city_edit.touched) && city_edit.invalid">City*
-                                is required</span>
+                            <span class="prc_tltp" *ngIf="(city_edit.touched) && city_edit.invalid">{{"partner.partners.city_req"|translate}}</span>
                         </div>
                         <div class="w_47p rsp_100p">
-                            <div class="crt_prt_hd">ZIP/Pin code*</div>
+                            <div class="crt_prt_hd">{{"partner.partners.zip_code"|translate}} *</div>
                             <mat-form-field appearance="outline" class="w_100p">
-                                <input matInput placeholder="ZIP/Pin code" [(ngModel)]="b_pincode" name="pincode_edit"
+                                <input matInput placeholder='{{"partner.partners.zip_code"|translate}}' [(ngModel)]="b_pincode" name="pincode_edit"
                                     #pincode_edit="ngModel" appNumbersonly minlength="4" maxlength="13" required tabindex="14"/>
                             </mat-form-field>
-                            <span class="prc_tltp" *ngIf="(pincode_edit.touched) && pincode_edit.invalid">ZIP/Pincode*
-                                is required</span>
+                            <span class="prc_tltp" *ngIf="(pincode_edit.touched) && pincode_edit.invalid">{{"partner.partners.zip_req"|translate}}</span>
                         </div>
                     </div>
                 </div>
                 <div class="text_right float_right w_100p">
-                    <button mat-raised-button type="submit" class="no_bxsdw" color="accent">Submit</button>
+                    <button mat-raised-button type="submit" class="no_bxsdw" color="accent">{{"submit"|translate}}</button>
                 </div>
             </div>
             <!-- <div class="crt_pr_mn">
