@@ -108,7 +108,14 @@ const routes: Routes = [
   { path: 'shopping-cart', component: ShoppingCartComponent },
   
   { path: 'courses', component: ListPackagesComponent },
-  { path: 'package-details/:id', component: PackageDetailsComponent },
+  { path: 'package-details/:id', component: PackageDetailsComponent
+        // data: {
+        //   title: 'About',
+        //   description:'Description Meta Tag Content',
+        //   ogUrl: 'your og url',
+        //   ogimage:'https://s3.ap-south-1.amazonaws.com/assets.proceum.com/images/BIOCHEMISTRY_11032022091144.png',
+        // }
+  },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', component: IndexComponent },
 ];

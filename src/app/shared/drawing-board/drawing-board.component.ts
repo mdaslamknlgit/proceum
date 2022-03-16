@@ -3,6 +3,8 @@ import { NgWhiteboardService, FormatType  } from 'ng-whiteboard';
 import { ToastrService } from 'ngx-toastr';
 import { DOCUMENT } from '@angular/common';
 import { CommonService } from 'src/app/services/common.service';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-drawing-board',
   templateUrl: './drawing-board.component.html',
@@ -19,9 +21,9 @@ export class DrawingBoardComponent implements OnInit {
     @Inject(DOCUMENT) private document: any,
     private toastr: ToastrService,
     private whiteboardService: NgWhiteboardService,
-    private http: CommonService
-  ) {}
-  
+    private http: CommonService,
+    public translate: TranslateService
+  ) { this.translate.setDefaultLang(this.http.lang); }  
 
   openFullscreen() {
     if (this.elem.requestFullscreen) {
@@ -68,23 +70,38 @@ export class DrawingBoardComponent implements OnInit {
   }
   onInit() {}
   onClear() {
-    this.toastr.success('Clear!','', { closeButton: true });
+    this.translate.get('admin.whiteboard.clear').subscribe((data)=> {
+      this.toastr.success(data,'', { closeButton: true });
+    });
+    // this.toastr.success('Clear!','', { closeButton: true });
   }
   onUndo() {
-    this.toastr.success('Undo!','', { closeButton: true });
+    this.translate.get('admin.whiteboard.undo').subscribe((data)=> {
+      this.toastr.success(data,'', { closeButton: true });
+    });
+    // this.toastr.success('Undo!','', { closeButton: true });
   }
   onRedo() {
-    this.toastr.success('Redo!','', { closeButton: true });
+    this.translate.get('admin.whiteboard.redo').subscribe((data)=> {
+      this.toastr.success(data,'', { closeButton: true });
+    });
+    // this.toastr.success('Redo!','', { closeButton: true });
   }
   onSave(img: string) {
     let param = {url: 'upload-drawing', base64_string: img}
         this.http.post(param).subscribe(res=>{
-          this.toastr.success('White board has been saved successfully.','Success', { closeButton: true });
+          this.translate.get('admin.whiteboard.white_board_save_txt').subscribe((data)=> {
+            this.toastr.success(data,'Success', { closeButton: true });
+          });
+          // this.toastr.success('White board has been saved successfully.','Success', { closeButton: true });
             
         })
   }
   onImageAded() {
-    this.toastr.success('ImageAded!','', { closeButton: true });
+    this.translate.get('admin.whiteboard.img_added_txt').subscribe((data)=> {
+      this.toastr.success(data,'', { closeButton: true });
+    });
+    // this.toastr.success('ImageAded!','', { closeButton: true });
   }
 
   erase() {

@@ -5,6 +5,7 @@ import { ReplaySubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-partner',
@@ -19,7 +20,10 @@ export class CreatePartnerComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private _location: Location,
-  ) { }
+    public translate: TranslateService
+    ) { 
+    this.translate.setDefaultLang(this.http.lang);
+  }
 
   //Tabs active vars
   public basic_details_expand: boolean = true;
@@ -104,16 +108,20 @@ export class CreatePartnerComponent implements OnInit {
       (environment.ALL_ADMIN_SPECIFIC_ROLES.INSTITUTE_ADMIN != Number(this.user['role'])) &&
       (environment.ALL_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN != Number(this.user['role']))
     ) {
-      this.toster.error('UnAuthorized!', 'Error', {
-        closeButton: true,
+      this.translate.get('partner.partners.unauthorized').subscribe((data)=> {
+        this.toster.error(data, 'Error', {
+          closeButton: true,
+        });
       });
       this._location.back();
     }
 
     if (environment.ALL_ADMIN_SPECIFIC_ROLES.SUPER_ADMIN != Number(this.user['role']) && !this.user['is_reseller']) {
-      this.toster.error('UnAuthorized!', 'Error', {
-        closeButton: true,
-      });
+      this.translate.get('partner.partners.unauthorized').subscribe((data)=> {
+          this.toster.error(data, 'Error', {
+            closeButton: true,
+          });
+        });
     }
 
     this.activatedRoute.params.subscribe((param) => {
@@ -403,8 +411,12 @@ export class CreatePartnerComponent implements OnInit {
 
   validateBrandingInfo() {
     if (!this.header_logo) {
-      this.toster.error('Header Logo required!', 'Error', { closeButton: true });
-      return;
+      this.translate.get('partner.partners.header_logo_req').subscribe((data)=> {
+        this.toster.error(data, 'Error', {
+          closeButton: true,
+        });
+        return;
+      });
     }
     /* if (!this.footer_logo) {
       this.toster.error('Footer Logo required!', 'Error', { closeButton: true });
@@ -584,9 +596,12 @@ export class CreatePartnerComponent implements OnInit {
       url = "/admin/" + url;
       this.router.navigateByUrl(url);
     }else{
-      this.toster.error('UnAuthorized!', 'Error');
+      this.translate.get('partner.partners.unauthorized').subscribe((data)=> {
+        this.toster.error(data, 'Error', {
+          closeButton: true,
+        });
+      });
     }
-
   }
 
   allAlphabetsWithSpaces(event) {

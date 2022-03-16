@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-college',
@@ -16,8 +17,11 @@ export class CreateCollegeComponent implements OnInit {
     private http: CommonService,
     private toster: ToastrService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) { }
+    private router: Router,
+    public translate: TranslateService
+  ) { 
+    this.translate.setDefaultLang(this.http.lang);
+  }
 
   //Define vars
   public college_id = 0;
@@ -75,7 +79,11 @@ export class CreateCollegeComponent implements OnInit {
         this.url_param = '/'+param.partner_id;
         this.pk_id = (param.pk_id) ? param.pk_id : 0;
         if(!this.partner_id){
-            this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
+            this.translate.get('partner.college_management.unauthorized_access').subscribe((data)=> {
+              this.toster.error(data, 'Error', {
+                closeButton: true,
+              });
+            });
             window.location.href = environment.APP_BASE_URL;
         }
         if (this.pk_id) {
@@ -88,7 +96,11 @@ export class CreateCollegeComponent implements OnInit {
           this.getCollege();
         }
       } else {
-        this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
+        this.translate.get('partner.college_management.unauthorized_access').subscribe((data)=> {
+          this.toster.error(data, 'Error', {
+            closeButton: true,
+          });
+        });
         window.location.href = environment.APP_BASE_URL;
       }
     });
@@ -300,7 +312,11 @@ export class CreateCollegeComponent implements OnInit {
     }else if(Number(this.user['role']) == environment.PARTNER_ADMIN_SPECIFIC_ROLES.UNIVERSITY_ADMIN){
       data = { url: 'edit-partner-child/' + this.pk_id };
     }else{
-      this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
+      this.translate.get('partner.college_management.unauthorized_access').subscribe((data)=> {
+        this.toster.error(data, 'Error', {
+          closeButton: true,
+        });
+      });
       window.location.href = environment.APP_BASE_URL;
     }
 
@@ -346,12 +362,14 @@ export class CreateCollegeComponent implements OnInit {
       url = "/admin/" + url;
       this.router.navigateByUrl(url);
     }else{
-      this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
+      this.translate.get('partner.college_management.unauthorized_access').subscribe((data)=> {
+        this.toster.error(data, 'Error', {
+          closeButton: true,
+        });
+      });
+      // this.toster.error('UnAuthorized Access!', 'Error', { closeButton: true });
       window.location.href = environment.APP_BASE_URL;
     }
-
-
-
   }
 
   allAlphabetsWithSpaces(event) {
@@ -364,9 +382,4 @@ export class CreateCollegeComponent implements OnInit {
       return false;
     }
   }
-
-
-
-
 }
-

@@ -36,7 +36,7 @@
                         <mat-option value="">{{'select_text'|translate}} {{"organization_type"|translate}}</mat-option>
                         <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue
                             }}</mat-option>
-                        <mat-option value="4">Proceum</mat-option>
+                        <mat-option value="4">{{"proceum_text"|translate}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <!-- <span *ngIf="(create_user_form.submitted || organization_edit.touched) && organization_edit.invalid" class="prc_tltp">Organization is required</span> -->
@@ -49,8 +49,8 @@
                         name="university_edit" #university_edit="ngModel" [(ngModel)]="university_id"
                         (ngModelChange)="getPartnerChilds(university_id)" required>
                         <mat-option>
-                            <ngx-mat-select-search [noEntriesFoundLabel]="'No University found'"
-                                [placeholderLabel]="'Search University'" name="search_university" ngModel
+                            <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_university_found"|translate'
+                                [placeholderLabel]='"partner.partners.search_university"|translate' name="search_university" ngModel
                                 (ngModelChange)="filterPartners($event)">
                             </ngx-mat-select-search>
                         </mat-option>
@@ -69,8 +69,8 @@
                         #college_edit="ngModel" [(ngModel)]="college_id"
                         (ngModelChange)="getYears(university_id,college_id,0)" required>
                         <mat-option>
-                            <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
-                                [placeholderLabel]="'Search College'" name="search_college" ngModel
+                            <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_college_found"|translate'
+                                [placeholderLabel]='"partner.partners.search_college"|translate' name="search_college" ngModel
                                 (ngModelChange)="filterCollege($event)">
                             </ngx-mat-select-search>
                         </mat-option>
@@ -89,8 +89,8 @@
                         #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYears(college_id,0)"
                         required>
                         <mat-option>
-                            <ngx-mat-select-search [noEntriesFoundLabel]="'No College found'"
-                                [placeholderLabel]="'Search College'" name="search_college" ngModel
+                            <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_college_found"|translate'
+                                [placeholderLabel]='"partner.partners.search_college"|translate' name="search_college" ngModel
                                 (ngModelChange)="filterPartners($event)">
                             </ngx-mat-select-search>
                         </mat-option>
@@ -109,8 +109,8 @@
                         name="institute_edit" #institute_edit="ngModel" [(ngModel)]="institute_id"
                         (ngModelChange)="getYears(institute_id,0)" required>
                         <mat-option>
-                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Institute Found'"
-                                [placeholderLabel]="'Search Institute'" name="search_institute" ngModel
+                            <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_institute_found"|translate'
+                                [placeholderLabel]='"partner.partners.search_institute"|translate' name="search_institute" ngModel
                                 (change)="filterPartners($event)">
                             </ngx-mat-select-search>
                         </mat-option>
@@ -280,8 +280,8 @@
                         name="country_edit" #country_edit="ngModel" [(ngModel)]="country_id"
                         (ngModelChange)="getStates(country_id)" required>
                         <mat-option>
-                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
-                                [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                            <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_countries_found"|translate'
+                                [placeholderLabel]='"partner.partners.search_country"|translate' name="search_country" ngModel
                                 (ngModelChange)="filterCountries($event)"></ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{
@@ -299,8 +299,8 @@
                         name="state_edit" #state_edit="ngModel" [(ngModel)]="state_id"
                         (ngModelChange)="getCities(state_id)" required>
                         <mat-option>
-                            <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
-                                [placeholderLabel]="'Search State'" name="search_state" ngModel
+                            <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_states_found"|translate'
+                                [placeholderLabel]='"partner.partners.search_state"|translate' name="search_state" ngModel
                                 (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{
@@ -318,8 +318,8 @@
                     <mat-select placeholder="{{'select_text'|translate}} {{'admin.new_usr.city'|translate}}"
                         name="city_edit" #city_edit="ngModel" [(ngModel)]="city" required>
                         <mat-option>
-                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Cities found'"
-                                [placeholderLabel]="'Search City'" name="search_city" ngModel
+                            <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_cities_found"|translate'
+                                [placeholderLabel]='"partner.partners.search_city"|translate' name="search_city" ngModel
                                 (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let one of all_cities | async" [value]="one['id']">{{
