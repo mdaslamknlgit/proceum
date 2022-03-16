@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -48,7 +48,10 @@ export class PartnersListComponent implements OnInit {
     private http: CommonService,
     public toster: ToastrService,
     private router: Router,
-  ) { }
+    public translate: TranslateService
+  ) { 
+    this.translate.setDefaultLang(this.http.lang);
+  }
 
   ngOnInit(): void {
     this.user = this.http.getUser();
@@ -162,10 +165,12 @@ export class PartnersListComponent implements OnInit {
       url = "/admin/" + url;
       this.router.navigateByUrl(url);
     } else {
-      this.toster.error('UnAuthorized!', 'Error', {
-        closeButton: true,
-      });
-    }
+        this.translate.get('partner.partners.unauthorized').subscribe((data)=> {
+          this.toster.error(data, 'Error', {
+            closeButton: true,
+          });
+        });
+      }
   }
 
   tabClick(event) {
