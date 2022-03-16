@@ -128,6 +128,7 @@ import { TranslateService } from '@ngx-translate/core';
         return false;
         };
         this.hrefZIP = environment.apiUrl + 'download-attachments/';
+        this.translate.setDefaultLang(this.http.lang);
     }
 
     // getMaterials() {
