@@ -10,6 +10,7 @@ declare var kPoint: any;
 declare var VdoPlayer:any;
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-details',
@@ -124,7 +125,7 @@ import { environment } from 'src/environments/environment';
         isChecked = false;
         public model_status = false;
         user: any;
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, public sanitizer: DomSanitizer, private toster: ToastrService) {
+    constructor(private activatedRoute: ActivatedRoute, private router: Router, private http: CommonService, public sanitizer: DomSanitizer, private toster: ToastrService, public translate: TranslateService) {
         this.router.routeReuseStrategy.shouldReuseRoute = function () {
         return false;
         };
@@ -445,7 +446,11 @@ import { environment } from 'src/environments/environment';
             this.content_list = data['content_list'];
             this.content = data['content'] ? data['content'] : [];
             if(!this.content['title']){
-                this.toster.error("No Contents Found", "Error", {closeButton:true});
+                this.translate.get('student.my_courses.no_contents_found').subscribe((data)=> {
+                    this.translate.get('error_text').subscribe((error_text)=> {  
+                        this.toster.error(data, error_text, {closeButton:true});
+                    });
+                });
             }
             if(this.content['images'].length > 0){
                 this.content['images'].forEach(element => {
@@ -663,9 +668,13 @@ import { environment } from 'src/environments/environment';
         if (res['error'] == false) {
             this.statistics = res['data']['statistics'];
             // this.toster.success(res['message'], 'Info', { closeButton: true });
-        } else {
-            this.toster.info('Something went wrong. Please try again.', 'Error', {
-            closeButton: true,
+        } else {           
+            this.translate.get('student.my_courses.something_went_wrong').subscribe((data)=> {
+                this.translate.get('error_text').subscribe((error_text)=> {
+                    this.toster.info(data, error_text, {
+                        closeButton: true,
+                    });
+                });
             });
         }
         });
