@@ -6,6 +6,7 @@ import { ReplaySubject } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -40,10 +41,18 @@ export class AnalysisReportComponent implements OnInit {
     public selected_name = '';
     public selected_value = '';
     public organization_list_id = '';
-    public college_id = '';
+    public college_id = null;
     public year_id = '';
     public semester_id = '';
     public group_id = '';
+    public duration = '';
+    public fromDate = '';
+    public toDate = '';
+    public from_date='';
+    public to_date='';
+    public date_range_fltr:boolean=false;
+    public is_todate:boolean=true;
+    public tomindate:any;
 
     public organization_list = [];
     public college_list = [];
@@ -60,7 +69,7 @@ export class AnalysisReportComponent implements OnInit {
     public show_group_dropdown = true;
     public totalSize = 0;
 
-    constructor(private http: CommonService, private toster: ToastrService) { }
+    constructor(private http: CommonService, private toster: ToastrService,public datepipe: DatePipe) { }
     ngOnInit(): void {
         this.user = this.http.getUser();
         this.user_id = this.user['id'];
@@ -81,6 +90,9 @@ export class AnalysisReportComponent implements OnInit {
         year_id: this.year_id,
         semester_id: this.semester_id,
         group_id: this.group_id,
+        duration:this.duration,
+        from_date:this.fromDate,
+        to_date:this.toDate,
         is_admin_specific_role: '1',
         role_id: this.role_id
         };
@@ -93,9 +105,9 @@ export class AnalysisReportComponent implements OnInit {
     }
 
     public getServerData(event?: PageEvent) {
-        this.pageSize = event.pageSize;
-		this.page = (event.pageSize * event.pageIndex);
-        this.doFilter();
+      this.pageSize = event.pageSize;
+      this.page = (event.pageSize * event.pageIndex);
+      this.doFilter();
     }
 
     onOrganizationTypeChange(){
@@ -262,7 +274,7 @@ export class AnalysisReportComponent implements OnInit {
                   this.show_group_dropdown = false;
                 }
               }
-              this.doFilter();           
+              //this.doFilter();           
             }
           } else {
             //this.toster.error(res['message'], 'Error');
@@ -270,6 +282,32 @@ export class AnalysisReportComponent implements OnInit {
         });
     }
 
+    applyFilters(){
+      if(this.duration == 'date_range'){
+          this.date_range_fltr = true;
+          if(this.fromDate == '' && this.toDate == ''){
+              return false;
+          }
+      }else{
+          this.date_range_fltr = false;
+      }
+      this.doFilter();
+    }
+
+    fromdateChange(){
+      this.tomindate=new Date(this.from_date)
+      this.to_date="";
+      this.is_todate=false;
+      this.fromDate =this.from_date?this.datepipe.transform(this.from_date, 'yyyy-MM-dd'):""; 
+    }
+
+    todateChange(){
+        this.toDate=this.to_date?this.datepipe.transform(this.to_date, 'yyyy-MM-dd'):""; 
+        if(this.fromDate != '' && this.toDate != '' ){
+            this.date_range_fltr = false;
+            this.applyFilters();       
+        }
+    }
     
     searchOrganizations(event){
         let search = event;
