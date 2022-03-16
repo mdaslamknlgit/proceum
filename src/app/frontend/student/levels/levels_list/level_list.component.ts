@@ -4,6 +4,7 @@ import { ActivatedRoute, Router} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-level_list',
@@ -32,8 +33,11 @@ export class Level_listComponent implements OnInit {
     private http: CommonService,
     private route: Router,
     private toster: ToastrService,
-    private location: Location
-  ) {}
+    private location: Location,
+    public translate: TranslateService
+  ) {
+    this.translate.setDefaultLang(this.http.lang);
+  }
 
   ngOnInit(): void {
     this.user = this.http.getUser();
@@ -90,13 +94,21 @@ export class Level_listComponent implements OnInit {
             let data = res['data'];
             this.curriculum = data['curriculum'];
             if(res['type'] != undefined && res['type'] == 'access'){
-                this.toster.error('You don`t have access', 'Access Denied', {closeButton: true});
+              this.translate.get('student.my_courses.dont_have_access').subscribe((data)=> {
+                this.translate.get('student.my_courses.access_denied').subscribe((error_text)=> {
+                  this.toster.error(data, error_text, {closeButton: true});
+                });
+              });
                 setTimeout(res=>{this.location.back();},1000);
                 
             }
             else{
                 if (res['check_content'] == 0) {
-                    this.toster.info('No content Added', 'Comming Soon', {closeButton: true});
+                  this.translate.get('student.my_courses.no_content_added').subscribe((data)=> {
+                    this.translate.get('student.my_courses.comming_soon').subscribe((error_text)=> {
+                      this.toster.info(data, error_text, {closeButton: true});
+                    });
+                  });
                     this.location.back();
                 } else {
                     let url = '/student/curriculum/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
@@ -182,8 +194,12 @@ export class Level_listComponent implements OnInit {
           }
         //this.toster.success(res['message'], 'Info', { closeButton: true });
       } else {
-        this.toster.info('Something went wrong. Please try again.', 'Error', {
-          closeButton: true,
+        this.translate.get('student.my_courses.something_went_wrong').subscribe((data)=> {
+          this.translate.get('error_text').subscribe((error_text)=> {
+            this.toster.info(data, error_text, {
+              closeButton: true,
+            });
+          });
         });
       }
     });
