@@ -20,7 +20,7 @@
       <div class="noti_dv" *ngIf="show_notifications">
         <!-- {{show_notifications == false?'d-none':''}} -->
         <div class="noti_hd d-flex">
-          <span>{{"student.top_bar.notifications"|translate}}</span>
+          <span class=" ">Notifications</span>
           <span class="spacer"></span>
           <span (click)="show_notifications = !show_notifications">
             <mat-icon>close</mat-icon>
@@ -29,10 +29,10 @@
         <div class="noti_cnt">
           <ul>
             <li *ngFor="let n of class_notifications">
-              <span routerLink="/student/class/list">{{"student.top_bar.you_have_class"|translate}} {{n['topic']}}</span>
+              <span routerLink="/student/class/list">You have a class {{n['topic']}}</span>
             </li>
             <li *ngFor="let n of assessment_notifications">
-              <span routerLink="/student/assessments/list">{{"student.top_bar.you_have_assessment"|translate}} {{n['assessment_name']}}</span>
+              <span routerLink="/student/assessments/list">You have a assessment {{n['assessment_name']}}</span>
             </li>
           </ul>
         </div>
@@ -43,10 +43,10 @@
       <span> {{ user["name"] }}</span>
     </div>
     <div *ngIf="!user['id']" (click)="navigateTo()">
-      {{"dashboard_text"|translate}}
+      Dashboard
     </div>
     <div *ngIf="!user['id']" routerLink="/about-us" routerLinkActive="active">
-      {{"student.top_bar.about_us"|translate}}
+      About Us
     </div>
     <div *ngIf="!user['id']">
       Pricing
@@ -58,10 +58,10 @@
       Register Trail
     </div>
     <div *ngIf="!user['name']" routerLink="/contact-us" routerLinkActive="active">
-      {{"student.top_bar.contact_us"|translate}}
+      Contact Us
     </div>
     <div routerLink="/blog">
-      {{"student.top_bar.blog_text"|translate}}
+      Blog
     </div>
     <div class="fr_bdg" *ngIf="number" routerLink="/shopping-cart">
       <mat-icon color="accent" matBadge="{{number.text}}" matBadgeColor="warn">shopping_cart</mat-icon>
@@ -72,7 +72,7 @@
         <div class="glbl_srch dsh_brd_crds {{glbSrch == false ? 'glbsrc_act' : '' }}">
           <mat-form-field appearance="{{glbSrch == false ? 'outline' : 'none'}}">
             <input matInput [(ngModel)]="search_key" (keyup)="$event.keyCode == 13 ? studentglobalsearch() : ''"
-              placeholder='{{"search_text"|translate}}' class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
+              placeholder="Search" class="{{glbSrch == false ? '' : 'd-none'}}" autocomplete="off">
             <mat-icon color="accent" matSuffix (click)="glbSrch = !glbSrch" class="gs_clsbtn"> {{glbSrch == false ?
               'close' : ''}}
             </mat-icon>
@@ -81,16 +81,8 @@
         <div class="{{glbSrch == false ? 'srch_spprt' : 'd-none' }}"></div>
       </div>
     </div>
-    <div class="dsh_brd_crds lang_drpdwn" >
-      <mat-form-field appearance="outline">
-        <mat-select value="" [(ngModel)]="language" name="language_name" (ngModelChange)="getLanguage();">
-          <mat-option value="en">English</mat-option>
-          <mat-option value="fr">French</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
     <div *ngIf="user['name']" (click)="logout()" class="lg_ot">
-      <mat-icon matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span> {{"logout_text"|translate}}
+      <mat-icon matTooltip="Logout">power_settings_new</mat-icon><span class="m_hide"></span> Logout
     </div>
   </div>
 </mat-toolbar>

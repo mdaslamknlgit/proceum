@@ -11,8 +11,25 @@ export const environment = {
   page_size_options: [10, 20, 50, 100],
   editor_url:'/assets/ckeditor/ckeditor.js',
   editor_config: {
-    extraAllowedContent: "h3{clear};h2{line-height};h2 h3{margin-left,margin-top};mathElements.join( ' ' ) + '(*)[*]{*};img[data-mathml,data-custom-editor,role](Wirisformula)'",
-    // Adding drag and drop image upload.
+    toolbar_Full :
+    [
+        ['Source','-','Save','NewPage','Preview','-','Templates'],
+        ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
+        ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+        //['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
+        ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+        '/',
+        ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+        ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+        ['Link','Unlink','Anchor'],
+        ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
+        '/',
+        ['Styles','Format','Font','FontSize'],
+        ['TextColor','BGColor'],
+        ['Maximize', 'ShowBlocks','-']
+    ],
+    allowedContent : true,
+    //extraAllowedContent: "h3{clear};h2{line-height};h2 h3{margin-left,margin-top};mathElements.join( ' ' ) + '(*)[*]{*};img[data-mathml,data-custom-editor,role](Wirisformula)'",
     extraPlugins: 'print,format,font,colorbutton,justify,uploadimage,slideshow,ckeditor_wiris',
     uploadUrl: api_url+'upload-files',
     // Configure your file manager integration. This example uses CKFinder 3 for PHP.
@@ -20,8 +37,9 @@ export const environment = {
     filebrowserImageUploadUrl: api_url+'upload-files',
     height: 560,
     //removeDialogTabs: 'image:advanced;link:advanced',
-    //removeButtons: 'PasteFromWord'
+    removeButtons: 'Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,Save,NewPage,Print,SetLanguage,ShowBlocks,AboutCKEditor4'
   },
+  lang: "https://s3.ap-south-1.amazonaws.com/assets.proceum.com/lang_flags/4x3/",
   liteEditorConfig: {
     editable: true,
     spellcheck: true,

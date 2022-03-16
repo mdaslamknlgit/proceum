@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-my-earnings',
@@ -21,7 +22,10 @@ export class MyEarningsComponent implements OnInit {
 
   constructor(
     private http: CommonService,
-  ) { }
+    public translate: TranslateService
+  ) {
+    this.translate.setDefaultLang(this.http.lang);
+   }
   
   ngOnInit(): void {
     this.getData();
