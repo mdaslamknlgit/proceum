@@ -13,7 +13,6 @@ import {
 import {
     environment
 } from 'src/environments/environment';
-import * as Editor from '../../../../assets/ckeditor5/build/ckeditor';
 import {
     MatTableDataSource
 } from '@angular/material/table';
@@ -55,7 +54,7 @@ export class CreateNewQuestionComponent implements OnInit {
     //Code starts here for course selection
     page_size_options = environment.page_size_options;
 
-    public Editor = Editor;
+    public Editor;
     public question_Qbank = false;
     public audio = new Audio();
     public show_explanation = [];

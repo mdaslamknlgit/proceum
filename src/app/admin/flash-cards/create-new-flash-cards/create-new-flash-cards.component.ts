@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
-import { UploadAdapter } from '../../../classes/UploadAdapter';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
@@ -129,15 +128,22 @@ export class CreateNewFlashCardsComponent implements OnInit {
     return this.http.ucFirst(string);
   }
 
-  onReady(eventData) {
-    let apiUrl = environment.apiUrl;
-    eventData.plugins.get('FileRepository').createUploadAdapter = function (
-      loader
-    ) {
-      var data = new UploadAdapter(loader, apiUrl + 'flash-cards_images');
-      return data;
-    };
-  }
+  onReady(event){
+    event.editor.on( 'fileUploadRequest', function( evt ) {
+        var xhr = evt.data.fileLoader.xhr;
+        var fileLoader = evt.data.fileLoader;
+        xhr.open( 'POST', fileLoader.uploadUrl, true );
+        
+        xhr = fileLoader.xhr;
+        xhr.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('_token'));
+        var formData = new FormData();
+        formData.append( 'file0', fileLoader.file);
+        formData.append("number_files", '1');
+        formData.append("path", 'images/content_images');
+        fileLoader.xhr.send( formData );
+        evt.stop();
+    } );
+}
   CloseModal() {
     this.library_popup = false;
   }

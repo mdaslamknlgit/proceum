@@ -24,6 +24,8 @@ export class ManageUsersComponent implements OnInit {
   public pageSize = environment.page_size;
   public page_size_options = environment.page_size_options;
   public totalSize = 0;
+  public totalSize2 = 0;
+  public totalSize3 = 0;
   public sort_by: any;
   public search_box = '';
   public page = 0;
@@ -256,6 +258,9 @@ export class ManageUsersComponent implements OnInit {
   }
 
   public doFilter() {
+    this.totalSize = 0;
+    this.totalSize2 = 0;
+    this.totalSize3 = 0;
     if (this.role != '2') {
       this.manage_students = '';
       this.is_college = false;
@@ -309,7 +314,7 @@ export class ManageUsersComponent implements OnInit {
           this.dataSourceThree = new MatTableDataSource(res['data']);
           this.dataSourceThree.paginator = this.paginator;
           this.dataSourceThree.sort = this.sort;
-          this.totalSize = res['total_records'];
+          this.totalSize3 = res['total_records'];
           return false;
         }
         if (this.role == '2') {
@@ -326,7 +331,10 @@ export class ManageUsersComponent implements OnInit {
               };
             });
           }
-          this.totalSize = res['total_records'];
+          //console.log("Result => "+res['total_records']);
+          //console.log("Not Appended => "+this.totalSize2);
+          this.totalSize2 = res['total_records'];
+          //console.log("Appended => "+this.totalSize2);
         } else {
           this.dataSource = new MatTableDataSource(res['data']);
           this.dataSource.paginator = this.paginator;
@@ -371,7 +379,7 @@ export class ManageUsersComponent implements OnInit {
       if (res['error'] == false) {
         if (this.role_id == environment.ALL_ROLES.TEACHER) {
           this.dataSourceThree = new MatTableDataSource(res['data']);
-          this.totalSize = res['total_records'];
+          this.totalSize3 = res['total_records'];
           return false;
         }
         if (this.role == '2') {
@@ -386,7 +394,7 @@ export class ManageUsersComponent implements OnInit {
               };
             });
           }
-          this.totalSize = res['total_records'];
+          this.totalSize2 = res['total_records'];
         } else {
           this.dataSource = new MatTableDataSource(res['data']);
           this.totalSize = res['total_records'];
@@ -451,14 +459,26 @@ export class ManageUsersComponent implements OnInit {
         this.toster.error(data, "Error", { closeButton: true });
       });
       return;
+    }else if (this.organization_type_id == '1' && this.manage_students == '1') {
+      if (this.college_id == '') {
+        this.translate.get('admin.mng_usr.coll_error').subscribe((data) => {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        return;
+      }
     } else if (this.manage_students == '3') {
       if (this.organization_list_id == '') {
         this.translate.get('admin.mng_usr.uni_coll_inst_error').subscribe((data) => {
           this.toster.error(data, "Error", { closeButton: true });
         });
         return;
-      } else if (this.year_id == '') {
-        this.translate.get('admin.mng_usr.atleast_student').subscribe((data) => {
+      } else if (this.college_id == '') {
+        this.translate.get('admin.mng_usr.coll_error').subscribe((data) => {
+          this.toster.error(data, "Error", { closeButton: true });
+        });
+        return;
+      }else if (this.year_id == '') {
+        this.translate.get('admin.mng_usr.select_year_error').subscribe((data) => {
           this.toster.error(data, "Error", { closeButton: true });
         });
         return;
@@ -663,7 +683,7 @@ export class ManageUsersComponent implements OnInit {
                 this.show_group_dropdown = false;
               }
             }
-            this.doFilter();
+            //this.doFilter();
           }
         }
       } else {
@@ -721,7 +741,12 @@ export class ManageUsersComponent implements OnInit {
   }
 
   public PromoteStudentSubmit() {
-    if (this.studentArray.length > 0) {
+    if(this.promote_year_id == ''){
+      this.translate.get('admin.mng_usr.promote_year').subscribe((data) => {
+        this.toster.error(data, "Error", { closeButton: true });
+      });
+      return false;
+    }else if (this.studentArray.length > 0) {
       let param = {
         url: 'promote-user-details',
         studentArray: this.studentArray,
