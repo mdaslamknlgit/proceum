@@ -41,20 +41,20 @@ export class StudentTopbarComponent implements OnInit {
   ngAfterViewInit() {
     this.search_key = this.http.search_string;
   }
-  getNotifications(){
+  getNotifications() {
     let data = { url: 'student/get-notifications' };
     this.http.post(data).subscribe((res) => {
-        if (res['error'] == false) {
-            this.class_notifications = res['data']['class_notifications'];
-            this.assessment_notifications = res['data']['assessment_notifications'];
-        }
+      if (res['error'] == false) {
+        this.class_notifications = res['data']['class_notifications'];
+        this.assessment_notifications = res['data']['assessment_notifications'];
+      }
     })
   }
   ngOnInit(): void {
     //check subdomain
-    let sub_domain = window.location.hostname.split('.')[0];
+    let sub_domain = (window.location.hostname.split('.')[0] != 'localhost') ? window.location.hostname.split('.')[0] : '';
     //If subdomain not exist in in app domains then check for partner domain
-    if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1) {
+    if (environment.INAPP_DOMAINS_ARRAY.indexOf(sub_domain) === -1 && sub_domain) {
       this.getSubDomainDetails(sub_domain);
     } else {
       localStorage.setItem('header_logo', '');
@@ -63,52 +63,52 @@ export class StudentTopbarComponent implements OnInit {
     }
     this.user = this.http.getUser();
     if (this.user) {
-        if(parseInt(this.user['role']) == environment.ALL_ROLES.STUDENT){
-            this.getNotifications();
-            setInterval(res=>{
-                this.getNotifications();
-            },30000);
-        }
+      if (parseInt(this.user['role']) == environment.ALL_ROLES.STUDENT) {
+        this.getNotifications();
+        setInterval(res => {
+          this.getNotifications();
+        }, 30000);
+      }
       this.user_id = this.user['id'];
       this.getCartCount();
     }
     this.route.events.subscribe((ev) => {
-        if (ev instanceof NavigationEnd) {
-          // if (this.width < 1024) {
-          this.sidemenu_status = this.http.menu_status = 'sd_cls';
-          // }
-        }
-      });
+      if (ev instanceof NavigationEnd) {
+        // if (this.width < 1024) {
+        this.sidemenu_status = this.http.menu_status = 'sd_cls';
+        // }
+      }
+    });
     this.setLang();
   }
 
   setLang() {
     let param = {
       url: 'get-user-config', //+ this.user['id'],
-      user_id:this.user['id']
+      user_id: this.user['id']
     };
     this.http.post(param).subscribe((res) => {
-      if (res['error'] == false) {   
-        if(res['data'] != ''){
+      if (res['error'] == false) {
+        if (res['data'] != '') {
           this.http.lang = res['data']['language'];
-        }else{
+        } else {
           this.http.lang = this.user.configs['language'];
-        }     
-      }else{
+        }
+      } else {
         this.http.lang = this.user.configs['language'];
       }
-      this.language = this.http.lang;    
+      this.language = this.http.lang;
       this.translate.setDefaultLang(this.http.lang);
     });
   }
 
-  getLanguage(){
+  getLanguage() {
     this.http.lang = this.language;
     this.translate.setDefaultLang(this.http.lang);
     let param = {
       url: 'update-user-config',
-      user_id:this.user['id'],
-      mode:'language',
+      user_id: this.user['id'],
+      mode: 'language',
       value: this.language
     };
     this.http.post(param).subscribe((res) => {

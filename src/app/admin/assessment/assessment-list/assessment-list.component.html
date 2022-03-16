@@ -154,22 +154,22 @@
                   <th mat-header-cell *matHeaderCellDef class="text_center"> {{"admin.assessment.list.actions"|translate}} </th>
                   <td mat-cell *matCellDef="let element" class="text_center"> 
                     <button mat-icon-button color="accent" type="button" (click)="openDetailsModel(element)">
-                      <mat-icon matTooltip="Click to View Details">assignment</mat-icon>
+                      <mat-icon matTooltip="{{'click_to_view_details_text'|translate}}">assignment</mat-icon>
                     </button>
                     <button mat-icon-button color="accent" *ngIf="element.viewStatus == 0">
-                      <mat-icon routerLink="/{{role_id == 12 ? 'teacher':'admin'}}/assessment/report/{{element.pk_id}}" matTooltip="Click to View Report">visibility</mat-icon>
+                      <mat-icon routerLink="/{{role_id == 12 ? 'teacher':'admin'}}/assessment/report/{{element.pk_id}}" matTooltip="{{'click_to_view_report_text'|translate}}">visibility</mat-icon>
                     </button>
                     <button mat-icon-button disabled color="accent" *ngIf="element.viewStatus == 1">
                       <mat-icon>visibility</mat-icon>
                     </button>
                     <button mat-icon-button color="accent" *ngIf="element.editStatus == 1">
-                      <mat-icon routerLink="/{{role_id == 12 ? 'teacher':'admin'}}/edit-assessment/{{element.pk_id}}/{{element.assessment_key}}" matTooltip="Click to Edit">edit_notes
+                      <mat-icon routerLink="/{{role_id == 12 ? 'teacher':'admin'}}/edit-assessment/{{element.pk_id}}/{{element.assessment_key}}" matTooltip="{{'click_to_edit_text'|translate}}">edit_notes
                       </mat-icon>
                     </button>
                     <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
                         'Are you sure to delete <b>' + element.assessment_name + '</b>'
                         " placement="auto" (confirm)="deleteContentData(element.pk_id)" confirmButtonType="danger"
-                        cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                        cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="{{'delete_text'|translate}}">
                         <mat-icon>remove_circle_outline</mat-icon>
                     </button>
                   </td>

@@ -543,8 +543,8 @@ export class CreateAssessmentComponent implements OnInit {
             this.students = [];
             this.all_students = [];
             students.forEach(element => {
-                this.students.push({id:element.id, name: element.first_name+ ' ' +'<'+element.email+'>'});
-                this.all_students.push({id:element.id, name: element.first_name+ ' ' +'<'+element.email+'>'});
+                this.students.push({id:element.id, name: element.first_name+ ' ' +'<'+element.email+'>', college_id: element.college_id, year_id: element.year_id, semester_id: element.semester_id, group_id: element.group_id});
+                this.all_students.push({id:element.id, name: element.first_name+ ' ' +'<'+element.email+'>', college_id: element.college_id, year_id: element.year_id, semester_id: element.semester_id, group_id: element.group_id});
             });
         }
         else{
@@ -574,8 +574,8 @@ export class CreateAssessmentComponent implements OnInit {
   addStudent(row){
     if(!this.selected_student_ids.includes(row['id'])){
         this.selected_student_ids.push(row['id']);
-        this.selected_students_list.push({id:row['id'], name: row.name});
-        this.selected_students.push({id:row['id'], name: row.name});
+        this.selected_students_list.push({id:row['id'], name: row.name, college_id: row.college_id, year_id: row.year_id, semester_id: row.semester_id, group_id: row.group_id});
+        this.selected_students.push({id:row['id'], name: row.name, college_id: row.college_id, year_id: row.year_id, semester_id: row.semester_id, group_id: row.group_id});
     }
   }
   removeSelectedStudent(index, id){
@@ -591,8 +591,8 @@ export class CreateAssessmentComponent implements OnInit {
     this.students.forEach(row=>{
         if(!this.selected_student_ids.includes(row['id'])){
             this.selected_student_ids.push(row['id']);
-            this.selected_students_list.push({id:row['id'], name: row.name});
-            this.selected_students.push({id:row['id'], name: row.name});
+            this.selected_students_list.push({id:row['id'], name: row.name, college_id: row.college_id, year_id: row.year_id, semester_id: row.semester_id, group_id: row.group_id});
+            this.selected_students.push({id:row['id'], name: row.name, college_id: row.college_id, year_id: row.year_id, semester_id: row.semester_id, group_id: row.group_id});
         }
     })
   }

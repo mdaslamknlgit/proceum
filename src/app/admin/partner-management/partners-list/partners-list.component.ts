@@ -194,8 +194,9 @@ export class PartnersListComponent implements OnInit {
   }
 
   openInNewTab(replacer, id, type){
-    console.log(replacer);
+    console.log(`replacer :  ${replacer}`);
     let replaceValue = window.location.host.split('.')[0];
+    console.log(`replaceValue :  ${replaceValue}`);
     let url = window.location.origin.replace(replaceValue,replacer);
     url = url.replace('https',environment.SSL_ORIGIN);
     if(replaceValue != 'localhost:4200' || true){
@@ -210,8 +211,12 @@ export class PartnersListComponent implements OnInit {
             user_role = environment.ALL_ROLES.INSTITUTE_ADMIN;
         }
         let url_params = btoa(id+'/'+user_role);
+        console.log(url+'/login/'+url_params);
+        
       window.open(url+'/login/'+url_params,'_blank');
       return false;
+    }else{
+      console.log(url);
     }
     /*
     newdomain = window.location.origin.replace('uat',replacer);
