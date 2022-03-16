@@ -306,7 +306,7 @@
             <div class="cm_fltr_sc mr_1">
                 <span>{{"year"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester')">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester');doFilter();">
                         <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -314,7 +314,7 @@
             <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
                 <span>{{"semester"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group')" >
+                    <mat-select placeholder="{{'select_text'|translate}} {{'semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group');doFilter();" >
                         <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -534,7 +534,7 @@
                     </tr>
                 </table>
             </div>
-            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role == '2'">
+            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize2" showFirstLastButtons (page)="getServerData($event)" *ngIf="role == '2'">
             </mat-paginator>
 
             <div class="rsp_tbl" *ngIf="role_id == 12">
@@ -603,7 +603,7 @@
                     </tr>
                 </table>
             </div>
-            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role_id == 12">
+            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize3" showFirstLastButtons (page)="getServerData($event)" *ngIf="role_id == 12">
             </mat-paginator>
         </div>
     </div>
