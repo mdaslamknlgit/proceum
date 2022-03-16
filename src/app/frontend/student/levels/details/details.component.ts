@@ -1,9 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonService } from 'src/app/services/common.service';
-import * as Editor from '../../../../../assets/ckeditor5';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
-import { CKEditorComponent } from '@ckeditor/ckeditor5-angular';
 import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from '../../../../../assets/3d-model-viewer/js-3d-model-viewer.min';
 declare var kPoint: any;
@@ -18,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./details.component.scss'],
 })
     export class DetailsComponent implements OnInit, AfterViewInit {
-    @ViewChild('editor', { static: false }) editor: CKEditorComponent;
+    @ViewChild('editor', { static: false }) editor;
     @ViewChild(PdfViewerComponent) private pdfComponent: PdfViewerComponent;
     hrefZIP: string;
     public materials = [];
@@ -37,8 +35,8 @@ import { TranslateService } from '@ngx-translate/core';
     public images = [];
     public active_div = 99;
     public main_content: any = [];
-    public Editor = Editor;
-    public Editor2 = Editor;
+    public Editor ;
+    public Editor2;
     public show_content_list = false;
     public buzz_words = false;
     public font_size = 14;
@@ -388,9 +386,6 @@ import { TranslateService } from '@ngx-translate/core';
         document.documentElement.style.setProperty('--ck-highlight-marker-pink', 'white');
         this.saveSettings();
     }
-    onReady(eventData) {
-        this.main_desc = this.content['main_content'];
-    }
     setTitle(val) {
         return val;
     }
@@ -598,7 +593,7 @@ import { TranslateService } from '@ngx-translate/core';
                 });
             }
         }
-        this.fetchImages(0);
+        //this.fetchImages(0);
         this.active_div = div;    
     }
     scrollto() {
@@ -613,6 +608,7 @@ import { TranslateService } from '@ngx-translate/core';
         });   
     }
     fetchImages(class_index){
+        return false;
         setTimeout(res=>{
         let class_name = document.getElementsByClassName("ck_editor_view");
         if(class_name != undefined){

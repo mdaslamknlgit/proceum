@@ -21,6 +21,9 @@ export class ListPackagesComponent implements OnInit {
   public role_id:any = '';
   public cart_count:any;
   public noPackagesFound = false;
+  public model_status = false;
+  public share_url;
+  public domain;
   constructor(
     private http: CommonService,
     public toster: ToastrService,
@@ -29,6 +32,7 @@ export class ListPackagesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.domain = location.origin;
     this.user = this.http.getUser();
     if(this.user){
       this.user_id = this.user['id'];
@@ -131,5 +135,9 @@ export class ListPackagesComponent implements OnInit {
 
   navigateTo(url){
     this.router.navigateByUrl(url);
+  }
+  toggleModel(pkg_id) {
+    this.share_url = this.domain+"/"+"package-details/"+pkg_id;
+    this.model_status = !this.model_status;
   }
 }
