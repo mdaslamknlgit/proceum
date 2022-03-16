@@ -133,7 +133,7 @@ const routes: Routes = [
         component: StudentsComponent,
       },
       {
-        path: 'login-history',
+        path: 'reports/login-history',
         component: LoginHistoryComponent,
       },
       {
@@ -281,15 +281,17 @@ const routes: Routes = [
       { path: 'my-account', component: MyAccountComponent },
 
       //reports
-      { path: 'analysis-report', component: AnalysisReportComponent },
-      { path: 'classes-report', component: ClassesReportComponent },
-      { path: 'orders-report', component: OrdersReportComponent },
-      { path: 'revenue-report', component: RevenueReportComponent },
+      { path: 'reports/analysis-report', component: AnalysisReportComponent },
+      { path: 'reports/classes-report', component: ClassesReportComponent },
+      { path: 'reports/orders-report', component: OrdersReportComponent },
+      { path: 'reports/revenue-report', component: RevenueReportComponent },
       //Orders
       { path: 'orders', component: OrdersComponent },
       { path: 'revenue', component: RevenueComponent },
       { path: 'order-details/:id', component: OrderDetailsComponent },
       { path: 'subscriptions', component: SubscriptionsComponent },
+      //Assessment Report
+      //{ path: 'reports/assessment-report', component: AnalysisReportComponent },
 
     ],
   },
