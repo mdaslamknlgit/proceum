@@ -91,13 +91,8 @@ export const environment = {
   DISABLED_USER_ROLES_FOR_PROCEUM: [2],
   DISABLED_USER_ROLES_FOR_ORGANIZATION: [1,3,4,5,6,7],
 
-<<<<<<< HEAD
   apiUrl: api_url,
   APP_BASE_URL: 'http://uat.proceum.com/',
-=======
-  apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
-  APP_BASE_URL: 'https://dev.medvizz3d.com/',
->>>>>>> 08ce0254ce9828230694f378e70fadbfdb34f835
   firebaseConfig: {
     apiKey: "AIzaSyBSuwf5lz04-nZEPjXUCW6W41FgD3v8hvE",
     authDomain: "proceum-qa-34a1f.firebaseapp.com",
@@ -113,5 +108,5 @@ export const environment = {
   PACKAGE_DEFAULT_IMG: '../../../assets/images/out-story-img.jpeg',
 
   /* Change based on dev or uat (http or https) */
-  SSL_ORIGIN: 'https',
+  SSL_ORIGIN: 'http',
 }

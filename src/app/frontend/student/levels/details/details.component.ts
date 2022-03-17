@@ -4,6 +4,8 @@ import { CommonService } from 'src/app/services/common.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from '../../../../../assets/3d-model-viewer/js-3d-model-viewer.min';
+declare var $;
+window['$'] = window['jQuery'] = $;
 declare var kPoint: any;
 declare var VdoPlayer:any;
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
@@ -200,11 +202,6 @@ import { TranslateService } from '@ngx-translate/core';
     // }
 
     ngAfterViewInit() {
-        this.buzz_words = false;
-        this.settings.buzz_words = this.buzz_words;
-        document.documentElement.style.setProperty('--ck-highlight-marker-yellow', 'yellow');
-        document.documentElement.style.setProperty('--ck-highlight-marker-blue', 'blue');
-        document.documentElement.style.setProperty('--ck-highlight-marker-pink', 'pink');
         document.documentElement.style.setProperty('--ck-editor-font-size', this.font_size + 'px');
     }
     //not using function
@@ -374,17 +371,13 @@ import { TranslateService } from '@ngx-translate/core';
     showBuzzwords() {
         this.buzz_words = true;
         this.settings.buzz_words = this.buzz_words;
-        document.documentElement.style.setProperty('--ck-highlight-marker-yellow', 'yellow');
-        document.documentElement.style.setProperty('--ck-highlight-marker-blue', 'blue');
-        document.documentElement.style.setProperty('--ck-highlight-marker-pink', 'pink');
+        document.documentElement.style.setProperty('--marker_color', 'yellow');
         this.saveSettings();
     }
     hideBuzzWords() {
         this.buzz_words = false;
         this.settings.buzz_words = this.buzz_words;
-        document.documentElement.style.setProperty('--ck-highlight-marker-yellow', 'white');
-        document.documentElement.style.setProperty('--ck-highlight-marker-blue', 'white');
-        document.documentElement.style.setProperty('--ck-highlight-marker-pink', 'white');
+        document.documentElement.style.setProperty('--marker_color', 'inherit');
         this.saveSettings();
     }
     setTitle(val) {
@@ -408,14 +401,10 @@ import { TranslateService } from '@ngx-translate/core';
                 this.font_size = this.settings['font_size'];
                 this.view_type = this.settings['view_type'];
                 if(this.buzz_words == true){
-                    document.documentElement.style.setProperty('--ck-highlight-marker-yellow', 'yellow');
-                    document.documentElement.style.setProperty('--ck-highlight-marker-blue', 'blue');
-                    document.documentElement.style.setProperty('--ck-highlight-marker-pink', 'pink');
+                    document.documentElement.style.setProperty('--marker_color', 'yellow');
                 }
                 else{
-                    document.documentElement.style.setProperty('--ck-highlight-marker-yellow', 'white');
-                    document.documentElement.style.setProperty('--ck-highlight-marker-blue', 'white');
-                    document.documentElement.style.setProperty('--ck-highlight-marker-pink', 'white');
+                    document.documentElement.style.setProperty('--marker_color', 'inherit');
                 }
                 document.documentElement.style.setProperty('--ck-editor-font-size', this.font_size + 'px');
                 this.view_type = this.view_type == 1?2:1;
@@ -430,9 +419,7 @@ import { TranslateService } from '@ngx-translate/core';
             }
             else{
                 this.settings = {font_size:14, view_type: 1, buzz_words: false}
-                document.documentElement.style.setProperty('--ck-highlight-marker-yellow', 'white');
-                document.documentElement.style.setProperty('--ck-highlight-marker-blue', 'white');
-                document.documentElement.style.setProperty('--ck-highlight-marker-pink', 'white');
+                document.documentElement.style.setProperty('--marker_color', 'white');
             }
             this.is_loaded = true;
             this.statistics = data['statistics'];
