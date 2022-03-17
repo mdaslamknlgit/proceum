@@ -5,6 +5,7 @@ import { CommonService } from 'src/app/services/common.service';
 import Swal from 'sweetalert2';
 //import Swal from 'sweetalert2/dist/sweetalert2.js';
 //import 'sweetalert2/src/sweetalert2.scss'
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-tests-page',
   templateUrl: './tests-page.component.html',
@@ -28,7 +29,8 @@ export class TestsPageComponent implements OnInit {
 unloadHandler(event: Event) {alert()
     // Your logic on beforeunload
 }
-    constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { 
+    constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router, public translate: TranslateService) { 
+        this.translate.setDefaultLang(this.http.lang);
     }
 
     ngOnInit(): void {
@@ -113,13 +115,29 @@ unloadHandler(event: Event) {alert()
     public not_answered = 0;
     public free_text_qs = 0;
     showResult(){
+        let are_you_sure_text = '';
+        this.translate.get('are_you_sure_text').subscribe((data)=> {
+        are_you_sure_text = data;
+        });
+        let are_you_sure_end_text = '';
+        this.translate.get('student.dashboard.are_you_sure_end_text').subscribe((data)=> {
+        are_you_sure_end_text = data;
+        });
+        let yes_text = '';
+        this.translate.get('yes_text').subscribe((data)=> {
+        yes_text = data;
+        });
+        let no_text = '';
+        this.translate.get('no_text').subscribe((data)=> {
+        no_text = data;
+        });
          Swal.fire({
-            title: 'Are you sure?',
-            text: 'Are you sure to end this test?',
+            title: are_you_sure_text,
+            text: are_you_sure_end_text,
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No'
+            confirmButtonText: yes_text,
+            cancelButtonText: no_text
         }).then((result) => {
             if (result.value) {
                 this.is_test_end = true;
