@@ -734,7 +734,7 @@ img {
   // position: relative;
   width: calc(100% - 220px);
   &.fl_mndsbrd{
-    // margin: 64px auto;
+    margin: 100px auto 64px auto;
     width: 98%;
   }
 }
@@ -1308,7 +1308,8 @@ span.download_icons mat-icon {
   cursor: pointer;
   display: flex;
   margin-right: 15px;
-  height: 55px;
+  height:80px;
+  max-width: 230px;
   img{object-fit: contain;}
 }
 // .sticky-header .nav .tp_rt_mn {
@@ -1636,7 +1637,7 @@ input:-webkit-autofill:active {
 .sdmn_cntul li {
   list-style: none;
   width: 100%;
-  padding: 12px 6px 12px 30px;
+  padding: 12px 0px 12px 20px;
   font-size: 0px;
   box-sizing: border-box;
   cursor: pointer;
@@ -1672,7 +1673,7 @@ input:-webkit-autofill:active {
 .sd_mnuhd {
   display: flex;
   align-items: center;
-  // padding-right: 28px;
+  padding-right: 7px;
   color: #000000;
 }
 .sdmn_sub {
@@ -1775,8 +1776,8 @@ li.hs_sbmnu.active:before {
   border-left: 4px solid transparent;
   border-right: 4px solid transparent;
   border-top: 4px solid #000;
-  top: 17px;
-  right: 10px;
+  top: 23px;
+  right: 9px;
 }
 
 @keyframes sbmn_hgt {
@@ -2147,9 +2148,8 @@ mat-icon.w_50px {
 .crs_par {
   display: flex;
     flex-wrap: wrap;
-    // justify-content: space-between;
-    column-gap:16px;
-    row-gap:16px;
+    justify-content: space-between; 
+    row-gap:2em;
 }
 .d-flex.crs_innr_prc {
   border-bottom: 1px dashed #d2d5dd;
@@ -2159,7 +2159,7 @@ mat-icon.w_50px {
 .crs_chld {
   background: #f1f1f1;
     // margin-bottom: 10px;
-    flex-basis: 32%;
+    flex-basis: 23%;
     box-sizing: border-box;
     padding: 1%;
     position: relative;
@@ -2190,6 +2190,9 @@ mat-icon.w_50px {
 }
 .crs_hdng {
   font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+  word-break: break-word;
 }
 .crs_dsc {
   font-size: 12px;
@@ -2254,14 +2257,14 @@ span.rpe_sym {
 }
 .pr_btn_dv,
 .bn_btn_dv {
-  border-radius: 12px;
+  border-radius: 8px;
   background-color: #171f32;
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1px 0;
-  font-size: 10px;
+  padding: 5px 0;
+  font-size: 14px;
   cursor: pointer;
   width: 83%;
   margin: 0 auto 5px 0;
@@ -2279,6 +2282,7 @@ span.rpe_sym {
 }
 .crs_pr_bynw {
   display: flex;
+  column-gap: 15px;
 }
 .grn_bg {
   background-color: #65bb61;
@@ -2305,10 +2309,14 @@ span.rpe_sym {
   color: #fff;
   overflow: hidden;
   &.pkg_img_bg{
-    // width: 150px;
-    // height: 150px;
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    // min-height: 120px;
+    height: auto;
+    // justify-content: flex-start;
+    img{
+      max-height: 100%;
+      height: 150px;
+    }
   }
 }
 .crs_tp_sc {
@@ -3292,7 +3300,10 @@ div.cust_mdl_par div.mn_dshbrd {
 }
 .intr_vd_tml {
   .mat-expansion-panel-header.mat-expanded, .mat-expansion-panel-header{
-    height: 45px;
+    min-height: 45px;
+    height: auto;
+    padding: 10px 15px;
+    box-sizing: border-box;
   }
   .tm_ln_dv {
     display: flex;
@@ -3590,7 +3601,7 @@ div.cust_mdl_par div.mn_dshbrd {
   flex-wrap: wrap;
   .crs_sld_dv {
     display: flex;
-    background-color: #fff;
+    background-color: #f1f1f1;
     padding: 20px 20px 50px 16px;
     flex-direction: column;
     width: 24%;
@@ -4427,6 +4438,24 @@ sup {
 .jc_sb{justify-content: space-between;}
 .jc_se{justify-content: space-evenly;}
 .jc_sa{justify-content: space-around;}
+.crs_shr_btn{
+  right: 10px;
+  top: 10px;
+  position: absolute !important;
+  border: 1px solid $accent_clr !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  text-indent: -1px;
+  color: $accent_clr;
+  .mat-button-wrapper{
+    margin-top: -1px;
+  }
+  &:hover{
+    background-color: $accent_clr;
+    color: #fff;
+  }
+}
 .ps_rel{
   position: relative;
   .noti_dv{
@@ -4966,7 +4995,14 @@ sup {
     }
   }
   img{
-    max-width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: auto;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    object-fit: cover;
   }
   mat-icon{
     opacity: 0.5;
@@ -5927,17 +5963,19 @@ sup {
         }
       }
       .tstsnms_cnt_dv{
-        padding:10px 10px 0 10px;
+        padding:10px;
         border:1px solid $accent_clr;
         border-radius: 6px;
+        max-height: 200px;
+        overflow: auto;
         ul li{
-          flex-basis: 35px;
+          flex-basis: 45px;
           padding: 5px;
           background-color: #F5F5F5;
           border-color: #F5F5F5;
           &.actv_qtn, &:hover{
             background-color: #F5F5F5;
-            box-shadow: 0 0 2px 2px rgb(83, 83, 83);
+            box-shadow: 0 0 2px 2px #53535333;
             color: #000;
           }
           &.grn, &.grn:hover{
@@ -6126,7 +6164,7 @@ sup {
         width: 90%;
         padding: 0 20px 20px;
         box-sizing: border-box;
-        margin-top: -6px;
+        // margin-top: -6px;
         margin-bottom: 10px;
         img{
           max-width: 150px;
@@ -6590,6 +6628,7 @@ sup {
       display: flex;
       color: #fff;
       align-items: center;
+      padding: 8px 0;
       .lvmd_hd_aa{
         border-width:1px;
         border-color: #5774BE;
@@ -6741,6 +6780,11 @@ sup {
         padding: 10px;
         margin-top: 15px;
         background-color: #fff;
+        .tstsopt_img{
+          img{
+            max-width: 150px;
+          }
+        }
         mat-radio-group{
           display: flex;
           flex-direction: column;
@@ -7015,8 +7059,8 @@ sup {
   color: #fff;
   margin-right: 10px;
   position: absolute;
-  left: -39px;
-  transform: rotate(-45deg);
+  right: -39px;
+  transform: rotate(45deg);
   width: 150px;
   text-align: center;
   top: 26px;
@@ -7321,6 +7365,7 @@ sup {
   background: red;
   border-radius: 50%;
   color: #FFF;
+  z-index: 9;
 }
 .close_icon mat-icon {
   color: #FFF;
@@ -7635,11 +7680,15 @@ sup {
     flex-direction: column;
     margin: 15px 20px;
   }
+  .mat-radio-label-content{
+    white-space: normal;
+  }
   mat-radio-button, mat-checkbox{
     margin: 0 0 15px 0;
     flex-wrap: wrap;
     position: relative;
     width: 100%;
+    white-space: normal;
     &::before{
       font-family: "Material Icons";
       left: -22px;
@@ -7758,9 +7807,9 @@ sup {
 .srch_spprt{
   position: fixed;
   width: 100%;
-  height: 100px;
+  height: 50px;
   background-color: #0f16263d;
-  top: 65px;
+  top:104px;
   right: 0;
 }
 .lgot_btn .mat-icon {

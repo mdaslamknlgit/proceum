@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'src/app/services/common.service';
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { CartCountService } from '../../../services/cart-count.service';
 import { ReplaySubject } from 'rxjs';
 import { Meta, Title } from '@angular/platform-browser';
+import { MetatagsService } from '../../../services/metatags.service';
+import { filter,mergeMap,map } from 'rxjs/operators';
 
 interface CurriculumNode {
   id?: number;
@@ -62,12 +64,29 @@ export class PackageDetailsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private cartCountService: CartCountService,
     private title: Title,
-    private meta: Meta
+    private meta: Meta,
+    private seoservice: MetatagsService,
   ) { }
 
   hasChild = (_: number, node: CurriculumNode) => !!node.has_children && node.has_children.length > 0;
 
   ngOnInit(): void {
+
+    // this.router.events.pipe(
+    //    filter((event) => event instanceof NavigationEnd),
+    //    map(() => this.activatedRoute),
+    //    map((route) => {
+    //      while (route.firstChild) route = route.firstChild;
+    //      return route;
+    //    }),
+    //    filter((route) => route.outlet === 'primary'), mergeMap((route) => route.data)).subscribe((event) => {
+    //     this.seoservice.updateTitle(event['title']);
+    //     this.seoservice.updateOgUrl(event['ogUrl']);
+    //     this.seoservice.updateDescription(event['title'] + event['description'])
+    //     this.seoservice.updateOgimage(event['ogimage'])
+    //   }); 
+
+
     this.user = this.http.getUser();
     if (this.user) {
       this.user_id = this.user['id'];
@@ -118,7 +137,7 @@ export class PackageDetailsComponent implements OnInit {
         //Get the topics if package courses not empty
         this.dataSource.data = res['data']['topics'];
         this.title.setTitle(this.package.package_name);
-        this.meta.updateTag({ name: 'og:image', content: this.package.package_img })
+        this.meta.updateTag({ property: 'og:image', content: this.package.package_img })
       } else {
         this.toster.error(res['message'], 'Error', { closeButton: true });
         this.router.navigateByUrl('/pricing-and-packages');

@@ -61,7 +61,7 @@
             <mat-form-field appearance="outline">
                 <mat-select placeholder="{{'admin.assessment.create.select_year'|translate}}" name="year_edit"
                     #year_edit="ngModel" [(ngModel)]="year_id"
-                    (ngModelChange)="selected_name='year_id';selected_value=year_id;getYearSemsterGroup(organization_type_id,year_id,'semester')">
+                    (ngModelChange)="selected_name='year_id';selected_value=year_id;getYearSemsterGroup(organization_type_id,year_id,'semester');doFilter();">
                     <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}
                     </mat-option>
                 </mat-select>
@@ -72,7 +72,7 @@
             <mat-form-field appearance="outline">
                 <mat-select placeholder="{{'admin.assessment.create.select_semester'|translate}}"
                     name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id"
-                    (ngModelChange)="selected_name='semester_id';selected_value=semester_id;getYearSemsterGroup(organization_type_id,semester_id,'group')">
+                    (ngModelChange)="selected_name='semester_id';selected_value=semester_id;getYearSemsterGroup(organization_type_id,semester_id,'group');doFilter();">
                     <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"]
                         }}</mat-option>
                 </mat-select>
@@ -89,6 +89,35 @@
                 </mat-select>
             </mat-form-field>
         </div>
+
+        <div class="cm_fltr_sc mr_1">
+            <span>{{"admin.report.order_list.duration"|translate}}</span>
+            <mat-form-field appearance="outline">
+                <mat-select placeholder="Select Duration" name="duration" [(ngModel)]="duration" (ngModelChange)="applyFilters()">
+                    <mat-option [value]="">{{"admin.report.order_list.all"|translate}}</mat-option>
+                    <mat-option [value]="'today'">{{"admin.report.order_list.today"|translate}}</mat-option>
+                    <mat-option [value]="'this_week'">{{"admin.report.order_list.this_week"|translate}}</mat-option>
+                    <mat-option [value]="'this_month'">{{"admin.report.order_list.this_month"|translate}}</mat-option>
+                    <mat-option [value]="'3'">{{"admin.report.order_list.3months"|translate}}</mat-option>
+                    <mat-option [value]="'6'">{{"admin.report.order_list.6months"|translate}}</mat-option>
+                    <mat-option [value]="'9'">{{"admin.report.order_list.9months"|translate}}</mat-option>
+                    <mat-option [value]="'this_year'">{{"admin.report.order_list.1year"|translate}}</mat-option>
+                    <mat-option [value]="'date_range'">{{"admin.report.order_list.date_range"|translate}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="cm_fltr_sc mr_1 {{date_range_fltr == false ? 'd_none':''}}">
+            <div class="crt_prt_hd">{{"admin.report.order_list.date_range"|translate}}</div>
+            <mat-form-field appearance="outline">
+              <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder='{{"admin.report.order_list.start_date"|translate}}' [(ngModel)]="from_date" (dateChange)="fromdateChange()" readonly>
+                <input matEndDate placeholder='{{"admin.report.order_list.end_date"|translate}}' [(ngModel)]="to_date" (dateChange)="todateChange()" [disabled]="is_todate" readonly>
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </div>    
     </div>
     <div class="hgt_10"></div>
     <div>
@@ -126,7 +155,7 @@
                     <th mat-header-cell *matHeaderCellDef>{{"actions_text"|translate}}</th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-icon-button color="accent">
-                            <mat-icon routerLink="admin/assessment/report/{{element.pk_id}}" matTooltip="{{'click_to_view_report_text'|translate}}">visibility</mat-icon>
+                            <mat-icon routerLink="/admin/reports/assessment-report/{{element.pk_id}}/{{element.assessment_key}}/{{organization_type_id}}/{{organization_list_id}}/{{college_id}}/{{year_id}}/{{semester_id}}/{{group_id}}" matTooltip="{{'click_to_view_report_text'|translate}}">visibility</mat-icon>
                         </button>
                     </td>
                 </ng-container>

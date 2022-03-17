@@ -1,15 +1,14 @@
 <div class="mn_dshbrd">
-  <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/partners-list"><strong>Clients /
-        Partners</strong></span> &raquo; <strong>{{ (partner_id > 0) ? "Edit" : "Create" }} Partner</strong>
+  <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <span routerLink="/admin/partners-list"><strong>{{"partner.dashboard.clients_partners"|translate}}</strong></span> &raquo; <strong>{{ (partner_id > 0) ? "Edit" : "Create" }} {{"partner.partners.partner"|translate}}</strong>
   </div>
-  <div class="pg_ttl">{{ (partner_id > 0) ? "Edit" : "Create" }} Partner</div>
+  <div class="pg_ttl">{{ (partner_id > 0) ? "Edit" : "Create" }} {{"partner.partners.partner"|translate}}</div>
   <hr />
   <div class="intr_vd_tml crt_prtnr dsh_brd_crds">
     <mat-accordion>
       <mat-expansion-panel [expanded]="basic_details_expand" hideToggle>
         <mat-expansion-panel-header style="pointer-events: none;">
           <mat-panel-title>
-            Basic details
+            {{"partner.partners.basic_details"|translate}}
           </mat-panel-title>
           <mat-panel-description></mat-panel-description>
         </mat-expansion-panel-header>
@@ -17,21 +16,21 @@
           (ngSubmit)="create_Partner_form1.valid && validateBasicDeatils()" novalidate>
           <div class="crt_pr_mn jc_fs">
             <div class="crt_pr_dv" *ngIf="!partner_id">
-              <div class="crt_prt_hd">Partner Type</div>
+              <div class="crt_prt_hd">{{"partner.partners.partner_type"|translate}}</div>
               <div class="crt_prt_cnt">
                 <mat-radio-group aria-label="Select an option" name="partner_type" [(ngModel)]="partner_type"
                   (ngModelChange)="getPackages()" required>
-                  <mat-radio-button name="partner_type" value="1">University</mat-radio-button>
-                  <mat-radio-button name="partner_type" value="2">College</mat-radio-button>
-                  <mat-radio-button name="partner_type" value="3">Institute</mat-radio-button>
+                  <mat-radio-button name="partner_type" value="1">{{"university"|translate}}</mat-radio-button>
+                  <mat-radio-button name="partner_type" value="2">{{"college"|translate}}</mat-radio-button>
+                  <mat-radio-button name="partner_type" value="3">{{"institute"|translate}}</mat-radio-button>
                 </mat-radio-group>
               </div>
             </div>
             <div class="clear_fix"></div>
             <div class="cm_fltr_sc mr_1">
-              <div class="crt_prt_hd">Partner Name*</div>
+              <div class="crt_prt_hd">{{"partner.partners.partner_name"|translate}} *</div>
               <mat-form-field appearance="outline" class="w_100p">
-                <input matInput placeholder="Partner Name" maxlength="100" [(ngModel)]="partner_name"
+                <input matInput placeholder='{{"partner.partners.partner_name"|translate}}' maxlength="100" [(ngModel)]="partner_name"
                   name="partner_name_edit" #partner_name_edit="ngModel" (keypress)="allAlphabetsWithSpaces($event)"
                   required />
               </mat-form-field>
@@ -40,9 +39,9 @@
                                     name is required</span> -->
             </div>
             <div class="cm_fltr_sc mr_1">
-              <div class="crt_prt_hd">{{(!edit_email) ? 'Contact Email*' : 'Login Email Address*'}}</div>
+              <div class="crt_prt_hd">{{(!edit_email) ? 'Contact Email *' : 'Login Email Address *'}}</div>
               <mat-form-field appearance="outline" class="w_100p {{ (!edit_email) ? 'fld_readonly' : '' }}">
-                <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email_edit"
+                <input matInput type="email" placeholder='{{"partner.partners.email"|translate}}' [(ngModel)]="email" name="email_edit"
                   #email_edit="ngModel" autocomplete="off" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                   [disabled]="!edit_email" />
               </mat-form-field>
@@ -55,10 +54,10 @@
             </div>
 
             <div class="cm_fltr_sc mr_1" *ngIf="!partner_id">
-              <div class="crt_prt_hd">Password*</div>
+              <div class="crt_prt_hd">{{"partner.partners.password"|translate}} *</div>
 
               <mat-form-field appearance="outline" class="w_100p">
-                <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password_edit"
+                <input matInput type="password" placeholder='{{"partner.partners.password"|translate}}' [(ngModel)]="password" name="password_edit"
                   #password_edit="ngModel" minlength="6" maxlength="16" autocomplete="off" required />
               </mat-form-field>
               <!--<span class="prc_tltp"
@@ -70,11 +69,11 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="!partner_id">
-              <div class="crt_prt_hd">Confirm password*</div>
+              <div class="crt_prt_hd">{{"partner.partners.confirm_password"|translate}} *</div>
 
               <mat-form-field appearance="outline" class="w_100p"
                 class="{{ (confirm_password != '' && (confirm_password != password)) ? 'mat-form-field-invalid' : ''}}">
-                <input matInput type="password" placeholder="Confirm Password" [(ngModel)]="confirm_password"
+                <input matInput type="password" placeholder='{{"partner.partners.confirm_password"|translate}}' [(ngModel)]="confirm_password"
                   name="confirm_password_edit" #confirm_password_edit="ngModel" minlength="6" maxlength="16" required />
               </mat-form-field>
               <!--  <span class="prc_tltp"
@@ -86,10 +85,10 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-              <div class="crt_prt_hd">Primary Contact Number*</div>
+              <div class="crt_prt_hd">{{"partner.partners.primary_contact_number"|translate}} *</div>
 
               <mat-form-field appearance="outline" class="w_100p">
-                <input matInput placeholder="Primary Contact Number" [(ngModel)]="phone" name="phone_edit"
+                <input matInput placeholder='{{"partner.partners.primary_contact_number"|translate}}' [(ngModel)]="phone" name="phone_edit"
                   #phone_edit="ngModel" minlength="10" maxlength="15" appPhonenumber required />
               </mat-form-field>
               <!--<span class="prc_tltp"
@@ -101,10 +100,10 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="partner_type == '1'">
-              <div class="crt_prt_hd">Secondary Contact Number*</div>
+              <div class="crt_prt_hd">{{"partner.partners.secondary_contact_number"|translate}} *</div>
 
               <mat-form-field appearance="outline" class="w_100p">
-                <input matInput placeholder="Secondary Contact Number" [(ngModel)]="second_phone"
+                <input matInput placeholder='{{"partner.partners.secondary_contact_number"|translate}}' [(ngModel)]="second_phone"
                   name="second_phone_edit" #second_phone_edit="ngModel" appPhonenumber minlength="10" maxlength="15"
                   required />
               </mat-form-field>
@@ -117,9 +116,9 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-              <div class="crt_prt_hd">Contact Person*</div>
+              <div class="crt_prt_hd">{{"partner.partners.contact_person"|translate}} *</div>
               <mat-form-field appearance="outline" class="w_100p">
-                <input matInput placeholder="Person Name" maxlength="50" (keypress)="allAlphabetsWithSpaces($event)"
+                <input matInput placeholder='{{"partner.partners.person_name"|translate}}' maxlength="50" (keypress)="allAlphabetsWithSpaces($event)"
                   [(ngModel)]="contact_name" name="contact_name_edit" #contact_name_edit="ngModel" required />
               </mat-form-field>
               <!-- <span class="prc_tltp"
@@ -128,7 +127,7 @@
 
             </div>
             <div class="cm_fltr_sc mr_1" *ngIf="partner_type == '1' || partner_type == '2'">
-              <div class="crt_prt_hd">{{ (partner_type == 1) ? "University" : "College"}} Code*</div>
+              <div class="crt_prt_hd">{{ (partner_type == 1) ? "University" : "College"}} {{"partner.partners.code"|translate}} *</div>
               <mat-form-field appearance="outline" class="w_100p">
                 <input matInput placeholder="{{ (partner_type == '1') ? 'University' : 'College'}} Code" maxlength="10"
                   [(ngModel)]="code" name="code_edit" #code_edit="ngModel" required />
@@ -139,11 +138,11 @@
 
             </div>
             <div class="cm_fltr_sc mr_1">
-              <div class="crt_prt_hd">GSTIN number*</div>
+              <div class="crt_prt_hd">{{"partner.partners.gstin_no"|translate}} *</div>
               <mat-form-field appearance="outline" class="w_100p">
-                <input matInput placeholder="GST/VAT" autocomplete="off" minlength="15" maxlength="15" required
-                  name="gstin_edit" [(ngModel)]="gstin" #gstin_edit="ngModel" ngModel
-                  onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))" />
+                <input matInput placeholder='{{"partner.partners.gst_vat"|translate}}'  autocomplete="off" minlength="15" maxlength="15" required
+                name="gstin_edit" [(ngModel)]="gstin" #gstin_edit="ngModel" ngModel
+                onkeypress="return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 47 && event.charCode <= 58))" />
               </mat-form-field>
               <!-- <span class="prc_tltp"
                                     *ngIf="(create_Partner_form1.submitted || gstin_edit.touched) && gstin == ''">GSTIN
@@ -155,7 +154,7 @@
             </div>
             <div class="clear_fix"></div>
             <div class="text_right float_right w_100p">
-              <button mat-raised-button class="no_bxsdw" color="accent" type="submit">Next</button>
+              <button mat-raised-button class="no_bxsdw" color="accent" type="submit">{{"nxt_txt"|translate}}</button>
             </div>
           </div>
         </form>
@@ -163,7 +162,7 @@
       <mat-expansion-panel [expanded]="branding_info_expand" hideToggle>
         <mat-expansion-panel-header style="pointer-events: none;">
           <mat-panel-title>
-            Branding info
+            {{"partner.partners.branding_info"|translate}}
           </mat-panel-title>
           <mat-panel-description></mat-panel-description>
         </mat-expansion-panel-header>
@@ -173,17 +172,16 @@
             <div class="crt_pr_dv">
               <div class="brnd_info_mn">
                 <div class="d-flex w_100p ai_cntr">
-                  <div class="crt_prt_hd brnd_upttl">Partner Header Logo*</div>
+                  <div class="crt_prt_hd brnd_upttl">{{"partner.partners.partner_header_logo"|translate}} *</div>
                   <div class="spacer"></div>
                   <div class="text_right">
                     <button mat-raised-button class="no_bxsdw" color="accent"
                       onclick="document.getElementById('imageToUpload1').click()" type="button">
                       <input (change)="uploadImage($event,'header_logo')" accept="image/x-png,image/gif,image/jpeg"
-                        id="imageToUpload1" type="file" style="display: none" />Browse
+                        id="imageToUpload1" type="file" style="display: none" />{{"browse_text"|translate}}
                     </button>
                     <div class="hgt_10"></div>
-                    <div class="text_right w_100p fl_frmt_info">(Supported Formats: .png, .jpg,
-                      .jpeg)</div>
+                    <div class="text_right w_100p fl_frmt_info">{{"partner.partners.supported_format"|translate}}</div>
                   </div>
                 </div>
                 <div class="brnd_info_upld mt_1">
@@ -216,7 +214,7 @@
                             </div> -->
             </div>
             <div class="crt_pr_dv">
-              <div class="crt_prt_hd">Description*</div>
+              <div class="crt_prt_hd">{{"description"|translate}} *</div>
               <mat-form-field appearance="outline" class="w_100p">
                 <textarea matInput class="crt_prt_txt" [(ngModel)]="description" name="description_edit"
                   #description_edit="ngModel" required></textarea>
@@ -226,7 +224,7 @@
                                     is required</span> -->
             </div>
             <div class="crt_pr_dv">
-              <div class="crt_prt_hd">Sub-Domain*</div>
+              <div class="crt_prt_hd">{{"partner.partners.sub_domain"|translate}} *</div>
               <div class="err_tltp_par">
                 <mat-form-field appearance="outline" class="w_100p sffx_tp_0">
                   <input (keydown)="validatesubDomain($event)" matInput placeholder="Sub-Domain"
@@ -244,8 +242,8 @@
             <div class="clear_fix"></div>
             <div class="text_right float_right w_100p">
               <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1"
-                (click)="branding_info_expand=false;basic_details_expand=true">Back</button>
-              <button mat-raised-button class="no_bxsdw" color="accent" (click)="validateBrandingInfo()">Next</button>
+                (click)="branding_info_expand=false;basic_details_expand=true">{{"back"|translate}}</button>
+              <button mat-raised-button class="no_bxsdw" color="accent" (click)="validateBrandingInfo()">{{"nxt_txt"|translate}}</button>
             </div>
           </div>
         </form>
@@ -253,7 +251,7 @@
       <mat-expansion-panel [expanded]="licence_info_expand" hideToggle>
         <mat-expansion-panel-header style="pointer-events: none;">
           <mat-panel-title>
-            Licence info
+            {{"partner.partners.sub_domain"|translate}}
           </mat-panel-title>
           <mat-panel-description></mat-panel-description>
         </mat-expansion-panel-header>
@@ -261,12 +259,11 @@
           (ngSubmit)="create_Partner_form3.valid" novalidate>
           <div class="crt_pr_mn frrsp_768">
             <div class="crt_pr_dv">
-              <div class="crt_prt_hd">Choose subscription package*</div>
+              <div class="crt_prt_hd">{{"partner.partners.subscription_package"|translate}} *</div>
               <div class="d-flex w_100p" style="align-items: center;">
-                <div style="margin-right: 1rem;
-                flex: auto;">
+                <div style="margin-right: 1rem;flex: auto;">
                   <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="Select Package" name="package_edit" #package_edit="ngModel"
+                    <mat-select placeholder='{{"partner.partners.select_package"|translate}}' name="package_edit" #package_edit="ngModel"
                       [(ngModel)]="package_id" (ngModelChange)="fillLicenceDates()" required>
                       <mat-option>
                         <ngx-mat-select-search [noEntriesFoundLabel]="'No package found'"
@@ -282,7 +279,7 @@
 
                 <div>
                   <span *ngIf="package_id" (click)="showPackageDetails(package_id)"
-                    style="font-weight: bold;border-bottom: 1px solid blue" class="float_right">Package Details</span>
+                    style="font-weight: bold;border-bottom: 1px solid blue" class="float_right">{{"partner.partners.package_details"|translate}}</span>
                 </div>
               </div>
 
@@ -293,38 +290,35 @@
             <div class="clear_fix w_100p"></div>
             <div class="crt_pr_dv d-flex jc_sb rsp_fw">
               <div class="w_47p rsp_100p">
-                <div class="crt_prt_hd">Licence start date</div>
+                <div class="crt_prt_hd">{{"partner.partners.licence_start"|translate}} {{"partner.partners.date"|translate}}</div>
                 <mat-form-field appearance="outline" class="w_100p">
-                  <input matInput placeholder="Licence Start Date" [matDatepicker]="picker1" #start_date="ngModel"
+                  <input matInput placeholder='{{"partner.partners.licence_start"|translate}} {{"partner.partners.date"|translate}}' [matDatepicker]="picker1" #start_date="ngModel"
                     [(ngModel)]="licence_start_date" name="start_date" [min]="today_date" autocomplete="off" readonly
                     required>
                   <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                   <mat-datepicker #picker1 disabled="true"></mat-datepicker>
                 </mat-form-field>
                 <span class="prc_tltp"
-                  *ngIf="(create_Partner_form3.submitted || start_date.touched) && start_date.invalid">Licence
-                  Start Date is required</span>
+                  *ngIf="(create_Partner_form3.submitted || start_date.touched) && start_date.invalid">{{"partner.partners.licence_start_date_req"|translate}}</span>
               </div>
               <div class="w_47p rsp_100p">
-                <div class="crt_prt_hd">Licence end date</div>
+                <div class="crt_prt_hd">{{"partner.partners.licence_start"|translate}} {{"partner.partners.date"|translate}}</div>
                 <mat-form-field appearance="outline" class="w_100p">
-                  <input matInput placeholder="Licence End Date" [matDatepicker]="picker2" #end_date="ngModel"
+                  <input matInput placeholder='{{"partner.partners.licence_start"|translate}} {{"partner.partners.date"|translate}}' [matDatepicker]="picker2" #end_date="ngModel"
                     [(ngModel)]="licence_end_date" name="end_date" autocomplete="off" readonly required>
                   <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                   <mat-datepicker #picker color="accent" disabled="true"></mat-datepicker>
                   <mat-datepicker #picker2 disabled="true"></mat-datepicker>
                 </mat-form-field>
                 <span class="prc_tltp"
-                  *ngIf="(create_Partner_form3.submitted || end_date.touched) && end_date.invalid">Licence
-                  End Date is required</span>
+                  *ngIf="(create_Partner_form3.submitted || end_date.touched) && end_date.invalid">{{"partner.partners.licence_end_date_req"|translate}}</span>
               </div>
             </div>
             <div class="clear_fix w_100p"></div>
             <div class="crt_pr_dv d-flex jc_sb">
               <div class="w_47p">
                 <div class="crt_prt_hd"></div>
-                <mat-checkbox name="is_reseller_account" [(ngModel)]="is_reseller_account">Reseller
-                  Account</mat-checkbox>
+                <mat-checkbox name="is_reseller_account" [(ngModel)]="is_reseller_account">{{"partner.partners.reseller_account"|translate}}</mat-checkbox>
 
               </div>
             </div>
@@ -339,8 +333,8 @@
             <div class="clear_fix"></div>
             <div class="text_right float_right w_100p">
               <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1"
-                (click)="licence_info_expand=false;branding_info_expand=true">Back</button>
-              <button mat-raised-button class="no_bxsdw" color="accent" (click)="validateLicenceInfo()">Next</button>
+                (click)="licence_info_expand=false;branding_info_expand=true">{{"back"|translate}}</button>
+              <button mat-raised-button class="no_bxsdw" color="accent" (click)="validateLicenceInfo()">{{"nxt_txt"|translate}}</button>
             </div>
           </div>
         </form>
@@ -348,7 +342,7 @@
       <mat-expansion-panel [expanded]="billing_address_expand" hideToggle>
         <mat-expansion-panel-header style="pointer-events: none;">
           <mat-panel-title>
-            Billing address &amp; Correspondence address
+            {{"partner.partners.billing_address"|translate}} & {{"partner.partners.correspondence_address"|translate}}
           </mat-panel-title>
           <mat-panel-description></mat-panel-description>
         </mat-expansion-panel-header>
@@ -361,141 +355,134 @@
               <div class="text_right w_100p">
                 &nbsp;
               </div>
-              <div class="crt_pr_sbhd">Billing address</div>
+              <div class="crt_pr_sbhd">{{"partner.partners.billing_address"|translate}}</div>
               <div class="hgt_10"></div>
               <div class="brnd_info_mn">
-                <div class="crt_prt_hd">Address line 1*</div>
+                <div class="crt_prt_hd">{{"partner.partners.address_line_1"|translate}} *</div>
                 <div class="brnd_info_upld">
                   <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput matInput placeholder="Address line 1" [(ngModel)]="b_address_line_1"
+                    <input matInput matInput placeholder='{{"partner.partners.address_line_1"|translate}}' [(ngModel)]="b_address_line_1"
                       name="address_line_1_edit" #address_line_1_edit="ngModel" required />
                   </mat-form-field>
                   <span class="prc_tltp"
-                    *ngIf="(create_Partner_form4.submitted || address_line_1_edit.touched) && address_line_1_edit.invalid">Address
-                    Line 1 is required</span>
+                    *ngIf="(create_Partner_form4.submitted || address_line_1_edit.touched) && address_line_1_edit.invalid">{{"partner.partners.address_line_1_req"|translate}}</span>
                 </div>
               </div>
               <div class="brnd_info_mn">
-                <div class="crt_prt_hd">Address line 2</div>
+                <div class="crt_prt_hd">{{"partner.partners.address_line_2"|translate}}</div>
                 <div class="brnd_info_upld">
                   <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput matInput placeholder="Address line 2" [(ngModel)]="b_address_line_2"
+                    <input matInput matInput placeholder='{{"partner.partners.address_line_2"|translate}}' [(ngModel)]="b_address_line_2"
                       name="address_line_2_edit" #address_line_2_edit="ngModel" />
                   </mat-form-field>
                 </div>
               </div>
               <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                 <div class="w_47p rsp_100p">
-                  <div class="crt_prt_hd">Country*</div>
+                  <div class="crt_prt_hd">{{"partner.partners.country"|translate}} *</div>
                   <div class="err_tltp_par">
                     <mat-form-field appearance="outline" class="w_100p">
-                      <mat-select placeholder="Select Country" name="country_edit" #country_edit="ngModel"
+                      <mat-select placeholder='{{"partner.partners.select_country"|translate}}' name="country_edit" #country_edit="ngModel"
                         [(ngModel)]="b_country_id" (ngModelChange)="getStates(b_country_id)" required>
                         <mat-option>
-                          <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
-                            [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                          <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_countries_found"|translate'
+                            [placeholderLabel]='"partner.partners.search_country"|translate' name="search_country" ngModel
                             (ngModelChange)="filterCountries($event)">
                           </ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{
-                          country["country_name"] }}
+                        <mat-option *ngFor="let country of all_countrys | async" [value]="country['id']">{{ country["country_name"] }}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
                     <span *ngIf="(create_Partner_form4.submitted || country_edit.touched) && country_edit.invalid"
-                      class="prc_tltp">Country is required</span>
+                      class="prc_tltp">{{"partner.partners.Country_req"|translate}}</span>
                   </div>
                 </div>
                 <div class="w_47p rsp_100p">
-                  <div class="crt_prt_hd">State*</div>
+                  <div class="crt_prt_hd">{{"partner.partners.state"|translate}} *</div>
                   <div class="err_tltp_par">
                     <mat-form-field appearance="outline" class="w_100p">
-                      <mat-select placeholder="Select State" name="state_edit" #state_edit="ngModel"
+                      <mat-select placeholder='{{"partner.partners.select_state"|translate}}' name="state_edit" #state_edit="ngModel"
                         [(ngModel)]="b_state_id" (ngModelChange)="getCities(b_state_id)" required>
                         <mat-option>
-                          <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
-                            [placeholderLabel]="'Search State'" name="search_state" ngModel
+                          <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_states_found"|translate'
+                            [placeholderLabel]='"partner.partners.search_state"|translate' name="search_state" ngModel
                             (ngModelChange)="filterStates($event)"></ngx-mat-select-search>
                         </mat-option>
-                        <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{
-                          state["state_name"] }}</mat-option>
+                        <mat-option *ngFor="let state of all_states | async" [value]="state['id']">{{ state["state_name"] }}</mat-option>
                       </mat-select>
                     </mat-form-field>
                     <span *ngIf="(create_Partner_form4.submitted || state_edit.touched) && state_edit.invalid"
-                      class="prc_tltp">State is required</span>
+                      class="prc_tltp">{{"partner.partners.state_req"|translate}}</span>
                   </div>
                 </div>
               </div>
               <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                 <div class="w_47p rsp_100p">
-                  <div class="crt_prt_hd">City*</div>
+                  <div class="crt_prt_hd">{{"partner.partners.city"|translate}} *</div>
                   <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="Select City" name="city_edit" #city_edit="ngModel" [(ngModel)]="b_city"
+                    <mat-select placeholder='{{"partner.partners.select_city"|translate}}' name="city_edit" #city_edit="ngModel" [(ngModel)]="b_city"
                       required>
                       <mat-option>
-                        <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
-                          [placeholderLabel]="'Search City'" name="search_city" ngModel
+                        <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_cities_found"|translate'
+                          [placeholderLabel]='"partner.partners.search_city"|translate' name="search_city" ngModel
                           (ngModelChange)="filterCities($event)"></ngx-mat-select-search>
                       </mat-option>
-                      <mat-option *ngFor="let city of all_cities | async" [value]="city['id']">{{
-                        city["city_name"] }}</mat-option>
+                      <mat-option *ngFor="let city of all_cities | async" [value]="city['id']">{{ city["city_name"] }}</mat-option>
                     </mat-select>
                   </mat-form-field>
 
                   <span class="prc_tltp"
-                    *ngIf="(create_Partner_form4.submitted || city_edit.touched) && city_edit.invalid">City
-                    is required</span>
+                    *ngIf="(create_Partner_form4.submitted || city_edit.touched) && city_edit.invalid">{{"partner.partners.city_req"|translate}}</span>
                 </div>
                 <div class="w_47p rsp_100p">
-                  <div class="crt_prt_hd">ZIP/Pin code*</div>
+                  <div class="crt_prt_hd">{{"partner.partners.zip_code"|translate}} *</div>
                   <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput placeholder="ZIP/Pin code" [(ngModel)]="b_pincode" name="pincode_edit"
+                    <input matInput placeholder='{{"partner.partners.zip_code"|translate}}' [(ngModel)]="b_pincode" name="pincode_edit"
                       #pincode_edit="ngModel" appNumbersonly minlength="4" maxlength="13" required />
                   </mat-form-field>
                   <span class="prc_tltp"
-                    *ngIf="(create_Partner_form1.submitted || pincode_edit.touched) && pincode_edit.invalid">ZIP/Pincode
-                    is required</span>
+                    *ngIf="(create_Partner_form1.submitted || pincode_edit.touched) && pincode_edit.invalid">{{"partner.partners.zip_req"|translate}}</span>
                 </div>
               </div>
             </div>
             <div class="crt_pr_dv">
               <div class="text_right w_100p">
                 <mat-checkbox name="same_as_billing_address" [(ngModel)]="same_as_billing_address"
-                  (ngModelChange)="sameAsBillingAddress()">Same as Billing Address</mat-checkbox>
+                  (ngModelChange)="sameAsBillingAddress()">{{"partner.partners.same_as"|translate}} {{"partner.partners.billing_address"|translate}}</mat-checkbox>
               </div>
-              <div class="crt_pr_sbhd">Correspondence address</div>
+              <div class="crt_pr_sbhd">{{"partner.partners.correspondence_address"|translate}}</div>
               <div class="hgt_10"></div>
               <div class="brnd_info_mn">
-                <div class="crt_prt_hd">Address line 1*</div>
+                <div class="crt_prt_hd">{{"partner.partners.address_line_1"|translate}} *</div>
                 <div class="brnd_info_upld">
                   <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput matInput placeholder="Address line 1" [(ngModel)]="c_address_line_1"
+                    <input matInput matInput placeholder='{{"partner.partners.address_line_1"|translate}}' [(ngModel)]="c_address_line_1"
                       name="c_address_line_1_edit" #c_address_line_1_edit="ngModel" required />
                   </mat-form-field>
                   <span class="prc_tltp"
-                    *ngIf="(create_Partner_form4.submitted || c_address_line_1_edit.touched) && c_address_line_1_edit.invalid">Address
-                    Line 1 is required</span>
+                    *ngIf="(create_Partner_form4.submitted || c_address_line_1_edit.touched) && c_address_line_1_edit.invalid">{{"partner.partners.address_line_1_req"|translate}}</span>
                 </div>
               </div>
               <div class="brnd_info_mn">
-                <div class="crt_prt_hd">Address line 2</div>
+                <div class="crt_prt_hd">{{"partner.partners.address_line_2"|translate}}</div>
                 <div class="brnd_info_upld">
                   <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput matInput placeholder="Address line 2" [(ngModel)]="c_address_line_2"
+                    <input matInput matInput placeholder='{{"partner.partners.address_line_2"|translate}}' [(ngModel)]="c_address_line_2"
                       name="c_address_line_2_edit" #c_address_line_2_edit="ngModel" />
                   </mat-form-field>
                 </div>
               </div>
               <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                 <div class="w_47p rsp_100p">
-                  <div class="crt_prt_hd">Country*</div>
+                  <div class="crt_prt_hd">{{"partner.partners.country"|translate}} *</div>
                   <div class="err_tltp_par">
                     <mat-form-field appearance="outline" class="w_100p">
-                      <mat-select placeholder="Select Country" name="c_country_edit" #c_country_edit="ngModel"
+                      <mat-select placeholder='{{"partner.partners.select_country"|translate}}' name="c_country_edit" #c_country_edit="ngModel"
                         [(ngModel)]="c_country_id" (ngModelChange)="cgetStates(c_country_id)" required>
                         <mat-option>
-                          <ngx-mat-select-search [noEntriesFoundLabel]="'No Countries found'"
-                            [placeholderLabel]="'Search Country'" name="search_country" ngModel
+                          <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_countries_found"|translate'
+                            [placeholderLabel]='"partner.partners.search_country"|translate' name="search_country" ngModel
                             (ngModelChange)="filterCountries($event)">
                           </ngx-mat-select-search>
                         </mat-option>
@@ -505,18 +492,18 @@
                       </mat-select>
                     </mat-form-field>
                     <span *ngIf="(create_Partner_form4.submitted || c_country_edit.touched) && c_country_edit.invalid"
-                      class="prc_tltp">Country is required</span>
+                      class="prc_tltp">{{"partner.partners.Country_req"|translate}}</span>
                   </div>
                 </div>
                 <div class="w_47p rsp_100p">
-                  <div class="crt_prt_hd">State*</div>
+                  <div class="crt_prt_hd">{{"partner.partners.state"|translate}} *</div>
                   <div class="err_tltp_par">
                     <mat-form-field appearance="outline" class="w_100p">
-                      <mat-select placeholder="Select State" name="c_state_edit" #c_state_edit="ngModel"
+                      <mat-select placeholder='{{"partner.partners.select_state"|translate}}' name="c_state_edit" #c_state_edit="ngModel"
                         [(ngModel)]="c_state_id" (ngModelChange)="cgetCities(c_state_id)" required>
                         <mat-option>
-                          <ngx-mat-select-search [noEntriesFoundLabel]="'No States found'"
-                            [placeholderLabel]="'Search State'" name="search_state" ngModel
+                          <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_states_found"|translate'
+                            [placeholderLabel]='"partner.partners.search_state"|translate' name="search_state" ngModel
                             (ngModelChange)="cfilterStates($event)"></ngx-mat-select-search>
                         </mat-option>
                         <mat-option *ngFor="let state of c_all_states | async" [value]="state['id']">{{
@@ -524,19 +511,19 @@
                       </mat-select>
                     </mat-form-field>
                     <span *ngIf="(create_Partner_form4.submitted || c_state_edit.touched) && c_state_edit.invalid"
-                      class="prc_tltp">State is required</span>
+                      class="prc_tltp">{{"partner.partners.state_req"|translate}}</span>
                   </div>
                 </div>
               </div>
               <div class="brnd_info_mn d-flex jc_sb rsp_fw">
                 <div class="w_47p rsp_100p">
-                  <div class="crt_prt_hd">City*</div>
+                  <div class="crt_prt_hd">{{"partner.partners.city"|translate}} *</div>
                   <mat-form-field appearance="outline" class="w_100p">
-                    <mat-select placeholder="Select City" name="c_city_edit" #c_city_edit="ngModel" [(ngModel)]="c_city"
+                    <mat-select placeholder='{{"partner.partners.select_city"|translate}}' name="c_city_edit" #c_city_edit="ngModel" [(ngModel)]="c_city"
                       required>
                       <mat-option>
-                        <ngx-mat-select-search [noEntriesFoundLabel]="'No City found'"
-                          [placeholderLabel]="'Search City'" name="c_search_city" ngModel
+                        <ngx-mat-select-search [noEntriesFoundLabel]='"partner.partners.no_cities_found"|translate'
+                          [placeholderLabel]='"partner.partners.search_city"|translate' name="c_search_city" ngModel
                           (ngModelChange)="cfilterCities($event)"></ngx-mat-select-search>
                       </mat-option>
                       <mat-option *ngFor="let city of c_all_cities | async" [value]="city['id']">{{
@@ -544,27 +531,24 @@
                     </mat-select>
                   </mat-form-field>
                   <span class="prc_tltp"
-                    *ngIf="(create_Partner_form4.submitted || c_city_edit.touched) && c_city_edit.invalid">City
-                    is required</span>
+                    *ngIf="(create_Partner_form4.submitted || c_city_edit.touched) && c_city_edit.invalid">{{"partner.partners.city_req"|translate}}</span>
                 </div>
                 <div class="w_47p rsp_100p">
-                  <div class="crt_prt_hd">ZIP/Pin code*</div>
+                  <div class="crt_prt_hd">{{"partner.partners.zip_code"|translate}} *</div>
                   <mat-form-field appearance="outline" class="w_100p">
-                    <input matInput placeholder="ZIP/Pin code" [(ngModel)]="c_pincode" name="c_pincode_edit"
+                    <input matInput placeholder='{{"partner.partners.zip_code"|translate}}' [(ngModel)]="c_pincode" name="c_pincode_edit"
                       #c_pincode_edit="ngModel" appNumbersonly minlength="4" maxlength="13" required />
                   </mat-form-field>
                   <span class="prc_tltp"
-                    *ngIf="(create_Partner_form1.submitted || c_pincode_edit.touched) && c_pincode_edit.invalid">ZIP/Pincode
-                    is required</span>
+                    *ngIf="(create_Partner_form1.submitted || c_pincode_edit.touched) && c_pincode_edit.invalid">{{"partner.partners.zip_req"|translate}}</span>
                 </div>
               </div>
             </div>
             <div class="clear_fix"></div>
             <div class="text_right float_right w_100p">
               <button type="button" mat-raised-button class="no_bxsdw gry_btn mr_1"
-                (click)="billing_address_expand=false;licence_info_expand = true;">Back</button>
-              <button mat-raised-button class="no_bxsdw" color="accent"
-                (click)="validateAddressDetails()">Finish</button>
+                (click)="billing_address_expand=false;licence_info_expand = true;">{{"back"|translate}}</button>
+              <button mat-raised-button class="no_bxsdw" color="accent" (click)="validateAddressDetails()">{{"finish"|translate}}</button>
             </div>
           </div>
         </form>
@@ -577,7 +561,7 @@
 <div class="cust_mdl_par {{ show_package_details ? 'cust_mdl_opn' : '' }}">
   <div class="cust_mdl_chl w_60p">
     <div class="pg_ttl">
-      <div>Package Details</div>
+      <div>{{"partner.partners.package_details"|translate}}</div>
       <span class="spacer"></span>
       <button (click)="show_package_details = false" mat-icon-button class="float_right">
         &#x2715;
@@ -586,27 +570,27 @@
     <div class="sdmu_ppdv cprt_nc_aa" *ngIf="packageInfoObj">
       <div class="my_prfl_mn">
         <div class="my_prf_dv">
-          <span>Package Name</span><br>
+          <span>{{"partner.partners.package_name"|translate}}</span><br>
           <label>{{ packageInfoObj.package_name }}</label>
         </div>
         <div class="my_prf_dv">
-          <span>Package Description</span><br>
+          <span>{{"partner.partners.package_description"|translate}}</span><br>
           <label>{{ packageInfoObj.package_desc }}</label>
         </div>
         <div class="my_prf_dv">
-          <span>Pricing Model</span><br>
+          <span>{{"partner.partners.pricing_model"|translate}}</span><br>
           <label>{{ packageInfoObj.pricing_model | uppercase }}</label>
         </div>
         <div class="my_prf_dv">
-          <span>Billing Frequence</span><br>
+          <span>{{"partner.partners.billing_frequence"|translate}}</span><br>
           <label>{{ packageInfoObj.billing_frequency | uppercase }}</label>
         </div>
         <div class="my_prf_dv">
-          <span>Duration</span><br>
+          <span>{{"partner.partners.duration"|translate}}</span><br>
           <label>{{ packageInfoObj.converted_duration }}</label>
         </div>
         <div class="my_prf_dv">
-          <span>Package Valid Till</span><br>
+          <span>{{"partner.partners.package_valid_till"|translate}}</span><br>
           <label>{{ packageInfoObj.valid_up_to }}</label>
         </div>
 
@@ -619,14 +603,14 @@
     </div>
     <div>
       <div class="mt_grd_dv sctd_crsdv_mn mt_1" *ngIf="packageAddonArr.length">
-        <div class="mb_1"><strong>Addons</strong></div>
+        <div class="mb_1"><strong>{{"partner.partners.addons"|translate}}</strong></div>
         <div class="clear_fix"></div>
         <div *ngFor="let addon of packageAddonArr;let i = index" class="slctd_itms">
           <span>{{addon.addon_type+' > '+addon.addon_name}}</span>
         </div>
       </div>
       <div class="mt_grd_dv sctd_crsdv_mn mt_1" *ngIf="coursesArr.length">
-        <div class="mb_1"><strong>Courses</strong></div>
+        <div class="mb_1"><strong>{{"partner.partners.courses"|translate}}</strong></div>
         <div class="clear_fix"></div>
         <div *ngFor="let course of coursesArr;let i = index" class="slctd_itms">
           <span>{{course.course_qbank_text+' > '+course.topic_text}}</span>
@@ -634,7 +618,7 @@
       </div>
 
       <div class="mt_grd_dv sctd_crsdv_mn mt_1" *ngIf="packagePricesArr.length">
-        <div class="mb_1"><strong>Prices</strong></div>
+        <div class="mb_1"><strong>{{"partner.partners.prices"|translate}}</strong></div>
         <div class="clear_fix"></div>
         <div *ngFor="let price of packagePricesArr;let i = index" class="slctd_itms">
           <span>{{price.country_name + ' : '+ price.currency_symbol +' '+ price.price_amount}}</span>

@@ -9,6 +9,7 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { filter, pairwise } from 'rxjs/operators';
 import { CommonService } from 'src/app/services/common.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-individual_levels_list',
@@ -36,8 +37,11 @@ export class Individual_levels_listComponent implements OnInit {
     private http: CommonService,
     private route: Router,
     private toster: ToastrService,
-    private location: Location
-  ) {}
+    private location: Location, 
+    public translate: TranslateService
+  ) {
+    this.translate.setDefaultLang(this.http.lang);
+  }
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
@@ -94,7 +98,11 @@ export class Individual_levels_listComponent implements OnInit {
                 }
                 else{
                     if (res['check_content'] == 0) {
-                        this.toster.error('No content Found', 'Error', {closeButton: true});
+                        this.translate.get('student.my_courses.no_contents_found').subscribe((data)=> {
+                          this.translate.get('error_text').subscribe((error_text)=> {  
+                              this.toster.error(data, error_text, {closeButton:true});
+                          });
+                        });
                         this.location.back();
                     } else {
                         let url = '/student/purchased-courses/details/' + this.curriculum_id + '/' + this.level_id + '/' + this.level_parent_id;
@@ -180,8 +188,12 @@ export class Individual_levels_listComponent implements OnInit {
           }
         //this.toster.success(res['message'], 'Info', { closeButton: true });
       } else {
-        this.toster.info('Something went wrong. Please try again.', 'Error', {
-          closeButton: true,
+        this.translate.get('student.my_courses.something_went_wrong').subscribe((data)=> {
+          this.translate.get('error_text').subscribe((error_text)=> {
+              this.toster.info(data, error_text, {
+                  closeButton: true,
+              });
+          });
         });
       }
     });
