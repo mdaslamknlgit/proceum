@@ -112,6 +112,7 @@ import { ClassesReportComponent } from './reports/classes-report/classes-report.
 import { OrdersReportComponent } from './reports/orders-list/orders-list.component';
 import { RevenueReportComponent } from './reports/revenue-report/revenue-report.component';
 import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
+import { VideoAnalyticsComponent } from './reports/video-analytics/video-analytics.component';
 import { AssessmentAdminReportComponent } from './reports/assessment-admin-report/assessment-admin-report.component';
 import { StudentPerformanceReportComponent } from './reports/student-performance-report/student-performance-report.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
@@ -287,6 +288,7 @@ const routes: Routes = [
       { path: 'reports/classes-report', component: ClassesReportComponent },
       { path: 'reports/orders-report', component: OrdersReportComponent },
       { path: 'reports/revenue-report', component: RevenueReportComponent },
+      { path: 'reports/video-analytics', component: VideoAnalyticsComponent },
       //Orders
       { path: 'orders', component: OrdersComponent },
       { path: 'revenue', component: RevenueComponent },
@@ -386,6 +388,7 @@ const routes: Routes = [
     RevenueComponent,
     OrderDetailsComponent,
     SubscriptionsComponent,
+    VideoAnalyticsComponent,
     AssessmentAdminReportComponent,
     StudentPerformanceReportComponent,
   ],

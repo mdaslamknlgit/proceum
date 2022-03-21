@@ -4,8 +4,6 @@ import { CommonService } from 'src/app/services/common.service';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import * as modelPlayer from '../../../../../assets/3d-model-viewer/js-3d-model-viewer.min';
-declare var $;
-window['$'] = window['jQuery'] = $;
 declare var kPoint: any;
 declare var VdoPlayer:any;
 import { PdfViewerComponent } from 'ng2-pdf-viewer';
