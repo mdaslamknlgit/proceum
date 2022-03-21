@@ -5,7 +5,7 @@
                 <div class="days_mn pp_dysmn">
                     <div class="dys_dv w_100p hvr_bg_wht">
                         <div class="dys_hd">
-                            <div class="dys_hd_txt">Test Report for Day </div>
+                            <div class="dys_hd_txt">{{'student.study_planner.tests.test_report_for_day'|translate}} </div>
                             <div class="dys_cnt">{{day}}</div>
                             <div class="spacer"></div>
                             <div>
@@ -19,17 +19,17 @@
                                 <!-- <div class="tsk_hd">{{selected_course['curriculumn_name']}}</div> -->
                                 <div class="hgt_20"></div>
                                 <div class="sbmtd_ans_dv">
-                                    <div><span>Total Questions:</span><span class="spacer"></span> <span class="dys_cnt">{{questions_list.length}}</span></div>
-                                    <div><span>Correct Answers:</span> <span class="spacer"></span><span class="dys_cnt">{{correct_answers}}</span></div>
-                                    <div><span>Wrong Answers:</span><span class="spacer"></span> <span class="dys_cnt wrng_ans">{{wrong_answers}}</span></div>
-                                    <div *ngIf="not_answered>0"><span>Not Answered:</span> <span class="spacer"></span><span class="dys_cnt nt_ans">{{not_answered}}</span></div>
-                                    <div *ngIf="free_text_qs>0"><span>Free Type Text Questions:</span> <span class="spacer"></span><span class="dys_cnt"> {{free_text_qs}}</span></div>
+                                    <div><span>{{'student.study_planner.tests.total_questions'|translate}}:</span><span class="spacer"></span> <span class="dys_cnt">{{questions_list.length}}</span></div>
+                                    <div><span>{{'student.study_planner.tests.correct_answers'|translate}}:</span> <span class="spacer"></span><span class="dys_cnt">{{correct_answers}}</span></div>
+                                    <div><span>{{'student.study_planner.tests.wrong_answers'|translate}}:</span><span class="spacer"></span> <span class="dys_cnt wrng_ans">{{wrong_answers}}</span></div>
+                                    <div *ngIf="not_answered>0"><span>{{'student.study_planner.tests.not_answered'|translate}}:</span> <span class="spacer"></span><span class="dys_cnt nt_ans">{{not_answered}}</span></div>
+                                    <div *ngIf="free_text_qs>0"><span>{{'student.study_planner.tests.free_type_text_questions'|translate}}:</span> <span class="spacer"></span><span class="dys_cnt"> {{free_text_qs}}</span></div>
                                 </div>
                                 <div class="hgt_20"></div>
                                 <div class="d-flex jc_cnt">
-                                    <button mat-raised-button class="gry_btn mr_1" (click)="hideDetails()">Close</button>
-                                    <button mat-raised-button color="accent" (click)="reviewQuestions()" class="mr_1 skp_btn">Show Answers</button>
-                                    <button mat-raised-button routerLink="/student/study-planner" color="accent">Go to Study Plan</button>
+                                    <button mat-raised-button class="gry_btn mr_1" (click)="hideDetails()">{{'close'|translate}}</button>
+                                    <button mat-raised-button color="accent" (click)="reviewQuestions()" class="mr_1 skp_btn">{{'student.study_planner.tests.show_answers'|translate}}</button>
+                                    <button mat-raised-button routerLink="/student/study-planner" color="accent">{{'student.study_planner.tests.go_to_study_plan'|translate}}</button>
                                 </div>
                                 <div class="hgt_20"></div>
                             </div>
@@ -43,14 +43,14 @@
     <div class="sp_mn">
         <div class="brdcrm_br" *ngIf="study_plan.length>0">
             <mat-icon color="accent">home</mat-icon>
-            <mat-icon>navigate_next</mat-icon><span routerLink="/student/study-planner">Study Plans</span> <mat-icon>navigate_next</mat-icon> <span routerLink="/student/study-planner/{{study_plan[0]['pk_id']}}">{{study_plan[0]['plan_name']}}</span> <mat-icon>navigate_next</mat-icon> Test Page (Day - {{day}})
+            <mat-icon>navigate_next</mat-icon><span routerLink="/student/study-planner">{{'student.study_planner.tests.study_plans'|translate}}</span> <mat-icon>navigate_next</mat-icon> <span routerLink="/student/study-planner/{{study_plan[0]['pk_id']}}">{{study_plan[0]['plan_name']}}</span> <mat-icon>navigate_next</mat-icon> {{'student.study_planner.tests.test_page'|translate}} ({{'student.study_planner.day'|translate}} - {{day}})
         </div>
     </div>
     <div class="hgt_20"></div>
     <div class="tsts_mn {{show_q_numbers == false ?  'tsts_collps' : '' }}" >
         <div class="tsts_qstns_nums">
             <div class="tstsnms_hd_dv">
-                <div class="tstsnms_hd">Questions ({{questions_list.length}})</div>
+                <div class="tstsnms_hd">{{'student.study_planner.tests.questions'|translate}} ({{questions_list.length}})</div>
                 <div class="spacer"></div>
                 <div class="tsts_qst_swch" (click)="show_q_numbers = !show_q_numbers">
                     <mat-icon color="accent">menu_open</mat-icon>
@@ -71,16 +71,16 @@
         </div>
         <div class="tsts_qstns" *ngIf="questions_list.length>0">
             <div class="d-flex w_90p">
-                <div class="tstsqst_hd">Question ({{active_q_index+1}}/{{questions_list.length}})</div>
+                <div class="tstsqst_hd">{{'student.study_planner.tests.question'|translate}} ({{active_q_index+1}}/{{questions_list.length}})</div>
                 <div class="spacer"></div>
                 <div>
                     <button
                     (click)="checkAnswer();showResult();" *ngIf="is_test_end == false" [disabled]="!allow_end_test && active_question['answer'].length == 0" mat-raised-button 
-                    class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">End Test
+                    class="skp_btn {{allow_end_test == false && active_question['answer'].length == 0 ? 'gry_btn':''}}">{{'student.study_planner.tests.end_test'|translate}}
                 </button>
                 <button *ngIf="is_test_end == true"
                     (click)="showDetails()" [disabled]="!allow_end_test" mat-raised-button 
-                    class="skp_btn {{allow_end_test == false ? 'gry_btn':''}}">View Report
+                    class="skp_btn {{allow_end_test == false ? 'gry_btn':''}}">{{'student.study_planner.tests.view_report'|translate}}
                 </button>
                 </div>
             </div>
@@ -142,7 +142,7 @@
                         </div>
                         <div class="rdo_desc"
                             *ngIf="active_question['show_answer'] && option['option_explanation'] != null && option['option_explanation'].trim() != ''">
-                            <div class="qstn_hds">Explanation</div>
+                            <div class="qstn_hds">{{'student.study_planner.tests.explanation'|translate}}</div>
                             <div [innerHtml]="option['option_explanation']"></div>
                         </div>
                     </div>
@@ -151,10 +151,10 @@
             <div class="tstsqst_navs" *ngIf="questions_list.length>0">
                 <button mat-raised-button color="accent" [disabled]="active_q_index == 0"
                     (click)="getQuestionOptions(active_q_index-1)">
-                    <mat-icon>arrow_left</mat-icon> Prev
+                    <mat-icon>arrow_left</mat-icon> {{'student.study_planner.tests.prev'|translate}}
                 </button>
                 <button mat-raised-button color="accent" [disabled]="active_q_index == (questions_list.length-1)"
-                    (click)="getQuestionOptions(active_q_index+1)">Next <mat-icon>arrow_right</mat-icon>
+                    (click)="getQuestionOptions(active_q_index+1)">{{'student.study_planner.tests.next'|translate}} <mat-icon>arrow_right</mat-icon>
                 </button>
             </div>
         </div>

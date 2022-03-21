@@ -5,7 +5,7 @@
                 <div class="days_mn pp_dysmn">
                     <div class="dys_dv w_100p hvr_bg_wht">
                         <div class="dys_hd">
-                            <div class="dys_hd_txt">Tasks for Day</div>
+                            <div class="dys_hd_txt">{{'student.study_planner.tasks_for_day'|translate}}</div>
                             <div class="dys_cnt">{{study_plan.schdule[selected_day_index]['day']}}</div>
                             <div class="spacer"></div>
                             <div>
@@ -39,7 +39,7 @@
     <div class="sp_mn">
         <div class="brdcrm_br">
             <mat-icon color="accent">home</mat-icon>
-            <mat-icon>navigate_next</mat-icon>Study Planner
+            <mat-icon>navigate_next</mat-icon>{{'student.study_planner.study_planner'|translate}}
         </div>
         <!-- 
             <div class="hgt_20"></div>
@@ -56,11 +56,11 @@
             </div>
         </div> -->
         <div class="hgt_20"></div>
-        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="plans_list.length == 0 && is_loaded">No Records Found</div>
+        <div class="crs_tbbd_mn no_desc_fnd" *ngIf="plans_list.length == 0 && is_loaded">{{'no_records_found_text'|translate}}</div>
         <div *ngIf="plans_list.length>0" class="sp_cnt d-flex dsh_brd_crds">
             <div class="sp_cnt_lft">
                 <div class="sp_sbhd">
-                    Plans List
+                    {{'student.study_planner.plans_list'|translate}}
                 </div>
                 <div class="sp_bdy">
                     <ul class="">
@@ -80,24 +80,24 @@
             </div>
             <div class="sp_cnt_rt">
                 <div class="sp_sbhd">
-                    Study Plan Name - {{study_plan['name']}}
+                    {{'student.study_planner.study_plan_name'|translate}} - {{study_plan['name']}}
                 </div>
                 <div class="days_mn" *ngIf="study_plan.schdule.length>0">
                     <div *ngFor="let day of study_plan.schdule;let index=index;"
                         class="dys_dv {{day['is_done']==true?'cmpltd_dy_active':''}} {{day['is_test_day'] == 1 ? 'tst_dy':''}}">
                         <!-- "cmpltd_dy_active" day completed class  -->
-                        <div class="done_tick" matTooltip="Mark as Done"
-                            [swal]="{title:'Is tasks complete ?', text: 'Are you sure, do you want to mark as complete this day?Please confirm.', showCancelButton: true}"
+                        <div class="done_tick" matTooltip="{{'student.study_planner.mark_as_done'|translate}}"
+                            [swal]="{title:'student.study_planner.is_tasks_complete'|translate, text: 'student.study_planner.are_you_sure'|translate, showCancelButton: true}"
                             (confirm)="markAsDayComplete(day['day'])"
                             *ngIf="day['is_test_day'] == 0 && !day['is_done']">
                             <mat-icon color="accent">done</mat-icon>
                         </div>
-                        <div class="done_tick" matTooltip="Tasks completed"
+                        <div class="done_tick" matTooltip="{{'student.study_planner.tasks_completed'|translate}}"
                             *ngIf="day['is_test_day'] == 0 && day['is_done']">
                             <mat-icon color="accent">check</mat-icon>
                         </div>
                         <div class="dys_hd">
-                            <div class="dys_hd_txt">Day</div>
+                            <div class="dys_hd_txt">{{'student.study_planner.day'|translate}}</div>
                             <div class="dys_cnt">{{day['day']}}</div>
                         </div>
                         <div class="opn_bkicn">
@@ -107,13 +107,13 @@
                             <mat-icon>content_paste</mat-icon>
                         </div>
                         <div>
-                            <div class="slct_crs d-none">Select Course</div>
+                            <div class="slct_crs d-none">{{'student.study_planner.select_course'|translate}}</div>
                             <div *ngFor="let course of day['selected_courses'];let course_index = index;"
                                 (click)="(study_plan.schdule[index] != undefined && study_plan.schdule[index]['selected_topics_list'] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length>0) && showDetails(study_plan.schdule[index]['selected_topics'], course, course_index, index)">
                                 <div class="dys_tsks_dv" *ngIf="day['is_test_day'] == 0">
                                     <div class="tsk_hd">{{course['curriculumn_name']}}</div>
                                     <div class="tsk_dv">
-                                        <div>Tasks</div>
+                                        <div>{{'student.study_planner.tasks'|translate}}</div>
                                         <div class="spacer"></div>
                                         <div class="tsk_cnt"
                                             *ngIf="study_plan.schdule[index] != undefined && study_plan.schdule[index]['selected_topics_list'] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index] != undefined && study_plan.schdule[index]['selected_topics_list'][course_index]['selected_topics_list'].length>0">
@@ -128,7 +128,7 @@
                         </div>
                         <div class="tst_dy_cnt" *ngIf="day['is_test_day'] == 1" (click)="startTest(day['day'])">
                             <div>
-                                <div class="slct_crs">Test</div>
+                                <div class="slct_crs">{{'student.study_planner.test'|translate}}</div>
                             </div>
                         </div>
                     </div>
