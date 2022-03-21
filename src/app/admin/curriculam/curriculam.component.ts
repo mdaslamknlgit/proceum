@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
@@ -45,11 +45,22 @@ export class CurriculamComponent implements OnInit {
     public exam_template = 1;
     public active_tab_index = 0;
     public tab_title = "Course";
+
+    public selectedIndex = 0;
+    public tab_index = 0;
     //public qbank_type = '';
-    constructor(private http: CommonService, public toster: ToastrService, private route: Router, public translate: TranslateService) {
+    constructor(private http: CommonService, public toster: ToastrService, private route: Router, public translate: TranslateService, private activatedRoute: ActivatedRoute,) {
         this.translate.setDefaultLang(this.http.lang);
     }
     ngOnInit(): void {
+        this.activatedRoute.params.subscribe((param) => {
+            this.selectedIndex = param.tab_id;
+            this.active_tab_index = this.selectedIndex;
+            if (this.selectedIndex == undefined) {
+                this.selectedIndex = 0;
+                this.active_tab_index = this.selectedIndex;
+            }        
+        });
         this.translate.get('admin.c_q_bank.courses').subscribe((data)=> {
             this.tab_title = data;
         });
