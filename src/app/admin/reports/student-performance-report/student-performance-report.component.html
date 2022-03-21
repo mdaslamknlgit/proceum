@@ -1,8 +1,47 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <strong>{{"admin.side_menu.analysis_report"|translate}}</strong></div> 
+    <div class="cust_mdl_par {{ subject_know_popup ? 'cust_mdl_opn' : '' }}">
+        <div class="cust_mdl_chl w_60p">
+            <div class="pg_ttl">
+                <div>{{"admin.report.sudt_rpt.subject_knowledge"|translate}}</div> 
+                <span class="spacer"></span>
+                <button (click)="subject_know_popup=false" mat-icon-button class="float_right">
+                    &#x2715;
+                </button>
+            </div>
+
+            <div class="sdmu_ppdv">
+                <div class="intr_vd_tml _admn_ds_accrd_mn w_100p">
+                    <div class="dsbrd_admnaccrdn w_100p">
+                      <div class="_admn_dv_mn sknow_aa">
+                        <div class="_dv_cnt _clr_one" *ngFor="let d_sk of this.subjectknowledge |keyvalue">
+                          <div *ngFor="let data of d_sk.value |keyvalue">
+                            <div *ngFor="let percent of data.value |keyvalue">
+                              <div class="_db_icn">
+                                <mat-icon>auto_stories</mat-icon>
+                              </div>
+                              <span class="_cnt_two">{{data.key}}</span>
+                              <div class="prg_div">
+                                <span class="prg_sp">
+                                  <mat-progress-bar class="prg_clr" color="primary" mode="determinate"
+                                    value="{{percent.value}}">
+                                  </mat-progress-bar>
+                                </span>
+                                <span class="cnt_sp">{{percent.value}}/100</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <strong>{{"admin.side_menu.student_performance"|translate}}</strong></div> 
     
     <div class="d-flex rsp_fw">
-        <div class="pg_ttl">{{"admin.side_menu.analysis_report"|translate}}</div>
+        <div class="pg_ttl">{{"admin.side_menu.student_performance"|translate}}</div>
         <div class="spacer"></div>
     </div>
     <hr />
@@ -91,33 +130,16 @@
         </div>
 
         <div class="cm_fltr_sc mr_1">
-            <span>{{"admin.report.order_list.duration"|translate}}</span>
-            <mat-form-field appearance="outline">
-                <mat-select placeholder="Select Duration" name="duration" [(ngModel)]="duration" (ngModelChange)="applyFilters()">
-                    <mat-option [value]="">{{"admin.report.order_list.all"|translate}}</mat-option>
-                    <mat-option [value]="'today'">{{"admin.report.order_list.today"|translate}}</mat-option>
-                    <mat-option [value]="'this_week'">{{"admin.report.order_list.this_week"|translate}}</mat-option>
-                    <mat-option [value]="'this_month'">{{"admin.report.order_list.this_month"|translate}}</mat-option>
-                    <mat-option [value]="'3'">{{"admin.report.order_list.3months"|translate}}</mat-option>
-                    <mat-option [value]="'6'">{{"admin.report.order_list.6months"|translate}}</mat-option>
-                    <mat-option [value]="'9'">{{"admin.report.order_list.9months"|translate}}</mat-option>
-                    <mat-option [value]="'this_year'">{{"admin.report.order_list.1year"|translate}}</mat-option>
-                    <mat-option [value]="'date_range'">{{"admin.report.order_list.date_range"|translate}}</mat-option>
-                </mat-select>
+            <span>{{"admin.report.sudt_rpt.student_name_search"|translate}} </span>
+            <mat-form-field appearance="outline" class="w_100p">
+                <input matInput [(ngModel)]="student_name" #student_name_name="ngModel"
+                    name="student_name_name" maxlength="50"
+                    placeholder='{{"enter"|translate}} {{"admin.report.sudt_rpt.student_name"|translate}}' autocomplete="off"
+                    >
+                <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
             </mat-form-field>
         </div>
 
-        <div class="cm_fltr_sc mr_1 {{date_range_fltr == false ? 'd_none':''}}">
-            <div class="crt_prt_hd">{{"admin.report.order_list.date_range"|translate}}</div>
-            <mat-form-field appearance="outline">
-              <mat-date-range-input [rangePicker]="picker">
-                <input matStartDate placeholder='{{"admin.report.order_list.start_date"|translate}}' [(ngModel)]="from_date" (dateChange)="fromdateChange()" readonly>
-                <input matEndDate placeholder='{{"admin.report.order_list.end_date"|translate}}' [(ngModel)]="to_date" (dateChange)="todateChange()" [disabled]="is_todate" readonly>
-              </mat-date-range-input>
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-date-range-picker #picker></mat-date-range-picker>
-            </mat-form-field>
-        </div>    
     </div>
     <div class="hgt_10"></div>
     <div>
@@ -127,36 +149,45 @@
                     <th mat-header-cell *matHeaderCellDef>{{"s_no_text"|translate}}</th>
                     <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
                 </ng-container>
-                <ng-container matColumnDef="assessment_name">
-                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.ass_rpt.assessment_name"|translate}}</th>
-                    <td mat-cell *matCellDef="let element">{{ element.assessment_name }}</td>
+                <ng-container matColumnDef="student_name">
+                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.sudt_rpt.student_name"|translate}}</th>
+                    <td mat-cell *matCellDef="let element">{{ element.name }}</td>
                 </ng-container>
-                <ng-container matColumnDef="date_time">
-                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.ass_rpt.date_time"|translate}}</th>
-                    <td mat-cell *matCellDef="let element">{{ element.assessment_date_time }}</td>
+                <ng-container matColumnDef="student_email">
+                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.sudt_rpt.student_email"|translate}}</th>
+                    <td mat-cell *matCellDef="let element">{{ element.email }}</td>
                 </ng-container>
-                <ng-container matColumnDef="conducted_by">
-                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.ass_rpt.conducted_by"|translate}}</th>
-                    <td mat-cell *matCellDef="let element">{{ element.created_by }}</td>
+                <ng-container matColumnDef="uid">
+                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.sudt_rpt.uid"|translate}}</th>
+                    <td mat-cell *matCellDef="let element">{{ element.uuid }}</td>
                 </ng-container>
-                <ng-container matColumnDef="students_appeared">
-                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.ass_rpt.students_appeared"|translate}}</th>
-                    <td mat-cell *matCellDef="let element">{{ element.students_appreared }}</td>
+                <ng-container matColumnDef="last_login">
+                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.sudt_rpt.last_login"|translate}}</th>
+                    <td mat-cell *matCellDef="let element">{{ element.last_login }}</td>
                 </ng-container>
-                <ng-container matColumnDef="students_passed">
-                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.ass_rpt.students_passed"|translate}}</th>
-                    <td mat-cell *matCellDef="let element">{{ element.students_passed }}</td>
+                <ng-container matColumnDef="notes_accessed">
+                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.sudt_rpt.notes_accessed"|translate}}</th>
+                    <td mat-cell *matCellDef="let element">{{ element.notes_accesed }}</td>
                 </ng-container>
-                <ng-container matColumnDef="questions">
-                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.ass_rpt.questions"|translate}}</th>
-                    <td mat-cell *matCellDef="let element">{{ element.total_questions_count }}</td>
+                <ng-container matColumnDef="videos_watched">
+                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.sudt_rpt.videos_watched"|translate}}</th>
+                    <td mat-cell *matCellDef="let element">{{ element.videos_watched }}</td>
                 </ng-container>
-                <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef>{{"actions_text"|translate}}</th>
+                <ng-container matColumnDef="zoom_class">
+                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.sudt_rpt.zoom_class"|translate}}</th>
+                    <td mat-cell *matCellDef="let element">{{ element.zoom_class }}</td>
+                </ng-container>
+                <ng-container matColumnDef="assessment_attended">
+                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.sudt_rpt.assessment_attended"|translate}}</th>
+                    <td mat-cell *matCellDef="let element">{{ element.assessment_attended }}</td>
+                </ng-container>
+                <ng-container matColumnDef="subject_knowledge">
+                    <th mat-header-cell *matHeaderCellDef>{{"admin.report.sudt_rpt.subject_knowledge"|translate}}</th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button color="accent">
+                        <span color="accent" (click)="openSubjectKnowledgeModel(element)" class="primary_color">{{"admin.report.sudt_rpt.view_details"|translate}}</span>
+                        <!-- <button mat-icon-button color="accent">
                             <mat-icon routerLink="/admin/reports/assessment-report/{{element.pk_id}}/{{element.assessment_key}}/{{organization_type_id}}/{{organization_list_id}}/{{college_id}}/{{year_id}}/{{semester_id}}/{{group_id}}" matTooltip="{{'click_to_view_report_text'|translate}}">visibility</mat-icon>
-                        </button>
+                        </button> -->
                     </td>
                 </ng-container>
                 
@@ -170,5 +201,4 @@
         <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)">
         </mat-paginator>
     </div>
-
 </div>

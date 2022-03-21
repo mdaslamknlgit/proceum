@@ -292,7 +292,7 @@
             <div class="cm_fltr_sc mr_1" *ngIf="is_college">
                 <span>{{"college"|translate}}</span>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="{{'select_text'|translate}} {{'college'|translate}}" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year')">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'college'|translate}}" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year');doFilter();">
                         <mat-option>
                             <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
                                 [placeholderLabel]="'Search'" name="search_university" ngModel (ngModelChange)="filterCollege($event)"
