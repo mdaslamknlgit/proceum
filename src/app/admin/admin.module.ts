@@ -152,6 +152,10 @@ const routes: Routes = [
         component: CurriculamComponent,
       },
       {
+        path: 'curriculum/tab/:tab_id',
+        component: CurriculamComponent,
+      },
+      {
         path: 'discount-settings',
         component: DiscountSettingsComponent,
       },
@@ -216,6 +220,7 @@ const routes: Routes = [
       { path: 'create-partner', component: CreatePartnerComponent },
       { path: 'create-partner/:id', component: CreatePartnerComponent },
       { path: 'partners-list', component: PartnersListComponent },
+      { path: 'partners-list/:tab_id', component: PartnersListComponent },
       { path: 'create-content/:id', component: CreateContentComponent },
       { path: 'prices-package-management', component: ListPackageComponent },
       { path: 'create-package', component: CreatePackageComponent },

@@ -4,7 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -40,6 +40,7 @@ export class PartnersListComponent implements OnInit {
   public user: any;
   popoverTitle = '';
   popoverMessage = '';
+  public selectedIndex = 0;
   dataSource = new MatTableDataSource();
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -48,12 +49,23 @@ export class PartnersListComponent implements OnInit {
     private http: CommonService,
     public toster: ToastrService,
     private router: Router,
-    public translate: TranslateService
+    public translate: TranslateService,
+    private activatedRoute: ActivatedRoute
   ) { 
     this.translate.setDefaultLang(this.http.lang);
   }
 
   ngOnInit(): void {
+    this.activatedRoute.params.subscribe((param) => {
+      this.selectedIndex = param.tab_id;
+      this.type = this.selectedIndex;
+      if (this.selectedIndex == undefined) {
+        this.selectedIndex = 0;
+        this.type = this.selectedIndex;
+      }
+      
+    });
+    // console.log("type => "+this.type);return;
     this.user = this.http.getUser();
     let param = {
       url: 'get-partners', partner_type_id: this.type, offset: this.page, limit: this.pageSize
