@@ -114,6 +114,7 @@ import { RevenueReportComponent } from './reports/revenue-report/revenue-report.
 import { SubscriptionsComponent } from './subscriptions/subscriptions.component';
 import { VideoAnalyticsComponent } from './reports/video-analytics/video-analytics.component';
 import { AssessmentAdminReportComponent } from './reports/assessment-admin-report/assessment-admin-report.component';
+import { StudentPerformanceReportComponent } from './reports/student-performance-report/student-performance-report.component';
 //import { SafePipe } from '../shared/pipes/safe.pipe';
 
 const routes: Routes = [
@@ -299,6 +300,8 @@ const routes: Routes = [
       { path: 'reports/assessment-report/:id/:key/:type/:org/:col/:year', component: AssessmentAdminReportComponent },
       { path: 'reports/assessment-report/:id/:key/:type/:org/:col/:year/:sem', component: AssessmentAdminReportComponent },
       { path: 'reports/assessment-report/:id/:key/:type/:org/:col/:year/:sem/:grp', component: AssessmentAdminReportComponent },
+      //Student Performance 
+      { path: 'reports/student-performance-report', component: StudentPerformanceReportComponent },
 
     ],
   },
@@ -387,6 +390,7 @@ const routes: Routes = [
     SubscriptionsComponent,
     VideoAnalyticsComponent,
     AssessmentAdminReportComponent,
+    StudentPerformanceReportComponent,
   ],
   imports: [
     MaterialModule,
