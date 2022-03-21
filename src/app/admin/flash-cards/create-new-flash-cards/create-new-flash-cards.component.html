@@ -1,12 +1,12 @@
 <div class="mn_dshbrd">
-    <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/manage-flash-cards"><strong>Flash Cards</strong></span> <strong>&raquo; Add Questions</strong></div>
-    <div class="pg_ttl">Flash Cards :: Add Questions</div>
+    <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <span routerLink="/admin/manage-flash-cards"><strong>{{"admin.side_menu.flash_cards"|translate}}</strong></span> <strong>&raquo; {{"admin.mng_cnt.fsh_crds.add_questions"|translate}}</strong></div>
+    <div class="pg_ttl">{{"admin.side_menu.flash_cards"|translate}} :: {{"admin.mng_cnt.fsh_crds.add_questions"|translate}}</div>
     <hr />
 
     <div class="cust_mdl_par cust_mdl_50p {{ library_popup ? 'cust_mdl_opn' : '' }}">
         <div class="cust_mdl_chl">
           <div class="pg_ttl">
-            Proceum Library
+            {{"admin.mng_cnt.fsh_crds.proceum_library"|translate}}
             <span class="spacer"></span>
             <button (click)="CloseModal()" mat-icon-button class="float_right">
               &#x2715;
@@ -18,11 +18,11 @@
     
             <hr />
             <button mat-raised-button color="accent" class="float_right mr_1">
-              Select
+              {{"select_text"|translate}}
             </button>
     
             <button mat-raised-button class="float_right mr_1 gry_btn" (click)="CloseModal()">
-              Close
+              {{"close"|translate}}
             </button>
             <div class="hgt_20"></div>
           </div>
@@ -32,10 +32,10 @@
     <form id="flash_cards_form" #flash_cards_form="ngForm" name="flash_cards_form" (ngSubmit)="flash_cards_form.valid && saveFlashCards()" novalidate ><!-- flash_cards_form.valid && -->
         <div class="dsh_brd_crds">
             <div *ngIf="curriculum_list == undefined">
-                No Courses Found
+              {{"admin.mng_cnt.fsh_crds.no_course_found"|translate}}
             </div>
             <div *ngIf="curriculum_list != undefined" class="cm_fltr_sc mr_1">
-                <span>COURSE <span class="required">*</span></span>
+                <span>{{"admin.mng_cnt.fsh_crds.course"|translate}} <span class="required">*</span></span>
                 <div class="clear_fix"></div>
                 <mat-form-field appearance="outline">
                     <mat-select [(ngModel)]="curriculum_id" name="curriculum_id" (ngModelChange)="applyFilters(0)" required>
@@ -51,7 +51,7 @@
                 <span>{{ ucFirst(value["display_label"]) }} <span *ngIf="level_options[value['level_number']] != undefined && level_options[value['level_number']].length > 0" class="required">*</span></span>
                 <div class="clear_fix"></div>
                 <mat-form-field appearance="outline">
-                    <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}" name="course_list_{{i+1}}" #course_list_{{i+1}}="ngModel"
+                    <mat-select placeholder="{{'select_text'|translate}} {{ ucFirst(value['display_label']) }}" name="course_list_{{i+1}}" #course_list_{{i+1}}="ngModel"
                     [(ngModel)]="selected_level[value['level_number']]" (ngModelChange)="
                         applyFilters(value['level_number']);
                         getLevels(value['level_number'])
@@ -60,7 +60,7 @@
                         <ngx-mat-select-search [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
                                                         name="search_topic" ngModel
                                                         (ngModelChange)="searchLevelByName($event,value['level_number'])"
-                                                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">Select {{ucFirst(value['display_label'])}}
+                                                        [placeholderLabel]="'Search '+ucFirst(value['display_label'])">{{'select_text'|translate}} {{ucFirst(value['display_label'])}}
                                                     </ngx-mat-select-search>
                                                 </mat-option>
                     <mat-option *ngFor="let level of level_options[value['level_number']]" [value]="level['pk_id']"
@@ -76,7 +76,7 @@
                                 *ngFor="let value of questionArray;let i = index;">
                     <div class="rsp_tbl">
                         <div class="w_100p mb_1">
-                            <label for="question-text"> Question {{i+1}} <span class="required">*</span></label>
+                            <label for="question-text"> {{"admin.mng_cnt.fsh_crds.question"|translate}} {{i+1}} <span class="required">*</span></label>
                         </div>
                         <div class="w_100p">
                             <div class="ck_editor {{flash_cards_form.submitted && questionArray[i]['question_text'].trim()==''?'angular_editor_div':''}}">
@@ -90,14 +90,14 @@
                             <div class="c_block">
                               <div class="c_block_title">
                                 <mat-icon>wallpaper</mat-icon>
-                                <label for="Intro video"> Upload images</label>
+                                <label for="Intro video"> {{"admin.mng_cnt.fsh_crds.upload_images"|translate}}</label>
                                 <span class="spacer"></span>
                                 <mat-icon (click)="openAssetsLibrary('images/flash_cards', 'question_images',i)" *ngIf="value.question_images.length < 1">add</mat-icon>
                               </div>
                               <div class="c_block_content" *ngIf="value.question_images.length == 0">
                                 <div class="upload_placeholder">
                                   <div class="place_block">
-                                    <span>Click + icon to add Attachments</span>
+                                    <span>{{"admin.mng_cnt.fsh_crds.click_to_add"|translate}}</span>
                                   </div>
                                 </div>
                               </div>
@@ -125,7 +125,7 @@
 
                     <div class="rsp_tbl">
                         <div class="w_100p mb_1">
-                            <label for="question-text"> Answer {{i+1}} <span class="required">*</span></label>
+                            <label for="question-text"> {{"admin.mng_cnt.fsh_crds.answer"|translate}} {{i+1}} <span class="required">*</span></label>
                         </div>
                         <div class="w_100p">
                             <div class="ck_editor {{flash_cards_form.submitted && questionArray[i]['answer_text'].trim()==''?'angular_editor_div':''}}" >
@@ -138,14 +138,14 @@
                             <div class="c_block">
                               <div class="c_block_title">
                                 <mat-icon>wallpaper</mat-icon>
-                                <label for="Intro video"> Upload images</label>
+                                <label for="Intro video"> {{"admin.mng_cnt.fsh_crds.upload_images"|translate}}</label>
                                 <span class="spacer"></span>
                                 <mat-icon (click)="openAssetsLibrary('images/flash_cards', 'answer_images', i)" *ngIf="value.answer_images.length < 1">add</mat-icon>
                               </div>
                               <div class="c_block_content" *ngIf="value.answer_images.length == 0">
                                 <div class="upload_placeholder">
                                   <div class="place_block">
-                                    <span>Click + icon to add Attachments</span>
+                                    <span>{{"admin.mng_cnt.fsh_crds.click_to_add"|translate}}</span>
                                   </div>
                                 </div>
                               </div>
@@ -174,20 +174,20 @@
                     <div class="w_100p">
                         <button class="float_right mr_1" (click)="removeOption(i)"
                             *ngIf="questionArray.length>1"
-                            type="button" mat-raised-button color="warn">Remove ( - )</button>
+                            type="button" mat-raised-button color="warn">{{"admin.mng_cnt.fsh_crds.remove"|translate}} ( - )</button>
                     </div>                  
                 </div>
                 <div class="hgt_20"></div>
                     <div class="w_100p">
                         <button class="float_right mr_1" (click)="addOption()"
                             *ngIf="questionArray.length<max_options"
-                            mat-raised-button type="button" color="accent">Add ( + )</button>
+                            mat-raised-button type="button" color="accent">{{"admin.mng_cnt.fsh_crds.add"|translate}} ( + )</button>
                     </div>
             </div>
 
             <div class="clear_fix"></div>
             <div class="text_right float_right w_100p">
-                <button type="submit" mat-raised-button  class="no_bxsdw mt_1" color="accent">Submit</button>
+                <button type="submit" mat-raised-button  class="no_bxsdw mt_1" color="accent">{{"submit"|translate}}</button>
             </div>
         </div>
     </form>

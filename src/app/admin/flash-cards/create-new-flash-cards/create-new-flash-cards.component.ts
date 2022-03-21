@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-new-flash-cards',
@@ -46,7 +47,9 @@ export class CreateNewFlashCardsComponent implements OnInit {
   public max_options = 10;
 
 
-  constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService) { }
+  constructor(private http:CommonService,private route: Router,private activatedRoute: ActivatedRoute,private toastr: ToastrService, public translate: TranslateService) {
+    this.translate.setDefaultLang(this.http.lang);
+   }
 
 
   ngOnInit(): void {
@@ -66,7 +69,11 @@ export class CreateNewFlashCardsComponent implements OnInit {
         this.curriculum_id = data['curricculum_id'];
         this.curriculum_list = data['curriculums'];
         if(!this.curriculum_list){
-        this.toastr.error("No Curriculums Found", "Error" , { closeButton: true })
+          this.translate.get('admin.mng_cnt.fsh_crds.no_curriculums_found').subscribe((data)=> {
+            this.translate.get('error_text').subscribe((error_text)=> {  
+                this.toastr.error(data, error_text, {closeButton:true});
+            });
+          });
       }
       this.curriculum_labels = data['curriculum_labels'];
         this.selected_level = [];
@@ -181,11 +188,17 @@ export class CreateNewFlashCardsComponent implements OnInit {
       if (this.library_purpose == 'question_images') {
         let obj = {file_path: res['file_path'], path: res['path'] };
         if (this.questionArray[this.active_question_index].question_images_files.includes(obj['file_path'])) {
-          this.toastr.error('File is already used', 'File Exists', {
-            closeButton: true,
+          this.translate.get('admin.mng_cnt.fsh_crds.file_already_used').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.fsh_crds.file_exists').subscribe((error_text)=> {  
+                this.toastr.error(data, error_text, {closeButton:true});
+            });
           });
         } else {
-          this.toastr.success('Files Added.', 'File', { closeButton: true });
+          this.translate.get('admin.mng_cnt.fsh_crds.files_added').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.fsh_crds.file').subscribe((success_text)=> {  
+                this.toastr.success(data, success_text, {closeButton:true});
+            });
+          });
           this.questionArray[this.active_question_index].question_images.push(obj);
           this.questionArray[this.active_question_index].question_images_files.push(obj['file_path']);
         }
@@ -193,11 +206,17 @@ export class CreateNewFlashCardsComponent implements OnInit {
       if (this.library_purpose == 'answer_images') {
         let obj = { file_path: res['file_path'], path: res['path'] };
         if (this.questionArray[this.active_question_index].answer_images_files.includes(obj['file_path'])) { 
-          this.toastr.error('File is already used', 'File Exists', {
-            closeButton: true,
+          this.translate.get('admin.mng_cnt.fsh_crds.file_already_used').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.fsh_crds.file_exists').subscribe((error_text)=> {  
+                this.toastr.error(data, error_text, {closeButton:true});
+            });
           });
         } else {
-          this.toastr.success('Files Added.', 'File', { closeButton: true });
+          this.translate.get('admin.mng_cnt.fsh_crds.files_added').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.fsh_crds.file').subscribe((success_text)=> {  
+                this.toastr.success(data, success_text, {closeButton:true});
+            });
+          });
           this.questionArray[this.active_question_index].answer_images.push(obj);
           this.questionArray[this.active_question_index].answer_images_files.push(obj['file_path']);
         }
@@ -230,7 +249,11 @@ export class CreateNewFlashCardsComponent implements OnInit {
       this.subject_csv = '';
     }
     if(this.subject_csv == ''){
-      this.toastr.error("Please select subjects!", 'Error', { closeButton: true });
+      this.translate.get('admin.mng_cnt.fsh_crds.select_subjects').subscribe((data)=> {
+        this.translate.get('error_text').subscribe((error_text)=> {  
+            this.toastr.error(data, error_text, {closeButton:true});
+        });
+      });
       return;
     }
 
