@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonService } from 'src/app/services/common.service';
-
+import { TranslateService } from '@ngx-translate/core';
 
 
 
@@ -28,18 +28,23 @@ export class StudyPlannerComponent implements OnInit {
     public selected_day_index = 0;
     public active_tab_index = 0;
     public study_plan_id = 0;
-    public pgae_title = 'Create Study Planner';
+    public page_title = 'Create Study Planner';
     public curriculum_labels = [];
     public level_options = [];
     public all_level_options = [];
     public selected_level = [];
     public selected_level_number = 0;
-    constructor(private http: CommonService,private toster: ToastrService, private activatedRoute: ActivatedRoute, private router: Router) { }
+    constructor(
+        private http: CommonService,
+        private toster: ToastrService,
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+        public translate: TranslateService) { }
     ngOnInit(): void {
         this.activatedRoute.params.subscribe((param) => {
             this.study_plan_id = param.id;
             if (this.study_plan_id != undefined) {
-              this.pgae_title = 'Edit Study Planner';
+              this.page_title = 'Edit Study Planner';
               this.getStudyPlan();
             }
             else{
@@ -67,7 +72,11 @@ export class StudyPlannerComponent implements OnInit {
                 this.selected_courses = study_plan['courses'];
             }
             else{
-                this.toster.error("Study Plan not found", "Error", {closeButton:true});
+                
+                this.translate.get('admin.study_planner.create.study_plan_not_found').subscribe((data)=> {
+                    this.toster.error(data, "Error", {closeButton:true});  
+                });
+                // this.toster.error("Study Plan not found", "Error", {closeButton:true});
                 this.router.navigateByUrl("admin/study-planner");
             }
         });
@@ -236,7 +245,12 @@ export class StudyPlannerComponent implements OnInit {
     }
     assignTest(){
         if(this.selected_day_index > 0 && (this.study_plan.schdule[this.selected_day_index-1]['is_test_day'] == true || (this.study_plan.schdule[this.selected_day_index+1] != undefined && this.study_plan.schdule[this.selected_day_index+1]['is_test_day'] == true))){
-            this.toster.error("Test not allowed for this day", "Not Allowed", {closeButton:true});
+            this.translate.get('admin.study_planner.create.test_not_allow_day').subscribe((data)=> {
+                this.translate.get('admin.study_planner.create.not_allowed').subscribe((data1)=> {
+                  this.toster.error(data, data1, { closeButton: true });
+                });
+              });
+            //this.toster.error("Test not allowed for this day", "Not Allowed", {closeButton:true});
             return false;
         }
         this.study_plan.schdule[this.selected_day_index]['is_test_day'] = true;
