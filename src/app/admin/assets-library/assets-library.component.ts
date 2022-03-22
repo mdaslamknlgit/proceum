@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject } from 'rxjs';
 import { CommonService } from 'src/app/services/common.service';
 import { environment } from 'src/environments/environment';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-assets-library',
@@ -31,7 +32,8 @@ export class AssetsLibraryComponent implements OnInit {
   constructor(
     private http: CommonService,
     private toster: ToastrService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    public translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -157,24 +159,34 @@ export class AssetsLibraryComponent implements OnInit {
         let size = files[i].size;
         size = Math.round(size / 1024);
         if(size > environment.file_upload_size){
-            this.toster.error(
-                ext +
-                  ' Size of file (' +
-                  files[i].name +
-                  ') is too large max allowed size 2mb'
-              );
+          this.translate.get('admin.mng_cnt.crt_cnt.size_of_file').subscribe((data)=> {
+            this.translate.get('admin.mng_cnt.crt_cnt.large_max_allowed').subscribe((data1)=> {
+              this.toster.error(ext+" "+data+" ("+files[i].name+") "+data1, "Error", { closeButton: true });
+            });
+          });
+            // this.toster.error(
+            //     ext +
+            //       ' Size of file (' +
+            //       files[i].name +
+            //       ') is too large max allowed size 2mb'
+            //   );
         }
         else{
             valid_files.push(files[i]);
             uploadData.append('file' + i, files[i]);
         }
       } else {
-        this.toster.error(
-          ext +
-            ' Extension not allowed file (' +
-            files[i].name +
-            ') not uploaded'
-        );
+        this.translate.get('admin.mng_cnt.crt_cnt.extension_allowed').subscribe((data)=> {
+          this.translate.get('admin.mng_cnt.crt_cnt.not_uploaded').subscribe((data1)=> {
+            this.toster.error(ext+" "+data+" ("+files[i].name+") "+data1, "Error", { closeButton: true });
+          });
+        });
+        // this.toster.error(
+        //   ext +
+        //     ' Extension not allowed file (' +
+        //     files[i].name +
+        //     ') not uploaded'
+        // );
       }
     }
     if (valid_files.length == 0) {
@@ -187,7 +199,12 @@ export class AssetsLibraryComponent implements OnInit {
     this.http.imageUpload(param, uploadData).subscribe((res) => {
       if (res['error'] == false) {
         documents.value='';
-        this.toster.success('Files successfully uploaded. large files may take some to find in search.', 'File Uploaded');
+        this.translate.get('admin.assets.images.files_success_uploaded').subscribe((data)=> {
+          this.translate.get('admin.mng_cnt.crt_cnt.file_uploaded').subscribe((data1)=> {
+            this.toster.success(data, data1, { closeButton: true });
+          });
+        });
+        //this.toster.success('Files successfully uploaded. large files may take some to find in search.', 'File Uploaded');
         this.openFolder(this.current_path);
       }
     });
@@ -208,7 +225,12 @@ export class AssetsLibraryComponent implements OnInit {
   deleteFile(path) {
     let param = { url: 'delete-file', path: path };
     this.http.post(param).subscribe((res) => {
-      this.toster.success('Files successfully Deleted.', 'File Deleted');
+      this.translate.get('admin.assets.images.files_success_deleted').subscribe((data)=> {
+        this.translate.get('admin.assets.images.file_deleted').subscribe((data1)=> {
+          this.toster.success(data, data1, { closeButton: true });
+        });
+      });
+      //this.toster.success('Files successfully Deleted.', 'File Deleted');
       this.openFolder(this.current_path);
       this.ClosePropertisModal();
     });

@@ -4,7 +4,7 @@
     }}">
     <div class="cust_mdl_chl">
       <div class="pg_ttl">
-        Properties
+        {{"admin.assets.images.properties"|translate}}
         <span class="spacer"></span>
         <button (click)="ClosePropertisModal()" mat-icon-button class="float_right">
           &#x2715;
@@ -18,19 +18,19 @@
         <div class="img_prp_dets">
           <ul>
             <li>
-              <span class="img_info_hd">File Location</span>
+              <span class="img_info_hd">{{"admin.assets.images.file_location"|translate}}</span>
               <span class="img_info_dets">{{ file_details["path"] }}</span>
             </li>
             <li>
-              <span class="img_info_hd">File Type</span>
+              <span class="img_info_hd">{{"admin.assets.images.file_type"|translate}}</span>
               <span class="img_info_dets">{{ file_details["extension"] }}</span>
             </li>
             <li>
-              <span class="img_info_hd">File Size</span>
+              <span class="img_info_hd">{{"admin.assets.images.file_size"|translate}}</span>
               <span class="img_info_dets">{{ file_details["size"] }} KB</span>
             </li>
             <li>
-              <span class="img_info_hd">Uploaded Date</span>
+              <span class="img_info_hd">{{"admin.assets.images.uploaded_date"|translate}}</span>
               <span class="img_info_dets">{{ file_details["date_time"] }}</span>
             </li>
           </ul>
@@ -40,17 +40,17 @@
           <div>
             <a [href]="bucket_path + file_details['path']" target="_blank" mat-raised-button color="accent"
               class="float_right mr_1">
-              Open
+              {{"admin.assets.images.open"|translate}}
             </a>
           </div>
           <div>
             <button type="button" *ngIf="data['modal_view'] == true  && library_purpose != 'editor'" mat-raised-button color="accent" class="float_right mr_1"
               (click)="
-            selectFile({ file_path: file_details['path'], path: preview_path })">Select
+            selectFile({ file_path: file_details['path'], path: preview_path })">{{"select_text"|translate}}
             </button>
             <button type="button" *ngIf="data['modal_view'] == true && library_purpose == 'editor'" mat-raised-button color="accent" class="float_right mr_1"
               (click)="
-              insertFile({ file_path: file_details['path'], path: preview_path })">Insert
+              insertFile({ file_path: file_details['path'], path: preview_path })">{{"admin.assets.images.insert"|translate}}
             </button>
           </div>
           <div>
@@ -58,12 +58,12 @@
             'Are you sure to delete this file? File will be deleted permanently.'
           " placement="auto" (confirm)="deleteFile(file_details['path'])" confirmButtonType="danger"
               cancelButtonType="outline-secondary" color="warn" class="float_right mr_1">
-              Delete
+              {{"delete_text"|translate}}
             </button>
           </div>
           <div>
             <button mat-raised-button class="float_right mr_1 gry_btn" (click)="ClosePropertisModal()">
-              Close
+              {{"close"|translate}}
             </button>
           </div>
         </div>
@@ -77,9 +77,9 @@
   </div>
 
   <div class="brd_crm" *ngIf="!data['modal_view']">
-    Proceum&nbsp;&raquo; <strong>Assets Library</strong>
+    {{"proceum_text"|translate}} &nbsp;&raquo; <strong>{{"admin.side_menu.assets_library"|translate}}</strong>
   </div>
-  <div class="pg_ttl" *ngIf="!data['modal_view']">Assets Library</div>
+  <div class="pg_ttl" *ngIf="!data['modal_view']">{{"admin.side_menu.assets_library"|translate}}</div>
   <hr *ngIf="!data['modal_view']" />
   <div *ngIf="data['modal_view']" class="hgt_20"></div>
   <div class="explr_nav">
@@ -97,28 +97,28 @@
 
       <div class="dsh_brd_crds">
         <mat-form-field appearance="outline" class="mr_1">
-          <input matInput [(ngModel)]="search_images" (keyup)="$event.keyCode == 13 ? filterFiles() : ''" matInput placeholder="Search" />
+          <input matInput [(ngModel)]="search_images" (keyup)="$event.keyCode == 13 ? filterFiles() : ''" matInput placeholder="{{'search_text'|translate}}" />
           <mat-icon matSuffix (click)="filterFiles()">search</mat-icon>
         </mat-form-field>
-        <button mat-raised-button matTooltip="Refresh" color="accent" class="mr_1 mt_5px"
+        <button mat-raised-button matTooltip="{{'admin.assets.images.refresh'|translate}}" color="accent" class="mr_1 mt_5px"
           (click)="openFolder(current_path)" type="button" color="accent">
           <mat-icon>autorenew</mat-icon>
         </button>
         <button mat-raised-button onclick="document.getElementById('fileToUpload').click()" color="accent"
           class=" mr_1 mt_5px">
           <mat-icon>upload</mat-icon>
-          Upload Files<input (change)="uploadFiles($event, documents)" multiple="true" #documents accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
+          {{"admin.assets.images.upload_files"|translate}}<input (change)="uploadFiles($event, documents)" multiple="true" #documents accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,
             text/plain, application/pdf" id="fileToUpload" type="file" style="display: none" />
         </button>
         <span class="fl_frmt_info">
-          (doc, .docx, .pdf, .odt, .xls, .xlsx, .ppt &amp; open office formats only)
+          (doc, .docx, .pdf, .odt, .xls, .xlsx, .ppt &amp; {{"admin.assets.images.open_office_formats"|translate}})
         </span>
       </div>
       <div class="hgt_20"></div>
       <div class="mlti_fls">
         <div *ngIf="current_path_list.length > 1" class="mlti_fls_dv" (click)="goBack()">
           <img src="../../../assets/images/folder_back.png" alt="" />
-          <span class="text_center">Back</span>
+          <span class="text_center">{{"admin.assets.images.back"|translate}}</span>
         </div>
         <div *ngFor="let folder of directories" class="mlti_fls_dv" (click)="openFolder(folder)">
           <img src="../../../assets/images/folder.png" alt="" />
@@ -150,28 +150,28 @@
       <!-- <div class="hgt_20"></div> -->
       <div class="dsh_brd_crds">
         <mat-form-field appearance="outline" class="mr_1">
-          <input [(ngModel)]="search_images" (keyup)="$event.keyCode == 13 ? filterFiles() : ''" matInput placeholder="Search" />
+          <input [(ngModel)]="search_images" (keyup)="$event.keyCode == 13 ? filterFiles() : ''" matInput placeholder="{{'search_text'|translate}}" />
           <mat-icon matSuffix (click)="filterFiles()">search</mat-icon>
         </mat-form-field>
-        <button mat-raised-button matTooltip="Refresh" color="accent" class=" mr_1 mt_5px"
+        <button mat-raised-button matTooltip="{{'admin.assets.images.refresh'|translate}}" color="accent" class=" mr_1 mt_5px"
           (click)="openFolder(current_path)" type="button" color="accent">
           <mat-icon>autorenew</mat-icon>
         </button>
         <button mat-raised-button onclick="document.getElementById('imageToUpload').click()" color="accent"
           class=" mr_1 mt_5px">
           <mat-icon>upload</mat-icon>
-          Upload Files<input (change)="uploadFiles($event, documents)" #documents multiple="true" accept="image/x-png,image/gif,image/jpeg"
+          {{"admin.assets.images.upload_files"|translate}}<input (change)="uploadFiles($event, documents)" #documents multiple="true" accept="image/x-png,image/gif,image/jpeg"
             id="imageToUpload" type="file" style="display: none" />
         </button>
         <span class="fl_frmt_info">
-          .jpg, .jpeg, .bmp, .gif, .png formats only
+          .jpg, .jpeg, .bmp, .gif, .png {{"admin.assets.images.formats_only"|translate}}
         </span>
       </div>
       <div class="hgt_20"></div>
       <div class="mlti_fls">
         <div *ngIf="current_path_list.length > 1" class="mlti_fls_dv" (click)="goBack()">
           <img src="../../../assets/images/folder_back.png" alt="" />
-          <span class="fl_nme text_center">Back</span>
+          <span class="fl_nme text_center">{{"admin.assets.images.back"|translate}}</span>
         </div>
         <div class="mlti_fls_dv" *ngFor="let folder of directories" (click)="openFolder(folder)">
           <img src="../../../assets/images/folder.png" alt="" />
@@ -198,17 +198,17 @@
           <div class="hgt_20"></div>
           <div class="dsh_brd_crds">
             <mat-form-field appearance="outline" class="float_right">
-              <input matInput placeholder="Search" />
+              <input matInput placeholder="{{'search_text'|translate}}" />
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
-            <button mat-raised-button matTooltip="Refresh" color="accent" class="float_right mr_1 mt_5px"
+            <button mat-raised-button matTooltip="{{'admin.assets.images.refresh'|translate}}" color="accent" class="float_right mr_1 mt_5px"
               (click)="openFolder(current_path)" type="button" color="accent">
               <mat-icon>autorenew</mat-icon>
             </button>
             <button mat-raised-button onclick="document.getElementById('videoToUpload').click()" color="accent"
               class="float_right mr_1 mt_5px">
               <mat-icon>upload</mat-icon>
-              Upload Files<input (change)="uploadFiles($event, documents)" #documents multiple="true" accept="video/*" id="videoToUpload"
+              {{"admin.assets.images.upload_files"|translate}}<input (change)="uploadFiles($event, documents)" #documents multiple="true" accept="video/*" id="videoToUpload"
                 type="file" style="display: none" />
             </button>
           </div>
@@ -216,7 +216,7 @@
           <div class="mlti_fls">
             <div *ngIf="current_path_list.length > 1" class="mlti_fls_dv" (click)="goBack()">
               <img src="../../../assets/images/folder_back.png" alt="" />
-              <span class="fl_nme text_center">Back</span>
+              <span class="fl_nme text_center">{{"admin.assets.images.back"|translate}}</span>
             </div>
             <div class="mlti_fls_dv" *ngFor="let folder of directories" (click)="openFolder(folder)">
               <img src="../../../assets/images/folder.png" alt="" />
@@ -239,7 +239,7 @@
           <div class="hgt_20"></div>
           <div class="dsh_brd_crds">
             <mat-form-field appearance="outline" class="float_right">
-              <input matInput placeholder="Search" />
+              <input matInput placeholder="{{'search_text'|translate}}" />
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
           </div>
@@ -279,7 +279,7 @@
           <div class="hgt_20"></div>
           <div class="dsh_brd_crds">
             <mat-form-field appearance="outline" class="float_right">
-              <input matInput placeholder="Search" />
+              <input matInput placeholder="{{'search_text'|translate}}" />
               <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
           </div>

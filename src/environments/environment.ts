@@ -96,14 +96,14 @@ export const environment = {
   DISABLED_USER_ROLES_FOR_PROCEUM: [2,12],
   DISABLED_USER_ROLES_FOR_ORGANIZATION: [1, 3, 4, 5, 6, 7],
 
-  //  apiUrl: api_url,
-  //apiUrl: 'http://127.0.0.1:8000/api/',
-    apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
+  // apiUrl: api_url,
+  apiUrl: 'http://127.0.0.1:8000/api/',
+  // apiUrl: 'https://dev.medvizz3d.com/web-api/public/api/',
   // apiUrl: 'https://uat.proceum.com/web-api/public/api/',
   // apiUrl: 'https://apiqa.proceum.com/api/',
 
   APP_BASE_URL: 'http://localhost:4200/',
-   //APP_BASE_URL: 'http://192.10.250.150:4200/',
+  // APP_BASE_URL: 'http://192.10.250.150:4200/',
 
 firebaseConfig: {
     apiKey: "AIzaSyDYq_cR2oBS3VwPYpT2bqfz9v6YjEHW63k",
