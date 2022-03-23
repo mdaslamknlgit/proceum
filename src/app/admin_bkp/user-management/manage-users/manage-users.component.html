@@ -1,0 +1,604 @@
+<div class="mn_dshbrd">
+    <div class="cust_mdl_par {{ mng_student_details_popup ? 'cust_mdl_opn' : '' }}">
+        <div class="cust_mdl_chl w_60p">
+            <div class="pg_ttl">
+                <div>{{"admin.mng_usr.student_details"|translate}}</div> 
+                <span class="spacer"></span>
+                <button (click)="mng_student_details_popup=false" mat-icon-button class="float_right">
+                    &#x2715;
+                </button>
+            </div>
+
+            <div class="sdmu_ppdv">
+                
+                <div class="my_prfl_mn">
+                    <div class="my_prf_dv">
+                      <span>{{"admin.mng_usr.first_name"|translate}}</span><br>
+                      <label>{{ first_name }}</label>
+                    </div>                    
+                    <div class="my_prf_dv">
+                        <span>{{"admin.mng_usr.last_name"|translate}}</span><br>
+                        <label>{{ last_name }}</label>
+                    </div>
+                    <div class="my_prf_dv {{ uuid? '':'na_lbl' }}">
+                        <span>{{"admin.mng_usr.reg_no"|translate}}</span><br>
+                        <label>{{uuid}}</label>
+                    </div>
+                    <div class="my_prf_dv {{ phone ? '':'na_lbl' }}">
+                        <span>{{"admin.mng_usr.mobile"|translate}}</span><br>
+                        <label>{{ phone }}</label>
+                    </div>            
+                    <div class="my_prf_dv">
+                        <span>{{"admin.mng_usr.email"|translate}}</span><br>
+                        <label>{{ email }}</label>
+                    </div>
+                    <div class="my_prf_dv {{ year? '':'na_lbl' }}">
+                        <span>{{"year"|translate}}</span><br>
+                        <label>{{year}}</label>
+                    </div>
+                    <div class="my_prf_dv {{ semester? '':'na_lbl' }}">
+                        <span>{{"semester"|translate}}</span><br>
+                        <label>{{semester}}</label>
+                    </div>
+                    <div class="my_prf_dv {{ group? '':'na_lbl' }}">
+                        <span>{{"group"|translate}}</span><br>
+                        <label>{{group}}</label>
+                    </div>
+                    <div class="my_prf_dv {{ country_name? '':'na_lbl' }}">
+                        <span>{{"admin.mng_usr.country"|translate}} </span><br>
+                        <label>{{country_name}}</label>
+                    </div>
+                    <div class="my_prf_dv {{ state_name ? '':'na_lbl' }}">
+                        <span>{{"admin.mng_usr.state"|translate}} </span><br>
+                        <label>{{state_name}}</label>
+                    </div>
+                    <div class="my_prf_dv {{ city_name ? '':'na_lbl' }}">
+                        <span>{{"admin.mng_usr.city"|translate}} </span><br>
+                        <label>{{city_name}}</label>
+                    </div>
+                    <div class="my_prf_dv {{ address1 ? '':'na_lbl' }}">
+                        <span>{{"admin.mng_usr.address_1"|translate}} </span><br>
+                        <label>{{address1}}</label>
+                      </div>
+                      <div class="my_prf_dv {{ address2 ? '':'na_lbl' }}">
+                        <span>{{"admin.mng_usr.address_2"|translate}}</span><br>
+                        <label>{{address2}}</label>
+                      </div>
+                      <div *ngIf="university != null" class="my_prf_dv">
+                        <span>{{"university"|translate}}</span><br>
+                        <label>{{ university }}</label>
+                      </div>
+                      <div *ngIf="college != null" class="my_prf_dv">
+                        <span>{{"college"|translate}}</span><br>
+                        <label>{{ college }}</label>
+                      </div>
+                      <div *ngIf="institute != null" class="my_prf_dv">
+                        <span>{{"institute"|translate}}</span><br>
+                        <label>{{ institute }}</label>
+                      </div>
+                      <div class="my_prf_dv {{ last_login_time ? '':'na_lbl' }}">
+                        <span>{{"admin.mng_usr.last_login_info"|translate}}</span><br>
+                        <label>{{ last_login_time }}</label>
+                      </div>
+
+                  </div> 
+
+                  <div class="sdmu_ppdv_aa"> 
+                    <span class="profile_pic">
+                    <img src="{{profile_pic}}" alt="{{'admin.mng_usr.student_profile_pic'|translate}}">
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="cust_mdl_par {{ mng_student_popup ? 'cust_mdl_opn' : '' }}">
+        <div class="cust_mdl_chl w_30p">
+            <div class="pg_ttl">
+               
+                <div *ngIf="manage_students == '1'">{{"admin.mng_usr.promote_selected_students"|translate}}</div> 
+                <div *ngIf="manage_students == '2'">{{"admin.mng_usr.download_students"|translate}}</div>
+                <div *ngIf="manage_students == '3'">{{"admin.mng_usr.import_students"|translate}}</div>
+
+                <span class="spacer"></span>
+                <button (click)="mng_student_popup=false" mat-icon-button class="float_right">
+                    &#x2715;
+                </button>
+            </div>
+            <div class="usrmgmnt_ppdv tbbd_bdy dsh_brd_crds at_mn_dv">
+                <!-- Import Div start here--> 
+                <div class="d-flex fd_clmn text_center" *ngIf="manage_students == '3'">
+                    <div class="mb_1">
+                        <button mat-raised-button onclick="document.getElementById('fileToUpload').click()" color="accent" class="w_270p mt_5px">
+                            <mat-icon>upload</mat-icon>
+                            {{"admin.mng_usr.import_students_csv"|translate}}<input (change)="uploadFiles($event)" multiple="true" #documents accept=".csv"
+                                id="fileToUpload" type="file" style="display: none" />
+                        </button>
+                    </div>
+                    <div>
+                        <a [href]="student_structure_template" mat-raised-button color="accent" class="w_270p" target="_blank"> <!--(click)="studentStructureTemplate()"-->
+                            <mat-icon>download</mat-icon> {{"admin.mng_usr.download_structure"|translate}}
+                        </a> 
+                    </div>
+                    <div class="hgt_20"></div>
+                </div>                                    
+                <!-- Import Div end here--> 
+                
+                <!-- Export / Download Div start here--> 
+                <div class="d-flex fd_clmn text_center" *ngIf="manage_students == '2'">
+                    <div class="mb_1">
+                        <button mat-raised-button color="accent" (click)="downloadAllStudents()">{{"admin.mng_usr.all_students_list"|translate}}</button>
+                    </div>
+                    <div>
+                        <button mat-raised-button color="accent" (click)="downloadSelectStudents()">{{"admin.mng_usr.selected_students_list"|translate}}</button>
+                    </div>
+                    <div class="hgt_20"></div>
+                </div>
+                <!-- Export / Download Div end here-->     
+                <!-- Promote Div start here--> 
+                <div class="dsh_brd_crds" *ngIf="manage_students == '1'">
+                    <div class="pss_pp_dv">
+                        <div class="cm_fltr_sc mr_1">
+                            <span>{{"year"|translate}}</span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="{{'select_text'|translate}} {{'year'|translate}}" name="promote_year_edit" #promote_year_edit="ngModel" [(ngModel)]="promote_year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,promote_year_id,'semester','promote')">
+                                    <mat-option *ngFor="let item of promote_all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> 
+                        <div class="cm_fltr_sc mr_1" *ngIf="promote_semester_dropdown">
+                            <span>{{"semester"|translate}}</span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="{{'select_text'|translate}} {{'semester'|translate}}" name="promote_semester_edit" #promote_semester_edit="ngModel" [(ngModel)]="promote_semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,promote_semester_id,'group','promote')" >
+                                    <mat-option *ngFor="let item of promote_all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> 
+                        <div class="cm_fltr_sc mr_1" *ngIf="promote_group_dropdown">
+                            <span>{{"group"|translate}}</span>
+                            <mat-form-field appearance="outline">
+                                <mat-select placeholder="{{'select_text'|translate}} {{'group'|translate}}" name="promote_group_edit" #promote_group_edit="ngModel" [(ngModel)]="promote_group_id">
+                                    <mat-option *ngFor="let item of promote_all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    
+                    <div class="hgt_10"></div>
+                    <div class="text_center">
+                        <button mat-raised-button color="accent" (click)="PromoteStudentSubmit()" >{{'submit'|translate}}</button>
+                    </div>
+                    <div class="hgt_20"></div>
+                </div>
+                <!-- Promote Div end here--> 
+            </div>
+        </div>
+    </div>
+    <div class="brd_crm">{{"proceum_text"|translate}} &raquo; <strong>{{"admin.mng_usr.page_title"|translate}}</strong></div>
+    <div class="d-flex rsp_fw">
+        <div class="pg_ttl">{{"admin.mng_usr.page_title"|translate}}</div>
+        <div class="spacer"></div>
+        <div *ngIf="role_id != 12">
+            <button mat-raised-button color="accent" (click)="navigateTo('create-user')">
+                <mat-icon>add</mat-icon>
+                {{"admin.mng_usr.new_user"|translate}}
+            </button>
+        </div>
+    </div>
+    <hr />
+    <div class="dsh_brd_crds">
+        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
+            <span>{{"admin.mng_usr.role"|translate}}</span>
+            <mat-form-field appearance="outline">
+                <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.role'|translate}}" name="role_edit" #role_edit="ngModel" [(ngModel)]="role" (ngModelChange)="doFilter()">
+                    <!-- <mat-option [value]="">All</mat-option> -->
+                    <mat-option *ngFor="let item of all_roles | async" [value]="''+item['id']">{{ item["role_name"] }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="cm_fltr_sc mr_1" *ngIf="role_id != 12">
+            <span>{{"search_text"|translate}}</span>
+            <mat-form-field appearance="outline" class="w_100p">
+                <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                    placeholder="{{'search_text'|translate}}" />
+                <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
+            </mat-form-field>
+        </div>
+      
+        <div *ngIf="role_id == 12">
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"search_text"|translate}}</span>
+                <mat-form-field appearance="outline" class="w_100p">
+                    <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                        placeholder="{{'search_text'|translate}}" />
+                    <mat-icon (click)="doFilter()" matSuffix color="accent">search</mat-icon>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"year"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester')">
+                        <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
+                <span>{{"semester"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group')" >
+                        <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="show_group_dropdown">
+                <span>{{"group"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'group'|translate}}" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="doFilter()">
+                        <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mt_18px">
+                <button mat-raised-button (click)="resetFilters();" class="mt_6px" color="warn">
+                    <mat-icon>autorenew</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="clear_fix"></div>
+        <div *ngIf="role == '2'">
+            <div class="hgt_10"></div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"admin.mng_usr.manage_students"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.manage_students'|translate}}" name="manage_students_edit" #manage_students_edit="ngModel" [(ngModel)]="manage_students">
+                        <mat-option value="1">{{"admin.mng_usr.promote_students"|translate}}</mat-option>
+                        <mat-option value="2">{{"admin.mng_usr.export_students"|translate}}</mat-option>
+                        <mat-option value="3">{{"admin.mng_usr.import_students"|translate}}</mat-option>
+                        <mat-option value="4">{{"admin.mng_usr.blog_access"|translate}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        <!-- </div>
+            <div *ngIf="role == '2' && (manage_students == '1' || manage_students == '2')"> -->
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
+                <span>{{"admin.mng_usr.organization_type"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'admin.mng_usr.organization_type'|translate}}" name="organization_edit" #organization_edit="ngModel" [(ngModel)]="organization_type_id" (ngModelChange)="onOrganizationTypeChange()">
+                        <mat-option *ngFor="let item of organization_types" [value]="item.value">{{ item.viewValue }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="is_university">
+                <span>{{ organization_type_name ? organization_type_name : 'Organization List' }} </span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{ organization_type_name }}" name="organization_list_edit" #organization_list_edit="ngModel" [(ngModel)]="organization_list_id" (ngModelChange)="getCollege(organization_type_id,0,'year')">
+                        <mat-option>
+                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
+                                [placeholderLabel]="'Search'" name="search_university" ngModel (ngModelChange)="filterPartners($event)"
+                                >
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let item of all_organization_list | async" [value]="item['pk_id']">{{ item["organization_name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="is_college">
+                <span>{{"college"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'college'|translate}}" name="college_edit" #college_edit="ngModel" [(ngModel)]="college_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,0,'year')">
+                        <mat-option>
+                            <ngx-mat-select-search [noEntriesFoundLabel]="'No Record Found'"
+                                [placeholderLabel]="'Search'" name="search_university" ngModel (ngModelChange)="filterCollege($event)"
+                                >
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let item of all_college | async" [value]="item['pk_id']">{{ item["partner_name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1">
+                <span>{{"year"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'year'|translate}}" name="year_edit" #year_edit="ngModel" [(ngModel)]="year_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,year_id,'semester')">
+                        <mat-option *ngFor="let item of all_years | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="show_semester_dropdown">
+                <span>{{"semester"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'semester'|translate}}" name="semester_edit" #semester_edit="ngModel" [(ngModel)]="semester_id" (ngModelChange)="getYearSemsterGroup(organization_type_id,semester_id,'group')" >
+                        <mat-option *ngFor="let item of all_semesters | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mr_1" *ngIf="show_group_dropdown">
+                <span>{{"group"|translate}}</span>
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="{{'select_text'|translate}} {{'group'|translate}}" name="group_edit" #group_edit="ngModel" [(ngModel)]="group_id" (ngModelChange)="doFilter()">
+                        <mat-option *ngFor="let item of all_groups | async" [value]="item['pk_id']">{{ item["name"] }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="cm_fltr_sc mt_18px">
+                <button mat-raised-button (click)="resetFilters();" class="mt_6px" color="warn">
+                    <mat-icon>autorenew</mat-icon>
+                </button>
+            </div>
+        </div>
+        
+        <div>
+            <hr />
+            <button mat-raised-button color="accent" class="mr_1" *ngIf="manage_students == '2'" (click)="onManageStudentChange()">{{"admin.mng_usr.export_students"|translate}}</button>
+            <button mat-raised-button color="accent" class="mr_1" *ngIf="manage_students == '1'" (click)="onManageStudentChange()">{{"admin.mng_usr.promote_students"|translate}}</button>
+            <button mat-raised-button color="accent" class="mr_1" *ngIf="manage_students == '3'" (click)="onManageStudentChange()">{{"admin.mng_usr.import_students"|translate}}</button> 
+            <button mat-raised-button color="accent" class="mr_1" *ngIf="manage_students == '4'" (click)="allowBlogAccessforAll()">{{"admin.mng_usr.blog_access"|translate}}</button> 
+        </div>
+        <div class="hgt_10"></div>
+        <div>
+            <div class="rsp_tbl" *ngIf="role != '2' && role_id != 12">
+                <table mat-table [dataSource]="dataSource" matSort>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>{{"s_no_text"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>{{"admin.mng_usr.name"|translate}}</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.name }}</span></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>{{"admin.mng_usr.email"|translate}}</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.email }}</span></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="role_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>{{"admin.mng_usr.role"|translate}}</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.role_name }}</span></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.contact"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Organization">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"partner_name"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.university_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="created_at">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.created"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"status_text"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-slide-toggle #slide1 (click)="$event.preventDefault();changeStatus(element.id, element.status, slide1)"
+                                [checked]="element.status == 1 ? true : false"
+                                matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+                            </mat-slide-toggle>
+                            <!-- <span matTooltip="Current Status is {{
+                        element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+                    }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+                                "Inactive" }}</span> -->
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>{{"actions_text"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button matTooltip="{{'click_to_edit_text'|translate}}" color="accent"
+                                (click)="navigateTo('edit-user/'+element.id)">
+                                <mat-icon>edit_notes</mat-icon>
+                            </button>
+
+                            <!--
+                            <button matTooltip="click here to {{
+                        element.status == 1 ? 'IN-ACTIVE' : 'ACTIVE'
+                    }}" mat-icon-button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                        'are you sure to change status of <b>' +
+                        element.name +
+                        '</b>'
+                    " placement="auto" (confirm)="changeStatus(element.id, element.status)" confirmButtonType="danger"
+                                cancelButtonType="outline-secondary">
+                                <mat-icon *ngIf="element.status == 1">visibility_off</mat-icon>
+                                <mat-icon *ngIf="element.status == 0">visibility</mat-icon>
+                            </button> -->
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                        <td class="mat-cell" colspan="9">{{"no_records_found_text"|translate}}</td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role != '2' && role_id != 12">
+            </mat-paginator>
+
+            <div class="rsp_tbl" *ngIf="role == '2'">
+                <table mat-table [dataSource]="dataSourceTwo" matSort>
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="CB">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="checkUncheckAll($event)" [(ngModel)]="checkboxValue" name="list_name" value="h1"></mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-checkbox [value]="element['id']" [(ngModel)]="studentListArray[element.id]['is_selected']"  (change)="isAllSelected($event, element.id)"></mat-checkbox>
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>{{"s_no_text"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>{{"admin.mng_usr.name"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">
+                            <span color="accent" (click)="openDetailsModel(element)" class="primary_color">{{ element.name }}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>{{"admin.mng_usr.email"|translate}}</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.email }}</span></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.contact"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Unique ID">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.unique_id"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.uuid }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Organization">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"partner_name"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.university_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="college">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"college"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.college_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Year">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"year"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.year_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Semester">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"semester"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.sem_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Group">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"group"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.grp_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="created_at">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.created"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Blog Access">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.blog_access"|translate}}</th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <mat-slide-toggle (click)="allowBlogAccess(element.id)" [checked]="element.blog_access == 1 ? true : false"> </mat-slide-toggle></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"status_text"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">
+                            <mat-slide-toggle #slide (click)="$event.preventDefault();changeStatus(element.id, element.status, slide)"
+                                [checked]="element.status == 1 ? true : false"
+                                matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}">
+                            </mat-slide-toggle>
+                            <!-- <span matTooltip="Current Status is {{
+                        element.status == 1 ? 'ACTIVE' : 'IN-ACTIVE'
+                    }}" class="{{ element.status == 1 ? 'sts_grn' : 'sts_rd' }}">{{ element.status == 1 ? "Active" :
+                                "Inactive" }}</span> -->
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>{{"actions_text"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button matTooltip="{{'click_to_edit_text'|translate}}" color="accent"
+                                (click)="navigateTo('edit-user/'+element.id)">
+                                <mat-icon>edit_notes</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsTwo"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsTwo"></tr>
+                    <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                        <td class="mat-cell" colspan="15">{{"no_records_found_text"|translate}}</td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role == '2'">
+            </mat-paginator>
+
+            <div class="rsp_tbl" *ngIf="role_id == 12">
+                <table mat-table [dataSource]="dataSourceThree" matSort>
+                    <!-- Position Column -->                    
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>{{"s_no_text"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.s_no }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>{{"admin.mng_usr.name"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">
+                            <span color="accent" (click)="openDetailsModel(element)" class="primary_color">{{ element.name }}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>{{"admin.mng_usr.email"|translate}}</th>
+                        <td mat-cell *matCellDef="let element"><span>{{ element.email }}</span></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.contact"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Unique ID">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.unique_id"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.uuid }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Year">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"year"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.year_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Semester">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"semester"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.sem_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Group">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"group"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.grp_name }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="created_at">
+                        <th mat-header-cell *matHeaderCellDef cdkDrag>{{"admin.mng_usr.created"|translate}}</th>
+                        <td mat-cell *matCellDef="let element">{{ element.created_at }}</td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef>Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-icon-button matTooltip="Click to View" color="accent"
+                                (click)="navigateTo('edit-user/'+element.id)">
+                                <mat-icon>edit_notes</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container> -->
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsThree"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsThree"></tr>
+                    <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                        <td class="mat-cell" colspan="15">{{"no_records_found_text"|translate}}</td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="page_size_options" [length]="totalSize" showFirstLastButtons (page)="getServerData($event)" *ngIf="role_id == 12">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,446 @@
+<app-reviewer *ngIf="!loadAdmin && user['role']!='12' && user['role'] != '13'"></app-reviewer>
+<app-teacher *ngIf="user['role']== '12'"></app-teacher>
+<div class="mn_dshbrd" *ngIf="loadAdmin">
+  <div class="brd_crm">Proceum &raquo; <strong>Dashboard</strong></div>
+  <div class="pg_ttl">Dashboard</div>
+  <div class="dsh_brd_crds">
+    <div class="admin-notify"
+      *ngIf="notifications.collegeNotify || notifications.yearSemGroupNotify || notifications.teacherNotify">
+      <div class="fl_frmt_info wrn_bg mb_1" *ngIf="notifications.collegeNotify">
+        {{ notifications.collegeNotify }} <a style="color: #0014ff;font-weight: bold;border-bottom: 1px solid"
+          routerLink="/admin/college-list">Click to Manage</a>
+      </div>
+      <div class="fl_frmt_info wrn_bg mb_1" *ngIf="notifications.yearSemGroupNotify">
+        {{ notifications.yearSemGroupNotify }} <a style="color: #0014ff;font-weight: bold;border-bottom: 1px solid"
+          routerLink="/admin/manage-year-semester-group">Click to Manage</a>
+      </div>
+      <div class="fl_frmt_info wrn_bg mb_1" *ngIf="notifications.teacherNotify">
+        {{ notifications.teacherNotify }} <a style="color: #0014ff;font-weight: bold;border-bottom: 1px solid"
+          routerLink="/admin/manage-users">Click to Manage</a>
+      </div>
+    </div>
+    <ul class="crds_ul anl_crd" *ngIf="counts_loaded">
+      <!--  -->
+      <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>people</mat-icon>
+          </div>
+          <div>
+            Total No. of Students
+            <span>{{ subscribed_student_count }}</span>
+          </div>
+        </div>
+      </li>
+
+      <li *ngIf="user['role'] == '8'">
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>account_balance</mat-icon>
+          </div>
+          <div>
+            Total No. of Colleges
+            <span>{{ colleges_count }}</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>text_snippet</mat-icon>
+          </div>
+          <div>
+            Total Assessments
+            <span>{{ assessment_count }}</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>edit_note</mat-icon>
+          </div>
+          <div>
+            Total Notes
+            <span>{{ notes_count }}</span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>cast_for_education</mat-icon>
+          </div>
+          <div>
+            Total Classes /<br>Webinars Conducted
+            <span>{{ class_count }}</span>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>not_listed_location</mat-icon>
+          </div>
+          <div>
+            Total QBanks
+            <span>{{ qbank_count }}</span>
+          </div>
+        </div>
+      </li>
+      <!-- <li>
+        <div class="crd_dv">
+          <div class="anl_crd_aa">
+            <mat-icon>edit_note</mat-icon>
+          </div>
+          <div>
+          Total Notes
+          <span>{{ notes_count }}</span>
+        </div>
+        </div>
+      </li> -->
+    </ul>
+    <ul class="crds_ul Clients" *ngIf="">
+      <!-- partners.length > 0 -->
+      <li>
+        <div class="clpr_vabtn">
+          <span>Clients/Partners</span>
+          <!-- <img src="./assets/images/ipsum_1.jpg" /> -->
+          <button mat-raised-button color="accent" class="w_100px" routerLink="/admin/partners-list">View All</button>
+        </div>
+      </li>
+    </ul>
+    <ul class="crds_ul anly_crd" *ngIf="">
+      <!-- partners.length > 0 -->
+      <li *ngFor="let partner of partners">
+        <div class="uni_lg_img" routerLink="/admin/create-partner/{{partner.pk_id}}">
+          <img src="{{ partner.header_logo }}" />
+          <span class="text_center">{{ partner.partner_name }}</span>
+
+        </div>
+      </li>
+    </ul>
+    <div class="hgt_10"></div>
+    <div class="intr_vd_tml _admn_ds_accrd_mn " *ngIf="role == 1">
+      <mat-accordion multi="true">
+        <mat-expansion-panel [expanded]="true" hideToggle>
+          <mat-expansion-panel-header style="pointer-events: none;">
+            <mat-panel-title>
+              Partners ({{ partner }})
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn">
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>handshake</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ partner }}</span>
+                <span class="_cnt_two">Total Partners Count</span>
+                <span class="_cnt_tre">
+                  Active : {{ partner_active }}, Inactive : {{ partner_inactive }}
+                </span>
+              </div>
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>account_balance</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ university }}</span>
+                <span class="_cnt_two">Universities</span>
+              </div>
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>location_city</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ college }}</span>
+                <span class="_cnt_two">Colleges</span>
+              </div>
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>maps_home_work</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ institute }}</span>
+                <span class="_cnt_two">Institutes</span>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" hideToggle>
+          <mat-expansion-panel-header style="pointer-events: none;">
+            <mat-panel-title>
+              Notes ({{ notes }})
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn">
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>newspaper</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ published }}</span>
+                <span class="_cnt_two">Published</span>
+              </div>
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>hourglass_top</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ approval_pending }}</span>
+                <span class="_cnt_two">Pending</span>
+                <span class="_cnt_tre">
+                  (Awaiting Approval)
+                </span>
+              </div>
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>verified</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ approved }}</span>
+                <span class="_cnt_two">Approved</span>
+                <span class="_cnt_tre">(But not yet published)</span>
+              </div>
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>edit_note</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ draft }}</span>
+                <span class="_cnt_two">Drafts</span>
+              </div>
+            </div>
+            <div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" hideToggle>
+          <mat-expansion-panel-header style="pointer-events: none;">
+            <mat-panel-title>
+              Curriculums ({{ curriculums }})
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn">
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>auto_stories</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ courses }}</span>
+                <span class="_cnt_two">Courses</span>
+              </div>
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>folder_special</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ packages }}</span>
+                <span class="_cnt_two">Packages</span>
+              </div>
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>quiz</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ qbank }}</span>
+                <span class="_cnt_two">QBanks</span>
+              </div>
+            </div>
+            <div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" hideToggle>
+          <mat-expansion-panel-header style="pointer-events: none;">
+            <mat-panel-title>
+              Users ({{ users }})
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn">
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>school</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ students }}</span>
+                <span class="_cnt_two">Students Count</span>
+                <span class="_cnt_tre">
+                  Active : {{ students_active }}, Inactive : {{ students_inactive }}
+                </span>
+              </div>
+              <div class="_dv_cnt _clr_one">
+                <div class="_db_icn">
+                  <mat-icon>badge</mat-icon>
+                </div>
+                <span class="_cnt_one">{{ teachers }}</span>
+                <span class="_cnt_two">Teachers Count</span>
+                <span class="_cnt_tre">
+                  Active : {{ teacher_active }}, Inactive : {{ teacher_inactive }}
+                </span>
+              </div>
+            </div>
+            <div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <div class="clear_fix"></div>
+
+      <mat-accordion multi="true" class="_admn_tbl_accrd">
+        <mat-expansion-panel [expanded]="true" hideToggle>
+          <mat-expansion-panel-header style="pointer-events: none;">
+            <mat-panel-title>
+              Videos ({{ videos }})
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn _vds_mn">
+              <div class="_dv_cnt _tbs_cnt">
+                <table mat-table [dataSource]="dataSource">
+                  <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef [colSpan]="4"> Videos List </th>
+                    <td mat-cell *matCellDef="let element" class="w_50px"> {{ element.sno }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef class="d_none"> </th>
+                    <td mat-cell *matCellDef="let element" class="w_50px"> <img src="{{ element.img }}"
+                        class="source-img"> </td>
+                  </ng-container>
+                  <ng-container matColumnDef="weight">
+                    <th mat-header-cell *matHeaderCellDef class="d_none"> </th>
+                    <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="symbol">
+                    <th mat-header-cell *matHeaderCellDef class="d_none"> </th>
+                    <td mat-cell *matCellDef="let element" class="text_right"> {{ element.count }} </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </div>
+              <!-- <div class="_dv_cnt _tbs_cnt">
+                <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 100%;">
+                  <canvas ngChartjs [datasets]="lineChartData" [labels]="lineChartLabels" [colors]="chartColors"
+                    [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
+                    [inlinePlugins]="inlinePlugin">
+                  </canvas>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true" hideToggle>
+          <mat-expansion-panel-header style="pointer-events: none;">
+            <mat-panel-title>
+              Revenue (USD)
+            </mat-panel-title>
+            <mat-panel-description></mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="dsbrd_admnaccrdn">
+            <div class="_admn_dv_mn _vds_mn">
+              <div class="_dv_cnt _tbs_cnt">
+                <table mat-table [dataSource]="dataSourceRevenue">
+                  <ng-container matColumnDef="position">
+                    <th mat-header-cell *matHeaderCellDef [colSpan]="3"> Revenue List </th>
+                    <td mat-cell *matCellDef="let element1" class="w_50px"> {{ element1.s_no }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="weight">
+                    <th mat-header-cell *matHeaderCellDef class="d_none"> </th>
+                    <td mat-cell *matCellDef="let element1"> {{ element1.name }} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="symbol">
+                    <th mat-header-cell *matHeaderCellDef class="d_none"> </th>
+                    <td mat-cell *matCellDef="let element1" class="text_right"> {{ element1.amount }} </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsRevenue"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsRevenue;"></tr>
+                </table>
+              </div>
+              <!-- <div class="_dv_cnt _tbs_cnt">
+                <div *ngIf="lineChartOptions1 != undefined" style="position: relative; width: 100%;">
+                  <canvas ngChartjs [datasets]="lineChartData1" [labels]="lineChartLabels1" [colors]="chartColors"
+                    [options]="lineChartOptions1" [legend]="lineChartLegend" [chartType]="lineChartType"
+                    [inlinePlugins]="inlinePlugin">
+                  </canvas>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+    </div>
+  </div>
+</div>
+
+<div class="mn_dshbrd" *ngIf="user['role'] == '13'">
+  <div class="brd_crm">Proceum &raquo; <strong>Dashboard</strong></div>
+  <div class="pg_ttl">Dashboard</div>
+  <div class="dsh_brd_crds">
+    <div class="fu_dsbrd">
+      <!-- 'Today','This Week','This Month','Past 3 Months','Past 6 Months','Past 9 Months','Past 1 Year' -->
+      <table class="mat-table" border="0" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr class="mat-header-row">
+            <th class="mat-header-cell">#</th>
+            <th class="mat-header-cell">Today</th>
+            <th class="mat-header-cell">This Week</th>
+            <th class="mat-header-cell">This Month</th>
+            <th class="mat-header-cell">Past 3 Months</th>
+            <th class="mat-header-cell">Past 6 Months</th>
+            <th class="mat-header-cell">Past 9 Months</th>
+            <th class="mat-header-cell">Past 1 Year</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="mat-header-row">
+            <td class="mat-cell fu_aa">Orders</td>
+            <td class="mat-cell">{{ financeUser.today.count }}</td>
+            <td class="mat-cell">{{ financeUser.this_week.count }}</td>
+            <td class="mat-cell">{{ financeUser.past_one_month.count }}</td>
+            <td class="mat-cell">{{ financeUser.past_three_month.count }}</td>
+            <td class="mat-cell">{{ financeUser.past_six_month.count }}</td>
+            <td class="mat-cell">{{ financeUser.past_nine_month.count }}</td>
+            <td class="mat-cell">{{ financeUser.past_twelve_month.count }}</td>
+          </tr>
+          <tr class="mat-header-row">
+            <td class="mat-cell fu_aa">Revenue (USD)</td>
+            <td class="mat-cell">{{ financeUser.today.sum }}</td>
+            <td class="mat-cell">{{ financeUser.this_week.sum }}</td>
+            <td class="mat-cell">{{ financeUser.past_one_month.sum }}</td>
+            <td class="mat-cell">{{ financeUser.past_three_month.sum }}</td>
+            <td class="mat-cell">{{ financeUser.past_six_month.sum }}</td>
+            <td class="mat-cell">{{ financeUser.past_nine_month.sum }}</td>
+            <td class="mat-cell">{{ financeUser.past_twelve_month.sum }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="hgt_10"></div>
+
+    <div *ngIf="financeUser">
+      <mat-tab-group>
+        <mat-tab label="Orders">
+          <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 60%;margin: 20px auto;">
+            <canvas ngChartjs [datasets]="orderChartData" [labels]="lineChartLabels" [colors]="chartColors"
+              [options]="orderChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
+              [inlinePlugins]="inlinePlugin">
+            </canvas>
+          </div>
+        </mat-tab>
+        <mat-tab label="Revenue">
+          <div *ngIf="lineChartOptions != undefined" style="position: relative; width: 60%;margin: 20px auto;">
+            <canvas ngChartjs [datasets]="revenueChartData" [labels]="lineChartLabels" [colors]="chartColors"
+              [options]="lineChartOptions" [legend]="lineChartLegend" [chartType]="lineChartType"
+              [inlinePlugins]="inlinePlugin">
+            </canvas>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+
+
+  </div>
+</div>

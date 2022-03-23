@@ -17,7 +17,6 @@ import { LayoutsModule } from './layouts/layouts.module';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { DrawingBoardComponent } from './shared/drawing-board/drawing-board.component';
 import { NgWhiteboardModule } from 'ng-whiteboard';
-import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
 import { GoogleLoginProvider, FacebookLoginProvider, SocialLoginModule, SocialAuthServiceConfig} from 'angularx-social-login';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { MatIconModule } from '@angular/material/icon';
@@ -40,7 +39,6 @@ import { GlobalApp } from '../global';
     SpinnerComponent,
     NotFoundComponent,
     DrawingBoardComponent,
-    ProceumLibraryComponent,
     ReplaceUnderscorePipe,
     ReplacePipe,
     //SafePipe,

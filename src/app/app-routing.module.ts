@@ -10,7 +10,6 @@ import { FaqsComponent } from './frontend/faqs/faqs.component';
 import { OurTeamComponent } from './frontend/our-team/our-team.component';
 import { PrivacyPolicyComponent } from './frontend/privacy-policy/privacy-policy.component';
 import { RegisterComponent } from './auth/register/register.component';
-import { ProceumLibraryComponent } from './shared/proceum-library/proceum-library.component';
 import { ForgotPasswordComponent } from './frontend/forgot-password/forgot-password.component';
 import { EmailVerifiedComponent } from './frontend/email-verified/email-verified.component';
 import { UnsubscribeEmailComponent } from './frontend/unsubscribe-email/unsubscribe-email.component';
@@ -19,8 +18,6 @@ import { ResetPasswordComponent } from './frontend/reset-password/reset-password
 import { ListPackagesComponent } from './frontend/pricing-packages/list-packages/list-packages.component';
 import { PackageDetailsComponent } from './frontend/pricing-packages/package-details/package-details.component';
 import { ShoppingCartComponent } from './frontend/shopping-cart/shopping-cart.component';
-import { QuestionBankComponent } from './admin/question-management/question-bank/question-bank.component';
-import { CreateExamComponent } from './admin/exam-modes/create-exam/create-exam.component';
 import { CouponsComponent } from './frontend/coupons/coupons.component';
 import { PartnerRegisterComponent } from './auth/partner-register/partner-register.component';
 
@@ -40,7 +37,6 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'register/:referral_code', component: RegisterComponent },
   { path: 'signup', component: PartnerRegisterComponent },
-  { path: 'library', component: ProceumLibraryComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'email-verification/:hash', component: EmailVerifiedComponent },
@@ -61,36 +57,6 @@ const routes: Routes = [
   },
   { path: 'white-board', component: DrawingBoardComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
-  {
-    path: 'admin',
-    loadChildren: () =>
-      import('./admin/admin.module').then((m) => m.AdminModule),
-    canActivate: [AuthGuard],
-    data: {
-      role: '1,8,9,10,14',
-    },
-  },
-  {
-    path: 'reviewer',
-    loadChildren: () =>
-      import('./admin/admin.module').then((m) => m.AdminModule),
-    canActivate: [AuthGuard],
-    data: {
-      role: '3,4,5,6,7',
-    },
-  },
-  {
-    path: 'teacher',
-    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule), canActivate: [AuthGuard], data: {
-      role: '8,9,10,12,13,14',
-    },
-  },
-  {
-    path: 'finance-user',
-    loadChildren: () => import('./admin/admin.module').then((m) => m.AdminModule), canActivate: [AuthGuard], data: {
-      role: '13',
-    },
-  },
   {
     path: 'student',
     loadChildren: () =>

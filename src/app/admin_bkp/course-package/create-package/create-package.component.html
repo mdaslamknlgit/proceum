@@ -1,0 +1,616 @@
+<div class="mn_dshbrd">
+    <div class="cust_mdl_par cust_mdl_50p" [ngClass]="{ cust_mdl_opn: edit_model_status }">
+        <div class="cust_mdl_chl">
+            <div class="pg_ttl">
+                Select Courses
+                <span class="spacer"></span>
+                <button mat-icon-button (click)="edit_model_status = !edit_model_status">
+                    &#x2715;
+                </button>
+            </div>
+            <div class="tbbd_bdy">
+                <div class="mb_0 w_100p">
+                    <div class="hgt_20"></div>
+                    <div class="d-flex fw_rsp_1100">
+                        <div class="d-flex fw_rsp_599 fw_w">
+                            <div class="cm_fltr_sc mr_1">
+                                <div class="crt_prt_hd">Courses<span class="required">*</span>
+                                </div>
+                                <div class="crt_prt_cnt">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select Course" name="curriculum_id_name"
+                                            [(ngModel)]="curriculum_id"
+                                            (ngModelChange)="setCourseText($event);getLabels();"
+                                            #curriculum_id_name="ngModel" ngModel="curriculum_id_name">
+                                            <mat-option [matTooltip]="value['curriculumn_name']"
+                                                *ngFor="let value of curriculums" [value]="value['pk_id']">
+                                                {{value['curriculumn_name']}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="cm_fltr_sc mr_1" *ngFor="let value of curriculum_labels; let i = index">
+                                <div class="crt_prt_hd">{{ ucFirst(value["display_label"]) }}</div>
+                                <div class="crt_prt_cnt">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select placeholder="Select {{ ucFirst(value['display_label']) }}"
+                                            name="level_{{value['level_number']}}"
+                                            [(ngModel)]="selected_level[value['level_number']]"
+                                            (ngModelChange)="getLevels(value['level_number']);">
+                                            <mat-option>
+                                                <ngx-mat-select-search
+                                                    [noEntriesFoundLabel]="'No '+ ucFirst(value['display_label'])+' found'"
+                                                    name="search_topic" ngModel
+                                                    (ngModelChange)="searchLevelByName($event,value['level_number'])"
+                                                    [placeholderLabel]="'Search '+ucFirst(value['display_label'])">
+                                                    Select
+                                                    {{ucFirst(value['display_label'])}}
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <mat-option *ngFor="let level of level_options[value['level_number']]"
+                                                [value]="level['pk_id']" [matTooltip]="level['level_name']">
+                                                {{level["level_name"] }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="w_100px">
+                                <div class="crt_prt_hd">&nbsp;</div>
+                                <button [disabled]="!enable_add_button" (click)="addTopic()" mat-raised-button
+                                    color="accent" type="button" class="mt_3px">
+                                    Add (+)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rsp_tbl">
+                        <table mat-table [dataSource]="dataSource1">
+                            <ng-container matColumnDef="Sno">
+                                <th mat-header-cell *matHeaderCellDef> S.No</th>
+                                <td mat-cell *matCellDef="let element; let s_no=index"> {{s_no+1}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Course">
+                                <th mat-header-cell *matHeaderCellDef>{{question_Qbank?'QBank':'Course'}} </th>
+                                <td mat-cell *matCellDef="let element">{{element.course_qbank_text}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="Topic">
+                                <th mat-header-cell *matHeaderCellDef>Topic Path </th>
+                                <td mat-cell *matCellDef="let element" class="ws_normal">{{element.topic_text}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Action">
+                                <th mat-header-cell *matHeaderCellDef>Action</th>
+                                <td mat-cell *matCellDef="let element; let topic_index=index"><span
+                                        (click)="removeTopic(topic_index)">
+                                        <mat-icon color="warn" matTooltip="Delete">remove_circle_outline</mat-icon>
+                                    </span></td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                                <td style="text-align: center; margin: 20px" class="mat-cell"
+                                    [attr.colspan]="displayedColumns.length">
+                                    No Records Found
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="hgt_20"></div>
+                    <button type="button" mat-raised-button class="float_right mr_1 gry_btn"
+                        (click)="edit_model_status = !edit_model_status">
+                        Submit
+                    </button>
+                    <div class="hgt_20"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="brd_crm">Proceum &raquo; <span routerLink="/admin/prices-package-management"><strong>Pricing &amp;
+                Package Management</strong></span> &raquo; <strong>Create Package</strong></div>
+    <div class="pg_ttl">Create Package</div>
+    <hr />
+    <div class="cc_row">
+        <div class="main_video_block">
+            <div class="c_block">
+                <div class="mn_vd_tbd dsh_brd_crds">
+                    <mat-tab-group animationDuration="0.15s">
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                Basic Details
+                            </ng-template>
+                            <div class="hgt_20"></div>
+                            <div>
+                                <form autocomplete="off" #create_package_form="ngForm" name="create_package_form"
+                                    (ngSubmit)="create_package_form.valid && createPackageService()" novalidate>
+                                    <div class="cpm_pg">
+                                        <div class="cpm_pg_mn">
+                                            <div class="cpm_pg_hd">
+                                                Package details
+                                            </div>
+                                            <div class="cpm_pg_cnt">
+                                                <div>Package Name</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="Enter package name"
+                                                            [(ngModel)]="package_name" name="package_name"
+                                                            (keypress)="allAlphabetsWithSpaces($event)" maxlength="60"
+                                                            required />
+                                                        <span class="prc_tltp"
+                                                            *ngIf="create_package_form.submitted && package_name == ''">Package
+                                                            name is required</span>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="cpm_pg_cnt">
+                                                <div class="jc_sb d-flex ai_cntr">
+                                                    <div class="cpm_pg_hd">Package image</div>
+                                                    <div>
+                                                        <button type="button" mat-raised-button class="no_bxsdw"
+                                                            color="accent"
+                                                            onclick="document.getElementById('imageToUpload').click()">
+                                                            <mat-icon>upload</mat-icon>
+                                                            Upload Image
+                                                            <input (change)="uploadImage($event)"
+                                                                accept="image/x-png,image/gif,image/jpeg"
+                                                                id="imageToUpload" type="file" style="display: none" />
+                                                        </button>
+                                                        <input type="hidden" name="package_img"
+                                                            [(ngModel)]="package_img">
+                                                    </div>
+                                                </div>
+                                                <div class="text_right w_100p">(Supported Formats: .png, .jpg,
+                                                    .jpeg)
+                                                </div>
+                                                <div class="hgt_10"></div>
+                                                <div class="brnd_info_upld pkg_img">
+                                                    <div class="pkg_img_dv">
+                                                        <div *ngIf="package_img">
+                                                            <img src="{{ package_img }}" alt="">
+                                                        </div>
+                                                        <mat-icon *ngIf="!package_img">insert_photo</mat-icon>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="hgt_20"></div>
+                                            <div class="cpm_pg_cnt">
+                                                <div class="cpm_pg_hd">Package description</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-form-field appearance="outline">
+                                                        <textarea matInput class="crt_prt_txt"
+                                                            placeholder="Enter package description"
+                                                            [(ngModel)]="package_desc" name="package_desc"
+                                                            required></textarea>
+                                                        <span class="prc_tltp"
+                                                            *ngIf="create_package_form.submitted && package_desc == ''">Package
+                                                            description is required</span>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cpm_pg_mn">
+                                            <div class="cpm_pg_hd">
+                                                Price configuration
+                                            </div>
+                                            <!-- Pricing Model -->
+                                            <div class="cpm_pg_cnt">
+                                                <div>Set Package Price Country Wise</div>
+                                                <div *ngFor="let price of package_prices;let i = index">
+                                                    <div class="pkg_chkbx" *ngIf="price['status'] != '0'">
+                                                        <div class="w_45p mr_1">
+                                                            <div class="err_tltp_par">
+                                                                <mat-form-field appearance="outline" class="mt_05">
+                                                                    <mat-select
+                                                                        [(ngModel)]="package_prices[i]['country_id']"
+                                                                        name="package_price_country_{{i}}" required>
+                                                                        <mat-option value="">Select Country
+                                                                        </mat-option>
+                                                                        <ng-container
+                                                                            *ngFor="let country of all_countries | async">
+                                                                            <mat-option
+                                                                                [disabled]="selected_countires.indexOf(country['id']) !== -1"
+                                                                                [value]="country['id']"
+                                                                                (click)=" addCurrencyToField(country['currency_text'],i,country['id']);">
+                                                                                {{ country['country_name'] }}
+                                                                            </mat-option>
+                                                                        </ng-container>
+                                                                    </mat-select>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="w_45p">
+                                                            <div class="err_tltp_par">
+                                                                <mat-form-field appearance="outline" class="mt_05">
+                                                                    <input
+                                                                        [(ngModel)]="package_prices[i]['price_amount']"
+                                                                        name="package_price_price_amount_{{i}}" matInput
+                                                                        placeholder="{{ package_prices[i]['placeholder'] }}"
+                                                                        maxlength="7" appNumbersonly required
+                                                                        [disabled]="package_prices[i]['country_id'] == ''" />
+                                                                    <span matPrefix></span>
+                                                                </mat-form-field>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt_6px">
+                                                            <button type="button" (click)="removePackagePrice(i)"
+                                                                mat-icon-button class="no_bxsdw" color="warn"
+                                                                *ngIf="i > 0">
+                                                                <mat-icon>remove_circle_outline</mat-icon>
+                                                            </button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="text_right w_100p">
+                                                    <button mat-raised-button color="accent" type="button"
+                                                        (click)="addPackagePriceField()">
+                                                        <mat-icon>add</mat-icon> Add More
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="hgt_20"></div>
+                                            <div class="cpm_pg_hd">
+                                                Courses
+                                            </div>
+                                            <div class="cpm_pg_cnt">
+                                                <div class="mt_grd_dv sctd_crsdv_mn mt_1"
+                                                    *ngIf="selected_topics.length">
+                                                    <div class="mb_1"><strong>Selected Courses</strong></div>
+                                                    <div class="clear_fix"></div>
+                                                    <div *ngFor="let course of selected_topics;let i = index"
+                                                        class="slctd_itms">
+                                                        <span>{{course.topic_text}}</span>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="course_count" class="text_right w_100p mt_1">
+                                                    <button mat-raised-button color="accent" type="button"
+                                                        (click)="edit_model_status = true">
+                                                        <mat-icon>settings</mat-icon> Assign / Un-assign
+                                                    </button>
+                                                </div>
+                                                <div *ngIf="!selected_topics.length" class="text_right w_100p mt_1">
+                                                    <mat-icon>warning</mat-icon> To select the courses, Create first
+                                                    from course section
+                                                </div>
+                                                <div class="hgt_20"></div>
+                                                <div class="w_50p mr_1">
+                                                    <div>Duration (In days)</div>
+                                                    <div class="err_tltp_par">
+                                                        <mat-form-field appearance="outline">
+                                                            <input matInput type="number"
+                                                                placeholder="Enter Duration (In days)"
+                                                                [(ngModel)]="duration" name="duration" appNumbersonly
+                                                                maxlength="3" minlength="1" required />
+                                                            <span class="prc_tltp"
+                                                                *ngIf="create_package_form.submitted && duration == ''">Duration
+                                                                is required</span>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="hgt_20"></div>
+                                            <!-- Addons -->
+                                            <div class="cpm_pg_cnt">
+                                                <div class="cpm_pg_hd">Addons</div>
+                                                <span>Select Addons</span>
+                                                <div class="err_tltp_par">
+                                                    <mat-form-field appearance="outline" class="w_100p">
+                                                        <mat-select placeholder="Select Addons" multiple name="addons"
+                                                            #addons="ngModel" [(ngModel)]="addons_arr">
+                                                            <mat-option>
+                                                                <ngx-mat-select-search
+                                                                    (ngModelChange)="searchAddon($event)"
+                                                                    [noEntriesFoundLabel]="'No Addons found'"
+                                                                    name="search_addons" ngModel
+                                                                    [placeholderLabel]="'Search Course'">
+                                                                </ngx-mat-select-search>
+                                                            </mat-option>
+                                                            <mat-option *ngFor="let addon of addons_list"
+                                                                [value]="addon['addon_id']">{{addon['addon_name']}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+
+                                            <div class="hgt_20"></div>
+                                            <div class="cpm_pg_hd">
+                                                Package access
+                                            </div>
+                                            <div class="cpm_pg_cnt">
+                                                <div>Applicable to</div>
+                                                <div class="d-flex mt_05">
+                                                    <div class="mr_1">
+                                                        <mat-checkbox class="mr_1" name="applicable_to_university" (change)="onApplicableChange()"
+                                                            [(ngModel)]="applicable_to_university"></mat-checkbox>
+                                                        University
+                                                    </div>
+                                                    <div class="mr_1">
+                                                        <mat-checkbox class="mr_1" name="applicable_to_college" (change)="onApplicableChange()"
+                                                            [(ngModel)]="applicable_to_college">
+                                                        </mat-checkbox>College
+                                                    </div>
+                                                    <div class="mr_1">
+                                                        <mat-checkbox class="mr_1" name="applicable_to_institute" (change)="onApplicableChange()"
+                                                            [(ngModel)]="applicable_to_institute"></mat-checkbox>
+                                                        Institution
+                                                    </div>
+                                                    <div class="mr_1">
+                                                        <mat-checkbox class="mr_1" name="applicable_to_individual" (change)="onIndividualChange()"
+                                                            [(ngModel)]="applicable_to_individual"></mat-checkbox>
+                                                        Individual
+                                                    </div>
+                                                </div>
+                                                <div class="hgt_20"></div>
+                                            </div>
+                                            <div class="cpm_pg_cnt" *ngIf="!applicable_to_individual">
+                                                <div>Pricing model</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-radio-group name="pricing_model" [(ngModel)]="pricing_model"
+                                                        required>
+                                                        <mat-radio-button name="pricing_model" value="per_student">
+                                                            Per
+                                                            student</mat-radio-button>
+                                                        <mat-radio-button name="pricing_model" value="fixed">Fixed
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+                                            <div class="cpm_pg_cnt" *ngIf="pricing_model == 'fixed'">
+                                                <div>Max.Student(Licences) login Accounts Allowed Limit</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-form-field appearance="outline">
+                                                        <input matInput placeholder="Licences Limit"
+                                                            [(ngModel)]="licenses_limit" name="licenses_limit"
+                                                            appNumbersonly
+                                                            required />
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="cpm_pg_cnt">
+                                                <div class="pkg_chkbx">
+                                                    <div class="w_50p mr_1">
+                                                        <div>Package validity till</div>
+                                                        <div class="err_tltp_par">
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput [matDatepicker]="picker"
+                                                                    [(ngModel)]="valid_up_to" name="valid_up_to"
+                                                                    [min]="today_date" placeholder="Validity Till"
+                                                                    required readonly>
+                                                                <mat-datepicker-toggle matSuffix [for]="picker">
+                                                                </mat-datepicker-toggle>
+                                                                <mat-datepicker #picker color="accent" disabled="false">
+                                                                </mat-datepicker>
+                                                                <span class="prc_tltp"
+                                                                    *ngIf="create_package_form.submitted && valid_up_to == ''">Package
+                                                                    validity till
+                                                                    required</span>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="cpm_pg_cnt">
+                                                <div>Billing frequency</div>
+                                                <div class="err_tltp_par">
+                                                    <mat-radio-group name="billing_frequency"
+                                                        [(ngModel)]='billing_frequency' required>
+                                                        <mat-radio-button name="billing_frequency" value="monthly">
+                                                            Monthly</mat-radio-button>
+                                                        <mat-radio-button name="billing_frequency" value="quarterly">
+                                                            Quarterly</mat-radio-button>
+                                                        <mat-radio-button name="billing_frequency" value="half-yearly">
+                                                            Half yearly
+                                                        </mat-radio-button>
+                                                        <mat-radio-button name="billing_frequency" value="yearly">
+                                                            Yearly
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w_100p text_right">
+                                            <button mat-raised-button color="accent">Submit</button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </mat-tab>
+
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                Sample Videos
+                            </ng-template>
+                            <div class="hgt_20"></div>
+                            <form autocomplete="off" #sample_video_form="ngForm" name="sample_video_form"
+                                (ngSubmit)="sample_video_form.valid && addVideo()" autocomplete="off">
+                                <div>
+                                    <div class="ulvd_inpts">
+                                        <div class="err_tltp_par" *ngIf="hide_source_type">
+                                            <mat-form-field appearance="outline">
+                                                <mat-select [(ngModel)]="source_type" name="video_source_type" required>
+                                                    <mat-option value="">Select Source</mat-option>
+                                                    <mat-option *ngFor="let video_type of video_types"
+                                                        [value]="video_type['value']">
+                                                        {{video_type['name']}}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <span class="prc_tltp"
+                                                *ngIf="sample_video_form.submitted && source_type == ''">Please
+                                                select
+                                                source</span>
+                                        </div>
+                                        <div class="err_tltp_par">
+                                            <mat-form-field appearance="outline"
+                                                class="{{ ((sample_video_form.submitted || video_title.touched) && title_error) ? 'mat-form-field-invalid' : ''}}">
+                                                <input [(ngModel)]="title" maxlength="100" name="video_title"
+                                                    #video_title="ngModel" matInput placeholder="Title"
+                                                    (ngModelChange)="checkTitle()" />
+                                            </mat-form-field>
+                                            <span class="prc_tltp"
+                                                *ngIf="(sample_video_form.submitted || video_title.touched) && title_error">{{
+                                                title_error }}</span>
+                                        </div>
+                                        <div class="err_tltp_par">
+                                            <mat-form-field appearance="outline"
+                                                class="{{ ((sample_video_form.submitted || video_source_link.touched) && video_url_error) ? 'mat-form-field-invalid' : ''}}">
+                                                <input [(ngModel)]="video_source" name="video_source_link"
+                                                    #video_source_link="ngModel" matInput placeholder="Video URL"
+                                                    (ngModelChange)="checkURL()" />
+                                            </mat-form-field>
+                                            <span class="prc_tltp"
+                                                *ngIf="(sample_video_form.submitted || video_source_link.touched) && video_url_error">{{
+                                                video_url_error }}</span>
+                                        </div>
+                                        <div class="w_50p">
+                                            <button type="submit" mat-raised-button color="accent" class="mt_3px">
+                                                <mat-icon>add</mat-icon> Add Video
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngFor="let video of sample_videos;let i=index">
+                                    <div class="hyt_lst_dv" *ngIf="video.status != 0 && video.status != 2">
+                                        <div class="kp_yt_img">
+                                            <img src="../../../assets/images/youtube.png">
+                                        </div>
+                                        <div class="mr_1 fnt_bold">
+                                            {{ video.title}}
+                                            <div class="vd_pth">
+                                                {{ video.video_source}}
+                                            </div>
+                                        </div>
+                                        <div class="spacer"></div>
+                                        <div>
+                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent"
+                                                (click)="editVideo(i)">
+                                                <mat-icon>mode_edit</mat-icon>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn"
+                                                (click)="deleteVideo(i)">
+                                                <mat-icon>remove_circle_outline</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text_right mt_1">
+                                    <button mat-raised-button color="accent" type="button" (click)="submitData()">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+
+                        </mat-tab>
+
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                FAQ's
+                            </ng-template>
+                            <div class="hgt_20"></div>
+                            <form autocomplete="off" #faq_form="ngForm" name="faq_form"
+                                (ngSubmit)="faq_form.valid && addFaq()">
+                                <div>
+                                    <div class="ulvd_inpts">
+                                        <div class="err_tltp_par w_100p">
+                                            <mat-form-field appearance="outline"
+                                                class="w_100p {{ ((faq_form.submitted || faq_question.touched) && question_error) ? 'mat-form-field-invalid' : '' }}">
+                                                <textarea matInput class="crt_prt_txt" placeholder="Question"
+                                                    [(ngModel)]="question" name="faq_question" #faq_question="ngModel"
+                                                    (ngModelChange)="checkQuestion()"></textarea>
+                                            </mat-form-field>
+                                            <span class="prc_tltp"
+                                                *ngIf="(faq_form.submitted || faq_question.touched) && question_error">{{
+                                                question_error }}</span>
+                                        </div>
+                                        <div class="err_tltp_par w_100p">
+                                            <mat-form-field appearance="outline"
+                                                class="w_100p {{ ((faq_form.submitted || faq_answer.touched) && answer == '') ? 'mat-form-field-invalid' : '' }}">
+                                                <textarea matInput class="crt_prt_txt hgt_100px" placeholder="Answer"
+                                                    [(ngModel)]="answer" name="faq_answer"
+                                                    #faq_answer="ngModel"></textarea>
+                                            </mat-form-field>
+                                            <span class="prc_tltp"
+                                                *ngIf="(faq_form.submitted || faq_answer.touched) && answer == ''">Answer
+                                                required</span>
+                                        </div>
+                                        <div class="w_100p text_right">
+                                            <button type="submit" mat-raised-button color="accent">
+                                                <mat-icon>add</mat-icon> Add FAQ
+                                            </button>
+                                            <!-- <button type="button" (click)="removeFaq(i)" mat-icon-button class="no_bxsdw"
+                                        color="warn" *ngIf="i > 0">
+                                        <mat-icon>remove_circle_outline</mat-icon>
+                                    </button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngFor="let faq of faqs;let i=index">
+                                    <div class="hyt_lst_dv" *ngIf="faq.status != 0 && faq.status != 2">
+                                        <div class="mr_1 fnt_bold">Quetion : {{ faq.question }}
+                                            <div class="vd_pth clr_inh"> Answer :
+                                                {{ (faq.answer.length > 200) ? ( faq.answer | slice:0:200 ) + '..' :
+                                                (faq.answer) }}
+                                            </div>
+                                        </div>
+                                        <div class="spacer"></div>
+                                        <div>
+                                            <button type="button" mat-icon-button class="mr_1 no_bxsdw" color="accent"
+                                                (click)="editFaq(i)">
+                                                <mat-icon>mode_edit</mat-icon>
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <button type="button" mat-icon-button class="no_bxsdw" color="warn"
+                                                (click)="deleteFaq(i)">
+                                                <mat-icon>remove_circle_outline</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text_right mt_1">
+
+                                    <button mat-raised-button color="accent" type="button" (click)="submitData()">
+                                        Submit
+                                    </button>
+                                </div>
+                            </form>
+                        </mat-tab>
+                        <div class="hgt_20"></div>
+                        <!-- <mat-tab>
+                    <ng-template mat-tab-label>
+                    Introduction
+                    </ng-template>
+                    <div class="hgt_20"></div>
+                    <div class="ulvd_inpts">
+                        <div>
+                        <mat-form-field appearance="outline">
+                            <mat-select [(ngModel)]="intro_video[i]['source']" name="intro_video_source" (ngModelChange)="validateVideo(0,i)">
+                            <mat-option value="">Select Source</mat-option>
+                            <mat-option *ngFor="let video_type of video_types" [value]="video_type['value']">
+                                {{video_type['name']}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        </div>
+                        <div>
+                        <mat-form-field appearance="outline">
+                            <input (blur)="validateVideo(0,i)" [(ngModel)]="intro_video[i]['title']" name="intro_video_title" matInput
+                            placeholder="Title" />
+                        </mat-form-field>
+                        </div>
+                        <div>
+                        <mat-form-field appearance="outline">
+                            <input matInput [(ngModel)]="intro_video[i]['value']" name="intro_video_value"
+                            placeholder="Video URL/ID" (blur)="validateVideo(0,i)" />
+                        </mat-form-field>
+                        </div>
+                        <span *ngIf="intro_video[i]['error'] == true">{{intro_video[i]['message']}}</span>
+                    </div>
+                </mat-tab> -->
+                    </mat-tab-group>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+<div class="mn_dshbrd">
+    <div class="brd_crm">
+        Proceum &raquo; <strong>Pricing &amp; Package Management </strong>
+    </div>
+    <div class="d-flex rsp_fw">
+        <div class="pg_ttl">Pricing &amp; Package Management</div>
+        <div class="spacer"></div>
+        <div class="mr_1">
+            <button mat-raised-button color="accent" (click)="navigateTo('manage-packages-testimonial')" type="button">
+                <mat-icon>description</mat-icon>
+                Testimonails
+            </button>
+        </div>
+
+        <div>
+          <button mat-raised-button color="accent" (click)="navigateTo('create-package')" type="button">
+              <mat-icon>add</mat-icon>
+              New Package
+          </button>
+      </div>
+    </div>
+    <hr />
+    <div class="dsh_brd_crds">
+        <mat-form-field appearance="outline">
+            <input matInput [(ngModel)]="search_box" (keyup)="$event.keyCode == 13 ? doFilter() : ''"
+                placeholder="Search" />
+            <mat-icon (click)="doFilter()" matSuffix>search</mat-icon>
+        </mat-form-field>
+        <div class="rsp_tbl">
+            <table mat-table [dataSource]="dataSource" matSort>
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef>S.No</th>
+                    <td mat-cell *matCellDef="let element">
+                        {{ element.s_no }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="package_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                        Package Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span>{{ element.package_name }}</span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="pricing_model">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                        Pricing Model
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span>{{ element.pricing_model }}</span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="billing_frequency">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+                        Billing Frequency
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span>{{ element.billing_frequency }}</span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="valid_up_to">
+                    <th mat-header-cell *matHeaderCellDef cdkDrag>Valid Till</th>
+                    <td mat-cell *matCellDef="let element">{{ element.valid_up_to }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef cdkDrag>Status</th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-slide-toggle (click)="changeStatus(element.pk_id, element.status)"
+                            [checked]="element.status == 1 ? true : false"
+                            matTooltip="{{element.status == 1 ? 'Make Inactive' : 'Make Active'}}"></mat-slide-toggle>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Actions</th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button matTooltip="Click to Edit" color="accent"
+                            (click)="navigateTo('edit-package/'+element.pk_id)">
+                            <mat-icon>edit_note</mat-icon>
+                        </button>
+                        <button mwlConfirmationPopover [popoverTitle]="'Are you sure?'" [popoverMessage]="
+                            'Are you sure to delete <b>' + element.package_name + '</b> '
+                            " placement="left" (confirm)="deleteRecord(element.pk_id)" confirmButtonType="danger"
+                            cancelButtonType="outline-secondary" mat-icon-button color="warn" matTooltip="Delete">
+                            <mat-icon>remove_circle_outline</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                <tr class="mat-row no_rcrds_fd" *matNoDataRow>
+                    <td class="mat-cell" [attr.colspan]="displayedColumns.length">No Records Found</td>
+                </tr>
+            </table>
+        </div>
+        <mat-paginator [pageSizeOptions]="page_size_options" showFirstLastButtons (page)="getServerData($event)">
+        </mat-paginator>
+    </div>
+</div>

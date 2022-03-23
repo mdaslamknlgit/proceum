@@ -1,0 +1,174 @@
+<div class="cust_mdl_par cust_mdl_50p cust_mdl_opn">
+  <div class="cust_mdl_chl">
+    <div class="pg_ttl">
+      {{ title }}
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="close()" class="float_right">
+        &#x2715;
+      </button>
+    </div>
+
+    <div class="tbbd_bdy">
+      <form
+        #template_form="ngForm"
+        name="template_form"
+        novalidate
+        (ngSubmit)="template_form.valid && submitTemplate()"
+      >
+        <div class="grd_2c no_bxsdw">
+          <span class="text-right w_100p rqrd_txtinfo">
+            All <span class="required">( * ) </span>marked fields are
+            mandatory</span
+          >
+          <div class="hgt_20"></div>
+          <div class="frm_dvs">
+            <span>Template Subject<span class="required">*</span></span>
+            <span>
+              <span class="err_tltp_par">
+                <mat-form-field appearance="outline">
+                  <input
+                    trim="blur"
+                    matInput
+                    maxlength="255"
+                    cdkFocusInitial
+                    #template_subject="ngModel"
+                    name="template_subject"
+                    [(ngModel)]="template.template_subject"
+                    placeholder="Template Subject"                    
+                    required
+                  /><!-- pattern="[a-zA-Z][a-zA-Z ][a-zA-Z0-9 ]+"-->
+                </mat-form-field>
+                <span
+                  class="prc_tltp"
+                  *ngIf="
+                    (template_form.submitted || template_subject.invalid) &&
+                    template.template_subject != ''
+                  "
+                >
+                  Alphabets Only</span
+                >
+                <span
+                  class="prc_tltp"
+                  *ngIf="
+                    (template_form.submitted || template_subject.touched) &&
+                    template.template_subject == ''
+                  "
+                >
+                  Template Subject Required</span
+                >
+              </span>
+            </span>
+          </div>
+          <div class="frm_dvs">
+            <span>Template Name<span class="required">*</span></span>
+            <span>
+              <span class="err_tltp_par">
+                <mat-form-field appearance="outline">
+                  <input
+                    trim="blur"
+                    matInput
+                    maxlength="255"
+                    #template_name="ngModel"
+                    pattern="[a-zA-Z][a-zA-Z_]+"
+                    name="template_name"
+                    [(ngModel)]="template.template_name"
+                    placeholder="Template Name"
+                    disabled="{{ template.id != '0' ? true : false }}"
+                    required
+                  />
+                </mat-form-field>
+                <span
+                  *ngIf="
+                    (template_form.submitted || template_name.touched) &&
+                    template.template_name == ''
+                  "
+                  class="prc_tltp"
+                  >Template Name is required</span
+                >
+                <span
+                  *ngIf="template_form.submitted && template_name.invalid"
+                  class="prc_tltp"
+                  >Template Name is allowed alphabets and _ required</span
+                >
+              </span>
+            </span>
+          </div>
+          <div class="frm_dvs" *ngIf="placeholders_array.length == 0">
+            <span class="algn_s_fs">Available Placeholders</span>
+            <span>
+              <mat-form-field appearance="outline">
+                <textarea
+                  disabled="{{ template.id != '0' ? true : false }}"
+                  matInput
+                  placeholder="Available Placeholders"
+                  rows="5"
+                  name="template_placeholders"
+                  [(ngModel)]="template.template_placeholders"
+                ></textarea>
+              </mat-form-field>
+            </span>
+          </div>
+          <div class="frm_dvs" *ngIf="placeholders_array.length > 0">
+            <span class="algn_s_fs">Select Placeholder</span>
+            <span>
+              <mat-form-field appearance="outline">
+                <mat-select
+                  placeholder="Select To add"
+                  name="placeholders_array"
+                  [(ngModel)]="selected_placeholder"
+                  (ngModelChange)="addPlaceholder()"
+                >
+                  <mat-option
+                    *ngFor="let placeholder of placeholders_array"
+                    [value]="'[' + placeholder + ']'"
+                    >{{ placeholder }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </span>
+          </div>
+          <div class="hgt_20"></div>
+          <div class="frm_dvs mob_d_block">
+            <span class="err_tltp_par edtr_frm">
+              <ckeditor
+                (ready)="onReady($event)"
+                [(ngModel)]="template.template"
+                name="template"
+                [editor]="Editor"
+                id="editor"
+                #editor
+                [config]="htmlEditorConfig"
+              ></ckeditor>
+              <span
+                class="prc_tltp"
+                *ngIf="template_form.submitted && !template.template"
+                >Email content is required</span
+              >
+            </span>
+          </div>
+          <div class="hgt_20"></div>
+        </div>
+
+        <hr />
+
+        <button
+          mat-raised-button
+          color="accent"
+          class="float_right mr_1"
+          type="submit"
+        >
+          Submit
+        </button>
+        <button
+          mat-raised-button
+          class="float_right mr_1 gry_btn"
+          (click)="close()"
+          type="button"
+        >
+          Close
+        </button>
+        <div class="hgt_20"></div>
+      </form>
+    </div>
+  </div>
+</div>
